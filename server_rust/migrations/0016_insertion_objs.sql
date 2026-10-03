@@ -5,7 +5,7 @@ INSERT INTO objets_dispo (
     prix_base
 )
 VALUES
-    ('épée de bois', 'armes', 'epee_bois.png', 20),
+    ('épée de bois', 'armes', 'epee_bois.png', 30),
 
     ('livre enchant niv 1', 'enchanted_book', 'livre enchant.png', 100000),
     ('livre enchant niv 2', 'enchanted_book', 'livre enchant.png', 200000),
@@ -23,8 +23,8 @@ VALUES
     ('potion de mana', 'potion', 'potion_de_mana.png', 75),
 
     ('gemmes', 'basic', 'gemmes.png', 100000),
-    ('sac', 'material', 'sac.png', 5),
-    ('corde', 'material', 'corde.png', 5),
+    ('sac', 'material', 'sac.png', 10),
+    ('corde', 'material', 'corde.png', 7),
 
 
     ('torche', 'material', 'torche.png', 5),
