@@ -110,21 +110,21 @@ mod tests {
          * d'éviter qu'un éventuel état interne du Tresor ne passe
          * d'un coefficient au suivant.
          */
-        for coefficient in &coefficients {
+        for coefficient in coefficients {
             println!();
             println!("########################################");
             println!("COEFFICIENT : {coefficient:.1}");
             println!("########################################");
 
             /*
-             * Nettoyage des données de test du compte .
+             * Nettoyage des données de test du compte 1.
              *
              * Les tables dépendantes de `stuff` utilisent ON DELETE
              * CASCADE, donc supprimer les lignes de `stuff` supprime
              * également les livres enchantés associés.
              *
              * IMPORTANT :
-             * Ce compte doit être réservé aux tests.
+             * account_id = 1 doit être réservé aux tests.
              */
 
             sqlx::query(
