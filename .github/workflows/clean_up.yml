@@ -1,0 +1,281 @@
+name: LFS Cleanup
+
+on:
+  workflow_call:
+
+permissions:
+  contents: write
+
+jobs:
+  lfs-cleanup:
+    name: Cleanup archived LFS files
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout ci-reports
+        uses: actions/checkout@v7
+        with:
+          ref: ci-reports
+          fetch-depth: 0
+          lfs: true
+          token: ${{ secrets.GITHUB_TOKEN }}
+          persist-credentials: true
+
+      - name: Install Git LFS
+        run: |
+          git lfs install
+
+      - name: Install git-filter-repo
+        run: |
+          python3 -m pip install --user git-filter-repo
+
+      - name: Detect LFS files to remove
+        id: detect
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          echo "======================================"
+          echo "🔎 RECHERCHE DES FICHIERS LFS ARCHIVÉS"
+          echo "======================================"
+
+          REMOVE_FILE="$(mktemp)"
+
+          touch "$REMOVE_FILE"
+
+          while IFS= read -r LINE
+          do
+              [ -n "$LINE" ] || continue
+
+              # Ignorer les règles permanentes
+              if [[ "$LINE" == "database/**/*.db "* ]]
+              then
+                  continue
+              fi
+
+              if [[ "$LINE" == "*.png "* ]]
+              then
+                  continue
+              fi
+
+              # Récupérer uniquement le chemin avant "filter=lfs"
+              PATH_PATTERN="${LINE%% filter=lfs*}"
+
+              # --------------------------------------------------
+              # reports/build :
+              # maxdepth 1
+              # reports/build/build-XXX/DATE
+              # --------------------------------------------------
+
+              if [[ "$PATH_PATTERN" == reports/build/* ]]
+              then
+                  BASE="reports/build"
+
+                  # Récupération du dossier build
+                  BUILD_DIR=$(echo "$PATH_PATTERN" | cut -d/ -f3)
+
+                  if [ -z "$BUILD_DIR" ]
+                  then
+                      continue
+                  fi
+
+                  # Récupération de la date
+                  DATE_DIR=$(echo "$PATH_PATTERN" | cut -d/ -f4)
+
+                  if [ -z "$DATE_DIR" ]
+                  then
+                      continue
+                  fi
+
+                  DIRECTORY="$BASE/$BUILD_DIR/$DATE_DIR"
+
+              # --------------------------------------------------
+              # reports/python et reports/rust :
+              # maxdepth 0 sur la famille de rapport
+              # --------------------------------------------------
+
+              elif [[ "$PATH_PATTERN" == reports/python/* ]]
+              then
+                  DATE_DIR=$(echo "$PATH_PATTERN" | cut -d/ -f3)
+
+                  if [ -z "$DATE_DIR" ]
+                  then
+                      continue
+                  fi
+
+                  DIRECTORY="reports/python/$DATE_DIR"
+
+              elif [[ "$PATH_PATTERN" == reports/rust/* ]]
+              then
+                  DATE_DIR=$(echo "$PATH_PATTERN" | cut -d/ -f3)
+
+                  if [ -z "$DATE_DIR" ]
+                  then
+                      continue
+                  fi
+
+                  DIRECTORY="reports/rust/$DATE_DIR"
+
+              else
+                  continue
+              fi
+
+              echo ""
+              echo "📄 Règle : $LINE"
+              echo "📁 Dossier : $DIRECTORY"
+
+              # Le dossier existe encore :
+              # le rapport est encore actif → NE PAS supprimer.
+              if [ -d "$DIRECTORY" ]
+              then
+                  echo "   ✅ Dossier présent → conservation"
+                  continue
+              fi
+
+              # Le dossier n'existe plus :
+              # il a donc été archivé → suppression historique.
+              echo "   🗑️ Dossier absent → suppression LFS"
+
+              echo "$PATH_PATTERN" >> "$REMOVE_FILE"
+
+          done < .gitattributes
+
+          echo ""
+          echo "======================================"
+          echo "📋 FICHIERS À SUPPRIMER"
+          echo "======================================"
+
+          if [ -s "$REMOVE_FILE" ]
+          then
+              sort -u "$REMOVE_FILE"
+          else
+              echo "Aucun fichier à supprimer."
+          fi
+
+          echo "REMOVE_FILE=$REMOVE_FILE" >> "$GITHUB_ENV"
+
+      - name: Stop if nothing needs cleanup
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          if [ ! -s "$REMOVE_FILE" ]
+          then
+              echo "✅ Aucun ancien rapport LFS à nettoyer."
+              exit 0
+          fi
+
+          echo "🧹 Nettoyage nécessaire."
+
+      - name: Backup ci-reports
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          BACKUP_BRANCH="backup-lfs-cleanup-${GITHUB_RUN_ID}"
+
+          echo "💾 Création de la sauvegarde : $BACKUP_BRANCH"
+
+          git branch "$BACKUP_BRANCH"
+
+          git push origin \
+            "$BACKUP_BRANCH"
+
+          echo "BACKUP_BRANCH=$BACKUP_BRANCH" >> "$GITHUB_ENV"
+
+      - name: Remove archived reports from Git history
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          if [ ! -s "$REMOVE_FILE" ]
+          then
+              echo "Aucun nettoyage nécessaire."
+              exit 0
+          fi
+
+          echo "======================================"
+          echo "🧹 RÉÉCRITURE DE L'HISTORIQUE"
+          echo "======================================"
+
+          ARGS=()
+
+          while IFS= read -r PATH_PATTERN
+          do
+              [ -n "$PATH_PATTERN" ] || continue
+
+              echo "🗑️ Suppression historique : $PATH_PATTERN"
+
+              ARGS+=(--path "$PATH_PATTERN")
+
+          done < "$REMOVE_FILE"
+
+          git filter-repo \
+            --force \
+            "${ARGS[@]}" \
+            --invert-paths
+
+      - name: Rebuild LFS configuration
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          echo "======================================"
+          echo "📦 RECONSTRUCTION .gitattributes"
+          echo "======================================"
+
+          if [ -f .gitattributes ]
+          then
+              grep -vE \
+                '^reports/(python|rust)/[0-9]{4}-[0-9]{2}-[0-9]{2}/' \
+                .gitattributes \
+                > .gitattributes.tmp || true
+
+              grep -vE \
+                '^reports/build/[^/]+/[0-9]{4}-[0-9]{2}-[0-9]{2}/' \
+                .gitattributes.tmp \
+                > .gitattributes.new || true
+
+              mv .gitattributes.new .gitattributes
+              rm -f .gitattributes.tmp
+          fi
+
+          echo ""
+          echo "📄 Configuration finale :"
+          cat .gitattributes
+
+      - name: Verify history
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          echo "======================================"
+          echo "🔍 VÉRIFICATION"
+          echo "======================================"
+
+          echo ""
+          echo "📦 Fichiers LFS restants :"
+          git lfs ls-files
+
+          echo ""
+          echo "📄 Règles LFS restantes :"
+          grep 'filter=lfs' .gitattributes || true
+
+      - name: Push cleaned history
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          echo "======================================"
+          echo "🚀 PUSH DE L'HISTORIQUE NETTOYÉ"
+          echo "======================================"
+
+          git fetch origin ci-reports
+
+          git push \
+            --force-with-lease \
+            origin \
+            HEAD:ci-reports
+
+          echo ""
+          echo "✅ Nettoyage LFS terminé."

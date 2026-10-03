@@ -1,0 +1,90 @@
+name: Nightly
+
+on:
+  workflow_dispatch:
+
+  schedule:
+    - cron: "0 22 * * *"
+concurrency:
+  group: nighly
+  queue: max
+
+permissions:
+  actions: write
+  contents: write
+  security-events: write
+  pull-requests: write
+
+jobs:
+
+  launch:
+    uses: ./.github/workflows/Launcher.yml
+    secrets:
+        VAULT_KEY: ${{ secrets.VAULT_KEY }}
+  
+
+  
+
+  security:
+    needs: launch
+    if: >-
+     ${{
+      always() &&
+      (
+        needs.launch.result == 'success' ||
+        needs.launch.result == 'failure'
+      )
+     }}
+    
+    uses: ./.github/workflows/security.yml
+    secrets:
+        VAULT_KEY: ${{ secrets.VAULT_KEY }}
+  cleanning:
+    needs: security
+    if: >-
+     ${{
+      always() &&
+      (
+        needs.security.result == 'success' ||
+        needs.security.result == 'failure'
+      )
+     }}
+    
+    uses: ./.github/workflows/clean_up.yml
+  sync:
+    needs: 
+      - cleanning
+      
+    if: >-
+     ${{
+      always() &&
+      (
+          needs.cleanning.result == 'success' ||
+          needs.cleanning.result == 'failure' 
+          
+      )
+     }}
+    uses: ./.github/workflows/sync-ci.yml
+    
+
+  cancel-nightly:
+    needs:
+      - launch
+      - security
+      
+    if: >-
+     ${{
+      always() &&
+      (
+        needs.launch.result == 'failure' ||
+        needs.security.result == 'failure' 
+      )
+     }}
+    uses: ./.github/workflows/cancel-pending.yml
+    with: 
+      mode: nightly
+
+  
+
+  
+  
