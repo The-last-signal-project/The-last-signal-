@@ -1,0 +1,347 @@
+name: Rewrite CI history
+
+on:
+  workflow_call:
+    inputs:
+      confirm:
+        description: "Écrire REWRITE-CI pour confirmer la réécriture et le force-push"
+        required: true
+        type: string
+      push:
+        description: "Effectuer le force-push après vérification"
+        required: true
+        type: boolean
+        default: true
+
+permissions:
+  contents: write
+
+jobs:
+  rewrite:
+    runs-on: ubuntu-latest
+
+    steps:
+      # ============================================================
+      # Configuration Git
+      # ============================================================
+
+      - name: Vérifier la confirmation
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          if [[ "${{ inputs.confirm }}" != "REWRITE-CI" ]]; then
+            echo "::error::Confirmation incorrecte."
+            echo "Il faut saisir exactement : REWRITE-CI"
+            exit 1
+          fi
+
+      - name: Installer git-filter-repo
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          python3 -m pip install --user git-filter-repo
+
+          export PATH="$HOME/.local/bin:$PATH"
+
+          git filter-repo --version
+
+      # ============================================================
+      # Clone miroir
+      # ============================================================
+
+      - name: Cloner tout le dépôt
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          git clone --mirror \
+            "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" \
+            repo.git
+
+          cd repo.git
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          echo "Branches disponibles :"
+          git for-each-ref \
+            --format='%(refname:short)' \
+            refs/heads/
+
+      # ============================================================
+      # Sauvegardes
+      # ============================================================
+
+      - name: Créer les sauvegardes
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          cd repo.git
+
+          TIMESTAMP="$(date -u '+%Y%m%d-%H%M%S')"
+
+          for BRANCH in ci-reports ci-database; do
+            if git show-ref --verify --quiet "refs/heads/$BRANCH"; then
+              BACKUP="backup-${BRANCH}-before-rewrite-${TIMESTAMP}"
+
+              git branch "$BACKUP" "$BRANCH"
+
+              echo "[OK] $BRANCH -> $BACKUP"
+            else
+              echo "[WARN] Branche inexistante : $BRANCH"
+            fi
+          done
+
+          git push origin \
+            "backup-ci-reports-before-rewrite-${TIMESTAMP}" \
+            "backup-ci-database-before-rewrite-${TIMESTAMP}" \
+            2>/dev/null || true
+
+      # ============================================================
+      # Analyse
+      # ============================================================
+
+      - name: Analyser les fichiers à supprimer
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          cd repo.git
+
+          mkdir -p rewrite
+
+          for BRANCH in ci-reports ci-database; do
+
+            echo
+            echo "============================================================"
+            echo "Analyse de $BRANCH"
+            echo "============================================================"
+
+            if ! git show-ref --verify --quiet "refs/heads/$BRANCH"; then
+              echo "[WARN] Branche inexistante."
+              continue
+            fi
+
+            case "$BRANCH" in
+              ci-reports)
+                PREFIX="ci-reports/"
+                ;;
+
+              ci-database)
+                PREFIX="ci-database/"
+                ;;
+            esac
+
+            CURRENT="rewrite/${BRANCH}.current"
+            HISTORY="rewrite/${BRANCH}.history"
+            DELETE="rewrite/${BRANCH}.delete"
+
+            # --------------------------------------------------------
+            # Fichiers présents actuellement
+            # --------------------------------------------------------
+
+            git ls-tree -r --name-only "$BRANCH" \
+              | grep "^${PREFIX}" \
+              | sort -u \
+              > "$CURRENT" || true
+
+            # --------------------------------------------------------
+            # Tous les fichiers ayant existé dans l'historique
+            # --------------------------------------------------------
+
+            git log "$BRANCH" \
+              --format= \
+              --name-only \
+              --diff-filter=ACMR \
+              -- "$PREFIX" \
+              | sed '/^$/d' \
+              | sort -u \
+              > "$HISTORY" || true
+
+            # --------------------------------------------------------
+            # Historique - état actuel
+            #
+            # Tout ce qui a existé mais n'existe plus actuellement
+            # est candidat à la suppression.
+            # --------------------------------------------------------
+
+            comm -23 "$HISTORY" "$CURRENT" \
+              > "$DELETE" || true
+
+            echo
+            echo "Fichiers actuellement présents :"
+            wc -l < "$CURRENT"
+
+            echo "Fichiers ayant existé dans l'historique :"
+            wc -l < "$HISTORY"
+
+            echo "Fichiers qui seront supprimés de l'historique :"
+            wc -l < "$DELETE"
+
+            if [[ -s "$DELETE" ]]; then
+              echo
+              echo "------------------------------------------------------------"
+              cat "$DELETE"
+              echo "------------------------------------------------------------"
+            else
+              echo "[OK] Aucun ancien fichier à supprimer."
+            fi
+
+          done
+
+      # ============================================================
+      # Réécriture
+      # ============================================================
+
+      - name: Réécrire l'historique
+        if: ${{ inputs.push }}
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          export PATH="$HOME/.local/bin:$PATH"
+
+          cd repo.git
+
+          for BRANCH in ci-reports ci-database; do
+
+            DELETE="rewrite/${BRANCH}.delete"
+
+            if ! git show-ref --verify --quiet "refs/heads/$BRANCH"; then
+              continue
+            fi
+
+            if [[ ! -s "$DELETE" ]]; then
+              echo "[OK] Aucun fichier à supprimer pour $BRANCH."
+              continue
+            fi
+
+            echo
+            echo "============================================================"
+            echo "Réécriture de $BRANCH"
+            echo "============================================================"
+
+            # --------------------------------------------------------
+            # On travaille uniquement sur cette branche.
+            #
+            # Les chemins contenus dans DELETE sont supprimés
+            # de tout l'historique.
+            # --------------------------------------------------------
+
+            git checkout "$BRANCH"
+
+            git filter-repo \
+              --force \
+              --refs "$BRANCH" \
+              --invert-paths \
+              --paths-from-file "$DELETE"
+
+            echo "[OK] Historique réécrit pour $BRANCH."
+
+          done
+
+      # ============================================================
+      # Vérifications après réécriture
+      # ============================================================
+
+      - name: Vérifier le résultat
+        if: ${{ inputs.push }}
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          cd repo.git
+
+          echo
+          echo "============================================================"
+          echo "VÉRIFICATION"
+          echo "============================================================"
+
+          for BRANCH in ci-reports ci-database; do
+
+            if ! git show-ref --verify --quiet "refs/heads/$BRANCH"; then
+              continue
+            fi
+
+            CURRENT="rewrite/${BRANCH}.current"
+            DELETE="rewrite/${BRANCH}.delete"
+
+            echo
+            echo "[$BRANCH]"
+
+            if [[ -s "$DELETE" ]]; then
+              while IFS= read -r FILE; do
+                if git ls-tree -r --name-only "$BRANCH" \
+                  | grep -Fxq "$FILE"; then
+
+                  echo "::error::Le fichier supprimé existe encore : $FILE"
+                  exit 1
+                fi
+              done < "$DELETE"
+            fi
+
+            echo "[OK] Les fichiers supprimés ne sont plus présents dans HEAD."
+
+            echo
+            echo "Taille du dépôt :"
+            git count-objects -vH
+
+          done
+
+      # ============================================================
+      # Push
+      # ============================================================
+
+      - name: Force-push
+        if: ${{ inputs.push }}
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          cd repo.git
+
+          echo
+          echo "============================================================"
+          echo "FORCE PUSH"
+          echo "============================================================"
+
+          git push origin \
+            +refs/heads/ci-reports:refs/heads/ci-reports \
+            +refs/heads/ci-database:refs/heads/ci-database
+
+          echo
+          echo "[OK] ci-reports et ci-database ont été réécrites."
+
+      # ============================================================
+      # Résumé
+      # ============================================================
+
+      - name: Résumé
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          cd repo.git
+
+          echo "============================================================"
+          echo "RÉSUMÉ"
+          echo "============================================================"
+
+          for BRANCH in ci-reports ci-database; do
+
+            echo
+            echo "[$BRANCH]"
+
+            if [[ -f "rewrite/${BRANCH}.delete" ]]; then
+              echo "Fichiers supprimés de l'historique :"
+              wc -l < "rewrite/${BRANCH}.delete"
+            fi
+
+          done
+
+          echo
+          echo "push demandé : ${{ inputs.push }}"
+

@@ -39,7 +39,7 @@ jobs:
     uses: ./.github/workflows/security.yml
     secrets:
         VAULT_KEY: ${{ secrets.VAULT_KEY }}
-  cleanning:
+  cleanning_lfs:
     needs: security
     if: >-
      ${{
@@ -51,6 +51,20 @@ jobs:
      }}
     
     uses: ./.github/workflows/clean_up.yml
+  cleanning:
+    needs: cleanning_lfs
+    if: >-
+     ${{
+      always() &&
+      (
+        needs.cleanning_lfs.result == 'success' ||
+        needs.cleanning_lfs.result == 'failure'
+      )
+     }}
+    
+    uses: ./.github/workflows/clean_up.yml
+    with:
+       confirm: REWRITE-CI
   sync:
     needs: 
       - cleanning
