@@ -62,7 +62,7 @@ jobs:
       )
      }}
     
-    uses: ./.github/workflows/clean_up.yml
+    uses: ./.github/workflows/ci-history.yml
     with:
        confirm: REWRITE-CI
   sync:
