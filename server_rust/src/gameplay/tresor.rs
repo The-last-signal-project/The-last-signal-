@@ -466,6 +466,8 @@ impl Tresor {
         ("boeuf".to_string(), 10.0),
         ("agneau".to_string(), 10.0),
         ("veau".to_string(), 10.0),
+        ("karage".to_string(), 10.0),
+        ("calamar".to_string(), 10.0),
         ("morue".to_string(), 10.0),
         ("crabe".to_string(), 10.0),
         ("saumon".to_string(), 10.0),
@@ -527,12 +529,24 @@ impl Tresor {
     "équi".to_string(),
     HashMap::from([
         ("armes".to_string(), 20.0),
-        ("armes explosives".to_string(), 20.0),
         ("outils".to_string(), 20.0),
         ("armure".to_string(), 20.0),
         ("véhicules".to_string(), 20.0),
         ("batiments".to_string(), 20.0),
         ("combinaisons".to_string(), 3.0),
+        
+        
+        
+    ]),
+sous_loot.insert(
+    "armes".to_string(),
+    HashMap::from([
+        ("armes de contact".to_string(), 20.0),
+        ("armes explosives".to_string(), 20.0),
+        ("armes à distance".to_string(), 20.0),
+        ("armes à feux".to_string(), 20.0),
+        ("armes magiques".to_string(), 20.0),
+        
         
         
         
