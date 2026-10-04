@@ -184,6 +184,32 @@ impl Tresor {
                 militaire: 2,
             },
         );
+        loot_par_niveau.insert(
+            11,
+            Loot {
+                commun: 2,
+                peu_commun: 2,
+                rare: 1,
+                super_rare: 0,
+                epique: 0,
+                legendaire: 0,
+                admin: 3,
+                militaire: 3,
+            },
+        );
+        loot_par_niveau.insert(
+            12,
+            Loot {
+                commun: 3,
+                peu_commun: 2,
+                rare: 1,
+                super_rare: 0,
+                epique: 0,
+                legendaire: 0,
+                admin: 3,
+                militaire: 3,
+            },
+        );
 
         // -------------------------------------------------
         // OBJETS GARANTIS
@@ -338,6 +364,24 @@ impl Tresor {
         niveau_10.insert("gemmes".to_string(), 1);
         
         objets_garantis.insert(10, niveau_10);
+        let mut niveau_11 = HashMap::new();
+
+        niveau_11.insert(
+            "argent".to_string(),
+            jet_de_des(6, 4) * 100 * PA,
+        );
+        niveau_11.insert("gemmes".to_string(), 1);
+        
+        objets_garantis.insert(11, niveau_11);
+        let mut niveau_12 = HashMap::new();
+
+        niveau_12.insert(
+            "argent".to_string(),
+            jet_de_des(6, 5) * 100 * PA,
+        );
+        niveau_12.insert("gemmes".to_string(), 1);
+        
+        objets_garantis.insert(12, niveau_12);
         
 
         // -------------------------------------------------
@@ -520,6 +564,8 @@ impl Tresor {
     (8, 13),
     (9, 12),
     (10,11),
+    (11,10),
+    (12,10),
 ]);
         let seuil_artefact_peu_commun: HashMap<u32, u32> = HashMap::from([
     (6, 20),
@@ -527,10 +573,14 @@ impl Tresor {
     (8,17),
     (9, 15),
     (10,15),
+    (11,14),
+    (12,13),
 
 ]);
         let seuil_artefact_rare: HashMap<u32, u32> = HashMap::from([
     (10, 20),
+    (11,19),
+    (12,17),
     
 
 ]);
