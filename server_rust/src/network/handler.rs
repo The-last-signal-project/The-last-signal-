@@ -147,7 +147,7 @@ impl PacketHandler {
                 }
 
 
-                None
+                HandlerResult::Nothing
             }
 
 
@@ -159,7 +159,7 @@ impl PacketHandler {
 
                 debug!("Ping reçu");
 
-                Some(
+                HandlerResult::Response(
                     Packet::new(
                         PacketType::Ping,
                         b"PONG".to_vec(),
@@ -178,7 +178,7 @@ impl PacketHandler {
                     "Packet BAN reçu depuis le client : ignoré"
                 );
 
-                None
+                HandlerResult::Nothing
             }
 
 
@@ -206,7 +206,7 @@ impl PacketHandler {
                                 error
                             );
 
-                            return Some(
+                            return HandlerResult::Response(
                                 Packet::new(
                                     PacketType::SignUpResponse,
                                     b"SIGN_UP invalide".to_vec(),
@@ -232,7 +232,7 @@ impl PacketHandler {
                                 error
                             );
 
-                            return Some(
+                            return HandlerResult::Response(
                                 Packet::new(
                                     PacketType::SignUpResponse,
                                     b"Erreur serveur".to_vec(),
@@ -282,7 +282,7 @@ impl PacketHandler {
                             Some(user_id.clone())
                         );
 
-                        Some(
+                        HandlerResult::Response(
                             Packet::new(
                                 PacketType::SignUpResponse,
                                 b"Utilisateur cree avec succes".to_vec(),
@@ -305,7 +305,7 @@ impl PacketHandler {
                                 "SIGN_UP refusé : email déjà utilisé"
                             );
 
-                            Some(
+                            HandlerResult::Response(
                                 Packet::new(
                                     PacketType::SignUpResponse,
                                     b"Email deja utilise".to_vec(),
@@ -319,7 +319,7 @@ impl PacketHandler {
                                 error
                             );
 
-                            Some(
+                            HandlerResult::Response(
                                 Packet::new(
                                     PacketType::SignUpResponse,
                                     b"Erreur serveur".to_vec(),
@@ -355,7 +355,7 @@ impl PacketHandler {
                                 error
                             );
 
-                            return Some(
+                            return HandlerResult::Response(
                                 Packet::new(
                                     PacketType::LoginResponse,
                                     b"LOGIN invalide".to_vec(),
@@ -443,7 +443,7 @@ impl PacketHandler {
                                 "Tentative de connexion avec un utilisateur inexistant"
                             );
 
-                            return Some(
+                            return HandlerResult::Response(
                                 Packet::new(
                                     PacketType::LoginResponse,
                                     b"Identifiants invalides".to_vec(),
@@ -459,7 +459,7 @@ impl PacketHandler {
                                 error
                             );
 
-                            return Some(
+                            return HandlerResult::Response(
                                 Packet::new(
                                     PacketType::LoginResponse,
                                     b"Erreur serveur".to_vec(),
@@ -479,7 +479,7 @@ impl PacketHandler {
                         "Connexion refusée : utilisateur banni définitivement"
                     );
 
-                    return Some(
+                    return HandlerResult::Response(
                         Packet::new(
                             PacketType::LoginResponse,
                             b"Compte banni definitivement".to_vec(),
@@ -498,7 +498,7 @@ impl PacketHandler {
                         "Connexion refusée : utilisateur temporairement banni"
                     );
 
-                    return Some(
+                    return HandlerResult::Response(
                         Packet::new(
                             PacketType::LoginResponse,
                             b"Compte temporairement banni".to_vec(),
@@ -568,7 +568,7 @@ impl PacketHandler {
                                     error
                                 );
 
-                                return Some(
+                                return HandlerResult::Response(
                                     Packet::new(
                                         PacketType::LoginResponse,
                                         b"Erreur serveur".to_vec(),
@@ -625,7 +625,7 @@ impl PacketHandler {
                                         error
                                     );
 
-                                    return Some(
+                                    return HandlerResult::Response(
                                         Packet::new(
                                             PacketType::LoginResponse,
                                             b"Erreur serveur".to_vec(),
@@ -655,7 +655,7 @@ impl PacketHandler {
                                     jours
                                 );
 
-                                return Some(
+                                return HandlerResult::Response(
                                     Packet::new(
                                         PacketType::LoginResponse,
                                         b"Erreur serveur".to_vec(),
@@ -761,7 +761,7 @@ impl PacketHandler {
                                     error
                                 );
 
-                                return Some(
+                                return HandlerResult::Response(
                                     Packet::new(
                                         PacketType::LoginResponse,
                                         b"Erreur serveur".to_vec(),
@@ -792,7 +792,7 @@ impl PacketHandler {
                                     error
                                 );
 
-                                return Some(
+                                return HandlerResult::Response(
                                     Packet::new(
                                         PacketType::LoginResponse,
                                         b"Erreur serveur".to_vec(),
@@ -958,7 +958,7 @@ impl PacketHandler {
                                     error
                                 );
 
-                                return Some(
+                                return HandlerResult::Response(
                                     Packet::new(
                                         PacketType::LoginResponse,
                                         b"Erreur serveur".to_vec(),
@@ -993,7 +993,7 @@ impl PacketHandler {
                                 error
                             );
 
-                            return Some(
+                            return HandlerResult::Response(
                                 Packet::new(
                                     PacketType::LoginResponse,
                                     b"Erreur serveur".to_vec(),
@@ -1006,7 +1006,7 @@ impl PacketHandler {
                         // RÉPONSE
                         // =================================================
                         info!("Utilisateur banni");
-                        return Some(
+                        return HandlerResult::Response(
                             Packet::new(
                                 PacketType::LoginResponse,
                                 b"Trop de tentatives. Compte bloque temporairement.".to_vec(),
@@ -1019,7 +1019,7 @@ impl PacketHandler {
                     // Moins de 3 tentatives
                     // ------------------------------------------------
 
-                    return Some(
+                    return HandlerResult::Response(
                         Packet::new(
                             PacketType::LoginResponse,
                             b"Identifiants invalides".to_vec(),
@@ -1065,7 +1065,7 @@ impl PacketHandler {
                                 error
                             );
 
-                            return Some(
+                            return HandlerResult::Response(
                                 Packet::new(
                                     PacketType::LoginResponse,
                                     b"Erreur serveur".to_vec(),
@@ -1081,7 +1081,7 @@ impl PacketHandler {
                         "Tentative de connexion avec un compte déjà connecté"
                     );
 
-                    return Some(
+                    return HandlerResult::Response(
                         Packet::new(
                             PacketType::LoginResponse,
                             b"Ce compte est deja connecte".to_vec(),
@@ -1114,7 +1114,7 @@ impl PacketHandler {
                         error
                     );
 
-                    return Some(
+                    return HandlerResult::Response(
                         Packet::new(
                             PacketType::LoginResponse,
                             b"Erreur serveur".to_vec(),
@@ -1145,7 +1145,7 @@ impl PacketHandler {
                         error
                     );
 
-                    return Some(
+                    return HandlerResult::Response(
                         Packet::new(
                             PacketType::LoginResponse,
                             b"Erreur serveur".to_vec(),
@@ -1171,7 +1171,7 @@ impl PacketHandler {
                 );
 
 
-                Some(
+                HandlerResult::Response(
                     Packet::new(
                         PacketType::LoginResponse,
                         format!(
@@ -1197,7 +1197,7 @@ impl PacketHandler {
                     )
                 );
 
-                Some(
+                HandlerResult::Response(
                     Packet::new(
                         PacketType::Chat,
                         packet.payload,
@@ -1216,7 +1216,7 @@ impl PacketHandler {
                     "Déplacement reçu"
                 );
 
-                Some(
+                HandlerResult::Response(
                     Packet::new(
                         PacketType::Move,
                         packet.payload,
