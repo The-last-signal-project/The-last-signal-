@@ -1,7 +1,8 @@
+```python
 import sys
 
 from PySide6.QtCore import QTimer, Qt, QRectF
-from PySide6.QtGui import QColor, QKeyEvent, QPainter
+from PySide6.QtGui import QColor, QKeyEvent, QPainter, QPen
 from PySide6.QtWidgets import QApplication, QMainWindow
 
 
@@ -15,7 +16,6 @@ class Game(QMainWindow):
     PLAYER_SPEED = 5
 
     def __init__(self):
-        # QApplication doit exister avant la création de QMainWindow.
         self.app = QApplication.instance()
 
         if self.app is None:
@@ -26,9 +26,9 @@ class Game(QMainWindow):
         self.setWindowTitle("The Last Signal - Prototype")
         self.setFixedSize(self.WIDTH, self.HEIGHT)
 
-        # ---------------------------------------------------------
-        # Joueur
-        # ---------------------------------------------------------
+        # =========================================================
+        # JOUEUR
+        # =========================================================
 
         self.player = QRectF(
             self.WIDTH / 2 - self.PLAYER_SIZE / 2,
@@ -37,15 +37,15 @@ class Game(QMainWindow):
             self.PLAYER_SIZE,
         )
 
-        # ---------------------------------------------------------
-        # Touches actuellement enfoncées
-        # ---------------------------------------------------------
+        # =========================================================
+        # TOUCHES
+        # =========================================================
 
         self.keys = set()
 
-        # ---------------------------------------------------------
-        # Murs de la carte
-        # ---------------------------------------------------------
+        # =========================================================
+        # MURS
+        # =========================================================
 
         self.walls = [
             QRectF(100, 100, 250, 30),
@@ -56,9 +56,9 @@ class Game(QMainWindow):
             QRectF(250, 400, 300, 30),
         ]
 
-        # ---------------------------------------------------------
-        # Objets ramassables
-        # ---------------------------------------------------------
+        # =========================================================
+        # OBJETS
+        # =========================================================
 
         self.items = [
             {
@@ -75,25 +75,33 @@ class Game(QMainWindow):
             },
         ]
 
-        # ---------------------------------------------------------
-        # Inventaire
-        # ---------------------------------------------------------
+        # =========================================================
+        # INVENTAIRE
+        #
+        # Exemple :
+        # {
+        #     "Cristal": 2,
+        #     "Ressource": 1
+        # }
+        # =========================================================
 
-        self.inventory = []
+        self.inventory = {}
 
-        # ---------------------------------------------------------
-        # Message affiché à l'écran
-        # ---------------------------------------------------------
+        # =========================================================
+        # INTERFACE
+        # =========================================================
 
-        self.message = "Explorez la zone..."
+        self.inventory_open = False
 
-        # ---------------------------------------------------------
-        # Boucle de jeu
-        # ---------------------------------------------------------
+        self.message = "Explorez la zone."
+
+        # =========================================================
+        # BOUCLE DE JEU
+        # =========================================================
 
         self.timer = QTimer(self)
         self.timer.timeout.connect(self.update_game)
-        self.timer.start(16)  # environ 60 FPS
+        self.timer.start(16)  # ~60 FPS
 
         self.setFocusPolicy(Qt.FocusPolicy.StrongFocus)
         self.setFocus()
@@ -104,7 +112,10 @@ class Game(QMainWindow):
 
     def update_game(self):
         self.move_player()
-        self.check_items()
+
+        if not self.inventory_open:
+            self.check_items()
+
         self.update()
 
     # =============================================================
@@ -115,16 +126,25 @@ class Game(QMainWindow):
         dx = 0
         dy = 0
 
-        # ZQSD
-        if Qt.Key.Key_Z in self.keys or Qt.Key.Key_W in self.keys:
+        # Haut
+        if (
+            Qt.Key.Key_Z in self.keys
+            or Qt.Key.Key_W in self.keys
+        ):
             dy -= self.PLAYER_SPEED
 
+        # Bas
         if Qt.Key.Key_S in self.keys:
             dy += self.PLAYER_SPEED
 
-        if Qt.Key.Key_Q in self.keys or Qt.Key.Key_A in self.keys:
+        # Gauche
+        if (
+            Qt.Key.Key_Q in self.keys
+            or Qt.Key.Key_A in self.keys
+        ):
             dx -= self.PLAYER_SPEED
 
+        # Droite
         if Qt.Key.Key_D in self.keys:
             dx += self.PLAYER_SPEED
 
@@ -155,7 +175,7 @@ class Game(QMainWindow):
     # =============================================================
 
     def can_move_to(self, rectangle):
-        # Empêche le joueur de sortir de la carte.
+        # Empêcher le joueur de sortir de la carte.
 
         if rectangle.left() < 0:
             return False
@@ -178,21 +198,26 @@ class Game(QMainWindow):
         return True
 
     # =============================================================
-    # OBJETS
+    # RAMASSAGE DES OBJETS
     # =============================================================
 
     def check_items(self):
-        collected = []
+        collected_items = []
 
         for item in self.items:
             if self.player.intersects(item["rect"]):
-                collected.append(item)
+                collected_items.append(item)
 
-        for item in collected:
+        for item in collected_items:
             self.items.remove(item)
-            self.inventory.append(item["name"])
 
-            self.message = f"Objet récupéré : {item['name']}"
+            name = item["name"]
+
+            self.inventory[name] = (
+                self.inventory.get(name, 0) + 1
+            )
+
+            self.message = f"{name} récupéré !"
 
     # =============================================================
     # CLAVIER
@@ -202,11 +227,26 @@ class Game(QMainWindow):
         if event.isAutoRepeat():
             return
 
-        self.keys.add(event.key())
+        key = event.key()
 
-        # Touche I = inventaire
-        if event.key() == Qt.Key.Key_I:
-            self.show_inventory()
+        # Ouvrir / fermer l'inventaire
+        if key == Qt.Key.Key_I:
+            self.inventory_open = not self.inventory_open
+
+            if self.inventory_open:
+                self.message = "Inventaire ouvert."
+            else:
+                self.message = "Inventaire fermé."
+
+            self.update()
+            return
+
+        # Pendant que l'inventaire est ouvert,
+        # on garde les touches de déplacement désactivées.
+        if self.inventory_open:
+            return
+
+        self.keys.add(key)
 
     def keyReleaseEvent(self, event: QKeyEvent):
         if event.isAutoRepeat():
@@ -215,50 +255,24 @@ class Game(QMainWindow):
         self.keys.discard(event.key())
 
     # =============================================================
-    # INVENTAIRE
-    # =============================================================
-
-    def show_inventory(self):
-        if not self.inventory:
-            self.message = "Inventaire vide."
-            return
-
-        self.message = (
-            "Inventaire : "
-            + ", ".join(self.inventory)
-        )
-
-    # =============================================================
     # RENDU
     # =============================================================
 
     def paintEvent(self, event):
         painter = QPainter(self)
 
-        # ---------------------------------------------------------
-        # Fond
-        # ---------------------------------------------------------
+        # =========================================================
+        # FOND
+        # =========================================================
 
         painter.fillRect(
             self.rect(),
-            QColor(25, 25, 25),
-        )
-
-        # ---------------------------------------------------------
-        # Sol
-        # ---------------------------------------------------------
-
-        painter.fillRect(
-            0,
-            0,
-            self.WIDTH,
-            self.HEIGHT,
             QColor(40, 55, 45),
         )
 
-        # ---------------------------------------------------------
-        # Grille
-        # ---------------------------------------------------------
+        # =========================================================
+        # GRILLE
+        # =========================================================
 
         painter.setPen(QColor(55, 70, 60))
 
@@ -280,38 +294,37 @@ class Game(QMainWindow):
                 y,
             )
 
-        # ---------------------------------------------------------
-        # Murs
-        # ---------------------------------------------------------
+        # =========================================================
+        # MURS
+        # =========================================================
 
-        painter.setBrush(QColor(80, 80, 80))
         painter.setPen(Qt.PenStyle.NoPen)
+        painter.setBrush(QColor(80, 80, 80))
 
         for wall in self.walls:
             painter.drawRect(wall)
 
-        # ---------------------------------------------------------
-        # Objets
-        # ---------------------------------------------------------
+        # =========================================================
+        # OBJETS
+        # =========================================================
 
         painter.setBrush(QColor(80, 180, 255))
 
         for item in self.items:
             painter.drawEllipse(item["rect"])
 
-        # ---------------------------------------------------------
-        # Joueur
-        # ---------------------------------------------------------
+        # =========================================================
+        # JOUEUR
+        # =========================================================
 
         painter.setBrush(QColor(220, 220, 220))
-
         painter.drawRect(self.player)
 
-        # ---------------------------------------------------------
-        # Interface
-        # ---------------------------------------------------------
+        # =========================================================
+        # INTERFACE
+        # =========================================================
 
-        painter.setPen(QColor(255, 255, 255))
+        painter.setPen(QPen(QColor(255, 255, 255)))
 
         painter.drawText(
             20,
@@ -322,7 +335,7 @@ class Game(QMainWindow):
         painter.drawText(
             20,
             55,
-            "Déplacement : ZQSD / WASD    |    I : inventaire",
+            "Déplacement : ZQSD / WASD   |   I : inventaire",
         )
 
         painter.drawText(
@@ -331,13 +344,99 @@ class Game(QMainWindow):
             self.message,
         )
 
+        # Compteur d'objets
+        total_items = sum(self.inventory.values())
+
         painter.drawText(
             self.WIDTH - 180,
             30,
-            f"Objets : {len(self.inventory)}",
+            f"Objets : {total_items}",
         )
 
+        # =========================================================
+        # INVENTAIRE
+        # =========================================================
+
+        if self.inventory_open:
+            self.draw_inventory(painter)
+
         painter.end()
+
+    # =============================================================
+    # AFFICHAGE DE L'INVENTAIRE
+    # =============================================================
+
+    def draw_inventory(self, painter):
+        panel_width = 500
+        panel_height = 400
+
+        panel_x = (
+            self.WIDTH - panel_width
+        ) / 2
+
+        panel_y = (
+            self.HEIGHT - panel_height
+        ) / 2
+
+        # Fond du panneau
+        painter.setBrush(QColor(20, 20, 20, 240))
+        painter.setPen(
+            QPen(QColor(180, 180, 180), 2)
+        )
+
+        painter.drawRect(
+            int(panel_x),
+            int(panel_y),
+            panel_width,
+            panel_height,
+        )
+
+        # Titre
+        painter.setPen(QColor(255, 255, 255))
+
+        painter.drawText(
+            int(panel_x + 25),
+            int(panel_y + 40),
+            "INVENTAIRE",
+        )
+
+        # Ligne de séparation
+        painter.drawLine(
+            int(panel_x + 20),
+            int(panel_y + 55),
+            int(panel_x + panel_width - 20),
+            int(panel_y + 55),
+        )
+
+        # Inventaire vide
+        if not self.inventory:
+            painter.drawText(
+                int(panel_x + 25),
+                int(panel_y + 100),
+                "Inventaire vide.",
+            )
+            return
+
+        # Liste des objets
+        y = panel_y + 90
+
+        for name, quantity in self.inventory.items():
+            painter.drawText(
+                int(panel_x + 30),
+                int(y),
+                f"{name} × {quantity}",
+            )
+
+            y += 35
+
+        # Instruction
+        painter.setPen(QColor(180, 180, 180))
+
+        painter.drawText(
+            int(panel_x + 25),
+            int(panel_y + panel_height - 25),
+            "Appuyez sur I pour fermer.",
+        )
 
     # =============================================================
     # LANCEMENT
@@ -347,3 +446,4 @@ class Game(QMainWindow):
         self.show()
         self.setFocus()
         self.app.exec()
+```
