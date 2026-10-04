@@ -193,7 +193,7 @@ mod tests {
                                     niveau,
                                     is_admin,
                                     is_militaire,
-                                    Some(coefficient),
+                                    Some(*coefficient),
                                 )
                                 .await?;
 
