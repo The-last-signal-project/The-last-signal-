@@ -9,7 +9,7 @@ on:
         type: string
       push:
         description: "Effectuer le force-push après vérification"
-        required: true
+        required: false
         type: boolean
         default: true
 
