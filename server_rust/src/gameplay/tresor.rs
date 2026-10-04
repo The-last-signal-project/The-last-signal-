@@ -791,7 +791,7 @@ let sous_loot_livre_admin = HashMap::from([
             *objets.entry(objet).or_insert(0) += quantite;
         }
     }
-          if (is_admin && is_militaire) || is_militaire {
+          if is_admin || is_militaire {
         for _ in 0..loot.militaire {
             let objet = self
                 .tirer_objet(
