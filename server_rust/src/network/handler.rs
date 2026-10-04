@@ -92,7 +92,7 @@ impl PacketHandler {
                                 e
                             );
 
-                            return None;
+                            HandlerResult::Nothing;
                         }
                     };
 
@@ -1236,7 +1236,7 @@ impl PacketHandler {
                     packet.packet_type
                 );
 
-                None
+                HandlerResult::Nothing;
             }
         }
     }
