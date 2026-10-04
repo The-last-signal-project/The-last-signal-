@@ -14,7 +14,7 @@ use the_last_signal_server::gameplay::{
 use the_last_signal_server::utils::logger::logger::ServerLogger;
 
 const NOMBRE_REPETITIONS: u32 = 100;
-const NOMBRE_CONFIGURATIONS: u32 = 10 * 2 * 2; // niveaux × admin × militaire
+const NOMBRE_CONFIGURATIONS: u32 = 12 * 2 * 2; // niveaux × admin × militaire
 
 
 #[allow(dead_code)]
@@ -174,7 +174,7 @@ mod tests {
              *
              * Une configuration =
              *
-             * niveau 1..=10
+             * niveau 1..=12
              * × admin false/true
              * × militaire false/true
              *
@@ -183,7 +183,7 @@ mod tests {
              * 10 × 2 × 2 = 40 configurations.
              */
             for _repetition in 0..NOMBRE_REPETITIONS {
-                for niveau in 1..=10 {
+                for niveau in 1..=12 {
                     for is_admin in [false, true] {
                         for is_militaire in [false, true] {
 
