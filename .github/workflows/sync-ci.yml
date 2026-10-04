@@ -1,0 +1,301 @@
+name: Sync CI Data to Main
+
+on:
+  workflow_dispatch:
+  workflow_call:
+
+  
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+
+  sync:
+
+    runs-on: ubuntu-latest
+    env:
+       GH_TOKEN: ${{ github.token }}
+
+    steps:
+
+      - name: Checkout main
+        uses: actions/checkout@v7
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Configure Git
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+
+      #######################################################
+      # Reports
+      #######################################################
+
+      - name: Download ci-reports
+        run: |
+
+          git fetch origin ci-reports
+
+          mkdir ci-reports-temp
+
+          git --work-tree=ci-reports-temp checkout origin/ci-reports -- .
+
+          mkdir -p reports
+
+          
+          rsync -a --delete  ci-reports-temp/reports/  "$GITHUB_WORKSPACE/reports" 2>/dev/null || true
+          
+
+      #######################################################
+      # Databases
+      #######################################################
+
+      - name: Download ci-database
+        run: |
+            set -Eeuo pipefail
+
+            git fetch origin ci-database
+
+            rm -rf ci-database-temp
+            mkdir -p ci-database-temp
+
+            git archive origin/ci-database | tar -x -C ci-database-temp
+
+            DB_SOURCE="ci-database-temp/database/the_last_signal.db"
+            DB_TARGET="database/the_last_signal.db"
+
+            if [ ! -f "$DB_SOURCE" ]; then
+            echo "::error::Database introuvable"
+            exit 1
+            fi
+
+            echo "=== Intégrité de la base source ==="
+            sha256sum "$DB_SOURCE"
+            sqlite3 "$DB_SOURCE" "PRAGMA integrity_check;"
+            
+            INTEGRITY=$(sqlite3 "$DB_SOURCE" "PRAGMA integrity_check;")
+
+            if [ "$INTEGRITY" != "ok" ]; then
+            echo "::error::La base source est CORROMPUE"
+            exit 1
+            fi
+
+            mkdir -p database
+            cp "$DB_SOURCE" "$DB_TARGET"
+
+            echo "=== Intégrité de la copie ==="
+            sha256sum "$DB_TARGET"
+            INTEGRITY=$(sqlite3 "$DB_TARGET" "PRAGMA integrity_check;")
+
+            if [ "$INTEGRITY" != "ok" ]; then
+            echo "::error::La copie est CORROMPUE"
+            exit 1
+            fi
+
+            echo "✓ Base SQLite valide"
+      #######################################################
+      # Commit
+      #######################################################
+
+      - name: Commit changes
+        run: |
+          sqlite3 database/the_last_signal.db "PRAGMA integrity_check;"
+
+          git add -A
+          git status --short
+          git diff --cached --stat
+
+          git commit -m "Synchronize CI data #${GITHUB_RUN_NUMBER}" || echo "Nothing to commit"
+          
+            for i in 1 2 3
+            do
+            echo "Tentative $i/3"
+            git fetch origin main
+
+            if ! git rebase "origin/main"
+            then
+            echo "Rebase impossible."
+            git rebase --abort || true
+            break
+            fi
+
+            echo "Branche actuelle :"
+            git branch --show-current
+
+            git status
+
+            if git push origin HEAD:main
+            then
+            echo "Push réussi"
+
+
+            exit 0
+            fi
+
+            echo "Push échoué."
+            sleep 2
+            done
+
+            echo "======================================"
+            echo "Push direct impossible"
+            echo "Création de la branche de secours"
+            echo "======================================"
+
+            FALLBACK_BRANCH="main-update"
+
+            echo "Branche de secours : $FALLBACK_BRANCH"
+
+            # Crée ou met à jour la branche de secours
+            git push --force origin HEAD:"refs/heads/$FALLBACK_BRANCH"
+
+             
+            echo "Branche de secours poussée."
+
+            # Vérifie si une PR existe déjà
+            # ============================================================
+            # Recherche ou création de la Pull Request
+            # ============================================================
+            PR_URL=$(gh pr list \
+            --base main \
+            --head "$FALLBACK_BRANCH" \
+            --state open \
+            --json url \
+            --jq '.[0].url')
+
+            if [ -n "$PR_URL" ]; then
+            echo "Une Pull Request existe déjà : $PR_URL"
+            else
+            echo "Création de la Pull Request..."
+
+            PR_URL=$(gh pr create \
+            --base main \
+            --head "$FALLBACK_BRANCH" \
+            --title "Synchronize CI data #${GITHUB_RUN_NUMBER}" \
+            --body "Le push direct vers main a échoué après 3 tentatives. Les changements générés par GitHub Actions sont disponibles dans cette Pull       Request.")
+
+            echo "Pull Request créée : $PR_URL"
+            fi
+
+            # ============================================================
+            # Tentative automatique de fusion
+            # ============================================================
+
+            echo "======================================"
+            echo "Tentative de fusion automatique"
+            echo "======================================"
+
+            MERGED=false
+
+            for i in 1 2 3 4 5 6 7 8 9 10
+            do
+            echo
+            echo "Tentative de fusion $i/10"
+            echo "PR : $PR_URL"
+
+            # --------------------------------------------------------
+            # Récupération de l'état actuel de la PR
+            # --------------------------------------------------------
+
+            PR_STATE=$(gh pr view "$PR_URL" \
+            --json state,mergeStateStatus,mergeable \
+            --jq '"state=\(.state) mergeStateStatus=\(.mergeStateStatus) mergeable=\(.mergeable)"' \
+            2>/dev/null || true)
+
+            echo "État : $PR_STATE"
+
+            # --------------------------------------------------------
+            # Vérifie si elle est déjà fusionnée
+            # --------------------------------------------------------
+
+            CURRENT_STATE=$(gh pr view "$PR_URL" \
+            --json state \
+            --jq '.state' \
+            2>/dev/null || true)
+
+            if [ "$CURRENT_STATE" = "MERGED" ]; then
+            echo "PR déjà fusionnée."
+            MERGED=true
+            break
+            fi
+
+            # --------------------------------------------------------
+            # Première méthode :
+            # fusion normale
+            # --------------------------------------------------------
+
+            echo "Tentative de fusion normale..."
+
+            if gh pr merge "$PR_URL" \
+            --squash \
+            --delete-branch
+            then
+            echo "Fusion réussie."
+            MERGED=true
+            break
+            fi
+
+            echo "Fusion normale impossible."
+
+            # --------------------------------------------------------
+            # Deuxième méthode :
+            # fusion administrative
+            # --------------------------------------------------------
+
+            echo "Tentative de fusion administrative..."
+
+            if gh pr merge "$PR_URL" \
+            --squash \
+            --admin \
+            --delete-branch
+            then
+            echo "Fusion administrative réussie."
+            MERGED=true
+            break
+            fi
+
+            echo "Fusion administrative impossible."
+
+            # --------------------------------------------------------
+            # Vérification avant nouvelle tentative
+            # --------------------------------------------------------
+
+            CURRENT_STATE=$(gh pr view "$PR_URL" \
+            --json state \
+            --jq '.state' \
+            2>/dev/null || true)
+
+            if [ "$CURRENT_STATE" = "MERGED" ]; then
+            echo "PR fusionnée."
+            MERGED=true
+            break
+            fi
+
+            if [ "$i" -lt 10 ]; then
+            echo "Nouvelle tentative dans 10 secondes..."
+            sleep 10
+            fi
+            done
+
+            # ============================================================
+            # Résultat final
+            # ============================================================
+
+            echo
+            echo "======================================"
+
+            if [ "$MERGED" = true ]; then
+            echo "PR fusionnée avec succès."
+            echo "======================================"
+            exit 0
+            fi
+
+            echo "Impossible de fusionner automatiquement la PR."
+            echo "PR : $PR_URL"
+            echo "======================================"
+
+            exit 1
+
+            

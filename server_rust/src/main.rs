@@ -110,7 +110,7 @@ mod tests {
          * d'éviter qu'un éventuel état interne du Tresor ne passe
          * d'un coefficient au suivant.
          */
-        for coefficient in coefficients {
+        for coefficient in &coefficients {
             println!();
             println!("########################################");
             println!("COEFFICIENT : {coefficient:.1}");
