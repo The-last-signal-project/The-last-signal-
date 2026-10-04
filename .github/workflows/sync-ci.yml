@@ -105,6 +105,7 @@ jobs:
           sqlite3 database/the_last_signal.db "PRAGMA integrity_check;"
 
           git add -A
+          git rm -rf ci-reports-temp ci-database-temp
           git status --short
           git diff --cached --stat
 
