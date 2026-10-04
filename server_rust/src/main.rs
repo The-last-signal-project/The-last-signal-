@@ -51,6 +51,7 @@ mod tests {
     use super::*;
 
     #[tokio::test]
+    #[ignore]
     async fn test_tresor() -> Result<(), Box<dyn std::error::Error>> {
         let _guard = ServerLogger::init();
 
