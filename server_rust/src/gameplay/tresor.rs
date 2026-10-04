@@ -538,6 +538,7 @@ impl Tresor {
         
         
     ]),
+);
 sous_loot.insert(
     "armes".to_string(),
     HashMap::from([
