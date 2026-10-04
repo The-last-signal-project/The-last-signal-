@@ -1,0 +1,487 @@
+name: Integration Tests
+
+on:
+  
+  workflow_call:
+    secrets:
+      VAULT_KEY:
+        required: true
+    inputs:
+       commit-message:
+          description: Message du commit
+          required: false
+          type: string
+          default: "Update CI artifacts #${GITHUB_RUN_NUMBER}"
+       branch:
+         description: Branche de destination
+         required: false
+         type: string
+         default: ci-database 
+
+  
+
+permissions:
+  contents: write
+  pull-requests: write
+  actions: write
+
+jobs:
+
+  integration:
+    outputs:
+      critical_failure: ${{ steps.critical-status.outputs.failed }}
+      cargo_check_failed: ${{ steps.cargo-check.outcome == 'failure' }}
+
+    
+
+    name: Python ↔ Rust Integration
+
+    runs-on: ubuntu-latest
+    
+    env:
+      
+      GH_TOKEN: ${{ github.token }}
+      VAULT_KEY: ${{ secrets.VAULT_KEY }}
+      DATABASE_PATH: ${{ github.workspace }}/database
+      DATABASE_URL: sqlite:${{ github.workspace }}/database/the_last_signal.db
+      
+    
+
+    steps:
+
+    ##########################################################
+    # Checkout
+    ##########################################################
+
+    - name: Checkout repository
+      uses: actions/checkout@v7
+      with:
+        lfs: true
+    
+    
+    
+      
+    
+    
+
+    ##########################################################
+    # Python
+    ##########################################################
+    - name: Read current Python version
+      id: current
+      run: |
+        echo "version=$(cat .python-version)" >> $GITHUB_OUTPUT
+        
+    - name: Setup Python
+      uses: actions/setup-python@v7
+      with:
+        python-version: ${{ steps.current.outputs.version }}
+        check-latest: ${{ github.workflow == 'Nightly' }}
+    - name: Get Python version
+      id: python-version
+      run: |
+               python --version
+    - name: Update Python version
+      if: github.workflow == 'Nightly'
+      run: |
+             VERSION=$(python --version | awk '{print $2}')
+             echo "$VERSION" > .python-version
+             if [ "$(cat .python-version)" != "$VERSION" ]; then
+             echo "$VERSION" > .python-version
+             echo "Updated Python version to $VERSION"
+             else
+             echo "No update needed"
+             fi
+             git config user.name github-actions
+             git config user.email github-actions@github.com
+             
+
+             git add .python-version
+
+             git diff --cached --quiet || git commit -m "chore: update Python version"
+             git pull --rebase origin main
+             
+             git push origin main
+        
+
+    - name: Install Python dependencies
+      run: |
+
+        python -m pip install --upgrade pip
+
+        python -m pip install --timeout 120 --retries 10 -r requirements.txt
+        
+
+    ##########################################################
+    # Rust
+    ##########################################################
+
+    - name: Install Rust
+      uses: dtolnay/rust-toolchain@stable
+    - name: Install Rust nightly
+      if: github.workflow == 'Nightly'
+      uses: dtolnay/rust-toolchain@nightly
+
+    - name: Install cargo-udeps
+      if: github.workflow == 'Nightly'
+      run: cargo +nightly install cargo-udeps --locked
+
+    - name: Check unused dependencies
+      if: github.workflow == 'Nightly'
+      working-directory: server_rust
+      run: cargo +nightly udeps --all-targets
+    - name: Check outdated Rust dependencies
+      if: github.workflow == 'Nightly'
+      continue-on-error: true
+      working-directory: server_rust
+      run: |
+             cargo install cargo-outdated --locked
+             cargo outdated
+    
+    - name: Debug environment
+      run: |
+        mkdir -p database
+        echo "DATABASE_URL=$DATABASE_URL"
+    - name: update cargo vendor
+      working-directory: server_rust
+      run: | 
+             set -euxo pipefail
+             
+             rm -rf vendor
+             rm -f Cargo.lock
+             cargo update
+             cargo vendor vendor
+                        
+             mkdir -p .cargo
+             echo '[build]' > .cargo/config.toml
+             echo 'incremental = true' >> .cargo/config.toml
+             echo '' >> .cargo/config.toml
+             echo '[source.crates-io]' >> .cargo/config.toml
+             echo 'replace-with = "vendored-sources"' >> .cargo/config.toml
+             echo '' >> .cargo/config.toml
+             echo '[source.vendored-sources]' >> .cargo/config.toml
+             echo 'directory = "vendor"' >> .cargo/config.toml
+             git config user.name github-actions
+             git config user.email github-actions@github.com
+             
+             
+
+             git add vendor Cargo.lock
+             git stash --staged
+             git pull
+             if git stash list | grep -q '^stash@{0}:'
+             then
+             
+             echo "stash@{0} trouvé → application"
+             git stash pop --index 'stash@{0}'
+             else
+             echo "stash@{0} inexistant → aucune action"
+             fi
+             
+             if git diff --name-only --diff-filter=U | grep -q .; then
+             echo "⚠️ Conflits détectés"
+             git checkout --ours .
+             git add -u
+             echo "✅ Conflits résolus avec ours"
+             else
+             echo "✅ Aucun conflit"
+             fi
+
+             git diff --cached --quiet || git commit -m "chore: update Cargo vendor"
+             
+             
+             git push origin main
+    - name: Cargo check
+      id: cargo-check
+      working-directory: server_rust
+      continue-on-error: true
+      run: |
+        set -o pipefail
+
+        cargo check 2>&1 | tee cargo-check-error.log
+
+        STATUS=${PIPESTATUS[0]}
+
+        echo "exit_code=$STATUS" >> "$GITHUB_OUTPUT"
+
+        exit "$STATUS"
+
+    - name: Upload cargo check error
+      if: steps.cargo-check.outcome == 'failure'
+      uses: actions/upload-artifact@v7
+      with:
+        name: cargo-check-error
+        path: server_rust/cargo-check-error.log
+        retention-days: 7
+    - name: Check VAULT_KEY
+      run: |
+             echo "VAULT_KEY présente : ${VAULT_KEY:+oui}"
+             echo "Longueur : ${#VAULT_KEY}"
+             printf '%s' "$VAULT_KEY" | base64 -d > /dev/null && echo "Base64 valide" || echo "Base64 invalide"
+    
+              
+
+    ##########################################################
+    # Build server
+    ##########################################################
+
+    - name: Build Rust server
+      id: build-server
+      working-directory: server_rust
+      run: cargo build --locked --release
+
+    ##########################################################
+    # Start server
+    ##########################################################
+
+    - name: Start Rust server
+      id: start-server
+      working-directory: server_rust
+      run: |
+
+        cargo run --locked --release > server.log 2>&1 &
+
+        echo $! > server.pid
+
+        sleep 15
+
+    ##########################################################
+    # Vérifie que le serveur est lancé
+    ##########################################################
+
+    - name: Check server
+      id: check-server
+      run: |
+
+        if ps -p $(cat server_rust/server.pid) > /dev/null
+        then
+          echo "Server running"
+        else
+          echo "Server crashed"
+
+          cat server_rust/server.log
+
+          exit 1
+        fi
+    
+
+    ##########################################################
+    # Tests Python
+    ##########################################################
+
+    - name: Run integration tests
+      run: |
+
+        pytest tests/ -m "not security" -v -s
+    - name: Cargo tests
+      working-directory: server_rust
+      run: |
+            cargo test -- --nocapture
+
+        
+
+    ##########################################################
+# Stop server
+##########################################################
+
+    
+    - name: Stop server
+      if: always()
+      run: |
+              if [ -f server_rust/server.pid ]; then
+              PID=$(cat server_rust/server.pid)
+              if ps -p "$PID" > /dev/null; then
+              echo "Stopping server (PID=$PID)..."
+
+              kill -SIGTERM "$PID"
+
+              # Attendre jusqu'à 15 secondes
+              for i in $(seq 1 15); do
+              if ! ps -p "$PID" > /dev/null; then
+              echo "Server stopped."
+              break
+              fi
+              sleep 1
+              done
+
+              # Toujours vivant ? On force.
+              if ps -p "$PID" > /dev/null; then
+              echo "Server did not stop gracefully, forcing shutdown..."
+              kill -SIGKILL "$PID"
+              sleep 2
+              fi
+              fi
+              fi
+              rm -f server_rust/server.pid
+
+
+
+             
+    - name: Upload server log
+      if: always()
+      uses: actions/upload-artifact@v7
+      with:
+        name: logs
+        path: logs/
+    - name: Inspect SQLite database
+      run: |
+            echo "PWD=$(pwd)"
+            find . -name "*.db" -type f -ls
+            
+            python scripts/voir_database.py database/the_last_signal.db
+    
+  
+    
+  # ==========================================================
+# Commit automatique des bases SQLite
+# ========================================================
+    - name: Commit databases and logs
+      if: always()
+      run: | 
+             set -e
+             git config --global user.name "github-actions"
+             git config --global user.email "github-actions@github.com"
+             git status
+             git fetch origin
+             git rm -f --ignore-unmatch logs/.gitkeep logs/the_last_signal.log
+             rm -rf ../ci-database
+             if git ls-remote --exit-code --heads origin ci-database >/dev/null; then
+             git worktree add ../ci-database ci-database
+             else
+             git worktree add --detach ../ci-database
+             cd ../ci-database
+             git checkout --orphan ci-database
+             cd -
+             fi
+             mkdir -p ../ci-database/database
+             mkdir -p ../ci-database/logs
+             cp -R database/. ../ci-database/database/ 2>/dev/null || true
+             cp -R logs/. ../ci-database/logs/ 2>/dev/null || true
+             cd ../ci-database
+             git add -A
+             if git diff --cached --quiet; then
+             echo "No changes."
+             else
+             git commit -m "Update CI artifacts #${GITHUB_RUN_NUMBER}"
+
+             for i in 1 2 3
+             do
+             echo "Tentative $i/3"
+             git fetch origin "${{ inputs.branch }}"
+
+             
+             
+
+             echo "Branche actuelle :"
+             git branch --show-current
+
+             git status
+
+             if git push origin HEAD:${{ inputs.branch }}
+             then
+             echo "Push réussi"
+
+             cd "$GITHUB_WORKSPACE"
+             git worktree remove ../ci-database --force
+             exit 0
+             fi
+
+             echo "Push échoué."
+             sleep 2
+             done
+
+             echo "======================================"
+             echo "Push direct impossible"
+             echo "Création de la branche de secours"
+             echo "======================================"
+
+             FALLBACK_BRANCH="${{ inputs.branch }}-update"
+
+             echo "Branche de secours : $FALLBACK_BRANCH"
+
+             # Crée ou met à jour la branche de secours
+             git push --force origin HEAD:"refs/heads/$FALLBACK_BRANCH"
+             
+
+             echo "Branche de secours poussée."
+
+             # Vérifie si une PR existe déjà
+             PR_URL=$(gh pr list \
+             --base "${{ inputs.branch }}" \
+             --head "$FALLBACK_BRANCH" \
+             --state open \
+             --json url \
+             --jq '.[0].url')
+
+             if [ -n "$PR_URL" ]; then
+             echo "Une Pull Request existe déjà : $PR_URL"
+             else
+             echo "Création de la Pull Request..."
+
+             PR_URL=$(gh pr create \
+              --base "${{ inputs.branch }}" \
+              --head "$FALLBACK_BRANCH" \
+              --title "${{ inputs.commit-message }}" \
+              --body "Le push direct vers \`${{ inputs.branch }}\` a échoué après 3 tentatives. Les changements générés par GitHub Actions sont disponibles dans cette Pull Request.")
+             fi
+             gh pr merge "$PR_URL" \
+             --auto \
+             --squash
+
+             cd "$GITHUB_WORKSPACE"
+             git worktree remove ../ci-database --force
+             fi
+    - name: Detect critical failure
+      id: critical-status
+      if: always()
+      run: |
+        if [[ \
+          "${{ steps.build-server.outcome }}" == "failure" || \
+          "${{ steps.start-server.outcome }}" == "failure" || \
+          "${{ steps.check-server.outcome }}" == "failure"
+        ]]; then
+          echo "failed=true" >> "$GITHUB_OUTPUT"
+          echo "❌ Erreur critique détectée"
+        else
+          echo "failed=false" >> "$GITHUB_OUTPUT"
+          echo "✅ Aucune erreur critique"
+        fi
+  Test-gui:
+    needs:
+       integration
+    uses: ./.github/workflows/gui.yml
+    
+  cancel-critical:
+    needs: 
+        - integration
+        - Test-gui
+
+    if: >-
+      ${{
+        always() &&
+        needs.integration.outputs.critical_failure == 'true'
+      }}
+
+    uses: ./.github/workflows/cancel-pending.yml
+
+    with:
+      mode: global
+  ai-fix:
+    name: AI Rust Error Analysis
+    needs: 
+      - integration
+      - cancel-critical
+      - Test-gui
+
+    if: >-
+      ${{
+        always() &&
+        needs.integration.outputs.cargo_check_failed == 'true'
+      }}
+
+    uses: ./.github/workflows/ai-fix.yml
+
+    with:
+      error-artifact: cargo-check-error
+      command: cargo check
+      working-directory: server_rust
