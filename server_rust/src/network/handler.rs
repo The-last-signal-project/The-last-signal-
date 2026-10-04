@@ -1252,7 +1252,7 @@ fn read_u64(
                     )
                 )
             }
-            PacketType::Deco => {
+            PacketType::DECO => {
 
     info!(
         "Demande de déconnexion reçue"
