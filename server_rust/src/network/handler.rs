@@ -63,6 +63,36 @@ pub struct PacketHandler;
 // ============================================================
 
 impl PacketHandler {
+    fn read_i64(
+    payload: &[u8],
+    start: usize,
+) -> Option<i64> {
+
+    let bytes =
+        payload.get(start..start + 8)?;
+
+    Some(
+        i64::from_be_bytes(
+            bytes.try_into().ok()?
+        )
+    )
+}
+
+
+fn read_u64(
+    payload: &[u8],
+    start: usize,
+) -> Option<u64> {
+
+    let bytes =
+        payload.get(start..start + 8)?;
+
+    Some(
+        u64::from_be_bytes(
+            bytes.try_into().ok()?
+        )
+    )
+}
 
     pub async fn handle(
         client: &mut Client,
@@ -92,7 +122,7 @@ impl PacketHandler {
                                 e
                             );
 
-                            HandlerResult::Nothing;
+                            return HandlerResult::Nothing;
                         }
                     };
 
@@ -1222,7 +1252,508 @@ impl PacketHandler {
                     )
                 )
             }
+            PacketType::Deco => {
 
+    info!(
+        "Demande de déconnexion reçue"
+    );
+
+    HandlerResult::Disconnect
+}
+PacketType::MarketBuy => {
+
+    if packet.payload.len() != 24 {
+
+        error!(
+            "MARKET_BUY : payload invalide ({} octets)",
+            packet.payload.len()
+        );
+
+        return HandlerResult::Response(
+            Packet::new(
+                PacketType::MarketBuy,
+                b"MARKET_BUY invalide".to_vec(),
+            )
+        );
+    }
+
+
+    let objet_id =
+        match Self::read_i64(
+            &packet.payload,
+            0,
+        ) {
+            Some(value) => value,
+
+            None => {
+                return HandlerResult::Response(
+                    Packet::new(
+                        PacketType::MarketBuy,
+                        b"MARKET_BUY invalide".to_vec(),
+                    )
+                );
+            }
+        };
+
+
+    let quantity =
+        match Self::read_u64(
+            &packet.payload,
+            8,
+        ) {
+            Some(value) => value,
+
+            None => {
+                return HandlerResult::Response(
+                    Packet::new(
+                        PacketType::MarketBuy,
+                        b"MARKET_BUY invalide".to_vec(),
+                    )
+                );
+            }
+        };
+
+
+    let prix_unitaire_max =
+        match Self::read_i64(
+            &packet.payload,
+            16,
+        ) {
+            Some(value) => value,
+
+            None => {
+                return HandlerResult::Response(
+                    Packet::new(
+                        PacketType::MarketBuy,
+                        b"MARKET_BUY invalide".to_vec(),
+                    )
+                );
+            }
+        };
+
+
+    let account_id =
+        match client.account_id() {
+
+            Some(id) => id,
+
+            None => {
+
+                return HandlerResult::Response(
+                    Packet::new(
+                        PacketType::MarketBuy,
+                        b"Compte non selectionne".to_vec(),
+                    )
+                );
+            }
+        };
+
+
+    let market =
+        MarketManager::new(
+            pool.clone()
+        );
+
+
+    match market.creer_ordre_achat(
+        account_id,
+        objet_id,
+        quantity,
+        prix_unitaire_max,
+    ).await {
+
+        Ok(ordre_id) => {
+
+            info!(
+                "Ordre d'achat {} créé | compte={} objet={} quantité={} prix_max={}",
+                ordre_id,
+                account_id,
+                objet_id,
+                quantity,
+                prix_unitaire_max
+            );
+
+
+            HandlerResult::Response(
+                Packet::new(
+                    PacketType::MarketBuy,
+                    ordre_id
+                        .to_be_bytes()
+                        .to_vec(),
+                )
+            )
+        }
+
+
+        Err(e) => {
+
+            error!(
+                "Erreur création ordre d'achat : {}",
+                e
+            );
+
+
+            HandlerResult::Response(
+                Packet::new(
+                    PacketType::MarketBuy,
+                    format!(
+                        "Erreur: {}",
+                        e
+                    )
+                    .into_bytes(),
+                )
+            )
+        }
+    }
+}
+            PacketType::MarketSell => {
+
+    if packet.payload.len() != 24 {
+
+        error!(
+            "MARKET_SELL : payload invalide ({} octets)",
+            packet.payload.len()
+        );
+
+        return HandlerResult::Response(
+            Packet::new(
+                PacketType::MarketSell,
+                b"MARKET_SELL invalide".to_vec(),
+            )
+        );
+    }
+
+
+    let objet_id =
+        match Self::read_i64(
+            &packet.payload,
+            0,
+        ) {
+            Some(value) => value,
+
+            None => {
+                return HandlerResult::Response(
+                    Packet::new(
+                        PacketType::MarketSell,
+                        b"MARKET_SELL invalide".to_vec(),
+                    )
+                );
+            }
+        };
+
+
+    let quantity =
+        match Self::read_u64(
+            &packet.payload,
+            8,
+        ) {
+            Some(value) => value,
+
+            None => {
+                return HandlerResult::Response(
+                    Packet::new(
+                        PacketType::MarketSell,
+                        b"MARKET_SELL invalide".to_vec(),
+                    )
+                );
+            }
+        };
+
+
+    let prix_unitaire =
+        match Self::read_i64(
+            &packet.payload,
+            16,
+        ) {
+            Some(value) => value,
+
+            None => {
+                return HandlerResult::Response(
+                    Packet::new(
+                        PacketType::MarketSell,
+                        b"MARKET_SELL invalide".to_vec(),
+                    )
+                );
+            }
+        };
+
+
+    let account_id =
+        match client.account_id() {
+
+            Some(id) => id,
+
+            None => {
+
+                return HandlerResult::Response(
+                    Packet::new(
+                        PacketType::MarketSell,
+                        b"Compte non selectionne".to_vec(),
+                    )
+                );
+            }
+        };
+
+
+    let market =
+        MarketManager::new(
+            pool.clone()
+        );
+
+
+    match market.creer_ordre_vente(
+        account_id,
+        objet_id,
+        quantity,
+        prix_unitaire,
+    ).await {
+
+        Ok(ordre_id) => {
+
+            info!(
+                "Ordre de vente {} créé | compte={} objet={} quantité={} prix={}",
+                ordre_id,
+                account_id,
+                objet_id,
+                quantity,
+                prix_unitaire
+            );
+
+
+            HandlerResult::Response(
+                Packet::new(
+                    PacketType::MarketSell,
+                    ordre_id
+                        .to_be_bytes()
+                        .to_vec(),
+                )
+            )
+        }
+
+
+        Err(e) => {
+
+            error!(
+                "Erreur création ordre de vente : {}",
+                e
+            );
+
+
+            HandlerResult::Response(
+                Packet::new(
+                    PacketType::MarketSell,
+                    format!(
+                        "Erreur: {}",
+                        e
+                    )
+                    .into_bytes(),
+                )
+            )
+        }
+    }
+}
+            PacketType::MarketCancelBuy => {
+
+    if packet.payload.len() != 8 {
+
+        return HandlerResult::Response(
+            Packet::new(
+                PacketType::MarketCancelBuy,
+                b"MARKET_CANCEL_BUY invalide".to_vec(),
+            )
+        );
+    }
+
+
+    let ordre_id =
+        match Self::read_i64(
+            &packet.payload,
+            0,
+        ) {
+            Some(value) => value,
+
+            None => {
+                return HandlerResult::Response(
+                    Packet::new(
+                        PacketType::MarketCancelBuy,
+                        b"MARKET_CANCEL_BUY invalide".to_vec(),
+                    )
+                );
+            }
+        };
+
+
+    let account_id =
+        match client.account_id() {
+
+            Some(id) => id,
+
+            None => {
+
+                return HandlerResult::Response(
+                    Packet::new(
+                        PacketType::MarketCancelBuy,
+                        b"Compte non selectionne".to_vec(),
+                    )
+                );
+            }
+        };
+
+
+    let market =
+        MarketManager::new(
+            pool.clone()
+        );
+
+
+    match market.annuler_ordre_achat(
+        account_id,
+        ordre_id,
+    ).await {
+
+        Ok(()) => {
+
+            info!(
+                "Ordre d'achat {} annulé | compte={}",
+                ordre_id,
+                account_id
+            );
+
+
+            HandlerResult::Response(
+                Packet::new(
+                    PacketType::MarketCancelBuy,
+                    ordre_id
+                        .to_be_bytes()
+                        .to_vec(),
+                )
+            )
+        }
+
+
+        Err(e) => {
+
+            error!(
+                "Erreur annulation ordre d'achat {} : {}",
+                ordre_id,
+                e
+            );
+
+
+            HandlerResult::Response(
+                Packet::new(
+                    PacketType::MarketCancelBuy,
+                    format!(
+                        "Erreur: {}",
+                        e
+                    )
+                    .into_bytes(),
+                )
+            )
+        }
+    }
+}
+            PacketType::MarketCancelSell => {
+
+    if packet.payload.len() != 8 {
+
+        return HandlerResult::Response(
+            Packet::new(
+                PacketType::MarketCancelSell,
+                b"MARKET_CANCEL_SELL invalide".to_vec(),
+            )
+        );
+    }
+
+
+    let ordre_id =
+        match Self::read_i64(
+            &packet.payload,
+            0,
+        ) {
+            Some(value) => value,
+
+            None => {
+                return HandlerResult::Response(
+                    Packet::new(
+                        PacketType::MarketCancelSell,
+                        b"MARKET_CANCEL_SELL invalide".to_vec(),
+                    )
+                );
+            }
+        };
+
+
+    let account_id =
+        match client.account_id() {
+
+            Some(id) => id,
+
+            None => {
+
+                return HandlerResult::Response(
+                    Packet::new(
+                        PacketType::MarketCancelSell,
+                        b"Compte non selectionne".to_vec(),
+                    )
+                );
+            }
+        };
+
+
+    let market =
+        MarketManager::new(
+            pool.clone()
+        );
+
+
+    match market.annuler_ordre_vente(
+        account_id,
+        ordre_id,
+    ).await {
+
+        Ok(()) => {
+
+            info!(
+                "Ordre de vente {} annulé | compte={}",
+                ordre_id,
+                account_id
+            );
+
+
+            HandlerResult::Response(
+                Packet::new(
+                    PacketType::MarketCancelSell,
+                    ordre_id
+                        .to_be_bytes()
+                        .to_vec(),
+                )
+            )
+        }
+
+
+        Err(e) => {
+
+            error!(
+                "Erreur annulation ordre de vente {} : {}",
+                ordre_id,
+                e
+            );
+
+
+            HandlerResult::Response(
+                Packet::new(
+                    PacketType::MarketCancelSell,
+                    format!(
+                        "Erreur: {}",
+                        e
+                    )
+                    .into_bytes(),
+                )
+            )
+        }
+    }
+}
 
             // =================================================
             // Réponses interdites venant du client
@@ -1236,7 +1767,7 @@ impl PacketHandler {
                     packet.packet_type
                 );
 
-                HandlerResult::Nothing;
+                HandlerResult::Nothing
             }
         }
     }
