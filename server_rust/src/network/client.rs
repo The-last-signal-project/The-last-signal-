@@ -157,8 +157,8 @@ impl Client {
             ).await
         {
             error!(
-                "Erreur d'envoi [{}] : {}",
-                self.session_id,
+                "Erreur d'envoi  : {}",
+                
                 e
             );
 
@@ -617,16 +617,16 @@ impl Client {
         {
 
             error!(
-                "Erreur lors de la déconnexion [{}] : {}",
-                self.session_id,
+                "Erreur lors de la déconnexion : {}",
+                
                 e
             );
         }
         else {
 
             info!(
-                "Client déconnecté : {}",
-                self.session_id
+                "Client déconnecté",
+                
             );
         }
     }

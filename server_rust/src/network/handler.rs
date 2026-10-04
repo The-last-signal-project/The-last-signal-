@@ -1365,9 +1365,8 @@ PacketType::MarketBuy => {
         Ok(ordre_id) => {
 
             info!(
-                "Ordre d'achat {} créé | compte={} objet={} quantité={} prix_max={}",
+                "Ordre d'achat {} créé |objet={} quantité={} prix_max={}",
                 ordre_id,
-                account_id,
                 objet_id,
                 quantity,
                 prix_unitaire_max
@@ -1511,9 +1510,8 @@ PacketType::MarketBuy => {
         Ok(ordre_id) => {
 
             info!(
-                "Ordre de vente {} créé | compte={} objet={} quantité={} prix={}",
+                "Ordre de vente {} créé | objet={} quantité={} prix={}",
                 ordre_id,
-                account_id,
                 objet_id,
                 quantity,
                 prix_unitaire
@@ -1614,9 +1612,8 @@ PacketType::MarketBuy => {
         Ok(()) => {
 
             info!(
-                "Ordre d'achat {} annulé | compte={}",
-                ordre_id,
-                account_id
+                "Ordre d'achat {} annulé",
+                ordre_id
             );
 
 
@@ -1715,9 +1712,9 @@ PacketType::MarketBuy => {
         Ok(()) => {
 
             info!(
-                "Ordre de vente {} annulé | compte={}",
-                ordre_id,
-                account_id
+                "Ordre de vente {} annulé",
+                ordre_id
+                
             );
 
 
