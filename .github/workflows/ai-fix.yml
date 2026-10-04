@@ -135,6 +135,7 @@ jobs:
           echo "LLAMA_CLI=$LLAMA_CLI" >> "$GITHUB_ENV"
 
           "$LLAMA_CLI" --version
+          "$LLAMA_CLI" --help
 
       # ==========================================================
       # CACHE MODEL
@@ -460,6 +461,13 @@ jobs:
             echo
             echo "Appel de llama.cpp..."
 
+            CNV_FLAG=()
+            if "$LLAMA_CLI" --help 2>&1 | grep -q -- '--no-cnv'; then
+              CNV_FLAG=(--no-cnv)
+            elif "$LLAMA_CLI" --help 2>&1 | grep -q -- '--no-conversation'; then
+              CNV_FLAG=(--no-conversation)
+            fi
+
             if ! "$LLAMA_CLI" \
               -m "$MODEL_PATH" \
               -f ai-prompt.txt \
@@ -468,6 +476,7 @@ jobs:
               --temp "$TEMP" \
               --seed "$ATTEMPT" \
               --threads "$(nproc)" \
+              "${CNV_FLAG[@]}" \
               --no-display-prompt \
               < /dev/null \
               > "ai-results/model-output-$ATTEMPT.txt" \
@@ -511,21 +520,35 @@ jobs:
             echo "PATCH_BEGIN : $PATCH_BEGIN_COUNT"
             echo "PATCH_END   : $PATCH_END_COUNT"
 
-            if [ "$PATCH_BEGIN_COUNT" -ne 1 ] ||
-               [ "$PATCH_END_COUNT" -ne 1 ]; then
+            if [ "$PATCH_BEGIN_COUNT" -eq 1 ] && [ "$PATCH_END_COUNT" -eq 1 ]; then
 
-              echo "❌ Marqueurs PATCH_BEGIN/PATCH_END invalides."
+              sed \
+                -n \
+                '/^PATCH_BEGIN$/,/^PATCH_END$/p' \
+                "$MODEL_OUTPUT" |
+                sed \
+                  '1d;$d' \
+                > ai.patch
 
-              # IMPORTANT :
-              # on garde le fichier d'erreur inchangé,
-              # mais on indique au modèle que la sortie précédente
-              # était invalide lors de la tentative suivante.
+            elif grep -q '^diff --git ' "$MODEL_OUTPUT"; then
+
+              echo "Model output without explicit markers; extracting raw diff..."
+
+              awk '
+                BEGIN { p = 0 }
+                /^diff --git / { p = 1 }
+                p { print }
+              ' "$MODEL_OUTPUT" > ai.patch
+
+            else
+
+              echo "❌ Marqueurs PATCH_BEGIN/PATCH_END invalides et aucun diff --git détecté."
 
               {
                 echo
                 echo "===== PREVIOUS MODEL OUTPUT INVALID ====="
-                echo "The previous response did not contain exactly one PATCH_BEGIN/PATCH_END block."
-                echo "You MUST follow the required output format."
+                echo "The previous response did not contain a valid patch block."
+                echo "You MUST return either PATCH_BEGIN ... PATCH_END or a raw unified diff."
               } >> ai-results/current-error-context.txt
 
               ERROR_FILE="ai-results/current-error-context.txt"
@@ -534,38 +557,60 @@ jobs:
             fi
 
             # ----------------------------------------------------
-            # Extraction
-            # ----------------------------------------------------
-
-            sed \
-              -n \
-              '/^PATCH_BEGIN$/,/^PATCH_END$/p' \
-              "$MODEL_OUTPUT" |
-              sed \
-                '1d;$d' \
-              > ai.patch
-
-            # ----------------------------------------------------
-            # Nettoyage éventuel CRLF
+            # Nettoyage strict : ne garder que le diff réel
             # ----------------------------------------------------
 
             sed -i 's/\r$//' ai.patch
+            sed -i '/^```/d' ai.patch
+            sed -i '/^> $/d' ai.patch
+            sed -i '/^> <|im_end|>$/d' ai.patch
+            sed -i '/^> <|im_start|>$/d' ai.patch
+            sed -i '/^\[ Prompt: .*\]$/d' ai.patch
+            sed -i '/^<|im_start|>$/d' ai.patch
+            sed -i '/^<|im_end|>$/d' ai.patch
+            sed -i '/^Loading model\./d' ai.patch
+            sed -i '/^available commands:/d' ai.patch
+            sed -i '/^>$/d' ai.patch
+
+            awk '
+              BEGIN { seen = 0 }
+              /^diff --git / { seen = 1 }
+              seen { print }
+            ' ai.patch > ai.patch.filtered
+            mv ai.patch.filtered ai.patch
 
             # ----------------------------------------------------
-            # Vérification présence diff
+            # Validation stricte : rejet immédiat si ce n'est pas un diff Git
             # ----------------------------------------------------
 
             if ! grep -q '^diff --git ' ai.patch; then
 
-              echo "❌ Le bloc ne contient aucun diff --git."
+              echo "❌ Sortie du modèle non exploitable : aucun diff --git valide."
+              cat ai.patch || true
 
+              ERROR_FILE="ai-results/current-error-context.txt"
+
+              {
+                echo
+                echo "===== PREVIOUS MODEL OUTPUT INVALID ====="
+                echo "The model output was rejected because it did not contain a valid unified git diff."
+                echo "Only raw diff content starting with 'diff --git ' is accepted."
+              } >> "$ERROR_FILE"
+
+              continue
+            fi
+
+            if grep -Eq '^(<\|im_start\|>|<\|im_end\|>|\[ Prompt:|Loading model\.|available commands:|> )' ai.patch; then
+
+              echo "❌ Sortie du modèle encore contaminée par le chat/console."
               cat ai.patch
 
               ERROR_FILE="ai-results/current-error-context.txt"
 
               {
                 echo
-                echo "The previous patch block did not contain a valid 'diff --git' header."
+                echo "===== PREVIOUS MODEL OUTPUT INVALID ====="
+                echo "The model output still contained chat or CLI noise after sanitization."
               } >> "$ERROR_FILE"
 
               continue
