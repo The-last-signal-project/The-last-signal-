@@ -276,7 +276,13 @@ jobs:
     - name: Cargo tests
       working-directory: server_rust
       run: |
-            cargo test -- --nocapture
+        cargo test -- --nocapture
+
+    - name: Benchmark trésors
+      if: github.workflow == 'Nightly'
+      working-directory: server_rust
+      run: |
+        cargo test test_tresor -- --ignored --nocapture
 
         
 
