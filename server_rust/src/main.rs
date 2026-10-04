@@ -13,7 +13,7 @@ use the_last_signal_server::gameplay::{
 
 use the_last_signal_server::utils::logger::logger::ServerLogger;
 
-const NOMBRE_REPETITIONS: u32 = 1_000;
+const NOMBRE_REPETITIONS: u32 = 100;
 const NOMBRE_CONFIGURATIONS: u32 = 10 * 2 * 2; // niveaux × admin × militaire
 
 
