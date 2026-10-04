@@ -1,4 +1,3 @@
-```python
 import sys
 
 from PySide6.QtCore import QTimer, Qt, QRectF
@@ -446,4 +445,4 @@ class Game(QMainWindow):
         self.show()
         self.setFocus()
         self.app.exec()
-```
+
