@@ -149,6 +149,7 @@ jobs:
              
              rm -rf vendor
              rm -f Cargo.lock
+             rm -rf .cargo
              cargo update
              cargo vendor vendor
                         
@@ -166,7 +167,7 @@ jobs:
              
              
 
-             git add vendor Cargo.lock
+             git add vendor Cargo.lock .cargo/config.toml
              git stash --staged
              git pull
              if git stash list | grep -q '^stash@{0}:'

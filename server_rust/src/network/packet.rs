@@ -29,6 +29,8 @@ pub enum PacketType {
     MarketSell = 12,
     MarketCancelBuy = 13,
     MarketCancelSell = 14,
+    PlayerState = 15,
+    PlayerRemove = 16,
 }
 #[derive(Debug, Clone, Copy)]
 pub enum BanType {
@@ -76,6 +78,8 @@ impl PacketType {
             12 => Some(PacketType::MarketSell),
             13 => Some(PacketType::MarketCancelBuy),
             14 => Some(PacketType::MarketCancelSell),
+            15 => Some(PacketType::PlayerState),
+            16 => Some(PacketType::PlayerRemove),
 
             _ => None,
         }

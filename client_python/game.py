@@ -1,61 +1,142 @@
-import json
 import sys
+import threading
 import time
-from pathlib import Path
 
 from PySide6.QtCore import QTimer, Qt, QRectF
 from PySide6.QtGui import QColor, QKeyEvent, QPainter, QPen
 from PySide6.QtWidgets import QApplication, QMainWindow
 
+from .client import Client
+from .packets.move import MovePacket
+
 
 class Game(QMainWindow):
-    """Prototype jouable de The Last Signal."""
+    """
+    Client graphique de The Last Signal.
+
+    Architecture :
+
+        CLIENT PYTHON
+             |
+             | MovePacket
+             v
+        SERVEUR RUST
+             |
+             | position validée
+             v
+        CLIENT PYTHON
+
+    Le client n'est pas l'autorité du monde.
+    """
 
     WIDTH = 900
     HEIGHT = 600
 
     PLAYER_SIZE = 30
+
+    # Vitesse locale utilisée pour construire les demandes
+    # de déplacement.
     PLAYER_SPEED = 5
-    PLAYER_MAX_HP = 100
 
-    ENEMY_SIZE = 34
-    ENEMY_MAX_HP = 50
-    ENEMY_SPEED = 1.5
-    ENEMY_DAMAGE = 10
+    # Coordonnées réseau.
+    #
+    # Le protocole actuel utilise trois entiers :
+    #
+    #     x, y, z
+    #
+    # Le client graphique utilise x/y comme coordonnées de
+    # déplacement et z comme hauteur.
+    START_X = WIDTH // 2
+    START_Y = HEIGHT // 2
+    START_Z = 0
 
-    ENEMY_DETECTION_RANGE = 350
-    ENEMY_ATTACK_RANGE = 42
-    ENEMY_ATTACK_COOLDOWN = 700
+    SERVER_HOST = "127.0.0.1"
+    SERVER_PORT = 5000
 
-    ATTACK_DAMAGE = 25
-    ATTACK_RANGE = 65
-    ATTACK_COOLDOWN = 350
-
-    SAVE_FILE = Path(__file__).resolve().parent / "save.json"
+    NETWORK_UPDATE_INTERVAL = 50
 
     def __init__(self):
+        super().__init__()
+
         self.app = QApplication.instance()
 
         if self.app is None:
             self.app = QApplication(sys.argv)
 
-        super().__init__()
+        self.setWindowTitle(
+            "The Last Signal - Multiplayer"
+        )
 
-        self.setWindowTitle("The Last Signal - Prototype")
-        self.setFixedSize(self.WIDTH, self.HEIGHT)
+        self.setFixedSize(
+            self.WIDTH,
+            self.HEIGHT,
+        )
+
+        self.setFocusPolicy(
+            Qt.FocusPolicy.StrongFocus
+        )
 
         # =========================================================
-        # JOUEUR
+        # RESEAU
+        # =========================================================
+
+        self.client = Client(
+            host=self.SERVER_HOST,
+            port=self.SERVER_PORT,
+        )
+
+        self.network_connected = False
+        self.network_error = None
+
+        self.network_thread = None
+        self.network_running = False
+
+        # Les paquets reçus sont stockés ici afin que le thread
+        # réseau ne modifie jamais directement l'interface Qt.
+        self.received_packets = []
+
+        self.received_packets_lock = (
+            threading.Lock()
+        )
+
+        # =========================================================
+        # JOUEUR LOCAL
         # =========================================================
 
         self.player = QRectF(
-            self.WIDTH / 2 - self.PLAYER_SIZE / 2,
-            self.HEIGHT / 2 - self.PLAYER_SIZE / 2,
+            self.START_X - self.PLAYER_SIZE / 2,
+            self.START_Y - self.PLAYER_SIZE / 2,
             self.PLAYER_SIZE,
             self.PLAYER_SIZE,
         )
 
-        self.player_hp = self.PLAYER_MAX_HP
+        self.server_position = (
+            self.START_X,
+            self.START_Y,
+            self.START_Z,
+        )
+
+        self.last_sent_position = None
+
+        # =========================================================
+        # JOUEURS DISTANTS
+        # =========================================================
+
+        # Cette structure est volontairement prête pour le futur
+        # système de synchronisation serveur.
+        #
+        # Exemple futur :
+        #
+        # remote_players[player_id] = {
+        #     "x": ...,
+        #     "y": ...,
+        #     "z": ...,
+        #     "name": ...
+        # }
+        #
+        # Le serveur actuel ne fournit cependant pas encore
+        # d'identifiant de joueur dans MovePacket.
+        self.remote_players = {}
 
         # =========================================================
         # TOUCHES
@@ -64,139 +145,430 @@ class Game(QMainWindow):
         self.keys = set()
 
         # =========================================================
-        # MURS
+        # MONDE VISUEL
         # =========================================================
 
         self.walls = [
-            QRectF(100, 100, 250, 30),
-            QRectF(100, 100, 30, 200),
-            QRectF(350, 100, 30, 200),
-            QRectF(450, 200, 250, 30),
-            QRectF(700, 200, 30, 220),
-            QRectF(250, 400, 300, 30),
+            QRectF(
+                100,
+                100,
+                250,
+                30,
+            ),
+            QRectF(
+                100,
+                100,
+                30,
+                200,
+            ),
+            QRectF(
+                350,
+                100,
+                30,
+                200,
+            ),
+            QRectF(
+                450,
+                200,
+                250,
+                30,
+            ),
+            QRectF(
+                700,
+                200,
+                30,
+                220,
+            ),
+            QRectF(
+                250,
+                400,
+                300,
+                30,
+            ),
         ]
 
         # =========================================================
-        # OBJETS DE LA CARTE
+        # ETAT
         # =========================================================
 
-        self.base_items = [
-            {
-                "id": "cristal",
-                "name": "Cristal",
-                "rect": QRectF(150, 350, 24, 24),
-            },
-            {
-                "id": "ressource",
-                "name": "Ressource",
-                "rect": QRectF(600, 120, 24, 24),
-            },
-            {
-                "id": "objet_inconnu",
-                "name": "Objet inconnu",
-                "rect": QRectF(780, 480, 24, 24),
-            },
-        ]
+        self.game_started = False
+        self.connection_failed = False
 
-        self.items = self.copy_items(self.base_items)
-
-        # =========================================================
-        # INVENTAIRE
-        # =========================================================
-
-        self.inventory = {}
-
-        # =========================================================
-        # ENNEMI
-        # =========================================================
-
-        self.enemy_start_rect = QRectF(
-            650,
-            400,
-            self.ENEMY_SIZE,
-            self.ENEMY_SIZE,
+        self.message = (
+            "Connexion au serveur..."
         )
 
-        self.enemy = self.create_enemy()
-
-        # Permet d'éviter de créer plusieurs fois le même loot.
-        self.enemy_loot_spawned = False
-
-        # =========================================================
-        # COMBAT
-        # =========================================================
-
-        self.last_attack_time = 0.0
-        self.last_enemy_attack_time = 0.0
+        self.last_network_update = (
+            time.monotonic()
+        )
 
         # =========================================================
-        # ETAT DU JEU
-        # =========================================================
-
-        self.inventory_open = False
-        self.game_over = False
-
-        self.message = "Explorez la zone."
-
-        # =========================================================
-        # BOUCLE DE JEU
+        # TIMER PRINCIPAL
         # =========================================================
 
         self.timer = QTimer(self)
-        self.timer.timeout.connect(self.update_game)
+
+        self.timer.timeout.connect(
+            self.update_game
+        )
+
         self.timer.start(16)
 
-        self.setFocusPolicy(Qt.FocusPolicy.StrongFocus)
+        # =========================================================
+        # TIMER RESEAU
+        # =========================================================
+
+        self.network_timer = QTimer(self)
+
+        self.network_timer.timeout.connect(
+            self.process_network_packets
+        )
+
+        self.network_timer.start(
+            self.NETWORK_UPDATE_INTERVAL
+        )
+
+        # =========================================================
+        # CONNEXION
+        # =========================================================
+
+        self.connect_to_server()
+
         self.setFocus()
 
     # =============================================================
-    # CREATION / COPIE DES DONNEES
+    # RESEAU
     # =============================================================
 
-    @staticmethod
-    def copy_items(items):
-        """Copie les objets sans partager les QRectF."""
+    def connect_to_server(self):
+        """
+        Connecte le client au serveur Rust.
 
-        return [
-            {
-                "id": item["id"],
-                "name": item["name"],
-                "rect": QRectF(item["rect"]),
-            }
-            for item in items
-        ]
+        La connexion est effectuée dans un thread afin de ne pas
+        bloquer l'interface Qt.
+        """
 
-    def create_enemy(self):
-        return {
-            "id": "enemy_1",
-            "name": "Mutant",
-            "rect": QRectF(self.enemy_start_rect),
-            "hp": self.ENEMY_MAX_HP,
-            "alive": True,
-        }
+        self.message = (
+            f"Connexion à "
+            f"{self.SERVER_HOST}:{self.SERVER_PORT}..."
+        )
+
+        self.network_running = True
+
+        self.network_thread = threading.Thread(
+            target=self.network_worker,
+            daemon=True,
+        )
+
+        self.network_thread.start()
+
+    def network_worker(self):
+        """
+        Thread réseau.
+
+        Il est responsable de la réception des paquets.
+        """
+
+        try:
+            self.client.connect()
+
+            self.network_connected = True
+            self.connection_failed = False
+
+            self.enqueue_message(
+                "Connecté au serveur."
+            )
+
+            while self.network_running:
+
+                packet = (
+                    self.client.receive_packet()
+                )
+
+                if packet is None:
+                    if self.network_running:
+                        self.enqueue_message(
+                            "Connexion au serveur perdue."
+                        )
+
+                    break
+
+                self.enqueue_packet(
+                    packet
+                )
+
+        except Exception as error:
+            self.network_connected = False
+            self.connection_failed = True
+
+            self.enqueue_message(
+                f"Erreur réseau : {error}"
+            )
+
+        finally:
+            self.network_connected = False
+
+    def enqueue_packet(self, packet):
+        """
+        Ajoute un paquet reçu à la file consommée par Qt.
+        """
+
+        with self.received_packets_lock:
+            self.received_packets.append(
+                packet
+            )
+
+    def enqueue_message(self, message):
+        """
+        Ajoute un message réseau à la file.
+        """
+
+        with self.received_packets_lock:
+            self.received_packets.append(
+                ("__MESSAGE__", message)
+            )
+
+    def process_network_packets(self):
+        """
+        Traite les paquets reçus sans toucher à l'interface depuis
+        le thread réseau.
+        """
+
+        packets = []
+
+        with self.received_packets_lock:
+
+            if self.received_packets:
+                packets = list(
+                    self.received_packets
+                )
+
+                self.received_packets.clear()
+
+        for packet in packets:
+
+            if (
+                isinstance(packet, tuple)
+                and len(packet) == 2
+                and packet[0] == "__MESSAGE__"
+            ):
+                self.message = packet[1]
+                continue
+
+            self.handle_network_packet(
+                packet
+            )
+
+    def handle_network_packet(self, packet):
+        """
+        Traite un paquet reçu du serveur.
+        """
+
+        if isinstance(packet, MovePacket):
+
+            self.handle_move_packet(
+                packet
+            )
+
+            return
+
+        self.message = (
+            f"Paquet reçu : "
+            f"{packet.packet_type.name}"
+        )
+
+    def handle_move_packet(self, packet):
+        """
+        Traite la réponse MOVE actuelle du serveur.
+
+        Le protocole actuel du dépôt fait :
+
+            client -> MOVE(x,y,z)
+            serveur -> MOVE(x,y,z)
+
+        Nous considérons donc cette position comme la position
+        validée par le serveur.
+
+        Lorsque le serveur sera modifié pour broadcaster les
+        positions de plusieurs joueurs, cette méthode pourra
+        alimenter remote_players.
+        """
+
+        x = int(packet.x)
+        y = int(packet.y)
+        z = int(packet.z)
+
+        self.server_position = (
+            x,
+            y,
+            z,
+        )
+
+        # Le protocole actuel ne possède pas encore d'identifiant
+        # de joueur dans MovePacket.
+        #
+        # Nous ne pouvons donc pas savoir si le paquet correspond
+        # à un autre joueur.
+        #
+        # Pour l'instant il représente la confirmation du joueur
+        # local.
+        self.apply_server_position(
+            x,
+            y,
+            z,
+        )
+
+        self.game_started = True
+
+    def apply_server_position(
+        self,
+        x,
+        y,
+        z,
+    ):
+        """
+        Applique une position fournie par le serveur.
+
+        IMPORTANT :
+
+        Le serveur reste l'autorité.
+        """
+
+        x = max(
+            self.PLAYER_SIZE / 2,
+            min(
+                self.WIDTH
+                - self.PLAYER_SIZE / 2,
+                x,
+            ),
+        )
+
+        y = max(
+            self.PLAYER_SIZE / 2,
+            min(
+                self.HEIGHT
+                - self.PLAYER_SIZE / 2,
+                y,
+            ),
+        )
+
+        new_player = QRectF(
+            x - self.PLAYER_SIZE / 2,
+            y - self.PLAYER_SIZE / 2,
+            self.PLAYER_SIZE,
+            self.PLAYER_SIZE,
+        )
+
+        if self.can_move_to(
+            new_player
+        ):
+            self.player = new_player
+
+    # =============================================================
+    # ENVOI DEPLACEMENT
+    # =============================================================
+
+    def send_position_to_server(self):
+        """
+        Envoie la position demandée au serveur.
+
+        Le format actuel du protocole est :
+
+            !iii
+
+        donc trois entiers signés 32 bits.
+        """
+
+        if not self.network_connected:
+            return
+
+        center = self.player.center()
+
+        x = int(
+            round(center.x())
+        )
+
+        y = int(
+            round(center.y())
+        )
+
+        z = int(
+            self.START_Z
+        )
+
+        position = (
+            x,
+            y,
+            z,
+        )
+
+        # Evite de spammer le serveur avec exactement la même
+        # position.
+        if position == self.last_sent_position:
+            return
+
+        try:
+            packet = MovePacket(
+                x,
+                y,
+                z,
+            )
+
+            self.client.send_packet(
+                packet
+            )
+
+            self.last_sent_position = (
+                position
+            )
+
+        except Exception as error:
+            self.message = (
+                f"Erreur d'envoi : {error}"
+            )
 
     # =============================================================
     # BOUCLE DE JEU
     # =============================================================
 
     def update_game(self):
-        if self.game_over:
+        """
+        Boucle principale du client.
+
+        Le client calcule une demande de mouvement puis l'envoie
+        au serveur.
+
+        La position définitive est ensuite reçue du serveur.
+        """
+
+        if not self.network_connected:
             self.update()
             return
 
-        if not self.inventory_open:
-            self.move_player()
-            self.check_items()
-            self.update_enemy()
-            self.check_enemy_damage()
+        if self.connection_failed:
+            self.update()
+            return
+
+        self.move_player_request()
+
+        self.send_position_to_server()
 
         self.update()
 
     # =============================================================
-    # JOUEUR
+    # DEPLACEMENT
     # =============================================================
 
-    def move_player(self):
+    def move_player_request(self):
+        """
+        Construit une demande de déplacement.
+
+        Cette fonction ne doit pas être considérée comme une
+        modification autoritaire du monde.
+
+        Le serveur devra ultérieurement valider la position.
+        """
+
         dx = 0
         dy = 0
 
@@ -218,579 +590,175 @@ class Game(QMainWindow):
         if Qt.Key.Key_D in self.keys:
             dx += self.PLAYER_SPEED
 
-        if dx != 0:
-            new_player = QRectF(self.player)
-            new_player.translate(dx, 0)
-
-            if self.can_move_to(new_player):
-                self.player = new_player
-
-        if dy != 0:
-            new_player = QRectF(self.player)
-            new_player.translate(0, dy)
-
-            if self.can_move_to(new_player):
-                self.player = new_player
-
-    def can_move_to(self, rectangle):
-        if rectangle.left() < 0:
-            return False
-
-        if rectangle.right() > self.WIDTH:
-            return False
-
-        if rectangle.top() < 0:
-            return False
-
-        if rectangle.bottom() > self.HEIGHT:
-            return False
-
-        for wall in self.walls:
-            if rectangle.intersects(wall):
-                return False
-
-        return True
-
-    # =============================================================
-    # OBJETS / RAMASSAGE
-    # =============================================================
-
-    def check_items(self):
-        collected_items = []
-
-        for item in self.items:
-            if self.player.intersects(item["rect"]):
-                collected_items.append(item)
-
-        for item in collected_items:
-            self.items.remove(item)
-
-            name = item["name"]
-
-            self.inventory[name] = (
-                self.inventory.get(name, 0) + 1
-            )
-
-            self.message = f"{name} récupéré !"
-
-    # =============================================================
-    # ENNEMI
-    # =============================================================
-
-    def distance_player_enemy(self):
-        if not self.enemy["alive"]:
-            return float("inf")
-
-        player_center = self.player.center()
-        enemy_center = self.enemy["rect"].center()
-
-        dx = player_center.x() - enemy_center.x()
-        dy = player_center.y() - enemy_center.y()
-
-        return (dx * dx + dy * dy) ** 0.5
-
-    def update_enemy(self):
-        if not self.enemy["alive"]:
+        if dx == 0 and dy == 0:
             return
 
-        distance = self.distance_player_enemy()
+        # Normalisation diagonale.
+        if dx != 0 and dy != 0:
+            factor = 0.70710678
 
-        if distance > self.ENEMY_DETECTION_RANGE:
-            return
+            dx *= factor
+            dy *= factor
 
-        enemy_rect = self.enemy["rect"]
-
-        dx = self.player.center().x() - enemy_rect.center().x()
-        dy = self.player.center().y() - enemy_rect.center().y()
-
-        # Normalisation pour éviter que la diagonale soit plus rapide.
-        length = (dx * dx + dy * dy) ** 0.5
-
-        if length == 0:
-            return
-
-        dx = dx / length * self.ENEMY_SPEED
-        dy = dy / length * self.ENEMY_SPEED
-
-        # Déplacement horizontal.
-        new_enemy = QRectF(enemy_rect)
-        new_enemy.translate(dx, 0)
-
-        if self.can_enemy_move_to(new_enemy):
-            self.enemy["rect"] = new_enemy
-
-        # Déplacement vertical.
-        enemy_rect = self.enemy["rect"]
-        new_enemy = QRectF(enemy_rect)
-        new_enemy.translate(0, dy)
-
-        if self.can_enemy_move_to(new_enemy):
-            self.enemy["rect"] = new_enemy
-
-    def can_enemy_move_to(self, rectangle):
-        if rectangle.left() < 0:
-            return False
-
-        if rectangle.right() > self.WIDTH:
-            return False
-
-        if rectangle.top() < 0:
-            return False
-
-        if rectangle.bottom() > self.HEIGHT:
-            return False
-
-        for wall in self.walls:
-            if rectangle.intersects(wall):
-                return False
-
-        return True
-
-    # =============================================================
-    # ATTAQUE DU JOUEUR
-    # =============================================================
-
-    def attack(self):
-        if self.game_over or self.inventory_open:
-            return
-
-        if not self.enemy["alive"]:
-            self.message = "Il n'y a plus d'ennemi."
-            return
-
-        now = time.monotonic() * 1000
-
-        if now - self.last_attack_time < self.ATTACK_COOLDOWN:
-            return
-
-        self.last_attack_time = now
-
-        distance = self.distance_player_enemy()
-
-        if distance > self.ATTACK_RANGE:
-            self.message = "L'ennemi est trop loin."
-            return
-
-        self.enemy["hp"] -= self.ATTACK_DAMAGE
-
-        if self.enemy["hp"] <= 0:
-            self.enemy["hp"] = 0
-            self.enemy["alive"] = False
-            self.spawn_enemy_loot()
-            self.message = "Mutant vaincu ! Loot disponible."
-            return
-
-        self.message = (
-            f"Attaque ! Mutant : "
-            f"{self.enemy['hp']}/{self.ENEMY_MAX_HP} PV"
+        requested_player = QRectF(
+            self.player
         )
 
-    # =============================================================
-    # DEGATS DE L'ENNEMI
-    # =============================================================
+        requested_player.translate(
+            dx,
+            dy,
+        )
 
-    def check_enemy_damage(self):
-        if not self.enemy["alive"]:
-            return
-
-        if not self.player.intersects(self.enemy["rect"]):
-            return
-
-        now = time.monotonic() * 1000
-
-        if (
-            now - self.last_enemy_attack_time
-            < self.ENEMY_ATTACK_COOLDOWN
+        if not self.can_move_to(
+            requested_player
         ):
             return
 
-        self.last_enemy_attack_time = now
+        self.player = requested_player
 
-        self.player_hp -= self.ENEMY_DAMAGE
+    def can_move_to(
+        self,
+        rectangle,
+    ):
+        """
+        Collision locale utilisée uniquement pour éviter de
+        produire des demandes manifestement impossibles.
 
-        if self.player_hp <= 0:
-            self.player_hp = 0
-            self.game_over = True
-            self.keys.clear()
-            self.message = "Vous êtes tombé au combat."
-        else:
-            self.message = (
-                f"Vous avez subi {self.ENEMY_DAMAGE} dégâts ! "
-                f"PV : {self.player_hp}/{self.PLAYER_MAX_HP}"
-            )
+        Le serveur devra également vérifier les collisions.
+        """
+
+        if rectangle.left() < 0:
+            return False
+
+        if rectangle.right() > self.WIDTH:
+            return False
+
+        if rectangle.top() < 0:
+            return False
+
+        if rectangle.bottom() > self.HEIGHT:
+            return False
+
+        for wall in self.walls:
+
+            if rectangle.intersects(
+                wall
+            ):
+                return False
+
+        return True
 
     # =============================================================
-    # LOOT
+    # JOUEURS DISTANTS
     # =============================================================
 
-    def spawn_enemy_loot(self):
-        if self.enemy_loot_spawned:
-            return
+    def update_remote_player(
+        self,
+        player_id,
+        x,
+        y,
+        z=0,
+        name="Joueur",
+    ):
+        """
+        Ajoute ou met à jour un joueur distant.
 
-        enemy_rect = self.enemy["rect"]
+        Cette méthode n'est pas encore appelée par le protocole
+        actuel, car MovePacket ne contient pas de player_id.
 
-        loot_rect = QRectF(
-            enemy_rect.center().x() - 12,
-            enemy_rect.center().y() - 12,
-            24,
-            24,
+        Elle constitue l'interface utilisée lorsque le serveur
+        commencera à envoyer les états des autres joueurs.
+        """
+
+        self.remote_players[
+            player_id
+        ] = {
+            "x": float(x),
+            "y": float(y),
+            "z": float(z),
+            "name": str(name),
+        }
+
+    def remove_remote_player(
+        self,
+        player_id,
+    ):
+        """
+        Supprime un joueur distant.
+        """
+
+        self.remote_players.pop(
+            player_id,
+            None,
         )
-
-        self.items.append(
-            {
-                "id": "mutant_loot",
-                "name": "Loot de mutant",
-                "rect": loot_rect,
-            }
-        )
-
-        self.enemy_loot_spawned = True
 
     # =============================================================
     # CLAVIER
     # =============================================================
 
-    def keyPressEvent(self, event: QKeyEvent):
+    def keyPressEvent(
+        self,
+        event: QKeyEvent,
+    ):
         if event.isAutoRepeat():
             return
 
         key = event.key()
 
-        # ---------------------------------------------------------
-        # GAME OVER
-        # ---------------------------------------------------------
-
-        if self.game_over:
-            if key == Qt.Key.Key_R:
-                self.restart_game()
-
+        # Echap
+        if key == Qt.Key.Key_Escape:
+            self.close()
             return
 
-        # ---------------------------------------------------------
-        # INVENTAIRE
-        # ---------------------------------------------------------
+        self.keys.add(
+            key
+        )
 
-        if key == Qt.Key.Key_I:
-            self.inventory_open = not self.inventory_open
-            self.keys.clear()
-
-            if self.inventory_open:
-                self.message = "Inventaire ouvert."
-            else:
-                self.message = "Inventaire fermé."
-
-            self.update()
-            return
-
-        # ---------------------------------------------------------
-        # SAUVEGARDE
-        # ---------------------------------------------------------
-
-        if key == Qt.Key.Key_F5:
-            self.save_game()
-            return
-
-        # ---------------------------------------------------------
-        # CHARGEMENT
-        # ---------------------------------------------------------
-
-        if key == Qt.Key.Key_F9:
-            self.load_game()
-            return
-
-        # ---------------------------------------------------------
-        # ATTAQUE
-        # ---------------------------------------------------------
-
-        if key == Qt.Key.Key_Space:
-            self.attack()
-            return
-
-        # ---------------------------------------------------------
-        # DEPLACEMENT
-        # ---------------------------------------------------------
-
-        if self.inventory_open:
-            return
-
-        self.keys.add(key)
-
-    def keyReleaseEvent(self, event: QKeyEvent):
+    def keyReleaseEvent(
+        self,
+        event: QKeyEvent,
+    ):
         if event.isAutoRepeat():
             return
 
-        self.keys.discard(event.key())
-
-    # =============================================================
-    # RECOMMENCER
-    # =============================================================
-
-    def restart_game(self):
-        self.player = QRectF(
-            self.WIDTH / 2 - self.PLAYER_SIZE / 2,
-            self.HEIGHT / 2 - self.PLAYER_SIZE / 2,
-            self.PLAYER_SIZE,
-            self.PLAYER_SIZE,
+        self.keys.discard(
+            event.key()
         )
 
-        self.player_hp = self.PLAYER_MAX_HP
-
-        self.items = self.copy_items(self.base_items)
-
-        self.inventory = {}
-
-        self.enemy = self.create_enemy()
-        self.enemy_loot_spawned = False
-
-        self.last_attack_time = 0.0
-        self.last_enemy_attack_time = 0.0
-
-        self.inventory_open = False
-        self.game_over = False
-        self.message = "Nouvelle partie."
-
-        self.keys.clear()
-
     # =============================================================
-    # SAUVEGARDE
+    # FERMETURE
     # =============================================================
 
-    def save_game(self):
-        try:
-            data = {
-                "player": {
-                    "x": self.player.x(),
-                    "y": self.player.y(),
-                    "hp": self.player_hp,
-                },
-                "inventory": self.inventory,
-                "items": [
-                    {
-                        "id": item["id"],
-                        "name": item["name"],
-                        "x": item["rect"].x(),
-                        "y": item["rect"].y(),
-                    }
-                    for item in self.items
-                ],
-                "enemy": {
-                    "x": self.enemy["rect"].x(),
-                    "y": self.enemy["rect"].y(),
-                    "hp": self.enemy["hp"],
-                    "alive": self.enemy["alive"],
-                },
-            }
+    def closeEvent(self, event):
+        """
+        Arrêt propre du thread réseau.
+        """
 
-            with self.SAVE_FILE.open(
-                "w",
-                encoding="utf-8",
-            ) as file:
-                json.dump(
-                    data,
-                    file,
-                    indent=4,
-                    ensure_ascii=False,
-                )
-
-            self.message = "Partie sauvegardée."
-
-        except OSError as error:
-            self.message = (
-                f"Erreur de sauvegarde : {error}"
-            )
-
-    # =============================================================
-    # CHARGEMENT
-    # =============================================================
-
-    def load_game(self):
-        if not self.SAVE_FILE.exists():
-            self.message = "Aucune sauvegarde trouvée."
-            return
+        self.network_running = False
 
         try:
-            with self.SAVE_FILE.open(
-                "r",
-                encoding="utf-8",
-            ) as file:
-                data = json.load(file)
+            self.client.disconnect()
+        except Exception:
+            pass
 
-            # -----------------------------------------------------
-            # JOUEUR
-            # -----------------------------------------------------
-
-            player_data = data.get("player", {})
-
-            player_x = float(
-                player_data.get("x", self.player.x())
+        if (
+            self.network_thread is not None
+            and self.network_thread.is_alive()
+        ):
+            self.network_thread.join(
+                timeout=1.0
             )
 
-            player_y = float(
-                player_data.get("y", self.player.y())
-            )
-
-            loaded_player = QRectF(
-                player_x,
-                player_y,
-                self.PLAYER_SIZE,
-                self.PLAYER_SIZE,
-            )
-
-            if self.can_move_to(loaded_player):
-                self.player = loaded_player
-
-            self.player_hp = max(
-                0,
-                min(
-                    int(
-                        player_data.get(
-                            "hp",
-                            self.PLAYER_MAX_HP,
-                        )
-                    ),
-                    self.PLAYER_MAX_HP,
-                ),
-            )
-
-            # -----------------------------------------------------
-            # INVENTAIRE
-            # -----------------------------------------------------
-
-            loaded_inventory = data.get(
-                "inventory",
-                {},
-            )
-
-            if isinstance(loaded_inventory, dict):
-                self.inventory = {
-                    str(name): max(
-                        0,
-                        int(quantity),
-                    )
-                    for name, quantity
-                    in loaded_inventory.items()
-                }
-
-            # -----------------------------------------------------
-            # OBJETS
-            # -----------------------------------------------------
-
-            loaded_items = data.get("items", [])
-
-            if isinstance(loaded_items, list):
-                restored_items = []
-
-                for item in loaded_items:
-                    try:
-                        restored_items.append(
-                            {
-                                "id": str(item["id"]),
-                                "name": str(item["name"]),
-                                "rect": QRectF(
-                                    float(item["x"]),
-                                    float(item["y"]),
-                                    24,
-                                    24,
-                                ),
-                            }
-                        )
-                    except (
-                        KeyError,
-                        TypeError,
-                        ValueError,
-                    ):
-                        continue
-
-                self.items = restored_items
-
-            # -----------------------------------------------------
-            # ENNEMI
-            # -----------------------------------------------------
-
-            enemy_data = data.get("enemy", {})
-
-            enemy_x = float(
-                enemy_data.get(
-                    "x",
-                    self.enemy_start_rect.x(),
-                )
-            )
-
-            enemy_y = float(
-                enemy_data.get(
-                    "y",
-                    self.enemy_start_rect.y(),
-                )
-            )
-
-            enemy_hp = max(
-                0,
-                min(
-                    int(
-                        enemy_data.get(
-                            "hp",
-                            self.ENEMY_MAX_HP,
-                        )
-                    ),
-                    self.ENEMY_MAX_HP,
-                ),
-            )
-
-            enemy_alive = bool(
-                enemy_data.get(
-                    "alive",
-                    enemy_hp > 0,
-                )
-            )
-
-            self.enemy["rect"] = QRectF(
-                enemy_x,
-                enemy_y,
-                self.ENEMY_SIZE,
-                self.ENEMY_SIZE,
-            )
-
-            self.enemy["hp"] = enemy_hp
-            self.enemy["alive"] = (
-                enemy_alive and enemy_hp > 0
-            )
-
-            self.enemy_loot_spawned = any(
-                item["id"] == "mutant_loot"
-                for item in self.items
-            ) or not self.enemy["alive"]
-
-            # -----------------------------------------------------
-            # ETAT
-            # -----------------------------------------------------
-
-            self.game_over = self.player_hp <= 0
-            self.inventory_open = False
-            self.keys.clear()
-
-            if self.game_over:
-                self.message = "Vous êtes tombé au combat."
-            elif not self.enemy["alive"]:
-                self.message = "Partie chargée. Mutant vaincu."
-            else:
-                self.message = "Partie chargée."
-
-        except (
-            OSError,
-            json.JSONDecodeError,
-            TypeError,
-            ValueError,
-        ) as error:
-            self.message = (
-                f"Erreur de chargement : {error}"
-            )
+        event.accept()
 
     # =============================================================
     # RENDU
     # =============================================================
 
     def paintEvent(self, event):
-        painter = QPainter(self)
+        painter = QPainter(
+            self
+        )
 
         # =========================================================
         # FOND
@@ -798,7 +766,11 @@ class Game(QMainWindow):
 
         painter.fillRect(
             self.rect(),
-            QColor(40, 55, 45),
+            QColor(
+                40,
+                55,
+                45,
+            ),
         )
 
         # =========================================================
@@ -806,7 +778,11 @@ class Game(QMainWindow):
         # =========================================================
 
         painter.setPen(
-            QColor(55, 70, 60)
+            QColor(
+                55,
+                70,
+                60,
+            )
         )
 
         grid_size = 50
@@ -844,88 +820,53 @@ class Game(QMainWindow):
         )
 
         painter.setBrush(
-            QColor(80, 80, 80)
+            QColor(
+                80,
+                80,
+                80,
+            )
         )
 
         for wall in self.walls:
-            painter.drawRect(wall)
-
-        # =========================================================
-        # OBJETS
-        # =========================================================
-
-        for item in self.items:
-            if item["id"] == "mutant_loot":
-                painter.setBrush(
-                    QColor(255, 200, 70)
-                )
-            else:
-                painter.setBrush(
-                    QColor(80, 180, 255)
-                )
-
-            painter.drawEllipse(
-                item["rect"]
-            )
-
-        # =========================================================
-        # ENNEMI
-        # =========================================================
-
-        if self.enemy["alive"]:
-            painter.setBrush(
-                QColor(190, 70, 70)
-            )
 
             painter.drawRect(
-                self.enemy["rect"]
-            )
-
-            # Barre de vie
-            enemy_x = int(
-                self.enemy["rect"].x()
-            )
-
-            enemy_y = int(
-                self.enemy["rect"].y() - 12
-            )
-
-            enemy_width = self.ENEMY_SIZE
-
-            painter.setBrush(
-                QColor(50, 50, 50)
-            )
-
-            painter.drawRect(
-                enemy_x,
-                enemy_y,
-                enemy_width,
-                6,
-            )
-
-            hp_width = int(
-                enemy_width
-                * self.enemy["hp"]
-                / self.ENEMY_MAX_HP
-            )
-
-            painter.setBrush(
-                QColor(220, 80, 80)
-            )
-
-            painter.drawRect(
-                enemy_x,
-                enemy_y,
-                hp_width,
-                6,
+                wall
             )
 
         # =========================================================
-        # JOUEUR
+        # JOUEURS DISTANTS
+        # =========================================================
+
+        for player_id, remote in (
+            self.remote_players.items()
+        ):
+            self.draw_remote_player(
+                painter,
+                player_id,
+                remote,
+            )
+
+        # =========================================================
+        # JOUEUR LOCAL
         # =========================================================
 
         painter.setBrush(
-            QColor(220, 220, 220)
+            QColor(
+                220,
+                220,
+                220,
+            )
+        )
+
+        painter.setPen(
+            QPen(
+                QColor(
+                    255,
+                    255,
+                    255,
+                ),
+                2,
+            )
         )
 
         painter.drawRect(
@@ -933,94 +874,103 @@ class Game(QMainWindow):
         )
 
         # =========================================================
-        # TITRE / COMMANDES
+        # TITRE
         # =========================================================
 
         painter.setPen(
-            QPen(QColor(255, 255, 255))
+            QColor(
+                255,
+                255,
+                255,
+            )
         )
 
         painter.drawText(
             20,
             30,
-            "The Last Signal - Prototype",
+            "The Last Signal - Multiplayer",
         )
 
         painter.drawText(
             20,
             55,
             "ZQSD / WASD : déplacer"
-            "   |   ESPACE : attaquer"
-            "   |   I : inventaire",
-        )
-
-        painter.drawText(
-            20,
-            78,
-            "F5 : sauvegarder"
-            "   |   F9 : charger"
-            "   |   R : recommencer après une défaite",
+            "   |   Échap : quitter",
         )
 
         # =========================================================
-        # BARRE DE VIE
+        # ETAT RESEAU
         # =========================================================
 
-        hp_bar_x = 20
-        hp_bar_y = 100
-        hp_bar_width = 200
-        hp_bar_height = 18
+        if self.network_connected:
 
-        painter.setBrush(
-            QColor(60, 60, 60)
-        )
+            network_text = (
+                "SERVEUR : CONNECTÉ"
+            )
 
-        painter.drawRect(
-            hp_bar_x,
-            hp_bar_y,
-            hp_bar_width,
-            hp_bar_height,
-        )
+            network_color = QColor(
+                100,
+                220,
+                120,
+            )
 
-        player_hp_width = int(
-            hp_bar_width
-            * self.player_hp
-            / self.PLAYER_MAX_HP
-        )
+        else:
 
-        painter.setBrush(
-            QColor(80, 200, 100)
-        )
+            network_text = (
+                "SERVEUR : DÉCONNECTÉ"
+            )
 
-        painter.drawRect(
-            hp_bar_x,
-            hp_bar_y,
-            player_hp_width,
-            hp_bar_height,
-        )
+            network_color = QColor(
+                220,
+                100,
+                100,
+            )
 
         painter.setPen(
-            QColor(255, 255, 255)
+            network_color
         )
 
         painter.drawText(
-            hp_bar_x + 8,
-            hp_bar_y + 14,
-            f"PV : {self.player_hp}/{self.PLAYER_MAX_HP}",
-        )
-
-        # =========================================================
-        # COMPTEUR
-        # =========================================================
-
-        total_items = sum(
-            self.inventory.values()
-        )
-
-        painter.drawText(
-            self.WIDTH - 180,
+            self.WIDTH - 230,
             30,
-            f"Objets : {total_items}",
+            network_text,
+        )
+
+        # =========================================================
+        # POSITION
+        # =========================================================
+
+        center = self.player.center()
+
+        painter.setPen(
+            QColor(
+                255,
+                255,
+                255,
+            )
+        )
+
+        painter.drawText(
+            self.WIDTH - 230,
+            55,
+            (
+                f"Position : "
+                f"{int(center.x())}, "
+                f"{int(center.y())}"
+            ),
+        )
+
+        # =========================================================
+        # JOUEURS
+        # =========================================================
+
+        painter.drawText(
+            self.WIDTH - 230,
+            80,
+            (
+                f"Joueurs distants : "
+                f"{len(self.remote_players)}"
+            ),
         )
 
         # =========================================================
@@ -1033,159 +983,81 @@ class Game(QMainWindow):
             self.message,
         )
 
-        # =========================================================
-        # INVENTAIRE
-        # =========================================================
-
-        if self.inventory_open:
-            self.draw_inventory(
-                painter
-            )
-
-        # =========================================================
-        # GAME OVER
-        # =========================================================
-
-        if self.game_over:
-            self.draw_game_over(
-                painter
-            )
-
         painter.end()
 
     # =============================================================
-    # INVENTAIRE
+    # RENDU JOUEUR DISTANT
     # =============================================================
 
-    def draw_inventory(self, painter):
-        panel_width = 500
-        panel_height = 400
+    def draw_remote_player(
+        self,
+        painter,
+        player_id,
+        player,
+    ):
+        """
+        Dessine un joueur distant.
 
-        panel_x = (
-            self.WIDTH - panel_width
-        ) / 2
+        Le serveur fournira plus tard les informations permettant
+        de remplir remote_players.
+        """
 
-        panel_y = (
-            self.HEIGHT - panel_height
-        ) / 2
+        x = float(
+            player["x"]
+        )
+
+        y = float(
+            player["y"]
+        )
+
+        rect = QRectF(
+            x - self.PLAYER_SIZE / 2,
+            y - self.PLAYER_SIZE / 2,
+            self.PLAYER_SIZE,
+            self.PLAYER_SIZE,
+        )
 
         painter.setBrush(
-            QColor(20, 20, 20, 240)
+            QColor(
+                80,
+                160,
+                255,
+            )
         )
 
         painter.setPen(
             QPen(
-                QColor(180, 180, 180),
+                QColor(
+                    120,
+                    200,
+                    255,
+                ),
                 2,
             )
         )
 
         painter.drawRect(
-            int(panel_x),
-            int(panel_y),
-            panel_width,
-            panel_height,
+            rect
         )
 
+        # Nom du joueur
         painter.setPen(
-            QColor(255, 255, 255)
+            QColor(
+                255,
+                255,
+                255,
+            )
         )
 
         painter.drawText(
-            int(panel_x + 25),
-            int(panel_y + 40),
-            "INVENTAIRE",
-        )
-
-        painter.drawLine(
-            int(panel_x + 20),
-            int(panel_y + 55),
-            int(panel_x + panel_width - 20),
-            int(panel_y + 55),
-        )
-
-        if not self.inventory:
-            painter.drawText(
-                int(panel_x + 25),
-                int(panel_y + 100),
-                "Inventaire vide.",
-            )
-        else:
-            y = panel_y + 90
-
-            for name, quantity in self.inventory.items():
-                painter.drawText(
-                    int(panel_x + 30),
-                    int(y),
-                    f"{name} × {quantity}",
+            int(x - 30),
+            int(y - 22),
+            str(
+                player.get(
+                    "name",
+                    player_id,
                 )
-
-                y += 35
-
-        painter.setPen(
-            QColor(180, 180, 180)
-        )
-
-        painter.drawText(
-            int(panel_x + 25),
-            int(panel_y + panel_height - 25),
-            "I : fermer",
-        )
-
-    # =============================================================
-    # GAME OVER
-    # =============================================================
-
-    def draw_game_over(self, painter):
-        panel_width = 500
-        panel_height = 250
-
-        panel_x = (
-            self.WIDTH - panel_width
-        ) / 2
-
-        panel_y = (
-            self.HEIGHT - panel_height
-        ) / 2
-
-        painter.setBrush(
-            QColor(10, 10, 10, 235)
-        )
-
-        painter.setPen(
-            QPen(
-                QColor(180, 180, 180),
-                2,
-            )
-        )
-
-        painter.drawRect(
-            int(panel_x),
-            int(panel_y),
-            panel_width,
-            panel_height,
-        )
-
-        painter.setPen(
-            QColor(255, 255, 255)
-        )
-
-        painter.drawText(
-            int(panel_x + 160),
-            int(panel_y + 70),
-            "VOUS ÊTES TOMBE",
-        )
-
-        painter.drawText(
-            int(panel_x + 105),
-            int(panel_y + 130),
-            "R : recommencer",
-        )
-
-        painter.drawText(
-            int(panel_x + 105),
-            int(panel_y + 165),
-            "F5 : sauvegarder",
+            ),
         )
 
     # =============================================================
@@ -1194,6 +1066,9 @@ class Game(QMainWindow):
 
     def run(self):
         self.show()
+
         self.setFocus()
+
         self.app.exec()
+
 
