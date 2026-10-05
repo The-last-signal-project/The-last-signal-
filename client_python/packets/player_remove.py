@@ -22,7 +22,7 @@ class PlayerRemovePacket(Packet):
         return self.player_id.bytes
 
     @classmethod
-    def decode_payload(cls, payload: bytes) -> "PlayerRemovePacket":
+    def from_payload(cls, payload: bytes) -> "PlayerRemovePacket":
         if len(payload) != cls.SIZE:
             raise ValueError(
                 f"PlayerRemove invalide : "

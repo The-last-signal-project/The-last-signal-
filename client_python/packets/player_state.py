@@ -49,7 +49,7 @@ class PlayerStatePacket(Packet):
         )
 
     @classmethod
-    def decode_payload(cls, payload: bytes) -> "PlayerStatePacket":
+    def from_payload(cls, payload: bytes) -> "PlayerStatePacket":
         if len(payload) != cls.SIZE:
             raise ValueError(
                 f"PlayerState invalide : "
