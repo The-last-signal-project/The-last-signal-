@@ -81,7 +81,7 @@ def test_main():
             print("Le jeu s'arrête....")
             sys.exit(0)
 
-    assert exc.value.code == 1
+    assert exc.value.code == 0
     
 def test_key():
     key1 = vault.get_or_create_communication_key()
