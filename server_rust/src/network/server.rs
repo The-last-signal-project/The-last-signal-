@@ -23,10 +23,12 @@ impl Server {
         let listener = TcpListener::bind(address)
     .await
     .inspect_err(|e| error!("Impossible de démarrer le serveur : {}", e))?;
+         let world = World::new();
 
         Ok(Self {
         listener,
         database,
+        world,
     })
     }
 

@@ -52,6 +52,7 @@ impl Client {
     pub fn new(
         stream: TcpStream,
         pool: SqlitePool,
+        world: World,
     ) -> Self {
 
         Self {
@@ -66,7 +67,7 @@ impl Client {
             user_id: None,
 
             account_id: None,
-            world
+            world,
         }
     }
 
