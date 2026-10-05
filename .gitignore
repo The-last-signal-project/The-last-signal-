@@ -1,0 +1,18 @@
+saves/*
+save.txt
+.idea/**
+*.iml
+*.sh
+*.bat
+# Secrets
+security/master.key
+target/*
+node_modules/*
+.venv/*
+__pycache__/*
+database/the_last_signal.db-shm
+database/the_last_signal.db-wal
+
+server_rust/server.log
+server_rust/target/
+client_python/save.json
