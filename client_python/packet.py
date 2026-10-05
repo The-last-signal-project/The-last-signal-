@@ -20,6 +20,7 @@ class PacketType(IntEnum):
     MARKET_CANCEL_SELL = 14
     PLAYER_STATE = 15
     PLAYER_REMOVE = 16
+    SESSION = 17
 
 
 class Packet:
@@ -98,6 +99,12 @@ class Packet:
         if packet_type == PacketType.PLAYER_STATE:
             from .packets.player_state import PlayerStatePacket
             return PlayerStatePacket.from_payload(payload)
+        if packet_type == PacketType.PLAYER_REMOVE:
+            from .packets.player_remove import PlayerRemovePacket
+            return PlayerRemovePacket.from_payload(payload)
+        if packet_type == PacketType.SESSION:
+            from .packets.session import SessionPacket
+            return SessionPacket.from_payload(payload)
         if packet_type == PacketType.LoginResponse or packet_type == PacketType.SignUpResponse :
             return Packet(
             packet_type,
@@ -106,6 +113,7 @@ class Packet:
         if packet_type == PacketType.DECO:
             from .packets.Deco import decoPacket
             return decoPacket.frompayload(payload)
+        
 
 
         return Packet(

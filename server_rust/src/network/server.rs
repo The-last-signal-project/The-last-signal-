@@ -48,22 +48,27 @@ impl Server {
             match self.listener.accept().await {
 
                 Ok((stream, address)) => {
+    info!("TCP ACCEPT : connexion reçue de {}", address);
 
-                    info!("Client connecté : {}", address);
+    let pool = self.database.pool().clone();
+    let world = self.world.clone();
 
-                    let pool = self.database.pool().clone();
-                    let world = self.world.clone();
+    task::spawn(async move {
+        info!("TCP CLIENT : démarrage de Client::run()");
 
-                    task::spawn(async move {
+        let mut client = Client::new(
+            stream,
+            pool,
+            world,
+        );
 
-                        let mut client =
-                            Client::new(stream, pool,world,);
+        info!("TCP CLIENT : Client::new() terminé");
 
-                        client.run().await;
+        client.run().await;
 
-                    });
-
-                }
+        info!("TCP CLIENT : Client::run() terminé");
+    });
+}
 
                 Err(e) => {
 

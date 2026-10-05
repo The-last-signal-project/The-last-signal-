@@ -13,9 +13,9 @@ use log::{
     error,
     info,
 };
-
+use rand::RngExt;
 use crate::network::handler::{PacketHandler,HandlerResult};
-use crate::network::world::World;
+use crate::network::world::{World,Position};
 use crate::network::packet::{
     receive_packet,
     send_packet,
@@ -92,6 +92,78 @@ impl Client {
         );
         let mut world_rx =
          self.world.subscribe();
+         let session_packet = Packet::new(
+    PacketType::Session,
+    self.session_id.as_bytes().to_vec(),
+);
+
+if let Err(e) = send_packet(
+    &mut self.stream,
+    &session_packet,
+).await {
+    error!(
+        "Impossible d'envoyer le paquet SESSION [{}] : {}",
+        self.session_id,
+        e
+    );
+
+    self.disconnect().await;
+    return;
+}
+
+info!(
+    "Paquet SESSION envoyé"
+);
+let spawn_position = {
+    let mut rng = rand::rng();
+
+    Position::new(
+        rng.random_range(0..100),
+        rng.random_range(0..100),
+        0,
+    )
+};
+
+self.world
+    .set_position(
+        self.session_id,
+        spawn_position,
+    )
+    .await;
+         self.world.broadcast_player_state(
+    self.session_id,
+    spawn_position,
+);
+
+         let snapshot = self.world.snapshot().await;
+
+info!(
+    "[{}] Synchronisation initiale : {} joueur(s)",
+    self.session_id,
+    snapshot.len()
+);
+
+for (player_id, position) in snapshot {
+    let packet = World::player_state_packet(
+        player_id,
+        position,
+    );
+
+    if let Err(e) = send_packet(
+        &mut self.stream,
+        &packet,
+    ).await {
+        error!(
+            "[{}] Erreur lors de l'envoi du snapshot \
+             du joueur {} : {}",
+            self.session_id,
+            player_id,
+            e
+        );
+
+        return;
+    }
+}
 
         // --------------------------------------------------------
         // Timer de vérification du ban

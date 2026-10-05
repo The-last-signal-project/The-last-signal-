@@ -1,6 +1,7 @@
 use std::collections::HashMap;
 use std::sync::Arc;
 
+use log::{error, info};
 use tokio::sync::{broadcast, Mutex};
 use uuid::Uuid;
 
@@ -26,6 +27,10 @@ pub struct World {
 }
 
 impl World {
+    // =============================================================
+    // CRÉATION
+    // =============================================================
+
     pub fn new() -> Self {
         let (tx, _) = broadcast::channel(256);
 
@@ -35,6 +40,10 @@ impl World {
         }
     }
 
+    // =============================================================
+    // BROADCAST
+    // =============================================================
+
     pub fn subscribe(&self) -> broadcast::Receiver<Packet> {
         self.tx.subscribe()
     }
@@ -43,57 +52,194 @@ impl World {
         self.tx.clone()
     }
 
-    pub async fn set_position(&self, player_id: Uuid, position: Position) {
+    // =============================================================
+    // POSITIONS
+    // =============================================================
+
+    pub async fn set_position(
+        &self,
+        player_id: Uuid,
+        position: Position,
+    ) {
         let mut positions = self.positions.lock().await;
-        positions.insert(player_id, position);
+
+        positions.insert(
+            player_id,
+            position,
+        );
+
+        info!(
+            "WORLD: position enregistrée | \
+             player={} | x={} y={} z={}",
+            player_id,
+            position.x,
+            position.y,
+            position.z
+        );
     }
 
-    pub async fn remove_player(&self, player_id: Uuid) {
+    pub async fn remove_player(
+        &self,
+        player_id: Uuid,
+    ) {
         let mut positions = self.positions.lock().await;
-        positions.remove(&player_id);
+
+        if positions.remove(&player_id).is_some() {
+            info!(
+                "WORLD: joueur supprimé | player={}",
+                player_id
+            );
+        }
     }
 
-    pub async fn get_position(&self, player_id: Uuid) -> Option<Position> {
+    pub async fn get_position(
+        &self,
+        player_id: Uuid,
+    ) -> Option<Position> {
         let positions = self.positions.lock().await;
-        positions.get(&player_id).copied()
+
+        positions
+            .get(&player_id)
+            .copied()
     }
 
-    pub async fn snapshot(&self) -> Vec<(Uuid, Position)> {
+    pub async fn snapshot(
+        &self,
+    ) -> Vec<(Uuid, Position)> {
         let positions = self.positions.lock().await;
 
         positions
             .iter()
-            .map(|(id, position)| (*id, *position))
+            .map(|(id, position)| {
+                (*id, *position)
+            })
             .collect()
     }
+
+    // =============================================================
+    // PACKET PLAYER_STATE
+    // =============================================================
+
+    pub fn player_state_packet(
+        player_id: Uuid,
+        position: Position,
+    ) -> Packet {
+        let mut payload = Vec::with_capacity(28);
+
+        // UUID = 16 octets
+        payload.extend_from_slice(
+            player_id.as_bytes()
+        );
+
+        // x = 4 octets
+        payload.extend_from_slice(
+            &position.x.to_be_bytes()
+        );
+
+        // y = 4 octets
+        payload.extend_from_slice(
+            &position.y.to_be_bytes()
+        );
+
+        // z = 4 octets
+        payload.extend_from_slice(
+            &position.z.to_be_bytes()
+        );
+
+        debug_assert_eq!(
+            payload.len(),
+            28
+        );
+
+        Packet::new(
+            PacketType::PlayerState,
+            payload,
+        )
+    }
+
+    // =============================================================
+    // BROADCAST PLAYER_STATE
+    // =============================================================
 
     pub fn broadcast_player_state(
         &self,
         player_id: Uuid,
         position: Position,
     ) {
-        let mut payload = Vec::with_capacity(28);
-
-        payload.extend_from_slice(player_id.as_bytes());
-        payload.extend_from_slice(&position.x.to_be_bytes());
-        payload.extend_from_slice(&position.y.to_be_bytes());
-        payload.extend_from_slice(&position.z.to_be_bytes());
-
-        let packet = Packet::new(
-            PacketType::PlayerState,
-            payload,
+        let packet = Self::player_state_packet(
+            player_id,
+            position,
         );
 
-        let _ = self.tx.send(packet);
+        match self.tx.send(packet) {
+            Ok(receiver_count) => {
+                info!(
+                    "WORLD: PLAYER_STATE broadcasté | \
+                     player={} | x={} y={} z={} | \
+                     récepteurs={}",
+                    player_id,
+                    position.x,
+                    position.y,
+                    position.z,
+                    receiver_count
+                );
+            }
+
+            Err(error) => {
+                error!(
+                    "WORLD: échec du broadcast PLAYER_STATE | \
+                     player={} | erreur={}",
+                    player_id,
+                    error
+                );
+            }
+        }
     }
 
-    pub fn broadcast_player_remove(&self, player_id: Uuid) {
-        let packet = Packet::new(
+    // =============================================================
+    // PACKET PLAYER_REMOVE
+    // =============================================================
+
+    pub fn player_remove_packet(
+        player_id: Uuid,
+    ) -> Packet {
+        Packet::new(
             PacketType::PlayerRemove,
             player_id.as_bytes().to_vec(),
+        )
+    }
+
+    // =============================================================
+    // BROADCAST PLAYER_REMOVE
+    // =============================================================
+
+    pub fn broadcast_player_remove(
+        &self,
+        player_id: Uuid,
+    ) {
+        let packet = Self::player_remove_packet(
+            player_id
         );
 
-        let _ = self.tx.send(packet);
+        match self.tx.send(packet) {
+            Ok(receiver_count) => {
+                info!(
+                    "WORLD: PLAYER_REMOVE broadcasté | \
+                     player={} | récepteurs={}",
+                    player_id,
+                    receiver_count
+                );
+            }
+
+            Err(error) => {
+                error!(
+                    "WORLD: échec du broadcast PLAYER_REMOVE | \
+                     player={} | erreur={}",
+                    player_id,
+                    error
+                );
+            }
+        }
     }
 }
 

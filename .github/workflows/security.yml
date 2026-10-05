@@ -1,0 +1,1566 @@
+name: Security Report
+
+on:
+
+  workflow_dispatch:
+  workflow_call:
+    secrets:
+      VAULT_KEY:
+        required: true
+
+  schedule:
+    
+    - cron: "7 * * * 0"
+    - cron: "7 * * * 6"
+concurrency:
+  group: main-update
+  queue: max
+permissions:
+  contents: write
+  security-events: write
+  actions: write
+  pull-requests: write
+
+jobs:
+  security:
+    outputs:
+      critical_failure: ${{ steps.critical-status.outputs.failed }}
+
+    name: Security Analysis
+
+    runs-on: ubuntu-latest
+    env: 
+      GH_TOKEN: ${{ github.token }}
+      VAULT_KEY: ${{ secrets.VAULT_KEY }}
+      DATABASE_PATH: ${{ github.workspace }}/database
+      DATABASE_URL: sqlite:${{ github.workspace }}/database/the_last_signal.db
+      
+  
+
+    
+
+    steps:
+
+      ##########################################################
+      # Checkout
+      ##########################################################
+
+      - name: Checkout repository
+        uses: actions/checkout@v7
+        with:
+              fetch-depth: 0
+              token: ${{ secrets.GITHUB_TOKEN }}
+              persist-credentials: true
+
+      ##########################################################
+      # Python
+      ##########################################################
+
+      - name: Setup Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.14"
+          
+
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+
+          pip install \
+            bandit \
+            pip-audit \
+            semgrep \
+            safety \
+            pip-licenses 
+
+          if [ -f requirements.txt ]; then
+            pip install -r requirements.txt
+          fi
+
+      ##########################################################
+      # Rust
+      ##########################################################
+
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+      - name: Install cargo-binstall
+        uses: cargo-bins/cargo-binstall@main
+
+      - name: Install Rust tools
+        run: |
+          cargo binstall cargo-audit cargo-deny cargo-outdated -y
+      
+          
+
+      ##########################################################
+      # Gitleaks
+      ##########################################################
+
+      - name: Gitleaks
+        continue-on-error: true
+        uses: gitleaks/gitleaks-action@v3
+
+      ##########################################################
+      # Rapport
+      ##########################################################
+
+      - name: Create report
+        run: |
+          
+
+          
+          
+        
+
+          DATE=$(date -u +"%Y-%m-%d")
+
+          REPORT_DIR="reports/security/${DATE}"
+          mkdir -p "$REPORT_DIR"
+
+          LAST=$(find "$REPORT_DIR" -type f -name 'security-report-*.md' \
+          -exec basename {} \; |
+          sed -E 's/security-report-([0-9]+)\.md/\1/' |
+          sort -n |
+          tail -1)
+
+          REPORT_NUMBER=$(( ${LAST:-0} + 1 ))
+
+          REPORT="${REPORT_DIR}/security-report-${REPORT_NUMBER}.md"
+
+          echo "REPORT=$REPORT" >> "$GITHUB_ENV"
+          echo "REPORT_NUMBER=$REPORT_NUMBER" >> "$GITHUB_ENV"
+          echo "REPORT_DATE=$DATE" >> "$GITHUB_ENV"
+
+          {
+            echo "# Security Report"
+            echo ""
+            echo "Run : ${GITHUB_RUN_NUMBER}"
+            echo "Branch : ${GITHUB_REF_NAME}"
+            echo "Commit : ${GITHUB_SHA}"
+            echo "Date : $(date)"
+            echo ""
+          } > "$REPORT"
+      - name: Debug environment
+        run: |
+            mkdir -p database_test
+        
+            echo "DATABASE_URL=$DATABASE_URL"
+            echo "DATABASE_PATH=$DATABASE_PATH"
+      - name: update cargo vendor
+        working-directory: server_rust
+        run: | 
+             
+             rm -rf vendor
+             rm -f Cargo.lock
+             rm -rf .cargo
+             cargo update
+             cargo vendor vendor
+             mkdir -p .cargo
+             echo '[build]' > .cargo/config.toml
+             echo 'incremental = true' >> .cargo/config.toml
+             echo '' >> .cargo/config.toml
+             echo '[source.crates-io]' >> .cargo/config.toml
+             echo 'replace-with = "vendored-sources"' >> .cargo/config.toml
+             echo '' >> .cargo/config.toml
+             echo '[source.vendored-sources]' >> .cargo/config.toml
+             echo 'directory = "vendor"' >> .cargo/config.toml
+             cargo check
+             git config user.name github-actions
+             git config user.email github-actions@github.com
+             
+             git add vendor Cargo.lock "../$REPORT" .cargo/config.toml
+             git stash --staged
+             git pull
+             if git stash list | grep -q '^stash@{0}:'
+             then
+             
+             echo "stash@{0} trouvé → application"
+             git stash pop stash@{0}
+             git add -A
+             else
+             echo "stash@{0} inexistant → aucune action"
+             fi
+             if git diff --name-only --diff-filter=U | grep -q .; then
+             echo "⚠️ Conflits détectés"
+             git checkout --ours .
+             git add -u
+             echo "✅ Conflits résolus avec ours"
+             else
+             echo "✅ Aucun conflit"
+             fi
+
+             git diff --cached --quiet || git commit -m "chore: update Cargo vendor"
+             
+             
+             git push origin main
+      - name: Build Rust server
+        id: build-server
+        working-directory: server_rust
+        run: |
+          cargo build --locked
+      - name: Start Rust server
+        id: start-server
+        working-directory: server_rust
+        run: |
+          
+          cargo run --locked > server.log 2>&1 &
+
+          echo $! > server.pid
+      - name: Wait for server
+        id: wait-server
+        run: |
+          echo "Attente du démarrage du serveur..."
+
+          for i in {1..30}; do
+
+            if nc -z 127.0.0.1 5000; then
+              echo "Serveur prêt."
+              exit 0
+            fi
+
+            sleep 1
+
+          done
+
+          echo "❌ Le serveur n'a pas démarré."
+
+          if [ -f server_rust/server.log ]; then
+            cat server_rust/server.log
+          fi
+
+          exit 1
+      - name: SQL injection tests
+        continue-on-error: true
+        id: sql_injection
+        
+        run: |
+          echo "Injections SQL" >> "$REPORT"
+
+          echo "" >> "$REPORT"
+          echo "PWD=$(pwd)" 
+          echo "Recherche du fichier :" >> "$REPORT"
+          find tests/security -maxdepth 1 -type f -print 
+          
+
+          python tests/security/test_sql_injection.py  >>"$REPORT"
+          echo "" >> "$REPORT"
+      - name: Packet fuzzing
+        id: fuzzing
+        if: always()
+        continue-on-error: true
+        run: |
+          echo "Fuzzing" >> "$REPORT"
+
+          echo "" >> "$REPORT"
+          python tests/security/test_fuzzing.py \
+            >> "$REPORT"
+          echo "" >> "$REPORT"
+
+      
+      - name: Adaptive stress test
+        id: stress
+        if: always()
+        continue-on-error: true
+        run: |
+          echo "Simulation DDos" >> "$REPORT"
+
+          echo "" >> "$REPORT"
+          python tests/security/test_load.py \
+          >> "$REPORT" 2>&1
+  
+          echo "" >> "$REPORT"
+            
+
+      ##########################################################
+      # Red Team File Integrity
+      ##########################################################
+
+      - name: Prepare integrity baseline
+        continue-on-error: true
+        if: always()
+        run: |
+          mkdir -p "$RUNNER_TEMP/security-baseline"
+      - name: Red Team File Integrity Test
+        id: red_team
+        if: always()
+        continue-on-error: true
+        shell: bash
+        run: |
+              echo "" >> "$REPORT"
+              echo "## Red Team File Integrity" >> "$REPORT"
+              echo "" >> "$REPORT"
+
+              python .github/security/attack_test.py \
+              --repository "$GITHUB_WORKSPACE" \
+              --baseline "$RUNNER_TEMP/security-baseline/baseline.json" \
+              >> "$REPORT" 2>&1
+
+              echo "" >> "$REPORT"
+      
+          
+      ##########################################################
+      # Additional Security Tests
+      ##########################################################
+
+      - name: Secrets Security Test
+        id: secrets_test
+        if: always()
+        continue-on-error: true
+        run: |
+          echo "" >> "$REPORT"
+          echo "## Secrets Security Test" >> "$REPORT"
+
+          python .github/security/test_secrets.py \
+            >> "$REPORT" 2>&1
+
+      - name: Filesystem Security Test
+        id: filesystem_test
+        continue-on-error: true
+        if: always()
+        run: |
+          echo "" >> "$REPORT"
+          echo "## Filesystem Security Test" >> "$REPORT"
+
+          python .github/security/test_filesystem.py \
+            >> "$REPORT" 2>&1
+
+      - name: Git Security Test
+        id: git_security_test
+        continue-on-error: true
+        if: always()
+        run: |
+          echo "" >> "$REPORT"
+          echo "## Git Security Test" >> "$REPORT"
+
+          python .github/security/test_git_security.py \
+            >> "$REPORT" 2>&1
+
+      - name: Python Security Test
+        id: python_security_test
+        continue-on-error: true
+        if: always()
+        run: |
+          echo "" >> "$REPORT"
+          echo "## Python Security Test" >> "$REPORT"
+
+          python .github/security/test_python_security.py \
+            >> "$REPORT" 2>&1
+
+      - name: Rust Security Test
+        id: rust_security_test
+        continue-on-error: true
+        if: always()
+        run: |
+          echo "" >> "$REPORT"
+          echo "## Rust Security Test" >> "$REPORT"
+
+          python .github/security/test_rust_security.py \
+            >> "$REPORT" 2>&1
+
+      - name: Web Security Test
+        id: web_security_test
+        continue-on-error: true
+        if: always()
+        run: |
+          echo "" >> "$REPORT"
+          echo "## Web Security Test" >> "$REPORT"
+
+          python .github/security/test_web_security.py \
+            >> "$REPORT" 2>&1
+      - name: Save server logs
+        if: always()
+        run: |
+           echo "" >> "$REPORT"
+           {
+            echo "# Server logs"
+            echo
+            echo '```text'
+
+            if [ -f server_rust/server.log ]; then
+              cat server_rust/server.log
+            else
+              echo "Aucun log disponible."
+            fi
+
+            echo '```'
+
+           } >> "$REPORT"
+           echo "" >> "$REPORT"
+
+      # --------------------------------------------------
+      # SECURITY SUMMARY
+      # --------------------------------------------------
+
+      - name: Generate security summary
+        if: always()
+        run: |
+          echo "" >> "$REPORT"
+
+          {
+            echo "# Security report"
+            echo
+            echo "**Run:** ${GITHUB_RUN_NUMBER}"
+            echo
+            echo "## Tests"
+            echo
+            echo "| Test | Résultat |"
+            echo "|---|---|"
+
+            if [ "${{ steps.sql_injection.outcome }}" = "success" ]; then
+              echo "| SQL injection | ✅ PASS |"
+            else
+              echo "| SQL injection | ❌ FAIL |"
+            fi
+
+            if [ "${{ steps.fuzzing.outcome }}" = "success" ]; then
+              echo "| Packet fuzzing | ✅ PASS |"
+            else
+              echo "| Packet fuzzing | ❌ FAIL |"
+            fi
+
+            if [ "${{ steps.stress.outcome }}" = "success" ]; then
+              echo "| Stress test | ✅ PASS |"
+            else
+              echo "| Stress test | ❌ FAIL |"
+            fi
+            if [ "${{ steps.red_team.outcome }}" = "success" ]; then
+              echo "| Red Team File Integrity | ✅ PASS |"
+            else
+              echo "| Red Team File Integrity | ❌ FAIL |"
+            fi
+            if [ "${{ steps.secrets_test.outcome }}" = "success" ]; then
+              echo "| Secret Test | ✅ PASS |"
+            else
+              echo "| Secret Test | ❌ FAIL |"
+            fi
+            if [ "${{ steps.filesystem_test.outcome }}" = "success" ]; then
+              echo "| Test fichier système | ✅ PASS |"
+            else
+              echo "| Test fichier système | ❌ FAIL |"
+            fi
+            if [ "${{ steps.git_security_test.outcome }}" = "success" ]; then
+              echo "| Test sécurité git | ✅ PASS |"
+            else
+              echo "| Test sécurité git | ❌ FAIL |"
+            fi
+            if [ "${{ steps.python_security_test.outcome }}" = "success" ]; then
+              echo "| Test de sécurité python | ✅ PASS |"
+            else
+              echo "| Test de sécurité python | ❌ FAIL |"
+            fi
+            if [ "${{ steps.rust_security_test.outcome }}" = "success" ]; then
+              echo "| Test de sécurité de rust | ✅ PASS |"
+            else
+              echo "| Test de sécurité de rust | ❌ FAIL |"
+            fi
+            if [ "${{ steps.web_security_test.outcome }}" = "success" ]; then
+              echo "| Test sécurité web | ✅ PASS |"
+            else
+              echo "| Test sécurité web | ❌ FAIL |"
+            fi
+            
+
+          } >> "$REPORT"
+          echo "" >> "$REPORT"
+
+      # --------------------------------------------------
+      # STOP SERVER
+      # --------------------------------------------------
+
+      - name: Stop server
+        if: always()
+        run: |
+              if [ -f server_rust/server.pid ]; then
+              PID=$(cat server_rust/server.pid)
+              if ps -p "$PID" > /dev/null; then
+              echo "Stopping server (PID=$PID)..."
+
+              kill -SIGTERM "$PID"
+
+              # Attendre jusqu'à 15 secondes
+              for i in $(seq 1 15); do
+              if ! ps -p "$PID" > /dev/null; then
+              echo "Server stopped."
+              break
+              fi
+              sleep 1
+              done
+
+              # Toujours vivant ? On force.
+              if ps -p "$PID" > /dev/null; then
+              echo "Server did not stop gracefully, forcing shutdown..."
+              kill -SIGKILL "$PID"
+              sleep 2
+              fi
+              fi
+              fi
+              rm -f server_rust/server.pid
+
+      
+      
+
+          
+
+            
+      
+            
+              
+            
+
+      
+
+      ##########################################################
+      # Bandit
+      ##########################################################
+
+      - name: Python Security (Bandit)
+        if: always()
+        continue-on-error: true
+        run: |
+
+          echo "## Bandit" >> "$REPORT"
+
+          bandit -r . >> "$REPORT" 2>&1
+
+      ##########################################################
+      # pip-audit
+      ##########################################################
+
+      - name: Python Dependencies Audit
+        if: always()
+        continue-on-error: true
+        run: |
+
+          echo "" >> "$REPORT"
+
+          echo "## pip-audit" >> "$REPORT"
+
+          pip-audit >> "$REPORT" 2>&1
+
+      ##########################################################
+      # Safety
+      ##########################################################
+
+      - name: Safety
+        if: always()
+        continue-on-error: true
+        run: |
+
+          echo "" >> "$REPORT"
+
+          echo "## Safety" >> "$REPORT"
+
+          safety check >> "$REPORT" 2>&1
+
+      ##########################################################
+      # Rust Audit
+      ##########################################################
+
+      - name: Cargo Audit
+        if: always()
+        continue-on-error: true
+        run: |
+
+          echo "" >> "$REPORT"
+
+           
+          echo "## cargo-audit" >> "$REPORT"
+
+          if [ -f "server_rust/Cargo.toml" ]; then
+            (
+            cd server_rust
+            cargo audit
+            ) >> "$REPORT" 2>&1
+          else
+          echo "No Cargo project found." >> "$REPORT"
+          fi
+
+      ##########################################################
+      # Semgrep
+      ##########################################################
+
+      - name: Semgrep
+        if: always()
+        continue-on-error: true
+        run: |
+
+          echo "" >> "$REPORT"
+
+          echo "## Semgrep" >> "$REPORT"
+
+          semgrep scan \
+          --config auto \
+          client_python \
+          server_rust \
+          scripts >> "$REPORT" 2>&1
+
+      ##########################################################
+      # Gitleaks
+      ##########################################################
+
+      - name: Secret Detection
+        if: always()
+        continue-on-error: true
+        run: |
+
+          echo "" >> "$REPORT"
+
+          echo "## Gitleaks" >> "$REPORT"
+
+          gitleaks detect \
+            --source . \
+            --verbose >> "$REPORT" 2>&1
+
+      ##########################################################
+      # Python Licenses
+      ##########################################################
+
+      - name: Python Licenses
+        if: always()
+        continue-on-error: true
+        run: |
+
+          echo "" >> "$REPORT"
+
+          echo "## Python Licenses" >> "$REPORT"
+
+          pip-licenses >> "$REPORT"
+
+      ##########################################################
+      # Rust Licenses
+      ##########################################################
+
+      - name: Cargo Deny
+        if: always()
+        continue-on-error: true
+        run: |
+
+          echo "" >> "$REPORT"
+
+          echo "## Cargo Deny" >> "$REPORT"
+          if [ -f "server_rust/Cargo.toml" ]; then
+            (
+            cd server_rust
+            cargo deny check licenses
+            ) >> "$REPORT" 2>&1
+
+          
+          else
+            echo "No Cargo project found." >> "$REPORT"
+          fi
+
+      ##########################################################
+      # Outdated Python
+      ##########################################################
+
+      - name: Outdated Python packages
+        if: always()
+        continue-on-error: true
+        run: |
+
+          echo "" >> "$REPORT"
+
+          echo "## Outdated Python packages" >> "$REPORT"
+
+          pip list --outdated >> "$REPORT"
+
+      ##########################################################
+      # Outdated Rust
+      ##########################################################
+
+      - name: Outdated Rust crates
+        if: always()
+        continue-on-error: true
+        run: |
+
+          echo "" >> "$REPORT"
+
+          echo "## Outdated Rust crates" >> "$REPORT"
+          cd server_rust
+          cargo outdated >> "$REPORT" 2>&1
+          
+      ##########################################################
+      # CodeQL
+      ##########################################################
+
+      - name: Initialize CodeQL
+        if: always()
+        continue-on-error: true
+        uses: github/codeql-action/init@v4
+        with:
+          languages: python,rust
+          config-file: ./.github/codeql/codeql-config.yml
+     
+      - name: CodeQL Analysis
+        if: always()
+        uses: github/codeql-action/analyze@v4
+
+      ##########################################################
+      # Global Security Score
+      ##########################################################
+
+      - name: Calculate security score
+        if: always()
+        continue-on-error: true
+        shell: bash
+        run: |
+
+          SCORE=100
+
+          HIGH=$(grep -ic "high" "$REPORT" || true)
+          CRITICAL=$(grep -ic "critical" "$REPORT" || true)
+          MEDIUM=$(grep -ic "medium" "$REPORT" || true)
+          LOW=$(grep -ic "low" "$REPORT" || true)
+
+          SCORE=$(( SCORE - HIGH*15 ))
+          SCORE=$(( SCORE - CRITICAL*25 ))
+          SCORE=$(( SCORE - MEDIUM*8 ))
+          SCORE=$(( SCORE - LOW*3 ))
+
+          if [ $SCORE -lt 0 ]; then
+            SCORE=0
+          fi
+
+          echo "" >> "$REPORT"
+          echo "# Global Security Score" >> "$REPORT"
+          echo "" >> "$REPORT"
+
+          echo "| Level | Count |" >> "$REPORT"
+          echo "|-------|------:|" >> "$REPORT"
+          echo "| Critical | $CRITICAL |" >> "$REPORT"
+          echo "| High | $HIGH |" >> "$REPORT"
+          echo "| Medium | $MEDIUM |" >> "$REPORT"
+          echo "| Low | $LOW |" >> "$REPORT"
+
+          echo "" >> "$REPORT"
+
+          echo "## Score : ${SCORE}/100" >> "$REPORT"
+
+          echo "SECURITY_SCORE=$SCORE" >> $GITHUB_ENV
+
+     
+
+      
+
+      
+
+      ##########################################################
+      # GitHub Summary
+      ##########################################################
+
+      - name: Publish summary
+        if: always()
+        shell: bash
+        run: |
+
+          {
+            echo "# 🛡️ Security Report"
+            echo
+            echo "**Score : ${SECURITY_SCORE}/100**"
+            echo
+            echo "|Check|Status|"
+            echo "|-----|------|"
+            echo "|Bandit|✅|"
+            echo "|Semgrep|✅|"
+            echo "|Gitleaks|✅|"
+            echo "|CodeQL|✅|"
+            echo "|cargo-audit|✅|"
+            echo "|pip-audit|✅|"
+            echo "|Licenses|✅|"
+            echo "|Dependencies|✅|"
+            echo
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      # ============================================================
+      # Installation des outils d'archivage
+      # ============================================================
+
+      - name: Install archive tools
+        if: always() && github.workflow == 'Nightly'
+        run: |
+
+          sudo apt-get update
+
+          sudo apt-get install -y zstd
+
+
+      # ============================================================
+      # Compression et archivage
+      # ============================================================
+
+      - name: 🗜️ Compress and archive reports
+        if: always() && github.workflow == 'Nightly'
+        run: |
+
+          set -euo pipefail
+
+          REPORT_ROOT="reports/security"
+
+          TEMP_DIR=$(mktemp -d)
+
+          trap 'rm -rf "$TEMP_DIR"' EXIT
+
+
+          echo "======================================"
+          echo "🗜️ ARCHIVAGE DES RAPPORTS DE SECURITE"
+          echo "======================================"
+
+
+          mkdir -p "$REPORT_ROOT"
+
+
+          # ========================================================
+          # Fonction : meilleure compression possible
+          # ========================================================
+
+          compress_best() {
+
+            SOURCE_DIR="$1"
+
+            OUTPUT_ARCHIVE="$2"
+
+            BEST_ARCHIVE="$TEMP_DIR/best.tar.zst"
+
+            BEST_SIZE=""
+
+
+            echo ""
+            echo "🔧 Recherche de la meilleure compression..."
+
+
+            for LEVEL in 1 3 6 10 15 19
+            do
+
+              TEST_ARCHIVE="$TEMP_DIR/test-${LEVEL}.tar.zst"
+
+
+              echo "   → Test zstd niveau $LEVEL"
+
+
+              tar -C "$(dirname "$SOURCE_DIR")" \
+                -cf - \
+                "$(basename "$SOURCE_DIR")" \
+                | zstd -"$LEVEL" -T0 -q -o "$TEST_ARCHIVE"
+
+
+              SIZE=$(du -sb "$TEST_ARCHIVE" | awk '{print $1}')
+
+
+              echo "      Taille : $SIZE octets"
+
+
+              if [ -z "$BEST_SIZE" ] ||
+                 [ "$SIZE" -lt "$BEST_SIZE" ]
+              then
+
+                if [ -f "$BEST_ARCHIVE" ]
+                then
+                  rm -f "$BEST_ARCHIVE"
+                fi
+
+
+                cp "$TEST_ARCHIVE" "$BEST_ARCHIVE"
+
+                BEST_SIZE="$SIZE"
+
+              fi
+
+
+              rm -f "$TEST_ARCHIVE"
+
+            done
+
+
+            mv "$BEST_ARCHIVE" "$OUTPUT_ARCHIVE"
+
+
+            echo "🏆 Meilleure taille : $BEST_SIZE octets"
+
+          }
+
+
+          # ========================================================
+          # 1. Compression individuelle des dossiers de 2 jours
+          # ========================================================
+
+          echo ""
+          echo "======================================"
+          echo "📦 ÉTAPE 1 : ARCHIVES QUOTIDIENNES"
+          echo "======================================"
+
+
+          LIMIT=$(date -u -d "2 days ago" +%s)
+
+
+          for DIR in "$REPORT_ROOT"/*
+          do
+
+            [ -d "$DIR" ] || continue
+
+
+            NAME=$(basename "$DIR")
+
+
+            if ! [[ "$NAME" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}$ ]]
+            then
+              continue
+            fi
+
+
+            DATE_TS=$(date -u -d "$NAME" +%s 2>/dev/null || continue)
+
+
+            if [ "$DATE_TS" -gt "$LIMIT" ]
+            then
+
+              echo "⏭️ $NAME : trop récent"
+
+              continue
+
+            fi
+
+
+            echo ""
+            echo "📁 $NAME"
+
+
+            ORIGINAL_SIZE=$(du -sb "$DIR" | awk '{print $1}')
+
+
+            echo "   Taille originale : $ORIGINAL_SIZE octets"
+
+
+            ARCHIVE="$REPORT_ROOT/${NAME}.tar.zst"
+
+
+            compress_best "$DIR" "$ARCHIVE"
+
+
+            COMPRESSED_SIZE=$(du -sb "$ARCHIVE" | awk '{print $1}')
+
+
+            PERCENT=$(awk \
+              -v compressed="$COMPRESSED_SIZE" \
+              -v original="$ORIGINAL_SIZE" \
+              'BEGIN {
+                if (original == 0)
+                  print "0.00"
+                else
+                  printf "%.2f", (compressed / original) * 100
+              }')
+
+
+            echo "   📊 Taille finale : ${PERCENT} %"
+
+
+            if zstd -t "$ARCHIVE" >/dev/null 2>&1
+            then
+
+              echo "   ✅ Archive valide"
+
+              rm -rf "$DIR"
+
+              echo "   🗑️ Dossier original supprimé"
+
+            else
+
+              echo "   ❌ Archive invalide"
+
+              rm -f "$ARCHIVE"
+
+              exit 1
+
+            fi
+
+
+            if awk -v percent="$PERCENT" \
+              'BEGIN { exit !(percent <= 25) }'
+            then
+
+              echo "   🎯 Objectif ≤ 25 % atteint !"
+
+            else
+
+              echo "   ⚠️ > 25 % : meilleure compression conservée"
+
+            fi
+
+          done
+
+
+          # ========================================================
+          # 2. Détermination du mois précédent
+          # ========================================================
+
+          echo ""
+          echo "======================================"
+          echo "📅 ÉTAPE 2 : ARCHIVE MENSUELLE"
+          echo "======================================"
+
+
+          CURRENT_YEAR=$(date -u +%Y)
+
+          CURRENT_MONTH=$(date -u +%m)
+
+
+          PREVIOUS_DATE=$(date -u \
+            -d "$CURRENT_YEAR-$CURRENT_MONTH-01 - 1 month" \
+            +%Y-%m)
+
+
+          PREVIOUS_YEAR=$(date -u \
+            -d "$CURRENT_YEAR-$CURRENT_MONTH-01 - 1 month" \
+            +%Y)
+
+
+          PREVIOUS_MONTH=$(date -u \
+            -d "$CURRENT_YEAR-$CURRENT_MONTH-01 - 1 month" \
+            +%m)
+
+
+          MONTH_NAME="${PREVIOUS_MONTH}-${PREVIOUS_YEAR}"
+
+
+          echo "📅 Mois précédent : $MONTH_NAME"
+
+
+          # ========================================================
+          # 3. Vérifier si archive mensuelle existe
+          # ========================================================
+
+          MONTH_ARCHIVE="$REPORT_ROOT/${MONTH_NAME}.tar.zst"
+
+
+          if [ -f "$MONTH_ARCHIVE" ]
+          then
+
+            echo "ℹ️ Archive mensuelle déjà présente : $MONTH_ARCHIVE"
+
+            echo "⏭️ Aucun regroupement nécessaire."
+
+          else
+
+            MONTH_DIR="$TEMP_DIR/$MONTH_NAME"
+
+            mkdir -p "$MONTH_DIR"
+
+            FOUND=false
+
+
+            # ======================================================
+            # 4. Décompresser les archives quotidiennes
+            # ======================================================
+
+            echo ""
+            echo "📦 Recherche des archives quotidiennes..."
+
+
+            for ARCHIVE in "$REPORT_ROOT"/*.tar.zst
+            do
+
+              [ -f "$ARCHIVE" ] || continue
+
+
+              NAME=$(basename "$ARCHIVE" .tar.zst)
+
+
+              if [[ "$NAME" =~ ^${PREVIOUS_YEAR}-${PREVIOUS_MONTH}-[0-9]{2}$ ]]
+              then
+
+                echo "   📦 Décompression : $NAME"
+
+
+                zstd -d "$ARCHIVE" -c \
+                  | tar -x -C "$MONTH_DIR"
+
+
+                FOUND=true
+
+              fi
+
+            done
+
+
+            # ======================================================
+            # 5. Ajouter les dossiers du mois précédent
+            # ======================================================
+
+            echo ""
+            echo "📁 Recherche des dossiers restants..."
+
+
+            for DIR in "$REPORT_ROOT"/*
+            do
+
+              [ -d "$DIR" ] || continue
+
+
+              NAME=$(basename "$DIR")
+
+
+              if [[ "$NAME" =~ ^${PREVIOUS_YEAR}-${PREVIOUS_MONTH}-[0-9]{2}$ ]]
+              then
+
+                echo "   📁 Ajout : $NAME"
+
+
+                cp -a "$DIR" "$MONTH_DIR/"
+
+
+                FOUND=true
+
+              fi
+
+            done
+
+
+            # ======================================================
+            # 6. Créer l'archive mensuelle
+            # ======================================================
+
+            if [ "$FOUND" = true ]
+            then
+
+              echo ""
+              echo "📦 Création de $MONTH_NAME.tar.zst"
+
+
+              ORIGINAL_MONTH_SIZE=$(du -sb "$MONTH_DIR" | awk '{print $1}')
+
+
+              compress_best \
+                "$MONTH_DIR" \
+                "$TEMP_DIR/${MONTH_NAME}.tar.zst"
+
+
+              COMPRESSED_MONTH_SIZE=$(du -sb \
+                "$TEMP_DIR/${MONTH_NAME}.tar.zst" \
+                | awk '{print $1}')
+
+
+              MONTH_PERCENT=$(awk \
+                -v compressed="$COMPRESSED_MONTH_SIZE" \
+                -v original="$ORIGINAL_MONTH_SIZE" \
+                'BEGIN {
+                  if (original == 0)
+                    print "0.00"
+                  else
+                    printf "%.2f", (compressed / original) * 100
+                }')
+
+
+              echo ""
+              echo "📊 Taille originale : $ORIGINAL_MONTH_SIZE octets"
+              echo "📊 Taille compressée : $COMPRESSED_MONTH_SIZE octets"
+              echo "📊 Taille finale : ${MONTH_PERCENT} %"
+
+
+              # ====================================================
+              # 7. Vérifier l'archive mensuelle
+              # ====================================================
+
+              if zstd -t \
+                "$TEMP_DIR/${MONTH_NAME}.tar.zst" \
+                >/dev/null 2>&1
+              then
+
+                echo "✅ Archive mensuelle valide"
+
+              else
+
+                echo "❌ Archive mensuelle invalide"
+
+                exit 1
+
+              fi
+
+
+              # ====================================================
+              # 8. Installer l'archive mensuelle
+              # ====================================================
+
+              mv \
+                "$TEMP_DIR/${MONTH_NAME}.tar.zst" \
+                "$MONTH_ARCHIVE"
+
+
+              # ====================================================
+              # 9. Supprimer les archives quotidiennes
+              # ====================================================
+
+              echo ""
+              echo "🗑️ Suppression des anciennes archives..."
+
+
+              for ARCHIVE in "$REPORT_ROOT"/*.tar.zst
+              do
+
+                [ -f "$ARCHIVE" ] || continue
+
+
+                NAME=$(basename "$ARCHIVE" .tar.zst)
+
+
+                if [[ "$NAME" =~ ^${PREVIOUS_YEAR}-${PREVIOUS_MONTH}-[0-9]{2}$ ]]
+                then
+
+                  rm -f "$ARCHIVE"
+
+                  echo "   🗑️ $NAME.tar.zst"
+
+                fi
+
+              done
+
+
+              # ====================================================
+              # 10. Supprimer les dossiers du mois précédent
+              # ====================================================
+
+              echo ""
+              echo "🗑️ Suppression des dossiers..."
+
+
+              for DIR in "$REPORT_ROOT"/*
+              do
+
+                [ -d "$DIR" ] || continue
+
+
+                NAME=$(basename "$DIR")
+
+
+                if [[ "$NAME" =~ ^${PREVIOUS_YEAR}-${PREVIOUS_MONTH}-[0-9]{2}$ ]]
+                then
+
+                  rm -rf "$DIR"
+
+                  echo "   🗑️ $NAME"
+
+                fi
+
+              done
+
+
+              # ====================================================
+              # Résultat
+              # ====================================================
+
+              if awk -v percent="$MONTH_PERCENT" \
+                'BEGIN { exit !(percent <= 25) }'
+              then
+
+                echo ""
+                echo "🎯 Archive mensuelle ≤ 25 % !"
+
+              else
+
+                echo ""
+                echo "⚠️ Impossible d'atteindre 25 %."
+                echo "✅ Meilleure compression conservée."
+
+              fi
+
+            else
+
+              echo ""
+              echo "ℹ️ Aucun rapport du mois précédent à regrouper."
+
+            fi
+
+          fi
+
+
+          # ========================================================
+          # 11. Résultat final
+          # ========================================================
+
+          echo ""
+          echo "======================================"
+          echo "✅ ARCHIVAGE TERMINÉ"
+          echo "======================================"
+
+
+          echo ""
+          echo "📂 Structure actuelle :"
+
+
+          find "$REPORT_ROOT" -maxdepth 2 -print | sort
+
+
+      # ============================================================
+      # Commit des rapports
+      # ============================================================
+
+      - name: 💾 Commit reports
+        if: always() 
+        run: |
+
+          git config --global user.name "github-actions"
+
+          git config --global user.email "github-actions@github.com"
+
+          export GH_TOKEN="${{ github.token }}"
+
+
+          git fetch origin
+          
+
+
+          if git show-ref --verify --quiet refs/remotes/origin/ci-reports
+          then
+
+            git worktree add \
+              /tmp/ci-worktree \
+              origin/ci-reports
+
+          else
+
+            git worktree add \
+              -b ci-reports \
+              /tmp/ci-worktree
+
+          fi
+
+
+          echo "=== SOURCE ==="
+
+          find \
+            "$GITHUB_WORKSPACE/reports/security" \
+            -maxdepth 4 \
+            -type d \
+            -print
+
+
+          echo "=== DESTINATION ==="
+
+          find \
+            "/tmp/ci-worktree/reports" \
+            -maxdepth 4 \
+            -type d \
+            -print
+
+
+          mkdir -p  "/tmp/ci-worktree/reports/security"
+
+
+          rsync -a --delete   "$GITHUB_WORKSPACE/reports/security/"   "/tmp/ci-worktree/reports/security/" 2>/dev/null || true
+
+
+          cd /tmp/ci-worktree
+          git lfs install
+                echo "======================================"
+                echo "📦 Configuration Git LFS"
+                echo "======================================"
+                if [ -f .gitattributes ]
+                then
+                grep -vE '^reports/security/[0-9]{4}-[0-9]{2}-[0-9]{2}/\*\.md ' \
+                .gitattributes > .gitattributes.tmp || true
+
+                mv .gitattributes.tmp .gitattributes
+                fi
+                # Règles permanentes.
+                git lfs track "database/**/*.db"
+                git lfs track "*.png"
+                for DIR in reports/rust/*
+                do
+                [ -d "$DIR" ] || continue
+                NAME=$(basename "$DIR")
+                if [[ "$NAME" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}$ ]]
+                then
+                echo "📝 Rapport temporaire LFS : $DIR/*.md"
+                git lfs track "$DIR/*.md"
+                fi
+                done
+
+                echo ""
+                echo "📄 Configuration LFS finale :"
+                cat .gitattributes
+                echo ""
+
+          git add -A
+
+
+          git status
+
+
+          if git diff --cached --quiet
+          then
+
+            echo "No changes to commit."
+
+            cd "$GITHUB_WORKSPACE"
+
+            git worktree remove \
+              /tmp/ci-worktree \
+              --force && rm -rf \
+              "/tmp/ci-worktree/reports/security"
+
+            exit 0
+
+          fi
+          git switch -c ci-reports --track origin/ci-reports
+
+          git commit \
+            -m "Report python n° ${REPORT_NUMBER}"
+
+
+          for i in 1 2 3
+          do
+
+            echo "Tentative $i/3"
+
+
+            git fetch origin
+            
+
+
+            echo "Branche actuelle :"
+
+            git branch --show-current
+
+
+            git status
+
+
+            if git push origin HEAD:ci-reports
+            then
+
+              echo "Push réussi"
+
+
+              cd "$GITHUB_WORKSPACE"
+
+
+              git worktree remove \
+                /tmp/ci-worktree \
+                --force && rm -rf \
+                "/tmp/ci-worktree/reports/security"
+
+
+              exit 0
+
+            fi
+
+
+            echo "Push échoué."
+
+
+            sleep 2
+
+          done
+
+
+          echo "======================================"
+          echo "Push direct impossible"
+          echo "Création de la branche de secours"
+          echo "======================================"
+
+
+          FALLBACK_BRANCH="ci-reports-update"
+
+
+          echo "Branche de secours : $FALLBACK_BRANCH"
+
+
+          # Crée ou met à jour la branche de secours
+
+          git push \
+            --force \
+            origin \
+            HEAD:"refs/heads/$FALLBACK_BRANCH"
+
+
+          echo "Branche de secours poussée."
+
+
+          # ========================================================
+          # Vérifier si une PR existe déjà
+          # ========================================================
+
+          PR_URL=$(gh pr list \
+            --base "ci-reports" \
+            --head "$FALLBACK_BRANCH" \
+            --state open \
+            --json url \
+            --jq '.[0].url')
+
+
+          if [ -n "$PR_URL" ]
+          then
+
+            echo "Une Pull Request existe déjà : $PR_URL"
+
+          else
+
+            echo "Création de la Pull Request..."
+
+
+            PR_URL=$(gh pr create \
+              --base ci-reports \
+              --head "$FALLBACK_BRANCH" \
+              --title "Report security n° ${REPORT_NUMBER}" \
+              --body "Le push direct vers \`ci-reports\` a échoué après 3 tentatives. Les changements générés par GitHub Actions sont disponibles dans cette Pull Request.")
+
+          fi
+
+          gh pr merge "$PR_URL" \
+          --auto \
+          --squash
+          cd "$GITHUB_WORKSPACE"
+
+
+          git worktree remove \
+            /tmp/ci-worktree \
+            --force && rm -rf \
+            "/tmp/ci-worktree/reports/security"
+
+      
+      - name: Detect critical failure
+        id: critical-status
+        if: always()
+        run: |
+              if [[ \
+                     "${{ steps.build-server.outcome }}" == "failure" || \
+                     "${{ steps.start-server.outcome }}" == "failure" || \
+                    "${{ steps.wait-server.outcome }}" == "failure"
+                  ]]; then
+              echo "failed=true" >> "$GITHUB_OUTPUT"
+              echo "❌ Erreur critique détectée"
+              else
+              echo "failed=false" >> "$GITHUB_OUTPUT"
+              echo "✅ Aucune erreur critique"
+              fi
+  
+  sync:
+    needs:
+      - security
+    if: >-
+     ${{
+      always() &&
+      
+      (
+          needs.security.result == 'success' ||
+          needs.security.result == 'failure'
+      )
+     }}
+    uses: ./.github/workflows/sync-ci.yml
+
+  cancel-security:
+    needs:
+      - security
+      - sync
+      
+     
+    if: >-
+     ${{
+      always() &&
+      (
+        needs.security.result == 'failure' ||
+        needs.sync.result == 'failure'
+        
+      )
+     }}
+    uses: ./.github/workflows/cancel-pending.yml
+    with: 
+      mode: ${{ needs.security.outputs.critical_failure == 'true' && 'global' || 'security' }}

@@ -1793,7 +1793,8 @@ PacketType::MarketBuy => {
             PacketType::LoginResponse
             | PacketType::SignUpResponse 
             | PacketType::PlayerState 
-            | PacketType::PlayerRemove => {
+            | PacketType::PlayerRemove
+             | PacketType::Session => {
 
                 error!(
                     "Réponse reçue du client alors qu'elle doit être envoyée par le serveur : {:?}",
