@@ -106,7 +106,12 @@ if let Err(e) = send_packet(
         self.session_id,
         e
     );
+    self.world
+    .remove_player(self.session_id)
+    .await;
 
+self.world
+    .broadcast_player_remove(self.session_id);
     self.disconnect().await;
     return;
 }
@@ -264,7 +269,10 @@ for (player_id, position) in snapshot {
                         // ---------------------------------------------
 
                         Err(e) => {
+                            self.world.remove_player(self.session_id).await;
 
+self.world
+    .broadcast_player_remove(self.session_id);
                             debug!(
                                 "Déconnexion du client [{}] : {}",
                                 self.session_id,
@@ -362,6 +370,12 @@ for (player_id, position) in snapshot {
                             // -----------------------------------------
                             // Déconnexion
                             // -----------------------------------------
+                            self.world
+    .remove_player(self.session_id)
+    .await;
+
+self.world
+    .broadcast_player_remove(self.session_id);
 
                             self.disconnect().await;
 
@@ -450,7 +464,12 @@ for (player_id, position) in snapshot {
         // ========================================================
         // FIN DE SESSION
         // ========================================================
+        self.world
+    .remove_player(self.session_id)
+    .await;
 
+self.world
+    .broadcast_player_remove(self.session_id);
         self.mark_disconnected().await;
 
 

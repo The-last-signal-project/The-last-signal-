@@ -1401,7 +1401,7 @@ dependencies = [
 
 [[package]]
 name = "the-last-signal-server"
-version = "1.0.12"
+version = "1.0.13"
 dependencies = [
  "argon2",
  "fernet",
