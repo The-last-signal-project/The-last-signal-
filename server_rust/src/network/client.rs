@@ -2,6 +2,7 @@ use tokio::{
     io::AsyncWriteExt,
     net::TcpStream,
     time::{interval, Duration},
+    sync::broadcast,
 };
 
 use sqlx::SqlitePool;
@@ -14,7 +15,7 @@ use log::{
 };
 
 use crate::network::handler::{PacketHandler,HandlerResult};
-
+use crate::network::world::World;
 use crate::network::packet::{
     receive_packet,
     send_packet,
@@ -38,6 +39,7 @@ pub struct Client {
     user_id: Option<String>,
 
     account_id: Option<i64>,
+    world: World,
 }
 
 
@@ -64,6 +66,7 @@ impl Client {
             user_id: None,
 
             account_id: None,
+            world
         }
     }
 
@@ -86,7 +89,8 @@ impl Client {
             peer,
             self.session_id
         );
-
+        let mut world_rx =
+         self.world.subscribe();
 
         // --------------------------------------------------------
         // Timer de vérification du ban
@@ -145,7 +149,8 @@ impl Client {
                             match PacketHandler::handle(
     self,
     packet,
-    self.pool.clone()
+    self.pool.clone(),
+    self.world.clone(),
 ).await {
 
     HandlerResult::Response(response) => {
@@ -317,6 +322,54 @@ impl Client {
                         }
                     }
                 }
+                packet = world_rx.recv() => {
+
+    match packet {
+
+        Ok(packet) => {
+
+            if let Err(e) =
+                send_packet(
+                    &mut self.stream,
+                    &packet
+                ).await
+            {
+
+                error!(
+                    "Erreur d'envoi du paquet monde [{}] : {}",
+                    self.session_id,
+                    e
+                );
+
+                break;
+            }
+        }
+
+        Err(
+            broadcast::error::RecvError::Lagged(
+                count
+            )
+        ) => {
+
+            debug!(
+                "Client {} en retard de {} paquets monde",
+                self.session_id,
+                count
+            );
+        }
+
+        Err(
+            broadcast::error::RecvError::Closed
+        ) => {
+
+            error!(
+                "Canal monde fermé"
+            );
+
+            break;
+        }
+    }
+}
             }
         }
 
@@ -566,6 +619,12 @@ impl Client {
 
         self.client_id
     }
+    pub fn session_id(
+    &self,
+) -> Uuid {
+
+    self.session_id
+}
 
 
     // ============================================================

@@ -8,7 +8,7 @@ use crate::network::{parser::{
     
 };
 
-
+use crate::network::world::World;
 use crate::gameplay::market_manager::MarketManager;
 
 
@@ -98,6 +98,7 @@ fn read_u64(
         client: &mut Client,
         packet: Packet,
         pool: SqlitePool,
+        world : World,
     ) -> HandlerResult {
 
         match packet.packet_type {
@@ -1241,17 +1242,94 @@ fn read_u64(
 
             PacketType::Move => {
 
-                debug!(
-                    "Déplacement reçu"
-                );
+    if packet.payload.len() != 12 {
 
-                HandlerResult::Response(
-                    Packet::new(
-                        PacketType::Move,
-                        packet.payload,
-                    )
-                )
-            }
+        error!(
+            "MOVE invalide : {} octets",
+            packet.payload.len()
+        );
+
+        return HandlerResult::Nothing;
+    }
+
+
+    let x =
+        i32::from_be_bytes(
+            packet.payload[0..4]
+                .try_into()
+                .unwrap()
+        );
+
+    let y =
+        i32::from_be_bytes(
+            packet.payload[4..8]
+                .try_into()
+                .unwrap()
+        );
+
+    let z =
+        i32::from_be_bytes(
+            packet.payload[8..12]
+                .try_into()
+                .unwrap()
+        );
+
+
+    let player_id =
+        client.session_id();
+
+
+    debug!(
+        "Déplacement [{}] : ({}, {}, {})",
+        player_id,
+        x,
+        y,
+        z
+    );
+
+
+    world
+        .set_position(
+            player_id,
+            x,
+            y,
+            z,
+        )
+        .await;
+
+
+    let mut payload =
+        Vec::with_capacity(28);
+
+
+    payload.extend_from_slice(
+        player_id
+            .as_bytes()
+    );
+
+    payload.extend_from_slice(
+        &x.to_be_bytes()
+    );
+
+    payload.extend_from_slice(
+        &y.to_be_bytes()
+    );
+
+    payload.extend_from_slice(
+        &z.to_be_bytes()
+    );
+
+
+    world.broadcast(
+        Packet::new(
+            PacketType::PlayerState,
+            payload,
+        )
+    );
+
+
+    HandlerResult::Nothing
+}
             PacketType::DECO => {
 
     info!(

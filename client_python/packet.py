@@ -18,6 +18,8 @@ class PacketType(IntEnum):
     MARKET_SELL = 12
     MARKET_CANCEL_BUY = 13
     MARKET_CANCEL_SELL = 14
+    PLAYER_STATE = 15
+    PLAYER_REMOVE = 16
 
 
 class Packet:
@@ -93,6 +95,9 @@ class Packet:
         if packet_type == PacketType.BAN:
             from .packets.ban import BanPacket
             return BanPacket.from_payload(payload)
+        if packet_type == PacketType.PLAYER_STATE:
+            from .packets.player_state import PlayerStatePacket
+            return PlayerStatePacket.from_payload(payload)
         if packet_type == PacketType.LoginResponse or packet_type == PacketType.SignUpResponse :
             return Packet(
             packet_type,
