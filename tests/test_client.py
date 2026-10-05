@@ -1,10 +1,10 @@
-from .client_python.client import Client
-from .client_python.packet import PacketType
-from .client_python.packets.chat import ChatPacket
-from .client_python.packets.login import LoginPacket
-from .client_python.packets.ping import PingPacket
-from .client_python.packets.move import MovePacket
-from .client_python.packets.singup import SingupPacket
+from client_python.client import Client
+from client_python.packet import PacketType
+from client_python.packets.chat import ChatPacket
+from client_python.packets.login import LoginPacket
+from client_python.packets.ping import PingPacket
+from client_python.packets.move import MovePacket
+from client_python.packets.singup import SingupPacket
 import sys
 import atexit
 import random

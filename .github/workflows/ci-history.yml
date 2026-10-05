@@ -22,7 +22,7 @@ jobs:
 
     steps:
       # ============================================================
-      # Configuration Git
+      # Configuration
       # ============================================================
 
       - name: Vérifier la confirmation
@@ -35,6 +35,8 @@ jobs:
             echo "Il faut saisir exactement : REWRITE-CI"
             exit 1
           fi
+
+          echo "[OK] Confirmation validée."
 
       - name: Installer git-filter-repo
         shell: bash
@@ -53,11 +55,17 @@ jobs:
 
       - name: Cloner tout le dépôt
         shell: bash
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -euo pipefail
 
+          echo "============================================================"
+          echo "CLONAGE MIROIR"
+          echo "============================================================"
+
           git clone --mirror \
-            "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" \
+            "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" \
             repo.git
 
           cd repo.git
@@ -65,7 +73,17 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
+          # Le clone miroir active origin.mirror=true.
+          # On le désactive pour pouvoir utiliser des refspecs explicites.
+          git config remote.origin.mirror false
+
+          echo ""
+          echo "Remote :"
+          git remote -v
+
+          echo ""
           echo "Branches disponibles :"
+
           git for-each-ref \
             --format='%(refname:short)' \
             refs/heads/
@@ -83,22 +101,53 @@ jobs:
 
           TIMESTAMP="$(date -u '+%Y%m%d-%H%M%S')"
 
-          for BRANCH in ci-reports ci-database; do
-            if git show-ref --verify --quiet "refs/heads/$BRANCH"; then
-              BACKUP="backup-${BRANCH}-before-rewrite-${TIMESTAMP}"
+          BACKUP_REPORTS="backup-ci-reports-before-rewrite-${TIMESTAMP}"
+          BACKUP_DATABASE="backup-ci-database-before-rewrite-${TIMESTAMP}"
 
-              git branch "$BACKUP" "$BRANCH"
+          echo "============================================================"
+          echo "CRÉATION DES SAUVEGARDES"
+          echo "============================================================"
 
-              echo "[OK] $BRANCH -> $BACKUP"
-            else
-              echo "[WARN] Branche inexistante : $BRANCH"
-            fi
-          done
+          if git show-ref --verify --quiet "refs/heads/ci-reports"; then
+            git update-ref \
+              "refs/heads/${BACKUP_REPORTS}" \
+              "refs/heads/ci-reports"
 
-          git push origin \
-            "backup-ci-reports-before-rewrite-${TIMESTAMP}" \
-            "backup-ci-database-before-rewrite-${TIMESTAMP}" \
-            2>/dev/null || true
+            echo "[OK] ci-reports -> ${BACKUP_REPORTS}"
+          else
+            echo "[WARN] Branche inexistante : ci-reports"
+            BACKUP_REPORTS=""
+          fi
+
+          if git show-ref --verify --quiet "refs/heads/ci-database"; then
+            git update-ref \
+              "refs/heads/${BACKUP_DATABASE}" \
+              "refs/heads/ci-database"
+
+            echo "[OK] ci-database -> ${BACKUP_DATABASE}"
+          else
+            echo "[WARN] Branche inexistante : ci-database"
+            BACKUP_DATABASE=""
+          fi
+
+          echo "BACKUP_REPORTS=${BACKUP_REPORTS}" >> "$GITHUB_ENV"
+          echo "BACKUP_DATABASE=${BACKUP_DATABASE}" >> "$GITHUB_ENV"
+
+          echo ""
+          echo "Push des sauvegardes..."
+
+          if [[ -n "$BACKUP_REPORTS" ]]; then
+            git push origin \
+              "+refs/heads/${BACKUP_REPORTS}:refs/heads/${BACKUP_REPORTS}"
+          fi
+
+          if [[ -n "$BACKUP_DATABASE" ]]; then
+            git push origin \
+              "+refs/heads/${BACKUP_DATABASE}:refs/heads/${BACKUP_DATABASE}"
+          fi
+
+          echo ""
+          echo "[OK] Sauvegardes envoyées sur GitHub."
 
       # ============================================================
       # Analyse
@@ -114,13 +163,12 @@ jobs:
           mkdir -p rewrite
 
           for BRANCH in ci-reports ci-database; do
-
-            echo
+            echo ""
             echo "============================================================"
-            echo "Analyse de $BRANCH"
+            echo "Analyse de ${BRANCH}"
             echo "============================================================"
 
-            if ! git show-ref --verify --quiet "refs/heads/$BRANCH"; then
+            if ! git show-ref --verify --quiet "refs/heads/${BRANCH}"; then
               echo "[WARN] Branche inexistante."
               continue
             fi
@@ -129,9 +177,12 @@ jobs:
               ci-reports)
                 PREFIX="ci-reports/"
                 ;;
-
               ci-database)
                 PREFIX="ci-database/"
+                ;;
+              *)
+                echo "::error::Branche inconnue : ${BRANCH}"
+                exit 1
                 ;;
             esac
 
@@ -143,8 +194,11 @@ jobs:
             # Fichiers présents actuellement
             # --------------------------------------------------------
 
-            git ls-tree -r --name-only "$BRANCH" \
-              | grep "^${PREFIX}" \
+            git ls-tree \
+              -r \
+              --name-only \
+              "$BRANCH" \
+              -- "$PREFIX" \
               | sort -u \
               > "$CURRENT" || true
 
@@ -152,7 +206,8 @@ jobs:
             # Tous les fichiers ayant existé dans l'historique
             # --------------------------------------------------------
 
-            git log "$BRANCH" \
+            git log \
+              "$BRANCH" \
               --format= \
               --name-only \
               --diff-filter=ACMR \
@@ -162,16 +217,15 @@ jobs:
               > "$HISTORY" || true
 
             # --------------------------------------------------------
-            # Historique - état actuel
-            #
-            # Tout ce qui a existé mais n'existe plus actuellement
-            # est candidat à la suppression.
+            # Fichiers ayant existé mais absents de HEAD
             # --------------------------------------------------------
 
-            comm -23 "$HISTORY" "$CURRENT" \
+            comm -23 \
+              "$HISTORY" \
+              "$CURRENT" \
               > "$DELETE" || true
 
-            echo
+            echo ""
             echo "Fichiers actuellement présents :"
             wc -l < "$CURRENT"
 
@@ -182,14 +236,48 @@ jobs:
             wc -l < "$DELETE"
 
             if [[ -s "$DELETE" ]]; then
-              echo
+              echo ""
               echo "------------------------------------------------------------"
               cat "$DELETE"
               echo "------------------------------------------------------------"
             else
               echo "[OK] Aucun ancien fichier à supprimer."
             fi
+          done
 
+      # ============================================================
+      # Résumé de l'analyse
+      # ============================================================
+
+      - name: Résumé avant réécriture
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          cd repo.git
+
+          echo "============================================================"
+          echo "RÉSUMÉ DE L'ANALYSE"
+          echo "============================================================"
+
+          for BRANCH in ci-reports ci-database; do
+            echo ""
+            echo "[${BRANCH}]"
+
+            if [[ -f "rewrite/${BRANCH}.current" ]]; then
+              echo "Présents actuellement :"
+              wc -l < "rewrite/${BRANCH}.current"
+            fi
+
+            if [[ -f "rewrite/${BRANCH}.history" ]]; then
+              echo "Présents dans l'historique :"
+              wc -l < "rewrite/${BRANCH}.history"
+            fi
+
+            if [[ -f "rewrite/${BRANCH}.delete" ]]; then
+              echo "À supprimer de l'historique :"
+              wc -l < "rewrite/${BRANCH}.delete"
+            fi
           done
 
       # ============================================================
@@ -207,31 +295,30 @@ jobs:
           cd repo.git
 
           for BRANCH in ci-reports ci-database; do
-
             DELETE="rewrite/${BRANCH}.delete"
 
-            if ! git show-ref --verify --quiet "refs/heads/$BRANCH"; then
+            if ! git show-ref --verify --quiet "refs/heads/${BRANCH}"; then
+              echo "[WARN] Branche inexistante : ${BRANCH}"
               continue
             fi
 
             if [[ ! -s "$DELETE" ]]; then
-              echo "[OK] Aucun fichier à supprimer pour $BRANCH."
+              echo ""
+              echo "[OK] Aucun fichier à supprimer pour ${BRANCH}."
               continue
             fi
 
-            echo
+            echo ""
             echo "============================================================"
-            echo "Réécriture de $BRANCH"
+            echo "RÉÉCRITURE DE ${BRANCH}"
             echo "============================================================"
 
-            # --------------------------------------------------------
-            # On travaille uniquement sur cette branche.
-            #
-            # Les chemins contenus dans DELETE sont supprimés
-            # de tout l'historique.
-            # --------------------------------------------------------
+            echo ""
+            echo "Fichiers supprimés :"
+            cat "$DELETE"
 
-            git checkout "$BRANCH"
+            echo ""
+            echo "Exécution de git-filter-repo..."
 
             git filter-repo \
               --force \
@@ -239,12 +326,12 @@ jobs:
               --invert-paths \
               --paths-from-file "$DELETE"
 
-            echo "[OK] Historique réécrit pour $BRANCH."
-
+            echo ""
+            echo "[OK] Historique réécrit pour ${BRANCH}."
           done
 
       # ============================================================
-      # Vérifications après réécriture
+      # Vérification
       # ============================================================
 
       - name: Vérifier le résultat
@@ -255,47 +342,120 @@ jobs:
 
           cd repo.git
 
-          echo
           echo "============================================================"
-          echo "VÉRIFICATION"
+          echo "VÉRIFICATION APRÈS RÉÉCRITURE"
           echo "============================================================"
 
           for BRANCH in ci-reports ci-database; do
-
-            if ! git show-ref --verify --quiet "refs/heads/$BRANCH"; then
+            if ! git show-ref --verify --quiet "refs/heads/${BRANCH}"; then
+              echo "[WARN] Branche inexistante : ${BRANCH}"
               continue
             fi
 
-            CURRENT="rewrite/${BRANCH}.current"
             DELETE="rewrite/${BRANCH}.delete"
 
-            echo
-            echo "[$BRANCH]"
+            echo ""
+            echo "[${BRANCH}]"
 
-            if [[ -s "$DELETE" ]]; then
-              while IFS= read -r FILE; do
-                if git ls-tree -r --name-only "$BRANCH" \
-                  | grep -Fxq "$FILE"; then
-
-                  echo "::error::Le fichier supprimé existe encore : $FILE"
-                  exit 1
-                fi
-              done < "$DELETE"
+            if [[ ! -s "$DELETE" ]]; then
+              echo "[OK] Aucun fichier à vérifier."
+              continue
             fi
 
-            echo "[OK] Les fichiers supprimés ne sont plus présents dans HEAD."
+            # ------------------------------------------------------
+            # Vérification dans HEAD
+            # ------------------------------------------------------
 
-            echo
-            echo "Taille du dépôt :"
-            git count-objects -vH
+            while IFS= read -r FILE; do
+              [[ -n "$FILE" ]] || continue
 
+              if git ls-tree \
+                -r \
+                --name-only \
+                "$BRANCH" \
+                -- "$FILE" \
+                | grep -Fxq "$FILE"; then
+
+                echo "::error::Le fichier existe encore dans HEAD : $FILE"
+                exit 1
+              fi
+            done < "$DELETE"
+
+            echo "[OK] Aucun fichier supprimé n'est encore présent dans HEAD."
+
+            # ------------------------------------------------------
+            # Vérification de l'historique
+            # ------------------------------------------------------
+
+            while IFS= read -r FILE; do
+              [[ -n "$FILE" ]] || continue
+
+              if git rev-list \
+                "$BRANCH" \
+                --objects \
+                -- "$FILE" \
+                | grep -q .; then
+
+                echo "::error::Le fichier existe encore dans l'historique : $FILE"
+                exit 1
+              fi
+            done < "$DELETE"
+
+            echo "[OK] Aucun fichier supprimé n'est encore présent dans l'historique."
           done
 
+          echo ""
+          echo "============================================================"
+          echo "TAILLE DU DÉPÔT"
+          echo "============================================================"
+
+          git count-objects -vH
+
       # ============================================================
-      # Push
+      # Restaurer origin
       # ============================================================
 
-      - name: Force-push
+      - name: Restaurer le remote GitHub
+        if: ${{ inputs.push }}
+        shell: bash
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+
+          cd repo.git
+
+          echo "============================================================"
+          echo "RESTAURATION DU REMOTE"
+          echo "============================================================"
+
+          # git-filter-repo peut supprimer origin.
+          git remote remove origin 2>/dev/null || true
+
+          git remote add origin \
+            "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+
+          # Sécurité : aucun push miroir.
+          git config remote.origin.mirror false
+
+          echo ""
+          echo "Remote :"
+          git remote -v
+
+          echo ""
+          echo "Mode mirror :"
+
+          if git config --get remote.origin.mirror >/dev/null 2>&1; then
+            git config --get remote.origin.mirror
+          else
+            echo "false / non défini"
+          fi
+
+      # ============================================================
+      # Force-push ci-reports
+      # ============================================================
+
+      - name: Force-push ci-reports
         if: ${{ inputs.push }}
         shell: bash
         run: |
@@ -303,20 +463,72 @@ jobs:
 
           cd repo.git
 
-          echo
+          if ! git show-ref --verify --quiet "refs/heads/ci-reports"; then
+            echo "[WARN] ci-reports inexistante."
+            exit 0
+          fi
+
           echo "============================================================"
-          echo "FORCE PUSH"
+          echo "FORCE PUSH : ci-reports"
           echo "============================================================"
 
-          git push origin \
-            +refs/heads/ci-reports:refs/heads/ci-reports \
-            +refs/heads/ci-database:refs/heads/ci-database
+          git fetch origin \
+            refs/heads/ci-reports:refs/remotes/origin/ci-reports
 
-          echo
-          echo "[OK] ci-reports et ci-database ont été réécrites."
+          LOCAL="$(git rev-parse refs/heads/ci-reports)"
+          REMOTE="$(git rev-parse refs/remotes/origin/ci-reports)"
+
+          echo "HEAD local   : $LOCAL"
+          echo "HEAD distant : $REMOTE"
+
+          git push \
+            --force-with-lease="refs/heads/ci-reports:${REMOTE}" \
+            origin \
+            "refs/heads/ci-reports:refs/heads/ci-reports"
+
+          echo ""
+          echo "[OK] ci-reports réécrite."
 
       # ============================================================
-      # Résumé
+      # Force-push ci-database
+      # ============================================================
+
+      - name: Force-push ci-database
+        if: ${{ inputs.push }}
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          cd repo.git
+
+          if ! git show-ref --verify --quiet "refs/heads/ci-database"; then
+            echo "[WARN] ci-database inexistante."
+            exit 0
+          fi
+
+          echo "============================================================"
+          echo "FORCE PUSH : ci-database"
+          echo "============================================================"
+
+          git fetch origin \
+            refs/heads/ci-database:refs/remotes/origin/ci-database
+
+          LOCAL="$(git rev-parse refs/heads/ci-database)"
+          REMOTE="$(git rev-parse refs/remotes/origin/ci-database)"
+
+          echo "HEAD local   : $LOCAL"
+          echo "HEAD distant : $REMOTE"
+
+          git push \
+            --force-with-lease="refs/heads/ci-database:${REMOTE}" \
+            origin \
+            "refs/heads/ci-database:refs/heads/ci-database"
+
+          echo ""
+          echo "[OK] ci-database réécrite."
+
+      # ============================================================
+      # Résumé final
       # ============================================================
 
       - name: Résumé
@@ -327,21 +539,30 @@ jobs:
           cd repo.git
 
           echo "============================================================"
-          echo "RÉSUMÉ"
+          echo "RÉSUMÉ FINAL"
           echo "============================================================"
 
           for BRANCH in ci-reports ci-database; do
-
-            echo
-            echo "[$BRANCH]"
+            echo ""
+            echo "[${BRANCH}]"
 
             if [[ -f "rewrite/${BRANCH}.delete" ]]; then
               echo "Fichiers supprimés de l'historique :"
               wc -l < "rewrite/${BRANCH}.delete"
+            else
+              echo "Aucun fichier supprimé."
             fi
 
+            if git show-ref --verify --quiet "refs/heads/${BRANCH}"; then
+              echo "HEAD :"
+              git rev-parse "refs/heads/${BRANCH}"
+            fi
           done
 
-          echo
-          echo "push demandé : ${{ inputs.push }}"
+          echo ""
+          echo "Push demandé : ${{ inputs.push }}"
 
+          echo ""
+          echo "============================================================"
+          echo "FIN"
+          echo "============================================================"

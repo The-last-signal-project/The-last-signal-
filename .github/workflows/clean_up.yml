@@ -58,13 +58,12 @@ jobs:
                   continue
               fi
 
-              # Récupérer uniquement le chemin avant "filter=lfs"
+              # Récupérer uniquement le pattern avant "filter=lfs"
               PATH_PATTERN="${LINE%% filter=lfs*}"
 
               # --------------------------------------------------
               # reports/build :
-              # maxdepth 1
-              # reports/build/build-XXX/DATE
+              # reports/build/build-XXX/DATE/...
               # --------------------------------------------------
 
               if [[ "$PATH_PATTERN" == reports/build/* ]]
@@ -90,8 +89,8 @@ jobs:
                   DIRECTORY="$BASE/$BUILD_DIR/$DATE_DIR"
 
               # --------------------------------------------------
-              # reports/python et reports/rust :
-              # maxdepth 0 sur la famille de rapport
+              # reports/python :
+              # reports/python/DATE/...
               # --------------------------------------------------
 
               elif [[ "$PATH_PATTERN" == reports/python/* ]]
@@ -104,6 +103,11 @@ jobs:
                   fi
 
                   DIRECTORY="reports/python/$DATE_DIR"
+
+              # --------------------------------------------------
+              # reports/rust :
+              # reports/rust/DATE/...
+              # --------------------------------------------------
 
               elif [[ "$PATH_PATTERN" == reports/rust/* ]]
               then
@@ -134,22 +138,25 @@ jobs:
 
               # Le dossier n'existe plus :
               # il a donc été archivé → suppression historique.
-              echo "   🗑️ Dossier absent → suppression LFS"
+              echo "   🗑️ Dossier absent → suppression historique"
 
-              echo "$PATH_PATTERN" >> "$REMOVE_FILE"
+              # IMPORTANT :
+              # on enregistre le vrai chemin du dossier,
+              # pas le glob provenant de .gitattributes.
+              echo "$DIRECTORY" >> "$REMOVE_FILE"
 
           done < .gitattributes
 
           echo ""
           echo "======================================"
-          echo "📋 FICHIERS À SUPPRIMER"
+          echo "📋 DOSSIERS À SUPPRIMER"
           echo "======================================"
 
           if [ -s "$REMOVE_FILE" ]
           then
               sort -u "$REMOVE_FILE"
           else
-              echo "Aucun fichier à supprimer."
+              echo "Aucun dossier à supprimer."
           fi
 
           echo "REMOVE_FILE=$REMOVE_FILE" >> "$GITHUB_ENV"
@@ -178,8 +185,7 @@ jobs:
 
           git branch "$BACKUP_BRANCH"
 
-          git push origin \
-            "$BACKUP_BRANCH"
+          git push origin "$BACKUP_BRANCH"
 
           echo "BACKUP_BRANCH=$BACKUP_BRANCH" >> "$GITHUB_ENV"
 
@@ -200,20 +206,48 @@ jobs:
 
           ARGS=()
 
-          while IFS= read -r PATH_PATTERN
+          while IFS= read -r DIRECTORY
           do
-              [ -n "$PATH_PATTERN" ] || continue
+              [ -n "$DIRECTORY" ] || continue
 
-              echo "🗑️ Suppression historique : $PATH_PATTERN"
+              echo "🗑️ Suppression historique : $DIRECTORY"
 
-              ARGS+=(--path "$PATH_PATTERN")
+              ARGS+=(--path "$DIRECTORY")
 
-          done < "$REMOVE_FILE"
+          done < <(sort -u "$REMOVE_FILE")
+
+          echo ""
+          echo "📋 Arguments git-filter-repo :"
+
+          printf '   %s\n' "${ARGS[@]}"
+
+          echo ""
 
           git filter-repo \
             --force \
             "${ARGS[@]}" \
             --invert-paths
+
+      - name: Restore GitHub remote
+        shell: bash
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+
+          echo "======================================"
+          echo "🔗 RESTAURATION DU REMOTE GITHUB"
+          echo "======================================"
+
+          # git-filter-repo supprime volontairement origin.
+          git remote remove origin 2>/dev/null || true
+
+          git remote add origin \
+            "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+
+          echo ""
+          echo "📡 Remote configuré :"
+          git remote -v
 
       - name: Rebuild LFS configuration
         shell: bash
@@ -261,6 +295,10 @@ jobs:
           echo "📄 Règles LFS restantes :"
           grep 'filter=lfs' .gitattributes || true
 
+          echo ""
+          echo "📡 Remote :"
+          git remote -v
+
       - name: Push cleaned history
         shell: bash
         run: |
@@ -270,12 +308,32 @@ jobs:
           echo "🚀 PUSH DE L'HISTORIQUE NETTOYÉ"
           echo "======================================"
 
+          # Récupérer l'état actuel du serveur.
+          # Cela permet à --force-with-lease de vérifier
+          # que personne n'a modifié ci-reports entre-temps.
           git fetch origin ci-reports
 
-          git push \
-            --force-with-lease \
-            origin \
-            HEAD:ci-reports
+          echo ""
+          echo "📡 Remote utilisé :"
+          git remote -v
 
           echo ""
-          echo "✅ Nettoyage LFS terminé."
+          echo "🌿 Branche locale :"
+          git branch --show-current
+
+          echo ""
+          echo "📌 HEAD :"
+          git rev-parse HEAD
+
+          echo ""
+          echo "🚀 Push forcé sécurisé..."
+
+          git push \
+            --force-with-lease=refs/heads/ci-reports \
+            origin \
+            HEAD:refs/heads/ci-reports
+
+          echo ""
+          echo "======================================"
+          echo "✅ NETTOYAGE LFS TERMINÉ"
+          echo "======================================"
