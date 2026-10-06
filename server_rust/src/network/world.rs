@@ -225,8 +225,7 @@ impl World {
             Ok(receiver_count) => {
                 info!(
                     "WORLD: PLAYER_REMOVE broadcasté | \
-                     player={} | récepteurs={}",
-                    player_id,
+                     récepteurs={}",
                     receiver_count
                 );
             }
@@ -234,8 +233,7 @@ impl World {
             Err(error) => {
                 error!(
                     "WORLD: échec du broadcast PLAYER_REMOVE | \
-                     player={} | erreur={}",
-                    player_id,
+                     erreur={}",
                     error
                 );
             }
