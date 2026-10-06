@@ -2,8 +2,9 @@ import socket
 import time
 import traceback
 from .packet import Packet,PacketType
+from .packets.Deco import decoPacket
 from .logs import log
-
+import time
 class Client:
     """
     Client réseau de The Last Signal.
@@ -180,11 +181,13 @@ class Client:
 
             return None
 
-    def disconnect(self):
+    def disconnect(self,raison):
         """
         Deconnexion du client
         """
         print("deconnexion")
+        self.send_packet(decoPacket(raison))
+        time.sleep(10)
 
         if self.socket:
 

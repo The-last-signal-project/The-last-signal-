@@ -128,26 +128,12 @@ let spawn_position = {
         0,
     )
 };
-
-self.world
-    .set_position(
-        self.session_id,
-        spawn_position,
-    )
-    .await;
-         self.world.broadcast_player_state(
-    self.session_id,
-    spawn_position,
-);
-
-         let snapshot = self.world.snapshot().await;
-
+let snapshot = self.world.snapshot().await;
 info!(
     "[{}] Synchronisation initiale : {} joueur(s)",
     self.session_id,
     snapshot.len()
 );
-
 for (player_id, position) in snapshot {
     let packet = World::player_state_packet(
         player_id,
@@ -169,6 +155,26 @@ for (player_id, position) in snapshot {
         return;
     }
 }
+
+self.world.set_position(
+    self.session_id,
+    spawn_position,
+).await;
+
+self.world.broadcast_player_state(
+    self.session_id,
+    spawn_position,
+);
+
+
+         
+
+
+
+
+
+    
+
 
         // --------------------------------------------------------
         // Timer de vérification du ban
