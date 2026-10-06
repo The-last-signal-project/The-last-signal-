@@ -112,7 +112,7 @@ class Packet:
         )
         if packet_type == PacketType.DECO:
             from .packets.Deco import decoPacket
-            return decoPacket.frompayload(payload)
+            return decoPacket.from_payload(payload)
         
 
 
