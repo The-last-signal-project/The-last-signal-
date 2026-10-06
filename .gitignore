@@ -1,18 +1,29 @@
-saves/*
+# Local saves
+saves/
 save.txt
-.idea/**
+client_python/save.json
+
+# IDE
+.idea/
 *.iml
+
+# Local scripts
 *.sh
 *.bat
+
 # Secrets
 security/master.key
-target/*
-node_modules/*
-.venv/*
-__pycache__/*
+
+# Build / dependencies
+target/
+node_modules/
+.venv/
+__pycache__/
+
+# SQLite temporary files
 database/the_last_signal.db-shm
 database/the_last_signal.db-wal
 
+# Logs
 server_rust/server.log
-server_rust/target/
-client_python/save.json
+logs/
