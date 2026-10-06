@@ -47,7 +47,7 @@ jobs:
           do
               [ -n "$LINE" ] || continue
 
-              # Ignorer les règles permanentes
+              # Ignorer les règles permanentes.
               if [[ "$LINE" == "database/**/*.db "* ]]
               then
                   continue
@@ -58,7 +58,13 @@ jobs:
                   continue
               fi
 
-              # Récupérer uniquement le pattern avant "filter=lfs"
+              # Ignorer les règles Linguist.
+              if [[ "$LINE" == "*.html linguist-generated" ]]
+              then
+                  continue
+              fi
+
+              # Récupérer uniquement le pattern avant "filter=lfs".
               PATH_PATTERN="${LINE%% filter=lfs*}"
 
               # --------------------------------------------------
@@ -70,7 +76,7 @@ jobs:
               then
                   BASE="reports/build"
 
-                  # Récupération du dossier build
+                  # Récupération du dossier build.
                   BUILD_DIR=$(echo "$PATH_PATTERN" | cut -d/ -f3)
 
                   if [ -z "$BUILD_DIR" ]
@@ -78,7 +84,7 @@ jobs:
                       continue
                   fi
 
-                  # Récupération de la date
+                  # Récupération de la date.
                   DATE_DIR=$(echo "$PATH_PATTERN" | cut -d/ -f4)
 
                   if [ -z "$DATE_DIR" ]
@@ -129,7 +135,7 @@ jobs:
               echo "📁 Dossier : $DIRECTORY"
 
               # Le dossier existe encore :
-              # le rapport est encore actif → NE PAS supprimer.
+              # le rapport est encore actif → conservation.
               if [ -d "$DIRECTORY" ]
               then
                   echo "   ✅ Dossier présent → conservation"
@@ -140,8 +146,7 @@ jobs:
               # il a donc été archivé → suppression historique.
               echo "   🗑️ Dossier absent → suppression historique"
 
-              # IMPORTANT :
-              # on enregistre le vrai chemin du dossier,
+              # Enregistrer le vrai chemin du dossier,
               # pas le glob provenant de .gitattributes.
               echo "$DIRECTORY" >> "$REMOVE_FILE"
 
@@ -224,9 +229,9 @@ jobs:
           echo ""
 
           git filter-repo \
-            --force \
-            "${ARGS[@]}" \
-            --invert-paths
+              --force \
+              "${ARGS[@]}" \
+              --invert-paths
 
       - name: Restore GitHub remote
         shell: bash
@@ -243,7 +248,7 @@ jobs:
           git remote remove origin 2>/dev/null || true
 
           git remote add origin \
-            "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+              "https://x-access-token:${GITHUB_TOKEN}@GitHub.com/${GITHUB_REPOSITORY}.git"
 
           echo ""
           echo "📡 Remote configuré :"
@@ -258,21 +263,110 @@ jobs:
           echo "📦 RECONSTRUCTION .gitattributes"
           echo "======================================"
 
-          if [ -f .gitattributes ]
+          if [ ! -f .gitattributes ]
           then
-              grep -vE \
-                '^reports/(python|rust)/[0-9]{4}-[0-9]{2}-[0-9]{2}/' \
-                .gitattributes \
-                > .gitattributes.tmp || true
-
-              grep -vE \
-                '^reports/build/[^/]+/[0-9]{4}-[0-9]{2}-[0-9]{2}/' \
-                .gitattributes.tmp \
-                > .gitattributes.new || true
-
-              mv .gitattributes.new .gitattributes
-              rm -f .gitattributes.tmp
+              echo "⚠️ .gitattributes n'existe pas."
+              exit 0
           fi
+
+          ATTRIBUTES_NEW="$(mktemp)"
+
+          while IFS= read -r LINE
+          do
+              # Conserver les lignes vides.
+              if [ -z "$LINE" ]
+              then
+                  echo "$LINE" >> "$ATTRIBUTES_NEW"
+                  continue
+              fi
+
+              # Conserver les règles permanentes.
+              if [[ "$LINE" == "database/**/*.db "* ]]
+              then
+                  echo "$LINE" >> "$ATTRIBUTES_NEW"
+                  continue
+              fi
+
+              if [[ "$LINE" == "*.png "* ]]
+              then
+                  echo "$LINE" >> "$ATTRIBUTES_NEW"
+                  continue
+              fi
+
+              # Conserver la règle Linguist.
+              if [[ "$LINE" == "*.html linguist-generated" ]]
+              then
+                  echo "$LINE" >> "$ATTRIBUTES_NEW"
+                  continue
+              fi
+
+              # Seules les règles LFS des rapports sont
+              # susceptibles d'être supprimées.
+              if [[ "$LINE" != *"filter=lfs"* ]]
+              then
+                  echo "$LINE" >> "$ATTRIBUTES_NEW"
+                  continue
+              fi
+
+              PATH_PATTERN="${LINE%% filter=lfs*}"
+
+              DIRECTORY=""
+
+              # reports/build/build-XXX/DATE/...
+              if [[ "$PATH_PATTERN" == reports/build/* ]]
+              then
+                  BUILD_DIR=$(echo "$PATH_PATTERN" | cut -d/ -f3)
+                  DATE_DIR=$(echo "$PATH_PATTERN" | cut -d/ -f4)
+
+                  if [ -n "$BUILD_DIR" ] && [ -n "$DATE_DIR" ]
+                  then
+                      DIRECTORY="reports/build/$BUILD_DIR/$DATE_DIR"
+                  fi
+
+              # reports/python/DATE/...
+              elif [[ "$PATH_PATTERN" == reports/python/* ]]
+              then
+                  DATE_DIR=$(echo "$PATH_PATTERN" | cut -d/ -f3)
+
+                  if [ -n "$DATE_DIR" ]
+                  then
+                      DIRECTORY="reports/python/$DATE_DIR"
+                  fi
+
+              # reports/rust/DATE/...
+              elif [[ "$PATH_PATTERN" == reports/rust/* ]]
+              then
+                  DATE_DIR=$(echo "$PATH_PATTERN" | cut -d/ -f3)
+
+                  if [ -n "$DATE_DIR" ]
+                  then
+                      DIRECTORY="reports/rust/$DATE_DIR"
+                  fi
+              fi
+
+              # Si ce n'est pas une règle de rapport connue,
+              # on la conserve.
+              if [ -z "$DIRECTORY" ]
+              then
+                  echo "$LINE" >> "$ATTRIBUTES_NEW"
+                  continue
+              fi
+
+              # Le dossier existe encore :
+              # conserver sa règle LFS.
+              if [ -d "$DIRECTORY" ]
+              then
+                  echo "✅ Conservation de la règle : $LINE"
+                  echo "$LINE" >> "$ATTRIBUTES_NEW"
+              else
+                  # Le dossier a été archivé :
+                  # supprimer sa règle LFS.
+                  echo "🗑️ Suppression de la règle : $LINE"
+              fi
+
+          done < .gitattributes
+
+          mv "$ATTRIBUTES_NEW" .gitattributes
 
           echo ""
           echo "📄 Configuration finale :"
@@ -294,6 +388,10 @@ jobs:
           echo ""
           echo "📄 Règles LFS restantes :"
           grep 'filter=lfs' .gitattributes || true
+
+          echo ""
+          echo "📄 Règles Linguist :"
+          grep 'linguist-' .gitattributes || true
 
           echo ""
           echo "📡 Remote :"
@@ -329,9 +427,9 @@ jobs:
           echo "🚀 Push forcé sécurisé..."
 
           git push \
-            --force-with-lease=refs/heads/ci-reports \
-            origin \
-            HEAD:refs/heads/ci-reports
+              --force-with-lease=refs/heads/ci-reports \
+              origin \
+              HEAD:refs/heads/ci-reports
 
           echo ""
           echo "======================================"
