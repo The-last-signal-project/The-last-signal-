@@ -70,8 +70,8 @@ impl World {
 
         info!(
             "WORLD: position enregistrée | \
-             player={} | x={} y={} z={}",
-            player_id,
+             x={} y={} z={}",
+            
             position.x,
             position.y,
             position.z
@@ -86,8 +86,7 @@ impl World {
 
         if positions.remove(&player_id).is_some() {
             info!(
-                "WORLD: joueur supprimé | player={}",
-                player_id
+                "WORLD: joueur supprimé"
             );
         }
     }
@@ -175,9 +174,9 @@ impl World {
             Ok(receiver_count) => {
                 info!(
                     "WORLD: PLAYER_STATE broadcasté | \
-                     player={} | x={} y={} z={} | \
+                      x={} y={} z={} | \
                      récepteurs={}",
-                    player_id,
+                    
                     position.x,
                     position.y,
                     position.z,
@@ -188,8 +187,8 @@ impl World {
             Err(error) => {
                 error!(
                     "WORLD: échec du broadcast PLAYER_STATE | \
-                     player={} | erreur={}",
-                    player_id,
+                      erreur={}",
+                    
                     error
                 );
             }

@@ -86,9 +86,9 @@ impl Client {
 
 
         info!(
-            "Client connecté : {} | Session : {}",
+            "Client connecté : {} ",
             peer,
-            self.session_id
+            
         );
         let mut world_rx =
          self.world.subscribe();
@@ -102,8 +102,8 @@ if let Err(e) = send_packet(
     &session_packet,
 ).await {
     error!(
-        "Impossible d'envoyer le paquet SESSION [{}] : {}",
-        self.session_id,
+        "Impossible d'envoyer le paquet SESSION: {}",
+        
         e
     );
     self.world
@@ -146,8 +146,8 @@ for (player_id, position) in snapshot {
     ).await {
         error!(
             "[{}] Erreur lors de l'envoi du snapshot \
-             du joueur {} : {}",
-            self.session_id,
+             du joueur : {}",
+            
             player_id,
             e
         );
@@ -406,8 +406,8 @@ self.world
                         Err(e) => {
 
                             error!(
-                                "Erreur lors de la vérification du ban [{}] : {}",
-                                self.session_id,
+                                "Erreur lors de la vérification du ban : {}",
+                                
                                 e
                             );
 
@@ -429,8 +429,8 @@ self.world
             {
 
                 error!(
-                    "Erreur d'envoi du paquet monde [{}] : {}",
-                    self.session_id,
+                    "Erreur d'envoi du paquet monde : {}",
+                    
                     e
                 );
 
@@ -445,8 +445,8 @@ self.world
         ) => {
 
             debug!(
-                "Client {} en retard de {} paquets monde",
-                self.session_id,
+                "Client en retard de {} paquets monde",
+                
                 count
             );
         }
