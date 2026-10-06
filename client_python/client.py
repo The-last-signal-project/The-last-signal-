@@ -125,7 +125,7 @@ class Client:
                 if data is None:
                     return None
                 packet = Packet.decode(data)
-                if packet.packet_type == packet.packet_type.BAN:
+                if packet.packet_type == PacketType.BAN:
                     raise SystemExit(1)
                     
                 return packet
