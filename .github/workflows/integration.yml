@@ -194,28 +194,11 @@ jobs:
              
              
              git push origin main --force-with-lease
-    - name: Cargo check
-      id: cargo-check
-      working-directory: server_rust
-      continue-on-error: true
-      run: |
-        set -o pipefail
+    
 
-        cargo check 2>&1 | tee cargo-check-error.log
-
-        STATUS=${PIPESTATUS[0]}
-
-        echo "exit_code=$STATUS" >> "$GITHUB_OUTPUT"
-
-        exit "$STATUS"
-
-    - name: Upload cargo check error
-      if: steps.cargo-check.outcome == 'failure'
-      uses: actions/upload-artifact@v7
-      with:
-        name: cargo-check-error
-        path: server_rust/cargo-check-error.log
-        retention-days: 7
+    
+ 
+       
     - name: Check VAULT_KEY
       run: |
              echo "VAULT_KEY présente : ${VAULT_KEY:+oui}"
@@ -473,22 +456,4 @@ jobs:
 
     with:
       mode: global
-  ai-fix:
-    name: AI Rust Error Analysis
-    needs: 
-      - integration
-      - cancel-critical
-      - Test-gui
-
-    if: >-
-      ${{
-        always() &&
-        needs.integration.outputs.cargo_check_failed == 'true'
-      }}
-
-    uses: ./.github/workflows/ai-fix.yml
-
-    with:
-      error-artifact: cargo-check-error
-      command: cargo check
-      working-directory: server_rust
+  
