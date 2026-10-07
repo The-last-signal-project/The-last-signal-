@@ -352,7 +352,7 @@ jobs:
              git config --global user.email "github-actions@github.com"
              git status
              git fetch origin
-             git rm -f --ignore-unmatch logs/.gitkeep logs/the_last_signal.log
+             git rm -f --ignore-unmatch logs/
              rm -rf ../ci-database
              if git ls-remote --exit-code --heads origin ci-database >/dev/null; then
              git worktree add ../ci-database ci-database
@@ -363,9 +363,7 @@ jobs:
              cd -
              fi
              mkdir -p ../ci-database/database
-             mkdir -p ../ci-database/logs
              cp -R database/. ../ci-database/database/ 2>/dev/null || true
-             cp -R logs/. ../ci-database/logs/ 2>/dev/null || true
              cd ../ci-database
              git add -A
              if git diff --cached --quiet; then
