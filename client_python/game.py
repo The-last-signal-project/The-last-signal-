@@ -1,6 +1,6 @@
-
 from __future__ import annotations
 
+import queue
 import struct
 import threading
 import uuid
@@ -18,6 +18,9 @@ class Game(QMainWindow):
     """
     Prototype 2D jouable de The Last Signal.
 
+    Le client 2D est une étape intermédiaire avant la transition
+    progressive vers le client 3D.
+
     Réseau :
 
         MOVE
@@ -33,13 +36,40 @@ class Game(QMainWindow):
 
         PLAYER_REMOVE
             player_id : UUID (16 octets)
+
+    Architecture :
+
+        Thread réseau
+              |
+              v
+        network_queue
+              |
+              v
+        Thread Qt / QTimer
+              |
+              v
+        état du jeu
+              |
+              v
+        rendu Qt
     """
+
+    # =============================================================
+    # CONFIGURATION
+    # =============================================================
 
     PLAYER_SIZE = 30
     PLAYER_SPEED = 5
 
     WORLD_WIDTH = 1000
     WORLD_HEIGHT = 700
+
+    GAME_TIMER_INTERVAL = 16
+    NETWORK_TIMER_INTERVAL = 16
+
+    # =============================================================
+    # INITIALISATION
+    # =============================================================
 
     def __init__(self, client: Client) -> None:
         super().__init__()
@@ -56,7 +86,7 @@ class Game(QMainWindow):
         )
 
         # =========================================================
-        # JOUEUR LOCAL
+        # ÉTAT DU JOUEUR LOCAL
         # =========================================================
 
         self.player_x = 100
@@ -75,7 +105,18 @@ class Game(QMainWindow):
         ] = {}
 
         # =========================================================
-        # CLAVIER
+        # FILE RÉSEAU
+        #
+        # Le thread réseau ne modifie jamais directement l'état
+        # graphique Qt.
+        #
+        # Il place uniquement les paquets dans cette file.
+        # =========================================================
+
+        self.network_queue: queue.Queue = queue.Queue()
+
+        # =========================================================
+        # ÉTAT DES TOUCHES
         # =========================================================
 
         self.keys: set[int] = set()
@@ -118,17 +159,41 @@ class Game(QMainWindow):
         ]
 
         # =========================================================
-        # RÉSEAU
+        # ÉTAT DU JEU
         # =========================================================
 
         self.running = True
 
+        # =========================================================
+        # THREAD RÉSEAU
+        # =========================================================
+
         self.network_thread = threading.Thread(
             target=self.network_loop,
+            name="GameNetworkThread",
             daemon=True,
         )
 
         self.network_thread.start()
+
+        # =========================================================
+        # TIMER RÉSEAU
+        #
+        # Le thread Qt récupère les paquets depuis la queue.
+        #
+        # Cela garantit que les modifications de l'état du jeu
+        # restent dans le thread Qt.
+        # =========================================================
+
+        self.network_timer = QTimer(self)
+
+        self.network_timer.timeout.connect(
+            self.process_network_queue
+        )
+
+        self.network_timer.start(
+            self.NETWORK_TIMER_INTERVAL
+        )
 
         # =========================================================
         # TIMER DE JEU
@@ -140,7 +205,9 @@ class Game(QMainWindow):
             self.update_game
         )
 
-        self.game_timer.start(16)
+        self.game_timer.start(
+            self.GAME_TIMER_INTERVAL
+        )
 
     # =============================================================
     # RÉSEAU
@@ -149,16 +216,75 @@ class Game(QMainWindow):
     def network_loop(self) -> None:
         """
         Attend les paquets envoyés par le serveur.
+
+        IMPORTANT :
+
+        Ce thread ne modifie pas directement l'état du jeu Qt.
+
+        Il place simplement les paquets reçus dans network_queue.
         """
 
-        print("[GAME] Thread réseau démarré.")
+        print(
+            "[GAME] Thread réseau démarré."
+        )
 
-        while self.running and self.client.connected:
+        while self.running:
 
-            packet = self.client.receive_packet()
+            if not self.client.connected:
+                break
+
+            try:
+                packet = self.client.receive_packet()
+
+            except Exception as exc:
+                print(
+                    "[GAME] Erreur réception réseau :",
+                    repr(exc),
+                )
+
+                break
 
             if packet is None:
                 continue
+
+            try:
+                self.network_queue.put_nowait(
+                    packet
+                )
+
+            except queue.Full:
+                print(
+                    "[GAME] File réseau pleine."
+                )
+
+        print(
+            "[GAME] Thread réseau arrêté."
+        )
+
+    # =============================================================
+    # TRAITEMENT FILE RÉSEAU
+    # =============================================================
+
+    def process_network_queue(self) -> None:
+        """
+        Traite les paquets reçus par le thread réseau.
+
+        Cette méthode est appelée par QTimer et s'exécute donc
+        dans le thread Qt principal.
+
+        Les modifications de l'état du jeu et les appels à update()
+        restent ainsi dans le thread graphique.
+        """
+
+        processed = 0
+
+        while processed < 100:
+
+            try:
+                packet = self.network_queue.get_nowait()
+
+            except queue.Empty:
+                break
 
             try:
                 self.handle_packet(packet)
@@ -169,23 +295,27 @@ class Game(QMainWindow):
                     repr(exc),
                 )
 
-        print("[GAME] Thread réseau arrêté.")
+            processed += 1
+
+    # =============================================================
+    # TRAITEMENT PAQUETS
+    # =============================================================
 
     def handle_packet(self, packet) -> None:
         """
-        Traite les paquets reçus du serveur.
+        Traite un paquet reçu du serveur.
+
+        Cette méthode doit être exécutée uniquement dans le thread
+        Qt principal.
         """
 
-        print(
-            "[GAME] Paquet reçu :",
-            packet.packet_type,
-        )
+        packet_type = packet.packet_type
 
         # ---------------------------------------------------------
         # PLAYER_STATE
         # ---------------------------------------------------------
 
-        if packet.packet_type == PacketType.PLAYER_STATE:
+        if packet_type == PacketType.PLAYER_STATE:
 
             self.handle_player_state(
                 packet.payload
@@ -197,7 +327,7 @@ class Game(QMainWindow):
         # PLAYER_REMOVE
         # ---------------------------------------------------------
 
-        if packet.packet_type == PacketType.PLAYER_REMOVE:
+        if packet_type == PacketType.PLAYER_REMOVE:
 
             self.handle_player_remove(
                 packet.payload
@@ -214,7 +344,9 @@ class Game(QMainWindow):
         payload: bytes,
     ) -> None:
         """
-        PLAYER_STATE :
+        Traite un PLAYER_STATE.
+
+        Format :
 
             16 octets : UUID
              4 octets : x
@@ -238,29 +370,41 @@ class Game(QMainWindow):
         # UUID
         # ---------------------------------------------------------
 
-        player_id = uuid.UUID(
-            bytes=payload[:16]
-        )
+        try:
+
+            player_id = uuid.UUID(
+                bytes=payload[:16]
+            )
+
+        except ValueError:
+
+            print(
+                "[GAME] UUID PLAYER_STATE invalide."
+            )
+
+            return
 
         # ---------------------------------------------------------
-        # Position
+        # POSITION
         # ---------------------------------------------------------
 
-        x, y, z = struct.unpack(
-            "!iii",
-            payload[16:28],
-        )
+        try:
 
-        print(
-            "[GAME] PLAYER_STATE :",
-            player_id,
-            "=>",
-            (x, y, z),
-        )
+            x, y, z = struct.unpack(
+                "!iii",
+                payload[16:28],
+            )
+
+        except struct.error:
+
+            print(
+                "[GAME] Position PLAYER_STATE invalide."
+            )
+
+            return
 
         # ---------------------------------------------------------
-        # Si on connaît notre UUID, on peut identifier le joueur
-        # local.
+        # JOUEUR LOCAL
         # ---------------------------------------------------------
 
         local_id = self.get_local_player_id()
@@ -274,25 +418,20 @@ class Game(QMainWindow):
             self.player_y = y
             self.player_z = z
 
+            self.update()
+
             return
 
         # ---------------------------------------------------------
-        # Sinon, on conserve le joueur comme joueur distant.
+        # JOUEUR DISTANT
         #
-        # IMPORTANT :
-        # On ne fait aucune comparaison de position.
-        # L'UUID est l'identité du joueur.
+        # L'identité repose exclusivement sur l'UUID.
         # ---------------------------------------------------------
 
         self.remote_players[player_id] = (
             x,
             y,
             z,
-        )
-
-        print(
-            "[GAME] Joueurs distants :",
-            len(self.remote_players),
         )
 
         self.update()
@@ -306,7 +445,9 @@ class Game(QMainWindow):
         payload: bytes,
     ) -> None:
         """
-        PLAYER_REMOVE :
+        Traite un PLAYER_REMOVE.
+
+        Format :
 
             16 octets : UUID
         """
@@ -321,14 +462,19 @@ class Game(QMainWindow):
 
             return
 
-        player_id = uuid.UUID(
-            bytes=payload
-        )
+        try:
 
-        print(
-            "[GAME] PLAYER_REMOVE :",
-            player_id,
-        )
+            player_id = uuid.UUID(
+                bytes=payload
+            )
+
+        except ValueError:
+
+            print(
+                "[GAME] UUID PLAYER_REMOVE invalide."
+            )
+
+            return
 
         self.remote_players.pop(
             player_id,
@@ -383,6 +529,15 @@ class Game(QMainWindow):
     # =============================================================
 
     def update_game(self) -> None:
+        """
+        Met à jour le joueur local.
+
+        Le déplacement reste actuellement client-side pour le
+        prototype.
+
+        Le protocole conserve x/y/z afin de préparer la future
+        transition vers le monde 3D.
+        """
 
         old_x = self.player_x
         old_y = self.player_y
@@ -399,6 +554,7 @@ class Game(QMainWindow):
             Qt.Key_Z in self.keys
             or Qt.Key_W in self.keys
         ):
+
             dy -= self.PLAYER_SPEED
 
         # ---------------------------------------------------------
@@ -406,6 +562,7 @@ class Game(QMainWindow):
         # ---------------------------------------------------------
 
         if Qt.Key_S in self.keys:
+
             dy += self.PLAYER_SPEED
 
         # ---------------------------------------------------------
@@ -416,6 +573,7 @@ class Game(QMainWindow):
             Qt.Key_Q in self.keys
             or Qt.Key_A in self.keys
         ):
+
             dx -= self.PLAYER_SPEED
 
         # ---------------------------------------------------------
@@ -423,6 +581,7 @@ class Game(QMainWindow):
         # ---------------------------------------------------------
 
         if Qt.Key_D in self.keys:
+
             dx += self.PLAYER_SPEED
 
         # ---------------------------------------------------------
@@ -448,6 +607,10 @@ class Game(QMainWindow):
 
             self.send_position_to_server()
 
+        # ---------------------------------------------------------
+        # RENDU
+        # ---------------------------------------------------------
+
         self.update()
 
     # =============================================================
@@ -459,12 +622,16 @@ class Game(QMainWindow):
         dx: int,
         dy: int,
     ) -> None:
+        """
+        Déplace le joueur local avec limites du monde
+        et collisions avec les murs.
+        """
 
         new_x = self.player_x + dx
         new_y = self.player_y + dy
 
         # ---------------------------------------------------------
-        # LIMITES
+        # LIMITES DU MONDE
         # ---------------------------------------------------------
 
         new_x = max(
@@ -497,7 +664,12 @@ class Game(QMainWindow):
         for wall in self.walls:
 
             if player_rect.intersects(wall):
+
                 return
+
+        # ---------------------------------------------------------
+        # VALIDATION DU DÉPLACEMENT
+        # ---------------------------------------------------------
 
         self.player_x = new_x
         self.player_y = new_y
@@ -507,6 +679,12 @@ class Game(QMainWindow):
     # =============================================================
 
     def send_position_to_server(self) -> None:
+        """
+        Envoie la position actuelle au serveur.
+        """
+
+        if not self.client.connected:
+            return
 
         packet = MovePacket(
             int(self.player_x),
@@ -514,9 +692,18 @@ class Game(QMainWindow):
             int(self.player_z),
         )
 
-        self.client.send_packet(
-            packet
-        )
+        try:
+
+            self.client.send_packet(
+                packet
+            )
+
+        except Exception as exc:
+
+            print(
+                "[GAME] Erreur envoi position :",
+                repr(exc),
+            )
 
     # =============================================================
     # CLAVIER
@@ -526,6 +713,9 @@ class Game(QMainWindow):
         self,
         event: QKeyEvent,
     ) -> None:
+        """
+        Enregistre une touche enfoncée.
+        """
 
         if event.isAutoRepeat():
             return
@@ -538,6 +728,9 @@ class Game(QMainWindow):
         self,
         event: QKeyEvent,
     ) -> None:
+        """
+        Retire une touche lorsqu'elle est relâchée.
+        """
 
         if event.isAutoRepeat():
             return
@@ -551,6 +744,12 @@ class Game(QMainWindow):
     # =============================================================
 
     def paintEvent(self, event) -> None:
+        """
+        Dessine le monde 2D actuel.
+
+        Ce rendu est volontairement simple :
+        la 2D sert de prototype avant la transition vers la 3D.
+        """
 
         painter = QPainter(self)
 
@@ -583,23 +782,16 @@ class Game(QMainWindow):
         )
 
         for wall in self.walls:
-            painter.drawRect(wall)
 
-        # ---------------------------------------------------------
-        # JOUEUR LOCAL
-        # ---------------------------------------------------------
-
-        self.draw_local_player(
-            painter
-        )
+            painter.drawRect(
+                wall
+            )
 
         # ---------------------------------------------------------
         # JOUEURS DISTANTS
         #
-        # On les dessine APRÈS le joueur local.
-        #
-        # Ainsi, si deux joueurs sont exactement à la même
-        # position, le joueur distant reste visible.
+        # Les joueurs distants sont dessinés avant le joueur local.
+        # Cela permet au joueur local de rester clairement visible.
         # ---------------------------------------------------------
 
         for player_id, position in list(
@@ -616,8 +808,34 @@ class Game(QMainWindow):
             )
 
         # ---------------------------------------------------------
+        # JOUEUR LOCAL
+        # ---------------------------------------------------------
+
+        self.draw_local_player(
+            painter
+        )
+
+        # ---------------------------------------------------------
         # INFORMATIONS DEBUG
         # ---------------------------------------------------------
+
+        self.draw_debug_info(
+            painter
+        )
+
+        painter.end()
+
+    # =============================================================
+    # INFORMATIONS DEBUG
+    # =============================================================
+
+    def draw_debug_info(
+        self,
+        painter: QPainter,
+    ) -> None:
+        """
+        Affiche les informations utiles pendant le développement.
+        """
 
         painter.setPen(
             QPen(Qt.white)
@@ -626,8 +844,10 @@ class Game(QMainWindow):
         painter.drawText(
             10,
             20,
-            f"Joueurs distants : "
-            f"{len(self.remote_players)}",
+            (
+                "Joueurs distants : "
+                f"{len(self.remote_players)}"
+            ),
         )
 
         local_id = self.get_local_player_id()
@@ -645,11 +865,31 @@ class Game(QMainWindow):
             painter.drawText(
                 10,
                 40,
-                f"UUID local : "
-                f"{str(local_id)[:8]}",
+                (
+                    "UUID local : "
+                    f"{str(local_id)[:8]}"
+                ),
             )
 
-        painter.end()
+        painter.drawText(
+            10,
+            60,
+            (
+                "Position : "
+                f"{self.player_x}, "
+                f"{self.player_y}, "
+                f"{self.player_z}"
+            ),
+        )
+
+        painter.drawText(
+            10,
+            80,
+            (
+                "Contrôles : "
+                "ZQSD / WASD"
+            ),
+        )
 
     # =============================================================
     # JOUEUR LOCAL
@@ -659,6 +899,9 @@ class Game(QMainWindow):
         self,
         painter: QPainter,
     ) -> None:
+        """
+        Dessine le joueur local.
+        """
 
         painter.setBrush(
             QBrush(Qt.green)
@@ -701,17 +944,21 @@ class Game(QMainWindow):
         x: int,
         y: int,
     ) -> None:
-
-        # ---------------------------------------------------------
-        # Si le joueur distant est exactement sous le joueur local,
-        # on dessine un contour beaucoup plus grand pour qu'il
-        # reste visible.
-        # ---------------------------------------------------------
+        """
+        Dessine un joueur distant.
+        """
 
         same_position = (
-            abs(x - self.player_x) < self.PLAYER_SIZE
-            and abs(y - self.player_y) < self.PLAYER_SIZE
+            abs(x - self.player_x)
+            < self.PLAYER_SIZE
+            and
+            abs(y - self.player_y)
+            < self.PLAYER_SIZE
         )
+
+        # ---------------------------------------------------------
+        # JOUEUR SUPERPOSÉ AU JOUEUR LOCAL
+        # ---------------------------------------------------------
 
         if same_position:
 
@@ -734,6 +981,10 @@ class Game(QMainWindow):
                     self.PLAYER_SIZE + 16,
                 )
             )
+
+        # ---------------------------------------------------------
+        # JOUEUR NORMAL
+        # ---------------------------------------------------------
 
         else:
 
@@ -758,7 +1009,7 @@ class Game(QMainWindow):
             )
 
         # ---------------------------------------------------------
-        # UUID
+        # IDENTIFIANT
         # ---------------------------------------------------------
 
         painter.setPen(
@@ -775,17 +1026,47 @@ class Game(QMainWindow):
     # FERMETURE
     # =============================================================
 
-    def closeEvent(self, event) -> None:
+    def closeEvent(
+        self,
+        event,
+    ) -> None:
+        """
+        Ferme proprement le jeu et arrête les threads/timers.
+        """
 
         self.running = False
 
+        # ---------------------------------------------------------
+        # ARRÊT DES TIMERS
+        # ---------------------------------------------------------
+
         self.game_timer.stop()
+        self.network_timer.stop()
+
+        # ---------------------------------------------------------
+        # VIDAGE DES TOUCHES
+        # ---------------------------------------------------------
+
+        self.keys.clear()
+
+        # ---------------------------------------------------------
+        # DÉCONNEXION
+        # ---------------------------------------------------------
 
         try:
+
             self.client.disconnect()
 
-        except Exception:
-            pass
+        except Exception as exc:
+
+            print(
+                "[GAME] Erreur déconnexion :",
+                repr(exc),
+            )
+
+        # ---------------------------------------------------------
+        # ATTENTE DU THREAD RÉSEAU
+        # ---------------------------------------------------------
 
         if self.network_thread.is_alive():
 
@@ -796,9 +1077,11 @@ class Game(QMainWindow):
         event.accept()
 
 
-def run_game(client: Client) -> None:
+def run_game(
+    client: Client,
+) -> None:
     """
-    Lance le jeu.
+    Lance le prototype 2D.
     """
 
     app = QApplication.instance()
@@ -806,11 +1089,17 @@ def run_game(client: Client) -> None:
     owns_app = app is None
 
     if app is None:
+
         app = QApplication([])
 
     window = Game(client)
 
     window.show()
 
+    window.activateWindow()
+    window.raise_()
+    window.setFocus()
+
     if owns_app:
+
         app.exec()
