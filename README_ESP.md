@@ -209,4 +209,277 @@ Las contribuciones son especialmente bienvenidas en:
 
 ---
 
-# 🟢 Tu primera contr
+# 🟢 Tu primera contribución
+
+Puedes elegir una tarea adaptada a tu experiencia y al tiempo que quieras dedicar al proyecto.
+
+| Nivel         | Tiempo estimado | Ejemplos                                     |
+| ------------- | --------------: | -------------------------------------------- |
+| 🟢 Fácil      |       20–40 min | Añadir un test, corregir documentación       |
+| 🟡 Intermedio |           1–2 h | Mejorar una validación, añadir más tests     |
+| 🟠 Avanzado   |           2–4 h | Modificar una funcionalidad cliente/servidor |
+
+➡️ Recomendamos empezar con una issue marcada como **`good first issue`**.
+
+Una buena issue debería indicar claramente:
+
+* 🎯 qué debe hacerse;
+* 📂 qué partes del proyecto están involucradas;
+* 🧪 cómo probar los cambios;
+* ✅ qué criterios permiten considerar la tarea terminada.
+
+---
+
+# 🔁 ¿Has terminado tu primera contribución?
+
+Tu primera Pull Request no tiene por qué ser la última.
+
+## 💬 Danos tu feedback
+
+Después de terminar tu contribución, **no dudes en dejar feedback directamente en la issue asociada**.
+
+Puedes indicar:
+
+* 💬 qué fue claro o difícil de entender;
+* 🧩 qué información te faltó;
+* 🐛 qué problemas encontraste durante el desarrollo;
+* 💡 cómo podría mejorarse la issue;
+* 📚 qué documentación podría mejorarse.
+
+**Tu feedback nos ayuda a mejorar las próximas issues y a hacer que las contribuciones sean más fáciles para todos.**
+
+> 💡 Aunque no quieras trabajar inmediatamente en otra tarea, tu feedback sigue siendo una contribución valiosa para el proyecto.
+
+## 🚀 Continuar después de tu primera contribución
+
+Después de tu primera contribución, puedes continuar con una tarea relacionada con el área que acabas de descubrir.
+
+Por ejemplo:
+
+```text
+🧪 Tests de Packet
+       ↓
+🧪 Casos inválidos
+       ↓
+🌐 Tests de red
+       ↓
+🔧 Validación de datos
+       ↓
+🎮 Funcionalidad cliente/servidor
+```
+
+Esta progresión permite descubrir el proyecto poco a poco sin tener que comprender toda la arquitectura desde la primera contribución.
+
+> ⭐ **Empieza con algo pequeño, danos tu feedback y ve asumiendo tareas más importantes progresivamente.**
+
+---
+
+# 📐 Reglas de contribución
+
+Antes de proponer una modificación:
+
+* 📐 respeta las convenciones del proyecto;
+* 📚 documenta las nuevas funcionalidades cuando sea necesario;
+* 🧪 prueba tus cambios;
+* 🌿 utiliza una rama Git dedicada para cada modificación;
+* 📝 describe claramente tus cambios en tu Pull Request.
+
+Antes de contribuir, consulta:
+
+➡️ [📜 Reglas de desarrollo](docs_ESP/CODING_RULES_ESP.md)
+
+➡️ [📖 Documentación](docs_ESP/README_ESP.md)
+
+---
+
+# 🌍 Presentación
+
+**The Last Signal Online** es un MMORPG de supervivencia ambientado en un mundo postapocalíptico persistente.
+
+Después de un misterioso acontecimiento que destruyó la civilización, los últimos supervivientes intentan reconstruir un nuevo mundo mientras descubren el origen de la última señal emitida por una antigua infraestructura olvidada.
+
+El proyecto tiene como objetivo crear una experiencia multijugador que combine:
+
+* 🌍 un mundo persistente;
+* 👥 jugadores compartiendo el mismo mundo;
+* ⚔️ combates PvE y PvP;
+* 🏰 gremios y territorios;
+* 💰 una economía dirigida por los jugadores;
+* 🛠️ un sistema de fabricación;
+* 📖 una historia evolutiva;
+* 🔎 exploración y descubrimiento.
+
+---
+
+# 🚀 Visión del proyecto
+
+El objetivo de **The Last Signal Online** es crear un MMORPG independiente que ofrezca:
+
+* 🌍 un universo rico y coherente;
+* 👥 una fuerte interacción entre jugadores;
+* 🌎 decisiones que tengan un impacto en el mundo;
+* 🧭 libertad de progresión;
+* 🏗️ una arquitectura capaz de evolucionar a largo plazo.
+
+El proyecto se desarrolla con un enfoque inspirado en los estudios profesionales de videojuegos:
+
+* 📚 documentación estructurada;
+* 🏗️ arquitectura diseñada antes del desarrollo;
+* 🔄 integración continua;
+* 🧪 tests automatizados;
+* 📊 seguimiento de la calidad del código.
+
+---
+
+# 🛠️ Tecnologías utilizadas
+
+## 🎮 Cliente
+
+| Tecnología                  | Uso                 |
+| --------------------------- | ------------------- |
+| 🐍 Python                   | Cliente principal   |
+| 🎨 VisPy                    | Renderizado gráfico |
+| 🖥️ Qt for Python (PySide6) | Interfaz de usuario |
+
+## 🌐 Servidor
+
+| Tecnología    | Uso                           |
+| ------------- | ----------------------------- |
+| 🦀 Rust       | Servidor multijugador         |
+| 🌐 Networking | Comunicación cliente/servidor |
+| 🗄️ SQLite    | Base de datos                 |
+
+---
+
+# 📂 Organización del proyecto
+
+```text
+The-last-signal/
+│
+├── client_python/          # Cliente del juego
+├── server_rust/            # Servidor Rust
+├── database/               # Scripts de bases de datos
+├── assets/                 # Recursos gráficos y de audio
+│
+├── docs/                   # Documentación completa (Francés)
+│   ├── gdd/                # Game Design Document
+│   ├── tdd/                # Technical Design Document
+│   └── ...
+│
+├── docs_ENG/               # Documentación completa (Inglés)
+│   ├── gdd/                # Game Design Document
+│   ├── tdd/                # Technical Design Document
+│   └── ...
+│
+├── scripts/                # Herramientas de desarrollo
+├── tests/                  # Tests automatizados
+│
+├── README.md
+└── LICENSE
+```
+
+---
+
+# 📚 Documentación
+
+La documentación completa del proyecto está disponible aquí:
+
+➡️ [📖 Documentación oficial](docs_ESP/README_ESP.md)
+
+Incluye:
+
+* 🎮 Game Design Document (GDD);
+* 🏗️ Technical Design Document (TDD);
+* 🌍 lore del mundo;
+* ⚔️ gameplay;
+* 🌐 arquitectura de red;
+* 🗄️ estructura de datos;
+* 📅 roadmap.
+
+---
+
+# 📊 Estado del proyecto
+
+| Módulo            |      Estado      |
+| ----------------- | :--------------: |
+| 📚 Documentación  | 🟡 En desarrollo |
+| 🎮 Cliente Python | 🟡 En desarrollo |
+| 🦀 Servidor Rust  | 🟡 En desarrollo |
+| 🌐 Red            | 🟡 En desarrollo |
+| 🗄️ Base de datos | 🟡 En desarrollo |
+| 🎨 Assets         |  🟡 Preparación  |
+| 🎮 Gameplay       |   🟢 Prototipo   |
+| 🌍 Universo       |   🟢 Prototipo   |
+
+### Leyenda
+
+* 🟢 Funcional / Prototipo
+* 🟡 En desarrollo
+* ⚪ Previsto
+
+---
+
+# 🏗️ Proceso de desarrollo
+
+El proyecto sigue una organización inspirada en los estudios profesionales de videojuegos:
+
+```text
+Diseño
+    ↓
+Documentación
+    ↓
+Prototipo
+    ↓
+Tests
+    ↓
+Desarrollo
+    ↓
+Optimización
+```
+
+Cada funcionalidad importante debe estar documentada y planificada antes de su implementación.
+
+---
+
+# ❓ FAQ
+
+¿Tienes alguna pregunta sobre el proyecto?
+
+➡️ [❓ Consulta la FAQ completa](docs_ESP/FAQ_ESP.md)
+
+---
+
+# 🎮 Controles del juego
+
+Consulta el siguiente archivo para conocer los controles disponibles:
+
+➡️ [🎮 Controles](touches_de_commandes)
+
+---
+
+# 📅 Roadmap
+
+Consulta la hoja de ruta del proyecto:
+
+➡️ [📅 Roadmap](docs_ESP/ROADMAP_ESP.md)
+
+---
+
+# 👥 Equipo
+
+| Nombre       | Función                                    |
+| ------------ | ------------------------------------------ |
+| Morgan Piva  | Director                                   |
+| Cyril Capiez | Director adjunto y desarrollador principal |
+
+---
+
+# 📜 Licencia
+
+➡️ [📜 Licencia](LICENSE)
+
+---
+
+<img width="1024" height="559" alt="The Last Signal" src="https://github.com/user-attachments/assets/d96d0663-e01c-4911-841e-838f23e0e7cb" />
+
+> **The Last Signal — Cuando el mundo desaparece, una última señal permanece.**
