@@ -169,7 +169,8 @@ jobs:
 
              git add vendor Cargo.lock .cargo/config.toml
              git stash --staged
-             git pull
+             git fetch origin main
+             git reset --hard origin/main
              if git stash list | grep -q '^stash@{0}:'
              then
              
@@ -192,7 +193,7 @@ jobs:
              git diff --cached --quiet || git commit -m "chore: update Cargo vendor"
              
              
-             git push origin main
+             git push origin main --force-with-lease
     - name: Cargo check
       id: cargo-check
       working-directory: server_rust
