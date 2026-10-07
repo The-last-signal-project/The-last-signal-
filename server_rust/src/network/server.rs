@@ -7,7 +7,7 @@ use log::{
 };
 use crate::database::database_manager::DatabaseManager;
 use crate::network::client::Client;
-use crate::network::world::World;
+use crate::world::world::World;
 pub struct Server {
     listener: TcpListener,
     database: DatabaseManager,

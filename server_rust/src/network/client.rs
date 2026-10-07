@@ -15,7 +15,7 @@ use log::{
 };
 use rand::RngExt;
 use crate::network::handler::{PacketHandler,HandlerResult};
-use crate::network::world::{World,Position};
+use crate::world::world::{World,Position};
 use crate::network::packet::{
     receive_packet,
     send_packet,
@@ -130,8 +130,8 @@ let spawn_position = {
 };
 let snapshot = self.world.snapshot().await;
 info!(
-    "[{}] Synchronisation initiale : {} joueur(s)",
-    self.session_id,
+    " Synchronisation initiale : {} joueur(s)",
+    
     snapshot.len()
 );
 for (player_id, position) in snapshot {
