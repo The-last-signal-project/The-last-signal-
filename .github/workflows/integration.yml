@@ -135,8 +135,12 @@ jobs:
       continue-on-error: true
       working-directory: server_rust
       run: |
+             mkdir -p temp
+             mv .cargo temp/
              cargo install cargo-outdated --locked
              cargo outdated
+             cd temp
+             mv .cargo ..
     
     - name: Debug environment
       run: |
