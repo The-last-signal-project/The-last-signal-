@@ -7,7 +7,8 @@ import uuid
 from pathlib import Path
 
 import numpy as np
-from vispy import app, io, scene
+from PIL import Image
+from vispy import app, scene
 from vispy.scene import visuals
 
 from .client import Client
@@ -15,80 +16,97 @@ from .packet import PacketType
 from .packets.move import MovePacket
 
 
-class Game:
+class Game(scene.SceneCanvas):
     """
     3D first-person game client.
 
-    Coordinate mapping:
-        Server X -> World X
-        Server Y -> World Z
-        Server Z -> World Y
-
-    The server protocol remains unchanged.
-
-    The player does not appear as a visible mesh locally because
-    the camera represents the player's eyes.
-
-    Network architecture:
-        Network thread
-              ↓
+    Architecture:
+        Server
+          ↓
+        Client
+          ↓
+        network thread
+          ↓
         network_queue
-              ↓
-        game update
-              ↓
-        local / remote players
+          ↓
+        Game
+          ↓
+        VisPy
+
+    Coordinate conversion:
+
+        Server:
+            x = horizontal
+            y = depth
+            z = vertical
+
+        VisPy:
+            X = server x
+            Y = server z
+            Z = server y
     """
 
     # ------------------------------------------------------------------
-    # Window
+    # WORLD
     # ------------------------------------------------------------------
 
-    WINDOW_SIZE = (1280, 720)
-    WINDOW_TITLE = "The Last Signal Online - 3D"
+    WORLD_WIDTH = 1000.0
+    WORLD_DEPTH = 1000.0
+    WORLD_HEIGHT = 120.0
 
-    # ------------------------------------------------------------------
-    # Terrain
-    # ------------------------------------------------------------------
+    # Heightmap resolution after optional downsampling.
+    MAX_TERRAIN_SIZE = 512
 
-    HEIGHTMAP_PATH = "assets/map_height.png"
-    COLOR_MAP_PATH = "assets/map_color.png"
-
-    TERRAIN_SIZE = 1000.0
-    TERRAIN_HEIGHT = 120.0
-
-    # ------------------------------------------------------------------
-    # Player
-    # ------------------------------------------------------------------
-
+    # First-person camera.
     PLAYER_HEIGHT = 2.0
     PLAYER_SPEED = 5.0
 
-    # ------------------------------------------------------------------
-    # Network
-    # ------------------------------------------------------------------
+    # Network.
+    NETWORK_QUEUE_LIMIT = 100
 
-    PLAYER_STATE_SIZE = 28
-    PLAYER_REMOVE_SIZE = 16
+    # Visuals.
+    REMOTE_PLAYER_RADIUS = 2.0
 
     # ------------------------------------------------------------------
-    # Update
+    # INIT
     # ------------------------------------------------------------------
-
-    UPDATE_INTERVAL = 1.0 / 60.0
-    NETWORK_INTERVAL = 1.0 / 60.0
 
     def __init__(self, client: Client):
+        super().__init__(
+            keys="interactive",
+            title="The Last Signal",
+            size=(1280, 720),
+            bgcolor="black",
+        )
+
         self.client = client
+
+        # Prevent VisPy from automatically closing the application
+        # when this canvas disappears unexpectedly.
+        self.unfreeze()
+
+        # --------------------------------------------------------------
+        # GAME STATE
+        # --------------------------------------------------------------
 
         self.running = True
 
-        # --------------------------------------------------------------
-        # Network state
-        # --------------------------------------------------------------
-
-        self.network_queue: queue.Queue[bytes] = queue.Queue()
+        self.local_x = 100.0
+        self.local_y = 100.0
+        self.local_z = 0.0
 
         self.remote_players: dict[uuid.UUID, tuple[int, int, int]] = {}
+
+        # UUID -> VisPy visual
+        self.remote_visuals: dict[uuid.UUID, visuals.Markers] = {}
+
+        # --------------------------------------------------------------
+        # NETWORK
+        # --------------------------------------------------------------
+
+        self.network_queue: queue.Queue = queue.Queue(
+            maxsize=self.NETWORK_QUEUE_LIMIT
+        )
 
         self.network_thread = threading.Thread(
             target=self._network_loop,
@@ -97,107 +115,61 @@ class Game:
         )
 
         # --------------------------------------------------------------
-        # Local player
-        #
-        # Server coordinates are kept exactly as before:
-        #
-        #   x = horizontal X
-        #   y = horizontal Z
-        #   z = vertical
-        #
-        # The camera uses:
-        #
-        #   world X = server X
-        #   world Y = terrain height / vertical
-        #   world Z = server Y
+        # SCENE
         # --------------------------------------------------------------
 
-        self.player_x = 100.0
-        self.player_z = 100.0
-        self.player_server_z = 0
+        self.view = self.central_widget.add_view()
 
-        # --------------------------------------------------------------
-        # Input
-        # --------------------------------------------------------------
-
-        self.keys: set[str] = set()
-
-        # --------------------------------------------------------------
-        # Terrain
-        # --------------------------------------------------------------
-
-        self.height_data: np.ndarray | None = None
-        self.terrain_size_x = self.TERRAIN_SIZE
-        self.terrain_size_z = self.TERRAIN_SIZE
-
-        # --------------------------------------------------------------
-        # VisPy
-        # --------------------------------------------------------------
-
-        self.canvas = scene.SceneCanvas(
-            keys="interactive",
-            size=self.WINDOW_SIZE,
-            bgcolor=(0.03, 0.03, 0.04, 1.0),
-            show=False,
-        )
-
-        self.canvas.title = self.WINDOW_TITLE
-
-        self.view = self.canvas.central_widget.add_view()
-
-        # FlyCamera = first-person / FPS-style camera.
-        self.camera = scene.cameras.FlyCamera(
-            fov=75.0,
+        self.view.camera = scene.cameras.FlyCamera(
+            fov=70.0,
             parent=self.view.scene,
         )
 
-        self.camera.auto_roll = True
+        self.camera = self.view.camera
+
+        # Movement speed of the FlyCamera.
         self.camera.scale_factor = self.PLAYER_SPEED
 
-        self.view.camera = self.camera
+        # First-person camera should not roll.
+        self.camera.auto_roll = False
 
         # --------------------------------------------------------------
-        # Scene objects
+        # TERRAIN
         # --------------------------------------------------------------
 
-        self.terrain: visuals.Mesh | None = None
+        self.heightmap: np.ndarray | None = None
+        self.color_map: np.ndarray | None = None
 
-        self.remote_visuals: dict[uuid.UUID, visuals.Sphere] = {}
+        self.terrain = None
 
         self._load_terrain()
 
         # --------------------------------------------------------------
-        # Start position
+        # CAMERA INITIAL POSITION
         # --------------------------------------------------------------
 
-        self._place_camera_at_player()
+        self._place_camera_initially()
 
         # --------------------------------------------------------------
-        # VisPy timers
+        # VISPY TIMER
         # --------------------------------------------------------------
 
-        self.game_timer = app.Timer(
-            interval=self.UPDATE_INTERVAL,
-            connect=self._game_update,
-            start=True,
-        )
-
-        self.network_timer = app.Timer(
-            interval=self.NETWORK_INTERVAL,
-            connect=self._process_network_queue,
+        self.timer = app.Timer(
+            interval=1.0 / 60.0,
+            connect=self._update,
             start=True,
         )
 
         # --------------------------------------------------------------
-        # Events
+        # EVENTS
         # --------------------------------------------------------------
 
-        self.canvas.events.key_press.connect(self._on_key_press)
-        self.canvas.events.key_release.connect(self._on_key_release)
-        self.canvas.events.close.connect(self._on_close)
+        self.events.key_press.connect(self._on_key_press)
+        self.events.key_release.connect(self._on_key_release)
+        self.events.mouse_press.connect(self._on_mouse_press)
 
         # --------------------------------------------------------------
-        # Network
+        # NETWORK THREAD
         # --------------------------------------------------------------
 
         self.network_thread.start()
@@ -206,141 +178,144 @@ class Game:
     # TERRAIN
     # ==================================================================
 
-    def _find_asset(self, relative_path: str) -> Path:
+    def _assets_directory(self) -> Path:
         """
-        Find an asset regardless of the directory from which the client
-        was launched.
+        Find the project assets directory.
+
+        Expected:
+
+            project/
+                assets/
+                    map_height.png
+                    map_color.png
+                    map_collision.png
         """
 
-        path = Path(relative_path)
+        current_file = Path(__file__).resolve()
 
-        if path.exists():
-            return path
+        # client_python/game.py
+        # -> project root
+        project_root = current_file.parent.parent
 
-        # Project root when this file is:
-        # project/client_python/game.py
-        project_root = Path(__file__).resolve().parent.parent
+        assets = project_root / "assets"
 
-        candidate = project_root / relative_path
+        if assets.exists():
+            return assets
 
-        if candidate.exists():
-            return candidate
-
-        raise FileNotFoundError(
-            f"Asset introuvable: {relative_path}\n"
-            f"Chemin testé: {path}\n"
-            f"Chemin projet: {candidate}"
-        )
+        # Fallback for unusual launch locations.
+        return Path("assets")
 
     def _load_terrain(self) -> None:
         """
-        Build the 3D terrain from map_height.png.
-
-        map_height.png:
-            grayscale heightmap
-
-        map_color.png:
-            optional RGB/RGBA color map used as vertex colors.
+        Load map_height.png and create the 3D terrain mesh.
         """
 
-        height_path = self._find_asset(self.HEIGHTMAP_PATH)
+        assets = self._assets_directory()
 
-        height_image = io.read(str(height_path))
+        height_path = assets / "map_height.png"
+        color_path = assets / "map_color.png"
 
-        if height_image.ndim == 3:
-            height_gray = height_image[..., :3].mean(axis=2)
-        else:
-            height_gray = height_image.astype(np.float32)
+        if not height_path.exists():
+            raise FileNotFoundError(
+                f"Heightmap introuvable : {height_path}"
+            )
 
-        height_gray = height_gray.astype(np.float32)
+        print(f"[GAME] Chargement heightmap : {height_path}")
 
-        # Normalize heightmap to [0, 1].
-        min_height = float(height_gray.min())
-        max_height = float(height_gray.max())
+        # --------------------------------------------------------------
+        # HEIGHTMAP
+        # --------------------------------------------------------------
 
-        if max_height > min_height:
-            height_normalized = (
-                height_gray - min_height
-            ) / (max_height - min_height)
-        else:
-            height_normalized = np.zeros_like(height_gray)
+        height_image = Image.open(height_path).convert("L")
 
-        # Downsample very large maps to keep the prototype responsive.
-        max_resolution = 512
-
-        height_normalized = self._resize_grid(
-            height_normalized,
-            max_resolution,
-        )
-
-        rows, cols = height_normalized.shape
-
-        # Terrain dimensions.
-        xs = np.linspace(
-            -self.TERRAIN_SIZE / 2.0,
-            self.TERRAIN_SIZE / 2.0,
-            cols,
+        height = np.asarray(
+            height_image,
             dtype=np.float32,
         )
 
-        zs = np.linspace(
-            -self.TERRAIN_SIZE / 2.0,
-            self.TERRAIN_SIZE / 2.0,
-            rows,
+        if height.ndim != 2:
+            raise ValueError(
+                "map_height.png doit être une image en niveaux de gris."
+            )
+
+        # Normalize 0 -> 1.
+        height_min = float(height.min())
+        height_max = float(height.max())
+
+        if height_max > height_min:
+            height = (height - height_min) / (
+                height_max - height_min
+            )
+        else:
+            height.fill(0.0)
+
+        # --------------------------------------------------------------
+        # DOWNSAMPLING
+        # --------------------------------------------------------------
+
+        height = self._downsample_height(height)
+
+        self.heightmap = height
+
+        terrain_height, terrain_width = height.shape
+
+        print(
+            "[GAME] Terrain : "
+            f"{terrain_width} x {terrain_height}"
+        )
+
+        # --------------------------------------------------------------
+        # WORLD COORDINATES
+        # --------------------------------------------------------------
+
+        x = np.linspace(
+            -self.WORLD_WIDTH / 2.0,
+            self.WORLD_WIDTH / 2.0,
+            terrain_width,
             dtype=np.float32,
         )
 
-        grid_x, grid_z = np.meshgrid(xs, zs)
+        z = np.linspace(
+            -self.WORLD_DEPTH / 2.0,
+            self.WORLD_DEPTH / 2.0,
+            terrain_height,
+            dtype=np.float32,
+        )
 
-        grid_y = height_normalized * self.TERRAIN_HEIGHT
+        xx, zz = np.meshgrid(x, z)
+
+        yy = height * self.WORLD_HEIGHT
 
         vertices = np.column_stack(
             (
-                grid_x.ravel(),
-                grid_y.ravel(),
-                grid_z.ravel(),
+                xx.ravel(),
+                yy.ravel(),
+                zz.ravel(),
             )
         ).astype(np.float32)
 
         # --------------------------------------------------------------
-        # Faces
+        # TRIANGLES
         # --------------------------------------------------------------
 
-        face_count = (rows - 1) * (cols - 1) * 2
-
-        faces = np.empty(
-            (face_count, 3),
-            dtype=np.uint32,
+        faces = self._build_faces(
+            terrain_width,
+            terrain_height,
         )
 
-        index = 0
-
-        for z in range(rows - 1):
-            row_start = z * cols
-            next_row = (z + 1) * cols
-
-            for x in range(cols - 1):
-                a = row_start + x
-                b = a + 1
-                c = next_row + x
-                d = c + 1
-
-                faces[index] = (a, b, c)
-                faces[index + 1] = (b, d, c)
-
-                index += 2
-
         # --------------------------------------------------------------
-        # Terrain colors
+        # COLORS
         # --------------------------------------------------------------
 
         vertex_colors = self._load_terrain_colors(
-            rows,
-            cols,
-            height_normalized,
+            color_path,
+            terrain_width,
+            terrain_height,
         )
 
-        self.height_data = height_normalized
+        # --------------------------------------------------------------
+        # MESH
+        # --------------------------------------------------------------
 
         self.terrain = visuals.Mesh(
             vertices=vertices,
@@ -350,165 +325,212 @@ class Game:
             parent=self.view.scene,
         )
 
-    def _load_terrain_colors(
+        print("[GAME] Terrain 3D chargé.")
+
+    def _downsample_height(
         self,
-        rows: int,
-        cols: int,
-        height_normalized: np.ndarray,
+        height: np.ndarray,
     ) -> np.ndarray:
         """
-        Load map_color.png when available.
+        Reduce the heightmap if it is too large.
 
-        If it is unavailable, generate a simple terrain gradient.
+        Keeps the terrain reasonably lightweight.
         """
 
-        try:
-            color_path = self._find_asset(self.COLOR_MAP_PATH)
-            image = io.read(str(color_path))
+        h, w = height.shape
 
-            if image.ndim == 2:
-                image = np.repeat(
-                    image[..., None],
-                    3,
-                    axis=2,
-                )
+        if max(h, w) <= self.MAX_TERRAIN_SIZE:
+            return height
 
-            image = image[..., :3]
+        scale = max(h, w) / self.MAX_TERRAIN_SIZE
 
-            image = self._resize_image(
-                image,
-                rows,
-                cols,
+        new_w = max(2, int(w / scale))
+        new_h = max(2, int(h / scale))
+
+        image = Image.fromarray(
+            np.uint8(height * 255.0),
+            mode="L",
+        )
+
+        image = image.resize(
+            (new_w, new_h),
+            Image.Resampling.BILINEAR,
+        )
+
+        result = np.asarray(
+            image,
+            dtype=np.float32,
+        ) / 255.0
+
+        return result
+
+    @staticmethod
+    def _build_faces(
+        width: int,
+        height: int,
+    ) -> np.ndarray:
+        """
+        Create two triangles for every terrain quad.
+        """
+
+        faces = []
+
+        for y in range(height - 1):
+            row = y * width
+            next_row = (y + 1) * width
+
+            for x in range(width - 1):
+                a = row + x
+                b = row + x + 1
+                c = next_row + x
+                d = next_row + x + 1
+
+                faces.append((a, b, c))
+                faces.append((b, d, c))
+
+        return np.asarray(
+            faces,
+            dtype=np.uint32,
+        )
+
+    def _load_terrain_colors(
+        self,
+        color_path: Path,
+        width: int,
+        height: int,
+    ) -> np.ndarray:
+        """
+        Load map_color.png if available.
+
+        The image is converted to per-vertex colors.
+        """
+
+        if not color_path.exists():
+            print(
+                "[GAME] map_color.png absent, "
+                "utilisation d'une couleur par défaut."
             )
 
-            colors = image.astype(np.float32)
-
-            if colors.max() > 1.0:
-                colors /= 255.0
-
-            alpha = np.ones(
-                (rows, cols, 1),
+            colors = np.zeros(
+                (width * height, 4),
                 dtype=np.float32,
             )
 
-            colors = np.concatenate(
-                (colors, alpha),
-                axis=2,
-            )
+            colors[:, 0] = 0.25
+            colors[:, 1] = 0.55
+            colors[:, 2] = 0.25
+            colors[:, 3] = 1.0
 
-            return colors.reshape(-1, 4)
+            return colors
 
-        except FileNotFoundError:
-            # Fallback if map_color.png isn't available yet.
-            h = height_normalized[..., None]
+        print(f"[GAME] Chargement couleurs : {color_path}")
 
-            colors = np.concatenate(
-                (
-                    0.15 + h * 0.25,
-                    0.25 + h * 0.35,
-                    0.12 + h * 0.15,
-                    np.ones_like(h),
-                ),
-                axis=2,
-            )
+        image = Image.open(color_path).convert("RGB")
 
-            return colors.reshape(-1, 4).astype(np.float32)
-
-    @staticmethod
-    def _resize_grid(
-        data: np.ndarray,
-        max_resolution: int,
-    ) -> np.ndarray:
-        """
-        Reduce a heightmap while preserving its proportions.
-        """
-
-        rows, cols = data.shape
-
-        scale = min(
-            1.0,
-            max_resolution / max(rows, cols),
+        image = image.resize(
+            (width, height),
+            Image.Resampling.BILINEAR,
         )
 
-        if scale >= 1.0:
-            return data
+        rgb = np.asarray(
+            image,
+            dtype=np.float32,
+        ) / 255.0
 
-        new_rows = max(2, int(rows * scale))
-        new_cols = max(2, int(cols * scale))
+        # PNG is indexed [row, column].
+        # This corresponds directly to our vertex ordering.
+        colors = rgb.reshape(
+            width * height,
+            3,
+        )
 
-        row_indices = np.linspace(
-            0,
-            rows - 1,
-            new_rows,
-        ).astype(np.int32)
+        alpha = np.ones(
+            (colors.shape[0], 1),
+            dtype=np.float32,
+        )
 
-        col_indices = np.linspace(
-            0,
-            cols - 1,
-            new_cols,
-        ).astype(np.int32)
-
-        return data[
-            row_indices[:, None],
-            col_indices[None, :],
-        ]
-
-    @staticmethod
-    def _resize_image(
-        image: np.ndarray,
-        rows: int,
-        cols: int,
-    ) -> np.ndarray:
-        """
-        Resize an RGB image using nearest-neighbour sampling.
-
-        This avoids adding another dependency just for the prototype.
-        """
-
-        source_rows, source_cols = image.shape[:2]
-
-        row_indices = np.linspace(
-            0,
-            source_rows - 1,
-            rows,
-        ).astype(np.int32)
-
-        col_indices = np.linspace(
-            0,
-            source_cols - 1,
-            cols,
-        ).astype(np.int32)
-
-        return image[
-            row_indices[:, None],
-            col_indices[None, :],
-        ]
+        return np.concatenate(
+            (colors, alpha),
+            axis=1,
+        )
 
     # ==================================================================
-    # FIRST PERSON CAMERA
+    # CAMERA
     # ==================================================================
+
+    def _place_camera_initially(self) -> None:
+        """
+        Place the first-person camera above the initial server position.
+        """
+
+        world_x = self._server_x_to_world(self.local_x)
+        world_z = self._server_y_to_world(self.local_y)
+
+        terrain_y = self._terrain_height_at(
+            world_x,
+            world_z,
+        )
+
+        self.camera.center = (
+            world_x,
+            terrain_y + self.PLAYER_HEIGHT,
+            world_z,
+        )
+
+        print(
+            "[GAME] Caméra initiale : "
+            f"({world_x:.1f}, "
+            f"{terrain_y + self.PLAYER_HEIGHT:.1f}, "
+            f"{world_z:.1f})"
+        )
+
+    def _update_camera_position(self) -> None:
+        """
+        Keep the camera at player height above the terrain.
+
+        The FlyCamera handles horizontal first-person movement.
+        """
+
+        center = self.camera.center
+
+        if center is None:
+            return
+
+        try:
+            x = float(center[0])
+            z = float(center[2])
+        except (TypeError, ValueError, IndexError):
+            return
+
+        terrain_y = self._terrain_height_at(x, z)
+
+        self.camera.center = (
+            x,
+            terrain_y + self.PLAYER_HEIGHT,
+            z,
+        )
 
     def _terrain_height_at(
         self,
-        server_x: float,
-        server_y: float,
+        world_x: float,
+        world_z: float,
     ) -> float:
         """
-        Return the terrain height under a server X/Y position.
+        Return terrain height at a world position.
         """
 
-        if self.height_data is None:
+        if self.heightmap is None:
             return 0.0
 
-        rows, cols = self.height_data.shape
+        height, width = self.heightmap.shape
 
         normalized_x = (
-            server_x / self.TERRAIN_SIZE + 0.5
-        )
+            world_x + self.WORLD_WIDTH / 2.0
+        ) / self.WORLD_WIDTH
 
         normalized_z = (
-            server_y / self.TERRAIN_SIZE + 0.5
-        )
+            world_z + self.WORLD_DEPTH / 2.0
+        ) / self.WORLD_DEPTH
 
         normalized_x = float(
             np.clip(normalized_x, 0.0, 1.0)
@@ -518,35 +540,65 @@ class Game:
             np.clip(normalized_z, 0.0, 1.0)
         )
 
-        column = int(
-            normalized_x * (cols - 1)
+        px = int(
+            normalized_x * (width - 1)
         )
 
-        row = int(
-            normalized_z * (rows - 1)
+        pz = int(
+            normalized_z * (height - 1)
         )
 
-        return float(
-            self.height_data[row, column]
-            * self.TERRAIN_HEIGHT
+        value = float(
+            self.heightmap[pz, px]
         )
 
-    def _place_camera_at_player(self) -> None:
+        return value * self.WORLD_HEIGHT
+
+    # ==================================================================
+    # COORDINATES
+    # ==================================================================
+
+    def _server_x_to_world(
+        self,
+        x: float,
+    ) -> float:
         """
-        Put the camera at the player's eye position.
+        Server X -> VisPy X.
+
+        The server currently uses the 0..1000 world.
+        VisPy centers the terrain around 0.
         """
 
-        terrain_y = self._terrain_height_at(
-            self.player_x,
-            self.player_z,
+        return x - self.WORLD_WIDTH / 2.0
+
+    def _server_y_to_world(
+        self,
+        y: float,
+    ) -> float:
+        """
+        Server Y -> VisPy Z.
+        """
+
+        return y - self.WORLD_DEPTH / 2.0
+
+    def _world_x_to_server(
+        self,
+        x: float,
+    ) -> int:
+        return int(
+            round(
+                x + self.WORLD_WIDTH / 2.0
+            )
         )
 
-        eye_y = terrain_y + self.PLAYER_HEIGHT
-
-        self.camera.center = (
-            self.player_x - self.TERRAIN_SIZE / 2.0,
-            eye_y,
-            self.player_z - self.TERRAIN_SIZE / 2.0,
+    def _world_z_to_server(
+        self,
+        z: float,
+    ) -> int:
+        return int(
+            round(
+                z + self.WORLD_DEPTH / 2.0
+            )
         )
 
     # ==================================================================
@@ -555,10 +607,24 @@ class Game:
 
     def _network_loop(self) -> None:
         """
-        Blocking network receive loop.
+        Receive packets without blocking the VisPy event loop.
 
-        The rendering thread never blocks on network I/O.
+        Connection itself is also performed here so the window can
+        appear before networking starts.
         """
+
+        try:
+            print("[GAME] Connexion au serveur...")
+
+            self.client.connect()
+
+            print("[GAME] Connecté au serveur.")
+
+        except Exception as exc:
+            print(
+                f"[GAME] Connexion impossible : {exc}"
+            )
+            return
 
         while self.running:
             try:
@@ -570,19 +636,35 @@ class Game:
                 if packet is None:
                     continue
 
-                self.network_queue.put(packet)
+                try:
+                    self.network_queue.put_nowait(packet)
+                except queue.Full:
+                    # Drop the oldest packet if the queue is full.
+                    try:
+                        self.network_queue.get_nowait()
+                    except queue.Empty:
+                        pass
 
-            except Exception:
+                    try:
+                        self.network_queue.put_nowait(packet)
+                    except queue.Full:
+                        pass
+
+            except Exception as exc:
                 if self.running:
-                    # The existing client/network layer remains
-                    # responsible for reporting detailed errors.
-                    pass
+                    print(
+                        f"[GAME] Erreur réseau : {exc}"
+                    )
 
                 break
 
-    def _process_network_queue(self, event) -> None:
+    # ==================================================================
+    # PACKET PROCESSING
+    # ==================================================================
+
+    def _process_network_queue(self) -> None:
         """
-        Process network packets on the rendering thread.
+        Process packets from the network thread.
         """
 
         processed = 0
@@ -593,58 +675,107 @@ class Game:
             except queue.Empty:
                 break
 
+            processed += 1
+
             try:
                 self._handle_packet(packet)
-            except Exception:
-                # Invalid packets must never kill the rendering loop.
-                pass
-
-            processed += 1
+            except Exception as exc:
+                print(
+                    f"[GAME] Erreur traitement paquet : {exc}"
+                )
 
     def _handle_packet(self, packet) -> None:
         """
-        Handle the existing multiplayer protocol.
+        Dispatch server packets.
         """
 
-        if not packet:
-            return
+        # Packet objects in the project normally expose:
+        # packet_type and payload.
+        packet_type = getattr(
+            packet,
+            "packet_type",
+            None,
+        )
 
-        packet_type = packet[0]
-        payload = packet[1:]
+        payload = getattr(
+            packet,
+            "payload",
+            b"",
+        )
 
-        if packet_type == PacketType.PLAYER_STATE:
+        # Some implementations may expose type instead.
+        if packet_type is None:
+            packet_type = getattr(
+                packet,
+                "type",
+                None,
+            )
+
+        if packet_type == PacketType.SESSION:
+            self._handle_session(payload)
+
+        elif packet_type == PacketType.PLAYER_STATE:
             self._handle_player_state(payload)
 
         elif packet_type == PacketType.PLAYER_REMOVE:
             self._handle_player_remove(payload)
 
-        elif packet_type == PacketType.SESSION:
-            self._handle_session(payload)
-
-    def _handle_session(self, payload: bytes) -> None:
+    def _handle_session(
+        self,
+        payload: bytes,
+    ) -> None:
         """
-        SESSION contains the UUID assigned to this client.
+        Handle SESSION packet.
 
-        Do not replace the Client's session management here; this only
-        exists so the game can remain compatible with the current
-        protocol.
+        SESSION payload:
+            UUID = 16 bytes
         """
 
         if len(payload) != 16:
+            print(
+                "[GAME] SESSION invalide : "
+                f"{len(payload)} octets"
+            )
             return
 
         try:
-            session_id = uuid.UUID(bytes=payload)
+            session_id = uuid.UUID(
+                bytes=payload
+            )
+
+            # Keep the client's session identifier synchronized
+            # if the Client implementation allows it.
+            try:
+                self.client.session_id = session_id
+            except Exception:
+                pass
+
+            print(
+                f"[GAME] Session : {session_id}"
+            )
+
         except ValueError:
-            return
+            print("[GAME] UUID SESSION invalide.")
 
-        try:
-            self.client.session_id = session_id
-        except Exception:
-            pass
+    def _handle_player_state(
+        self,
+        payload: bytes,
+    ) -> None:
+        """
+        PLAYER_STATE:
 
-    def _handle_player_state(self, payload: bytes) -> None:
-        if len(payload) != self.PLAYER_STATE_SIZE:
+            UUID  = 16 bytes
+            x/y/z = 12 bytes
+
+        Total:
+            28 bytes
+        """
+
+        if len(payload) != 28:
+            print(
+                "[GAME] PLAYER_STATE invalide : "
+                f"{len(payload)} octets"
+            )
             return
 
         try:
@@ -658,17 +789,25 @@ class Game:
             )
 
         except (ValueError, struct.error):
+            print("[GAME] PLAYER_STATE invalide.")
             return
 
         local_id = self._get_local_player_id()
 
-        if local_id is not None and player_id == local_id:
-            self.player_x = float(x)
-            self.player_z = float(y)
-            self.player_server_z = z
+        # --------------------------------------------------------------
+        # LOCAL PLAYER
+        # --------------------------------------------------------------
 
-            self._place_camera_at_player()
+        if local_id is not None and player_id == local_id:
+            self.local_x = float(x)
+            self.local_y = float(y)
+            self.local_z = float(z)
+
             return
+
+        # --------------------------------------------------------------
+        # REMOTE PLAYER
+        # --------------------------------------------------------------
 
         self.remote_players[player_id] = (
             x,
@@ -683,8 +822,21 @@ class Game:
             z,
         )
 
-    def _handle_player_remove(self, payload: bytes) -> None:
-        if len(payload) != self.PLAYER_REMOVE_SIZE:
+    def _handle_player_remove(
+        self,
+        payload: bytes,
+    ) -> None:
+        """
+        PLAYER_REMOVE:
+
+            UUID = 16 bytes
+        """
+
+        if len(payload) != 16:
+            print(
+                "[GAME] PLAYER_REMOVE invalide : "
+                f"{len(payload)} octets"
+            )
             return
 
         try:
@@ -692,6 +844,9 @@ class Game:
                 bytes=payload
             )
         except ValueError:
+            print(
+                "[GAME] UUID PLAYER_REMOVE invalide."
+            )
             return
 
         self.remote_players.pop(
@@ -707,23 +862,39 @@ class Game:
         if visual is not None:
             visual.parent = None
 
-    def _get_local_player_id(self) -> uuid.UUID | None:
+        print(
+            f"[GAME] Joueur supprimé : "
+            f"{player_id}"
+        )
+
+    def _get_local_player_id(
+        self,
+    ) -> uuid.UUID | None:
+        """
+        Get the local session UUID.
+        """
+
         session_id = getattr(
             self.client,
             "session_id",
             None,
         )
 
-        if isinstance(session_id, uuid.UUID):
+        if session_id is None:
+            return None
+
+        if isinstance(
+            session_id,
+            uuid.UUID,
+        ):
             return session_id
 
-        if session_id:
-            try:
-                return uuid.UUID(str(session_id))
-            except (ValueError, AttributeError):
-                return None
-
-        return None
+        try:
+            return uuid.UUID(
+                str(session_id)
+            )
+        except (ValueError, AttributeError):
+            return None
 
     # ==================================================================
     # REMOTE PLAYERS
@@ -732,140 +903,118 @@ class Game:
     def _create_or_update_remote_player(
         self,
         player_id: uuid.UUID,
-        server_x: int,
-        server_y: int,
-        server_z: int,
+        x: int,
+        y: int,
+        z: int,
     ) -> None:
         """
-        Remote players are temporary simple spheres.
-
-        They are only visible to the local player.
+        Create or move a remote player marker.
         """
 
-        world_x = (
-            float(server_x)
-            - self.TERRAIN_SIZE / 2.0
-        )
+        world_x = self._server_x_to_world(x)
 
-        world_z = (
-            float(server_y)
-            - self.TERRAIN_SIZE / 2.0
-        )
+        world_z = self._server_y_to_world(y)
 
         terrain_y = self._terrain_height_at(
-            float(server_x),
-            float(server_y),
+            world_x,
+            world_z,
         )
 
-        world_y = (
-            terrain_y
-            + self.PLAYER_HEIGHT / 2.0
+        # Server Z is reserved for vertical position.
+        # For now terrain determines the visual Y position.
+        world_y = terrain_y + self.REMOTE_PLAYER_RADIUS
+
+        position = np.array(
+            [[world_x, world_y, world_z]],
+            dtype=np.float32,
         )
 
-        visual = self.remote_visuals.get(player_id)
+        visual = self.remote_visuals.get(
+            player_id
+        )
 
         if visual is None:
-            visual = visuals.Sphere(
-                radius=0.7,
-                method="ico",
+            visual = visuals.Markers(
+                pos=position,
+                size=14,
+                face_color="red",
+                edge_color="white",
                 parent=self.view.scene,
             )
 
             self.remote_visuals[player_id] = visual
 
-        visual.set_data(
-            center=(world_x, world_y, world_z),
-            color=(0.85, 0.15, 0.15, 1.0),
-        )
+        else:
+            visual.set_data(
+                position,
+                size=14,
+                face_color="red",
+                edge_color="white",
+            )
 
     # ==================================================================
-    # GAME UPDATE
+    # LOCAL MOVEMENT / SERVER SYNC
     # ==================================================================
-
-    def _game_update(self, event) -> None:
-        if not self.running:
-            return
-
-        # FlyCamera itself handles first-person keyboard/mouse
-        # interaction. We synchronize its movement with the server here.
-        self._sync_camera_to_server()
-
-        self.canvas.update()
 
     def _sync_camera_to_server(self) -> None:
         """
-        Convert the camera's world position back into server coordinates.
-
-        Server:
-            X = horizontal world X
-            Y = horizontal world Z
-            Z = vertical
-
-        The camera's vertical coordinate is controlled by the terrain.
+        Convert the first-person camera position into server
+        coordinates and send movement when it changes.
         """
 
-        center = np.asarray(
-            self.camera.center,
-            dtype=np.float64,
-        )
+        center = self.camera.center
 
-        server_x = (
-            center[0]
-            + self.TERRAIN_SIZE / 2.0
-        )
+        if center is None:
+            return
 
-        server_y = (
-            center[2]
-            + self.TERRAIN_SIZE / 2.0
-        )
-
-        server_x = float(
-            np.clip(
-                server_x,
-                0.0,
-                self.TERRAIN_SIZE,
-            )
-        )
-
-        server_y = float(
-            np.clip(
-                server_y,
-                0.0,
-                self.TERRAIN_SIZE,
-            )
-        )
-
-        terrain_y = self._terrain_height_at(
-            server_x,
-            server_y,
-        )
-
-        desired_camera_y = (
-            terrain_y
-            + self.PLAYER_HEIGHT
-        )
-
-        # Keep the camera at eye level.
-        center[1] = desired_camera_y
-
-        self.camera.center = tuple(center)
-
-        new_x = int(round(server_x))
-        new_y = int(round(server_y))
-
-        if (
-            new_x == int(round(self.player_x))
-            and new_y == int(round(self.player_z))
+        try:
+            world_x = float(center[0])
+            world_z = float(center[2])
+        except (
+            TypeError,
+            ValueError,
+            IndexError,
         ):
             return
 
-        self.player_x = float(new_x)
-        self.player_z = float(new_y)
+        server_x = self._world_x_to_server(
+            world_x
+        )
+
+        server_y = self._world_z_to_server(
+            world_z
+        )
+
+        # Keep inside the server world.
+        server_x = max(
+            0,
+            min(
+                int(self.WORLD_WIDTH),
+                server_x,
+            ),
+        )
+
+        server_y = max(
+            0,
+            min(
+                int(self.WORLD_DEPTH),
+                server_y,
+            ),
+        )
+
+        if (
+            server_x == int(self.local_x)
+            and server_y == int(self.local_y)
+        ):
+            return
+
+        self.local_x = float(server_x)
+        self.local_y = float(server_y)
 
         self._send_position_to_server(
-            new_x,
-            new_y,
-            self.player_server_z,
+            server_x,
+            server_y,
+            int(self.local_z),
         )
 
     def _send_position_to_server(
@@ -874,10 +1023,14 @@ class Game:
         y: int,
         z: int,
     ) -> None:
-        if not self.client.connected:
-            return
+        """
+        Send MOVE packet to the server.
+        """
 
         try:
+            if not self.client.connected:
+                return
+
             packet = MovePacket(
                 int(x),
                 int(y),
@@ -886,72 +1039,143 @@ class Game:
 
             self.client.send_packet(packet)
 
-        except Exception:
-            pass
+        except Exception as exc:
+            print(
+                f"[GAME] Impossible d'envoyer MOVE : "
+                f"{exc}"
+            )
+
+    # ==================================================================
+    # VISPY UPDATE
+    # ==================================================================
+
+    def _update(self, event) -> None:
+        """
+        Main game loop.
+
+        Runs on the VisPy thread.
+        """
+
+        if not self.running:
+            return
+
+        # Network packets.
+        self._process_network_queue()
+
+        # Keep player above terrain.
+        self._update_camera_position()
+
+        # Synchronize camera movement with server.
+        self._sync_camera_to_server()
+
+        # Redraw.
+        self.update()
 
     # ==================================================================
     # INPUT
     # ==================================================================
 
     def _on_key_press(self, event) -> None:
-        if event.text:
-            self.keys.add(event.text.lower())
+        """
+        FlyCamera already handles first-person keyboard movement.
 
-        # Escape releases focus from the FPS camera.
-        if event.key.name == "Escape":
-            self.canvas.close()
+        This callback exists mainly for debugging / future controls.
+        """
+
+        key = getattr(
+            event,
+            "key",
+            None,
+        )
+
+        if key is None:
+            return
+
+        key_name = getattr(
+            key,
+            "name",
+            str(key),
+        )
+
+        key_name = str(
+            key_name
+        ).lower()
+
+        if key_name == "escape":
+            self.close()
 
     def _on_key_release(self, event) -> None:
-        if event.text:
-            self.keys.discard(event.text.lower())
+        """
+        Reserved for future custom controls.
+        """
+
+        pass
+
+    def _on_mouse_press(self, event) -> None:
+        """
+        Mouse input is primarily handled by FlyCamera.
+        """
+
+        pass
 
     # ==================================================================
     # CLOSE
     # ==================================================================
 
-    def _on_close(self, event) -> None:
+    def on_close(self, event) -> None:
+        """
+        Clean shutdown.
+        """
+
+        if not self.running:
+            return
+
         self.running = False
 
+        print("[GAME] Arrêt du client 3D...")
+
         try:
-            self.game_timer.stop()
+            self.timer.stop()
         except Exception:
             pass
 
+        # Disconnect first so receive_packet() can unblock.
         try:
-            self.network_timer.stop()
-        except Exception:
-            pass
+            if self.client.connected:
+                self.client.disconnect(
+                    "Arrêt normal"
+                )
+        except Exception as exc:
+            print(
+                f"[GAME] Erreur déconnexion : {exc}"
+            )
 
-        try:
-            self.client.disconnect()
-        except Exception:
-            pass
+        if (
+            self.network_thread.is_alive()
+            and threading.current_thread()
+            is not self.network_thread
+        ):
+            self.network_thread.join(
+                timeout=1.0
+            )
 
-        if self.network_thread.is_alive():
-            self.network_thread.join(timeout=1.0)
-
-    # ==================================================================
-    # RUN
-    # ==================================================================
-
-    def show(self) -> None:
-        self.canvas.show()
-
-        # Put the mouse/canvas in focus so the FPS camera can immediately
-        # receive input.
-        try:
-            self.canvas.native.activateWindow()
-            self.canvas.native.setFocus()
-        except Exception:
-            pass
+        print("[GAME] Client 3D arrêté.")
 
 
-def run_game(client: Client) -> None:
+def run_game(client: Client | None = None) -> None:
     """
-    Entry point used by the existing client launcher.
+    Launch the 3D game.
+
+    If no Client is supplied, one is created.
     """
+
+    if client is None:
+        client = Client()
 
     game = Game(client)
+
     game.show()
 
     app.run()
+
+
