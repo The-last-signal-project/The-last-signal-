@@ -30,7 +30,7 @@ WHERE enchantment_name IN (
     'Cryogenisation',
     'Réparation',
     'Précision',
-    'Tranchant'
+    'Tranchant',
     'Capturing item'
 );
 INSERT INTO enchantment_types (enchantment_id, equipment_type)
