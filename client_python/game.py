@@ -79,11 +79,12 @@ class Game(scene.SceneCanvas):
             bgcolor="black",
         )
 
-        self.client = client
+        
 
         # Prevent VisPy from automatically closing the application
         # when this canvas disappears unexpectedly.
         self.unfreeze()
+        self.client = client
 
         # --------------------------------------------------------------
         # GAME STATE
