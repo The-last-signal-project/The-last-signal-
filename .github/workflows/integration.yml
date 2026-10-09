@@ -129,7 +129,12 @@ jobs:
     - name: Check unused dependencies
       if: github.workflow == 'Nightly'
       working-directory: server_rust
-      run: cargo +nightly udeps --all-targets
+      run: | 
+             mkdir -p temp
+             mv .cargo temp/
+             cargo +nightly udeps --all-targets
+             cd temp
+             mv .cargo ..
     - name: Check outdated Rust dependencies
       if: github.workflow == 'Nightly'
       continue-on-error: true
