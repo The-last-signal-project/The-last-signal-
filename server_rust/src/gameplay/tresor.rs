@@ -32,6 +32,7 @@ pub struct Tresor {
     pub seuil_artefact_commun: HashMap<u32, u32>,
     pub seuil_artefact_peu_commun: HashMap<u32, u32>,
     pub seuil_artefact_rare: HashMap<u32, u32>,
+    pub seuil_artefact_super_rare: HashMap<u32, u32>,
     pub sous_loot: HashMap<String, HashMap<String, f64>>,
     
     pub sous_loot_livre_normal: HashMap<String, f64>,
@@ -210,6 +211,32 @@ impl Tresor {
                 militaire: 3,
             },
         );
+        loot_par_niveau.insert(
+            13,
+            Loot {
+                commun: 3,
+                peu_commun: 2,
+                rare: 1,
+                super_rare: 0,
+                epique: 0,
+                legendaire: 0,
+                admin: 3,
+                militaire: 3,
+            },
+        );
+        loot_par_niveau.insert(
+            14,
+            Loot {
+                commun: 3,
+                peu_commun: 2,
+                rare: 2,
+                super_rare: 1,
+                epique: 0,
+                legendaire: 0,
+                admin: 3,
+                militaire: 3,
+            },
+        );
 
         // -------------------------------------------------
         // OBJETS GARANTIS
@@ -382,6 +409,25 @@ impl Tresor {
         niveau_12.insert("gemmes".to_string(), 1);
         
         objets_garantis.insert(12, niveau_12);
+        let mut niveau_13 = HashMap::new();
+
+        niveau_13.insert(
+            "argent".to_string(),
+            jet_de_des(6, 1) * 100 * PO,
+        );
+        niveau_13.insert("gemmes".to_string(), 1);
+        
+        objets_garantis.insert(13, niveau_13);
+        let mut niveau_14 = HashMap::new();
+
+        niveau_14.insert(
+            "argent".to_string(),
+            jet_de_des(6, 2) * 100 * PO,
+        );
+        niveau_14.insert("gemmes".to_string(), 1);
+        
+        objets_garantis.insert(14, niveau_14);
+
         
 
         // -------------------------------------------------
@@ -581,6 +627,8 @@ sous_loot.insert(
     (10,11),
     (11,10),
     (12,10),
+    (13,9),
+    (14,8),
 ]);
         let seuil_artefact_peu_commun: HashMap<u32, u32> = HashMap::from([
     (6, 20),
@@ -590,12 +638,21 @@ sous_loot.insert(
     (10,15),
     (11,14),
     (12,13),
+    (13,12),
+    (14,11),
+
 
 ]);
         let seuil_artefact_rare: HashMap<u32, u32> = HashMap::from([
     (10, 20),
     (11,19),
     (12,17),
+    (13,15),
+    (14,15),
+
+]);
+let seuil_artefact_super_rare: HashMap<u32, u32> = HashMap::from([
+    (14, 20),
     
 
 ]);
@@ -626,6 +683,7 @@ let sous_loot_livre_admin = HashMap::from([
             seuil_artefact_commun,
             seuil_artefact_peu_commun,
             seuil_artefact_rare,
+            seuil_artefact_super_rare,
             sous_loot_livre_normal,
             sous_loot_livre_admin,
             coeff_loot: 1.0,
