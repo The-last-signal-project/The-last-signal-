@@ -220,3 +220,206 @@ pub async fn receive_packet(
         payload,
     })
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use tokio::io::AsyncWriteExt;
+    use tokio::net::{TcpListener, TcpStream};
+
+    async fn create_tcp_pair() -> (TcpStream, TcpStream) {
+        let listener = TcpListener::bind("127.0.0.1:0")
+            .await
+            .expect("failed to bind listener");
+        let addr = listener.local_addr().expect("failed to get local addr");
+
+        let client_fut = TcpStream::connect(addr);
+        let server_fut = listener.accept();
+
+        let (client_res, server_res) = tokio::join!(client_fut, server_fut);
+        let client_stream = client_res.expect("client connect failed");
+        let (server_stream, _) = server_res.expect("server accept failed");
+
+        (client_stream, server_stream)
+    }
+
+    #[test]
+    fn test_packet_type_from_u16_all_valid() {
+        assert_eq!(PacketType::from_u16(1), Some(PacketType::Ping));
+        assert_eq!(PacketType::from_u16(2), Some(PacketType::Login));
+        assert_eq!(PacketType::from_u16(3), Some(PacketType::Chat));
+        assert_eq!(PacketType::from_u16(4), Some(PacketType::Move));
+        assert_eq!(PacketType::from_u16(5), Some(PacketType::Log));
+        assert_eq!(PacketType::from_u16(6), Some(PacketType::SignUp));
+        assert_eq!(PacketType::from_u16(7), Some(PacketType::LoginResponse));
+        assert_eq!(PacketType::from_u16(8), Some(PacketType::SignUpResponse));
+        assert_eq!(PacketType::from_u16(9), Some(PacketType::BAN));
+        assert_eq!(PacketType::from_u16(10), Some(PacketType::DECO));
+        assert_eq!(PacketType::from_u16(11), Some(PacketType::MarketBuy));
+        assert_eq!(PacketType::from_u16(12), Some(PacketType::MarketSell));
+        assert_eq!(PacketType::from_u16(13), Some(PacketType::MarketCancelBuy));
+        assert_eq!(PacketType::from_u16(14), Some(PacketType::MarketCancelSell));
+        assert_eq!(PacketType::from_u16(15), Some(PacketType::PlayerState));
+        assert_eq!(PacketType::from_u16(16), Some(PacketType::PlayerRemove));
+        assert_eq!(PacketType::from_u16(17), Some(PacketType::Session));
+    }
+
+    #[test]
+    fn test_packet_type_from_u16_invalid_values() {
+        assert_eq!(PacketType::from_u16(0), None);
+        assert_eq!(PacketType::from_u16(18), None);
+        assert_eq!(PacketType::from_u16(100), None);
+        assert_eq!(PacketType::from_u16(999), None);
+        assert_eq!(PacketType::from_u16(u16::MAX), None);
+    }
+
+    #[test]
+    fn test_encode_ban_temporary() {
+        let encoded = encode_ban(BanType::Temporary, "Cheating detected", Some("2026-12-31 23:59:59"));
+        assert_eq!(encoded, b"1\0Cheating detected\02026-12-31 23:59:59");
+    }
+
+    #[test]
+    fn test_encode_ban_permanent() {
+        let encoded = encode_ban(BanType::Permanent, "Severe exploit", None);
+        assert_eq!(encoded, b"2\0Severe exploit\0");
+    }
+
+    #[tokio::test]
+    async fn test_receive_packet_size_zero_fails() {
+        let (mut client, mut server) = create_tcp_pair().await;
+
+        tokio::spawn(async move {
+            let size: u32 = 0;
+            let _ = client.write_all(&size.to_be_bytes()).await;
+        });
+
+        let result = receive_packet(&mut server).await;
+        assert!(result.is_err());
+        let err = result.unwrap_err();
+        assert_eq!(err.kind(), io::ErrorKind::InvalidData);
+        assert_eq!(err.to_string(), "Paquet invalide.");
+    }
+
+    #[tokio::test]
+    async fn test_receive_packet_size_one_fails() {
+        let (mut client, mut server) = create_tcp_pair().await;
+
+        tokio::spawn(async move {
+            let size: u32 = 1;
+            let _ = client.write_all(&size.to_be_bytes()).await;
+        });
+
+        let result = receive_packet(&mut server).await;
+        assert!(result.is_err());
+        let err = result.unwrap_err();
+        assert_eq!(err.kind(), io::ErrorKind::InvalidData);
+        assert_eq!(err.to_string(), "Paquet invalide.");
+    }
+
+    #[tokio::test]
+    async fn test_receive_packet_exceeds_max_size() {
+        let (mut client, mut server) = create_tcp_pair().await;
+
+        tokio::spawn(async move {
+            let size = (MAX_PACKET_SIZE + 1) as u32;
+            let _ = client.write_all(&size.to_be_bytes()).await;
+        });
+
+        let result = receive_packet(&mut server).await;
+        assert!(result.is_err());
+        let err = result.unwrap_err();
+        assert_eq!(err.kind(), io::ErrorKind::InvalidData);
+        assert_eq!(err.to_string(), "Paquet trop volumineux.");
+    }
+
+    #[tokio::test]
+    async fn test_receive_packet_unknown_packet_type() {
+        let (mut client, mut server) = create_tcp_pair().await;
+
+        tokio::spawn(async move {
+            let size = 2u32;
+            let unknown_type = 999u16;
+            let _ = client.write_all(&size.to_be_bytes()).await;
+            let _ = client.write_all(&unknown_type.to_be_bytes()).await;
+        });
+
+        let result = receive_packet(&mut server).await;
+        assert!(result.is_err());
+        let err = result.unwrap_err();
+        assert_eq!(err.kind(), io::ErrorKind::InvalidData);
+        assert_eq!(err.to_string(), "Type de paquet inconnu.");
+    }
+
+    #[tokio::test]
+    async fn test_receive_packet_truncated_header() {
+        let (mut client, mut server) = create_tcp_pair().await;
+
+        tokio::spawn(async move {
+            let partial_header = [0x00, 0x00];
+            let _ = client.write_all(&partial_header).await;
+            drop(client);
+        });
+
+        let result = receive_packet(&mut server).await;
+        assert!(result.is_err());
+        let err = result.unwrap_err();
+        assert_eq!(err.kind(), io::ErrorKind::UnexpectedEof);
+    }
+
+    #[tokio::test]
+    async fn test_receive_packet_truncated_payload() {
+        let (mut client, mut server) = create_tcp_pair().await;
+
+        tokio::spawn(async move {
+            let size = 10u32;
+            let _ = client.write_all(&size.to_be_bytes()).await;
+            let _ = client.write_all(&(PacketType::Ping as u16).to_be_bytes()).await;
+            let _ = client.write_all(b"123").await;
+            drop(client);
+        });
+
+        let result = receive_packet(&mut server).await;
+        assert!(result.is_err());
+        let err = result.unwrap_err();
+        assert_eq!(err.kind(), io::ErrorKind::UnexpectedEof);
+    }
+
+    #[tokio::test]
+    async fn test_send_packet_exceeds_max_size() {
+        let (mut client, _server) = create_tcp_pair().await;
+
+        let oversized_payload = vec![0u8; MAX_PACKET_SIZE - 1];
+        let packet = Packet::new(PacketType::Log, oversized_payload);
+
+        let result = send_packet(&mut client, &packet).await;
+        assert!(result.is_err());
+        let err = result.unwrap_err();
+        assert_eq!(err.kind(), io::ErrorKind::InvalidData);
+        assert_eq!(err.to_string(), "Paquet trop volumineux.");
+    }
+
+    #[tokio::test]
+    async fn test_send_and_receive_roundtrip() {
+        let (mut client, mut server) = create_tcp_pair().await;
+
+        let test_payload = b"hello signal network".to_vec();
+        let sent_packet = Packet::new(PacketType::Chat, test_payload.clone());
+
+        let client_task = tokio::spawn(async move {
+            send_packet(&mut client, &sent_packet).await
+        });
+
+        let server_task = tokio::spawn(async move {
+            receive_packet(&mut server).await
+        });
+
+        let (client_res, server_res) = tokio::join!(client_task, server_task);
+        assert!(client_res.unwrap().is_ok());
+
+        let received = server_res.unwrap().expect("receive_packet should succeed");
+        assert_eq!(received.packet_type, PacketType::Chat);
+        assert_eq!(received.payload, test_payload);
+    }
+}
+
