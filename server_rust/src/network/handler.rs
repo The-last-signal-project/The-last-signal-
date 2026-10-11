@@ -7,7 +7,7 @@ use crate::network::{parser::{
     ClientLog,},client::Client
     
 };
-
+use crate::gameplay::account_manager::AccountManager;
 use crate::world::world::{World,Position};
 use crate::gameplay::market_manager::MarketManager;
 
@@ -1234,6 +1234,166 @@ fn read_u64(
                     )
                 )
             }
+            
+            // ================================================
+            // LISTE DES COMPTES
+            // ================================================
+            PacketType::AccountListRequest => {
+                if !packet.payload.is_empty() {
+                    return HandlerResult::Nothing;
+                }
+
+                let user_id = match client.user_id() {
+                    Some(id) => id.to_string(),
+                    None => {
+                        return HandlerResult::Response(Packet::new(
+                            PacketType::AccountListResponse,
+                            b"Utilisateur non authentifie".to_vec(),
+                        ));
+                    }
+                };
+
+                let manager = AccountManager::new(pool.clone());
+
+                match manager.list_accounts(&user_id).await {
+                    Ok(accounts) => {
+                        let payload =
+                            serde_json::to_vec(&accounts).unwrap_or_else(|_| b"[]".to_vec());
+
+                        HandlerResult::Response(Packet::new(
+                            PacketType::AccountListResponse,
+                            payload,
+                        ))
+                    }
+                    Err(e) => {
+                        error!("Erreur de liste des comptes : {}", e);
+                        HandlerResult::Response(Packet::new(
+                            PacketType::AccountListResponse,
+                            b"Erreur serveur".to_vec(),
+                        ))
+                    }
+                }
+            }
+
+            // ================================================
+            // CRÉATION D'UN COMPTE JOUEUR
+            // ================================================
+            PacketType::AccountCreate => {
+                let user_id = match client.user_id() {
+                    Some(id) => id.to_string(),
+                    None => {
+                        return HandlerResult::Response(Packet::new(
+                            PacketType::AccountResult,
+                            br#"{"ok":false,"message":"Utilisateur non authentifie"}"#.to_vec(),
+                        ));
+                    }
+                };
+
+                let account_name = match std::str::from_utf8(&packet.payload) {
+                    Ok(name) => name,
+                    Err(_) => {
+                        return HandlerResult::Response(Packet::new(
+                            PacketType::AccountResult,
+                            br#"{"ok":false,"message":"Nom de compte invalide"}"#.to_vec(),
+                        ));
+                    }
+                };
+
+                let manager = AccountManager::new(pool.clone());
+
+                match manager.create_account(&user_id, account_name).await {
+                    Ok(account) => {
+                        let payload = serde_json::json!({
+                            "ok": true,
+                            "message": "Compte créé",
+                            "account": account
+                        });
+
+                        HandlerResult::Response(Packet::new(
+                            PacketType::AccountResult,
+                            serde_json::to_vec(&payload).unwrap_or_default(),
+                        ))
+                    }
+                    Err(message) => {
+                        let payload = serde_json::json!({
+                            "ok": false,
+                            "message": message
+                        });
+
+                        HandlerResult::Response(Packet::new(
+                            PacketType::AccountResult,
+                            serde_json::to_vec(&payload).unwrap_or_default(),
+                        ))
+                    }
+                }
+            }
+
+            // ================================================
+            // SÉLECTION D'UN COMPTE
+            // ================================================
+            PacketType::AccountSelect => {
+                if packet.payload.len() != 8 {
+                    return HandlerResult::Response(Packet::new(
+                        PacketType::AccountResult,
+                        br#"{"ok":false,"message":"Identifiant invalide"}"#.to_vec(),
+                    ));
+                }
+
+                let account_id = i64::from_be_bytes(
+                    packet.payload[..8].try_into().unwrap()
+                );
+
+                if account_id <= 0 {
+                    return HandlerResult::Response(Packet::new(
+                        PacketType::AccountResult,
+                        br#"{"ok":false,"message":"Identifiant invalide"}"#.to_vec(),
+                    ));
+                }
+
+                let user_id = match client.user_id() {
+                    Some(id) => id.to_string(),
+                    None => {
+                        return HandlerResult::Response(Packet::new(
+                            PacketType::AccountResult,
+                            br#"{"ok":false,"message":"Utilisateur non authentifie"}"#.to_vec(),
+                        ));
+                    }
+                };
+
+                let manager = AccountManager::new(pool.clone());
+
+                match manager.account_belongs_to_user(account_id, &user_id).await {
+                    Ok(true) => {
+                        client.set_account_id(Some(account_id));
+
+                        let payload = serde_json::json!({
+                            "ok": true,
+                            "message": "Compte sélectionné",
+                            "account_id": account_id
+                        });
+
+                        HandlerResult::Response(Packet::new(
+                            PacketType::AccountResult,
+                            serde_json::to_vec(&payload).unwrap_or_default(),
+                        ))
+                    }
+                    Ok(false) => {
+                        HandlerResult::Response(Packet::new(
+                            PacketType::AccountResult,
+                            br#"{"ok":false,"message":"Compte introuvable ou non autorisé"}"#.to_vec(),
+                        ))
+                    }
+                    Err(e) => {
+                        error!("Erreur de vérification du compte : {}", e);
+
+                        HandlerResult::Response(Packet::new(
+                            PacketType::AccountResult,
+                            br#"{"ok":false,"message":"Erreur serveur"}"#.to_vec(),
+                        ))
+                    }
+                }
+            }
+
 
 
             // =================================================
@@ -1794,7 +1954,9 @@ PacketType::MarketBuy => {
             | PacketType::SignUpResponse 
             | PacketType::PlayerState 
             | PacketType::PlayerRemove
-             | PacketType::Session => {
+            | PacketType::Session
+            | PacketType::AccountListResponse
+            | PacketType::AccountResult => {
 
                 error!(
                     "Réponse reçue du client alors qu'elle doit être envoyée par le serveur : {:?}",

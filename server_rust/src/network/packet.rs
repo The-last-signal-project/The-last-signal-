@@ -32,6 +32,11 @@ pub enum PacketType {
     PlayerState = 15,
     PlayerRemove = 16,
     Session = 17,
+    AccountListRequest = 18,
+    AccountListResponse = 19,
+    AccountCreate = 20,
+    AccountSelect = 21,
+    AccountResult = 22,
 }
 #[derive(Debug, Clone, Copy)]
 pub enum BanType {
@@ -82,7 +87,11 @@ impl PacketType {
             15 => Some(PacketType::PlayerState),
             16 => Some(PacketType::PlayerRemove),
             17 => Some(PacketType::Session),
-
+            18 => Some(PacketType::AccountListRequest),
+            19 => Some(PacketType::AccountListResponse),
+            20 => Some(PacketType::AccountCreate),
+            21 => Some(PacketType::AccountSelect),
+            22 => Some(PacketType::AccountResult),
             _ => None,
         }
     }
