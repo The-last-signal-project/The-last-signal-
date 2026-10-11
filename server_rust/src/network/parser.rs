@@ -1,142 +1,42 @@
-pub fn parse_login_payload(
+fn parse_length_prefixed_str(
     payload: &[u8],
-) -> Result<(String, String), String> {
+    offset: &mut usize,
+    field_name: &str,
+) -> Result<String, String> {
+    if payload.len() < *offset + 2 {
+        return Err(format!("{field_name} length manquante"));
+    }
 
+    let field_len = u16::from_be_bytes([payload[*offset], payload[*offset + 1]]) as usize;
+
+    *offset += 2;
+
+    let end = match offset.checked_add(field_len) {
+        Some(end) if end <= payload.len() => end,
+        _ => return Err(format!("{field_name} incomplet")),
+    };
+
+    let field_str = std::str::from_utf8(&payload[*offset..end])
+        .map_err(|_| format!("{field_name} UTF-8 invalide"))?;
+
+    *offset = end;
+
+    Ok(field_str.to_string())
+}
+
+fn parse_credentials_payload(payload: &[u8]) -> Result<(String, String), String> {
     let mut offset = 0;
-
-    // -------------------------
-    // Email length
-    // -------------------------
-
-    if payload.len() < offset + 2 {
-        return Err("Email length manquante".into());
-    }
-
-    let email_length =
-        u16::from_be_bytes([
-            payload[offset],
-            payload[offset + 1],
-        ]) as usize;
-
-    offset += 2;
-
-    // -------------------------
-    // Email
-    // -------------------------
-
-    if payload.len() < offset + email_length {
-        return Err("Email incomplet".into());
-    }
-
-    let email = String::from_utf8(
-        payload[offset..offset + email_length]
-            .to_vec()
-    )
-    .map_err(|_| "Email UTF-8 invalide")?;
-
-    offset += email_length;
-
-    // -------------------------
-    // Password length
-    // -------------------------
-
-    if payload.len() < offset + 2 {
-        return Err("Password length manquante".into());
-    }
-
-    let password_length =
-        u16::from_be_bytes([
-            payload[offset],
-            payload[offset + 1],
-        ]) as usize;
-
-    offset += 2;
-
-    // -------------------------
-    // Password
-    // -------------------------
-
-    if payload.len() < offset + password_length {
-        return Err("Password incomplet".into());
-    }
-
-    let password = String::from_utf8(
-        payload[offset..offset + password_length]
-            .to_vec()
-    )
-    .map_err(|_| "Password UTF-8 invalide")?;
-
+    let email = parse_length_prefixed_str(payload, &mut offset, "Email")?;
+    let password = parse_length_prefixed_str(payload, &mut offset, "Password")?;
     Ok((email, password))
 }
-pub fn parse_signup_payload(
-    payload: &[u8],
-) -> Result<(String, String), String> {
 
-    let mut offset = 0;
+pub fn parse_login_payload(payload: &[u8]) -> Result<(String, String), String> {
+    parse_credentials_payload(payload)
+}
 
-    // -------------------------
-    // Email length
-    // -------------------------
-
-    if payload.len() < offset + 2 {
-        return Err("Email length manquante".into());
-    }
-
-    let email_length =
-        u16::from_be_bytes([
-            payload[offset],
-            payload[offset + 1],
-        ]) as usize;
-
-    offset += 2;
-
-    // -------------------------
-    // Email
-    // -------------------------
-
-    if payload.len() < offset + email_length {
-        return Err("Email incomplet".into());
-    }
-
-    let email = String::from_utf8(
-        payload[offset..offset + email_length]
-            .to_vec()
-    )
-    .map_err(|_| "Email UTF-8 invalide")?;
-
-    offset += email_length;
-
-    // -------------------------
-    // Password length
-    // -------------------------
-
-    if payload.len() < offset + 2 {
-        return Err("Password length manquante".into());
-    }
-
-    let password_length =
-        u16::from_be_bytes([
-            payload[offset],
-            payload[offset + 1],
-        ]) as usize;
-
-    offset += 2;
-
-    // -------------------------
-    // Password
-    // -------------------------
-
-    if payload.len() < offset + password_length {
-        return Err("Password incomplet".into());
-    }
-
-    let password = String::from_utf8(
-        payload[offset..offset + password_length]
-            .to_vec()
-    )
-    .map_err(|_| "Password UTF-8 invalide")?;
-
-    Ok((email, password))
+pub fn parse_signup_payload(payload: &[u8]) -> Result<(String, String), String> {
+    parse_credentials_payload(payload)
 }
 
 #[cfg(test)]
@@ -155,7 +55,8 @@ mod tests {
     #[test]
     fn test_login_payload_valid() {
         let payload = build_payload(b"player@signal.com", b"p@ssword123");
-        let (email, password) = parse_login_payload(&payload).expect("valid login payload should succeed");
+        let (email, password) =
+            parse_login_payload(&payload).expect("valid login payload should succeed");
         assert_eq!(email, "player@signal.com");
         assert_eq!(password, "p@ssword123");
     }
@@ -227,7 +128,8 @@ mod tests {
     fn test_login_payload_trailing_bytes_accepted() {
         let mut payload = build_payload(b"user@test.com", b"mypassword");
         payload.extend_from_slice(&[0xAA, 0xBB, 0xCC, 0xDD]);
-        let (email, password) = parse_login_payload(&payload).expect("trailing bytes should not panic or fail");
+        let (email, password) =
+            parse_login_payload(&payload).expect("trailing bytes should not panic or fail");
         assert_eq!(email, "user@test.com");
         assert_eq!(password, "mypassword");
     }
@@ -235,7 +137,8 @@ mod tests {
     #[test]
     fn test_signup_payload_valid() {
         let payload = build_payload(b"newuser@signal.com", b"securepass99");
-        let (email, password) = parse_signup_payload(&payload).expect("valid signup payload should succeed");
+        let (email, password) =
+            parse_signup_payload(&payload).expect("valid signup payload should succeed");
         assert_eq!(email, "newuser@signal.com");
         assert_eq!(password, "securepass99");
     }
@@ -307,8 +210,44 @@ mod tests {
     fn test_signup_payload_trailing_bytes_accepted() {
         let mut payload = build_payload(b"admin@signal.com", b"rootpass");
         payload.extend_from_slice(b"extraneous data");
-        let (email, password) = parse_signup_payload(&payload).expect("trailing bytes should not panic or fail");
+        let (email, password) =
+            parse_signup_payload(&payload).expect("trailing bytes should not panic or fail");
         assert_eq!(email, "admin@signal.com");
         assert_eq!(password, "rootpass");
+    }
+
+    #[test]
+    fn test_login_payload_empty_strings() {
+        let payload = build_payload(b"", b"");
+        let (email, password) =
+            parse_login_payload(&payload).expect("empty strings should be valid");
+        assert_eq!(email, "");
+        assert_eq!(password, "");
+    }
+
+    #[test]
+    fn test_login_payload_large_u16_length_incomplet() {
+        // u16::MAX length declared but payload is small
+        let mut payload = vec![0xFF, 0xFF];
+        payload.extend_from_slice(b"hello");
+        let err = parse_login_payload(&payload).unwrap_err();
+        assert_eq!(err, "Email incomplet");
+    }
+
+    #[test]
+    fn test_signup_payload_empty_strings() {
+        let payload = build_payload(b"", b"");
+        let (email, password) =
+            parse_signup_payload(&payload).expect("empty strings should be valid");
+        assert_eq!(email, "");
+        assert_eq!(password, "");
+    }
+
+    #[test]
+    fn test_signup_payload_large_u16_length_incomplet() {
+        let mut payload = vec![0xFF, 0xFF];
+        payload.extend_from_slice(b"hello");
+        let err = parse_signup_payload(&payload).unwrap_err();
+        assert_eq!(err, "Email incomplet");
     }
 }
