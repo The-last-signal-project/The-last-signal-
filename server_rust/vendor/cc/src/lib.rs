@@ -78,13 +78,28 @@
 //!   for sccache, simply set `CC` to `sccache cc`.
 //!   For other custom `CC` wrapper, just set `CC_KNOWN_WRAPPER_CUSTOM`
 //!   to the custom wrapper used in `CC`.
+//!   `CC` can also include flags, for example `gcc -m32`, which are passed
+//!   before all other flags.
 //! * `AR` - the `ar` (archiver) executable to use to build the static library.
+//! * `ARFLAGS` - a series of space separated flags passed to the archiver,
+//!   before those from [`Build::ar_flag`].
+//! * `RANLIB` and `RANLIBFLAGS` - the `ranlib` executable and its flags that
+//!   [`Build::get_ranlib`] returns. `cc` doesn't run `ranlib` itself.
 //! * `CC_MASM_ASM` - the assembler for `.asm` files on MSVC targets, used
 //!   instead of `ml64.exe`, `ml.exe`, `armasm.exe` or `armasm64.exe`. Like `AR`,
 //!   it can include arguments, for example `llvm-ml -m64`. For `llvm-ml`, cc
 //!   passes `-m64` or `-m32` to match the target. When it is not set and
 //!   `ml64.exe` or `ml.exe` can't be found, as when cross compiling, cc uses
 //!   `llvm-ml` from next to `clang-cl` or from `PATH` instead.
+//! * `NVCC` - the `nvcc` executable used for [CUDA](#cuda-c-support), instead of
+//!   `nvcc` from `PATH`. Its whole value is the path, so unlike `CC` it can't
+//!   include a wrapper or arguments. The C++ compiler (see `CXX`) is still
+//!   passed to it with `-ccbin`, unless [`Build::ccbin`] turns that off.
+//! * `CROSS_COMPILE` - when cross compiling and `CC` (or `CXX`), `AR` or
+//!   `RANLIB` isn't set, `cc` names that tool for many targets with a prefix,
+//!   such as `arm-linux-gnueabi-gcc`. This variable sets that prefix, for
+//!   example `arm-linux-gnueabi-`. If it isn't set, a `RUSTC_LINKER` from Cargo
+//!   that ends in `-gcc` gives the prefix instead.
 //! * `CRATE_CC_NO_DEFAULTS` - the default compiler flags may cause conflicts in
 //!   some cross compiling scenarios. Setting this variable
 //!   will disable the generation of default compiler
@@ -96,6 +111,12 @@
 //!   arguments (similar to `make` and `cmake`) rather than splitting them on each space.
 //!   For example, with `CFLAGS='a "b c"'`, the compiler will be invoked with 2 arguments -
 //!   `a` and `b c` - rather than 3: `a`, `"b` and `c"`.
+//! * `CC_PREFER_CLANG_CL_OVER_MSVC` - on MSVC targets, whether `cc` looks for
+//!   `clang-cl.exe` instead of `cl.exe` when `CC` (or `CXX` for C++) is not
+//!   set. It takes precedence over [`Build::prefer_clang_cl_over_msvc`] in
+//!   every build script, unless it is empty. It counts as `true` unless set to
+//!   `"0"`, `"no"` or `"false"`, and is read without the prefixes and suffixes
+//!   described below.
 //! * `CXX...` - see [C++ Support](#c-support).
 //! * `CC_FORCE_DISABLE` - If set, `cc` will never run any [`Command`]s, and methods that
 //!   would return an [`Error`]. This is intended for use by third-party build systems
@@ -110,26 +131,70 @@
 //!   [buildcache](https://gitlab.com/bits-n-bites/buildcache),
 //!   [cachepot](https://github.com/paritytech/cachepot), or
 //!   [kache](https://github.com/kunobi-ninja/kache).
+//! * `SDKROOT` - the Apple SDK path that `cc` passes with `-isysroot`, instead
+//!   of the one from `xcrun`, on Apple targets other than macOS and on macOS
+//!   with a compiler from an Xcode toolchain (`.xctoolchain`). It is ignored if
+//!   it isn't an existing absolute path or is clearly for another platform.
+//! * `MACOSX_DEPLOYMENT_TARGET`, `IPHONEOS_DEPLOYMENT_TARGET`,
+//!   `TVOS_DEPLOYMENT_TARGET`, `WATCHOS_DEPLOYMENT_TARGET` and
+//!   `XROS_DEPLOYMENT_TARGET` - the minimum OS version that `cc` compiles for on
+//!   the matching Apple targets.
+//! * `WASI_SDK_PATH` - on WASI targets, the
+//!   [wasi-sdk](https://github.com/WebAssembly/wasi-sdk) installation. If it has
+//!   a `bin/<target>-clang`, `cc` uses that as the default compiler.
+//! * `WASI_SYSROOT` - on WASI targets, the sysroot that `cc` passes with
+//!   `--sysroot`. For C++ on `wasm32`, `cc` also links `libc++` and `libc++abi`
+//!   from its `lib/<target>` folder.
+//! * `WASM_MUSL_SYSROOT` - required on `wasm32` Linux targets such as
+//!   `wasm32-wali-linux-musl`: the sysroot that `cc` passes with `--sysroot`.
+//!   For C++, `cc` also links `libc++` and `libc++abi` from its `lib` folder.
+//! * `PAUTHTEST_SYSROOT` and `PAUTHTEST_RESOURCE_DIR` - required on `pauthtest`
+//!   targets such as `aarch64-unknown-linux-pauthtest`: the sysroot and the
+//!   Clang resource folder that `cc` passes with `--sysroot` and
+//!   `-resource-dir`. For C++, `cc` also links `libc++` and `libc++abi` from the
+//!   sysroot's `lib` folder.
+//! * `VCINSTALLDIR` - set by a Visual Studio developer command prompt. On
+//!   Windows, `cc` then takes `cl.exe`, `lib.exe` and the other MSVC tools from
+//!   `PATH`, or from the Visual Studio in `VSINSTALLDIR` if the prompt is for
+//!   another architecture, before it looks for an installed Visual Studio. On
+//!   other hosts, `cc` looks for these tools in `VCINSTALLDIR` and
+//!   `VSINSTALLDIR`, which must both be set, and then in `PATH`.
 //!
 //! Furthermore, projects using this crate may specify custom environment variables
 //! to be inspected, for example via the `Build::try_flags_from_environment`
 //! function. Consult the project’s own documentation or its use of the `cc` crate
 //! for any additional variables it may use.
 //!
-//! Each of these variables can also be supplied with certain prefixes and suffixes,
-//! in the following prioritized order:
+//! `CC`, `CXX`, `AR`, `RANLIB`, `NVCC`, `CC_MASM_ASM`, `CXXSTDLIB`,
+//! `CXXSTDLIB_STATIC` and the flags variables `CFLAGS`, `CXXFLAGS`, `ARFLAGS`
+//! and `RANLIBFLAGS` can also be supplied with certain prefixes and suffixes, in
+//! the following prioritized order:
 //!
 //!   1. `<var>_<target>` - for example, `CC_x86_64-unknown-linux-gnu` or `CC_thumbv8m.main-none-eabi`
-//!   2. `<var>_<target_with_underscores>` - for example, `CC_x86_64_unknown_linux_gnu` or `CC_thumbv8m_main_none_eabi` (both periods and underscores are replaced)
+//!   2. `<var>_<target_with_underscores>` - for example, `CC_x86_64_unknown_linux_gnu` or `CC_thumbv8m_main_none_eabi` (both dashes and periods are replaced)
 //!   3. `<build-kind>_<var>` - for example, `HOST_CC` or `TARGET_CFLAGS`
 //!   4. `<var>` - a plain `CC`, `AR` as above.
+//!
+//! For the flags variables, every form that is set is used, in the reverse of
+//! this order, so the more specific flags come last. The other variables listed
+//! above are only read as written, without prefixes or suffixes.
 //!
 //! If none of these variables exist, cc-rs uses built-in defaults.
 //!
 //! In addition to the above optional environment variables, `cc-rs` has some
 //! functions with hard requirements on some variables supplied by [cargo's
 //! build-script driver][cargo] that it has the `TARGET`, `OUT_DIR`, `OPT_LEVEL`,
-//! and `HOST` variables.
+//! and `HOST` variables. It also reads these variables from Cargo when they are
+//! set:
+//!
+//! * `DEBUG` - the profile's `debug` setting. Unless it is off (`""`, `"0"`,
+//!   `"false"` or `"none"`), `cc` passes debug info flags such as `-g` or `-Z7`
+//!   and, with GCC and Clang, keeps frame pointers. [`Build::debug`] overrides
+//!   it.
+//! * `CARGO_CFG_TARGET_FEATURE` - if it contains `crt-static`, `cc` passes `-MT`
+//!   instead of `-MD` to MSVC and clang-cl, unless [`Build::static_crt`] is set,
+//!   and `-static` to GCC. This only applies when the build is for Cargo's
+//!   `TARGET`.
 //!
 //! [cargo]: https://doc.rust-lang.org/cargo/reference/build-scripts.html#inputs-to-the-build-script
 //!
@@ -163,7 +228,7 @@
 //!   require Visual Studio to be installed. `cc-rs` attempts to locate it, and
 //!   if it fails, `cl.exe` is expected to be available in `PATH`. This can be
 //!   set up by running the appropriate developer tools shell.
-//!    * When using `prefer_clang_cl_over_msvc`, make sure that the `C++ Clang compiler for Windows` component
+//!    * When using `prefer_clang_cl_over_msvc` or `CC_PREFER_CLANG_CL_OVER_MSVC`, make sure that the `C++ Clang compiler for Windows` component
 //!      is installed through the Visual Studio Installer, so that `cc-rs` can find `clang-cl.exe`.
 //! * Windows platforms targeting MinGW (e.g. your target name ends in `-gnu`)
 //!   require `cc` to be available in `PATH`. We recommend the
@@ -1550,6 +1615,16 @@ impl Build {
     /// Prefer to use clang-cl over msvc.
     ///
     /// This option defaults to `false`.
+    ///
+    /// On MSVC targets, this makes `cc` look for `clang-cl.exe` instead of
+    /// `cl.exe` when no compiler is set with [`Build::compiler`] or the `CC`
+    /// and `CXX` environment variables.
+    ///
+    /// The `CC_PREFER_CLANG_CL_OVER_MSVC` environment variable takes precedence
+    /// over this option both ways, unless it is empty, so whoever runs the
+    /// build can choose for every crate that uses `cc`. It counts as `true`
+    /// unless set to `"0"`, `"no"` or `"false"`. A build that only works with
+    /// clang-cl can check the compiler it got with [`Tool::is_like_clang_cl`].
     pub fn prefer_clang_cl_over_msvc(&mut self, prefer_clang_cl_over_msvc: bool) -> &mut Build {
         self.prefer_clang_cl_over_msvc = prefer_clang_cl_over_msvc;
         self
@@ -1561,7 +1636,7 @@ impl Build {
     /// allows the following standard environment variables to be overwritten by this function:
     /// - `SDKROOT`
     /// - `*_DEPLOYMENT_TARGET`
-    /// - `WASI_SDK_ROOT`
+    /// - `WASI_SDK_PATH`
     ///
     /// The logic here is "environment variables that the C compiler could itself reasonably have
     /// read".
@@ -2007,7 +2082,7 @@ impl Build {
                         ));
                     }
                 } else if target.os == "linux" {
-                    let musl_sysroot = self.wasm_musl_sysroot().unwrap();
+                    let musl_sysroot = self.wasm_musl_sysroot()?;
                     self.cargo_output.print_metadata(&format_args!(
                         "cargo:rustc-flags=-L {}/lib -lstatic=c++ -lstatic=c++abi",
                         Path::new(&musl_sysroot).display(),
@@ -2067,7 +2142,7 @@ impl Build {
                 if libtst && libdir.is_dir() {
                     self.cargo_output.print_metadata(&format_args!(
                         "cargo:rustc-link-search=native={}",
-                        libdir.to_str().unwrap()
+                        libdir.display()
                     ));
                 }
 
@@ -2075,7 +2150,12 @@ impl Build {
                 let lib = match cudart {
                     "shared" => "cudart",
                     "static" => "cudart_static",
-                    bad => panic!("unsupported cudart option: {}", bad),
+                    bad => {
+                        return Err(Error::new(
+                            ErrorKind::InvalidArgument,
+                            format!("unsupported cudart option: {bad}"),
+                        ));
+                    }
                 };
                 self.cargo_output
                     .print_metadata(&format_args!("cargo:rustc-link-lib={lib}"));
@@ -2359,10 +2439,12 @@ impl Build {
         let mut cmd = compiler.to_command();
         cmd.arg("-E");
 
-        assert!(
-            self.files.len() <= 1,
-            "Expand may only be called for a single file"
-        );
+        if self.files.len() > 1 {
+            return Err(Error::new(
+                ErrorKind::InvalidArgument,
+                "Expand may only be called for a single file",
+            ));
+        }
 
         let is_asm = self
             .files
@@ -2612,6 +2694,7 @@ impl Build {
                 let crt_flag = match self.static_crt {
                     Some(true) => "-MT",
                     Some(false) => "-MD",
+                    None if !self.is_cargo_target() => "-MD",
                     None => {
                         let features = cargo_env_var_os("CARGO_CFG_TARGET_FEATURE");
                         let features = features.as_deref().unwrap_or_default();
@@ -2801,7 +2884,7 @@ impl Build {
                         for x in &["wasm-exceptions", "declspec"] {
                             cmd.push_cc_arg(format!("-f{x}").into());
                         }
-                        let musl_sysroot = self.wasm_musl_sysroot().unwrap();
+                        let musl_sysroot = self.wasm_musl_sysroot()?;
                         cmd.push_cc_arg(
                             format!("--sysroot={}", Path::new(&musl_sysroot).display()).into(),
                         );
@@ -2915,7 +2998,7 @@ impl Build {
                     cmd.args.push("-finput-charset=utf-8".into());
                 }
 
-                if self.static_flag.is_none() {
+                if self.static_flag.is_none() && self.is_cargo_target() {
                     let features = cargo_env_var_os("CARGO_CFG_TARGET_FEATURE");
                     let features = features.as_deref().unwrap_or_default();
                     if features.to_string_lossy().contains("crt-static") {
@@ -3724,7 +3807,15 @@ impl Build {
         let target = self.get_target()?;
         let raw_target = self.get_raw_target()?;
 
-        let msvc = if self.prefer_clang_cl_over_msvc {
+        // The environment variable takes precedence over the builder option,
+        // unless it is empty. Only MSVC targets look for `cl.exe`, so only
+        // they read it.
+        let prefer_clang_cl = target.env == "msvc"
+            && self
+                .get_env("CC_PREFER_CLANG_CL_OVER_MSVC")
+                .filter(|v| !v.is_empty())
+                .map_or(self.prefer_clang_cl_over_msvc, |v| env_value_is_true(v));
+        let msvc = if prefer_clang_cl {
             "clang-cl.exe"
         } else {
             "cl.exe"
@@ -4060,8 +4151,11 @@ impl Build {
             "buildcache",
             "kache",
         ];
-        if let Some(custom_wrapper) = self.get_env("CC_KNOWN_WRAPPER_CUSTOM") {
-            known_wrappers.push(custom_wrapper.to_str().unwrap());
+        if let Some(custom_wrapper) = self
+            .get_env("CC_KNOWN_WRAPPER_CUSTOM")
+            .and_then(|v| v.to_str())
+        {
+            known_wrappers.push(custom_wrapper);
         }
 
         let mut parts = tool.split_whitespace();
@@ -4658,6 +4752,17 @@ impl Build {
         }
     }
 
+    /// Returns true if this build configuration is targeting Cargo's `TARGET`.
+    ///
+    /// When `target` is overridden to something else (e.g., `HOST`), Cargo's
+    /// `CARGO_CFG_*` target-feature environment variables do not apply.
+    fn is_cargo_target(&self) -> bool {
+        match &self.target {
+            Some(t) => Some(OsStr::new(&**t)) == cargo_env_var_os("TARGET").as_deref(),
+            None => true,
+        }
+    }
+
     fn get_raw_target(&self) -> Result<Cow<'_, str>, Error> {
         match &self.target {
             Some(t) => Ok(Cow::Borrowed(t)),
@@ -4979,9 +5084,17 @@ impl Build {
                 return Some(deployment_target_ver);
             }
 
-            let mut deployment_target = deployment_target_ver
+            let Ok(parts) = deployment_target_ver
                 .split('.')
-                .map(|v| v.parse::<u32>().expect("integer version"));
+                .map(str::parse::<u32>)
+                .collect::<Result<Vec<_>, _>>()
+            else {
+                self.cargo_output.print_warning(&format_args!(
+                    "ignoring invalid deployment target {deployment_target_ver:?}"
+                ));
+                return None;
+            };
+            let mut deployment_target = parts.into_iter();
 
             match target.os {
                 "macos" => {
