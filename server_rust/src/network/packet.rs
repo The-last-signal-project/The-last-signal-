@@ -1,13 +1,9 @@
 use log::error;
 use std::io;
 
-use tokio::io::{
-    AsyncReadExt,
-    AsyncWriteExt,
-};
-use tokio::net::TcpStream;
 use serde::{Deserialize, Serialize};
-
+use tokio::io::{AsyncReadExt, AsyncWriteExt};
+use tokio::net::TcpStream;
 
 pub const MAX_PACKET_SIZE: usize = 10 * 1024 * 1024;
 
@@ -21,7 +17,7 @@ pub enum PacketType {
     Move = 4,
     Log = 5,
     SignUp = 6,
-     LoginResponse = 7,
+    LoginResponse = 7,
     SignUpResponse = 8,
     BAN = 9,
     DECO = 10,
@@ -57,7 +53,6 @@ pub enum LogLevel {
     WARNING,
     ERROR,
 }
-
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct ClientLog {
@@ -105,22 +100,38 @@ pub struct Packet {
 }
 
 impl Packet {
-    pub fn new(
-        packet_type: PacketType,
-        payload: Vec<u8>,
-    ) -> Self {
+    pub fn new(packet_type: PacketType, payload: Vec<u8>) -> Self {
         Self {
             packet_type,
             payload,
         }
     }
-}
-pub fn encode_ban(
-    ban_type: BanType,
-    reason: &str,
-    date_deban: Option<&str>,
-) -> Vec<u8> {
 
+    /// Analyse les octets du corps d'un paquet (type sur 2 octets suivi du payload).
+    pub fn parse_body(body: &[u8]) -> io::Result<Self> {
+        if body.len() < 2 {
+            error!("paquet invalide");
+            return Err(io::Error::new(
+                io::ErrorKind::InvalidData,
+                "Paquet invalide.",
+            ));
+        }
+
+        let packet_type = u16::from_be_bytes([body[0], body[1]]);
+        let packet_type = PacketType::from_u16(packet_type).ok_or_else(|| {
+            error!("Type de paquet inconnu");
+            io::Error::new(io::ErrorKind::InvalidData, "Type de paquet inconnu.")
+        })?;
+
+        let payload = body[2..].to_vec();
+
+        Ok(Self {
+            packet_type,
+            payload,
+        })
+    }
+}
+pub fn encode_ban(ban_type: BanType, reason: &str, date_deban: Option<&str>) -> Vec<u8> {
     format!(
         "{}\0{}\0{}",
         ban_type as u8,
@@ -131,11 +142,7 @@ pub fn encode_ban(
 }
 
 /// Envoie un paquet.
-pub async fn send_packet(
-    stream: &mut TcpStream,
-    packet: &Packet,
-) -> io::Result<()> {
-
+pub async fn send_packet(stream: &mut TcpStream, packet: &Packet) -> io::Result<()> {
     let payload_size = 2 + packet.payload.len();
 
     if payload_size > MAX_PACKET_SIZE {
@@ -150,8 +157,7 @@ pub async fn send_packet(
 
     stream.write_all(&size).await?;
 
-    let packet_type =
-        (packet.packet_type as u16).to_be_bytes();
+    let packet_type = (packet.packet_type as u16).to_be_bytes();
 
     stream.write_all(&packet_type).await?;
 
@@ -161,11 +167,7 @@ pub async fn send_packet(
 }
 
 /// Reçoit exactement `size` octets.
-async fn recv_exact(
-    stream: &mut TcpStream,
-    size: usize,
-) -> io::Result<Vec<u8>> {
-
+async fn recv_exact(stream: &mut TcpStream, size: usize) -> io::Result<Vec<u8>> {
     let mut buffer = vec![0u8; size];
 
     stream.read_exact(&mut buffer).await?;
@@ -174,19 +176,11 @@ async fn recv_exact(
 }
 
 /// Reçoit un paquet.
-pub async fn receive_packet(
-    stream: &mut TcpStream,
-) -> io::Result<Packet> {
-
+pub async fn receive_packet(stream: &mut TcpStream) -> io::Result<Packet> {
     // Taille
     let header = recv_exact(stream, 4).await?;
 
-    let size = u32::from_be_bytes([
-        header[0],
-        header[1],
-        header[2],
-        header[3],
-    ]) as usize;
+    let size = u32::from_be_bytes([header[0], header[1], header[2], header[3]]) as usize;
 
     if size < 2 {
         error!("paquet invalide");
@@ -207,27 +201,7 @@ pub async fn receive_packet(
     // Corps du paquet
     let data = recv_exact(stream, size).await?;
 
-    // Type
-    let packet_type =
-        u16::from_be_bytes([data[0], data[1]]);
-
-    let packet_type =
-        PacketType::from_u16(packet_type)
-            .ok_or_else(|| {
-                error!("Type de paquet inconnu");
-                io::Error::new(
-                    io::ErrorKind::InvalidData,
-                    "Type de paquet inconnu.",
-                )
-            })?;
-
-    // Payload
-    let payload = data[2..].to_vec();
-
-    Ok(Packet {
-        packet_type,
-        payload,
-    })
+    Packet::parse_body(&data)
 }
 
 #[cfg(test)]
@@ -284,7 +258,11 @@ mod tests {
 
     #[test]
     fn test_encode_ban_temporary() {
-        let encoded = encode_ban(BanType::Temporary, "Cheating detected", Some("2026-12-31 23:59:59"));
+        let encoded = encode_ban(
+            BanType::Temporary,
+            "Cheating detected",
+            Some("2026-12-31 23:59:59"),
+        );
         assert_eq!(encoded, b"1\0Cheating detected\02026-12-31 23:59:59");
     }
 
@@ -383,7 +361,9 @@ mod tests {
         tokio::spawn(async move {
             let size = 10u32;
             let _ = client.write_all(&size.to_be_bytes()).await;
-            let _ = client.write_all(&(PacketType::Ping as u16).to_be_bytes()).await;
+            let _ = client
+                .write_all(&(PacketType::Ping as u16).to_be_bytes())
+                .await;
             let _ = client.write_all(b"123").await;
             drop(client);
         });
@@ -415,13 +395,9 @@ mod tests {
         let test_payload = b"hello signal network".to_vec();
         let sent_packet = Packet::new(PacketType::Chat, test_payload.clone());
 
-        let client_task = tokio::spawn(async move {
-            send_packet(&mut client, &sent_packet).await
-        });
+        let client_task = tokio::spawn(async move { send_packet(&mut client, &sent_packet).await });
 
-        let server_task = tokio::spawn(async move {
-            receive_packet(&mut server).await
-        });
+        let server_task = tokio::spawn(async move { receive_packet(&mut server).await });
 
         let (client_res, server_res) = tokio::join!(client_task, server_task);
         assert!(client_res.unwrap().is_ok());
@@ -430,5 +406,40 @@ mod tests {
         assert_eq!(received.packet_type, PacketType::Chat);
         assert_eq!(received.payload, test_payload);
     }
-}
 
+    #[test]
+    fn test_packet_parse_body_too_short() {
+        let err = Packet::parse_body(&[]).unwrap_err();
+        assert_eq!(err.kind(), io::ErrorKind::InvalidData);
+        assert_eq!(err.to_string(), "Paquet invalide.");
+
+        let err = Packet::parse_body(&[0x00]).unwrap_err();
+        assert_eq!(err.kind(), io::ErrorKind::InvalidData);
+        assert_eq!(err.to_string(), "Paquet invalide.");
+    }
+
+    #[test]
+    fn test_packet_parse_body_unknown_type() {
+        let err = Packet::parse_body(&[0xFF, 0xFF]).unwrap_err();
+        assert_eq!(err.kind(), io::ErrorKind::InvalidData);
+        assert_eq!(err.to_string(), "Type de paquet inconnu.");
+    }
+
+    #[test]
+    fn test_packet_parse_body_empty_payload() {
+        let body = (PacketType::Ping as u16).to_be_bytes();
+        let packet =
+            Packet::parse_body(&body).expect("parse_body should succeed with empty payload");
+        assert_eq!(packet.packet_type, PacketType::Ping);
+        assert!(packet.payload.is_empty());
+    }
+
+    #[test]
+    fn test_packet_parse_body_with_payload() {
+        let mut body = (PacketType::Chat as u16).to_be_bytes().to_vec();
+        body.extend_from_slice(b"test message");
+        let packet = Packet::parse_body(&body).expect("parse_body should succeed with payload");
+        assert_eq!(packet.packet_type, PacketType::Chat);
+        assert_eq!(packet.payload, b"test message");
+    }
+}

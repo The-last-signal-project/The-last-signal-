@@ -1,5 +1,5 @@
 numpy==2.5.3
-PySide6==6.11.2
+PySide6==6.12.0
 vispy==0.17.0
 pytest==9.1.1
 black==26.10.0
