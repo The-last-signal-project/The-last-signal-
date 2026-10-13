@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="920" height="450" viewBox="0 0 920 450">
+<title>The Last Signal — Repository Statistics</title>
+<desc>Statistiques du dépôt uniquement.</desc>
+<rect x="0" y="0" width="920" height="450" rx="18" fill="#0d1117"/>
+<text x="30" y="42" fill="#f0f6fc" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="bold" text-anchor="start">The Last Signal</text>
+<text x="30" y="64" fill="#8b949e" font-family="Arial, Helvetica, sans-serif" font-size="11" font-weight="normal" text-anchor="start">REPOSITORY ANALYTICS</text>
+<text x="890" y="42" fill="#8b949e" font-family="Arial, Helvetica, sans-serif" font-size="10" font-weight="normal" text-anchor="end">The-last-signal-project/The-last-signal-</text>
+<rect x="24" y="82" width="276" height="72" rx="10" fill="#161b22" stroke="#30363d"/>
+<text x="39" y="105" fill="#8b949e" font-family="Arial, Helvetica, sans-serif" font-size="10" font-weight="bold" text-anchor="start">COMMITS · 52 WEEKS</text>
+<text x="39" y="135" fill="#58a6ff" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="bold" text-anchor="start">3,585</text>
+<rect x="322" y="82" width="276" height="72" rx="10" fill="#161b22" stroke="#30363d"/>
+<text x="337" y="105" fill="#8b949e" font-family="Arial, Helvetica, sans-serif" font-size="10" font-weight="bold" text-anchor="start">CONTRIBUTORS</text>
+<text x="337" y="135" fill="#3fb950" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="bold" text-anchor="start">12</text>
+<rect x="620" y="82" width="276" height="72" rx="10" fill="#161b22" stroke="#30363d"/>
+<text x="635" y="105" fill="#8b949e" font-family="Arial, Helvetica, sans-serif" font-size="10" font-weight="bold" text-anchor="start">LINES ADDED · 52 WEEKS</text>
+<text x="635" y="135" fill="#3fb950" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="bold" text-anchor="start">474,625,151</text>
+<rect x="24" y="166" width="276" height="72" rx="10" fill="#161b22" stroke="#30363d"/>
+<text x="39" y="189" fill="#8b949e" font-family="Arial, Helvetica, sans-serif" font-size="10" font-weight="bold" text-anchor="start">LINES DELETED · 52 WEEKS</text>
+<text x="39" y="219" fill="#f85149" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="bold" text-anchor="start">470,971,922</text>
+<rect x="322" y="166" width="276" height="72" rx="10" fill="#161b22" stroke="#30363d"/>
+<text x="337" y="189" fill="#8b949e" font-family="Arial, Helvetica, sans-serif" font-size="10" font-weight="bold" text-anchor="start">STARS</text>
+<text x="337" y="219" fill="#d29922" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="bold" text-anchor="start">2</text>
+<rect x="620" y="166" width="276" height="72" rx="10" fill="#161b22" stroke="#30363d"/>
+<text x="635" y="189" fill="#8b949e" font-family="Arial, Helvetica, sans-serif" font-size="10" font-weight="bold" text-anchor="start">FORKS</text>
+<text x="635" y="219" fill="#bc8cff" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="bold" text-anchor="start">6</text>
+<text x="30" y="265" fill="#c9d1d9" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="bold" text-anchor="start">Weekly commits · last 12 weeks</text>
+<rect x="38" y="302" width="45" height="68" rx="5" fill="#388bfd"/>
+<text x="60.5" y="296" fill="#c9d1d9" font-family="Arial, Helvetica, sans-serif" font-size="10" font-weight="normal" text-anchor="middle">439</text>
+<rect x="108" y="332" width="45" height="38" rx="5" fill="#388bfd"/>
+<text x="130.5" y="326" fill="#c9d1d9" font-family="Arial, Helvetica, sans-serif" font-size="10" font-weight="normal" text-anchor="middle">249</text>
+<rect x="178" y="347" width="45" height="23" rx="5" fill="#388bfd"/>
+<text x="200.5" y="341" fill="#c9d1d9" font-family="Arial, Helvetica, sans-serif" font-size="10" font-weight="normal" text-anchor="middle">150</text>
+<rect x="248" y="313" width="45" height="57" rx="5" fill="#388bfd"/>
+<text x="270.5" y="307" fill="#c9d1d9" font-family="Arial, Helvetica, sans-serif" font-size="10" font-weight="normal" text-anchor="middle">370</text>
+<rect x="318" y="327" width="45" height="43" rx="5" fill="#388bfd"/>
+<text x="340.5" y="321" fill="#c9d1d9" font-family="Arial, Helvetica, sans-serif" font-size="10" font-weight="normal" text-anchor="middle">282</text>
+<rect x="388" y="342" width="45" height="28" rx="5" fill="#388bfd"/>
+<text x="410.5" y="336" fill="#c9d1d9" font-family="Arial, Helvetica, sans-serif" font-size="10" font-weight="normal" text-anchor="middle">182</text>
+<rect x="458" y="331" width="45" height="39" rx="5" fill="#388bfd"/>
+<text x="480.5" y="325" fill="#c9d1d9" font-family="Arial, Helvetica, sans-serif" font-size="10" font-weight="normal" text-anchor="middle">258</text>
+<rect x="528" y="322" width="45" height="48" rx="5" fill="#388bfd"/>
+<text x="550.5" y="316" fill="#c9d1d9" font-family="Arial, Helvetica, sans-serif" font-size="10" font-weight="normal" text-anchor="middle">312</text>
+<rect x="598" y="341" width="45" height="29" rx="5" fill="#388bfd"/>
+<text x="620.5" y="335" fill="#c9d1d9" font-family="Arial, Helvetica, sans-serif" font-size="10" font-weight="normal" text-anchor="middle">192</text>
+<rect x="668" y="343" width="45" height="27" rx="5" fill="#388bfd"/>
+<text x="690.5" y="337" fill="#c9d1d9" font-family="Arial, Helvetica, sans-serif" font-size="10" font-weight="normal" text-anchor="middle">179</text>
+<rect x="738" y="333" width="45" height="37" rx="5" fill="#388bfd"/>
+<text x="760.5" y="327" fill="#c9d1d9" font-family="Arial, Helvetica, sans-serif" font-size="10" font-weight="normal" text-anchor="middle">244</text>
+<rect x="808" y="344" width="45" height="26" rx="5" fill="#388bfd"/>
+<text x="830.5" y="338" fill="#c9d1d9" font-family="Arial, Helvetica, sans-serif" font-size="10" font-weight="normal" text-anchor="middle">174</text>
+<text x="30" y="408" fill="#8b949e" font-family="Arial, Helvetica, sans-serif" font-size="11" font-weight="normal" text-anchor="start">Main language: Rust</text>
+<text x="890" y="408" fill="#8b949e" font-family="Arial, Helvetica, sans-serif" font-size="11" font-weight="normal" text-anchor="end">Open issues: 11</text>
+<text x="30" y="432" fill="#8b949e" font-family="Arial, Helvetica, sans-serif" font-size="10" font-weight="normal" text-anchor="start">Updated: 2026-10-13 10:42 UTC</text>
+<text x="890" y="432" fill="#8b949e" font-family="Arial, Helvetica, sans-serif" font-size="10" font-weight="normal" text-anchor="end">Data from Git history + GitHub API</text>
+</svg>
