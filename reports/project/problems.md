@@ -1,14 +1,14 @@
 # Documentation Problems
 
-Generated: 2026-10-14 11:54:57
+Generated: 2026-10-14 12:27:30
 
 ## Summary
 
 |Type|Count|
 |---|---:|
-|Errors|475|
-|Warnings|7454|
-|**Total**|**7934**|
+|Errors|474|
+|Warnings|7458|
+|**Total**|**7937**|
 
 ---
 
@@ -7100,7 +7100,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## Warning
 
 - **Module :** titles
-- **Message :** docs/README.md:1 titre dupliqué (déjà présent dans docs_ENG/README_ENG.md:1).
+- **Message :** docs/README.md:1 titre dupliqué (déjà présent dans docs_JP/README_JP.md:1).
 
 ## Warning
 
@@ -9893,6 +9893,11 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 - **Module :** titles
 - **Message :** docs_ENG/README_ENG.md: contient 6 titres H1 (1 attendu).
+
+## Warning
+
+- **Module :** titles
+- **Message :** docs_ENG/README_ENG.md:1 titre dupliqué (déjà présent dans docs_JP/README_JP.md:1).
 
 ---
 
@@ -14969,15 +14974,25 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 # docs_JP/README_JP.md
 
-## Error
+## Warning
 
 - **Module :** markdown
-- **Message :** Fichier vide.
+- **Message :** Ligne 2 > 120 caractères.
+
+## Warning
+
+- **Module :** markdown
+- **Message :** Ligne 184 > 120 caractères.
 
 ## Error
 
 - **Module :** titles
-- **Message :** docs_JP/README_JP.md: contient 0 titres H1 (1 attendu).
+- **Message :** docs_JP/README_JP.md: contient 6 titres H1 (1 attendu).
+
+## Warning
+
+- **Module :** titles
+- **Message :** docs_JP/README_JP.md:175 titre dupliqué (déjà présent dans README_JP.md:472).
 
 ---
 
@@ -15845,32 +15860,32 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## Warning
 
 - **Module :** markdown
-- **Message :** Ligne 44 > 120 caractères.
+- **Message :** Ligne 39 > 120 caractères.
 
 ## Warning
 
 - **Module :** markdown
-- **Message :** Ligne 73 > 120 caractères.
+- **Message :** Ligne 63 > 120 caractères.
+
+## Warning
+
+- **Module :** markdown
+- **Message :** Ligne 64 > 120 caractères.
+
+## Warning
+
+- **Module :** markdown
+- **Message :** Ligne 68 > 120 caractères.
+
+## Warning
+
+- **Module :** markdown
+- **Message :** Ligne 72 > 120 caractères.
 
 ## Warning
 
 - **Module :** markdown
 - **Message :** Ligne 74 > 120 caractères.
-
-## Warning
-
-- **Module :** markdown
-- **Message :** Ligne 78 > 120 caractères.
-
-## Warning
-
-- **Module :** markdown
-- **Message :** Ligne 84 > 120 caractères.
-
-## Warning
-
-- **Module :** markdown
-- **Message :** Ligne 88 > 120 caractères.
 
 ---
 

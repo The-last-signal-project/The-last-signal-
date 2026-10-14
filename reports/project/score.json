@@ -1,5 +1,5 @@
 {
-    "generated": "2026-10-14T11:54:57.221119",
+    "generated": "2026-10-14T12:27:29.110192",
     "score": 64,
     "status": "Bon",
     "scores": {
@@ -11,7 +11,7 @@
         "rust": 0,
         "organization": 95
     },
-    "problem_count": 7934,
+    "problem_count": 7937,
     "details": {
         "markdown": {
             "score": 45,
@@ -59,12 +59,6 @@
                 },
                 {
                     "file": "docs_JP/ARCHITECTURE_JP.md",
-                    "severity": "error",
-                    "message": "Fichier vide.",
-                    "module": "markdown"
-                },
-                {
-                    "file": "docs_JP/README_JP.md",
                     "severity": "error",
                     "message": "Fichier vide.",
                     "module": "markdown"
@@ -1140,13 +1134,31 @@
                 {
                     "file": "lychee/out.md",
                     "severity": "warning",
-                    "message": "Ligne 44 > 120 caractères.",
+                    "message": "Ligne 39 > 120 caractères.",
                     "module": "markdown"
                 },
                 {
                     "file": "lychee/out.md",
                     "severity": "warning",
-                    "message": "Ligne 73 > 120 caractères.",
+                    "message": "Ligne 63 > 120 caractères.",
+                    "module": "markdown"
+                },
+                {
+                    "file": "lychee/out.md",
+                    "severity": "warning",
+                    "message": "Ligne 64 > 120 caractères.",
+                    "module": "markdown"
+                },
+                {
+                    "file": "lychee/out.md",
+                    "severity": "warning",
+                    "message": "Ligne 68 > 120 caractères.",
+                    "module": "markdown"
+                },
+                {
+                    "file": "lychee/out.md",
+                    "severity": "warning",
+                    "message": "Ligne 72 > 120 caractères.",
                     "module": "markdown"
                 },
                 {
@@ -1156,21 +1168,15 @@
                     "module": "markdown"
                 },
                 {
-                    "file": "lychee/out.md",
+                    "file": "docs_JP/README_JP.md",
                     "severity": "warning",
-                    "message": "Ligne 78 > 120 caractères.",
+                    "message": "Ligne 2 > 120 caractères.",
                     "module": "markdown"
                 },
                 {
-                    "file": "lychee/out.md",
+                    "file": "docs_JP/README_JP.md",
                     "severity": "warning",
-                    "message": "Ligne 84 > 120 caractères.",
-                    "module": "markdown"
-                },
-                {
-                    "file": "lychee/out.md",
-                    "severity": "warning",
-                    "message": "Ligne 88 > 120 caractères.",
+                    "message": "Ligne 184 > 120 caractères.",
                     "module": "markdown"
                 },
                 {
@@ -6686,7 +6692,7 @@
                 {
                     "file": "docs_JP/README_JP.md",
                     "severity": "error",
-                    "message": "docs_JP/README_JP.md: contient 0 titres H1 (1 attendu).",
+                    "message": "docs_JP/README_JP.md: contient 6 titres H1 (1 attendu).",
                     "module": "titles"
                 },
                 {
@@ -17730,6 +17736,12 @@
                     "module": "titles"
                 },
                 {
+                    "file": "docs_JP/README_JP.md",
+                    "severity": "warning",
+                    "message": "docs_JP/README_JP.md:175 titre dupliqué (déjà présent dans README_JP.md:472).",
+                    "module": "titles"
+                },
+                {
                     "file": "docs_ENG/ROADMAP_ENG.md",
                     "severity": "warning",
                     "message": "docs_ENG/ROADMAP_ENG.md:70 titre dupliqué (déjà présent dans docs_ENG/ROADMAP_ENG.md:40).",
@@ -17781,6 +17793,12 @@
                     "file": "docs_ENG/CODING_RULES_ENG.md",
                     "severity": "warning",
                     "message": "docs_ENG/CODING_RULES_ENG.md:292 titre dupliqué (déjà présent dans README_ENG.md:71).",
+                    "module": "titles"
+                },
+                {
+                    "file": "docs_ENG/README_ENG.md",
+                    "severity": "warning",
+                    "message": "docs_ENG/README_ENG.md:1 titre dupliqué (déjà présent dans docs_JP/README_JP.md:1).",
                     "module": "titles"
                 },
                 {
@@ -18560,7 +18578,7 @@
                 {
                     "file": "docs/README.md",
                     "severity": "warning",
-                    "message": "docs/README.md:1 titre dupliqué (déjà présent dans docs_ENG/README_ENG.md:1).",
+                    "message": "docs/README.md:1 titre dupliqué (déjà présent dans docs_JP/README_JP.md:1).",
                     "module": "titles"
                 },
                 {
