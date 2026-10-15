@@ -1,6 +1,6 @@
 Documentation Quality Report
 
-**Date :** 2026-10-14 21:15:52
+**Date :** 2026-10-15 00:07:58
 
 # 64/100
 
@@ -3855,7 +3855,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'create_tcp_pair' sans documentation
 
-- **line :** 204
+- **line :** 205
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -3865,7 +3865,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'test_packet_type_from_u16_all_valid' sans documentation
 
-- **line :** 221
+- **line :** 222
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -3875,7 +3875,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'test_packet_type_from_u16_invalid_values' sans documentation
 
-- **line :** 242
+- **line :** 243
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -3885,7 +3885,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'test_encode_ban_temporary' sans documentation
 
-- **line :** 251
+- **line :** 252
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -3895,7 +3895,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'test_encode_ban_permanent' sans documentation
 
-- **line :** 261
+- **line :** 262
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -3905,7 +3905,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'test_receive_packet_size_zero_fails' sans documentation
 
-- **line :** 267
+- **line :** 268
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -3915,7 +3915,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'test_receive_packet_size_one_fails' sans documentation
 
-- **line :** 283
+- **line :** 284
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -3925,7 +3925,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'test_receive_packet_exceeds_max_size' sans documentation
 
-- **line :** 299
+- **line :** 300
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -3935,7 +3935,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'test_receive_packet_unknown_packet_type' sans documentation
 
-- **line :** 315
+- **line :** 316
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -3945,7 +3945,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'test_receive_packet_truncated_header' sans documentation
 
-- **line :** 333
+- **line :** 334
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -3955,7 +3955,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'test_receive_packet_truncated_payload' sans documentation
 
-- **line :** 349
+- **line :** 350
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -3965,7 +3965,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'test_send_packet_exceeds_max_size' sans documentation
 
-- **line :** 369
+- **line :** 370
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -3975,7 +3975,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'test_send_and_receive_roundtrip' sans documentation
 
-- **line :** 383
+- **line :** 384
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -3985,7 +3985,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'test_packet_parse_body_too_short' sans documentation
 
-- **line :** 402
+- **line :** 403
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -3995,7 +3995,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'test_packet_parse_body_unknown_type' sans documentation
 
-- **line :** 413
+- **line :** 414
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -4005,7 +4005,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'test_packet_parse_body_empty_payload' sans documentation
 
-- **line :** 420
+- **line :** 421
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -4015,7 +4015,167 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'test_packet_parse_body_with_payload' sans documentation
 
-- **line :** 429
+- **line :** 430
+
+- **suggestion :** Ajoutez /// avant cette function
+
+- **module :** rust
+
+## ⚠️ Warning
+- **Module :** rust
+- **Message :** Function 'test_packet_new_empty_payload' sans documentation
+
+- **line :** 439
+
+- **suggestion :** Ajoutez /// avant cette function
+
+- **module :** rust
+
+## ⚠️ Warning
+- **Module :** rust
+- **Message :** Function 'test_packet_new_non_empty_payload' sans documentation
+
+- **line :** 449
+
+- **suggestion :** Ajoutez /// avant cette function
+
+- **module :** rust
+
+## ⚠️ Warning
+- **Module :** rust
+- **Message :** Function 'test_packet_clone' sans documentation
+
+- **line :** 457
+
+- **suggestion :** Ajoutez /// avant cette function
+
+- **module :** rust
+
+## ⚠️ Warning
+- **Module :** rust
+- **Message :** Function 'test_parse_body_all_supported_packet_types_protocol_lock' sans documentation
+
+- **line :** 469
+
+- **suggestion :** Ajoutez /// avant cette function
+
+- **module :** rust
+
+## ⚠️ Warning
+- **Module :** rust
+- **Message :** Function 'test_parse_body_unknown_type_boundary_cases' sans documentation
+
+- **line :** 506
+
+- **suggestion :** Ajoutez /// avant cette function
+
+- **module :** rust
+
+## ⚠️ Warning
+- **Module :** rust
+- **Message :** Function 'test_parse_body_realistic_move_payload' sans documentation
+
+- **line :** 521
+
+- **suggestion :** Ajoutez /// avant cette function
+
+- **module :** rust
+
+## ⚠️ Warning
+- **Module :** rust
+- **Message :** Function 'test_parse_body_realistic_session_payload' sans documentation
+
+- **line :** 539
+
+- **suggestion :** Ajoutez /// avant cette function
+
+- **module :** rust
+
+## ⚠️ Warning
+- **Module :** rust
+- **Message :** Function 'test_parse_body_realistic_player_state_payload' sans documentation
+
+- **line :** 551
+
+- **suggestion :** Ajoutez /// avant cette function
+
+- **module :** rust
+
+## ⚠️ Warning
+- **Module :** rust
+- **Message :** Function 'test_send_packet_wire_format_inspection' sans documentation
+
+- **line :** 567
+
+- **suggestion :** Ajoutez /// avant cette function
+
+- **module :** rust
+
+## ⚠️ Warning
+- **Module :** rust
+- **Message :** Function 'test_send_and_receive_empty_payload_roundtrip' sans documentation
+
+- **line :** 613
+
+- **suggestion :** Ajoutez /// avant cette function
+
+- **module :** rust
+
+## ⚠️ Warning
+- **Module :** rust
+- **Message :** Function 'test_send_and_receive_exact_max_allowed_boundary' sans documentation
+
+- **line :** 631
+
+- **suggestion :** Ajoutez /// avant cette function
+
+- **module :** rust
+
+## ⚠️ Warning
+- **Module :** rust
+- **Message :** Function 'test_receive_packet_oversized_header_rejected_without_waiting' sans documentation
+
+- **line :** 662
+
+- **suggestion :** Ajoutez /// avant cette function
+
+- **module :** rust
+
+## ⚠️ Warning
+- **Module :** rust
+- **Message :** Function 'test_encode_ban_none_vs_empty_expiration' sans documentation
+
+- **line :** 684
+
+- **suggestion :** Ajoutez /// avant cette function
+
+- **module :** rust
+
+## ⚠️ Warning
+- **Module :** rust
+- **Message :** Function 'test_encode_ban_empty_reason' sans documentation
+
+- **line :** 695
+
+- **suggestion :** Ajoutez /// avant cette function
+
+- **module :** rust
+
+## ⚠️ Warning
+- **Module :** rust
+- **Message :** Function 'test_encode_ban_multibyte_utf8' sans documentation
+
+- **line :** 701
+
+- **suggestion :** Ajoutez /// avant cette function
+
+- **module :** rust
+
+## ⚠️ Warning
+- **Module :** rust
+- **Message :** Function 'test_encode_ban_reason_with_nul_documents_delimiter_collision' sans documentation
+
+- **line :** 708
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -4318,6 +4478,66 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Message :** Function 'test_signup_payload_large_u16_length_incomplet' sans documentation
 
 - **line :** 247
+
+- **suggestion :** Ajoutez /// avant cette function
+
+- **module :** rust
+
+## ⚠️ Warning
+- **Module :** rust
+- **Message :** Function 'test_parse_credentials_multibyte_utf8_success' sans documentation
+
+- **line :** 255
+
+- **suggestion :** Ajoutez /// avant cette function
+
+- **module :** rust
+
+## ⚠️ Warning
+- **Module :** rust
+- **Message :** Function 'test_parse_credentials_mid_codepoint_slice_rejected' sans documentation
+
+- **line :** 272
+
+- **suggestion :** Ajoutez /// avant cette function
+
+- **module :** rust
+
+## ⚠️ Warning
+- **Module :** rust
+- **Message :** Function 'test_parse_credentials_char_count_prefix_misaligns_next_field' sans documentation
+
+- **line :** 289
+
+- **suggestion :** Ajoutez /// avant cette function
+
+- **module :** rust
+
+## ⚠️ Warning
+- **Module :** rust
+- **Message :** Function 'test_parse_credentials_preserves_whitespace' sans documentation
+
+- **line :** 304
+
+- **suggestion :** Ajoutez /// avant cette function
+
+- **module :** rust
+
+## ⚠️ Warning
+- **Module :** rust
+- **Message :** Function 'test_parse_credentials_long_strings' sans documentation
+
+- **line :** 322
+
+- **suggestion :** Ajoutez /// avant cette function
+
+- **module :** rust
+
+## ⚠️ Warning
+- **Module :** rust
+- **Message :** Function 'test_parse_credentials_special_ascii_symbols' sans documentation
+
+- **line :** 334
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -18487,37 +18707,37 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** markdown
-- **Message :** Ligne 39 > 120 caractères.
+- **Message :** Ligne 44 > 120 caractères.
 
 - **module :** markdown
 
 ## ⚠️ Warning
 - **Module :** markdown
-- **Message :** Ligne 63 > 120 caractères.
-
-- **module :** markdown
-
-## ⚠️ Warning
-- **Module :** markdown
-- **Message :** Ligne 64 > 120 caractères.
-
-- **module :** markdown
-
-## ⚠️ Warning
-- **Module :** markdown
-- **Message :** Ligne 68 > 120 caractères.
-
-- **module :** markdown
-
-## ⚠️ Warning
-- **Module :** markdown
-- **Message :** Ligne 72 > 120 caractères.
+- **Message :** Ligne 73 > 120 caractères.
 
 - **module :** markdown
 
 ## ⚠️ Warning
 - **Module :** markdown
 - **Message :** Ligne 74 > 120 caractères.
+
+- **module :** markdown
+
+## ⚠️ Warning
+- **Module :** markdown
+- **Message :** Ligne 78 > 120 caractères.
+
+- **module :** markdown
+
+## ⚠️ Warning
+- **Module :** markdown
+- **Message :** Ligne 84 > 120 caractères.
+
+- **module :** markdown
+
+## ⚠️ Warning
+- **Module :** markdown
+- **Message :** Ligne 88 > 120 caractères.
 
 - **module :** markdown
 
