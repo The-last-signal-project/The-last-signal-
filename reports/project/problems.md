@@ -1,14 +1,14 @@
 # Documentation Problems
 
-Generated: 2026-10-16 11:33:01
+Generated: 2026-10-16 12:15:38
 
 ## Summary
 
 |Type|Count|
 |---|---:|
-|Errors|474|
-|Warnings|7480|
-|**Total**|**7959**|
+|Errors|473|
+|Warnings|7890|
+|**Total**|**8368**|
 
 ---
 
@@ -692,6 +692,25 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ---
 
+# /home/runner/work/The-last-signal-/The-last-signal-/client_python/game_launcher.py
+
+## Warning
+
+- **Module :** python
+- **Message :** Le module ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'main'ligne 11 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'main' ne possède pas d'annotations de type.
+
+---
+
 # /home/runner/work/The-last-signal-/The-last-signal-/client_python/logs.py
 
 ## Warning
@@ -721,12 +740,2046 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## Warning
 
 - **Module :** python
-- **Message :** La fonction 'main'ligne 10 ne possède pas de docstring.
+- **Message :** La fonction 'main'ligne 5 ne possède pas de docstring.
 
 ## Warning
 
 - **Module :** python
 - **Message :** La fonction 'main' ne possède pas d'annotations de type.
+
+---
+
+# /home/runner/work/The-last-signal-/The-last-signal-/client_python/menu.py
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'default_install_dir' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'log'ligne 193 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'log' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'fmt_duration'ligne 201 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'fmt_duration' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'find_asset' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'list_backgrounds' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'find_background' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'find_google_secret'ligne 295 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'find_google_secret' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'load_cached_credentials' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'google_login' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'google_profile' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'find_playlist' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'load_json'ligne 419 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'load_json' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'save_json'ligne 427 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'save_json' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'bind_label' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'get_controls' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'find_system_font' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'load_locales' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'translate'ligne 817 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'translate' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'hsv_hex'ligne 822 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'hsv_hex' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'hex_rgb'ligne 827 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'hex_rgb' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'mix'ligne 831 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'mix' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'hash_pw'ligne 836 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'hash_pw' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'ease_out_cubic'ligne 842 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'ease_out_cubic' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'ease_out_expo'ligne 846 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'ease_out_expo' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'ease_in_out'ligne 850 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'ease_in_out' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'ease_out_bounce'ligne 854 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'ease_out_bounce' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'extract_palette'ligne 875 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'extract_palette' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'make_gear' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'render_title_parts' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'sfx'ligne 992 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'sfx' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'hex_tint'ligne 1110 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'hex_tint' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La classe 'App' ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'run_setup' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'begin'ligne 1089 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'begin' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'end'ligne 1094 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'end' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'set_image'ligne 1134 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'set_image' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'free'ligne 1144 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'free' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'draw'ligne 1162 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'draw' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'chain' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'runs'ligne 1336 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'runs' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'lh'ligne 1346 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'lh' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'zero'ligne 1350 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'zero' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'width'ligne 1353 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'width' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'draw_text' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'wrap' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'btn_size'ligne 1396 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'btn_size' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'button_image' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'sprites'ligne 1457 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'sprites' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'set_state'ligne 1460 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'set_state' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'set_focus'ligne 1465 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'set_focus' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'update' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'size'ligne 1489 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'size' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'contains'ligne 1492 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'contains' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'S'ligne 1522 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'S' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'P'ligne 1525 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'P' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'title'ligne 1534 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'title' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'label'ligne 1540 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'label' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'button'ligne 1548 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'button' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'combo'ligne 1554 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'combo' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'slider'ligne 1561 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'slider' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'entry'ligne 1566 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'entry' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'listbox'ligne 1572 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'listbox' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'infobox'ligne 1580 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'infobox' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'avatar'ligne 1592 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'avatar' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'tabs'ligne 1596 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'tabs' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'link'ligne 1603 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'link' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'sep_or'ligne 1608 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'sep_or' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'spacer'ligne 1612 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'spacer' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'bindtable' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'finish'ligne 1630 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'finish' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'find'ligne 1644 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'find' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'hit' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'sub'ligne 1657 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'sub' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'color'ligne 1682 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'color' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'render'ligne 1685 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'render' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 't'ligne 2018 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 't' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'font' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'body' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'menu_x'ligne 2029 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'menu_x' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'add'ligne 2032 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'add' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'remove'ligne 2036 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'remove' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'remove_tag'ligne 2042 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'remove_tag' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'after'ligne 2046 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'after' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'after_idle'ligne 2051 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'after_idle' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'after_cancel'ligne 2054 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'after_cancel' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'animate' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'autosave' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'save_settings'ligne 2067 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'save_settings' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'set_icon'ligne 2071 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'set_icon' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'run'ligne 2084 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'run' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'destroy'ligne 2101 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'destroy' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'tick'ligne 2104 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'tick' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'on_draw'ligne 2150 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'on_draw' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'fx_update' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'panel_hover_anim'ligne 2208 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'panel_hover_anim' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'on_resize'ligne 2227 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'on_resize' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'relayout'ligne 2235 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'relayout' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'toggle_fullscreen'ligne 2258 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'toggle_fullscreen' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'on_escape'ligne 2275 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'on_escape' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'menu_overlay' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'set_bg'ligne 2297 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'set_bg' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'build_splash'ligne 2303 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'build_splash' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'splash_draw'ligne 2336 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'splash_draw' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'poll_splash'ligne 2354 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'poll_splash' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'finish_setup' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'build_emerge' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'monitors_info'ligne 2458 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'monitors_info' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'pos_visible' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'current_monitor' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'set_cursor'ligne 2504 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'set_cursor' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'panel_origin'ligne 2513 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'panel_origin' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'pick' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'on_move'ligne 2536 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'on_move' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'on_press'ligne 2586 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'on_press' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'panel_press'ligne 2618 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'panel_press' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'entry_x' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'on_release'ligne 2666 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'on_release' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'on_scroll'ligne 2692 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'on_scroll' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'slider_to'ligne 2707 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'slider_to' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'on_key'ligne 2720 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'on_key' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'nav_list'ligne 2788 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'nav_list' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'nav_set'ligne 2791 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'nav_set' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'menu_key'ligne 2796 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'menu_key' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'panel_items'ligne 2809 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'panel_items' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'panel_focus'ligne 2812 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'panel_focus' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'panel_nav'ligne 2821 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'panel_nav' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'panel_key'ligne 2832 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'panel_key' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'entry_key'ligne 2856 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'entry_key' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'on_char'ligne 2890 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'on_char' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'poll_gamepad'ligne 2905 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'poll_gamepad' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'open_dropdown'ligne 2962 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'open_dropdown' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'dd_draw'ligne 2975 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'dd_draw' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'close_dropdown'ligne 2990 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'close_dropdown' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'dd_choose'ligne 2995 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'dd_choose' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'make_title' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'draw_banner'ligne 3028 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'draw_banner' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'set_banner_dy'ligne 3070 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'set_banner_dy' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'drop_banner'ligne 3074 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'drop_banner' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'pulse'ligne 3077 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'pulse' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'after_banner'ligne 3088 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'after_banner' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'account_label'ligne 3100 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'account_label' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'text_sprite'ligne 3106 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'text_sprite' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'show_menu'ligne 3113 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'show_menu' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'led_color'ligne 3169 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'led_color' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'draw_led'ligne 3172 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'draw_led' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'start_net_monitor'ligne 3188 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'start_net_monitor' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'set_net'ligne 3205 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'set_net' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'slide_in'ligne 3211 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'slide_in' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'go_back'ligne 3220 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'go_back' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'go_multi'ligne 3224 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'go_multi' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'start_music'ligne 3231 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'start_music' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'load_sfx'ligne 3235 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'load_sfx' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'play_sfx'ligne 3246 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'play_sfx' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'next_track' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'apply_volume'ligne 3358 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'apply_volume' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'fade_out_music' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'restore_music'ligne 3397 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'restore_music' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'on_close'ligne 3402 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'on_close' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'show_panel'ligne 3411 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'show_panel' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'rebuild_panel' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'place_panel'ligne 3450 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'place_panel' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'fade_panel' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'refresh_panel'ligne 3481 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'refresh_panel' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'close_panel'ligne 3486 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'close_panel' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'cancel_panel'ligne 3497 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'cancel_panel' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'lang_pick' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'build_lang_popup'ligne 3512 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'build_lang_popup' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'confirm_language'ligne 3517 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'confirm_language' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'crossfade' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'open_credits'ligne 3531 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'open_credits' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'build_credits'ligne 3534 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'build_credits' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'toggle_settings'ligne 3544 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'toggle_settings' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'build_settings'ligne 3550 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'build_settings' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'toggle_crt'ligne 3572 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'toggle_crt' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'toggle_glitch'ligne 3578 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'toggle_glitch' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'pick_resolution'ligne 3584 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'pick_resolution' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'set_volume'ligne 3590 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'set_volume' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'refresh_all'ligne 3595 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'refresh_all' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'open_controls'ligne 3600 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'open_controls' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'build_controls'ligne 3603 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'build_controls' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'assign_bind' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'reset_controls'ligne 3634 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'reset_controls' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'open_saves'ligne 3642 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'open_saves' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'build_saves'ligne 3645 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'build_saves' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'do_delete_save'ligne 3695 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'do_delete_save' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'cancel_delete'ligne 3704 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'cancel_delete' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'profile_key'ligne 3710 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'profile_key' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'add_playtime'ligne 3713 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'add_playtime' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'last_save_info'ligne 3719 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'last_save_info' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'make_avatar'ligne 3735 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'make_avatar' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'open_auth'ligne 3760 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'open_auth' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'build_auth'ligne 3766 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'build_auth' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'toggle_local'ligne 3815 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'toggle_local' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'set_auth_mode'ligne 3820 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'set_auth_mode' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'set_auth_msg'ligne 3825 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'set_auth_msg' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'submit_auth'ligne 3830 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'submit_auth' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'on_login_success'ligne 3859 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'on_login_success' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'logout'ligne 3873 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'logout' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'google_login'ligne 3885 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'google_login' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'try_auto_login' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'set_muffle'ligne 3961 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'set_muffle' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'muffle_update'ligne 3964 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'muffle_update' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'muffle_apply'ligne 3975 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'muffle_apply' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'muffle_prepare' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'muffle_stop'ligne 4030 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'muffle_stop' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'build_google_setup'ligne 4039 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'build_google_setup' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'pick_google_secret'ligne 4049 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'pick_google_secret' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'toast'ligne 4079 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'toast' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'launch_game' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'local_font'ligne 1205 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'local_font' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'ramp'ligne 2421 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'ramp' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'step'ligne 2426 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'step' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'overlap'ligne 2483 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'overlap' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'step'ligne 3065 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'step' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'step'ligne 3214 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'step' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'step'ligne 3472 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'step' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'selected'ligne 3505 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'selected' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'done'ligne 3524 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'done' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'field'ligne 3801 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'field' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'worker'ligne 3910 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'worker' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'work'ligne 3998 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'work' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'finish'ligne 4161 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'finish' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'play'ligne 3667 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'play' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'ask_delete'ligne 3685 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'ask_delete' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'need_file'ligne 3944 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'need_file' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'close_menu'ligne 4147 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'close_menu' ne possède pas d'annotations de type.
 
 ---
 
@@ -5731,11 +7784,6 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 # CHANGELOG.md
 
-## Error
-
-- **Module :** markdown
-- **Message :** Encodage UTF-8 invalide.
-
 ## Warning
 
 - **Module :** markdown
@@ -5780,11 +7828,6 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 - **Module :** markdown
 - **Message :** Espace en fin de ligne (146).
-
-## Warning
-
-- **Module :** markdown
-- **Message :** Espace en fin de ligne (151).
 
 ## Warning
 
@@ -5905,6 +7948,11 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 - **Module :** titles
 - **Message :** CHANGELOG.md:143 titre dupliqué (déjà présent dans CHANGELOG.md:9).
+
+## Warning
+
+- **Module :** titles
+- **Message :** CHANGELOG.md:156 titre dupliqué (déjà présent dans CHANGELOG.md:9).
 
 ---
 
@@ -6054,6 +8102,11 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 - **Module :** titles
 - **Message :** CHANGELOG_ENG.md:149 titre dupliqué (déjà présent dans CHANGELOG.md:150).
+
+## Warning
+
+- **Module :** titles
+- **Message :** CHANGELOG_ENG.md:155 titre dupliqué (déjà présent dans CHANGELOG.md:9).
 
 ---
 
