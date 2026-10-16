@@ -207,8 +207,9 @@ pub async fn receive_packet(stream: &mut TcpStream) -> io::Result<Packet> {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use tokio::io::AsyncWriteExt;
+    use tokio::io::{AsyncReadExt, AsyncWriteExt};
     use tokio::net::{TcpListener, TcpStream};
+    use tokio::time::{Duration, timeout};
 
     async fn create_tcp_pair() -> (TcpStream, TcpStream) {
         let listener = TcpListener::bind("127.0.0.1:0")
@@ -441,5 +442,281 @@ mod tests {
         let packet = Packet::parse_body(&body).expect("parse_body should succeed with payload");
         assert_eq!(packet.packet_type, PacketType::Chat);
         assert_eq!(packet.payload, b"test message");
+    }
+
+    #[test]
+    fn test_packet_new_empty_payload() {
+        let packet = Packet::new(PacketType::Ping, Vec::new());
+        assert_eq!(packet.packet_type, PacketType::Ping);
+        assert!(
+            packet.payload.is_empty(),
+            "Payload should be empty when initialized with empty Vec"
+        );
+    }
+
+    #[test]
+    fn test_packet_new_non_empty_payload() {
+        let payload = vec![0x01, 0x02, 0x03, 0x04];
+        let packet = Packet::new(PacketType::Move, payload.clone());
+        assert_eq!(packet.packet_type, PacketType::Move);
+        assert_eq!(packet.payload, payload);
+    }
+
+    #[test]
+    fn test_packet_clone() {
+        let original = Packet::new(PacketType::Chat, b"hello".to_vec());
+        let mut cloned = original.clone();
+        cloned.payload.push(b'!');
+        assert_eq!(
+            original.payload, b"hello",
+            "mutating the clone must not affect the original"
+        );
+        assert_eq!(cloned.payload, b"hello!");
+    }
+
+    #[test]
+    fn test_parse_body_all_supported_packet_types_protocol_lock() {
+        let expected_mappings = [
+            (1u16, PacketType::Ping),
+            (2u16, PacketType::Login),
+            (3u16, PacketType::Chat),
+            (4u16, PacketType::Move),
+            (5u16, PacketType::Log),
+            (6u16, PacketType::SignUp),
+            (7u16, PacketType::LoginResponse),
+            (8u16, PacketType::SignUpResponse),
+            (9u16, PacketType::BAN),
+            (10u16, PacketType::DECO),
+            (11u16, PacketType::MarketBuy),
+            (12u16, PacketType::MarketSell),
+            (13u16, PacketType::MarketCancelBuy),
+            (14u16, PacketType::MarketCancelSell),
+            (15u16, PacketType::PlayerState),
+            (16u16, PacketType::PlayerRemove),
+            (17u16, PacketType::Session),
+        ];
+
+        for (wire_id, expected_type) in expected_mappings {
+            let body = wire_id.to_be_bytes();
+            let packet = Packet::parse_body(&body)
+                .unwrap_or_else(|e| panic!("Failed to parse body for wire ID {wire_id}: {e}"));
+            assert_eq!(
+                packet.packet_type, expected_type,
+                "Wire ID {wire_id} did not map to expected PacketType::{expected_type:?}"
+            );
+            assert!(
+                packet.payload.is_empty(),
+                "Expected empty payload when parsing header-only body for wire ID {wire_id}"
+            );
+        }
+    }
+
+    #[test]
+    fn test_parse_body_unknown_type_boundary_cases() {
+        let unknown_ids = [0u16, 18u16, 999u16, u16::MAX];
+        for unknown_id in unknown_ids {
+            let body = unknown_id.to_be_bytes();
+            let err = Packet::parse_body(&body)
+                .expect_err(&format!("Wire ID {unknown_id} should return an error"));
+            assert_eq!(
+                err.kind(),
+                io::ErrorKind::InvalidData,
+                "Unknown wire ID {unknown_id} should return InvalidData"
+            );
+        }
+    }
+
+    #[test]
+    fn test_parse_body_realistic_move_payload() {
+        let mut body = (PacketType::Move as u16).to_be_bytes().to_vec();
+        body.extend_from_slice(&100i32.to_be_bytes());
+        body.extend_from_slice(&(-250i32).to_be_bytes());
+        body.extend_from_slice(&42i32.to_be_bytes());
+
+        let packet =
+            Packet::parse_body(&body).expect("12-byte Move packet body should parse successfully");
+        assert_eq!(packet.packet_type, PacketType::Move);
+        assert_eq!(packet.payload.len(), 12);
+
+        let x = i32::from_be_bytes(packet.payload[0..4].try_into().unwrap());
+        let y = i32::from_be_bytes(packet.payload[4..8].try_into().unwrap());
+        let z = i32::from_be_bytes(packet.payload[8..12].try_into().unwrap());
+        assert_eq!((x, y, z), (100, -250, 42));
+    }
+
+    #[test]
+    fn test_parse_body_realistic_session_payload() {
+        let mut body = (PacketType::Session as u16).to_be_bytes().to_vec();
+        let test_uuid = [0xAB; 16];
+        body.extend_from_slice(&test_uuid);
+
+        let packet = Packet::parse_body(&body)
+            .expect("16-byte Session packet body should parse successfully");
+        assert_eq!(packet.packet_type, PacketType::Session);
+        assert_eq!(packet.payload, test_uuid);
+    }
+
+    #[test]
+    fn test_parse_body_realistic_player_state_payload() {
+        let mut body = (PacketType::PlayerState as u16).to_be_bytes().to_vec();
+        let test_uuid = [0x07; 16];
+        body.extend_from_slice(&test_uuid);
+        body.extend_from_slice(&15i32.to_be_bytes());
+        body.extend_from_slice(&30i32.to_be_bytes());
+        body.extend_from_slice(&0i32.to_be_bytes());
+
+        let packet =
+            Packet::parse_body(&body).expect("28-byte PlayerState body should parse successfully");
+        assert_eq!(packet.packet_type, PacketType::PlayerState);
+        assert_eq!(packet.payload.len(), 28);
+        assert_eq!(&packet.payload[..16], &test_uuid);
+    }
+
+    #[tokio::test]
+    async fn test_send_packet_wire_format_inspection() {
+        let (mut client, mut server) = create_tcp_pair().await;
+        let test_payload = b"DIRECT_WIRE_TEST".to_vec();
+        let packet = Packet::new(PacketType::Ping, test_payload.clone());
+
+        let send_task = tokio::spawn(async move { send_packet(&mut client, &packet).await });
+
+        // 1. Read raw 4-byte length header: size must equal 2 (type) + payload.len()
+        let mut len_buf = [0u8; 4];
+        server
+            .read_exact(&mut len_buf)
+            .await
+            .expect("failed to read 4-byte length prefix");
+        let declared_size = u32::from_be_bytes(len_buf) as usize;
+        assert_eq!(
+            declared_size,
+            2 + test_payload.len(),
+            "Declared size prefix must equal 2 + payload len"
+        );
+
+        // 2. Read raw 2-byte packet type
+        let mut type_buf = [0u8; 2];
+        server
+            .read_exact(&mut type_buf)
+            .await
+            .expect("failed to read 2-byte packet type");
+        let wire_type = u16::from_be_bytes(type_buf);
+        assert_eq!(
+            wire_type,
+            PacketType::Ping as u16,
+            "Wire type prefix must equal PacketType::Ping"
+        );
+
+        // 3. Read raw payload
+        let mut payload_buf = vec![0u8; test_payload.len()];
+        server
+            .read_exact(&mut payload_buf)
+            .await
+            .expect("failed to read payload");
+        assert_eq!(payload_buf, test_payload);
+
+        let send_result = send_task.await.expect("send task panicked");
+        assert!(send_result.is_ok());
+    }
+
+    #[tokio::test]
+    async fn test_send_and_receive_empty_payload_roundtrip() {
+        let (mut client, mut server) = create_tcp_pair().await;
+        let packet = Packet::new(PacketType::Ping, Vec::new());
+
+        let client_task = tokio::spawn(async move { send_packet(&mut client, &packet).await });
+        let server_task = tokio::spawn(async move { receive_packet(&mut server).await });
+
+        let (client_res, server_res) = tokio::join!(client_task, server_task);
+        assert!(client_res.unwrap().is_ok());
+
+        let received = server_res
+            .unwrap()
+            .expect("receive_packet with empty payload should succeed");
+        assert_eq!(received.packet_type, PacketType::Ping);
+        assert!(received.payload.is_empty());
+    }
+
+    #[tokio::test]
+    async fn test_send_and_receive_exact_max_allowed_boundary() {
+        let (mut client, mut server) = create_tcp_pair().await;
+
+        // MAX_PACKET_SIZE limits total body (2 bytes type + payload)
+        // Therefore max allowed payload is MAX_PACKET_SIZE - 2
+        let max_payload: Vec<u8> = (0..MAX_PACKET_SIZE - 2).map(|i| (i % 251) as u8).collect();
+        let packet = Packet::new(PacketType::Log, max_payload.clone());
+
+        // Spawn reader first to drain TCP socket concurrently and avoid kernel buffer write blocks
+        let server_task = tokio::spawn(async move { receive_packet(&mut server).await });
+        let client_task = tokio::spawn(async move { send_packet(&mut client, &packet).await });
+
+        let (client_res, server_res) = tokio::join!(client_task, server_task);
+        assert!(
+            client_res.unwrap().is_ok(),
+            "Sending exact MAX_PACKET_SIZE frame should succeed"
+        );
+
+        let received = server_res
+            .unwrap()
+            .expect("Receiving exact MAX_PACKET_SIZE frame should succeed");
+        assert_eq!(received.packet_type, PacketType::Log);
+        assert!(
+            received.payload == max_payload,
+            "10 MB payload must arrive byte-for-byte (got {} bytes, expected {})",
+            received.payload.len(),
+            max_payload.len()
+        );
+    }
+
+    #[tokio::test]
+    async fn test_receive_packet_oversized_header_rejected_without_waiting() {
+        let (mut client, mut server) = create_tcp_pair().await;
+
+        tokio::spawn(async move {
+            let oversized_size = (MAX_PACKET_SIZE + 1) as u32;
+            let _ = client.write_all(&oversized_size.to_be_bytes()).await;
+            // Keep connection open without writing body bytes
+            tokio::time::sleep(Duration::from_secs(10)).await;
+        });
+
+        // The server must reject the oversized header immediately upon reading size,
+        // without waiting for the body or hanging until EOF.
+        let result = timeout(Duration::from_secs(3), receive_packet(&mut server))
+            .await
+            .expect("receive_packet should not hang waiting for oversized body");
+
+        assert!(result.is_err(), "Oversized header must return an error");
+        let err = result.unwrap_err();
+        assert_eq!(err.kind(), io::ErrorKind::InvalidData);
+    }
+
+    #[test]
+    fn test_encode_ban_none_vs_empty_expiration() {
+        let with_none = encode_ban(BanType::Permanent, "Exploit", None);
+        let with_empty = encode_ban(BanType::Permanent, "Exploit", Some(""));
+        assert_eq!(with_none, b"2\x00Exploit\x00");
+        assert_eq!(
+            with_none, with_empty,
+            "None and Some(\"\") must produce identical output due to unwrap_or(\"\")"
+        );
+    }
+
+    #[test]
+    fn test_encode_ban_empty_reason() {
+        let encoded = encode_ban(BanType::Temporary, "", None);
+        assert_eq!(encoded, b"1\x00\x00");
+    }
+
+    #[test]
+    fn test_encode_ban_multibyte_utf8() {
+        let encoded = encode_ban(BanType::Permanent, "Raison: ⚠ triche", None);
+        // Asserts literal byte sequence: ⚠ is encoded as [0xE2, 0x9A, 0xA0]
+        assert_eq!(encoded, b"2\x00Raison: \xE2\x9A\xA0 triche\x00");
+    }
+
+    #[test]
+    fn test_encode_ban_reason_with_nul_documents_delimiter_collision() {
+        // Documents that embedded NUL in reason creates extra delimiters in the current protocol
+        let encoded = encode_ban(BanType::Permanent, "Bad\x00Actor", None);
+        assert_eq!(encoded, b"2\x00Bad\x00Actor\x00");
     }
 }

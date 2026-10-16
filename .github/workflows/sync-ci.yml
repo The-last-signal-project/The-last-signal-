@@ -3,6 +3,9 @@ name: Sync CI Data to Main
 on:
   workflow_dispatch:
   workflow_call:
+    secrets:
+      DEPLOY_KEY:
+        required: true
 
   
 permissions:
@@ -24,11 +27,15 @@ jobs:
         with:
           ref: main
           fetch-depth: 0
+          ssh-key: ${{ secrets.DEPLOY_KEY }}
 
       - name: Configure Git
         run: |
           git config --global user.name "github-actions"
           git config --global user.email "github-actions@github.com"
+          git remote set-url origin \
+            git@github.com:The-last-signal-project/The-last-signal-.git
+          git remote -v
 
       #######################################################
       # Reports

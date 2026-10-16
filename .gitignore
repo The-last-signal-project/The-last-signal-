@@ -27,3 +27,5 @@ database/the_last_signal.db-wal
 # Logs
 server_rust/server.log
 logs/
+*.log
+*.sarif

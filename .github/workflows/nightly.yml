@@ -21,6 +21,7 @@ jobs:
     uses: ./.github/workflows/Launcher.yml
     secrets:
         VAULT_KEY: ${{ secrets.VAULT_KEY }}
+        DEPLOY_KEY: ${{ secrets.CI_SYNC_DEPLOY_KEY }}
   
 
   
@@ -39,6 +40,7 @@ jobs:
     uses: ./.github/workflows/security.yml
     secrets:
         VAULT_KEY: ${{ secrets.VAULT_KEY }}
+        DEPLOY_KEY: ${{ secrets.CI_SYNC_DEPLOY_KEY }}
   cleanning_lfs:
     needs: security
     if: >-
@@ -79,6 +81,8 @@ jobs:
       )
      }}
     uses: ./.github/workflows/sync-ci.yml
+    secrets:
+        DEPLOY_KEY: ${{ secrets.CI_SYNC_DEPLOY_KEY }}
     
 
   cancel-nightly:

@@ -1053,16 +1053,7 @@ class Game(QMainWindow):
         # DÉCONNEXION
         # ---------------------------------------------------------
 
-        try:
-
-            self.client.disconnect()
-
-        except Exception as exc:
-
-            print(
-                "[GAME] Erreur déconnexion :",
-                repr(exc),
-            )
+        
 
         # ---------------------------------------------------------
         # ATTENTE DU THREAD RÉSEAU

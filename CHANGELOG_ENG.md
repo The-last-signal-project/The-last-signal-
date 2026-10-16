@@ -136,7 +136,7 @@ All notable changes to the **The Last Signal Online** project are documented in 
 - Added stuff manager, wallet manager and creation of the begining of market
 - Added 09_.PERSONNAGES.md,10_CREATION_PERSONNAGES.md,11_PROGRESSION.md and 12_STATISTIQUES.md
 -----
-## [1.0.13] - 2026-10-01 ~ 2026-10-13
+## [1.0.13] - 2026-10-01 ~ 2026-10-15
 
 ### Added
 
@@ -148,4 +148,13 @@ All notable changes to the **The Last Signal Online** project are documented in 
 
 ###Supression
 -suppression of AI because of important consommation 
+----
+
+## [1.0.14] - 2026-10-16
+
+### Ajout
+
+- Added main menu
+
+
 ----

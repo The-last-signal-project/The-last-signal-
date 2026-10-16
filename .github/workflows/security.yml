@@ -7,6 +7,8 @@ on:
     secrets:
       VAULT_KEY:
         required: true
+      DEPLOY_KEY:
+        required: true
 
   schedule:
     
@@ -51,7 +53,7 @@ jobs:
               fetch-depth: 0
               token: ${{ secrets.GITHUB_TOKEN }}
               persist-credentials: true
-
+              ssh-key: ${{ secrets.DEPLOY_KEY }}
       ##########################################################
       # Python
       ##########################################################

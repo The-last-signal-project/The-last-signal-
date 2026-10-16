@@ -1,0 +1,165 @@
+name: launcher
+
+on:
+  push:
+    branches:
+      - main
+  
+    
+
+  workflow_dispatch:
+  workflow_call:
+   secrets:
+      VAULT_KEY:
+        required: true
+      DEPLOY_KEY:
+        required: true
+
+  schedule:
+    - cron: "7 * * * *"
+concurrency:
+  group: main-update
+  queue: max
+permissions:
+  actions: write
+  contents: write
+  security-events: write
+  pull-requests: write
+
+jobs:
+  
+  integration:
+    
+    
+    uses: ./.github/workflows/integration.yml
+    secrets:
+        VAULT_KEY: ${{ secrets.VAULT_KEY }}
+        DEPLOY_KEY: ${{ secrets.CI_SYNC_DEPLOY_KEY }}
+    
+  python:
+    needs: integration
+    if: >-
+     ${{
+      always() &&
+      (
+        needs.integration.result == 'success' ||
+        needs.integration.result == 'failure'
+      ) && github.event_name == 'schedule'
+     }}
+    uses: ./.github/workflows/python.yml
+
+  rust:
+    needs: python
+    if: >-
+     ${{
+      always() &&
+      (
+        needs.python.result == 'success' ||
+        needs.python.result == 'failure'
+      ) && github.event_name == 'schedule'
+     }}
+    uses: ./.github/workflows/rust.yml
+
+  build:
+    needs: rust
+    if: >-
+     ${{
+      always() &&
+      (
+        needs.rust.result == 'success' ||
+        needs.rust.result == 'failure'
+      ) && github.event_name == 'schedule'
+     }}
+    uses: ./.github/workflows/build.yml
+
+  
+
+
+  
+  project_scheduled:
+    needs: build
+    if: >-
+     ${{
+       always() &&
+       github.event_name == 'schedule' &&
+      (
+        needs.build.result == 'success' ||
+        needs.build.result == 'failure'
+      )
+     }}
+    uses: ./.github/workflows/project.yml
+  project_other:
+    needs: integration
+    if: >-
+     ${{
+       always() &&
+       github.event_name != 'schedule' &&
+      (
+        needs.integration.result == 'success' ||
+        needs.integration.result == 'failure'
+      )
+     }}
+    uses: ./.github/workflows/project.yml
+  
+  
+ 
+
+  sync:
+    needs: 
+      - project_scheduled
+      - project_other
+    if: >-
+     ${{
+      always() &&
+      (
+          needs.project_scheduled.result == 'success' ||
+          needs.project_scheduled.result == 'failure' ||
+          needs.project_other.result == 'success' ||
+          needs.project_other.result == 'failure'
+      )
+     }}
+    uses: ./.github/workflows/sync-ci.yml
+    secrets:
+        DEPLOY_KEY: ${{ secrets.CI_SYNC_DEPLOY_KEY }}
+  stats-update:
+    needs: sync
+    if: >-
+     ${{
+       always() &&
+       (
+        needs.sync.result == 'success' ||
+        needs.sync.result == 'failure'
+      )
+     }}
+    uses: ./.github/workflows/repository-stats.yml
+    secrets:
+        DEPLOY_KEY: ${{ secrets.CI_SYNC_DEPLOY_KEY }}
+  cancel-launcher:
+    needs:
+
+      - integration
+      - python
+      - rust
+      - build
+      - project_scheduled
+      - project_other
+      - sync
+      - stats-update
+    if: >-
+     ${{
+      always() &&
+      (
+        needs.integration.result == 'failure' ||
+        needs.python.result == 'failure' ||
+        needs.rust.result == 'failure' ||
+        needs.build.result == 'failure' ||
+        needs.project_scheduled.result == 'failure' ||
+        needs.project_other.result == 'failure' ||
+        needs.sync.result == 'failure' ||
+        needs.stats-update.result == 'failure'
+      )
+     }}
+    uses: ./.github/workflows/cancel-pending.yml
+    with: 
+      mode: launcher
+  

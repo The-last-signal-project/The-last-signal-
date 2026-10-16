@@ -250,4 +250,95 @@ mod tests {
         let err = parse_signup_payload(&payload).unwrap_err();
         assert_eq!(err, "Email incomplet");
     }
+
+    #[test]
+    fn test_parse_credentials_multibyte_utf8_success() {
+        let email = "joueur_éàç@signal.fr";
+        let password = "clé_secrète_🔑";
+        let payload = build_payload(email.as_bytes(), password.as_bytes());
+
+        let (login_email, login_pass) =
+            parse_login_payload(&payload).expect("login multibyte UTF-8 should parse cleanly");
+        assert_eq!(login_email, email);
+        assert_eq!(login_pass, password);
+
+        let (signup_email, signup_pass) =
+            parse_signup_payload(&payload).expect("signup multibyte UTF-8 should parse cleanly");
+        assert_eq!(signup_email, email);
+        assert_eq!(signup_pass, password);
+    }
+
+    #[test]
+    fn test_parse_credentials_mid_codepoint_slice_rejected() {
+        // "éé" is 4 bytes [0xC3, 0xA9, 0xC3, 0xA9].
+        // Slicing 3 bytes takes [0xC3, 0xA9, 0xC3], splitting the second character mid-codepoint.
+        let mut payload = Vec::new();
+        payload.extend_from_slice(&(3u16).to_be_bytes()); // claims 3 bytes
+        payload.extend_from_slice("éé".as_bytes()); // 4 bytes
+        payload.extend_from_slice(&(4u16).to_be_bytes());
+        payload.extend_from_slice(b"pass");
+
+        let err = parse_login_payload(&payload).expect_err("mid-codepoint slice must fail");
+        assert!(
+            err.contains("UTF-8"),
+            "Error should indicate invalid UTF-8 when sliced mid-codepoint: {err}"
+        );
+    }
+
+    #[test]
+    fn test_parse_credentials_char_count_prefix_misaligns_next_field() {
+        // Client mistakenly sends chars().count() (2) instead of byte length (4) for "éé".
+        // The parser reads "é", then misinterprets the remaining 2 bytes of "éé" [0xC3, 0xA9]
+        // as the password length prefix (50089), failing with a Password length/incomplete error.
+        let mut payload = Vec::new();
+        payload.extend_from_slice(&(2u16).to_be_bytes());
+        payload.extend_from_slice("éé".as_bytes());
+        payload.extend_from_slice(&(4u16).to_be_bytes());
+        payload.extend_from_slice(b"pass");
+
+        let err = parse_login_payload(&payload).expect_err("misaligned field must fail");
+        assert!(err.contains("Password"), "unexpected error: {err}");
+    }
+
+    #[test]
+    fn test_parse_credentials_preserves_whitespace() {
+        let email = "  user@signal.com  ";
+        let password = "  pass with spaces  ";
+        let payload = build_payload(email.as_bytes(), password.as_bytes());
+
+        let (parsed_email, parsed_pass) =
+            parse_login_payload(&payload).expect("whitespace should parse successfully");
+        assert_eq!(
+            parsed_email, email,
+            "Leading/trailing whitespace in email must be preserved"
+        );
+        assert_eq!(
+            parsed_pass, password,
+            "Whitespace in password must be preserved"
+        );
+    }
+
+    #[test]
+    fn test_parse_credentials_long_strings() {
+        let email = format!("user_{}@signal.com", "a".repeat(250));
+        let password = "p".repeat(300);
+        let payload = build_payload(email.as_bytes(), password.as_bytes());
+
+        let (parsed_email, parsed_pass) =
+            parse_login_payload(&payload).expect("300-byte strings should parse cleanly");
+        assert_eq!(parsed_email, email);
+        assert_eq!(parsed_pass, password);
+    }
+
+    #[test]
+    fn test_parse_credentials_special_ascii_symbols() {
+        let email = "special+user.tag@signal.io";
+        let password = "!@#$%^&*()_+-=[]{}|;':\",.<>/?~";
+        let payload = build_payload(email.as_bytes(), password.as_bytes());
+
+        let (parsed_email, parsed_pass) =
+            parse_login_payload(&payload).expect("symbols should parse cleanly");
+        assert_eq!(parsed_email, email);
+        assert_eq!(parsed_pass, password);
+    }
 }
