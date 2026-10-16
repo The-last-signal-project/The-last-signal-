@@ -224,7 +224,7 @@ jobs:
              then
              
              echo "stash@{0} trouvé → application"
-             git stash pop stash@{0}
+             git stash pop stash@{0} || true
              git add -A
              else
              echo "stash@{0} inexistant → aucune action"
