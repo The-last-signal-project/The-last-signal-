@@ -1,14 +1,14 @@
 # Documentation Problems
 
-Generated: 2026-10-17 03:41:49
+Generated: 2026-10-17 04:02:33
 
 ## Summary
 
 |Type|Count|
 |---|---:|
 |Errors|473|
-|Warnings|7890|
-|**Total**|**8368**|
+|Warnings|7895|
+|**Total**|**8373**|
 
 ---
 
@@ -18067,32 +18067,32 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## Warning
 
 - **Module :** markdown
-- **Message :** Ligne 44 > 120 caractères.
+- **Message :** Ligne 39 > 120 caractères.
 
 ## Warning
 
 - **Module :** markdown
-- **Message :** Ligne 73 > 120 caractères.
+- **Message :** Ligne 63 > 120 caractères.
+
+## Warning
+
+- **Module :** markdown
+- **Message :** Ligne 64 > 120 caractères.
+
+## Warning
+
+- **Module :** markdown
+- **Message :** Ligne 68 > 120 caractères.
+
+## Warning
+
+- **Module :** markdown
+- **Message :** Ligne 72 > 120 caractères.
 
 ## Warning
 
 - **Module :** markdown
 - **Message :** Ligne 74 > 120 caractères.
-
-## Warning
-
-- **Module :** markdown
-- **Message :** Ligne 78 > 120 caractères.
-
-## Warning
-
-- **Module :** markdown
-- **Message :** Ligne 84 > 120 caractères.
-
-## Warning
-
-- **Module :** markdown
-- **Message :** Ligne 88 > 120 caractères.
 
 ---
 
@@ -31280,172 +31280,177 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:161 titre très long (83 caractères).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:33 titre très long (83 caractères).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:180 titre très long (83 caractères).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:191 titre très long (83 caractères).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:193 titre très long (83 caractères).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:210 titre très long (83 caractères).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:339 titre très long (83 caractères).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:223 titre très long (83 caractères).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:350 titre très long (83 caractères).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:369 titre très long (83 caractères).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:365 titre très long (83 caractères).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:380 titre très long (83 caractères).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:408 titre très long (83 caractères).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:395 titre très long (83 caractères).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:427 titre très long (83 caractères).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:438 titre très long (83 caractères).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:436 titre très long (83 caractères).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:457 titre très long (83 caractères).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:469 titre très long (83 caractères).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:466 titre très long (83 caractères).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:485 titre très long (83 caractères).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:499 titre très long (83 caractères).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:542 titre très long (83 caractères).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:515 titre très long (83 caractères).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:626 titre très long (83 caractères).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:572 titre très long (83 caractères).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:642 titre très long (83 caractères).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:656 titre très long (83 caractères).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:695 titre très long (83 caractères).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:672 titre très long (83 caractères).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:756 titre très long (83 caractères).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:725 titre très long (83 caractères).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:774 titre très long (83 caractères).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:786 titre très long (83 caractères).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:810 titre très long (83 caractères).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:804 titre très long (83 caractères).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:876 titre très long (83 caractères).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:840 titre très long (83 caractères).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:931 titre très long (83 caractères).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:906 titre très long (83 caractères).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:968 titre très long (83 caractères).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:961 titre très long (83 caractères).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:987 titre très long (83 caractères).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:998 titre très long (83 caractères).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:1012 titre très long (83 caractères).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:1017 titre très long (83 caractères).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:1040 titre très long (83 caractères).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:1042 titre très long (83 caractères).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:1049 titre très long (83 caractères).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:1070 titre très long (83 caractères).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:1161 titre très long (83 caractères).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:1079 titre très long (83 caractères).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:1173 titre très long (83 caractères).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:1191 titre très long (83 caractères).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:1198 titre très long (83 caractères).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:1203 titre très long (83 caractères).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:1236 titre très long (83 caractères).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:1228 titre très long (83 caractères).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:1242 titre très long (83 caractères).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:1266 titre très long (83 caractères).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:1288 titre très long (83 caractères).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:1272 titre très long (83 caractères).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:1319 titre très long (83 caractères).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:1318 titre très long (83 caractères).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:1324 titre très long (83 caractères).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:1349 titre très long (83 caractères).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:1345 titre très long (85 caractères).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:1354 titre très long (83 caractères).
+
+## Warning
+
+- **Module :** titles
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:1375 titre très long (85 caractères).
 
 ## Warning
 
@@ -31455,237 +31460,242 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:29 titre dupliqué (déjà présent dans server_rust/vendor/simd-adler32/README.md:46).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:5 titre dupliqué (déjà présent dans server_rust/vendor/simd-adler32/README.md:46).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:33 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:9 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:89 titre dupliqué (déjà présent dans server_rust/vendor/mio/CHANGELOG.md:460).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:21 titre dupliqué (déjà présent dans server_rust/vendor/openssl-sys/CHANGELOG.md:98).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:100 titre dupliqué (déjà présent dans server_rust/vendor/openssl-sys/CHANGELOG.md:98).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:25 titre dupliqué (déjà présent dans server_rust/vendor/openssl-sys/CHANGELOG.md:13).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:125 titre dupliqué (déjà présent dans server_rust/vendor/openssl-sys/CHANGELOG.md:13).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:59 titre dupliqué (déjà présent dans server_rust/vendor/simd-adler32/README.md:46).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:138 titre dupliqué (déjà présent dans server_rust/vendor/openssl-sys/CHANGELOG.md:73).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:63 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:163 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:119 titre dupliqué (déjà présent dans server_rust/vendor/mio/CHANGELOG.md:460).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:169 titre dupliqué (déjà présent dans server_rust/vendor/mio/CHANGELOG.md:460).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:130 titre dupliqué (déjà présent dans server_rust/vendor/openssl-sys/CHANGELOG.md:98).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:173 titre dupliqué (déjà présent dans server_rust/vendor/openssl-sys/CHANGELOG.md:98).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:155 titre dupliqué (déjà présent dans server_rust/vendor/openssl-sys/CHANGELOG.md:13).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:182 titre dupliqué (déjà présent dans server_rust/vendor/openssl-sys/CHANGELOG.md:13).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:168 titre dupliqué (déjà présent dans server_rust/vendor/openssl-sys/CHANGELOG.md:73).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:220 titre dupliqué (déjà présent dans server_rust/vendor/simd-adler32/README.md:46).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:193 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:226 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:199 titre dupliqué (déjà présent dans server_rust/vendor/mio/CHANGELOG.md:460).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:281 titre dupliqué (déjà présent dans server_rust/vendor/mio/CHANGELOG.md:460).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:203 titre dupliqué (déjà présent dans server_rust/vendor/openssl-sys/CHANGELOG.md:98).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:285 titre dupliqué (déjà présent dans server_rust/vendor/openssl-sys/CHANGELOG.md:98).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:212 titre dupliqué (déjà présent dans server_rust/vendor/openssl-sys/CHANGELOG.md:13).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:305 titre dupliqué (déjà présent dans server_rust/vendor/openssl-sys/CHANGELOG.md:13).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:250 titre dupliqué (déjà présent dans server_rust/vendor/simd-adler32/README.md:46).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:315 titre dupliqué (déjà présent dans server_rust/vendor/openssl-sys/CHANGELOG.md:73).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:256 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:322 titre dupliqué (déjà présent dans server_rust/vendor/rand/CHANGELOG.md:218).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:311 titre dupliqué (déjà présent dans server_rust/vendor/mio/CHANGELOG.md:460).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:341 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:315 titre dupliqué (déjà présent dans server_rust/vendor/openssl-sys/CHANGELOG.md:98).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:346 titre dupliqué (déjà présent dans server_rust/vendor/openssl-sys/CHANGELOG.md:13).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:335 titre dupliqué (déjà présent dans server_rust/vendor/openssl-sys/CHANGELOG.md:13).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:352 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:345 titre dupliqué (déjà présent dans server_rust/vendor/openssl-sys/CHANGELOG.md:73).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:359 titre dupliqué (déjà présent dans server_rust/vendor/openssl-sys/CHANGELOG.md:98).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:352 titre dupliqué (déjà présent dans server_rust/vendor/rand/CHANGELOG.md:218).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:367 titre dupliqué (déjà présent dans server_rust/vendor/heck/README.md:41).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:371 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:374 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:376 titre dupliqué (déjà présent dans server_rust/vendor/openssl-sys/CHANGELOG.md:13).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:388 titre dupliqué (déjà présent dans server_rust/vendor/mio/CHANGELOG.md:460).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:382 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:393 titre dupliqué (déjà présent dans server_rust/vendor/openssl-sys/CHANGELOG.md:98).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:389 titre dupliqué (déjà présent dans server_rust/vendor/openssl-sys/CHANGELOG.md:98).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:400 titre dupliqué (déjà présent dans server_rust/vendor/openssl-sys/CHANGELOG.md:13).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:397 titre dupliqué (déjà présent dans server_rust/vendor/heck/README.md:41).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:410 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:404 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:419 titre dupliqué (déjà présent dans server_rust/vendor/openssl-sys/CHANGELOG.md:98).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:418 titre dupliqué (déjà présent dans server_rust/vendor/mio/CHANGELOG.md:460).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:429 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:423 titre dupliqué (déjà présent dans server_rust/vendor/openssl-sys/CHANGELOG.md:98).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:438 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:430 titre dupliqué (déjà présent dans server_rust/vendor/openssl-sys/CHANGELOG.md:13).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:450 titre dupliqué (déjà présent dans server_rust/vendor/openssl-sys/CHANGELOG.md:98).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:440 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:463 titre dupliqué (déjà présent dans server_rust/vendor/openssl-sys/CHANGELOG.md:13).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:449 titre dupliqué (déjà présent dans server_rust/vendor/openssl-sys/CHANGELOG.md:98).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:471 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:459 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:475 titre dupliqué (déjà présent dans server_rust/vendor/openssl-sys/CHANGELOG.md:98).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:468 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:500 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:480 titre dupliqué (déjà présent dans server_rust/vendor/openssl-sys/CHANGELOG.md:98).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:514 titre dupliqué (déjà présent dans server_rust/vendor/openssl-sys/CHANGELOG.md:98).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:493 titre dupliqué (déjà présent dans server_rust/vendor/openssl-sys/CHANGELOG.md:13).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:529 titre dupliqué (déjà présent dans server_rust/vendor/openssl-sys/CHANGELOG.md:13).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:501 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:536 titre dupliqué (déjà présent dans server_rust/vendor/openssl-sys/CHANGELOG.md:73).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:505 titre dupliqué (déjà présent dans server_rust/vendor/openssl-sys/CHANGELOG.md:98).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:544 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:530 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:564 titre dupliqué (déjà présent dans server_rust/vendor/mio/CHANGELOG.md:460).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:544 titre dupliqué (déjà présent dans server_rust/vendor/openssl-sys/CHANGELOG.md:98).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:568 titre dupliqué (déjà présent dans server_rust/vendor/openssl-sys/CHANGELOG.md:98).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:559 titre dupliqué (déjà présent dans server_rust/vendor/openssl-sys/CHANGELOG.md:13).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:605 titre dupliqué (déjà présent dans server_rust/vendor/openssl-sys/CHANGELOG.md:13).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:566 titre dupliqué (déjà présent dans server_rust/vendor/openssl-sys/CHANGELOG.md:73).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:615 titre dupliqué (déjà présent dans server_rust/vendor/openssl-sys/CHANGELOG.md:73).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:574 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:628 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:594 titre dupliqué (déjà présent dans server_rust/vendor/mio/CHANGELOG.md:460).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:638 titre dupliqué (déjà présent dans server_rust/vendor/openssl-sys/CHANGELOG.md:13).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:598 titre dupliqué (déjà présent dans server_rust/vendor/openssl-sys/CHANGELOG.md:98).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:644 titre dupliqué (déjà présent dans server_rust/vendor/simd-adler32/README.md:46).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:635 titre dupliqué (déjà présent dans server_rust/vendor/openssl-sys/CHANGELOG.md:13).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:649 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:645 titre dupliqué (déjà présent dans server_rust/vendor/openssl-sys/CHANGELOG.md:73).
+
+## Warning
+
+- **Module :** titles
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:658 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
@@ -31695,362 +31705,377 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:675 titre dupliqué (déjà présent dans server_rust/vendor/openssl-sys/CHANGELOG.md:98).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:674 titre dupliqué (déjà présent dans server_rust/vendor/simd-adler32/README.md:46).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:686 titre dupliqué (déjà présent dans server_rust/vendor/mio/CHANGELOG.md:460).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:679 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:691 titre dupliqué (déjà présent dans server_rust/vendor/openssl-sys/CHANGELOG.md:73).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:698 titre dupliqué (déjà présent dans server_rust/vendor/openssl-sys/CHANGELOG.md:13).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:697 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:705 titre dupliqué (déjà présent dans server_rust/vendor/openssl-sys/CHANGELOG.md:98).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:719 titre dupliqué (déjà présent dans server_rust/vendor/openssl-sys/CHANGELOG.md:13).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:716 titre dupliqué (déjà présent dans server_rust/vendor/mio/CHANGELOG.md:460).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:723 titre dupliqué (déjà présent dans server_rust/vendor/openssl-sys/CHANGELOG.md:98).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:721 titre dupliqué (déjà présent dans server_rust/vendor/openssl-sys/CHANGELOG.md:73).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:745 titre dupliqué (déjà présent dans server_rust/vendor/mio/CHANGELOG.md:460).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:727 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:749 titre dupliqué (déjà présent dans server_rust/vendor/openssl-sys/CHANGELOG.md:73).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:749 titre dupliqué (déjà présent dans server_rust/vendor/openssl-sys/CHANGELOG.md:13).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:758 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:753 titre dupliqué (déjà présent dans server_rust/vendor/openssl-sys/CHANGELOG.md:98).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:762 titre dupliqué (déjà présent dans server_rust/vendor/openssl-sys/CHANGELOG.md:98).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:775 titre dupliqué (déjà présent dans server_rust/vendor/mio/CHANGELOG.md:460).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:767 titre dupliqué (déjà présent dans server_rust/vendor/rand/CHANGELOG.md:218).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:779 titre dupliqué (déjà présent dans server_rust/vendor/openssl-sys/CHANGELOG.md:73).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:776 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:788 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:797 titre dupliqué (déjà présent dans server_rust/vendor/openssl-sys/CHANGELOG.md:13).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:792 titre dupliqué (déjà présent dans server_rust/vendor/openssl-sys/CHANGELOG.md:98).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:802 titre dupliqué (déjà présent dans server_rust/vendor/openssl-sys/CHANGELOG.md:98).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:797 titre dupliqué (déjà présent dans server_rust/vendor/rand/CHANGELOG.md:218).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:812 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:806 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:847 titre dupliqué (déjà présent dans server_rust/vendor/mio/CHANGELOG.md:460).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:827 titre dupliqué (déjà présent dans server_rust/vendor/openssl-sys/CHANGELOG.md:13).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:851 titre dupliqué (déjà présent dans server_rust/vendor/openssl-sys/CHANGELOG.md:98).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:832 titre dupliqué (déjà présent dans server_rust/vendor/openssl-sys/CHANGELOG.md:98).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:860 titre dupliqué (déjà présent dans server_rust/vendor/openssl-sys/CHANGELOG.md:73).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:842 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:865 titre dupliqué (déjà présent dans server_rust/vendor/rand/CHANGELOG.md:218).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:877 titre dupliqué (déjà présent dans server_rust/vendor/mio/CHANGELOG.md:460).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:878 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:881 titre dupliqué (déjà présent dans server_rust/vendor/openssl-sys/CHANGELOG.md:98).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:897 titre dupliqué (déjà présent dans server_rust/vendor/openssl-sys/CHANGELOG.md:13).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:890 titre dupliqué (déjà présent dans server_rust/vendor/openssl-sys/CHANGELOG.md:73).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:903 titre dupliqué (déjà présent dans server_rust/vendor/mio/CHANGELOG.md:460).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:895 titre dupliqué (déjà présent dans server_rust/vendor/rand/CHANGELOG.md:218).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:907 titre dupliqué (déjà présent dans server_rust/vendor/openssl-sys/CHANGELOG.md:98).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:908 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:916 titre dupliqué (déjà présent dans server_rust/vendor/rand/CHANGELOG.md:218).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:927 titre dupliqué (déjà présent dans server_rust/vendor/openssl-sys/CHANGELOG.md:13).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:927 titre dupliqué (déjà présent dans server_rust/vendor/openssl-sys/CHANGELOG.md:73).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:933 titre dupliqué (déjà présent dans server_rust/vendor/mio/CHANGELOG.md:460).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:933 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:937 titre dupliqué (déjà présent dans server_rust/vendor/openssl-sys/CHANGELOG.md:98).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:945 titre dupliqué (déjà présent dans server_rust/vendor/mio/CHANGELOG.md:460).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:946 titre dupliqué (déjà présent dans server_rust/vendor/rand/CHANGELOG.md:218).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:949 titre dupliqué (déjà présent dans server_rust/vendor/openssl-sys/CHANGELOG.md:13).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:957 titre dupliqué (déjà présent dans server_rust/vendor/openssl-sys/CHANGELOG.md:73).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:953 titre dupliqué (déjà présent dans server_rust/vendor/openssl-sys/CHANGELOG.md:98).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:963 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:960 titre dupliqué (déjà présent dans server_rust/vendor/rand/CHANGELOG.md:218).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:975 titre dupliqué (déjà présent dans server_rust/vendor/mio/CHANGELOG.md:460).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:970 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:979 titre dupliqué (déjà présent dans server_rust/vendor/openssl-sys/CHANGELOG.md:13).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:975 titre dupliqué (déjà présent dans server_rust/vendor/openssl-sys/CHANGELOG.md:98).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:983 titre dupliqué (déjà présent dans server_rust/vendor/openssl-sys/CHANGELOG.md:98).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:989 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:990 titre dupliqué (déjà présent dans server_rust/vendor/rand/CHANGELOG.md:218).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:997 titre dupliqué (déjà présent dans server_rust/vendor/mio/CHANGELOG.md:460).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:1000 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:1001 titre dupliqué (déjà présent dans server_rust/vendor/openssl-sys/CHANGELOG.md:98).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:1005 titre dupliqué (déjà présent dans server_rust/vendor/openssl-sys/CHANGELOG.md:98).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:1005 titre dupliqué (déjà présent dans server_rust/vendor/rand/CHANGELOG.md:218).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:1019 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:1014 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:1027 titre dupliqué (déjà présent dans server_rust/vendor/mio/CHANGELOG.md:460).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:1019 titre dupliqué (déjà présent dans server_rust/vendor/openssl-sys/CHANGELOG.md:98).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:1031 titre dupliqué (déjà présent dans server_rust/vendor/openssl-sys/CHANGELOG.md:98).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:1024 titre dupliqué (déjà présent dans server_rust/vendor/libc/CHANGELOG.md:983).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:1035 titre dupliqué (déjà présent dans server_rust/vendor/rand/CHANGELOG.md:218).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:1029 titre dupliqué (déjà présent dans server_rust/vendor/rand/CHANGELOG.md:218).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:1044 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:1036 titre dupliqué (déjà présent dans server_rust/vendor/openssl-sys/CHANGELOG.md:73).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:1049 titre dupliqué (déjà présent dans server_rust/vendor/openssl-sys/CHANGELOG.md:98).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:1042 titre dupliqué (déjà présent dans server_rust/vendor/openssl-sys/CHANGELOG.md:98).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:1054 titre dupliqué (déjà présent dans server_rust/vendor/libc/CHANGELOG.md:1013).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:1051 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:1059 titre dupliqué (déjà présent dans server_rust/vendor/rand/CHANGELOG.md:218).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:1083 titre dupliqué (déjà présent dans server_rust/vendor/openssl-sys/CHANGELOG.md:98).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:1066 titre dupliqué (déjà présent dans server_rust/vendor/openssl-sys/CHANGELOG.md:73).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:1094 titre dupliqué (déjà présent dans server_rust/vendor/mio/CHANGELOG.md:460).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:1072 titre dupliqué (déjà présent dans server_rust/vendor/openssl-sys/CHANGELOG.md:98).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:1100 titre dupliqué (déjà présent dans server_rust/vendor/libc/CHANGELOG.md:983).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:1081 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:1130 titre dupliqué (déjà présent dans server_rust/vendor/rand/CHANGELOG.md:218).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:1113 titre dupliqué (déjà présent dans server_rust/vendor/openssl-sys/CHANGELOG.md:98).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:1163 titre dupliqué (déjà présent dans server_rust/vendor/heck/README.md:41).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:1124 titre dupliqué (déjà présent dans server_rust/vendor/mio/CHANGELOG.md:460).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:1167 titre dupliqué (déjà présent dans server_rust/vendor/rand/CHANGELOG.md:218).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:1130 titre dupliqué (déjà présent dans server_rust/vendor/libc/CHANGELOG.md:1013).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:1175 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:1160 titre dupliqué (déjà présent dans server_rust/vendor/rand/CHANGELOG.md:218).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:1184 titre dupliqué (déjà présent dans server_rust/vendor/openssl-sys/CHANGELOG.md:13).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:1193 titre dupliqué (déjà présent dans server_rust/vendor/heck/README.md:41).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:1191 titre dupliqué (déjà présent dans server_rust/vendor/rand/CHANGELOG.md:218).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:1197 titre dupliqué (déjà présent dans server_rust/vendor/rand/CHANGELOG.md:218).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:1200 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:1205 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:1219 titre dupliqué (déjà présent dans server_rust/vendor/openssl-sys/CHANGELOG.md:98).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:1214 titre dupliqué (déjà présent dans server_rust/vendor/openssl-sys/CHANGELOG.md:13).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:1227 titre dupliqué (déjà présent dans server_rust/vendor/rand/CHANGELOG.md:218).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:1221 titre dupliqué (déjà présent dans server_rust/vendor/rand/CHANGELOG.md:218).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:1238 titre dupliqué (déjà présent dans server_rust/vendor/openssl-sys/CHANGELOG.md:98).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:1230 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:1244 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:1249 titre dupliqué (déjà présent dans server_rust/vendor/openssl-sys/CHANGELOG.md:98).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:1274 titre dupliqué (déjà présent dans server_rust/vendor/openssl-sys/CHANGELOG.md:13).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:1257 titre dupliqué (déjà présent dans server_rust/vendor/rand/CHANGELOG.md:218).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:1278 titre dupliqué (déjà présent dans server_rust/vendor/openssl-sys/CHANGELOG.md:98).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:1268 titre dupliqué (déjà présent dans server_rust/vendor/openssl-sys/CHANGELOG.md:98).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:1283 titre dupliqué (déjà présent dans server_rust/vendor/rand/CHANGELOG.md:218).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:1274 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:1290 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:1304 titre dupliqué (déjà présent dans server_rust/vendor/openssl-sys/CHANGELOG.md:13).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:1307 titre dupliqué (déjà présent dans server_rust/vendor/openssl-sys/CHANGELOG.md:98).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:1308 titre dupliqué (déjà présent dans server_rust/vendor/openssl-sys/CHANGELOG.md:98).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:1311 titre dupliqué (déjà présent dans server_rust/vendor/openssl-sys/CHANGELOG.md:13).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:1313 titre dupliqué (déjà présent dans server_rust/vendor/rand/CHANGELOG.md:218).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:1321 titre dupliqué (déjà présent dans server_rust/vendor/rand/CHANGELOG.md:218).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:1320 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:1326 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:1337 titre dupliqué (déjà présent dans server_rust/vendor/openssl-sys/CHANGELOG.md:98).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:1339 titre dupliqué (déjà présent dans server_rust/vendor/openssl-sys/CHANGELOG.md:98).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:1341 titre dupliqué (déjà présent dans server_rust/vendor/openssl-sys/CHANGELOG.md:13).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:1342 titre dupliqué (déjà présent dans server_rust/vendor/openssl-sys/CHANGELOG.md:13).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:1351 titre dupliqué (déjà présent dans server_rust/vendor/rand/CHANGELOG.md:218).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:1347 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:1356 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:1358 titre dupliqué (déjà présent dans server_rust/vendor/openssl-sys/CHANGELOG.md:98).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:1369 titre dupliqué (déjà présent dans server_rust/vendor/openssl-sys/CHANGELOG.md:98).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:1362 titre dupliqué (déjà présent dans server_rust/vendor/openssl-sys/CHANGELOG.md:13).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:1372 titre dupliqué (déjà présent dans server_rust/vendor/openssl-sys/CHANGELOG.md:13).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:1366 titre dupliqué (déjà présent dans server_rust/vendor/openssl-sys/CHANGELOG.md:73).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:1377 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/CHANGELOG.md:1369 titre dupliqué (déjà présent dans server_rust/vendor/rand/CHANGELOG.md:218).
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:1388 titre dupliqué (déjà présent dans server_rust/vendor/openssl-sys/CHANGELOG.md:98).
+
+## Warning
+
+- **Module :** titles
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:1392 titre dupliqué (déjà présent dans server_rust/vendor/openssl-sys/CHANGELOG.md:13).
+
+## Warning
+
+- **Module :** titles
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:1396 titre dupliqué (déjà présent dans server_rust/vendor/openssl-sys/CHANGELOG.md:73).
+
+## Warning
+
+- **Module :** titles
+- **Message :** server_rust/vendor/libc/CHANGELOG.md:1399 titre dupliqué (déjà présent dans server_rust/vendor/rand/CHANGELOG.md:218).
 
 ---
 
