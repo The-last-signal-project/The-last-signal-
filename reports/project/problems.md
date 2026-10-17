@@ -1,14 +1,14 @@
 # Documentation Problems
 
-Generated: 2026-10-17 07:41:05
+Generated: 2026-10-17 08:23:31
 
 ## Summary
 
 |Type|Count|
 |---|---:|
 |Errors|473|
-|Warnings|7895|
-|**Total**|**8373**|
+|Warnings|7917|
+|**Total**|**8395**|
 
 ---
 
@@ -6403,7 +6403,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## Warning
 
 - **Module :** python
-- **Message :** La fonction 'test_init_default_values'ligne 13 ne possède pas de docstring.
+- **Message :** La fonction 'test_init_default_values'ligne 14 ne possède pas de docstring.
 
 ## Warning
 
@@ -6413,7 +6413,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## Warning
 
 - **Module :** python
-- **Message :** La fonction 'test_init_custom_values'ligne 22 ne possède pas de docstring.
+- **Message :** La fonction 'test_init_custom_values'ligne 23 ne possède pas de docstring.
 
 ## Warning
 
@@ -6423,7 +6423,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## Warning
 
 - **Module :** python
-- **Message :** La fonction 'test_connect_success'ligne 42 ne possède pas de docstring.
+- **Message :** La fonction 'test_connect_success'ligne 43 ne possède pas de docstring.
 
 ## Warning
 
@@ -6433,7 +6433,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## Warning
 
 - **Module :** python
-- **Message :** La fonction 'test_connect_session_packet'ligne 82 ne possède pas de docstring.
+- **Message :** La fonction 'test_connect_session_packet'ligne 83 ne possède pas de docstring.
 
 ## Warning
 
@@ -6443,7 +6443,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## Warning
 
 - **Module :** python
-- **Message :** La fonction 'test_connect_connection_refused_then_success'ligne 117 ne possède pas de docstring.
+- **Message :** La fonction 'test_connect_connection_refused_then_success'ligne 118 ne possède pas de docstring.
 
 ## Warning
 
@@ -6453,7 +6453,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## Warning
 
 - **Module :** python
-- **Message :** La fonction 'test_connect_socket_timeout_then_success'ligne 159 ne possède pas de docstring.
+- **Message :** La fonction 'test_connect_socket_timeout_then_success'ligne 160 ne possède pas de docstring.
 
 ## Warning
 
@@ -6463,7 +6463,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## Warning
 
 - **Module :** python
-- **Message :** La fonction 'test_connect_timeout'ligne 197 ne possède pas de docstring.
+- **Message :** La fonction 'test_connect_timeout'ligne 198 ne possède pas de docstring.
 
 ## Warning
 
@@ -6473,7 +6473,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## Warning
 
 - **Module :** python
-- **Message :** La fonction 'test_connect_when_already_connected'ligne 218 ne possède pas de docstring.
+- **Message :** La fonction 'test_connect_when_already_connected'ligne 219 ne possède pas de docstring.
 
 ## Warning
 
@@ -6483,7 +6483,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## Warning
 
 - **Module :** python
-- **Message :** La fonction 'test_connect_unexpected_exception'ligne 230 ne possède pas de docstring.
+- **Message :** La fonction 'test_connect_unexpected_exception'ligne 231 ne possède pas de docstring.
 
 ## Warning
 
@@ -6493,7 +6493,37 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## Warning
 
 - **Module :** python
-- **Message :** La fonction 'test_send_packet_when_disconnected'ligne 255 ne possède pas de docstring.
+- **Message :** La fonction 'test_connect_non_session_packet_leaves_session_id_none' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'test_connect_immediate_server_disconnect_raises_attribute_error' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'test_connect_initial_ban_packet_triggers_system_exit' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'test_connect_initial_ban_packet_socket_cleanup' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'test_connect_socket_creation_os_error' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'test_connect_multiple_retries_close_each_failed_socket' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'test_send_packet_when_disconnected'ligne 441 ne possède pas de docstring.
 
 ## Warning
 
@@ -6503,7 +6533,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## Warning
 
 - **Module :** python
-- **Message :** La fonction 'test_send_packet_success'ligne 268 ne possède pas de docstring.
+- **Message :** La fonction 'test_send_packet_success'ligne 454 ne possède pas de docstring.
 
 ## Warning
 
@@ -6513,7 +6543,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## Warning
 
 - **Module :** python
-- **Message :** La fonction 'test_send_packet_error'ligne 284 ne possède pas de docstring.
+- **Message :** La fonction 'test_send_packet_error'ligne 470 ne possède pas de docstring.
 
 ## Warning
 
@@ -6523,7 +6553,22 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## Warning
 
 - **Module :** python
-- **Message :** La fonction 'test_recv_exact_when_disconnected'ligne 301 ne possède pas de docstring.
+- **Message :** La fonction 'test_send_packet_socket_error_logged_gracefully' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'test_send_packet_socket_none_with_connected_true_logged' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'test_send_packet_empty_payload_hand_built_wire_bytes' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'test_recv_exact_when_disconnected'ligne 542 ne possède pas de docstring.
 
 ## Warning
 
@@ -6533,7 +6578,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## Warning
 
 - **Module :** python
-- **Message :** La fonction 'test_recv_exact_single_chunk'ligne 311 ne possède pas de docstring.
+- **Message :** La fonction 'test_recv_exact_single_chunk'ligne 552 ne possède pas de docstring.
 
 ## Warning
 
@@ -6543,7 +6588,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## Warning
 
 - **Module :** python
-- **Message :** La fonction 'test_recv_exact_multiple_chunks'ligne 323 ne possède pas de docstring.
+- **Message :** La fonction 'test_recv_exact_multiple_chunks'ligne 564 ne possède pas de docstring.
 
 ## Warning
 
@@ -6553,7 +6598,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## Warning
 
 - **Module :** python
-- **Message :** La fonction 'test_recv_exact_connection_closed'ligne 341 ne possède pas de docstring.
+- **Message :** La fonction 'test_recv_exact_connection_closed'ligne 582 ne possède pas de docstring.
 
 ## Warning
 
@@ -6563,7 +6608,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## Warning
 
 - **Module :** python
-- **Message :** La fonction 'test_recv_exact_socket_error'ligne 354 ne possède pas de docstring.
+- **Message :** La fonction 'test_recv_exact_socket_error'ligne 595 ne possède pas de docstring.
 
 ## Warning
 
@@ -6573,7 +6618,32 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## Warning
 
 - **Module :** python
-- **Message :** La fonction 'test_receive_packet_when_disconnected'ligne 372 ne possède pas de docstring.
+- **Message :** La fonction 'test_recv_exact_zero_size_returns_empty_bytes' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'test_recv_exact_partial_read_then_eof' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'test_recv_exact_partial_read_then_socket_error' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'test_recv_exact_requests_exact_remaining_bytes_across_three_chunks' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'test_recv_exact_socket_none_with_connected_true_returns_none' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'test_receive_packet_when_disconnected'ligne 691 ne possède pas de docstring.
 
 ## Warning
 
@@ -6583,7 +6653,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## Warning
 
 - **Module :** python
-- **Message :** La fonction 'test_receive_packet_success'ligne 380 ne possède pas de docstring.
+- **Message :** La fonction 'test_receive_packet_success'ligne 699 ne possède pas de docstring.
 
 ## Warning
 
@@ -6593,7 +6663,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## Warning
 
 - **Module :** python
-- **Message :** La fonction 'test_receive_packet_header_error'ligne 405 ne possède pas de docstring.
+- **Message :** La fonction 'test_receive_packet_header_error'ligne 724 ne possède pas de docstring.
 
 ## Warning
 
@@ -6603,7 +6673,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## Warning
 
 - **Module :** python
-- **Message :** La fonction 'test_receive_packet_data_error'ligne 418 ne possède pas de docstring.
+- **Message :** La fonction 'test_receive_packet_data_error'ligne 737 ne possède pas de docstring.
 
 ## Warning
 
@@ -6613,7 +6683,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## Warning
 
 - **Module :** python
-- **Message :** La fonction 'test_receive_packet_decode_error'ligne 444 ne possède pas de docstring.
+- **Message :** La fonction 'test_receive_packet_decode_error'ligne 763 ne possède pas de docstring.
 
 ## Warning
 
@@ -6623,7 +6693,27 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## Warning
 
 - **Module :** python
-- **Message :** La fonction 'test_disconnect_with_socket'ligne 472 ne possède pas de docstring.
+- **Message :** La fonction 'test_receive_packet_ban_packet_raises_system_exit' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'test_receive_packet_oversized_header_rejected_before_allocating' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'test_receive_packet_zero_size_payload_fails_decode' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'test_receive_packet_struct_error_during_decode_returns_none' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'test_disconnect_with_socket'ligne 894 ne possède pas de docstring.
 
 ## Warning
 
@@ -6633,7 +6723,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## Warning
 
 - **Module :** python
-- **Message :** La fonction 'test_disconnect_without_socket'ligne 491 ne possède pas de docstring.
+- **Message :** La fonction 'test_disconnect_without_socket'ligne 913 ne possède pas de docstring.
 
 ## Warning
 
@@ -6643,7 +6733,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## Warning
 
 - **Module :** python
-- **Message :** La fonction 'test_disconnect_when_already_disconnected'ligne 508 ne possède pas de docstring.
+- **Message :** La fonction 'test_disconnect_when_already_disconnected'ligne 930 ne possède pas de docstring.
 
 ## Warning
 
@@ -6653,12 +6743,32 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## Warning
 
 - **Module :** python
-- **Message :** La fonction 'fake_recv_exact'ligne 424 ne possède pas de docstring.
+- **Message :** La fonction 'test_disconnect_sends_decopacket_with_hand_built_wire_bytes' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'test_disconnect_socket_close_exception_handled' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'fake_recv_exact'ligne 743 ne possède pas de docstring.
 
 ## Warning
 
 - **Module :** python
 - **Message :** La fonction 'fake_recv_exact' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'fake_recv'ligne 823 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'fake_recv' ne possède pas d'annotations de type.
 
 ---
 
