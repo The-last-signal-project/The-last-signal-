@@ -7,11 +7,11 @@ use crate::network::{parser::{
     ClientLog,},client::Client
     
 };
-use crate::gameplay::account_manager::AccountManager;
+
 use crate::world::world::{World,Position};
 use crate::gameplay::market_manager::MarketManager;
 
-
+use crate::auth::account_manager::AccountManager;
 use crate::auth::password::{
     verify_password,
     hash_password,
@@ -1234,7 +1234,67 @@ fn read_u64(
                     )
                 )
             }
-            
+
+
+            // =================================================
+            // MOVE
+            // =================================================
+
+           PacketType::Move => {
+    if packet.payload.len() != 12 {
+        warn!(
+            "Paquet Move invalide : {} octets",
+            packet.payload.len()
+        );
+
+        return HandlerResult::Nothing;
+    }
+
+    let x = i32::from_be_bytes([
+        packet.payload[0],
+        packet.payload[1],
+        packet.payload[2],
+        packet.payload[3],
+    ]);
+
+    let y = i32::from_be_bytes([
+        packet.payload[4],
+        packet.payload[5],
+        packet.payload[6],
+        packet.payload[7],
+    ]);
+
+    let z = i32::from_be_bytes([
+        packet.payload[8],
+        packet.payload[9],
+        packet.payload[10],
+        packet.payload[11],
+    ]);
+
+    let player_id = client.session_id();
+
+    let position = Position::new(x, y, z);
+
+    world
+        .set_position(player_id, position)
+        .await;
+
+    world.broadcast_player_state(
+        player_id,
+        position,
+    );
+
+    HandlerResult::Nothing
+}
+            PacketType::DECO => {
+
+    info!(
+        "Demande de déconnexion reçue"
+    );
+
+    HandlerResult::Disconnect
+}
+
             // ================================================
             // LISTE DES COMPTES
             // ================================================
@@ -1380,7 +1440,7 @@ fn read_u64(
                     Ok(false) => {
                         HandlerResult::Response(Packet::new(
                             PacketType::AccountResult,
-                            br#"{"ok":false,"message":"Compte introuvable ou non autorisé"}"#.to_vec(),
+                            br#"{"ok":false,"message":"Compte introuvable ou banni"}"#.to_vec(),
                         ))
                     }
                     Err(e) => {
@@ -1394,66 +1454,6 @@ fn read_u64(
                 }
             }
 
-
-
-            // =================================================
-            // MOVE
-            // =================================================
-
-           PacketType::Move => {
-    if packet.payload.len() != 12 {
-        warn!(
-            "Paquet Move invalide : {} octets",
-            packet.payload.len()
-        );
-
-        return HandlerResult::Nothing;
-    }
-
-    let x = i32::from_be_bytes([
-        packet.payload[0],
-        packet.payload[1],
-        packet.payload[2],
-        packet.payload[3],
-    ]);
-
-    let y = i32::from_be_bytes([
-        packet.payload[4],
-        packet.payload[5],
-        packet.payload[6],
-        packet.payload[7],
-    ]);
-
-    let z = i32::from_be_bytes([
-        packet.payload[8],
-        packet.payload[9],
-        packet.payload[10],
-        packet.payload[11],
-    ]);
-
-    let player_id = client.session_id();
-
-    let position = Position::new(x, y, z);
-
-    world
-        .set_position(player_id, position)
-        .await;
-
-    world.broadcast_player_state(
-        player_id,
-        position,
-    );
-
-    HandlerResult::Nothing
-}
-            PacketType::DECO => {
-
-    info!(
-        "Demande de déconnexion reçue"
-    );
-
-    HandlerResult::Disconnect
-}
 PacketType::MarketBuy => {
 
     if packet.payload.len() != 24 {
@@ -1954,9 +1954,9 @@ PacketType::MarketBuy => {
             | PacketType::SignUpResponse 
             | PacketType::PlayerState 
             | PacketType::PlayerRemove
-            | PacketType::Session
-            | PacketType::AccountListResponse
-            | PacketType::AccountResult => {
+             | PacketType::Session 
+             | PacketType::AccountListResponse
+            | PacketType::AccountResult=> {
 
                 error!(
                     "Réponse reçue du client alors qu'elle doit être envoyée par le serveur : {:?}",
