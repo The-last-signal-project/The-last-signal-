@@ -3,14 +3,7 @@ use the_last_signal_server::database::{
     migrations,
 };
 use log::info;
-use sqlx::Row;
-
 use the_last_signal_server::network::server::Server;
-use the_last_signal_server::gameplay::{
-    stuff_manager::Inventaire,
-    tresor::Tresor,
-};
-
 use the_last_signal_server::utils::logger::logger::ServerLogger;
 
 const NOMBRE_REPETITIONS: u32 = 100;
