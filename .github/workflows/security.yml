@@ -34,7 +34,13 @@ jobs:
     env: 
       GH_TOKEN: ${{ github.token }}
       VAULT_KEY: ${{ secrets.VAULT_KEY }}
-      DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
+      DEPLOY_KEY: >-
+       ${{
+       (github.event_name == 'schedule' ||
+       github.event_name == 'workflow_dispatch') &&
+       secrets.CI_SYNC_DEPLOY_KEY ||
+       secrets.DEPLOY_KEY
+       }}
       DATABASE_PATH: ${{ github.workspace }}/database
       DATABASE_URL: sqlite:${{ github.workspace }}/database/the_last_signal.db
       
@@ -54,7 +60,7 @@ jobs:
               fetch-depth: 0
               token: ${{ secrets.GITHUB_TOKEN }}
               persist-credentials: true
-              ssh-key: ${{ secrets.DEPLOY_KEY }}
+              ssh-key: ${{ env.DEPLOY_KEY }}
       ##########################################################
       # Python
       ##########################################################
@@ -1551,8 +1557,16 @@ jobs:
       )
      }}
     uses: ./.github/workflows/sync-ci.yml
+    
     secrets:
-        DEPLOY_KEY: ${{ secrets.CI_SYNC_DEPLOY_KEY }}
+       
+      DEPLOY_KEY: >-
+       ${{
+       (github.event_name == 'schedule' ||
+       github.event_name == 'workflow_dispatch') &&
+       secrets.CI_SYNC_DEPLOY_KEY ||
+       secrets.DEPLOY_KEY
+       }}
 
   cancel-security:
     needs:
