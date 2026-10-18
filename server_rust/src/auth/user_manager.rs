@@ -45,9 +45,9 @@ impl UserManager {
             return Err("Adresse e-mail invalide.".into());
         }
 
-        if password.len() < 8 {
+        if password.len() < 10 {
             return Err(
-                "Le mot de passe doit contenir au moins 8 caractères.".into(),
+                "Le mot de passe doit contenir au moins 10 caractères.".into(),
             );
         }
 
@@ -56,23 +56,23 @@ impl UserManager {
         let user_id = Uuid::new_v4().to_string();
 
         sqlx::query(
-            r#"
-            INSERT INTO users (user_id, email, password_hash)
-            VALUES (?, ?, ?)
-            "#,
-        )
-        .bind(&user_id)
-        .bind(&email)
-        .bind(&password_hash)
-        .execute(&self.pool)
-        .await
-        .map_err(|e| {
-            if e.to_string().contains("UNIQUE constraint failed") {
-                "Cette adresse e-mail est déjà utilisée.".to_string()
-            } else {
-                format!("Impossible de créer l'utilisateur : {e}")
-            }
-        })?;
+    r#"
+    INSERT INTO users (user_id, email, password_hash, status)
+    VALUES (?, ?, ?, 'DISCONNECTED')
+    "#
+)
+.bind(&user_id)
+.bind(&email)
+.bind(&password_hash)
+.execute(&self.pool)
+.await
+.map_err(|e| {
+    if e.to_string().contains("UNIQUE constraint failed") {
+        "Cette adresse e-mail est déjà utilisée.".to_string()
+    } else {
+        format!("Impossible de créer l'utilisateur : {e}")
+    }
+})?;
 
         self.get_user_by_id(&user_id)
             .await?

@@ -10,8 +10,8 @@ use crate::network::{parser::{
 
 use crate::world::world::{World,Position};
 use crate::gameplay::market_manager::MarketManager;
+use crate::auth::user_manager::UserManager;
 
-use crate::auth::account_manager::AccountManager;
 use crate::auth::password::{
     verify_password,
     hash_password,
@@ -216,149 +216,82 @@ fn read_u64(
             // SIGN UP
             // =================================================
 
-            PacketType::SignUp => {
+            
+PacketType::SignUp => {
+    let (email, password) =
+        match parse_signup_payload(&packet.payload) {
+            Ok(signup) => signup,
+            Err(e) => {
+                debug!("SIGN_UP invalide : {}", e);
 
-                // ------------------------------------------------
-                // Parser
-                // ------------------------------------------------
-
-                let (email, password) =
-                    match parse_signup_payload(
-                        &packet.payload
-                    ) {
-
-                        Ok(signup) => signup,
-
-                        Err(error) => {
-
-                            debug!(
-                                "SIGN_UP invalide : {}",
-                                error
-                            );
-
-                            return HandlerResult::Response(
-                                Packet::new(
-                                    PacketType::SignUpResponse,
-                                    b"SIGN_UP invalide".to_vec(),
-                                )
-                            );
-                        }
-                    };
-
-
-                // ------------------------------------------------
-                // Hash Argon2
-                // ------------------------------------------------
-
-                let password_hash =
-                    match hash_password(&password) {
-
-                        Ok(hash) => hash,
-
-                        Err(error) => {
-
-                            error!(
-                                "Erreur lors du hash du mot de passe : {}",
-                                error
-                            );
-
-                            return HandlerResult::Response(
-                                Packet::new(
-                                    PacketType::SignUpResponse,
-                                    b"Erreur serveur".to_vec(),
-                                )
-                            );
-                        }
-                    };
-
-
-                // ------------------------------------------------
-                // UUID
-                // ------------------------------------------------
-
-                let user_id =
-                    Uuid::new_v4().to_string();
-
-
-                // ------------------------------------------------
-                // Création utilisateur
-                // ------------------------------------------------
-
-                match sqlx::query(
-                    r#"
-                    INSERT INTO users (
-                        user_id,
-                        email,
-                        password_hash
-                    )
-                    VALUES (?, ?, ?)
-                    "#,
-                )
-                .bind(&user_id)
-                .bind(&email)
-                .bind(&password_hash)
-                .execute(&pool)
-                .await
-                {
-
-                    Ok(_) => {
-
-                        debug!(
-                            "Nouvel utilisateur créé : {}",
-                            email
-                        );
-
-                        client.set_user_id(
-                            Some(user_id.clone())
-                        );
-
-                        HandlerResult::Response(
-                            Packet::new(
-                                PacketType::SignUpResponse,
-                                b"Utilisateur cree avec succes".to_vec(),
-                            )
-                        )
-                    }
-
-
-                    Err(error) => {
-
-                        let error_msg =
-                            error.to_string();
-
-
-                        if error_msg.contains(
-                            "UNIQUE constraint failed"
-                        ) {
-
-                            debug!(
-                                "SIGN_UP refusé : email déjà utilisé"
-                            );
-
-                            HandlerResult::Response(
-                                Packet::new(
-                                    PacketType::SignUpResponse,
-                                    b"Email deja utilise".to_vec(),
-                                )
-                            )
-
-                        } else {
-
-                            error!(
-                                "Erreur lors de la création du user : {}",
-                                error
-                            );
-
-                            HandlerResult::Response(
-                                Packet::new(
-                                    PacketType::SignUpResponse,
-                                    b"Erreur serveur".to_vec(),
-                                )
-                            )
-                        }
-                    }
-                }
+                return HandlerResult::Response(Packet::new(
+                    PacketType::SignUpResponse,
+                    b"SIGN_UP invalide".to_vec(),
+                ));
             }
+        };
+
+    let manager = UserManager::new(pool.clone());
+
+    match manager.create_user(&email, &password).await {
+    Ok(user) => {
+        // Connecter automatiquement le nouvel utilisateur.
+        match manager.set_status(&user.user_id, "CONNECTED").await {
+            Ok(true) => {
+                client.set_user_id(Some(user.user_id.clone()));
+
+                info!("Inscription et connexion réussies : {}", user.email);
+
+                HandlerResult::Response(Packet::new(
+                    PacketType::SignUpResponse,
+                    b"Utilisateur cree avec succes".to_vec(),
+                ))
+            }
+            Ok(false) => {
+                error!(
+                    "Utilisateur créé mais statut introuvable : {}",
+                    user.user_id
+                );
+
+                HandlerResult::Response(Packet::new(
+                    PacketType::SignUpResponse,
+                    b"Erreur serveur".to_vec(),
+                ))
+            }
+            Err(e) => {
+                error!("Impossible de connecter le nouvel utilisateur : {}", e);
+
+                HandlerResult::Response(Packet::new(
+                    PacketType::SignUpResponse,
+                    b"Erreur serveur".to_vec(),
+                ))
+            }
+        }
+    }
+    Err(message) => {
+        debug!("Inscription refusée : {}", message);
+
+        let response = if message.contains("déjà utilisée") {
+            b"Email deja utilise".to_vec()
+        } else if message.contains("au moins 8 caractères") {
+            b"Mot de passe trop court".to_vec()
+        } else if message.contains("invalide") {
+            b"Email invalide".to_vec()
+        } else {
+            error!("Erreur d'inscription : {}", message);
+            b"Erreur serveur".to_vec()
+        };
+
+        HandlerResult::Response(Packet::new(
+            PacketType::SignUpResponse,
+            response.to_vec(),
+        ))
+    }
+}
+
+        
+}
+
 
 
             // =================================================
@@ -1294,6 +1227,151 @@ fn read_u64(
 
     HandlerResult::Disconnect
 }
+PacketType::MarketBuy => {
+
+    if packet.payload.len() != 24 {
+
+        error!(
+            "MARKET_BUY : payload invalide ({} octets)",
+            packet.payload.len()
+        );
+
+        return HandlerResult::Response(
+            Packet::new(
+                PacketType::MarketBuy,
+                b"MARKET_BUY invalide".to_vec(),
+            )
+        );
+    }
+
+
+    let objet_id =
+        match Self::read_i64(
+            &packet.payload,
+            0,
+        ) {
+            Some(value) => value,
+
+            None => {
+                return HandlerResult::Response(
+                    Packet::new(
+                        PacketType::MarketBuy,
+                        b"MARKET_BUY invalide".to_vec(),
+                    )
+                );
+            }
+        };
+
+
+    let quantity =
+        match Self::read_u64(
+            &packet.payload,
+            8,
+        ) {
+            Some(value) => value,
+
+            None => {
+                return HandlerResult::Response(
+                    Packet::new(
+                        PacketType::MarketBuy,
+                        b"MARKET_BUY invalide".to_vec(),
+                    )
+                );
+            }
+        };
+
+
+    let prix_unitaire_max =
+        match Self::read_i64(
+            &packet.payload,
+            16,
+        ) {
+            Some(value) => value,
+
+            None => {
+                return HandlerResult::Response(
+                    Packet::new(
+                        PacketType::MarketBuy,
+                        b"MARKET_BUY invalide".to_vec(),
+                    )
+                );
+            }
+        };
+
+
+    let account_id =
+        match client.account_id() {
+
+            Some(id) => id,
+
+            None => {
+
+                return HandlerResult::Response(
+                    Packet::new(
+                        PacketType::MarketBuy,
+                        b"Compte non selectionne".to_vec(),
+                    )
+                );
+            }
+        };
+
+
+    let market =
+        MarketManager::new(
+            pool.clone()
+        );
+
+
+    match market.creer_ordre_achat(
+        account_id,
+        objet_id,
+        quantity,
+        prix_unitaire_max,
+    ).await {
+
+        Ok(ordre_id) => {
+
+            info!(
+                "Ordre d'achat {} créé |objet={} quantité={} prix_max={}",
+                ordre_id,
+                objet_id,
+                quantity,
+                prix_unitaire_max
+            );
+
+
+            HandlerResult::Response(
+                Packet::new(
+                    PacketType::MarketBuy,
+                    ordre_id
+                        .to_be_bytes()
+                        .to_vec(),
+                )
+            )
+        }
+
+
+        Err(e) => {
+
+            error!(
+                "Erreur création ordre d'achat : {}",
+                e
+            );
+
+
+            HandlerResult::Response(
+                Packet::new(
+                    PacketType::MarketBuy,
+                    format!(
+                        "Erreur: {}",
+                        e
+                    )
+                    .into_bytes(),
+                )
+            )
+        }
+    }
+}
 
             // ================================================
             // LISTE DES COMPTES
@@ -1440,7 +1518,7 @@ fn read_u64(
                     Ok(false) => {
                         HandlerResult::Response(Packet::new(
                             PacketType::AccountResult,
-                            br#"{"ok":false,"message":"Compte introuvable ou banni"}"#.to_vec(),
+                            br#"{"ok":false,"message":"Compte introuvable ou non autorisé"}"#.to_vec(),
                         ))
                     }
                     Err(e) => {
@@ -1454,151 +1532,6 @@ fn read_u64(
                 }
             }
 
-PacketType::MarketBuy => {
-
-    if packet.payload.len() != 24 {
-
-        error!(
-            "MARKET_BUY : payload invalide ({} octets)",
-            packet.payload.len()
-        );
-
-        return HandlerResult::Response(
-            Packet::new(
-                PacketType::MarketBuy,
-                b"MARKET_BUY invalide".to_vec(),
-            )
-        );
-    }
-
-
-    let objet_id =
-        match Self::read_i64(
-            &packet.payload,
-            0,
-        ) {
-            Some(value) => value,
-
-            None => {
-                return HandlerResult::Response(
-                    Packet::new(
-                        PacketType::MarketBuy,
-                        b"MARKET_BUY invalide".to_vec(),
-                    )
-                );
-            }
-        };
-
-
-    let quantity =
-        match Self::read_u64(
-            &packet.payload,
-            8,
-        ) {
-            Some(value) => value,
-
-            None => {
-                return HandlerResult::Response(
-                    Packet::new(
-                        PacketType::MarketBuy,
-                        b"MARKET_BUY invalide".to_vec(),
-                    )
-                );
-            }
-        };
-
-
-    let prix_unitaire_max =
-        match Self::read_i64(
-            &packet.payload,
-            16,
-        ) {
-            Some(value) => value,
-
-            None => {
-                return HandlerResult::Response(
-                    Packet::new(
-                        PacketType::MarketBuy,
-                        b"MARKET_BUY invalide".to_vec(),
-                    )
-                );
-            }
-        };
-
-
-    let account_id =
-        match client.account_id() {
-
-            Some(id) => id,
-
-            None => {
-
-                return HandlerResult::Response(
-                    Packet::new(
-                        PacketType::MarketBuy,
-                        b"Compte non selectionne".to_vec(),
-                    )
-                );
-            }
-        };
-
-
-    let market =
-        MarketManager::new(
-            pool.clone()
-        );
-
-
-    match market.creer_ordre_achat(
-        account_id,
-        objet_id,
-        quantity,
-        prix_unitaire_max,
-    ).await {
-
-        Ok(ordre_id) => {
-
-            info!(
-                "Ordre d'achat {} créé |objet={} quantité={} prix_max={}",
-                ordre_id,
-                objet_id,
-                quantity,
-                prix_unitaire_max
-            );
-
-
-            HandlerResult::Response(
-                Packet::new(
-                    PacketType::MarketBuy,
-                    ordre_id
-                        .to_be_bytes()
-                        .to_vec(),
-                )
-            )
-        }
-
-
-        Err(e) => {
-
-            error!(
-                "Erreur création ordre d'achat : {}",
-                e
-            );
-
-
-            HandlerResult::Response(
-                Packet::new(
-                    PacketType::MarketBuy,
-                    format!(
-                        "Erreur: {}",
-                        e
-                    )
-                    .into_bytes(),
-                )
-            )
-        }
-    }
-}
             PacketType::MarketSell => {
 
     if packet.payload.len() != 24 {
@@ -1954,9 +1887,9 @@ PacketType::MarketBuy => {
             | PacketType::SignUpResponse 
             | PacketType::PlayerState 
             | PacketType::PlayerRemove
-             | PacketType::Session 
-             | PacketType::AccountListResponse
-            | PacketType::AccountResult=> {
+            | PacketType::Session
+            | PacketType::AccountListResponse
+            | PacketType::AccountResult => {
 
                 error!(
                     "Réponse reçue du client alors qu'elle doit être envoyée par le serveur : {:?}",
@@ -1965,6 +1898,7 @@ PacketType::MarketBuy => {
 
                 HandlerResult::Nothing
             }
+            
         }
     }
 }

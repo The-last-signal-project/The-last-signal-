@@ -87,6 +87,7 @@ impl PacketType {
             20 => Some(PacketType::AccountCreate),
             21 => Some(PacketType::AccountSelect),
             22 => Some(PacketType::AccountResult),
+
             _ => None,
         }
     }
