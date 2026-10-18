@@ -7,11 +7,12 @@ use tokio::{
 
 use sqlx::SqlitePool;
 use uuid::Uuid;
-
+use crate::auth::user_manager::UserManager;
 use log::{
     debug,
     error,
     info,
+    warn
 };
 use rand::RngExt;
 use crate::network::handler::{PacketHandler,HandlerResult};
@@ -619,53 +620,45 @@ self.world
     // MARQUER COMME DÉCONNECTÉ
     // ============================================================
 
-    async fn mark_disconnected(
-        &self,
-    ) {
+   // ============================================================
+// MARQUER COMME DÉCONNECTÉ
+// ============================================================
 
-        let user_id =
-            match self.user_id() {
+async fn mark_disconnected(&self) {
+    let user_id = match self.user_id() {
+        Some(id) => id.to_string(),
+        None => return,
+    };
 
-                Some(id) => id,
+    let manager = UserManager::new(self.pool.clone());
 
-                None => return,
-            };
+    match manager.set_status(&user_id, "DISCONNECTED").await {
+        Ok(true) => {
+            debug!(
+                "Utilisateur {} marqué comme DISCONNECTED [{}]",
+                user_id,
+                self.session_id
+            );
+        }
 
+        Ok(false) => {
+            warn!(
+                "Utilisateur introuvable lors de la déconnexion : {} [{}]",
+                user_id,
+                self.session_id
+            );
+        }
 
-        if let Err(e) =
-            sqlx::query(
-                r#"
-                UPDATE users
-
-                SET status = 'DISCONNECTED'
-
-                WHERE user_id = ?
-
-                  AND status = 'CONNECTED'
-                "#
-            )
-            .bind(user_id)
-            .execute(&self.pool)
-            .await
-        {
-
+        Err(e) => {
             error!(
                 "Impossible de mettre le joueur {} en DISCONNECTED [{}] : {}",
                 user_id,
                 self.session_id,
                 e
             );
-
-            return;
         }
-
-
-        debug!(
-            "Utilisateur {} marqué comme DISCONNECTED [{}]",
-            user_id,
-            self.session_id
-        );
     }
+}
 
 
     // ============================================================

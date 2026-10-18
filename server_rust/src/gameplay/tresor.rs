@@ -6,6 +6,7 @@ use log::error;
 
 const PA: u32 = 1;
 const PO: u32 = PA * 10;
+#[allow(dead_code)]
 const PP: u32 = PO * 10;
 #[allow(dead_code)]
 #[derive(Debug, Clone)]
