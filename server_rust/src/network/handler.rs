@@ -11,11 +11,8 @@ use crate::network::{parser::{
 use crate::world::world::{World,Position};
 use crate::gameplay::market_manager::MarketManager;
 use crate::auth::user_manager::UserManager;
-
-use crate::auth::password::{
-    verify_password,
-    hash_password,
-};
+use crate::auth::account_manager::AccountManager;
+use crate::auth::password::verify_password;
 
 use log::{
     trace,
@@ -30,38 +27,39 @@ use sqlx::{
     Row,
 };
 
-use uuid::Uuid;
+
 
 
 // ============================================================
 // Structures
 // ============================================================
-
+#[allow(dead_code)]
 pub struct User {
     user_id: String,
     password_hash: String,
 }
 
-
+#[allow(dead_code)]
 struct LoginData {
     user_id: String,
     password_hash: String,
     is_banned_perm: bool,
     is_banned_temp: bool,
 }
-
+#[allow(dead_code)]
 pub enum HandlerResult {
     Response(Packet),
     Disconnect,
     Nothing,
 }
+#[allow(dead_code)]
 pub struct PacketHandler;
 
 
 // ============================================================
 // Packet Handler
 // ============================================================
-
+#[allow(dead_code)]
 impl PacketHandler {
     fn read_i64(
     payload: &[u8],
@@ -78,7 +76,7 @@ impl PacketHandler {
     )
 }
 
-
+#[allow(dead_code)]
 fn read_u64(
     payload: &[u8],
     start: usize,
@@ -93,7 +91,7 @@ fn read_u64(
         )
     )
 }
-
+    #[allow(dead_code)]
     pub async fn handle(
         client: &mut Client,
         packet: Packet,
@@ -328,108 +326,74 @@ PacketType::SignUp => {
                     };
 
 
-                // ------------------------------------------------
-                // Récupération utilisateur + bans
-                // ------------------------------------------------
+                
 
-                let login_data =
-                    match sqlx::query(
-                        r#"
-                        SELECT
-                            u.user_id,
-                            u.password_hash,
+// ------------------------------------------------
+// Récupération utilisateur via UserManager
+// + vérification des bannissements
+// ------------------------------------------------
 
-                            COALESCE(
-                                (
-                                    SELECT EXISTS(
-                                        SELECT 1
-                                        FROM bansperm
-                                        WHERE user_id = u.user_id
-                                    )
-                                ),
-                                0
-                            ) AS is_banned_perm,
+let manager = UserManager::new(pool.clone());
 
-                            COALESCE(
-                                (
-                                    SELECT EXISTS(
-                                        SELECT 1
-                                        FROM bansferme
-                                        WHERE user_id = u.user_id
-                                          AND datetime(date_deban)
-                                              > CURRENT_TIMESTAMP
-                                    )
-                                ),
-                                0
-                            ) AS is_banned_temp
+let credentials = match manager.get_credentials_by_email(&email).await {
+    Ok(Some(credentials)) => credentials,
 
-                        FROM users u
+    Ok(None) => {
+        debug!("Tentative de connexion avec un utilisateur inexistant");
 
-                        WHERE u.email = ?
-                        "#,
-                    )
-                    .bind(&email)
-                    .fetch_optional(&pool)
-                    .await
-                    {
+        return HandlerResult::Response(Packet::new(
+            PacketType::LoginResponse,
+            b"Identifiants invalides".to_vec(),
+        ));
+    }
 
-                        Ok(Some(row)) => {
+    Err(e) => {
+        error!("Erreur de recherche utilisateur : {}", e);
 
-                            LoginData {
+        return HandlerResult::Response(Packet::new(
+            PacketType::LoginResponse,
+            b"Erreur serveur".to_vec(),
+        ));
+    }
+};
 
-                                user_id:
-                                    row.get::<String, _>(
-                                        "user_id"
-                                    ),
+let ban_row = match sqlx::query(
+    r#"
+    SELECT
+        EXISTS(
+            SELECT 1 FROM bansperm WHERE user_id = ?
+        ) AS is_banned_perm,
+        EXISTS(
+            SELECT 1
+            FROM bansferme
+            WHERE user_id = ?
+              AND datetime(date_deban) > CURRENT_TIMESTAMP
+        ) AS is_banned_temp
+    "#,
+)
+.bind(&credentials.user_id)
+.bind(&credentials.user_id)
+.fetch_one(&pool)
+.await
+{
+    Ok(row) => row,
 
-                                password_hash:
-                                    row.get::<String, _>(
-                                        "password_hash"
-                                    ),
+    Err(e) => {
+        error!("Erreur de vérification des bannissements : {}", e);
 
-                                is_banned_perm:
-                                    row.get::<i64, _>(
-                                        "is_banned_perm"
-                                    ) != 0,
+        return HandlerResult::Response(Packet::new(
+            PacketType::LoginResponse,
+            b"Erreur serveur".to_vec(),
+        ));
+    }
+};
 
-                                is_banned_temp:
-                                    row.get::<i64, _>(
-                                        "is_banned_temp"
-                                    ) != 0,
-                            }
-                        }
-
-
-                        Ok(None) => {
-
-                            debug!(
-                                "Tentative de connexion avec un utilisateur inexistant"
-                            );
-
-                            return HandlerResult::Response(
-                                Packet::new(
-                                    PacketType::LoginResponse,
-                                    b"Identifiants invalides".to_vec(),
-                                )
-                            );
-                        }
-
-
-                        Err(error) => {
-
-                            error!(
-                                "Erreur lors de la recherche de l'utilisateur : {}",
-                                error
-                            );
-
-                            return HandlerResult::Response(
-                                Packet::new(
-                                    PacketType::LoginResponse,
-                                    b"Erreur serveur".to_vec(),
-                                )
-                            );
-                        }
-                    };
+let login_data = LoginData {
+    user_id: credentials.user_id,
+    password_hash: credentials.password_hash,
+    is_banned_perm: ban_row.get::<i64, _>("is_banned_perm") != 0,
+    is_banned_temp: ban_row.get::<i64, _>("is_banned_temp") != 0,
+};
 
 
                 // ------------------------------------------------
@@ -1057,33 +1021,58 @@ PacketType::SignUp => {
                 // CONNECTED
                 // ------------------------------------------------
 
-                if let Err(error) =
-                    sqlx::query(
-                        r#"
-                        UPDATE users
+                // ------------------------------------------------
+// CONNECTED via UserManager
+// ------------------------------------------------
 
-                        SET status = 'CONNECTED'
+match manager
+    .set_status(&login_data.user_id, "CONNECTED")
+    .await
+{
+    Ok(true) => {}
 
-                        WHERE user_id = ?
-                        "#,
-                    )
-                    .bind(&login_data.user_id)
-                    .execute(&pool)
-                    .await
-                {
+    Ok(false) => {
+        error!(
+            "Utilisateur introuvable lors de la connexion : {}",
+            login_data.user_id
+        );
 
-                    error!(
-                        "Erreur lors de la connexion du joueur : {}",
-                        error
-                    );
+        return HandlerResult::Response(Packet::new(
+            PacketType::LoginResponse,
+            b"Erreur serveur".to_vec(),
+        ));
+    }
 
-                    return HandlerResult::Response(
-                        Packet::new(
-                            PacketType::LoginResponse,
-                            b"Erreur serveur".to_vec(),
-                        )
-                    );
-                }
+    Err(e) => {
+        error!("Erreur lors de la connexion du joueur : {}", e);
+
+        return HandlerResult::Response(Packet::new(
+            PacketType::LoginResponse,
+            b"Erreur serveur".to_vec(),
+        ));
+    }
+}
+
+// Enregistrer la date de dernière connexion.
+if let Err(e) = manager.record_login(&login_data.user_id).await {
+    error!("Impossible d'enregistrer la dernière connexion : {}", e);
+
+    // Éviter de laisser l'utilisateur marqué comme connecté.
+    if let Err(reset_error) = manager
+        .set_status(&login_data.user_id, "DISCONNECTED")
+        .await
+    {
+        error!(
+            "Impossible de rétablir le statut DISCONNECTED : {}",
+            reset_error
+        );
+    }
+
+    return HandlerResult::Response(Packet::new(
+        PacketType::LoginResponse,
+        b"Erreur serveur".to_vec(),
+    ));
+}
 
 
                 // ------------------------------------------------
@@ -1518,7 +1507,7 @@ PacketType::MarketBuy => {
                     Ok(false) => {
                         HandlerResult::Response(Packet::new(
                             PacketType::AccountResult,
-                            br#"{"ok":false,"message":"Compte introuvable ou non autorisé"}"#.to_vec(),
+                            r#"{"ok":false,"message":"Compte introuvable ou non autorisé"}"#.as_bytes().to_vec(),
                         ))
                     }
                     Err(e) => {

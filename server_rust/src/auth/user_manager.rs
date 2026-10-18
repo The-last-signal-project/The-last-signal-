@@ -2,7 +2,7 @@
 use sqlx::{Row, SqlitePool};
 use uuid::Uuid;
 
-use crate::utils::password::hash_password;
+use crate::auth::password::hash_password;
 
 /// Informations utilisateur pouvant être renvoyées à l'application.
 #[derive(Debug, Clone)]
