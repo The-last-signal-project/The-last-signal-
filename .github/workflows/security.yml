@@ -1552,7 +1552,7 @@ jobs:
      }}
     uses: ./.github/workflows/sync-ci.yml
     secrets:
-      inherit
+        DEPLOY_KEY: ${{ secrets.CI_SYNC_DEPLOY_KEY }}
 
   cancel-security:
     needs:
