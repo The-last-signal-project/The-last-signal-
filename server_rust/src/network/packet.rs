@@ -247,12 +247,17 @@ mod tests {
         assert_eq!(PacketType::from_u16(15), Some(PacketType::PlayerState));
         assert_eq!(PacketType::from_u16(16), Some(PacketType::PlayerRemove));
         assert_eq!(PacketType::from_u16(17), Some(PacketType::Session));
+        assert_eq!(PacketType::from_u16(18), Some(PacketType::AccountListRequest));
+        assert_eq!(PacketType::from_u16(19), Some(PacketType::AccountListResponse));,
+        assert_eq!(PacketType::from_u16(20),Some(PacketType::AccountCreate));,
+        assert_eq!(PacketType::from_u16(21), Some(PacketType::AccountSelect));,
+        assert_eq!(PacketType::from_u16(22), Some(PacketType::AccountResult));,
     }
 
     #[test]
     fn test_packet_type_from_u16_invalid_values() {
         assert_eq!(PacketType::from_u16(0), None);
-        assert_eq!(PacketType::from_u16(18), None);
+        assert_eq!(PacketType::from_u16(23), None);
         assert_eq!(PacketType::from_u16(100), None);
         assert_eq!(PacketType::from_u16(999), None);
         assert_eq!(PacketType::from_u16(u16::MAX), None);
@@ -495,6 +500,13 @@ mod tests {
             (15u16, PacketType::PlayerState),
             (16u16, PacketType::PlayerRemove),
             (17u16, PacketType::Session),
+            (18u16, PacketType::AccountListRequest),
+            (19u16, PacketType::AccountListResponse),
+            (20u16, PacketType::AccountCreate),
+            (21u16, PacketType::AccountSelect),
+            (22u16, PacketType::AccountResult),
+
+
         ];
 
         for (wire_id, expected_type) in expected_mappings {
@@ -513,19 +525,21 @@ mod tests {
     }
 
     #[test]
-    fn test_parse_body_unknown_type_boundary_cases() {
-        let unknown_ids = [0u16, 18u16, 999u16, u16::MAX];
-        for unknown_id in unknown_ids {
-            let body = unknown_id.to_be_bytes();
-            let err = Packet::parse_body(&body)
-                .expect_err(&format!("Wire ID {unknown_id} should return an error"));
-            assert_eq!(
-                err.kind(),
-                io::ErrorKind::InvalidData,
-                "Unknown wire ID {unknown_id} should return InvalidData"
-            );
-        }
+fn test_parse_body_unknown_type_boundary_cases() {
+    let unknown_ids = [0u16, 23u16, 999u16, u16::MAX];
+
+    for unknown_id in unknown_ids {
+        let body = unknown_id.to_be_bytes();
+        let err = Packet::parse_body(&body)
+            .expect_err(&format!("Wire ID {unknown_id} should return an error"));
+
+        assert_eq!(
+            err.kind(),
+            io::ErrorKind::InvalidData,
+            "Unknown wire ID {unknown_id} should return InvalidData"
+        );
     }
+}
 
     #[test]
     fn test_parse_body_realistic_move_payload() {
