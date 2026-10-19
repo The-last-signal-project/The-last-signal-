@@ -1,7 +1,7 @@
 use crate::target::TargetInfo;
 use crate::{Build, CompilerFlag, Error, ErrorKind, Tool, ToolFamily};
 use std::borrow::Cow;
-use std::ffi::OsString;
+use std::ffi::OsStr;
 
 #[derive(Debug, PartialEq, Default)]
 pub(crate) struct RustcCodegenFlags<'a> {
@@ -21,6 +21,64 @@ pub(crate) struct RustcCodegenFlags<'a> {
     linker_plugin_lto: Option<bool>,
     target_features: Vec<&'a str>,
 }
+
+// https://doc.rust-lang.org/reference/attributes/codegen.html#x86-or-x86_64
+// https://gcc.gnu.org/onlinedocs/gcc/x86-Options.html
+// https://clang.llvm.org/docs/ClangCommandLineReference.html#x86
+/// The x86 target features that GCC and Clang take as `-m<feature>`, see
+/// [`RustcCodegenFlags::target_feature_cc_flag`].
+///
+/// `sse` and `sse2` are left out: they are part of the x86 ABI, and `-mno-sse2`
+/// makes GCC reject C functions that return floating point values.
+const X86_FEATURES: &[&str] = &[
+    "adx",
+    "aes",
+    "avx",
+    "avx2",
+    "avx512bf16",
+    "avx512bitalg",
+    "avx512bw",
+    "avx512cd",
+    "avx512dq",
+    "avx512f",
+    "avx512fp16",
+    "avx512ifma",
+    "avx512vbmi",
+    "avx512vbmi2",
+    "avx512vl",
+    "avx512vnni",
+    "avx512vpopcntdq",
+    "avxvnni",
+    "bmi2",
+    "f16c",
+    "fma",
+    "fxsr",
+    "gfni",
+    "lzcnt",
+    "movbe",
+    "popcnt",
+    "rdseed",
+    "sha",
+    "sse3",
+    "sse4.1",
+    "sse4.2",
+    "sse4a",
+    "ssse3",
+    "vaes",
+    "vpclmulqdq",
+    "xsave",
+    "xsavec",
+    "xsaveopt",
+    "xsaves",
+];
+
+/// The x86 target features that Rust and GCC/Clang name differently.
+const X86_RENAMED_FEATURES: &[(&str, &str)] = &[
+    ("bmi1", "bmi"),
+    ("cmpxchg16b", "cx16"),
+    ("pclmulqdq", "pclmul"),
+    ("rdrand", "rdrnd"),
+];
 
 impl<'this> RustcCodegenFlags<'this> {
     // Parse flags obtained from CARGO_ENCODED_RUSTFLAGS
@@ -137,7 +195,10 @@ impl<'this> RustcCodegenFlags<'this> {
             // This variable is currently unused, we just keep it in case we need it in future
             "-Clto" => self.lto = value.or(Some("true")),
             // https://doc.rust-lang.org/rustc/linker-plugin-lto.html
-            "-Clinker-plugin-lto" => self.linker_plugin_lto = Some(true),
+            "-Clinker-plugin-lto" => {
+                // A non-boolean value names the linker plugin and also enables LTO.
+                self.linker_plugin_lto = Some(value.and_then(arg_to_bool).unwrap_or(true));
+            }
             // https://doc.rust-lang.org/rustc/codegen-options/index.html#relocation-model
             "-Crelocation-model" => {
                 self.relocation_model = flag_not_empty(value)?;
@@ -190,29 +251,16 @@ impl<'this> RustcCodegenFlags<'this> {
             None => (false, feature.strip_prefix('-')?),
         };
 
-        let cc_feature = match arch {
-            // https://doc.rust-lang.org/reference/attributes/codegen.html#x86-or-x86_64
-            // https://gcc.gnu.org/onlinedocs/gcc/x86-Options.html
-            // https://clang.llvm.org/docs/ClangCommandLineReference.html#x86
-            // `sse` and `sse2` are left out: they are part of the x86 ABI, and `-mno-sse2` makes
-            // GCC reject C functions that return floating point values.
-            "x86" | "x86_64" => match feature {
-                "adx" | "aes" | "avx" | "avx2" | "avx512bf16" | "avx512bitalg" | "avx512bw"
-                | "avx512cd" | "avx512dq" | "avx512f" | "avx512fp16" | "avx512ifma"
-                | "avx512vbmi" | "avx512vbmi2" | "avx512vl" | "avx512vnni" | "avx512vpopcntdq"
-                | "avxvnni" | "bmi2" | "f16c" | "fma" | "fxsr" | "gfni" | "lzcnt" | "movbe"
-                | "popcnt" | "rdseed" | "sha" | "sse3" | "sse4.1" | "sse4.2" | "sse4a"
-                | "ssse3" | "vaes" | "vpclmulqdq" | "xsave" | "xsavec" | "xsaveopt" | "xsaves" => {
-                    feature
-                }
-                // Rust and GCC/Clang use different names for these
-                "bmi1" => "bmi",
-                "cmpxchg16b" => "cx16",
-                "pclmulqdq" => "pclmul",
-                "rdrand" => "rdrnd",
-                _ => return None,
-            },
-            _ => return None,
+        if !matches!(arch, "x86" | "x86_64") {
+            return None;
+        }
+        let cc_feature = if X86_FEATURES.contains(&feature) {
+            feature
+        } else {
+            X86_RENAMED_FEATURES
+                .iter()
+                .find(|(rust, _)| *rust == feature)?
+                .1
         };
 
         Some(if enable {
@@ -220,6 +268,22 @@ impl<'this> RustcCodegenFlags<'this> {
         } else {
             format!("-mno-{cc_feature}")
         })
+    }
+
+    /// The parsed value of `-Ccontrol-flow-guard`, or `None` for one cc
+    /// doesn't know.
+    fn control_flow_guard(&self) -> Option<ControlFlowGuard> {
+        match self.control_flow_guard? {
+            "y" | "yes" | "on" | "true" | "checks" => Some(ControlFlowGuard::Checks),
+            "nochecks" => Some(ControlFlowGuard::NoChecks),
+            "n" | "no" | "off" | "false" => Some(ControlFlowGuard::Off),
+            _ => None,
+        }
+    }
+
+    /// Whether the last `-Clinker-plugin-lto` enables linker-plugin LTO.
+    pub(crate) fn linker_plugin_lto(&self) -> bool {
+        self.linker_plugin_lto.unwrap_or(false)
     }
 
     // Rust and clang/cc don't agree on what equivalent flags should look like.
@@ -232,12 +296,14 @@ impl<'this> RustcCodegenFlags<'this> {
     ) {
         let family = tool.family;
         // Push `flag` to `flags` if it is supported by the currently used CC
-        let mut push_if_supported = |flag: OsString| {
+        // Takes a `Cow`, so that a literal is only copied when it is pushed
+        // and a formatted flag isn't copied at all.
+        let mut push_if_supported = |flag: Cow<'static, str>| {
             if build
-                .is_flag_supported_inner(&flag, tool, target, flag_support_key)
+                .is_flag_supported_inner(OsStr::new(&*flag), tool, target, flag_support_key)
                 .unwrap_or(false)
             {
-                tool.args.push(flag);
+                tool.args.push(flag.into_owned().into());
             } else {
                 build.cargo_output.print_warning(&format!(
                     "Inherited flag {flag:?} is not supported by the currently used CC"
@@ -374,7 +440,7 @@ impl<'this> RustcCodegenFlags<'this> {
                 }
 
                 // https://doc.rust-lang.org/rustc/linker-plugin-lto.html
-                if self.linker_plugin_lto.unwrap_or(false) {
+                if self.linker_plugin_lto() {
                     // https://clang.llvm.org/docs/ClangCommandLineReference.html#cmdoption-clang-flto
                     // In order to use linker-plugin-lto to achieve cross-lang lto, cc has to use thin LTO
                     // to compile the c/c++ libraries because llvm linker plugin/lld uses thin LTO by default.
@@ -384,30 +450,27 @@ impl<'this> RustcCodegenFlags<'this> {
                     push_if_supported("-flto=thin".into());
                 }
                 // https://clang.llvm.org/docs/ClangCommandLineReference.html#cmdoption-clang-mguard
-                if let Some(value) = self.control_flow_guard {
-                    let cc_val = match value {
-                        "y" | "yes" | "on" | "true" | "checks" => Some("cf"),
-                        "nochecks" => Some("cf-nochecks"),
-                        "n" | "no" | "off" | "false" => Some("none"),
-                        _ => None,
-                    };
-                    if let Some(cc_val) = cc_val {
-                        push_if_supported(format!("-mguard={cc_val}").into());
-                    }
+                let cc_flag = match self.control_flow_guard() {
+                    Some(ControlFlowGuard::Checks) => Some("-mguard=cf"),
+                    Some(ControlFlowGuard::NoChecks) => Some("-mguard=cf-nochecks"),
+                    Some(ControlFlowGuard::Off) => Some("-mguard=none"),
+                    None => None,
+                };
+                if let Some(cc_flag) = cc_flag {
+                    push_if_supported(cc_flag.into());
                 }
             }
             ToolFamily::Gnu => {}
             ToolFamily::Msvc { .. } => {
                 // https://learn.microsoft.com/en-us/cpp/build/reference/guard-enable-control-flow-guard
-                if let Some(value) = self.control_flow_guard {
-                    let cc_val = match value {
-                        "y" | "yes" | "on" | "true" | "checks" => Some("cf"),
-                        "n" | "no" | "off" | "false" => Some("cf-"),
-                        _ => None,
-                    };
-                    if let Some(cc_val) = cc_val {
-                        push_if_supported(format!("/guard:{cc_val}").into());
-                    }
+                // MSVC has no equivalent of `nochecks`.
+                let cc_flag = match self.control_flow_guard() {
+                    Some(ControlFlowGuard::Checks) => Some("/guard:cf"),
+                    Some(ControlFlowGuard::Off) => Some("/guard:cf-"),
+                    Some(ControlFlowGuard::NoChecks) | None => None,
+                };
+                if let Some(cc_flag) = cc_flag {
+                    push_if_supported(cc_flag.into());
                 }
                 // https://learn.microsoft.com/en-us/cpp/build/reference/oy-frame-pointer-omission
                 if let Some(value) = self.force_frame_pointers {
@@ -422,6 +485,13 @@ impl<'this> RustcCodegenFlags<'this> {
     }
 }
 
+/// A `-Ccontrol-flow-guard` value.
+enum ControlFlowGuard {
+    Checks,
+    NoChecks,
+    Off,
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -430,6 +500,34 @@ mod tests {
     fn check(env: &str, expected: &RustcCodegenFlags) {
         let actual = RustcCodegenFlags::parse(env).unwrap();
         assert_eq!(actual, *expected);
+    }
+
+    #[test]
+    fn linker_plugin_lto_values() {
+        let enabled = RustcCodegenFlags {
+            linker_plugin_lto: Some(true),
+            ..RustcCodegenFlags::default()
+        };
+        check("-Clinker-plugin-lto", &enabled);
+        for value in ["y", "yes", "on", "true", "/path/to/LLVMgold.so"] {
+            check(&format!("-Clinker-plugin-lto={value}"), &enabled);
+        }
+        let disabled = RustcCodegenFlags {
+            linker_plugin_lto: Some(false),
+            ..RustcCodegenFlags::default()
+        };
+        for value in ["n", "no", "off", "false"] {
+            for flags in [
+                format!("-Clinker-plugin-lto={value}"),
+                format!("-C\u{1f}linker-plugin-lto={value}"),
+                format!("--codegen\u{1f}linker-plugin-lto={value}"),
+                format!("--codegen=linker-plugin-lto={value}"),
+            ] {
+                check(&flags, &disabled);
+            }
+        }
+        check("-Clinker-plugin-lto\u{1f}-Clinker-plugin-lto=no", &disabled);
+        check("-Clinker-plugin-lto=no\u{1f}-Clinker-plugin-lto", &enabled);
     }
 
     #[test]

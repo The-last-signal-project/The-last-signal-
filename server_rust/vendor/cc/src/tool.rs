@@ -3,12 +3,11 @@ use crate::{
     command_helpers::{run_output, spawn_and_wait_for_output, CargoOutput, CommandExt},
     run,
     tempfile::NamedTempfile,
-    utilities::{HashRecorder, IgnoreAsciiCase, OnceLock},
+    utilities::{HashRecorder, IgnoreAsciiCase, OnceLock, VecMap},
     Error, ErrorKind, OutputKind,
 };
 use std::{
     borrow::Cow,
-    collections::HashMap,
     env,
     ffi::{OsStr, OsString},
     hash::Hash,
@@ -19,14 +18,14 @@ use std::{
     sync::{Arc, RwLock},
 };
 
-pub(crate) type CompilerFamilyLookupCache = HashMap<CompilerCommandKey, ToolFamily>;
+pub(crate) type CompilerFamilyLookupCache = VecMap<CompilerCommandKey, ToolFamily>;
 
 /// Whether a compiler command uses libc++, see [`Tool::uses_libcxx`].
-pub(crate) type CppStdlibLookupCache = HashMap<CompilerCommandKey, bool>;
+pub(crate) type CppStdlibLookupCache = VecMap<CompilerCommandKey, bool>;
 
 /// Key of the [`CompilerFamilyLookupCache`] and the [`CppStdlibLookupCache`]:
 /// a compiler command and the environment it runs in.
-#[derive(Debug, PartialEq, Eq, Hash)]
+#[derive(Debug, PartialEq)]
 pub(crate) struct CompilerCommandKey {
     /// The hashable content of the compiler's path followed by its arguments.
     command: Box<[u8]>,
@@ -483,6 +482,31 @@ impl Tool {
             self.args.push("-Xcompiler".into());
         }
         self.args.push(flag);
+    }
+
+    /// [`push_cc_arg`](Self::push_cc_arg) for a string literal. Converting
+    /// it here rather than at each call keeps the callers small.
+    pub(crate) fn push_cc_str(&mut self, flag: &str) {
+        self.push_cc_arg(flag.into());
+    }
+
+    /// [`push_cc_arg`](Self::push_cc_arg) for each of `flags`.
+    pub(crate) fn push_cc_args(&mut self, flags: &[&str]) {
+        for flag in flags {
+            self.push_cc_str(flag);
+        }
+    }
+
+    /// Push `arg` to the end of the compiler's arguments as it is.
+    pub(crate) fn push_arg_str(&mut self, arg: &str) {
+        self.args.push(arg.into());
+    }
+
+    /// Push `args` to the end of the compiler's arguments as they are.
+    pub(crate) fn push_args(&mut self, args: &[&str]) {
+        for arg in args {
+            self.push_arg_str(arg);
+        }
     }
 
     /// Checks if an argument or flag has already been specified or conflicts.
