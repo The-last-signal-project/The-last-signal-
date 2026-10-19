@@ -1,6 +1,6 @@
 Documentation Quality Report
 
-**Date :** 2026-10-19 11:42:00
+**Date :** 2026-10-19 13:11:52
 
 # 64/100
 
@@ -5989,7 +5989,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'main' sans documentation
 
-- **line :** 16
+- **line :** 23
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -5999,7 +5999,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Mod 'tests' sans documentation
 
-- **line :** 44
+- **line :** 51
 
 - **suggestion :** Ajoutez /// avant cette mod
 
@@ -6009,7 +6009,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'test_tresor' sans documentation
 
-- **line :** 49
+- **line :** 56
 
 - **suggestion :** Ajoutez /// avant cette function
 
