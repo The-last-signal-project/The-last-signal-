@@ -98,16 +98,16 @@ jobs:
       - name: Install Rust tools
         run: |
           cargo binstall cargo-audit cargo-deny cargo-outdated -y
-      
+      - name: Install Gitleaks
+        run: |
+          VERSION=8.30.0
+          curl -sSfL "https://github.com/gitleaks/gitleaks/releases/download/v${VERSION}/gitleaks_${VERSION}_linux_x64.tar.gz" | tar -xz gitleaks
+          sudo mv gitleaks /usr/local/bin/
+          gitleaks version
           
 
-      ##########################################################
-      # Gitleaks
-      ##########################################################
 
-      - name: Gitleaks
-        continue-on-error: true
-        uses: gitleaks/gitleaks-action@v3
+      
 
       ##########################################################
       # Rapport
@@ -621,7 +621,7 @@ jobs:
 
           gitleaks detect \
             --source . \
-            --verbose >> "$REPORT" 2>&1
+            --verbose --redact >> "$REPORT" 2>&1
 
       ##########################################################
       # Python Licenses
