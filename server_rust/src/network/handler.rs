@@ -10,12 +10,9 @@ use crate::network::{parser::{
 
 use crate::world::world::{World,Position};
 use crate::gameplay::market_manager::MarketManager;
-
-
-use crate::auth::password::{
-    verify_password,
-    hash_password,
-};
+use crate::auth::user_manager::UserManager;
+use crate::auth::account_manager::AccountManager;
+use crate::auth::password::verify_password;
 
 use log::{
     trace,
@@ -30,38 +27,39 @@ use sqlx::{
     Row,
 };
 
-use uuid::Uuid;
+
 
 
 // ============================================================
 // Structures
 // ============================================================
-
+#[allow(dead_code)]
 pub struct User {
     user_id: String,
     password_hash: String,
 }
 
-
+#[allow(dead_code)]
 struct LoginData {
     user_id: String,
     password_hash: String,
     is_banned_perm: bool,
     is_banned_temp: bool,
 }
-
+#[allow(dead_code)]
 pub enum HandlerResult {
     Response(Packet),
     Disconnect,
     Nothing,
 }
+#[allow(dead_code)]
 pub struct PacketHandler;
 
 
 // ============================================================
 // Packet Handler
 // ============================================================
-
+#[allow(dead_code)]
 impl PacketHandler {
     fn read_i64(
     payload: &[u8],
@@ -78,7 +76,7 @@ impl PacketHandler {
     )
 }
 
-
+#[allow(dead_code)]
 fn read_u64(
     payload: &[u8],
     start: usize,
@@ -93,7 +91,7 @@ fn read_u64(
         )
     )
 }
-
+    #[allow(dead_code)]
     pub async fn handle(
         client: &mut Client,
         packet: Packet,
@@ -216,149 +214,82 @@ fn read_u64(
             // SIGN UP
             // =================================================
 
-            PacketType::SignUp => {
+            
+PacketType::SignUp => {
+    let (email, password) =
+        match parse_signup_payload(&packet.payload) {
+            Ok(signup) => signup,
+            Err(e) => {
+                debug!("SIGN_UP invalide : {}", e);
 
-                // ------------------------------------------------
-                // Parser
-                // ------------------------------------------------
-
-                let (email, password) =
-                    match parse_signup_payload(
-                        &packet.payload
-                    ) {
-
-                        Ok(signup) => signup,
-
-                        Err(error) => {
-
-                            debug!(
-                                "SIGN_UP invalide : {}",
-                                error
-                            );
-
-                            return HandlerResult::Response(
-                                Packet::new(
-                                    PacketType::SignUpResponse,
-                                    b"SIGN_UP invalide".to_vec(),
-                                )
-                            );
-                        }
-                    };
-
-
-                // ------------------------------------------------
-                // Hash Argon2
-                // ------------------------------------------------
-
-                let password_hash =
-                    match hash_password(&password) {
-
-                        Ok(hash) => hash,
-
-                        Err(error) => {
-
-                            error!(
-                                "Erreur lors du hash du mot de passe : {}",
-                                error
-                            );
-
-                            return HandlerResult::Response(
-                                Packet::new(
-                                    PacketType::SignUpResponse,
-                                    b"Erreur serveur".to_vec(),
-                                )
-                            );
-                        }
-                    };
-
-
-                // ------------------------------------------------
-                // UUID
-                // ------------------------------------------------
-
-                let user_id =
-                    Uuid::new_v4().to_string();
-
-
-                // ------------------------------------------------
-                // Création utilisateur
-                // ------------------------------------------------
-
-                match sqlx::query(
-                    r#"
-                    INSERT INTO users (
-                        user_id,
-                        email,
-                        password_hash
-                    )
-                    VALUES (?, ?, ?)
-                    "#,
-                )
-                .bind(&user_id)
-                .bind(&email)
-                .bind(&password_hash)
-                .execute(&pool)
-                .await
-                {
-
-                    Ok(_) => {
-
-                        debug!(
-                            "Nouvel utilisateur créé : {}",
-                            email
-                        );
-
-                        client.set_user_id(
-                            Some(user_id.clone())
-                        );
-
-                        HandlerResult::Response(
-                            Packet::new(
-                                PacketType::SignUpResponse,
-                                b"Utilisateur cree avec succes".to_vec(),
-                            )
-                        )
-                    }
-
-
-                    Err(error) => {
-
-                        let error_msg =
-                            error.to_string();
-
-
-                        if error_msg.contains(
-                            "UNIQUE constraint failed"
-                        ) {
-
-                            debug!(
-                                "SIGN_UP refusé : email déjà utilisé"
-                            );
-
-                            HandlerResult::Response(
-                                Packet::new(
-                                    PacketType::SignUpResponse,
-                                    b"Email deja utilise".to_vec(),
-                                )
-                            )
-
-                        } else {
-
-                            error!(
-                                "Erreur lors de la création du user : {}",
-                                error
-                            );
-
-                            HandlerResult::Response(
-                                Packet::new(
-                                    PacketType::SignUpResponse,
-                                    b"Erreur serveur".to_vec(),
-                                )
-                            )
-                        }
-                    }
-                }
+                return HandlerResult::Response(Packet::new(
+                    PacketType::SignUpResponse,
+                    b"SIGN_UP invalide".to_vec(),
+                ));
             }
+        };
+
+    let manager = UserManager::new(pool.clone());
+
+    match manager.create_user(&email, &password).await {
+    Ok(user) => {
+        // Connecter automatiquement le nouvel utilisateur.
+        match manager.set_status(&user.user_id, "CONNECTED").await {
+            Ok(true) => {
+                client.set_user_id(Some(user.user_id.clone()));
+
+                info!("Inscription et connexion réussies : {}", user.email);
+
+                HandlerResult::Response(Packet::new(
+                    PacketType::SignUpResponse,
+                    b"Utilisateur cree avec succes".to_vec(),
+                ))
+            }
+            Ok(false) => {
+                error!(
+                    "Utilisateur créé mais statut introuvable : {}",
+                    user.user_id
+                );
+
+                HandlerResult::Response(Packet::new(
+                    PacketType::SignUpResponse,
+                    b"Erreur serveur".to_vec(),
+                ))
+            }
+            Err(e) => {
+                error!("Impossible de connecter le nouvel utilisateur : {}", e);
+
+                HandlerResult::Response(Packet::new(
+                    PacketType::SignUpResponse,
+                    b"Erreur serveur".to_vec(),
+                ))
+            }
+        }
+    }
+    Err(message) => {
+        debug!("Inscription refusée : {}", message);
+
+        let response = if message.contains("déjà utilisée") {
+            b"Email deja utilise".to_vec()
+        } else if message.contains("au moins 8 caractères") {
+            b"Mot de passe trop court".to_vec()
+        } else if message.contains("invalide") {
+            b"Email invalide".to_vec()
+        } else {
+            error!("Erreur d'inscription : {}", message);
+            b"Erreur serveur".to_vec()
+        };
+
+        HandlerResult::Response(Packet::new(
+            PacketType::SignUpResponse,
+            response.to_vec(),
+        ))
+    }
+}
+
+        
+}
+
 
 
             // =================================================
@@ -395,108 +326,74 @@ fn read_u64(
                     };
 
 
-                // ------------------------------------------------
-                // Récupération utilisateur + bans
-                // ------------------------------------------------
+                
 
-                let login_data =
-                    match sqlx::query(
-                        r#"
-                        SELECT
-                            u.user_id,
-                            u.password_hash,
+// ------------------------------------------------
+// Récupération utilisateur via UserManager
+// + vérification des bannissements
+// ------------------------------------------------
 
-                            COALESCE(
-                                (
-                                    SELECT EXISTS(
-                                        SELECT 1
-                                        FROM bansperm
-                                        WHERE user_id = u.user_id
-                                    )
-                                ),
-                                0
-                            ) AS is_banned_perm,
+let manager = UserManager::new(pool.clone());
 
-                            COALESCE(
-                                (
-                                    SELECT EXISTS(
-                                        SELECT 1
-                                        FROM bansferme
-                                        WHERE user_id = u.user_id
-                                          AND datetime(date_deban)
-                                              > CURRENT_TIMESTAMP
-                                    )
-                                ),
-                                0
-                            ) AS is_banned_temp
+let credentials = match manager.get_credentials_by_email(&email).await {
+    Ok(Some(credentials)) => credentials,
 
-                        FROM users u
+    Ok(None) => {
+        debug!("Tentative de connexion avec un utilisateur inexistant");
 
-                        WHERE u.email = ?
-                        "#,
-                    )
-                    .bind(&email)
-                    .fetch_optional(&pool)
-                    .await
-                    {
+        return HandlerResult::Response(Packet::new(
+            PacketType::LoginResponse,
+            b"Identifiants invalides".to_vec(),
+        ));
+    }
 
-                        Ok(Some(row)) => {
+    Err(e) => {
+        error!("Erreur de recherche utilisateur : {}", e);
 
-                            LoginData {
+        return HandlerResult::Response(Packet::new(
+            PacketType::LoginResponse,
+            b"Erreur serveur".to_vec(),
+        ));
+    }
+};
 
-                                user_id:
-                                    row.get::<String, _>(
-                                        "user_id"
-                                    ),
+let ban_row = match sqlx::query(
+    r#"
+    SELECT
+        EXISTS(
+            SELECT 1 FROM bansperm WHERE user_id = ?
+        ) AS is_banned_perm,
+        EXISTS(
+            SELECT 1
+            FROM bansferme
+            WHERE user_id = ?
+              AND datetime(date_deban) > CURRENT_TIMESTAMP
+        ) AS is_banned_temp
+    "#,
+)
+.bind(&credentials.user_id)
+.bind(&credentials.user_id)
+.fetch_one(&pool)
+.await
+{
+    Ok(row) => row,
 
-                                password_hash:
-                                    row.get::<String, _>(
-                                        "password_hash"
-                                    ),
+    Err(e) => {
+        error!("Erreur de vérification des bannissements : {}", e);
 
-                                is_banned_perm:
-                                    row.get::<i64, _>(
-                                        "is_banned_perm"
-                                    ) != 0,
+        return HandlerResult::Response(Packet::new(
+            PacketType::LoginResponse,
+            b"Erreur serveur".to_vec(),
+        ));
+    }
+};
 
-                                is_banned_temp:
-                                    row.get::<i64, _>(
-                                        "is_banned_temp"
-                                    ) != 0,
-                            }
-                        }
-
-
-                        Ok(None) => {
-
-                            debug!(
-                                "Tentative de connexion avec un utilisateur inexistant"
-                            );
-
-                            return HandlerResult::Response(
-                                Packet::new(
-                                    PacketType::LoginResponse,
-                                    b"Identifiants invalides".to_vec(),
-                                )
-                            );
-                        }
-
-
-                        Err(error) => {
-
-                            error!(
-                                "Erreur lors de la recherche de l'utilisateur : {}",
-                                error
-                            );
-
-                            return HandlerResult::Response(
-                                Packet::new(
-                                    PacketType::LoginResponse,
-                                    b"Erreur serveur".to_vec(),
-                                )
-                            );
-                        }
-                    };
+let login_data = LoginData {
+    user_id: credentials.user_id,
+    password_hash: credentials.password_hash,
+    is_banned_perm: ban_row.get::<i64, _>("is_banned_perm") != 0,
+    is_banned_temp: ban_row.get::<i64, _>("is_banned_temp") != 0,
+};
 
 
                 // ------------------------------------------------
@@ -1124,33 +1021,58 @@ fn read_u64(
                 // CONNECTED
                 // ------------------------------------------------
 
-                if let Err(error) =
-                    sqlx::query(
-                        r#"
-                        UPDATE users
+                // ------------------------------------------------
+// CONNECTED via UserManager
+// ------------------------------------------------
 
-                        SET status = 'CONNECTED'
+match manager
+    .set_status(&login_data.user_id, "CONNECTED")
+    .await
+{
+    Ok(true) => {}
 
-                        WHERE user_id = ?
-                        "#,
-                    )
-                    .bind(&login_data.user_id)
-                    .execute(&pool)
-                    .await
-                {
+    Ok(false) => {
+        error!(
+            "Utilisateur introuvable lors de la connexion : {}",
+            login_data.user_id
+        );
 
-                    error!(
-                        "Erreur lors de la connexion du joueur : {}",
-                        error
-                    );
+        return HandlerResult::Response(Packet::new(
+            PacketType::LoginResponse,
+            b"Erreur serveur".to_vec(),
+        ));
+    }
 
-                    return HandlerResult::Response(
-                        Packet::new(
-                            PacketType::LoginResponse,
-                            b"Erreur serveur".to_vec(),
-                        )
-                    );
-                }
+    Err(e) => {
+        error!("Erreur lors de la connexion du joueur : {}", e);
+
+        return HandlerResult::Response(Packet::new(
+            PacketType::LoginResponse,
+            b"Erreur serveur".to_vec(),
+        ));
+    }
+}
+
+// Enregistrer la date de dernière connexion.
+if let Err(e) = manager.record_login(&login_data.user_id).await {
+    error!("Impossible d'enregistrer la dernière connexion : {}", e);
+
+    // Éviter de laisser l'utilisateur marqué comme connecté.
+    if let Err(reset_error) = manager
+        .set_status(&login_data.user_id, "DISCONNECTED")
+        .await
+    {
+        error!(
+            "Impossible de rétablir le statut DISCONNECTED : {}",
+            reset_error
+        );
+    }
+
+    return HandlerResult::Response(Packet::new(
+        PacketType::LoginResponse,
+        b"Erreur serveur".to_vec(),
+    ));
+}
 
 
                 // ------------------------------------------------
@@ -1439,6 +1361,166 @@ PacketType::MarketBuy => {
         }
     }
 }
+
+            // ================================================
+            // LISTE DES COMPTES
+            // ================================================
+            PacketType::AccountListRequest => {
+                if !packet.payload.is_empty() {
+                    return HandlerResult::Nothing;
+                }
+
+                let user_id = match client.user_id() {
+                    Some(id) => id.to_string(),
+                    None => {
+                        return HandlerResult::Response(Packet::new(
+                            PacketType::AccountListResponse,
+                            b"Utilisateur non authentifie".to_vec(),
+                        ));
+                    }
+                };
+
+                let manager = AccountManager::new(pool.clone());
+
+                match manager.list_accounts(&user_id).await {
+                    Ok(accounts) => {
+                        let payload =
+                            serde_json::to_vec(&accounts).unwrap_or_else(|_| b"[]".to_vec());
+
+                        HandlerResult::Response(Packet::new(
+                            PacketType::AccountListResponse,
+                            payload,
+                        ))
+                    }
+                    Err(e) => {
+                        error!("Erreur de liste des comptes : {}", e);
+                        HandlerResult::Response(Packet::new(
+                            PacketType::AccountListResponse,
+                            b"Erreur serveur".to_vec(),
+                        ))
+                    }
+                }
+            }
+
+            // ================================================
+            // CRÉATION D'UN COMPTE JOUEUR
+            // ================================================
+            PacketType::AccountCreate => {
+                let user_id = match client.user_id() {
+                    Some(id) => id.to_string(),
+                    None => {
+                        return HandlerResult::Response(Packet::new(
+                            PacketType::AccountResult,
+                            br#"{"ok":false,"message":"Utilisateur non authentifie"}"#.to_vec(),
+                        ));
+                    }
+                };
+
+                let account_name = match std::str::from_utf8(&packet.payload) {
+                    Ok(name) => name,
+                    Err(_) => {
+                        return HandlerResult::Response(Packet::new(
+                            PacketType::AccountResult,
+                            br#"{"ok":false,"message":"Nom de compte invalide"}"#.to_vec(),
+                        ));
+                    }
+                };
+
+                let manager = AccountManager::new(pool.clone());
+
+                match manager.create_account(&user_id, account_name).await {
+                    Ok(account) => {
+                        let payload = serde_json::json!({
+                            "ok": true,
+                            "message": "Compte créé",
+                            "account": account
+                        });
+
+                        HandlerResult::Response(Packet::new(
+                            PacketType::AccountResult,
+                            serde_json::to_vec(&payload).unwrap_or_default(),
+                        ))
+                    }
+                    Err(message) => {
+                        let payload = serde_json::json!({
+                            "ok": false,
+                            "message": message
+                        });
+
+                        HandlerResult::Response(Packet::new(
+                            PacketType::AccountResult,
+                            serde_json::to_vec(&payload).unwrap_or_default(),
+                        ))
+                    }
+                }
+            }
+
+            // ================================================
+            // SÉLECTION D'UN COMPTE
+            // ================================================
+            PacketType::AccountSelect => {
+                if packet.payload.len() != 8 {
+                    return HandlerResult::Response(Packet::new(
+                        PacketType::AccountResult,
+                        br#"{"ok":false,"message":"Identifiant invalide"}"#.to_vec(),
+                    ));
+                }
+
+                let account_id = i64::from_be_bytes(
+                    packet.payload[..8].try_into().unwrap()
+                );
+
+                if account_id <= 0 {
+                    return HandlerResult::Response(Packet::new(
+                        PacketType::AccountResult,
+                        br#"{"ok":false,"message":"Identifiant invalide"}"#.to_vec(),
+                    ));
+                }
+
+                let user_id = match client.user_id() {
+                    Some(id) => id.to_string(),
+                    None => {
+                        return HandlerResult::Response(Packet::new(
+                            PacketType::AccountResult,
+                            br#"{"ok":false,"message":"Utilisateur non authentifie"}"#.to_vec(),
+                        ));
+                    }
+                };
+
+                let manager = AccountManager::new(pool.clone());
+
+                match manager.account_belongs_to_user(account_id, &user_id).await {
+                    Ok(true) => {
+                        client.set_account_id(Some(account_id));
+
+                        let payload = serde_json::json!({
+                            "ok": true,
+                            "message": "Compte sélectionné",
+                            "account_id": account_id
+                        });
+
+                        HandlerResult::Response(Packet::new(
+                            PacketType::AccountResult,
+                            serde_json::to_vec(&payload).unwrap_or_default(),
+                        ))
+                    }
+                    Ok(false) => {
+                        HandlerResult::Response(Packet::new(
+                            PacketType::AccountResult,
+                            r#"{"ok":false,"message":"Compte introuvable ou non autorisé"}"#.as_bytes().to_vec(),
+                        ))
+                    }
+                    Err(e) => {
+                        error!("Erreur de vérification du compte : {}", e);
+
+                        HandlerResult::Response(Packet::new(
+                            PacketType::AccountResult,
+                            br#"{"ok":false,"message":"Erreur serveur"}"#.to_vec(),
+                        ))
+                    }
+                }
+            }
+
             PacketType::MarketSell => {
 
     if packet.payload.len() != 24 {
@@ -1794,7 +1876,9 @@ PacketType::MarketBuy => {
             | PacketType::SignUpResponse 
             | PacketType::PlayerState 
             | PacketType::PlayerRemove
-             | PacketType::Session => {
+            | PacketType::Session
+            | PacketType::AccountListResponse
+            | PacketType::AccountResult => {
 
                 error!(
                     "Réponse reçue du client alors qu'elle doit être envoyée par le serveur : {:?}",
@@ -1803,6 +1887,7 @@ PacketType::MarketBuy => {
 
                 HandlerResult::Nothing
             }
+            
         }
     }
 }

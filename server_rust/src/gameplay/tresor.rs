@@ -2,12 +2,13 @@ use rand::{Rng,RngExt};
 use sqlx::SqlitePool;
 use std::collections::HashMap;
 use crate::gameplay::dice::jet_de_des;
-use log::{debug, error, info};
+use log::error;
 
 const PA: u32 = 1;
 const PO: u32 = PA * 10;
+#[allow(dead_code)]
 const PP: u32 = PO * 10;
-
+#[allow(dead_code)]
 #[derive(Debug, Clone)]
 pub struct Loot {
     pub commun: u32,
@@ -19,7 +20,7 @@ pub struct Loot {
     pub admin: u32,
     pub militaire: u32,
 }
-
+#[allow(dead_code)]
 #[derive(Debug, Clone)]
 pub struct Tresor {
     
@@ -40,7 +41,7 @@ pub struct Tresor {
     
     pub coeff_loot: f64,
 }
-
+#[allow(dead_code)]
 impl Tresor {
     pub fn new() -> Self {
         let mut rng = rand::rng();

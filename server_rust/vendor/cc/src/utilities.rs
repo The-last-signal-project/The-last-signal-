@@ -1,6 +1,7 @@
 use std::{
+    borrow::Borrow,
     cell::UnsafeCell,
-    ffi::{OsStr, OsString},
+    ffi::OsStr,
     fmt::{self, Write},
     hash::Hasher,
     marker::PhantomData,
@@ -11,9 +12,71 @@ use std::{
 };
 
 #[cfg(feature = "parallel")]
-use std::cell::Cell;
+use std::{cell::Cell, ffi::OsString};
 
-use crate::{Error, ErrorKind};
+/// The value of `key` in `table`, a list of keys and values.
+pub(crate) fn lookup(table: &[(&str, &'static str)], key: &str) -> Option<&'static str> {
+    // A plain loop, as iterator adapters take more code.
+    for (k, v) in table {
+        if *k == key {
+            return Some(v);
+        }
+    }
+    None
+}
+
+/// A map for the few entries of a cache, looked up by going through them.
+///
+/// Unlike `HashMap` and `BTreeMap`, which are generated anew for every type of
+/// entry, this takes little code, and for a few entries it is just as fast.
+#[derive(Debug)]
+pub(crate) struct VecMap<K, V>(Vec<(K, V)>);
+
+impl<K, V> Default for VecMap<K, V> {
+    fn default() -> Self {
+        Self(Vec::new())
+    }
+}
+
+impl<K, V> VecMap<K, V> {
+    pub(crate) fn get<Q>(&self, key: &Q) -> Option<&V>
+    where
+        K: Borrow<Q>,
+        Q: PartialEq + ?Sized,
+    {
+        // A plain loop, as iterator adapters take more code.
+        for (k, v) in &self.0 {
+            if k.borrow() == key {
+                return Some(v);
+            }
+        }
+        None
+    }
+
+    pub(crate) fn get_mut<Q>(&mut self, key: &Q) -> Option<&mut V>
+    where
+        K: Borrow<Q>,
+        Q: PartialEq + ?Sized,
+    {
+        for (k, v) in &mut self.0 {
+            if (*k).borrow() == key {
+                return Some(v);
+            }
+        }
+        None
+    }
+
+    /// Replaces the value of `key`, if there is one already.
+    pub(crate) fn insert(&mut self, key: K, value: V)
+    where
+        K: PartialEq,
+    {
+        match self.get_mut(&key) {
+            Some(v) => *v = value,
+            None => self.0.push((key, value)),
+        }
+    }
+}
 
 pub(super) struct JoinOsStrs<'a, T> {
     pub(super) slice: &'a [T],
@@ -27,7 +90,7 @@ where
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         let len = self.slice.len();
         for (index, os_str) in self.slice.iter().enumerate() {
-            // TODO: Use OsStr::display once it is stablised,
+            // TODO: Use OsStr::display once it is stabilised,
             // Path and OsStr has the same `Display` impl
             write!(f, "{}", Path::new(os_str).display())?;
             if index + 1 < len {
@@ -45,7 +108,7 @@ where
     T: AsRef<OsStr>,
 {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        // TODO: Use OsStr::display once it is stablised
+        // TODO: Use OsStr::display once it is stabilised
         // Path and OsStr has the same `Display` impl
         if let Some(os_str) = self.0.as_ref() {
             write!(f, "Some({})", Path::new(os_str).display())
@@ -53,6 +116,27 @@ where
             f.write_str("None")
         }
     }
+}
+
+/// A [`Display`](fmt::Display) that formats by calling `f`, like
+/// `std::fmt::from_fn`, which needs Rust 1.93.
+#[cfg(feature = "compile-commands")]
+pub(crate) fn from_fn<F>(f: F) -> impl fmt::Display
+where
+    F: Fn(&mut fmt::Formatter<'_>) -> fmt::Result,
+{
+    struct FromFn<F>(F);
+
+    impl<F> fmt::Display for FromFn<F>
+    where
+        F: Fn(&mut fmt::Formatter<'_>) -> fmt::Result,
+    {
+        fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+            (self.0)(f)
+        }
+    }
+
+    FromFn(f)
 }
 
 pub(crate) struct OnceLock<T> {
@@ -151,32 +235,18 @@ impl<T> Drop for OnceLock<T> {
     }
 }
 
-/// Access an environment variable that's set by Cargo.
+/// Access an environment variable that's set by Cargo, in the process
+/// environment.
 ///
 /// <https://doc.rust-lang.org/cargo/reference/environment-variables.html#environment-variables-cargo-sets-for-build-scripts>
 ///
-/// Cargo doesn't need to be told about these with `rerun-if-env-changed`, and
-/// that we don't want to allow overwriting them with `Build::env`.
+/// Only for state shared by the whole process, such as the jobserver. A
+/// `Build` reads these variables from its snapshot instead, with
+/// `Build::get_cargo_env`.
+#[cfg(feature = "parallel")]
 #[allow(clippy::disallowed_methods)] // Cargo env, no need for cache busting.
 pub(crate) fn cargo_env_var_os(key: &str) -> Option<OsString> {
     std::env::var_os(key)
-}
-
-pub(crate) fn cargo_env_var(key: &str) -> Result<String, Error> {
-    if let Some(value) = cargo_env_var_os(key) {
-        match value.into_string() {
-            Ok(value) => Ok(value),
-            Err(value) => Err(Error::new(
-                ErrorKind::EnvVarNotFound,
-                format!("environment variable {key} is not valid utf-8: {value:?}"),
-            )),
-        }
-    } else {
-        Err(Error::new(
-            ErrorKind::EnvVarNotFound,
-            format!("environment variable {key} not defined"),
-        ))
-    }
 }
 
 /// `contains`, `starts_with` and `ends_with` that ignore ASCII case, like
@@ -247,6 +317,12 @@ where
 #[cfg(feature = "parallel")]
 pub(crate) fn cell_push<T>(cell: &Cell<Vec<T>>, element: T) {
     cell_modify(cell, |vec| vec.push(element));
+}
+
+/// The value of `key` in `table`, a list of keys and values sorted by key.
+pub(crate) fn lookup_sorted(table: &[(&str, &'static str)], key: &str) -> Option<&'static str> {
+    let i = table.binary_search_by_key(&key, |&(k, _)| k).ok()?;
+    Some(table[i].1)
 }
 
 #[cfg(test)]

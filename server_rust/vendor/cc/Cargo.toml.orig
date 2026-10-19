@@ -1,6 +1,6 @@
 [package]
 name = "cc"
-version = "1.8.0"
+version = "1.9.0"
 edition.workspace = true
 rust-version.workspace = true
 description = """
@@ -18,11 +18,15 @@ categories.workspace = true
 # The binary target is only used by tests.
 exclude = ["/.github", "src/bin", "tests"]
 
+[package.metadata.docs.rs]
+all-features = true
+
 [workspace]
 members = [
     "dev-tools/cc-test",
     "dev-tools/gen-target-info",
     "dev-tools/gen-windows-sys-binding",
+    "dev-tools/sanitizer-test",
     "dev-tools/wasi-test",
     "find-msvc-tools",
 ]
@@ -48,7 +52,7 @@ missing_docs = "warn"
 unexpected_cfgs = { level = "allow", check-cfg = ["cfg(disable_clang_cl_tests)"] }
 
 [dependencies]
-find-msvc-tools = { path = "find-msvc-tools", version = "0.1.14" }
+find-msvc-tools = { path = "find-msvc-tools", version = "0.1.15" }
 jobserver = { version = "0.1.32", default-features = false, optional = true }
 shlex = "2.0.1"
 
@@ -61,6 +65,9 @@ tempfile = "3.0.4"
 libc = { version = "0.2.168", default-features = false, optional = true }
 
 [features]
+# Collect the compile commands into a `compile_commands.json`, see the
+# `compile_commands` module.
+compile-commands = []
 # This is a placeholder feature for people who incorrectly used `cc` with `features = ["jobserver"]`
 # so that they aren't broken. This has never enabled `parallel`, so we won't do that.
 jobserver = []

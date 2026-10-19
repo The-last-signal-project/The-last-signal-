@@ -4,7 +4,7 @@ from unittest.mock import MagicMock, call, patch
 
 import pytest
 
-from client_python.client import Client
+from client_python.client import Client, MAX_PACKET_SIZE
 from client_python.packet import Packet, PacketType
 
 
@@ -802,20 +802,13 @@ class TestClientReceivePacket:
 
         assert exc_info.value.code == 1
 
-    @pytest.mark.xfail(
-        strict=True,
-        raises=AssertionError,
-        reason=(
-            "client lacks MAX_PACKET_SIZE (10 MB) header validation "
-            "before allocating body; see follow-up issue on max packet size"
-        ),
-    )
-    def test_receive_packet_oversized_header_rejected_before_allocating(self):
+    @patch("client_python.client.log")
+    def test_receive_packet_oversized_header_rejected_before_allocating(self, mock_log):
         """Oversized header (>10 MB) must be rejected before body recv."""
         client = Client()
         client.connected = True
 
-        oversized = 10 * 1024 * 1024 + 1
+        oversized = MAX_PACKET_SIZE + 1
         header = oversized.to_bytes(4, "big")
 
         calls = []
@@ -824,12 +817,8 @@ class TestClientReceivePacket:
             calls.append(n)
             if n == 4:
                 return header
-            # Valid PING packet body plus padding if n >= 2
             if n >= 2:
-                return (
-                    struct.pack("!H", int(PacketType.PING))
-                    + b"\x00" * (n - 2)
-                )
+                return struct.pack("!H", int(PacketType.PING))
             return b"\x00" * n
 
         with patch.object(
@@ -839,6 +828,27 @@ class TestClientReceivePacket:
         ):
             assert client.receive_packet() is None
             assert calls == [4]
+            assert client.connected is False
+        mock_log.assert_called_once()
+        assert mock_log.call_args.args[1] == "ERROR"
+
+    def test_receive_packet_accepts_maximum_declared_size(self):
+        client = Client()
+        client.connected = True
+        packet = MagicMock()
+        packet.packet_type = PacketType.PING
+        body = struct.pack("!H", int(PacketType.PING))
+
+        with patch.object(
+            client,
+            "_recv_exact",
+            side_effect=[MAX_PACKET_SIZE.to_bytes(4, "big"), body],
+        ) as mock_recv:
+            with patch("client_python.client.Packet.decode", return_value=packet):
+                assert client.receive_packet() is packet
+
+        assert [call.args[0] for call in mock_recv.call_args_list] == [4, MAX_PACKET_SIZE]
+        assert client.connected is True
 
     @patch("client_python.client.log")
     def test_receive_packet_zero_size_payload_fails_decode(self, mock_log):

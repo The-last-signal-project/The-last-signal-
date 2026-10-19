@@ -3,17 +3,11 @@ use the_last_signal_server::database::{
     migrations,
 };
 use log::info;
-use sqlx::Row;
-
 use the_last_signal_server::network::server::Server;
-use the_last_signal_server::gameplay::{
-    stuff_manager::Inventaire,
-    tresor::Tresor,
-};
-
 use the_last_signal_server::utils::logger::logger::ServerLogger;
-
+#[allow(dead_code)]
 const NOMBRE_REPETITIONS: u32 = 100;
+#[allow(dead_code)]
 const NOMBRE_CONFIGURATIONS: u32 = 12 * 2 * 2; // niveaux × admin × militaire
 
 
