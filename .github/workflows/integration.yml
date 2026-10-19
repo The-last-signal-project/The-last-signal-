@@ -225,7 +225,7 @@ jobs:
              
              echo "stash@{0} trouvé → application"
              git stash pop stash@{0} || true
-             git add -A
+             
              else
              echo "stash@{0} inexistant → aucune action"
              fi
@@ -233,12 +233,12 @@ jobs:
              if git diff --name-only --diff-filter=U | grep -q .; then
              echo "⚠️ Conflits détectés"
              git checkout --ours .
-             git add -u
+             git add -A
              echo "✅ Conflits résolus avec ours"
              else
              echo "✅ Aucun conflit"
              fi
-
+             git add -A
              git diff --cached --quiet || git commit -m "chore: update Cargo vendor"
              
              

@@ -12,6 +12,8 @@ permissions:
 jobs:
   generate:
     runs-on: ubuntu-latest
+    env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
       - name: Checkout repository
@@ -25,10 +27,6 @@ jobs:
         with:
           python-version: "3.14"
 
-      - name: Generate statistics card
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: python scripts/generate_stats.py
 
       - name: Save updated SVG
         run: |
@@ -37,6 +35,10 @@ jobs:
           git remote set-url origin \
             git@github.com:The-last-signal-project/The-last-signal-.git
           git remote -v
+          git rm -rf --ignore-unmatch stats
+          git commit -m "suppression"
+          mkdir -p stats
+          python scripts/generate_stats.py
           git add stats/repository-stats.svg
           git stash --staged
           git fetch origin main
@@ -45,18 +47,25 @@ jobs:
           then
           echo "stash@{0} trouvé → application"
           git stash pop stash@{0} || true
-          git add -A
+          
           else
           echo "stash@{0} inexistant → aucune action"
           fi
-          if git diff --name-only --diff-filter=U | grep -q .; then
+          if git diff --name-only --diff-filter=U -z | grep -q .; then
           echo "⚠️ Conflits détectés"
           git checkout --ours .
-          git add -u
+          git add -A
+          if git show origin/main:stats/repository-stats.svg \
+          | grep -nE '^(<<<<<<<|=======|>>>>>>>)';then
+          git checkout --ours .
+          git add -A
+          fi
           echo "✅ Conflits résolus avec ours"
           else
           echo "✅ Aucun conflit"
+          
           fi
+          git add -A
           git diff --cached --quiet || git commit -m "stats update"
              
           git push origin main --force-with-lease

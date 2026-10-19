@@ -19,6 +19,7 @@ These contributors have helped improve the project through code, documentation, 
 - <u> **OMD-123** </u>— Community and technical contributions
 - <u> **wingkuitsoi** </u> — Community and technical contributions
 - <u> **asxxb** </u> — Documentation and Japanese translation improvements
+- <u> **Dinesh Dhanoki** </u> – Testing, Networking tests
 
 ## Contribution areas
 

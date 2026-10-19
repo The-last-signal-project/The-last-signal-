@@ -34,6 +34,13 @@ jobs:
     env: 
       GH_TOKEN: ${{ github.token }}
       VAULT_KEY: ${{ secrets.VAULT_KEY }}
+      DEPLOY_KEY: >-
+       ${{
+       (github.event_name == 'schedule' ||
+       github.event_name == 'workflow_dispatch') &&
+       secrets.CI_SYNC_DEPLOY_KEY ||
+       secrets.DEPLOY_KEY
+       }}
       DATABASE_PATH: ${{ github.workspace }}/database
       DATABASE_URL: sqlite:${{ github.workspace }}/database/the_last_signal.db
       
@@ -53,7 +60,7 @@ jobs:
               fetch-depth: 0
               token: ${{ secrets.GITHUB_TOKEN }}
               persist-credentials: true
-              ssh-key: ${{ secrets.DEPLOY_KEY }}
+              ssh-key: ${{ env.DEPLOY_KEY }}
       ##########################################################
       # Python
       ##########################################################
@@ -91,16 +98,16 @@ jobs:
       - name: Install Rust tools
         run: |
           cargo binstall cargo-audit cargo-deny cargo-outdated -y
-      
+      - name: Install Gitleaks
+        run: |
+          VERSION=8.30.0
+          curl -sSfL "https://github.com/gitleaks/gitleaks/releases/download/v${VERSION}/gitleaks_${VERSION}_linux_x64.tar.gz" | tar -xz gitleaks
+          sudo mv gitleaks /usr/local/bin/
+          gitleaks version
           
 
-      ##########################################################
-      # Gitleaks
-      ##########################################################
 
-      - name: Gitleaks
-        continue-on-error: true
-        uses: gitleaks/gitleaks-action@v3
+      
 
       ##########################################################
       # Rapport
@@ -169,7 +176,9 @@ jobs:
              cargo check
              git config user.name github-actions
              git config user.email github-actions@github.com
-             
+             git remote set-url origin \
+             git@github.com:The-last-signal-project/The-last-signal-.git
+             git remote -v
              git add vendor Cargo.lock "../$REPORT" .cargo/config.toml
              git stash --staged
              git fetch origin main
@@ -179,19 +188,19 @@ jobs:
              
              echo "stash@{0} trouvé → application"
              git stash pop stash@{0} || true
-             git add -A
+             
              else
              echo "stash@{0} inexistant → aucune action"
              fi
              if git diff --name-only --diff-filter=U | grep -q .; then
              echo "⚠️ Conflits détectés"
              git checkout --ours .
-             git add -u
+             git add -A
              echo "✅ Conflits résolus avec ours"
              else
              echo "✅ Aucun conflit"
              fi
-
+             git add -A
              git diff --cached --quiet || git commit -m "chore: update Cargo vendor"
              
              
@@ -612,7 +621,7 @@ jobs:
 
           gitleaks detect \
             --source . \
-            --verbose >> "$REPORT" 2>&1
+            --verbose --redact >> "$REPORT" 2>&1
 
       ##########################################################
       # Python Licenses
@@ -1548,6 +1557,16 @@ jobs:
       )
      }}
     uses: ./.github/workflows/sync-ci.yml
+    
+    secrets:
+       
+      DEPLOY_KEY: >-
+       ${{
+       (github.event_name == 'schedule' ||
+       github.event_name == 'workflow_dispatch') &&
+       secrets.CI_SYNC_DEPLOY_KEY ||
+       secrets.DEPLOY_KEY
+       }}
 
   cancel-security:
     needs:
