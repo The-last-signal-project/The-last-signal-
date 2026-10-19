@@ -5,6 +5,9 @@ from .packet import Packet,PacketType
 from .packets.Deco import decoPacket
 from .logs import log
 import time
+
+MAX_PACKET_SIZE = 10 * 1024 * 1024
+
 class Client:
     """
     Client réseau de The Last Signal.
@@ -121,6 +124,10 @@ class Client:
                             header,
                             "big"
                             )
+                if size > MAX_PACKET_SIZE:
+                    self.connected = False
+                    log(self, "ERROR", f"Paquet trop volumineux : {size} octets")
+                    return None
                 data = self._recv_exact(size)
                 if data is None:
                     return None
