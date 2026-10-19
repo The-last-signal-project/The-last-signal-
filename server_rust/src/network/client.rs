@@ -103,16 +103,11 @@ if let Err(e) = send_packet(
     &session_packet,
 ).await {
     error!(
-        "Impossible d'envoyer le paquet SESSION: {}",
-        
+        "Impossible d'envoyer le paquet SESSION [{}] : {}",
+        self.session_id,
         e
     );
-    self.world
-    .remove_player(self.session_id)
-    .await;
 
-self.world
-    .broadcast_player_remove(self.session_id);
     self.disconnect().await;
     return;
 }
@@ -142,19 +137,18 @@ for (player_id, position) in snapshot {
     );
 
     if let Err(e) = send_packet(
-        &mut self.stream,
-        &packet,
-    ).await {
-        error!(
-            "[{}] Erreur lors de l'envoi du snapshot \
-             du joueur : {}",
-            
-            player_id,
-            e
-        );
+    &mut self.stream,
+    &packet,
+).await {
+    error!(
+        "[{}] Erreur lors de l'envoi du snapshot : {}",
+        player_id,
+        e
+    );
 
-        return;
-    }
+    self.disconnect().await;
+    return;
+}
 }
 
 self.world.set_position(
@@ -258,7 +252,6 @@ self.world.broadcast_player_state(
 
     HandlerResult::Disconnect => {
 
-        self.disconnect().await;
 
         break;
     }
@@ -276,10 +269,7 @@ self.world.broadcast_player_state(
                         // ---------------------------------------------
 
                         Err(e) => {
-                            self.world.remove_player(self.session_id).await;
-
-self.world
-    .broadcast_player_remove(self.session_id);
+                            
                             debug!(
                                 "Déconnexion du client [{}] : {}",
                                 self.session_id,
@@ -377,15 +367,7 @@ self.world
                             // -----------------------------------------
                             // Déconnexion
                             // -----------------------------------------
-                            self.world
-    .remove_player(self.session_id)
-    .await;
-
-self.world
-    .broadcast_player_remove(self.session_id);
-
-                            self.disconnect().await;
-
+                            
                             break;
                         }
 
@@ -471,20 +453,18 @@ self.world
         // ========================================================
         // FIN DE SESSION
         // ========================================================
-        self.world
-    .remove_player(self.session_id)
-    .await;
-
-self.world
-    .broadcast_player_remove(self.session_id);
-        self.mark_disconnected().await;
 
 
-        info!(
-            "Fin de session : {}",
-            self.session_id
-        );
-    }
+self.disconnect().await;
+
+info!(
+    "Fin de session : {}",
+    self.session_id
+);
+}
+
+        
+    
 
 
     // ============================================================
@@ -743,41 +723,33 @@ async fn mark_disconnected(&self) {
     }
 
 
+      // ============================================================
+    // NETTOYAGE DE LA SESSION
+    // ============================================================
+
+    async fn cleanup_session(&mut self) {
+        self.world.remove_player(self.session_id).await;
+        self.world.broadcast_player_remove(self.session_id);
+
+        self.mark_disconnected().await;
+
+        if let Err(e) = self.stream.shutdown().await {
+            error!(
+                "Erreur lors de la fermeture du socket [{}] : {}",
+                self.session_id,
+                e
+            );
+        } else {
+            info!("Client déconnecté [{}]", self.session_id);
+        }
+    }
+
     // ============================================================
     // DÉCONNEXION
     // ============================================================
 
-    pub async fn disconnect(
-        &mut self,
-    ) {
-
-        // --------------------------------------------------------
-        // Mettre le compte hors ligne AVANT de fermer le socket
-        // --------------------------------------------------------
-
-        self.mark_disconnected().await;
-
-
-        // --------------------------------------------------------
-        // Fermeture du socket
-        // --------------------------------------------------------
-
-        if let Err(e) =
-            self.stream.shutdown().await
-        {
-
-            error!(
-                "Erreur lors de la déconnexion : {}",
-                
-                e
-            );
-        }
-        else {
-
-            info!(
-                "Client déconnecté",
-                
-            );
-        }
+    pub async fn disconnect(&mut self) {
+        self.cleanup_session().await;
     }
 }
+
