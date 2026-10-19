@@ -1,14 +1,14 @@
 # Documentation Problems
 
-Generated: 2026-10-19 09:17:42
+Generated: 2026-10-19 13:11:53
 
 ## Summary
 
 |Type|Count|
 |---|---:|
 |Errors|473|
-|Warnings|7925|
-|**Total**|**8403**|
+|Warnings|7937|
+|**Total**|**8415**|
 
 ---
 
@@ -3835,6 +3835,38 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ---
 
+# /home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/auth/account_manager.rs
+
+## Warning
+
+- **Module :** rust
+- **Message :** Struct 'AccountSummary' sans documentation
+- **line :** 9
+- **suggestion :** Ajoutez /// avant cette struct
+
+## Warning
+
+- **Module :** rust
+- **Message :** Struct 'AccountManager' sans documentation
+- **line :** 16
+- **suggestion :** Ajoutez /// avant cette struct
+
+## Warning
+
+- **Module :** rust
+- **Message :** Impl 'AccountManager ' sans documentation
+- **line :** 20
+- **suggestion :** Ajoutez /// avant cette impl
+
+## Warning
+
+- **Module :** rust
+- **Message :** Function 'new' sans documentation
+- **line :** 21
+- **suggestion :** Ajoutez /// avant cette function
+
+---
+
 # /home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/auth/mod.rs
 
 ## Warning
@@ -3843,6 +3875,59 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Message :** Mod 'password' sans documentation
 - **line :** 1
 - **suggestion :** Ajoutez /// avant cette mod
+
+## Warning
+
+- **Module :** rust
+- **Message :** Mod 'account_manager' sans documentation
+- **line :** 2
+- **suggestion :** Ajoutez /// avant cette mod
+
+## Warning
+
+- **Module :** rust
+- **Message :** Mod 'user_manager' sans documentation
+- **line :** 3
+- **suggestion :** Ajoutez /// avant cette mod
+
+---
+
+# /home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/auth/user_manager.rs
+
+## Warning
+
+- **Module :** rust
+- **Message :** Struct 'UserSummary' sans documentation
+- **line :** 9
+- **suggestion :** Ajoutez /// avant cette struct
+
+## Warning
+
+- **Module :** rust
+- **Message :** Struct 'UserCredentials' sans documentation
+- **line :** 20
+- **suggestion :** Ajoutez /// avant cette struct
+
+## Warning
+
+- **Module :** rust
+- **Message :** Struct 'UserManager' sans documentation
+- **line :** 26
+- **suggestion :** Ajoutez /// avant cette struct
+
+## Warning
+
+- **Module :** rust
+- **Message :** Impl 'UserManager ' sans documentation
+- **line :** 30
+- **suggestion :** Ajoutez /// avant cette impl
+
+## Warning
+
+- **Module :** rust
+- **Message :** Function 'new' sans documentation
+- **line :** 31
+- **suggestion :** Ajoutez /// avant cette function
 
 ---
 
@@ -4678,56 +4763,56 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 - **Module :** rust
 - **Message :** Struct 'Loot' sans documentation
-- **line :** 12
+- **line :** 13
 - **suggestion :** Ajoutez /// avant cette struct
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Struct 'Tresor' sans documentation
-- **line :** 24
+- **line :** 25
 - **suggestion :** Ajoutez /// avant cette struct
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Impl 'Tresor ' sans documentation
-- **line :** 44
+- **line :** 45
 - **suggestion :** Ajoutez /// avant cette impl
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'new' sans documentation
-- **line :** 45
+- **line :** 46
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'ouvrir' sans documentation
-- **line :** 695
+- **line :** 696
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'tirer_pondere' sans documentation
-- **line :** 889
+- **line :** 890
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'tirer_objet' sans documentation
-- **line :** 915
+- **line :** 916
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'tirer_livre' sans documentation
-- **line :** 1296
+- **line :** 1297
 - **suggestion :** Ajoutez /// avant cette function
 
 ---
@@ -4844,21 +4929,21 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 - **Module :** rust
 - **Message :** Function 'main' sans documentation
-- **line :** 22
+- **line :** 23
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Mod 'tests' sans documentation
-- **line :** 50
+- **line :** 51
 - **suggestion :** Ajoutez /// avant cette mod
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'test_tresor' sans documentation
-- **line :** 55
+- **line :** 56
 - **suggestion :** Ajoutez /// avant cette function
 
 ---
@@ -4869,105 +4954,112 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 - **Module :** rust
 - **Message :** Struct 'Client' sans documentation
-- **line :** 29
+- **line :** 30
 - **suggestion :** Ajoutez /// avant cette struct
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Impl 'Client ' sans documentation
-- **line :** 46
+- **line :** 47
 - **suggestion :** Ajoutez /// avant cette impl
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'new' sans documentation
-- **line :** 52
+- **line :** 53
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'run' sans documentation
-- **line :** 79
+- **line :** 80
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'get_ban_info' sans documentation
-- **line :** 493
+- **line :** 474
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'encode_ban_payload' sans documentation
-- **line :** 600
+- **line :** 581
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'mark_disconnected' sans documentation
-- **line :** 622
+- **line :** 607
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'set_user_id' sans documentation
-- **line :** 675
+- **line :** 648
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'user_id' sans documentation
-- **line :** 688
+- **line :** 661
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'set_client_id' sans documentation
-- **line :** 701
+- **line :** 674
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'client_id' sans documentation
-- **line :** 714
+- **line :** 687
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'session_id' sans documentation
-- **line :** 720
+- **line :** 693
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'set_account_id' sans documentation
-- **line :** 732
+- **line :** 705
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'account_id' sans documentation
-- **line :** 745
+- **line :** 718
+- **suggestion :** Ajoutez /// avant cette function
+
+## Warning
+
+- **Module :** rust
+- **Message :** Function 'cleanup_session' sans documentation
+- **line :** 730
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'disconnect' sans documentation
-- **line :** 757
+- **line :** 751
 - **suggestion :** Ajoutez /// avant cette function
 
 ---
@@ -4978,56 +5070,56 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 - **Module :** rust
 - **Message :** Struct 'User' sans documentation
-- **line :** 40
+- **line :** 37
 - **suggestion :** Ajoutez /// avant cette struct
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Struct 'LoginData' sans documentation
-- **line :** 46
+- **line :** 43
 - **suggestion :** Ajoutez /// avant cette struct
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Enum 'HandlerResult' sans documentation
-- **line :** 53
+- **line :** 50
 - **suggestion :** Ajoutez /// avant cette enum
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Struct 'PacketHandler' sans documentation
-- **line :** 58
+- **line :** 56
 - **suggestion :** Ajoutez /// avant cette struct
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Impl 'PacketHandler ' sans documentation
-- **line :** 65
+- **line :** 63
 - **suggestion :** Ajoutez /// avant cette impl
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'read_i64' sans documentation
-- **line :** 66
+- **line :** 64
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'read_u64' sans documentation
-- **line :** 82
+- **line :** 80
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'handle' sans documentation
-- **line :** 97
+- **line :** 95
 - **suggestion :** Ajoutez /// avant cette function
 
 ---
@@ -5084,308 +5176,308 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 - **Module :** rust
 - **Message :** Enum 'BanType' sans documentation
-- **line :** 33
+- **line :** 38
 - **suggestion :** Ajoutez /// avant cette enum
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Struct 'BanInfo' sans documentation
-- **line :** 37
+- **line :** 42
 - **suggestion :** Ajoutez /// avant cette struct
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Enum 'LogLevel' sans documentation
-- **line :** 44
+- **line :** 49
 - **suggestion :** Ajoutez /// avant cette enum
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Struct 'ClientLog' sans documentation
-- **line :** 53
+- **line :** 58
 - **suggestion :** Ajoutez /// avant cette struct
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Impl 'PacketType ' sans documentation
-- **line :** 60
+- **line :** 65
 - **suggestion :** Ajoutez /// avant cette impl
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'from_u16' sans documentation
-- **line :** 61
+- **line :** 66
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Struct 'Packet' sans documentation
-- **line :** 88
+- **line :** 98
 - **suggestion :** Ajoutez /// avant cette struct
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Impl 'Packet ' sans documentation
-- **line :** 93
+- **line :** 103
 - **suggestion :** Ajoutez /// avant cette impl
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'new' sans documentation
-- **line :** 94
+- **line :** 104
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'encode_ban' sans documentation
-- **line :** 125
+- **line :** 135
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Mod 'tests' sans documentation
-- **line :** 199
+- **line :** 209
 - **suggestion :** Ajoutez /// avant cette mod
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'create_tcp_pair' sans documentation
-- **line :** 205
+- **line :** 215
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'test_packet_type_from_u16_all_valid' sans documentation
-- **line :** 222
+- **line :** 232
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'test_packet_type_from_u16_invalid_values' sans documentation
-- **line :** 243
+- **line :** 253
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'test_encode_ban_temporary' sans documentation
-- **line :** 252
-- **suggestion :** Ajoutez /// avant cette function
-
-## Warning
-
-- **Module :** rust
-- **Message :** Function 'test_encode_ban_permanent' sans documentation
 - **line :** 262
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
+- **Message :** Function 'test_encode_ban_permanent' sans documentation
+- **line :** 272
+- **suggestion :** Ajoutez /// avant cette function
+
+## Warning
+
+- **Module :** rust
 - **Message :** Function 'test_receive_packet_size_zero_fails' sans documentation
-- **line :** 268
+- **line :** 278
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'test_receive_packet_size_one_fails' sans documentation
-- **line :** 284
+- **line :** 294
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'test_receive_packet_exceeds_max_size' sans documentation
-- **line :** 300
+- **line :** 310
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'test_receive_packet_unknown_packet_type' sans documentation
-- **line :** 316
+- **line :** 326
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'test_receive_packet_truncated_header' sans documentation
-- **line :** 334
+- **line :** 344
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'test_receive_packet_truncated_payload' sans documentation
-- **line :** 350
+- **line :** 360
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'test_send_packet_exceeds_max_size' sans documentation
-- **line :** 370
+- **line :** 380
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'test_send_and_receive_roundtrip' sans documentation
-- **line :** 384
+- **line :** 394
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'test_packet_parse_body_too_short' sans documentation
-- **line :** 403
+- **line :** 413
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'test_packet_parse_body_unknown_type' sans documentation
-- **line :** 414
+- **line :** 424
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'test_packet_parse_body_empty_payload' sans documentation
-- **line :** 421
+- **line :** 431
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'test_packet_parse_body_with_payload' sans documentation
-- **line :** 430
+- **line :** 440
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'test_packet_new_empty_payload' sans documentation
-- **line :** 439
-- **suggestion :** Ajoutez /// avant cette function
-
-## Warning
-
-- **Module :** rust
-- **Message :** Function 'test_packet_new_non_empty_payload' sans documentation
 - **line :** 449
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
+- **Message :** Function 'test_packet_new_non_empty_payload' sans documentation
+- **line :** 459
+- **suggestion :** Ajoutez /// avant cette function
+
+## Warning
+
+- **Module :** rust
 - **Message :** Function 'test_packet_clone' sans documentation
-- **line :** 457
+- **line :** 467
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'test_parse_body_all_supported_packet_types_protocol_lock' sans documentation
-- **line :** 469
+- **line :** 479
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'test_parse_body_unknown_type_boundary_cases' sans documentation
-- **line :** 506
+- **line :** 516
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'test_parse_body_realistic_move_payload' sans documentation
-- **line :** 521
+- **line :** 531
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'test_parse_body_realistic_session_payload' sans documentation
-- **line :** 539
+- **line :** 549
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'test_parse_body_realistic_player_state_payload' sans documentation
-- **line :** 551
+- **line :** 561
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'test_send_packet_wire_format_inspection' sans documentation
-- **line :** 567
+- **line :** 577
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'test_send_and_receive_empty_payload_roundtrip' sans documentation
-- **line :** 613
+- **line :** 623
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'test_send_and_receive_exact_max_allowed_boundary' sans documentation
-- **line :** 631
+- **line :** 641
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'test_receive_packet_oversized_header_rejected_without_waiting' sans documentation
-- **line :** 662
+- **line :** 672
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'test_encode_ban_none_vs_empty_expiration' sans documentation
-- **line :** 684
+- **line :** 694
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'test_encode_ban_empty_reason' sans documentation
-- **line :** 695
+- **line :** 705
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'test_encode_ban_multibyte_utf8' sans documentation
-- **line :** 701
+- **line :** 711
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'test_encode_ban_reason_with_nul_documents_delimiter_collision' sans documentation
-- **line :** 708
+- **line :** 718
 - **suggestion :** Ajoutez /// avant cette function
 
 ---

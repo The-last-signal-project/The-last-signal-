@@ -3,6 +3,13 @@ use the_last_signal_server::database::{
     migrations,
 };
 use log::info;
+#[allow(dead_code)]
+use sqlx::Row;
+#[allow(dead_code)]
+use the_last_signal_server::gameplay::{
+    stuff_manager::Inventaire,
+    tresor::Tresor,
+};
 use the_last_signal_server::network::server::Server;
 use the_last_signal_server::utils::logger::logger::ServerLogger;
 #[allow(dead_code)]
