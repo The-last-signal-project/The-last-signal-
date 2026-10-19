@@ -1,5 +1,5 @@
 {
-    "generated": "2026-10-19T11:42:00.219704",
+    "generated": "2026-10-19T13:11:52.255507",
     "score": 64,
     "status": "Bon",
     "scores": {
@@ -48542,7 +48542,7 @@
             "problems": [
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/main.rs",
-                    "line": 16,
+                    "line": 23,
                     "severity": "warning",
                     "message": "Function 'main' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -48550,7 +48550,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/main.rs",
-                    "line": 44,
+                    "line": 51,
                     "severity": "warning",
                     "message": "Mod 'tests' sans documentation",
                     "suggestion": "Ajoutez /// avant cette mod",
@@ -48558,7 +48558,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/main.rs",
-                    "line": 49,
+                    "line": 56,
                     "severity": "warning",
                     "message": "Function 'test_tresor' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
