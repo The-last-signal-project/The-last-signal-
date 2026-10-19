@@ -179,4 +179,31 @@ impl UserManager {
 
         Ok(result.rows_affected() > 0)
     }
+    
+    /// Vérifie si un utilisateur est déjà connecté.
+    pub async fn is_connected(
+        &self,
+        user_id: &str,
+    ) -> Result<bool, String> {
+        let connected = sqlx::query_scalar::<_, i64>(
+            r#"
+            SELECT EXISTS(
+                SELECT 1
+                FROM users
+                WHERE user_id = ?
+                  AND status = 'CONNECTED'
+            )
+            "#,
+        )
+        .bind(user_id)
+        .fetch_one(&self.pool)
+        .await
+        .map_err(|e| {
+            format!(
+                "Erreur lors de la vérification du statut utilisateur : {e}"
+            )
+        })?;
+
+        Ok(connected != 0)
+    }
 }
