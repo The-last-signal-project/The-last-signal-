@@ -1,9 +1,9 @@
 # 🐍 Python CI Report
 
-Run : 2692
+Run : 689
 Branch : main
-Commit : 51e0c532c3844d9472d5c42c5f9bdc9454d2b62c
-Date : Sun Oct 18 15:57:49 UTC 2026
+Commit : c0ddd544d6d73a77ac42feb53ddb0cfd5011cbed
+Date : Tue Oct 20 01:01:34 UTC 2026
 
 ---
 
@@ -25,8 +25,8 @@ Date : Sun Oct 18 15:57:49 UTC 2026
 /home/runner/work/The-last-signal-/The-last-signal-/client_python/client.py
 /home/runner/work/The-last-signal-/The-last-signal-/client_python/game_launcher.py
 /home/runner/work/The-last-signal-/The-last-signal-/client_python/logs.py
-/home/runner/work/The-last-signal-/The-last-signal-/.github/security/test_web_security.py
 /home/runner/work/The-last-signal-/The-last-signal-/client_python/main.py
+/home/runner/work/The-last-signal-/The-last-signal-/.github/security/test_web_security.py
 /home/runner/work/The-last-signal-/The-last-signal-/client_python/packet.py
 /home/runner/work/The-last-signal-/The-last-signal-/client_python/packets/Deco.py
 /home/runner/work/The-last-signal-/The-last-signal-/client_python/packets/ban.py
@@ -36,8 +36,8 @@ Date : Sun Oct 18 15:57:49 UTC 2026
 /home/runner/work/The-last-signal-/The-last-signal-/client_python/packets/move.py
 /home/runner/work/The-last-signal-/The-last-signal-/client_python/packets/ping.py
 /home/runner/work/The-last-signal-/The-last-signal-/client_python/packets/player_remove.py
-/home/runner/work/The-last-signal-/The-last-signal-/client_python/game.py
 /home/runner/work/The-last-signal-/The-last-signal-/client_python/packets/player_state.py
+/home/runner/work/The-last-signal-/The-last-signal-/client_python/game.py
 /home/runner/work/The-last-signal-/The-last-signal-/client_python/packets/session.py
 /home/runner/work/The-last-signal-/The-last-signal-/scripts/docs_score.py
 /home/runner/work/The-last-signal-/The-last-signal-/client_python/packets/singup.py
@@ -46,8 +46,8 @@ Date : Sun Oct 18 15:57:49 UTC 2026
 /home/runner/work/The-last-signal-/The-last-signal-/scripts/documentation/problem.py
 /home/runner/work/The-last-signal-/The-last-signal-/scripts/documentation/links.py
 /home/runner/work/The-last-signal-/The-last-signal-/scripts/documentation/markdown.py
-/home/runner/work/The-last-signal-/The-last-signal-/scripts/documentation/report.py
 /home/runner/work/The-last-signal-/The-last-signal-/scripts/documentation/python_docs.py
+/home/runner/work/The-last-signal-/The-last-signal-/scripts/documentation/report.py
 /home/runner/work/The-last-signal-/The-last-signal-/scripts/documentation/spelling.py
 /home/runner/work/The-last-signal-/The-last-signal-/scripts/documentation/score.py
 /home/runner/work/The-last-signal-/The-last-signal-/scripts/documentation/rust_docs.py
@@ -58,20 +58,20 @@ Date : Sun Oct 18 15:57:49 UTC 2026
 /home/runner/work/The-last-signal-/The-last-signal-/scripts/voir_database.py
 /home/runner/work/The-last-signal-/The-last-signal-/scripts/generate_stats.py
 /home/runner/work/The-last-signal-/The-last-signal-/setup.py
-/home/runner/work/The-last-signal-/The-last-signal-/security/vault.py
 /home/runner/work/The-last-signal-/The-last-signal-/tests/security/test_fuzzing.py
+/home/runner/work/The-last-signal-/The-last-signal-/security/vault.py
 /home/runner/work/The-last-signal-/The-last-signal-/tests/security/test_load.py
 /home/runner/work/The-last-signal-/The-last-signal-/scripts/utils/open_report.py
 /home/runner/work/The-last-signal-/The-last-signal-/tests/test_crypto_mix.py
 /home/runner/work/The-last-signal-/The-last-signal-/tests/test_crypto_pipeline.py
-/home/runner/work/The-last-signal-/The-last-signal-/tests/security/test_sql_injection.py
-/home/runner/work/The-last-signal-/The-last-signal-/tests/test_packet.py
 /home/runner/work/The-last-signal-/The-last-signal-/tests/test_crypto_rotor.py
-/home/runner/work/The-last-signal-/The-last-signal-/tests/test_rotor_seeds.py
+/home/runner/work/The-last-signal-/The-last-signal-/tests/test_packet.py
+/home/runner/work/The-last-signal-/The-last-signal-/tests/security/test_sql_injection.py
 /home/runner/work/The-last-signal-/The-last-signal-/tests/test_rotor_integration.py
+/home/runner/work/The-last-signal-/The-last-signal-/tests/test_rotor_seeds.py
 /home/runner/work/The-last-signal-/The-last-signal-/tests/test_rotor_vectors.py
-/home/runner/work/The-last-signal-/The-last-signal-/tests/test_client_class.py
 /home/runner/work/The-last-signal-/The-last-signal-/tests/test_splitmix64.py
+/home/runner/work/The-last-signal-/The-last-signal-/tests/test_client_class.py
 /home/runner/work/The-last-signal-/The-last-signal-/tests/test_rotor_state.py
 /home/runner/work/The-last-signal-/The-last-signal-/client_python/menu.py
 </details>
@@ -82,7 +82,7 @@ Date : Sun Oct 18 15:57:49 UTC 2026
 
 | Code | Nombre |
 |------|-------:|
-| E501 | 661 |
+| E501 | 665 |
 | E122 | 94 |
 | W293 | 87 |
 | E231 | 84 |
@@ -91,9 +91,9 @@ Date : Sun Oct 18 15:57:49 UTC 2026
 | E225 | 22 |
 | E305 | 10 |
 | E301 | 9 |
-| W292 | 7 |
 | E128 | 7 |
 | W391 | 6 |
+| W292 | 6 |
 | W291 | 6 |
 | E211 | 6 |
 | F841 | 5 |
@@ -126,35 +126,36 @@ Date : Sun Oct 18 15:57:49 UTC 2026
 | ./client_python/__init__.py | 1 | W391 | blank line at end of file |
 | ./client_python/client.py | 4 | E231 | missing whitespace after ',' |
 | ./client_python/client.py | 7 | F811 | redefinition of unused 'time' from line 2 |
-| ./client_python/client.py | 8 | E302 | expected 2 blank lines, found 0 |
-| ./client_python/client.py | 12 | W293 | blank line contains whitespace |
-| ./client_python/client.py | 14 | E303 | too many blank lines (2) |
-| ./client_python/client.py | 30 | W293 | blank line contains whitespace |
-| ./client_python/client.py | 47 | E122 | continuation line missing indentation or outdented |
-| ./client_python/client.py | 48 | E122 | continuation line missing indentation or outdented |
-| ./client_python/client.py | 49 | E122 | continuation line missing indentation or outdented |
-| ./client_python/client.py | 59 | E122 | continuation line missing indentation or outdented |
-| ./client_python/client.py | 68 | W293 | blank line contains whitespace |
+| ./client_python/client.py | 11 | E302 | expected 2 blank lines, found 1 |
+| ./client_python/client.py | 15 | W293 | blank line contains whitespace |
+| ./client_python/client.py | 17 | E303 | too many blank lines (2) |
+| ./client_python/client.py | 33 | W293 | blank line contains whitespace |
+| ./client_python/client.py | 50 | E122 | continuation line missing indentation or outdented |
+| ./client_python/client.py | 51 | E122 | continuation line missing indentation or outdented |
+| ./client_python/client.py | 52 | E122 | continuation line missing indentation or outdented |
+| ./client_python/client.py | 62 | E122 | continuation line missing indentation or outdented |
 | ./client_python/client.py | 71 | W293 | blank line contains whitespace |
-| ./client_python/client.py | 80 | W293 | blank line contains whitespace |
-| ./client_python/client.py | 90 | W293 | blank line contains whitespace |
-| ./client_python/client.py | 95 | W293 | blank line contains whitespace |
-| ./client_python/client.py | 102 | W291 | trailing whitespace |
-| ./client_python/client.py | 106 | E231 | missing whitespace after ',' |
-| ./client_python/client.py | 108 | E124 | closing bracket does not match visual indentation |
-| ./client_python/client.py | 109 | W293 | blank line contains whitespace |
-| ./client_python/client.py | 113 | W293 | blank line contains whitespace |
-| ./client_python/client.py | 130 | W293 | blank line contains whitespace |
-| ./client_python/client.py | 132 | W293 | blank line contains whitespace |
-| ./client_python/client.py | 137 | E131 | continuation line unaligned for hanging indent |
-| ./client_python/client.py | 142 | W293 | blank line contains whitespace |
-| ./client_python/client.py | 145 | W291 | trailing whitespace |
-| ./client_python/client.py | 164 | W293 | blank line contains whitespace |
-| ./client_python/client.py | 166 | E303 | too many blank lines (3) |
-| ./client_python/client.py | 176 | E231 | missing whitespace after ',' |
-| ./client_python/client.py | 178 | E124 | closing bracket does not match visual indentation |
-| ./client_python/client.py | 184 | E231 | missing whitespace after ',' |
-| ./client_python/client.py | 199 | W293 | blank line contains whitespace |
+| ./client_python/client.py | 74 | W293 | blank line contains whitespace |
+| ./client_python/client.py | 83 | W293 | blank line contains whitespace |
+| ./client_python/client.py | 93 | W293 | blank line contains whitespace |
+| ./client_python/client.py | 98 | W293 | blank line contains whitespace |
+| ./client_python/client.py | 105 | W291 | trailing whitespace |
+| ./client_python/client.py | 109 | E231 | missing whitespace after ',' |
+| ./client_python/client.py | 111 | E124 | closing bracket does not match visual indentation |
+| ./client_python/client.py | 112 | W293 | blank line contains whitespace |
+| ./client_python/client.py | 116 | W293 | blank line contains whitespace |
+| ./client_python/client.py | 129 | E501 | line too long (81 > 79 characters) |
+| ./client_python/client.py | 137 | W293 | blank line contains whitespace |
+| ./client_python/client.py | 139 | W293 | blank line contains whitespace |
+| ./client_python/client.py | 144 | E131 | continuation line unaligned for hanging indent |
+| ./client_python/client.py | 149 | W293 | blank line contains whitespace |
+| ./client_python/client.py | 152 | W291 | trailing whitespace |
+| ./client_python/client.py | 171 | W293 | blank line contains whitespace |
+| ./client_python/client.py | 173 | E303 | too many blank lines (3) |
+| ./client_python/client.py | 183 | E231 | missing whitespace after ',' |
+| ./client_python/client.py | 185 | E124 | closing bracket does not match visual indentation |
+| ./client_python/client.py | 191 | E231 | missing whitespace after ',' |
+| ./client_python/client.py | 206 | W293 | blank line contains whitespace |
 | ./client_python/crypto.py | 16 | E302 | expected 2 blank lines, found 0 |
 | ./client_python/crypto.py | 46 | E303 | too many blank lines (3) |
 | ./client_python/crypto.py | 86 | E305 | expected 2 blank lines after class or function definition, found 1 |
@@ -1200,7 +1201,9 @@ Date : Sun Oct 18 15:57:49 UTC 2026
 | ./tests/security/test_sql_injection.py | 715 | E501 | line too long (98 > 79 characters) |
 | ./tests/security/test_sql_injection.py | 717 | E501 | line too long (92 > 79 characters) |
 | ./tests/test_client_class.py | 447 | E501 | line too long (80 > 79 characters) |
-| ./tests/test_client_class.py | 1006 | W292 | no newline at end of file |
+| ./tests/test_client_class.py | 806 | E501 | line too long (88 > 79 characters) |
+| ./tests/test_client_class.py | 847 | E501 | line too long (82 > 79 characters) |
+| ./tests/test_client_class.py | 850 | E501 | line too long (90 > 79 characters) |
 | ./tests/test_crypto_mix.py | 63 | E302 | expected 2 blank lines, found 0 |
 | ./tests/test_crypto_rotor.py | 16 | E302 | expected 2 blank lines, found 0 |
 | ./tests/test_crypto_rotor.py | 65 | E303 | too many blank lines (7) |
@@ -1288,7 +1291,7 @@ Date : Sun Oct 18 15:57:49 UTC 2026
 | 5 | ./scripts/documentation/markdown.py | 42 |
 | 6 | ./scripts/documentation/titles.py | 36 |
 | 7 | ./tests/test_rotor_vectors.py | 33 |
-| 8 | ./client_python/client.py | 31 |
+| 8 | ./client_python/client.py | 32 |
 | 9 | ./scripts/documentation/score.py | 26 |
 | 10 | ./tests/test_rotor_state.py | 22 |
 > 💡 Vous ne connaissez pas une erreur Flake8 ?
@@ -1298,7 +1301,7 @@ Date : Sun Oct 18 15:57:49 UTC 2026
 
 ## 🧠 Complexity (Radon)
 
-**Average complexity:**  A (4.120610687022901)
+**Average complexity:**  A (4.125)
 
 <details>
 <summary>Show complexity report</summary>
@@ -1566,10 +1569,12 @@ tests/test_client_class.py
     C 11:0 TestClientInit - B
     M 14:4 TestClientInit.test_init_default_values - B
     M 23:4 TestClientInit.test_init_custom_values - B
+    M 806:4 TestClientReceivePacket.test_receive_packet_oversized_header_rejected_before_allocating - A
     M 397:4 TestClientConnect.test_connect_multiple_retries_close_each_failed_socket - A
     C 539:0 TestClientRecvExact - A
     M 633:4 TestClientRecvExact.test_recv_exact_partial_read_then_socket_error - A
     M 673:4 TestClientRecvExact.test_recv_exact_socket_none_with_connected_true_returns_none - A
+    M 835:4 TestClientReceivePacket.test_receive_packet_accepts_maximum_declared_size - A
     C 36:0 TestClientConnect - A
     M 43:4 TestClientConnect.test_connect_success - A
     M 83:4 TestClientConnect.test_connect_session_packet - A
@@ -1588,11 +1593,10 @@ tests/test_client_class.py
     M 651:4 TestClientRecvExact.test_recv_exact_requests_exact_remaining_bytes_across_three_chunks - A
     C 688:0 TestClientReceivePacket - A
     M 699:4 TestClientReceivePacket.test_receive_packet_success - A
-    M 813:4 TestClientReceivePacket.test_receive_packet_oversized_header_rejected_before_allocating - A
-    M 844:4 TestClientReceivePacket.test_receive_packet_zero_size_payload_fails_decode - A
-    M 868:4 TestClientReceivePacket.test_receive_packet_struct_error_during_decode_returns_none - A
-    C 890:0 TestClientDisconnect - A
-    M 990:4 TestClientDisconnect.test_disconnect_socket_close_exception_handled - A
+    M 854:4 TestClientReceivePacket.test_receive_packet_zero_size_payload_fails_decode - A
+    M 878:4 TestClientReceivePacket.test_receive_packet_struct_error_during_decode_returns_none - A
+    C 900:0 TestClientDisconnect - A
+    M 1000:4 TestClientDisconnect.test_disconnect_socket_close_exception_handled - A
     M 311:4 TestClientConnect.test_connect_initial_ban_packet_triggers_system_exit - A
     M 347:4 TestClientConnect.test_connect_initial_ban_packet_socket_cleanup - A
     C 438:0 TestClientSendPacket - A
@@ -1606,10 +1610,10 @@ tests/test_client_class.py
     M 737:4 TestClientReceivePacket.test_receive_packet_data_error - A
     M 763:4 TestClientReceivePacket.test_receive_packet_decode_error - A
     M 786:4 TestClientReceivePacket.test_receive_packet_ban_packet_raises_system_exit - A
-    M 894:4 TestClientDisconnect.test_disconnect_with_socket - A
-    M 913:4 TestClientDisconnect.test_disconnect_without_socket - A
-    M 930:4 TestClientDisconnect.test_disconnect_when_already_disconnected - A
-    M 954:4 TestClientDisconnect.test_disconnect_sends_decopacket_with_hand_built_wire_bytes - A
+    M 904:4 TestClientDisconnect.test_disconnect_with_socket - A
+    M 923:4 TestClientDisconnect.test_disconnect_without_socket - A
+    M 940:4 TestClientDisconnect.test_disconnect_when_already_disconnected - A
+    M 964:4 TestClientDisconnect.test_disconnect_sends_decopacket_with_hand_built_wire_bytes - A
     M 219:4 TestClientConnect.test_connect_when_already_connected - A
     M 454:4 TestClientSendPacket.test_send_packet_success - A
     M 470:4 TestClientSendPacket.test_send_packet_error - A
@@ -1956,13 +1960,13 @@ client_python/packet.py
 client_python/logs.py
     F 4:0 log - A
 client_python/client.py
-    M 31:4 Client.connect - B
-    M 110:4 Client.receive_packet - B
-    C 8:0 Client - A
-    M 143:4 Client._recv_exact - A
-    M 91:4 Client.send_packet - A
-    M 184:4 Client.disconnect - A
-    M 14:4 Client.__init__ - A
+    M 113:4 Client.receive_packet - B
+    M 34:4 Client.connect - B
+    C 11:0 Client - A
+    M 150:4 Client._recv_exact - A
+    M 94:4 Client.send_packet - A
+    M 191:4 Client.disconnect - A
+    M 17:4 Client.__init__ - A
 client_python/packets/log.py
     C 4:0 LogPacket - A
     M 6:4 LogPacket.__init__ - A
@@ -2014,8 +2018,8 @@ client_python/packets/chat.py
     M 6:4 ChatPacket.__init__ - A
     M 15:4 ChatPacket.from_payload - A
 
-655 blocks (classes, functions, methods) analyzed.
-Average complexity: A (4.120610687022901)
+656 blocks (classes, functions, methods) analyzed.
+Average complexity: A (4.125)
 
 </details>
 
@@ -2025,7 +2029,7 @@ Average complexity: A (4.120610687022901)
 |----------|------:|
 | High | 1 |
 | Medium | 11 |
-| Low | 312 |
+| Low | 317 |
 
 <details>
 <summary>Show Bandit report</summary>
@@ -2036,7 +2040,7 @@ Average complexity: A (4.120610687022901)
 [main]	INFO	cli exclude tests: None
 [main]	INFO	running on Python 3.14.8
 Working... ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:01
-Run started:2026-10-18 15:57:59.844500+00:00
+Run started:2026-10-20 01:01:45.871642+00:00
 
 Test results:
 >> Issue: [B404:blacklist] Consider possible security implications associated with the subprocess module.
@@ -4160,109 +4164,159 @@ Test results:
    Severity: Low   Confidence: High
    CWE: CWE-703 (https://cwe.mitre.org/data/definitions/703.html)
    More Info: https://bandit.readthedocs.io/en/1.9.4/plugins/b101_assert_used.html
-   Location: ./tests/test_client_class.py:840:12
-839	        ):
-840	            assert client.receive_packet() is None
-841	            assert calls == [4]
+   Location: ./tests/test_client_class.py:829:12
+828	        ):
+829	            assert client.receive_packet() is None
+830	            assert calls == [4]
 
 --------------------------------------------------
 >> Issue: [B101:assert_used] Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.
    Severity: Low   Confidence: High
    CWE: CWE-703 (https://cwe.mitre.org/data/definitions/703.html)
    More Info: https://bandit.readthedocs.io/en/1.9.4/plugins/b101_assert_used.html
-   Location: ./tests/test_client_class.py:841:12
-840	            assert client.receive_packet() is None
-841	            assert calls == [4]
-842	
+   Location: ./tests/test_client_class.py:830:12
+829	            assert client.receive_packet() is None
+830	            assert calls == [4]
+831	            assert client.connected is False
 
 --------------------------------------------------
 >> Issue: [B101:assert_used] Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.
    Severity: Low   Confidence: High
    CWE: CWE-703 (https://cwe.mitre.org/data/definitions/703.html)
    More Info: https://bandit.readthedocs.io/en/1.9.4/plugins/b101_assert_used.html
-   Location: ./tests/test_client_class.py:863:8
-862	
-863	        assert result is None
-864	        mock_log.assert_called_once()
+   Location: ./tests/test_client_class.py:831:12
+830	            assert calls == [4]
+831	            assert client.connected is False
+832	        mock_log.assert_called_once()
 
 --------------------------------------------------
 >> Issue: [B101:assert_used] Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.
    Severity: Low   Confidence: High
    CWE: CWE-703 (https://cwe.mitre.org/data/definitions/703.html)
    More Info: https://bandit.readthedocs.io/en/1.9.4/plugins/b101_assert_used.html
-   Location: ./tests/test_client_class.py:865:8
-864	        mock_log.assert_called_once()
-865	        assert mock_log.call_args[0][1] == "ERROR"
-866	
+   Location: ./tests/test_client_class.py:833:8
+832	        mock_log.assert_called_once()
+833	        assert mock_log.call_args.args[1] == "ERROR"
+834	
 
 --------------------------------------------------
 >> Issue: [B101:assert_used] Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.
    Severity: Low   Confidence: High
    CWE: CWE-703 (https://cwe.mitre.org/data/definitions/703.html)
    More Info: https://bandit.readthedocs.io/en/1.9.4/plugins/b101_assert_used.html
-   Location: ./tests/test_client_class.py:885:8
-884	
-885	        assert result is None
-886	        mock_log.assert_called_once()
+   Location: ./tests/test_client_class.py:848:16
+847	            with patch("client_python.client.Packet.decode", return_value=packet):
+848	                assert client.receive_packet() is packet
+849	
 
 --------------------------------------------------
 >> Issue: [B101:assert_used] Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.
    Severity: Low   Confidence: High
    CWE: CWE-703 (https://cwe.mitre.org/data/definitions/703.html)
    More Info: https://bandit.readthedocs.io/en/1.9.4/plugins/b101_assert_used.html
-   Location: ./tests/test_client_class.py:887:8
-886	        mock_log.assert_called_once()
-887	        assert mock_log.call_args[0][1] == "ERROR"
-888	
+   Location: ./tests/test_client_class.py:850:8
+849	
+850	        assert [call.args[0] for call in mock_recv.call_args_list] == [4, MAX_PACKET_SIZE]
+851	        assert client.connected is True
 
 --------------------------------------------------
 >> Issue: [B101:assert_used] Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.
    Severity: Low   Confidence: High
    CWE: CWE-703 (https://cwe.mitre.org/data/definitions/703.html)
    More Info: https://bandit.readthedocs.io/en/1.9.4/plugins/b101_assert_used.html
-   Location: ./tests/test_client_class.py:910:8
-909	
-910	        assert client.connected is False
-911	
+   Location: ./tests/test_client_class.py:851:8
+850	        assert [call.args[0] for call in mock_recv.call_args_list] == [4, MAX_PACKET_SIZE]
+851	        assert client.connected is True
+852	
 
 --------------------------------------------------
 >> Issue: [B101:assert_used] Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.
    Severity: Low   Confidence: High
    CWE: CWE-703 (https://cwe.mitre.org/data/definitions/703.html)
    More Info: https://bandit.readthedocs.io/en/1.9.4/plugins/b101_assert_used.html
-   Location: ./tests/test_client_class.py:927:8
-926	
-927	        assert client.connected is False
-928	
+   Location: ./tests/test_client_class.py:873:8
+872	
+873	        assert result is None
+874	        mock_log.assert_called_once()
 
 --------------------------------------------------
 >> Issue: [B101:assert_used] Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.
    Severity: Low   Confidence: High
    CWE: CWE-703 (https://cwe.mitre.org/data/definitions/703.html)
    More Info: https://bandit.readthedocs.io/en/1.9.4/plugins/b101_assert_used.html
-   Location: ./tests/test_client_class.py:944:8
-943	
-944	        assert client.connected is False
-945	
+   Location: ./tests/test_client_class.py:875:8
+874	        mock_log.assert_called_once()
+875	        assert mock_log.call_args[0][1] == "ERROR"
+876	
 
 --------------------------------------------------
 >> Issue: [B101:assert_used] Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.
    Severity: Low   Confidence: High
    CWE: CWE-703 (https://cwe.mitre.org/data/definitions/703.html)
    More Info: https://bandit.readthedocs.io/en/1.9.4/plugins/b101_assert_used.html
-   Location: ./tests/test_client_class.py:971:8
-970	        mock_sleep.assert_called_once_with(10)
-971	        assert client.connected is False
-972	
+   Location: ./tests/test_client_class.py:895:8
+894	
+895	        assert result is None
+896	        mock_log.assert_called_once()
 
 --------------------------------------------------
 >> Issue: [B101:assert_used] Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.
    Severity: Low   Confidence: High
    CWE: CWE-703 (https://cwe.mitre.org/data/definitions/703.html)
    More Info: https://bandit.readthedocs.io/en/1.9.4/plugins/b101_assert_used.html
-   Location: ./tests/test_client_class.py:1006:8
-1005	        mock_sleep.assert_called_once_with(10)
-1006	        assert client.connected is False
+   Location: ./tests/test_client_class.py:897:8
+896	        mock_log.assert_called_once()
+897	        assert mock_log.call_args[0][1] == "ERROR"
+898	
+
+--------------------------------------------------
+>> Issue: [B101:assert_used] Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.
+   Severity: Low   Confidence: High
+   CWE: CWE-703 (https://cwe.mitre.org/data/definitions/703.html)
+   More Info: https://bandit.readthedocs.io/en/1.9.4/plugins/b101_assert_used.html
+   Location: ./tests/test_client_class.py:920:8
+919	
+920	        assert client.connected is False
+921	
+
+--------------------------------------------------
+>> Issue: [B101:assert_used] Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.
+   Severity: Low   Confidence: High
+   CWE: CWE-703 (https://cwe.mitre.org/data/definitions/703.html)
+   More Info: https://bandit.readthedocs.io/en/1.9.4/plugins/b101_assert_used.html
+   Location: ./tests/test_client_class.py:937:8
+936	
+937	        assert client.connected is False
+938	
+
+--------------------------------------------------
+>> Issue: [B101:assert_used] Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.
+   Severity: Low   Confidence: High
+   CWE: CWE-703 (https://cwe.mitre.org/data/definitions/703.html)
+   More Info: https://bandit.readthedocs.io/en/1.9.4/plugins/b101_assert_used.html
+   Location: ./tests/test_client_class.py:954:8
+953	
+954	        assert client.connected is False
+955	
+
+--------------------------------------------------
+>> Issue: [B101:assert_used] Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.
+   Severity: Low   Confidence: High
+   CWE: CWE-703 (https://cwe.mitre.org/data/definitions/703.html)
+   More Info: https://bandit.readthedocs.io/en/1.9.4/plugins/b101_assert_used.html
+   Location: ./tests/test_client_class.py:981:8
+980	        mock_sleep.assert_called_once_with(10)
+981	        assert client.connected is False
+982	
+
+--------------------------------------------------
+>> Issue: [B101:assert_used] Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.
+   Severity: Low   Confidence: High
+   CWE: CWE-703 (https://cwe.mitre.org/data/definitions/703.html)
+   More Info: https://bandit.readthedocs.io/en/1.9.4/plugins/b101_assert_used.html
+   Location: ./tests/test_client_class.py:1016:8
+1015	        mock_sleep.assert_called_once_with(10)
+1016	        assert client.connected is False
 
 --------------------------------------------------
 >> Issue: [B101:assert_used] Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.
@@ -5607,28 +5661,28 @@ Test results:
 --------------------------------------------------
 
 Code scanned:
-	Total lines of code: 14196
+	Total lines of code: 14209
 	Total lines skipped (#nosec): 0
 	Total potential issues skipped due to specifically being disabled (e.g., #nosec BXXX): 0
 
 Run metrics:
 	Total issues (by severity):
 		Undefined: 0
-		Low: 312
+		Low: 317
 		Medium: 11
 		High: 1
 	Total issues (by confidence):
 		Undefined: 0
 		Low: 1
 		Medium: 15
-		High: 308
+		High: 313
 Files skipped (0):
 
 </details>
 
 ##  📏 Pylint
 
-**Global score:** 7.66/10
+**Global score:** 7.67/10
 
 <details>
 <summary>Show Pylint report</summary>
@@ -6219,8 +6273,7 @@ tests/test_fisher_yates.py:28:0: C0116: Missing function or method docstring (mi
 tests/test_fisher_yates.py:36:0: C0116: Missing function or method docstring (missing-function-docstring)
 tests/test_fisher_yates.py:44:0: C0116: Missing function or method docstring (missing-function-docstring)
 ************* Module tests.test_client_class
-tests/test_client_class.py:1006:0: C0304: Final newline missing (missing-final-newline)
-tests/test_client_class.py:1:0: C0302: Too many lines in module (1006/1000) (too-many-lines)
+tests/test_client_class.py:1:0: C0302: Too many lines in module (1016/1000) (too-many-lines)
 tests/test_client_class.py:1:0: C0114: Missing module docstring (missing-module-docstring)
 tests/test_client_class.py:14:4: C0116: Missing function or method docstring (missing-function-docstring)
 tests/test_client_class.py:23:4: C0116: Missing function or method docstring (missing-function-docstring)
@@ -6255,9 +6308,10 @@ tests/test_client_class.py:724:4: C0116: Missing function or method docstring (m
 tests/test_client_class.py:737:4: C0116: Missing function or method docstring (missing-function-docstring)
 tests/test_client_class.py:743:28: W0613: Unused argument 'size' (unused-argument)
 tests/test_client_class.py:763:4: C0116: Missing function or method docstring (missing-function-docstring)
-tests/test_client_class.py:894:4: C0116: Missing function or method docstring (missing-function-docstring)
-tests/test_client_class.py:913:4: C0116: Missing function or method docstring (missing-function-docstring)
-tests/test_client_class.py:930:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests/test_client_class.py:835:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests/test_client_class.py:904:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests/test_client_class.py:923:4: C0116: Missing function or method docstring (missing-function-docstring)
+tests/test_client_class.py:940:4: C0116: Missing function or method docstring (missing-function-docstring)
 ************* Module tests.security.test_load
 tests/security/test_load.py:1:0: C0114: Missing module docstring (missing-module-docstring)
 tests/security/test_load.py:9:0: C0103: Constant name "max_count" doesn't conform to UPPER_CASE naming style (invalid-name)
@@ -7205,26 +7259,27 @@ client_python/packet.py:60:4: R0911: Too many return statements (13/6) (too-many
 client_python/logs.py:1:0: C0114: Missing module docstring (missing-module-docstring)
 client_python/logs.py:4:0: C0116: Missing function or method docstring (missing-function-docstring)
 ************* Module client_python.client
-client_python/client.py:12:0: C0303: Trailing whitespace (trailing-whitespace)
-client_python/client.py:30:0: C0303: Trailing whitespace (trailing-whitespace)
-client_python/client.py:68:0: C0303: Trailing whitespace (trailing-whitespace)
+client_python/client.py:15:0: C0303: Trailing whitespace (trailing-whitespace)
+client_python/client.py:33:0: C0303: Trailing whitespace (trailing-whitespace)
 client_python/client.py:71:0: C0303: Trailing whitespace (trailing-whitespace)
-client_python/client.py:80:0: C0303: Trailing whitespace (trailing-whitespace)
-client_python/client.py:90:0: C0303: Trailing whitespace (trailing-whitespace)
-client_python/client.py:95:0: C0303: Trailing whitespace (trailing-whitespace)
-client_python/client.py:102:13: C0303: Trailing whitespace (trailing-whitespace)
-client_python/client.py:109:0: C0303: Trailing whitespace (trailing-whitespace)
-client_python/client.py:113:0: C0303: Trailing whitespace (trailing-whitespace)
-client_python/client.py:130:0: C0303: Trailing whitespace (trailing-whitespace)
-client_python/client.py:132:0: C0303: Trailing whitespace (trailing-whitespace)
-client_python/client.py:142:0: C0303: Trailing whitespace (trailing-whitespace)
-client_python/client.py:164:0: C0303: Trailing whitespace (trailing-whitespace)
-client_python/client.py:199:0: C0303: Trailing whitespace (trailing-whitespace)
+client_python/client.py:74:0: C0303: Trailing whitespace (trailing-whitespace)
+client_python/client.py:83:0: C0303: Trailing whitespace (trailing-whitespace)
+client_python/client.py:93:0: C0303: Trailing whitespace (trailing-whitespace)
+client_python/client.py:98:0: C0303: Trailing whitespace (trailing-whitespace)
+client_python/client.py:105:13: C0303: Trailing whitespace (trailing-whitespace)
+client_python/client.py:112:0: C0303: Trailing whitespace (trailing-whitespace)
+client_python/client.py:116:0: C0303: Trailing whitespace (trailing-whitespace)
+client_python/client.py:137:0: C0303: Trailing whitespace (trailing-whitespace)
+client_python/client.py:139:0: C0303: Trailing whitespace (trailing-whitespace)
+client_python/client.py:149:0: C0303: Trailing whitespace (trailing-whitespace)
+client_python/client.py:171:0: C0303: Trailing whitespace (trailing-whitespace)
+client_python/client.py:206:0: C0303: Trailing whitespace (trailing-whitespace)
 client_python/client.py:1:0: C0114: Missing module docstring (missing-module-docstring)
 client_python/client.py:7:0: W0404: Reimport 'time' (imported line 2) (reimported)
-client_python/client.py:104:15: W0718: Catching too general exception Exception (broad-exception-caught)
-client_python/client.py:133:15: W0718: Catching too general exception Exception (broad-exception-caught)
-client_python/client.py:174:15: W0718: Catching too general exception Exception (broad-exception-caught)
+client_python/client.py:107:15: W0718: Catching too general exception Exception (broad-exception-caught)
+client_python/client.py:140:15: W0718: Catching too general exception Exception (broad-exception-caught)
+client_python/client.py:113:4: R0911: Too many return statements (7/6) (too-many-return-statements)
+client_python/client.py:181:15: W0718: Catching too general exception Exception (broad-exception-caught)
 client_python/client.py:7:0: C0411: standard import "time" should be placed before local imports "packet.Packet", "packets.Deco.decoPacket", "logs.log" (wrong-import-order)
 client_python/client.py:7:0: C0412: Imports from package time are not grouped (ungrouped-imports)
 ************* Module client_python.__init__
@@ -7352,6 +7407,10 @@ client_python/packets/chat.py:1:0: R0801: Similar lines in 2 files
 
         ciphertext.append(value)
         previous_ciphertext = value
+
+    # ========================================================
+    # DÉCHIFFREMENT
+    # ========================================================
  (duplicate-code)
 client_python/packets/chat.py:1:0: R0801: Similar lines in 2 files
 ==tests.test_crypto_rotor:[358:384]
@@ -7398,9 +7457,7 @@ IGNORED_DIRECTORIES = {
     "venv",
     "node_modules",
 }
-
-
-def should_ignore(path: Path) -> bool: (duplicate-code)
+ (duplicate-code)
 client_python/packets/chat.py:1:0: R0801: Similar lines in 2 files
 ==.github.security.test_filesystem:[6:18]
 ==.github.security.test_secrets:[6:18]
@@ -7660,7 +7717,7 @@ client_python/packets/chat.py:1:0: R0801: Similar lines in 2 files
     )
 
 
-def is_watched(path: Path, root: Path) -> bool: (duplicate-code)
+def looks_textual(data: bytes) -> bool: (duplicate-code)
 client_python/packets/chat.py:1:0: R0801: Similar lines in 2 files
 ==scripts.documentation.markdown:[61:67]
 ==scripts.documentation.titles:[19:25]
@@ -7758,19 +7815,19 @@ client_python/packets/chat.py:1:0: R0801: Similar lines in 2 files
             byte_counter,
             previous_ciphertext, (duplicate-code)
 client_python/packets/chat.py:1:0: R0401: Cyclic import (client_python.packet -> client_python.packets.move) (cyclic-import)
-client_python/packets/chat.py:1:0: R0401: Cyclic import (client_python.packet -> client_python.packets.session) (cyclic-import)
-client_python/packets/chat.py:1:0: R0401: Cyclic import (client_python.packet -> client_python.packets.Deco) (cyclic-import)
 client_python/packets/chat.py:1:0: R0401: Cyclic import (client_python.packet -> client_python.packets.log) (cyclic-import)
+client_python/packets/chat.py:1:0: R0401: Cyclic import (client_python.packet -> client_python.packets.Deco) (cyclic-import)
 client_python/packets/chat.py:1:0: R0401: Cyclic import (client_python.packet -> client_python.packets.singup) (cyclic-import)
 client_python/packets/chat.py:1:0: R0401: Cyclic import (client_python.packet -> client_python.packets.ping) (cyclic-import)
 client_python/packets/chat.py:1:0: R0401: Cyclic import (client_python.packet -> client_python.packets.ban) (cyclic-import)
 client_python/packets/chat.py:1:0: R0401: Cyclic import (client_python.packet -> client_python.packets.player_state) (cyclic-import)
 client_python/packets/chat.py:1:0: R0401: Cyclic import (client_python.packet -> client_python.packets.login) (cyclic-import)
+client_python/packets/chat.py:1:0: R0401: Cyclic import (client_python.packet -> client_python.packets.session) (cyclic-import)
 client_python/packets/chat.py:1:0: R0401: Cyclic import (client_python.packet -> client_python.packets.player_remove) (cyclic-import)
 client_python/packets/chat.py:1:0: R0401: Cyclic import (client_python.packet -> client_python.packets.chat) (cyclic-import)
 
 -----------------------------------
-Your code has been rated at 7.66/10
+Your code has been rated at 7.67/10
 
 
 </details>
@@ -7787,8 +7844,8 @@ platform linux -- Python 3.14.8, pytest-9.1.1, pluggy-1.7.0
 rootdir: /home/runner/work/The-last-signal-/The-last-signal-
 configfile: pytest.ini
 testpaths: tests
-plugins: platformdirs-4.13.4, cov-7.1.0
-collected 13734 items / 1 error
+plugins: platformdirs-4.13.5, cov-7.1.0
+collected 13735 items / 1 error
 
 ==================================== ERRORS ====================================
 ____________ ERROR collecting tests/security/test_sql_injection.py _____________
@@ -7798,7 +7855,7 @@ E   RuntimeError: DATABASE_PATH n'est pas définie
 =========================== short test summary info ============================
 ERROR tests/security/test_sql_injection.py - RuntimeError: DATABASE_PATH n'est pas définie
 !!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
-=============================== 1 error in 0.74s ===============================
+=============================== 1 error in 0.82s ===============================
 
 </details>
 
