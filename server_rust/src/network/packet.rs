@@ -248,10 +248,10 @@ mod tests {
         assert_eq!(PacketType::from_u16(16), Some(PacketType::PlayerRemove));
         assert_eq!(PacketType::from_u16(17), Some(PacketType::Session));
         assert_eq!(PacketType::from_u16(18), Some(PacketType::AccountListRequest));
-        assert_eq!(PacketType::from_u16(19), Some(PacketType::AccountListResponse));,
-        assert_eq!(PacketType::from_u16(20),Some(PacketType::AccountCreate));,
-        assert_eq!(PacketType::from_u16(21), Some(PacketType::AccountSelect));,
-        assert_eq!(PacketType::from_u16(22), Some(PacketType::AccountResult));,
+        assert_eq!(PacketType::from_u16(19), Some(PacketType::AccountListResponse));
+        assert_eq!(PacketType::from_u16(20),Some(PacketType::AccountCreate));
+        assert_eq!(PacketType::from_u16(21), Some(PacketType::AccountSelect));
+        assert_eq!(PacketType::from_u16(22), Some(PacketType::AccountResult));
     }
 
     #[test]
