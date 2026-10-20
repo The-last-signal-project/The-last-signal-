@@ -45,9 +45,9 @@ impl UserManager {
             return Err("Adresse e-mail invalide.".into());
         }
 
-        if password.len() < 10 {
+        if password.len() < 8 {
             return Err(
-                "Le mot de passe doit contenir au moins 10 caractères.".into(),
+                "Le mot de passe doit contenir au moins 8 caractères.".into(),
             );
         }
 
