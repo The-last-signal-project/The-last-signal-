@@ -67,24 +67,7 @@ jobs:
     uses: ./.github/workflows/ci-history.yml
     with:
        confirm: REWRITE-CI
-  sync:
-    needs: 
-      - cleanning
-      
-    if: >-
-     ${{
-      always() &&
-      (
-          needs.cleanning.result == 'success' ||
-          needs.cleanning.result == 'failure' 
-          
-      )
-     }}
-    uses: ./.github/workflows/sync-ci.yml
-    secrets:
-        DEPLOY_KEY: ${{ secrets.CI_SYNC_DEPLOY_KEY }}
-    
-
+  
   cancel-nightly:
     needs:
       - launch

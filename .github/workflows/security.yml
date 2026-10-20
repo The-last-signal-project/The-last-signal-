@@ -1544,34 +1544,12 @@ jobs:
               echo "✅ Aucune erreur critique"
               fi
   
-  sync:
-    needs:
-      - security
-    if: >-
-     ${{
-      always() &&
-      
-      (
-          needs.security.result == 'success' ||
-          needs.security.result == 'failure'
-      )
-     }}
-    uses: ./.github/workflows/sync-ci.yml
-    
-    secrets:
-       
-      DEPLOY_KEY: >-
-       ${{
-       (github.event_name == 'schedule' ||
-       github.event_name == 'workflow_dispatch') &&
-       secrets.CI_SYNC_DEPLOY_KEY ||
-       secrets.DEPLOY_KEY
-       }}
+  
 
   cancel-security:
     needs:
       - security
-      - sync
+      
       
      
     if: >-

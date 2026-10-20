@@ -38,10 +38,9 @@ permissions:
   contents: write
 
 jobs:
-    sync:
-        uses: ./.github/workflows/sync-ci.yml
+    
     search:
-      needs: sync
+      
       runs-on: ubuntu-latest
     
 

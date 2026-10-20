@@ -104,7 +104,8 @@ jobs:
   
  
 
-  sync:
+ 
+  stats-update:
     needs: 
       - project_scheduled
       - project_other
@@ -116,21 +117,9 @@ jobs:
           needs.project_scheduled.result == 'failure' ||
           needs.project_other.result == 'success' ||
           needs.project_other.result == 'failure'
-      )
+      ) && github.workflow == 'Nightly'
      }}
-    uses: ./.github/workflows/sync-ci.yml
-    secrets:
-        DEPLOY_KEY: ${{ secrets.CI_SYNC_DEPLOY_KEY }}
-  stats-update:
-    needs: sync
-    if: >-
-     ${{
-       always() &&
-       (
-        needs.sync.result == 'success' ||
-        needs.sync.result == 'failure'
-      )
-     }}
+
     uses: ./.github/workflows/repository-stats.yml
     secrets:
         DEPLOY_KEY: ${{ secrets.CI_SYNC_DEPLOY_KEY }}
@@ -143,7 +132,7 @@ jobs:
       - build
       - project_scheduled
       - project_other
-      - sync
+      
       - stats-update
     if: >-
      ${{
@@ -155,7 +144,7 @@ jobs:
         needs.build.result == 'failure' ||
         needs.project_scheduled.result == 'failure' ||
         needs.project_other.result == 'failure' ||
-        needs.sync.result == 'failure' ||
+       
         needs.stats-update.result == 'failure'
       )
      }}
