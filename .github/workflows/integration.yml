@@ -395,7 +395,9 @@ jobs:
              cd -
              fi
              mkdir -p ../ci-database/database
+             mkdir -p ../ci-database/logs
              cp -R database/. ../ci-database/database/ 2>/dev/null || true
+             cp -R logs/. ../ci-database/logs/ 2>/dev/null || true
              cd ../ci-database
              git add -A
              if git diff --cached --quiet; then
