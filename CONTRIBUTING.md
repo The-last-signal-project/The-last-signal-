@@ -161,7 +161,7 @@ The project currently contains experimental cryptographic code, including compon
 ```text
 client_python/crypto.py
 security/
-server_rust/src/utils/
+server_rust/src/security/crypto.rs
 ```
 
 ⚠️ **Important:** the current cryptographic system is experimental and is **not considered production-ready or secure**.
@@ -248,6 +248,8 @@ Possible areas include:
 * Animations
 * Weapons
 * Environment assets
+* fonts
+* music
 * Other game assets
 
 Please discuss larger asset contributions before investing significant work into them.
@@ -408,13 +410,19 @@ cargo build
 
 ### Python
 
-Run the relevant Python tests available in the repository.
+### Python
 
-For example:
+Run the standard Python test suite from the repository root:
 
 ```bash
-pytest
+python -m pytest tests/ --ignore=tests/security
 ```
+
+This runs the suite without the security tests: the files in
+`tests/security/` require the `DATABASE_PATH` environment variable
+(a server database) and fail during collection without it. Note that
+`-m "not security"` is not enough, because pytest still collects
+those files before filtering.
 
 If your change affects both the Python client and Rust server, test both sides when possible.
 
