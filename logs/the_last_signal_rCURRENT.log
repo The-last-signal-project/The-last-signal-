@@ -1,7 +1,7 @@
-[2026-10-20 22:19:27] [DEBUG] [migrations.rs:31] Migrations SQLite appliquées.
-[2026-10-20 22:19:27] [DEBUG] [migrations.rs:74] Comptes spéciaux créés.
-[2026-10-20 22:19:27] [INFO] [main.rs:36] Base SQLite prête.
-[2026-10-20 22:19:27] [DEBUG] [server.rs:37] ==================================
-[2026-10-20 22:19:27] [DEBUG] [server.rs:38] The Last Signal Server
-[2026-10-20 22:19:27] [DEBUG] [server.rs:39] ==================================
-[2026-10-20 22:19:27] [DEBUG] [server.rs:41] Listening on 127.0.0.1:5000
+[2026-10-21 03:41:27] [DEBUG] [migrations.rs:31] Migrations SQLite appliquées.
+[2026-10-21 03:41:27] [DEBUG] [migrations.rs:74] Comptes spéciaux créés.
+[2026-10-21 03:41:27] [INFO] [main.rs:36] Base SQLite prête.
+[2026-10-21 03:41:27] [DEBUG] [server.rs:37] ==================================
+[2026-10-21 03:41:27] [DEBUG] [server.rs:38] The Last Signal Server
+[2026-10-21 03:41:27] [DEBUG] [server.rs:39] ==================================
+[2026-10-21 03:41:27] [DEBUG] [server.rs:41] Listening on 127.0.0.1:5000
