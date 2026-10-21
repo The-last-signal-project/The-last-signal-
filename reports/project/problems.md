@@ -1,14 +1,14 @@
 # Documentation Problems
 
-Generated: 2026-10-21 22:36:58
+Generated: 2026-10-21 22:47:37
 
 ## Summary
 
 |Type|Count|
 |---|---:|
 |Errors|473|
-|Warnings|7944|
-|**Total**|**8422**|
+|Warnings|7946|
+|**Total**|**8424**|
 
 ---
 
@@ -39763,7 +39763,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio-macros/CHANGELOG.md:184 titre dupliqué (déjà présent dans server_rust/vendor/tokio/CHANGELOG.md:3815).
+- **Message :** server_rust/vendor/tokio-macros/CHANGELOG.md:184 titre dupliqué (déjà présent dans server_rust/vendor/tokio/CHANGELOG.md:3823).
 
 ## Warning
 
@@ -39773,7 +39773,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio-macros/CHANGELOG.md:194 titre dupliqué (déjà présent dans server_rust/vendor/tokio/CHANGELOG.md:4024).
+- **Message :** server_rust/vendor/tokio-macros/CHANGELOG.md:194 titre dupliqué (déjà présent dans server_rust/vendor/tokio/CHANGELOG.md:4032).
 
 ## Warning
 
@@ -39813,7 +39813,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio-macros/CHANGELOG.md:230 titre dupliqué (déjà présent dans server_rust/vendor/tokio/CHANGELOG.md:4712).
+- **Message :** server_rust/vendor/tokio-macros/CHANGELOG.md:230 titre dupliqué (déjà présent dans server_rust/vendor/tokio/CHANGELOG.md:4720).
 
 ---
 
@@ -39934,57 +39934,57 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## Error
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md: contient 183 titres H1 (1 attendu).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md: contient 184 titres H1 (1 attendu).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:7 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3 saut de niveau H1 → H3.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:161 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:15 saut de niveau H1 → H3.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:185 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:169 saut de niveau H1 → H3.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:213 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:193 saut de niveau H1 → H3.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:233 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:221 saut de niveau H1 → H3.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:319 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:241 saut de niveau H1 → H3.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:331 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:327 saut de niveau H1 → H3.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:399 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:339 saut de niveau H1 → H3.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:426 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:407 saut de niveau H1 → H3.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:465 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:434 saut de niveau H1 → H3.
 
 ## Warning
 
@@ -39994,37 +39994,37 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:490 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:481 saut de niveau H1 → H3.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:507 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:498 saut de niveau H1 → H3.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:539 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:515 saut de niveau H1 → H3.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:633 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:547 saut de niveau H1 → H3.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:705 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:641 saut de niveau H1 → H3.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:808 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:713 saut de niveau H1 → H3.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:822 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:816 saut de niveau H1 → H3.
 
 ## Warning
 
@@ -40034,27 +40034,27 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:836 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:838 saut de niveau H1 → H3.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:850 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:844 saut de niveau H1 → H3.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:971 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:858 saut de niveau H1 → H3.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:981 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:979 saut de niveau H1 → H3.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1014 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:989 saut de niveau H1 → H3.
 
 ## Warning
 
@@ -40064,12 +40064,12 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1039 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1030 saut de niveau H1 → H3.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1111 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1047 saut de niveau H1 → H3.
 
 ## Warning
 
@@ -40079,77 +40079,77 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1131 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1127 saut de niveau H1 → H3.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1145 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1139 saut de niveau H1 → H3.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1155 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1153 saut de niveau H1 → H3.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1215 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1163 saut de niveau H1 → H3.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1225 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1223 saut de niveau H1 → H3.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1252 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1233 saut de niveau H1 → H3.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1264 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1260 saut de niveau H1 → H3.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1328 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1272 saut de niveau H1 → H3.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1406 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1336 saut de niveau H1 → H3.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1486 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1414 saut de niveau H1 → H3.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1497 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1494 saut de niveau H1 → H3.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1510 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1505 saut de niveau H1 → H3.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1606 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1518 saut de niveau H1 → H3.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1676 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1614 saut de niveau H1 → H3.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1731 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1684 saut de niveau H1 → H3.
 
 ## Warning
 
@@ -40159,17 +40159,17 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1785 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1747 saut de niveau H1 → H3.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1815 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1793 saut de niveau H1 → H3.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1898 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1823 saut de niveau H1 → H3.
 
 ## Warning
 
@@ -40179,137 +40179,137 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1926 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1914 saut de niveau H1 → H3.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1945 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1934 saut de niveau H1 → H3.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2001 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1953 saut de niveau H1 → H3.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2014 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2009 saut de niveau H1 → H3.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2078 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2022 saut de niveau H1 → H3.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2093 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2086 saut de niveau H1 → H3.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2142 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2101 saut de niveau H1 → H3.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2191 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2150 saut de niveau H1 → H3.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2274 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2199 saut de niveau H1 → H3.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2283 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2282 saut de niveau H1 → H3.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2293 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2291 saut de niveau H1 → H3.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2303 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2301 saut de niveau H1 → H3.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2323 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2311 saut de niveau H1 → H3.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2339 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2331 saut de niveau H1 → H3.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2368 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2347 saut de niveau H1 → H3.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2377 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2376 saut de niveau H1 → H3.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2399 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2385 saut de niveau H1 → H3.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2538 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2407 saut de niveau H1 → H3.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2554 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2546 saut de niveau H1 → H3.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2647 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2562 saut de niveau H1 → H3.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2657 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2655 saut de niveau H1 → H3.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2667 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2665 saut de niveau H1 → H3.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2677 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2675 saut de niveau H1 → H3.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2693 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2685 saut de niveau H1 → H3.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2703 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2701 saut de niveau H1 → H3.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2763 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2711 saut de niveau H1 → H3.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2815 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2771 saut de niveau H1 → H3.
 
 ## Warning
 
@@ -40324,52 +40324,52 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2865 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2839 saut de niveau H1 → H3.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2949 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2873 saut de niveau H1 → H3.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3033 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2957 saut de niveau H1 → H3.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3073 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3041 saut de niveau H1 → H3.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3103 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3081 saut de niveau H1 → H3.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3137 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3111 saut de niveau H1 → H3.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3146 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3145 saut de niveau H1 → H3.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3202 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3154 saut de niveau H1 → H3.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3244 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3210 saut de niveau H1 → H3.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3277 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3252 saut de niveau H1 → H3.
 
 ## Warning
 
@@ -40379,32 +40379,32 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3328 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3293 saut de niveau H1 → H3.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3363 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3336 saut de niveau H1 → H3.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3375 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3371 saut de niveau H1 → H3.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3385 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3383 saut de niveau H1 → H3.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3395 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3393 saut de niveau H1 → H3.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3435 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3403 saut de niveau H1 → H3.
 
 ## Warning
 
@@ -40414,12 +40414,12 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3453 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3451 saut de niveau H1 → H3.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3489 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3461 saut de niveau H1 → H3.
 
 ## Warning
 
@@ -40429,12 +40429,12 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3515 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3505 saut de niveau H1 → H3.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3561 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3523 saut de niveau H1 → H3.
 
 ## Warning
 
@@ -40444,132 +40444,132 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3618 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3577 saut de niveau H1 → H3.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3650 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3626 saut de niveau H1 → H3.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3702 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3658 saut de niveau H1 → H3.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3722 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3710 saut de niveau H1 → H3.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3729 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3730 saut de niveau H1 → H3.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3779 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3737 saut de niveau H1 → H3.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3786 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3787 saut de niveau H1 → H3.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3803 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3794 saut de niveau H1 → H3.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3819 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3811 saut de niveau H1 → H3.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3880 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3827 saut de niveau H1 → H3.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3903 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3888 saut de niveau H1 → H3.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3920 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3911 saut de niveau H1 → H3.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3958 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3928 saut de niveau H1 → H3.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3980 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3966 saut de niveau H1 → H3.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4004 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3988 saut de niveau H1 → H3.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4041 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4012 saut de niveau H1 → H3.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4137 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4049 saut de niveau H1 → H3.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4208 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4145 saut de niveau H1 → H3.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4237 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4216 saut de niveau H1 → H3.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4247 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4245 saut de niveau H1 → H3.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4280 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4255 saut de niveau H1 → H3.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4290 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4288 saut de niveau H1 → H3.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4303 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4298 saut de niveau H1 → H3.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4321 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4311 saut de niveau H1 → H3.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4334 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4329 saut de niveau H1 → H3.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4364 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4342 saut de niveau H1 → H3.
 
 ## Warning
 
@@ -40579,32 +40579,32 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4419 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4380 saut de niveau H1 → H3.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4462 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4427 saut de niveau H1 → H3.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4502 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4470 saut de niveau H1 → H3.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4516 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4510 saut de niveau H1 → H3.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4522 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4524 saut de niveau H1 → H3.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4570 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4530 saut de niveau H1 → H3.
 
 ## Warning
 
@@ -40614,7 +40614,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4622 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4586 saut de niveau H1 → H3.
 
 ## Warning
 
@@ -40624,22 +40624,22 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4667 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4638 saut de niveau H1 → H3.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4697 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4675 saut de niveau H1 → H3.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4717 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4705 saut de niveau H1 → H3.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4737 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4725 saut de niveau H1 → H3.
 
 ## Warning
 
@@ -40649,7 +40649,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4754 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4753 saut de niveau H1 → H3.
 
 ## Warning
 
@@ -40669,157 +40669,162 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4793 saut de niveau H1 → H3.
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4786 saut de niveau H1 → H3.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:7 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4801 saut de niveau H1 → H3.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:19 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:8).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:42 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:15 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:75 titre dupliqué (déjà présent dans server_rust/vendor/tracing-core/CHANGELOG.md:18).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:27 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:8).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:161 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:50 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:165 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:8).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:83 titre dupliqué (déjà présent dans server_rust/vendor/tracing-core/CHANGELOG.md:18).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:169 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:169 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:185 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:173 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:8).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:199 titre dupliqué (déjà présent dans server_rust/vendor/tokio/CHANGELOG.md:177).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:177 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:213 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:193 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:217 titre dupliqué (déjà présent dans server_rust/vendor/tokio/CHANGELOG.md:177).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:207 titre dupliqué (déjà présent dans server_rust/vendor/tokio/CHANGELOG.md:185).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:221 titre dupliqué (déjà présent dans server_rust/vendor/tracing-core/CHANGELOG.md:18).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:221 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:233 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:225 titre dupliqué (déjà présent dans server_rust/vendor/tokio/CHANGELOG.md:185).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:239 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:8).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:229 titre dupliqué (déjà présent dans server_rust/vendor/tracing-core/CHANGELOG.md:18).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:253 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:241 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:269 titre dupliqué (déjà présent dans server_rust/vendor/tracing-core/CHANGELOG.md:18).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:247 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:8).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:319 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:261 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:323 titre dupliqué (déjà présent dans server_rust/vendor/tokio/CHANGELOG.md:177).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:277 titre dupliqué (déjà présent dans server_rust/vendor/tracing-core/CHANGELOG.md:18).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:331 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:327 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:345 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:331 titre dupliqué (déjà présent dans server_rust/vendor/tokio/CHANGELOG.md:185).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:357 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:339 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:369 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:8).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:353 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:374 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:365 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:378 titre dupliqué (déjà présent dans server_rust/vendor/tracing-core/CHANGELOG.md:18).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:377 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:8).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:399 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:382 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:403 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:8).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:386 titre dupliqué (déjà présent dans server_rust/vendor/tracing-core/CHANGELOG.md:18).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:407 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:407 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:426 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:411 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:8).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:440 titre dupliqué (déjà présent dans server_rust/vendor/tokio/CHANGELOG.md:177).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:415 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:465 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:434 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
+
+## Warning
+
+- **Module :** titles
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:448 titre dupliqué (déjà présent dans server_rust/vendor/tokio/CHANGELOG.md:185).
 
 ## Warning
 
@@ -40829,112 +40834,112 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:490 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:481 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:495 titre dupliqué (déjà présent dans server_rust/vendor/tokio/CHANGELOG.md:177).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:498 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:507 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:503 titre dupliqué (déjà présent dans server_rust/vendor/tokio/CHANGELOG.md:185).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:515 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:8).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:515 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:519 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:523 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:8).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:539 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:527 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:544 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:8).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:547 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:553 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:552 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:8).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:565 titre dupliqué (déjà présent dans server_rust/vendor/tokio/CHANGELOG.md:66).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:561 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:570 titre dupliqué (déjà présent dans server_rust/vendor/tracing-core/CHANGELOG.md:18).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:573 titre dupliqué (déjà présent dans server_rust/vendor/tokio/CHANGELOG.md:74).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:633 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:578 titre dupliqué (déjà présent dans server_rust/vendor/tracing-core/CHANGELOG.md:18).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:640 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:8).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:641 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:644 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:648 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:8).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:651 titre dupliqué (déjà présent dans server_rust/vendor/tokio/CHANGELOG.md:66).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:652 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:658 titre dupliqué (déjà présent dans server_rust/vendor/tracing-core/CHANGELOG.md:18).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:659 titre dupliqué (déjà présent dans server_rust/vendor/tokio/CHANGELOG.md:74).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:705 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:666 titre dupliqué (déjà présent dans server_rust/vendor/tracing-core/CHANGELOG.md:18).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:715 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:8).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:713 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:726 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:723 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:8).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:731 titre dupliqué (déjà présent dans server_rust/vendor/tokio/CHANGELOG.md:66).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:734 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:739 titre dupliqué (déjà présent dans server_rust/vendor/tracing-core/CHANGELOG.md:18).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:739 titre dupliqué (déjà présent dans server_rust/vendor/tokio/CHANGELOG.md:74).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:808 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:747 titre dupliqué (déjà présent dans server_rust/vendor/tracing-core/CHANGELOG.md:18).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:822 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:816 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
 
 ## Warning
 
@@ -40944,82 +40949,82 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:836 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:838 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:850 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:844 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:867 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:858 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:873 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:8).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:875 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:879 titre dupliqué (déjà présent dans server_rust/vendor/tracing-core/CHANGELOG.md:18).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:881 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:8).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:900 titre dupliqué (déjà présent dans server_rust/vendor/tokio/CHANGELOG.md:66).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:887 titre dupliqué (déjà présent dans server_rust/vendor/tracing-core/CHANGELOG.md:18).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:911 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:908 titre dupliqué (déjà présent dans server_rust/vendor/tokio/CHANGELOG.md:74).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:915 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:919 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:923 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:8).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:923 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:928 titre dupliqué (déjà présent dans server_rust/vendor/tokio/CHANGELOG.md:66).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:931 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:8).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:933 titre dupliqué (déjà présent dans server_rust/vendor/tracing-core/CHANGELOG.md:18).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:936 titre dupliqué (déjà présent dans server_rust/vendor/tokio/CHANGELOG.md:74).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:971 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:941 titre dupliqué (déjà présent dans server_rust/vendor/tracing-core/CHANGELOG.md:18).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:981 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:979 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:987 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:8).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:989 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:993 titre dupliqué (déjà présent dans server_rust/vendor/tokio/CHANGELOG.md:66).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:995 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:8).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1014 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1001 titre dupliqué (déjà présent dans server_rust/vendor/tokio/CHANGELOG.md:74).
 
 ## Warning
 
@@ -41029,27 +41034,27 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1039 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1030 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1048 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1047 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1055 titre dupliqué (déjà présent dans server_rust/vendor/sqlx/CHANGELOG.md:1925).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1056 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1068 titre dupliqué (déjà présent dans server_rust/vendor/tracing-core/CHANGELOG.md:18).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1063 titre dupliqué (déjà présent dans server_rust/vendor/sqlx/CHANGELOG.md:1925).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1111 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1076 titre dupliqué (déjà présent dans server_rust/vendor/tracing-core/CHANGELOG.md:18).
 
 ## Warning
 
@@ -41059,277 +41064,277 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1131 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1127 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1145 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1139 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1155 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1153 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1163 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1163 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1169 titre dupliqué (déjà présent dans server_rust/vendor/sqlx/CHANGELOG.md:1925).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1171 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1175 titre dupliqué (déjà présent dans server_rust/vendor/tokio/CHANGELOG.md:1063).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1177 titre dupliqué (déjà présent dans server_rust/vendor/sqlx/CHANGELOG.md:1925).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1180 titre dupliqué (déjà présent dans server_rust/vendor/tracing-core/CHANGELOG.md:18).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1183 titre dupliqué (déjà présent dans server_rust/vendor/tokio/CHANGELOG.md:1071).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1215 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1188 titre dupliqué (déjà présent dans server_rust/vendor/tracing-core/CHANGELOG.md:18).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1225 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1223 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1229 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1233 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1234 titre dupliqué (déjà présent dans server_rust/vendor/sqlx/CHANGELOG.md:1925).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1237 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1238 titre dupliqué (déjà présent dans server_rust/vendor/tracing-core/CHANGELOG.md:18).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1242 titre dupliqué (déjà présent dans server_rust/vendor/sqlx/CHANGELOG.md:1925).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1252 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1246 titre dupliqué (déjà présent dans server_rust/vendor/tracing-core/CHANGELOG.md:18).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1264 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1260 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1272 titre dupliqué (déjà présent dans server_rust/vendor/tokio/CHANGELOG.md:362).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1272 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1278 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:8).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1280 titre dupliqué (déjà présent dans server_rust/vendor/tokio/CHANGELOG.md:370).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1287 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1286 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:8).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1291 titre dupliqué (déjà présent dans server_rust/vendor/tracing-core/CHANGELOG.md:18).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1295 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1328 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1299 titre dupliqué (déjà présent dans server_rust/vendor/tracing-core/CHANGELOG.md:18).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1335 titre dupliqué (déjà présent dans server_rust/vendor/tokio/CHANGELOG.md:362).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1336 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1339 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:8).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1343 titre dupliqué (déjà présent dans server_rust/vendor/tokio/CHANGELOG.md:370).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1350 titre dupliqué (déjà présent dans server_rust/vendor/tracing-core/CHANGELOG.md:18).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1347 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:8).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1406 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1358 titre dupliqué (déjà présent dans server_rust/vendor/tracing-core/CHANGELOG.md:18).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1417 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:8).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1414 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1427 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1425 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:8).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1433 titre dupliqué (déjà présent dans server_rust/vendor/tokio/CHANGELOG.md:362).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1435 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1440 titre dupliqué (déjà présent dans server_rust/vendor/tracing-core/CHANGELOG.md:18).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1441 titre dupliqué (déjà présent dans server_rust/vendor/tokio/CHANGELOG.md:370).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1486 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1448 titre dupliqué (déjà présent dans server_rust/vendor/tracing-core/CHANGELOG.md:18).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1497 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1494 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1510 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1505 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1524 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:8).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1518 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1541 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1532 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:8).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1547 titre dupliqué (déjà présent dans server_rust/vendor/tracing-core/CHANGELOG.md:18).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1549 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1606 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1555 titre dupliqué (déjà présent dans server_rust/vendor/tracing-core/CHANGELOG.md:18).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1618 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:8).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1614 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1622 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1626 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:8).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1628 titre dupliqué (déjà présent dans server_rust/vendor/tracing-core/CHANGELOG.md:18).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1630 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1676 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1636 titre dupliqué (déjà présent dans server_rust/vendor/tracing-core/CHANGELOG.md:18).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1688 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:8).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1684 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1696 titre dupliqué (déjà présent dans server_rust/vendor/tracing-core/CHANGELOG.md:18).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1696 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:8).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1731 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1704 titre dupliqué (déjà présent dans server_rust/vendor/tracing-core/CHANGELOG.md:18).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1739 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1739 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1743 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:8).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1747 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1750 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1751 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:8).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1760 titre dupliqué (déjà présent dans server_rust/vendor/tracing-core/CHANGELOG.md:18).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1758 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1785 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1768 titre dupliqué (déjà présent dans server_rust/vendor/tracing-core/CHANGELOG.md:18).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1792 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:8).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1793 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1796 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1800 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:8).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1815 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1804 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1822 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:8).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1823 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1826 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1830 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:8).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1837 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:11).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1834 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1841 titre dupliqué (déjà présent dans server_rust/vendor/tracing-core/CHANGELOG.md:18).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1845 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:11).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1853 titre dupliqué (déjà présent dans server_rust/vendor/tokio/CHANGELOG.md:66).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1849 titre dupliqué (déjà présent dans server_rust/vendor/tracing-core/CHANGELOG.md:18).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1898 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1861 titre dupliqué (déjà présent dans server_rust/vendor/tokio/CHANGELOG.md:74).
 
 ## Warning
 
@@ -41339,352 +41344,352 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1910 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1914 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1915 titre dupliqué (déjà présent dans server_rust/vendor/tokio/CHANGELOG.md:66).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1918 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1926 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1923 titre dupliqué (déjà présent dans server_rust/vendor/tokio/CHANGELOG.md:74).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1930 titre dupliqué (déjà présent dans server_rust/vendor/tokio/CHANGELOG.md:66).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1934 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1945 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:8).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1938 titre dupliqué (déjà présent dans server_rust/vendor/tokio/CHANGELOG.md:74).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1953 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1953 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:8).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1961 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:11).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1961 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1966 titre dupliqué (déjà présent dans server_rust/vendor/tracing-core/CHANGELOG.md:18).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1969 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:11).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1974 titre dupliqué (déjà présent dans server_rust/vendor/tokio/CHANGELOG.md:66).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1974 titre dupliqué (déjà présent dans server_rust/vendor/tracing-core/CHANGELOG.md:18).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2001 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:1982 titre dupliqué (déjà présent dans server_rust/vendor/tokio/CHANGELOG.md:74).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2014 titre dupliqué (déjà présent dans server_rust/vendor/sqlx/CHANGELOG.md:34).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2009 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2018 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2022 titre dupliqué (déjà présent dans server_rust/vendor/sqlx/CHANGELOG.md:34).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2027 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:8).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2026 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2031 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2035 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:8).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2044 titre dupliqué (déjà présent dans server_rust/vendor/tokio/CHANGELOG.md:66).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2039 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2078 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2052 titre dupliqué (déjà présent dans server_rust/vendor/tokio/CHANGELOG.md:74).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2093 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2086 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2103 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:8).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2101 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2111 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2111 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:8).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2116 titre dupliqué (déjà présent dans server_rust/vendor/tracing-core/CHANGELOG.md:18).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2119 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2142 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2124 titre dupliqué (déjà présent dans server_rust/vendor/tracing-core/CHANGELOG.md:18).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2150 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:8).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2150 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2157 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2158 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:8).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2163 titre dupliqué (déjà présent dans server_rust/vendor/tracing-core/CHANGELOG.md:18).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2165 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2191 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2171 titre dupliqué (déjà présent dans server_rust/vendor/tracing-core/CHANGELOG.md:18).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2198 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2199 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2204 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:8).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2206 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2213 titre dupliqué (déjà présent dans server_rust/vendor/bytes/CHANGELOG.md:37).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2212 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:8).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2221 titre dupliqué (déjà présent dans server_rust/vendor/tokio/CHANGELOG.md:66).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2221 titre dupliqué (déjà présent dans server_rust/vendor/bytes/CHANGELOG.md:37).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2225 titre dupliqué (déjà présent dans server_rust/vendor/tracing-core/CHANGELOG.md:18).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2229 titre dupliqué (déjà présent dans server_rust/vendor/tokio/CHANGELOG.md:74).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2274 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2233 titre dupliqué (déjà présent dans server_rust/vendor/tracing-core/CHANGELOG.md:18).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2283 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:8).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2282 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2293 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2291 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:8).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2303 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2301 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2307 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2311 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2311 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:8).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2315 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2323 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2319 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:8).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2339 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2331 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2342 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2347 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2348 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:8).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2350 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2368 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2356 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:8).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2377 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2376 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2399 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2385 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2406 titre dupliqué (déjà présent dans server_rust/vendor/tokio/CHANGELOG.md:362).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2407 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2412 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2414 titre dupliqué (déjà présent dans server_rust/vendor/tokio/CHANGELOG.md:370).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2425 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:8).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2420 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2430 titre dupliqué (déjà présent dans server_rust/vendor/tracing-core/CHANGELOG.md:18).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2433 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:8).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2440 titre dupliqué (déjà présent dans server_rust/vendor/bytes/CHANGELOG.md:37).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2438 titre dupliqué (déjà présent dans server_rust/vendor/tracing-core/CHANGELOG.md:18).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2538 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2448 titre dupliqué (déjà présent dans server_rust/vendor/bytes/CHANGELOG.md:37).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2554 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2546 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2567 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2562 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2575 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:8).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2575 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2582 titre dupliqué (déjà présent dans server_rust/vendor/bytes/CHANGELOG.md:37).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2583 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:8).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2588 titre dupliqué (déjà présent dans server_rust/vendor/tracing-core/CHANGELOG.md:18).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2590 titre dupliqué (déjà présent dans server_rust/vendor/bytes/CHANGELOG.md:37).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2599 titre dupliqué (déjà présent dans server_rust/vendor/tokio/CHANGELOG.md:66).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2596 titre dupliqué (déjà présent dans server_rust/vendor/tracing-core/CHANGELOG.md:18).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2647 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:8).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2607 titre dupliqué (déjà présent dans server_rust/vendor/tokio/CHANGELOG.md:74).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2657 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2655 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:8).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2667 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2665 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2677 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2675 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2693 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2685 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2703 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2701 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2707 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:8).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2711 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2715 titre dupliqué (déjà présent dans server_rust/vendor/tracing-core/CHANGELOG.md:18).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2715 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:8).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2723 titre dupliqué (déjà présent dans server_rust/vendor/tokio/CHANGELOG.md:66).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2723 titre dupliqué (déjà présent dans server_rust/vendor/tracing-core/CHANGELOG.md:18).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2763 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2731 titre dupliqué (déjà présent dans server_rust/vendor/tokio/CHANGELOG.md:74).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2772 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:8).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2771 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2776 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2780 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:8).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2780 titre dupliqué (déjà présent dans server_rust/vendor/tracing-core/CHANGELOG.md:18).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2784 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2785 titre dupliqué (déjà présent dans server_rust/vendor/tokio/CHANGELOG.md:66).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2788 titre dupliqué (déjà présent dans server_rust/vendor/tracing-core/CHANGELOG.md:18).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2815 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2793 titre dupliqué (déjà présent dans server_rust/vendor/tokio/CHANGELOG.md:74).
 
 ## Warning
 
@@ -41699,242 +41704,242 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2865 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2839 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2872 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2873 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2883 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:8).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2880 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2889 titre dupliqué (déjà présent dans server_rust/vendor/tracing-core/CHANGELOG.md:18).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2891 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:8).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2898 titre dupliqué (déjà présent dans server_rust/vendor/tokio/CHANGELOG.md:66).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2897 titre dupliqué (déjà présent dans server_rust/vendor/tracing-core/CHANGELOG.md:18).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2949 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2906 titre dupliqué (déjà présent dans server_rust/vendor/tokio/CHANGELOG.md:74).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2957 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:8).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2957 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2969 titre dupliqué (déjà présent dans server_rust/vendor/tracing-core/CHANGELOG.md:18).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2965 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:8).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2973 titre dupliqué (déjà présent dans server_rust/vendor/tokio/CHANGELOG.md:66).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2977 titre dupliqué (déjà présent dans server_rust/vendor/tracing-core/CHANGELOG.md:18).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3033 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:2981 titre dupliqué (déjà présent dans server_rust/vendor/tokio/CHANGELOG.md:74).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3042 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3041 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3051 titre dupliqué (déjà présent dans server_rust/vendor/tokio/CHANGELOG.md:66).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3050 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3073 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3059 titre dupliqué (déjà présent dans server_rust/vendor/tokio/CHANGELOG.md:74).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3078 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:8).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3081 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3082 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3086 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:8).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3088 titre dupliqué (déjà présent dans server_rust/vendor/tokio/CHANGELOG.md:362).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3090 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3103 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3096 titre dupliqué (déjà présent dans server_rust/vendor/tokio/CHANGELOG.md:370).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3112 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3111 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3116 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:8).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3120 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3120 titre dupliqué (déjà présent dans server_rust/vendor/tracing-core/CHANGELOG.md:18).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3124 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:8).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3137 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3128 titre dupliqué (déjà présent dans server_rust/vendor/tracing-core/CHANGELOG.md:18).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3146 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3145 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3151 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3154 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3161 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:8).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3159 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3169 titre dupliqué (déjà présent dans server_rust/vendor/tracing-core/CHANGELOG.md:18).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3169 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:8).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3202 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3177 titre dupliqué (déjà présent dans server_rust/vendor/tracing-core/CHANGELOG.md:18).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3208 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3210 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3216 titre dupliqué (déjà présent dans server_rust/vendor/tracing-core/CHANGELOG.md:18).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3216 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3244 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3224 titre dupliqué (déjà présent dans server_rust/vendor/tracing-core/CHANGELOG.md:18).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3249 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3252 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3255 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:8).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3257 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3260 titre dupliqué (déjà présent dans server_rust/vendor/tracing-core/CHANGELOG.md:18).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3263 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:8).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3277 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3268 titre dupliqué (déjà présent dans server_rust/vendor/tracing-core/CHANGELOG.md:18).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3285 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3285 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3291 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3293 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3299 titre dupliqué (déjà présent dans server_rust/vendor/sqlx/CHANGELOG.md:1925).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3299 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3305 titre dupliqué (déjà présent dans server_rust/vendor/tracing-core/CHANGELOG.md:18).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3307 titre dupliqué (déjà présent dans server_rust/vendor/sqlx/CHANGELOG.md:1925).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3328 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3313 titre dupliqué (déjà présent dans server_rust/vendor/tracing-core/CHANGELOG.md:18).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3334 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3336 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3339 titre dupliqué (déjà présent dans server_rust/vendor/sqlx/CHANGELOG.md:1925).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3342 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3363 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3347 titre dupliqué (déjà présent dans server_rust/vendor/sqlx/CHANGELOG.md:1925).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3375 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3371 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3385 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3383 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3395 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3393 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3404 titre dupliqué (déjà présent dans server_rust/vendor/tokio/CHANGELOG.md:362).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3403 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3408 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3412 titre dupliqué (déjà présent dans server_rust/vendor/tokio/CHANGELOG.md:370).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3412 titre dupliqué (déjà présent dans server_rust/vendor/tracing-core/CHANGELOG.md:18).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3416 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3435 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3420 titre dupliqué (déjà présent dans server_rust/vendor/tracing-core/CHANGELOG.md:18).
 
 ## Warning
 
@@ -41944,352 +41949,352 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3453 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3451 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3461 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3461 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3467 titre dupliqué (déjà présent dans server_rust/vendor/tracing-core/CHANGELOG.md:18).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3469 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3489 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3475 titre dupliqué (déjà présent dans server_rust/vendor/tracing-core/CHANGELOG.md:18).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3497 titre dupliqué (déjà présent dans server_rust/vendor/sqlx/CHANGELOG.md:1938).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3497 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3515 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3505 titre dupliqué (déjà présent dans server_rust/vendor/sqlx/CHANGELOG.md:1938).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3525 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3523 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3534 titre dupliqué (déjà présent dans server_rust/vendor/tracing-core/CHANGELOG.md:18).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3533 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3561 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3542 titre dupliqué (déjà présent dans server_rust/vendor/tracing-core/CHANGELOG.md:18).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3569 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3569 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3582 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3577 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3590 titre dupliqué (déjà présent dans server_rust/vendor/tracing-core/CHANGELOG.md:18).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3590 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3618 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3598 titre dupliqué (déjà présent dans server_rust/vendor/tracing-core/CHANGELOG.md:18).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3623 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3626 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3629 titre dupliqué (déjà présent dans server_rust/vendor/tracing-core/CHANGELOG.md:18).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3631 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3650 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3637 titre dupliqué (déjà présent dans server_rust/vendor/tracing-core/CHANGELOG.md:18).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3658 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3658 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3663 titre dupliqué (déjà présent dans server_rust/vendor/tracing-core/CHANGELOG.md:18).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3666 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3702 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3671 titre dupliqué (déjà présent dans server_rust/vendor/tracing-core/CHANGELOG.md:18).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3706 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3710 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3710 titre dupliqué (déjà présent dans server_rust/vendor/tracing-core/CHANGELOG.md:18).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3714 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3722 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3718 titre dupliqué (déjà présent dans server_rust/vendor/tracing-core/CHANGELOG.md:18).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3729 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3730 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3736 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:8).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3737 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3742 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3744 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:8).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3747 titre dupliqué (déjà présent dans server_rust/vendor/tracing-core/CHANGELOG.md:18).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3750 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3779 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3755 titre dupliqué (déjà présent dans server_rust/vendor/tracing-core/CHANGELOG.md:18).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3786 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3787 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3803 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:11).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3794 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3807 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3811 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:11).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3819 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3815 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3823 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:8).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3827 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3833 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:11).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3831 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:8).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3843 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3841 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:11).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3880 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3851 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3888 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3888 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3903 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3896 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3908 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3911 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3920 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3916 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3925 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:8).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3928 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3929 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3933 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:8).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3958 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3937 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3963 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3966 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3980 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3971 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3985 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3988 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4004 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:3993 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4009 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4012 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4041 titre dupliqué (déjà présent dans server_rust/vendor/sqlx/CHANGELOG.md:1925).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4017 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4064 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4049 titre dupliqué (déjà présent dans server_rust/vendor/sqlx/CHANGELOG.md:1925).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4082 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:11).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4072 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4091 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4090 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:11).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4137 titre dupliqué (déjà présent dans server_rust/vendor/sqlx/CHANGELOG.md:1938).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4099 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4153 titre dupliqué (déjà présent dans server_rust/vendor/sqlx/CHANGELOG.md:1925).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4145 titre dupliqué (déjà présent dans server_rust/vendor/sqlx/CHANGELOG.md:1938).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4157 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4161 titre dupliqué (déjà présent dans server_rust/vendor/sqlx/CHANGELOG.md:1925).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4208 titre dupliqué (déjà présent dans server_rust/vendor/sqlx/CHANGELOG.md:1938).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4165 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4216 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4216 titre dupliqué (déjà présent dans server_rust/vendor/sqlx/CHANGELOG.md:1938).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4237 titre dupliqué (déjà présent dans server_rust/vendor/sqlx/CHANGELOG.md:1938).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4224 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4247 titre dupliqué (déjà présent dans server_rust/vendor/sqlx/CHANGELOG.md:1938).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4245 titre dupliqué (déjà présent dans server_rust/vendor/sqlx/CHANGELOG.md:1938).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4254 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4255 titre dupliqué (déjà présent dans server_rust/vendor/sqlx/CHANGELOG.md:1938).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4280 titre dupliqué (déjà présent dans server_rust/vendor/sqlx/CHANGELOG.md:1938).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4262 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4290 titre dupliqué (déjà présent dans server_rust/vendor/sqlx/CHANGELOG.md:1938).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4288 titre dupliqué (déjà présent dans server_rust/vendor/sqlx/CHANGELOG.md:1938).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4294 titre dupliqué (déjà présent dans server_rust/vendor/sqlx/CHANGELOG.md:1925).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4298 titre dupliqué (déjà présent dans server_rust/vendor/sqlx/CHANGELOG.md:1938).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4303 titre dupliqué (déjà présent dans server_rust/vendor/sqlx/CHANGELOG.md:1938).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4302 titre dupliqué (déjà présent dans server_rust/vendor/sqlx/CHANGELOG.md:1925).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4309 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4311 titre dupliqué (déjà présent dans server_rust/vendor/sqlx/CHANGELOG.md:1938).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4321 titre dupliqué (déjà présent dans server_rust/vendor/sqlx/CHANGELOG.md:1938).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4317 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4325 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4329 titre dupliqué (déjà présent dans server_rust/vendor/sqlx/CHANGELOG.md:1938).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4334 titre dupliqué (déjà présent dans server_rust/vendor/sqlx/CHANGELOG.md:1938).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4333 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4341 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4342 titre dupliqué (déjà présent dans server_rust/vendor/sqlx/CHANGELOG.md:1938).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4347 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:8).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4349 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4364 titre dupliqué (déjà présent dans server_rust/vendor/sqlx/CHANGELOG.md:1938).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4355 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:8).
 
 ## Warning
 
@@ -42299,127 +42304,127 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4383 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4380 titre dupliqué (déjà présent dans server_rust/vendor/sqlx/CHANGELOG.md:1938).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4419 titre dupliqué (déjà présent dans server_rust/vendor/sqlx/CHANGELOG.md:1938).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4391 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4426 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4427 titre dupliqué (déjà présent dans server_rust/vendor/sqlx/CHANGELOG.md:1938).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4462 titre dupliqué (déjà présent dans server_rust/vendor/sqlx/CHANGELOG.md:1938).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4434 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4468 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4470 titre dupliqué (déjà présent dans server_rust/vendor/sqlx/CHANGELOG.md:1938).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4502 titre dupliqué (déjà présent dans server_rust/vendor/sqlx/CHANGELOG.md:1938).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4476 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4516 titre dupliqué (déjà présent dans server_rust/vendor/sqlx/CHANGELOG.md:1938).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4510 titre dupliqué (déjà présent dans server_rust/vendor/sqlx/CHANGELOG.md:1938).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4522 titre dupliqué (déjà présent dans server_rust/vendor/sqlx/CHANGELOG.md:1938).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4524 titre dupliqué (déjà présent dans server_rust/vendor/sqlx/CHANGELOG.md:1938).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4531 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4530 titre dupliqué (déjà présent dans server_rust/vendor/sqlx/CHANGELOG.md:1938).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4570 titre dupliqué (déjà présent dans server_rust/vendor/sqlx/CHANGELOG.md:1938).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4539 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4578 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4578 titre dupliqué (déjà présent dans server_rust/vendor/sqlx/CHANGELOG.md:1938).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4590 titre dupliqué (déjà présent dans server_rust/vendor/sqlx/CHANGELOG.md:1938).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4586 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4597 titre dupliqué (déjà présent dans server_rust/vendor/sqlx/CHANGELOG.md:1925).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4598 titre dupliqué (déjà présent dans server_rust/vendor/sqlx/CHANGELOG.md:1938).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4622 titre dupliqué (déjà présent dans server_rust/vendor/sqlx/CHANGELOG.md:1938).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4605 titre dupliqué (déjà présent dans server_rust/vendor/sqlx/CHANGELOG.md:1925).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4630 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4630 titre dupliqué (déjà présent dans server_rust/vendor/sqlx/CHANGELOG.md:1938).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4642 titre dupliqué (déjà présent dans server_rust/vendor/sqlx/CHANGELOG.md:1938).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4638 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4667 titre dupliqué (déjà présent dans server_rust/vendor/sqlx/CHANGELOG.md:1938).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4650 titre dupliqué (déjà présent dans server_rust/vendor/sqlx/CHANGELOG.md:1938).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4677 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4675 titre dupliqué (déjà présent dans server_rust/vendor/sqlx/CHANGELOG.md:1938).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4697 titre dupliqué (déjà présent dans server_rust/vendor/sqlx/CHANGELOG.md:1938).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4685 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4701 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4705 titre dupliqué (déjà présent dans server_rust/vendor/sqlx/CHANGELOG.md:1938).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4717 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:8).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4709 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4729 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:11).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4725 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:8).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4737 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:8).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4737 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:11).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4745 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4745 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:8).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4754 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4753 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
@@ -42434,17 +42439,22 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4778 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4778 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4782 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4786 titre dupliqué (déjà présent dans server_rust/vendor/zeroize/CHANGELOG.md:14).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4793 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4790 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+
+## Warning
+
+- **Module :** titles
+- **Message :** server_rust/vendor/tokio/CHANGELOG.md:4801 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ---
 
