@@ -1,0 +1,49 @@
+version: 2
+
+updates:
+
+  # Dépendances Python
+  - package-ecosystem: "pip"
+    directory: "/"
+    schedule:
+     interval: "daily"
+     time: "02:00"
+     timezone: "Europe/Paris"
+    open-pull-requests-limit: 5
+    labels:
+      - "dependencies"
+    commit-message:
+      prefix: "chore"
+      include: "scope"
+
+  # Dépendances Rust
+  - package-ecosystem: "cargo"
+    directory: "/server_rust"
+    schedule:
+     interval: "daily"
+     time: "02:00"
+     timezone: "Europe/Paris"
+    open-pull-requests-limit: 5
+    labels:
+      - "dependencies"
+    commit-message:
+      prefix: "chore"
+      include: "scope"
+    ignore:
+      - dependency-name: "rand_core"
+        versions:
+          - "0.6.4" #"argon2 0.5.3 en a besoin"
+
+  # Workflows GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/.github/workflows"
+    schedule:
+     interval: "daily"
+     time: "02:00"
+     timezone: "Europe/Paris"
+    open-pull-requests-limit: 5
+    ignore:
+      - dependency-name: "actions/download-artifact"
+      - dependency-name: "actions-rust-lang/setup-rust-toolchain"
+
+    

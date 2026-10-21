@@ -1,0 +1,67 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+
+jobs:
+  release:
+
+    name: Create GitHub Release
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout repository
+        uses: actions/checkout@v7
+        with:
+              fetch-depth: 0
+              token: ${{ secrets.GITHUB_TOKEN }}
+              persist-credentials: true
+
+      - name: Create folders
+        run: |
+          mkdir -p reports
+
+          REPORT="reports/release-report-${GITHUB_RUN_NUMBER}.md"
+
+          echo "REPORT=$REPORT" >> $GITHUB_ENV
+
+          echo "# Release Report" > "$REPORT"
+          echo "" >> "$REPORT"
+          echo "Date : $(date)" >> "$REPORT"
+          echo "" >> "$REPORT"
+          echo "Tag : ${GITHUB_REF_NAME}" >> "$REPORT"
+
+      - name: Generate Changelog
+        run: |
+
+          echo "" >> "$REPORT"
+          echo "## Commits" >> "$REPORT"
+
+          git log --oneline -20 >> "$REPORT"
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v3
+        with:
+          generate_release_notes: true
+          draft: false
+          prerelease: false
+
+      - name: Display report
+        run: |
+          cat "$REPORT" >> $GITHUB_STEP_SUMMARY
+
+      - name: Commit reports
+        uses: ./.github/actions/commit-reports
+        with:
+          report-type: release
+          commit-message: "Release Report #${{ github.run_number }}"

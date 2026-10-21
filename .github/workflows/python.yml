@@ -1,0 +1,1777 @@
+name: Python CI Report
+
+on:
+  workflow_call:
+
+permissions:
+  contents: write
+  actions: write
+  pull-requests: write
+
+jobs:
+
+  python-check:
+
+    name: Python Tests & Report
+    runs-on: ubuntu-latest
+
+    steps:
+
+      # ============================================================
+      # Récupération du code
+      # ============================================================
+
+      - name: Checkout repository
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+          persist-credentials: true
+
+
+      # ============================================================
+      # Installation Python
+      # ============================================================
+
+      - name: Setup Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.14"
+
+
+      # ============================================================
+      # Installation des outils
+      # ============================================================
+
+      - name: Install dependencies
+        run: |
+
+          python -m pip install --upgrade pip setuptools wheel
+
+          if [ -f requirements.txt ]; then
+            pip install -r requirements.txt
+          fi
+
+          
+
+
+      # ============================================================
+      # Création du fichier rapport
+      # ============================================================
+
+      - name: Create report
+        run: |
+
+          DATE=$(date -u +"%Y-%m-%d")
+
+          REPORT_DIR="reports/python/${DATE}"
+
+          mkdir -p "$REPORT_DIR"
+
+          LAST=$(find "$REPORT_DIR" -type f -name 'python-report-*.md' \
+            -exec basename {} \; |
+            sed -E 's/python-report-([0-9]+)\.md/\1/' |
+            sort -n |
+            tail -1)
+
+          REPORT_NUMBER=$(( ${LAST:-0} + 1 ))
+
+          REPORT="${REPORT_DIR}/python-report-${REPORT_NUMBER}.md"
+
+          echo "REPORT=$REPORT" >> "$GITHUB_ENV"
+          echo "REPORT_NUMBER=$REPORT_NUMBER" >> "$GITHUB_ENV"
+          echo "REPORT_DATE=$DATE" >> "$GITHUB_ENV"
+
+          {
+            echo "# 🐍 Python CI Report"
+            echo ""
+            echo "Run : ${GITHUB_RUN_NUMBER}"
+            echo "Branch : ${GITHUB_REF_NAME}"
+            echo "Commit : ${GITHUB_SHA}"
+            echo "Date : $(date)"
+            echo ""
+            echo "---"
+            echo ""
+            echo "# 📊 Summary"
+            echo ""
+          } > "$REPORT"
+
+
+      # ============================================================
+      # Vérification du formatage
+      # ============================================================
+
+      - name: Check formatting
+        continue-on-error: true
+        run: |
+
+          echo "## ⚫ Black" >> "$REPORT"
+
+          black --check . --exclude '/server_rust/' > black.txt 2>&1 || true
+
+          COUNT=$(grep -c "would reformat" black.txt || true)
+
+          echo "" >> "$REPORT"
+          echo "**Files to reformat:** $COUNT" >> "$REPORT"
+          echo "" >> "$REPORT"
+
+          echo "<details>" >> "$REPORT"
+          echo "<summary>Show files</summary>" >> "$REPORT"
+
+          grep "would reformat" black.txt \
+            | sed 's/would reformat //' \
+            >> "$REPORT" || true
+
+          echo "</details>" >> "$REPORT"
+          echo "" >> "$REPORT"
+
+
+      # ============================================================
+      # Analyse du code
+      # ============================================================
+
+      - name: Code analysis
+        continue-on-error: true
+        run: |
+
+          pwd
+
+          ls -la docs
+
+          test -f docs/QRB_flake8_error.md && echo "FOUND" || echo "MISSING"
+
+          echo "##   Flake8" >> "$REPORT"
+          echo "" >> "$REPORT"
+
+          flake8 . --exclude=server_rust > flake8.txt 2>&1 || true
+
+
+          # --------------------------------------------------------
+          # Erreurs par code
+          # --------------------------------------------------------
+
+          echo "### 📊 Erreurs par code" >> "$REPORT"
+          echo "" >> "$REPORT"
+
+          echo "| Code | Nombre |" >> "$REPORT"
+          echo "|------|-------:|" >> "$REPORT"
+
+          awk -F: '{gsub(/^ +/, "", $4); print $4}' flake8.txt \
+            | awk '{print $1}' \
+            | sort \
+            | uniq -c \
+            | sort -rn \
+            | while read count code
+          do
+            echo "| $code | $count |"
+          done >> "$REPORT"
+
+          echo "" >> "$REPORT"
+
+
+          # --------------------------------------------------------
+          # Tableau complet Flake8
+          # --------------------------------------------------------
+
+          echo "<details>" >> "$REPORT"
+          echo "<summary>📋 Voir toutes les erreurs Flake8</summary>" >> "$REPORT"
+          echo "" >> "$REPORT"
+
+          echo "<!-- FLAKE8_INTERACTIVE_TABLE -->" >> "$REPORT"
+
+          echo "| Fichier | Ligne | Code | Message |" >> "$REPORT"
+          echo "|---------|------:|------|---------|" >> "$REPORT"
+
+          awk -F: '
+          {
+            file=$1
+            line=$2
+
+            gsub(/^ +/, "", $4)
+            split($4,a," ")
+
+            code=a[1]
+            msg=$4
+
+            sub(code" ","",msg)
+
+            printf("| %s | %s | %s | %s |\n",
+              file,
+              line,
+              code,
+              msg)
+          }
+          ' flake8.txt >> "$REPORT"
+
+          echo "<!-- END_FLAKE8_INTERACTIVE_TABLE -->" >> "$REPORT"
+
+          echo "" >> "$REPORT"
+          echo "</details>" >> "$REPORT"
+          echo "" >> "$REPORT"
+
+
+          # --------------------------------------------------------
+          # Top 10 des fichiers
+          # --------------------------------------------------------
+
+          echo "###   📂 Top 10 des fichiers avec le plus d'erreurs" >> "$REPORT"
+          echo "" >> "$REPORT"
+
+          echo "| Rang | Fichier | Erreurs |" >> "$REPORT"
+          echo "|----:|---------|--------:|" >> "$REPORT"
+
+          awk -F: '{print $1}' flake8.txt \
+            | sort \
+            | uniq -c \
+            | sort -rn \
+            | head -10 \
+            | awk '{
+              printf("| %d | %s | %d |\n", NR, $2, $1)
+            }' >> "$REPORT"
+
+          echo "> 💡 Vous ne connaissez pas une erreur Flake8 ?" >> "$REPORT"
+          echo ">" >> "$REPORT"
+          echo "> Consultez le guide complet :" >> "$REPORT"
+          echo "> [📘 Guide Flake8](https://github.com/${GITHUB_REPOSITORY}/blob/main/docs/QRB_flake8_error.md)" >> "$REPORT"
+          echo "" >> "$REPORT"
+
+
+      # ============================================================
+      # Analyse qualité
+      # ============================================================
+
+      - name: Quality analysis
+        continue-on-error: true
+        run: |
+
+          # --------------------------------------------------------
+          # Radon
+          # --------------------------------------------------------
+
+          echo "## 🧠 Complexity (Radon)" >> "$REPORT"
+
+          radon cc . -a > radon.txt 2>&1 || true
+
+          AVG=$(grep "Average complexity" radon.txt | awk -F: '{print $2}')
+
+          echo "" >> "$REPORT"
+          echo "**Average complexity:** ${AVG:-Unknown}" >> "$REPORT"
+          echo "" >> "$REPORT"
+
+          echo "<details>" >> "$REPORT"
+          echo "<summary>Show complexity report</summary>" >> "$REPORT"
+          echo "" >> "$REPORT"
+
+          cat radon.txt >> "$REPORT"
+
+          echo "" >> "$REPORT"
+          echo "</details>" >> "$REPORT"
+          echo "" >> "$REPORT"
+
+
+          # --------------------------------------------------------
+          # Bandit
+          # --------------------------------------------------------
+
+          echo "## 🔒 Security (Bandit)" >> "$REPORT"
+
+          bandit -r . -f txt > bandit.txt 2>&1 || true
+
+          HIGH=$(grep -c "Severity: High" bandit.txt || true)
+          MEDIUM=$(grep -c "Severity: Medium" bandit.txt || true)
+          LOW=$(grep -c "Severity: Low" bandit.txt || true)
+
+          echo "" >> "$REPORT"
+
+          echo "| Severity | Count |" >> "$REPORT"
+          echo "|----------|------:|" >> "$REPORT"
+          echo "| High | $HIGH |" >> "$REPORT"
+          echo "| Medium | $MEDIUM |" >> "$REPORT"
+          echo "| Low | $LOW |" >> "$REPORT"
+
+          echo "" >> "$REPORT"
+
+          echo "<details>" >> "$REPORT"
+          echo "<summary>Show Bandit report</summary>" >> "$REPORT"
+          echo "" >> "$REPORT"
+
+          cat bandit.txt >> "$REPORT"
+
+          echo "" >> "$REPORT"
+          echo "</details>" >> "$REPORT"
+          echo "" >> "$REPORT"
+
+
+          # --------------------------------------------------------
+          # Pylint
+          # --------------------------------------------------------
+
+          echo "##  📏 Pylint" >> "$REPORT"
+
+          pylint . > pylint.txt 2>&1 || true
+
+          SCORE=$(grep "Your code has been rated at" pylint.txt | awk '{print $7}')
+
+          echo "" >> "$REPORT"
+          echo "**Global score:** ${SCORE:-Unknown}" >> "$REPORT"
+          echo "" >> "$REPORT"
+
+          echo "<details>" >> "$REPORT"
+          echo "<summary>Show Pylint report</summary>" >> "$REPORT"
+          echo "" >> "$REPORT"
+
+          cat pylint.txt >> "$REPORT"
+
+          echo "" >> "$REPORT"
+          echo "</details>" >> "$REPORT"
+          echo "" >> "$REPORT"
+
+
+          # --------------------------------------------------------
+          # Coverage
+          # --------------------------------------------------------
+
+          echo "##  📈 Coverage" >> "$REPORT"
+
+          pytest --cov=. --cov-report=term > coverage.txt 2>&1 || true
+
+          COVERAGE=$(grep TOTAL coverage.txt | awk '{print $NF}')
+
+          echo "" >> "$REPORT"
+          echo "**Coverage:** ${COVERAGE:-0%}" >> "$REPORT"
+
+          echo "" >> "$REPORT"
+
+          echo "<details>" >> "$REPORT"
+          echo "<summary>Show coverage report</summary>" >> "$REPORT"
+          echo "" >> "$REPORT"
+
+          cat coverage.txt >> "$REPORT"
+
+          echo "" >> "$REPORT"
+          echo "</details>" >> "$REPORT"
+          echo "" >> "$REPORT"
+
+
+      # ============================================================
+      # Génération du HTML interactif Flake8
+      # ============================================================
+
+      
+      - name: Generate interactive HTML report
+        run: |
+
+          HTML_REPORT="${REPORT%.md}.html"
+
+          echo "HTML report : $HTML_REPORT"
+
+          python - "$REPORT" "$HTML_REPORT" <<'PYTHON'
+
+          import sys
+          from pathlib import Path
+
+          import markdown
+
+
+          md_file = Path(sys.argv[1])
+          html_file = Path(sys.argv[2])
+
+
+          # ============================================================
+          # Lecture du rapport Markdown
+          # ============================================================
+
+          markdown_text = md_file.read_text(encoding="utf-8")
+
+
+          START_MARKER = "<!-- FLAKE8_INTERACTIVE_TABLE -->"
+          END_MARKER = "<!-- END_FLAKE8_INTERACTIVE_TABLE -->"
+
+
+          start = markdown_text.find(START_MARKER)
+          end = markdown_text.find(END_MARKER)
+
+
+          if start == -1:
+              raise RuntimeError(
+                  "Marqueur de début du tableau Flake8 introuvable."
+              )
+
+
+          if end == -1:
+              raise RuntimeError(
+                  "Marqueur de fin du tableau Flake8 introuvable."
+              )
+
+
+          if end <= start:
+              raise RuntimeError(
+                  "Les marqueurs du tableau Flake8 sont invalides."
+              )
+
+
+          # ============================================================
+          # Extraction UNIQUEMENT du tableau Flake8
+          # ============================================================
+
+          flake8_markdown = markdown_text[
+              start + len(START_MARKER):end
+          ].strip()
+
+
+          # ============================================================
+          # Conversion Markdown -> HTML
+          # ============================================================
+
+          table_html = markdown.markdown(
+              flake8_markdown,
+              extensions=["tables"],
+          )
+
+
+          if "<table>" not in table_html:
+              raise RuntimeError(
+                  "Le tableau Flake8 n'a pas pu être converti en HTML."
+              )
+
+
+          # ============================================================
+          # HTML
+          #
+          # IMPORTANT :
+          # Ce n'est PAS une f-string.
+          # Les accolades du JavaScript ne sont donc pas interprétées
+          # par Python.
+          # ============================================================
+
+          html = """<!DOCTYPE html>
+          <html lang="fr">
+
+          <head>
+
+              <meta charset="UTF-8">
+
+              <meta
+                  name="viewport"
+                  content="width=device-width, initial-scale=1.0"
+              >
+
+              <title>Flake8 Interactive Report</title>
+
+
+              <style>
+
+                  body {
+                      font-family: Arial, sans-serif;
+                      margin: 30px;
+                      background: #f5f5f5;
+                      color: #222;
+                  }
+
+
+                  h1 {
+                      margin-bottom: 20px;
+                  }
+
+
+                  .controls {
+                      display: flex;
+                      gap: 10px;
+                      flex-wrap: wrap;
+                      margin-bottom: 15px;
+                  }
+
+
+                  input,
+                  select {
+                      padding: 8px 10px;
+                      border: 1px solid #ccc;
+                      border-radius: 5px;
+                      font-size: 14px;
+                  }
+
+
+                  #counter {
+                      margin: 10px 0;
+                      font-weight: bold;
+                  }
+
+
+                  .table-container {
+                      overflow-x: auto;
+                      background: white;
+                      border-radius: 8px;
+                      padding: 10px;
+                  }
+
+
+                  table {
+                      width: 100%;
+                      border-collapse: collapse;
+                  }
+
+
+                  th,
+                  td {
+                      padding: 10px;
+                      border-bottom: 1px solid #ddd;
+                      text-align: left;
+                  }
+
+
+                  th {
+                      cursor: pointer;
+                      user-select: none;
+                      background: #eee;
+                      position: sticky;
+                      top: 0;
+                  }
+
+
+                  th:hover {
+                      background: #ddd;
+                  }
+
+
+                  tr:hover {
+                      background: #f5f5f5;
+                  }
+
+
+                  .sort-indicator {
+                      margin-left: 5px;
+                      font-size: 12px;
+                  }
+
+              </style>
+
+          </head>
+
+
+          <body>
+
+              <h1>Flake8 Errors</h1>
+
+
+              <div class="controls">
+
+                  <input
+                      type="text"
+                      id="search"
+                      placeholder="Rechercher dans les erreurs..."
+                  >
+
+
+                  <select id="categoryFilter">
+
+                      <option value="">
+                          Toutes les catégories
+                      </option>
+
+                  </select>
+
+              </div>
+
+
+              <div id="counter"></div>
+
+
+              <div class="table-container">
+
+                  __TABLE_HTML__
+
+              </div>
+
+
+              <script>
+
+                  const table =
+                      document.querySelector("table");
+
+
+                  if (!table) {
+                      throw new Error(
+                          "Tableau Flake8 introuvable."
+                      );
+                  }
+
+
+                  const tbody =
+                      table.querySelector("tbody");
+
+
+                  const rows =
+                      Array.from(
+                          tbody.querySelectorAll("tr")
+                      );
+
+
+                  const searchInput =
+                      document.getElementById("search");
+
+
+                  const categoryFilter =
+                      document.getElementById(
+                          "categoryFilter"
+                      );
+
+
+                  const counter =
+                      document.getElementById("counter");
+
+
+                  const headers =
+                      Array.from(
+                          table.querySelectorAll(
+                              "thead th"
+                          )
+                      );
+
+
+                  /*
+                   * Colonnes :
+                   *
+                   * 0 = Fichier
+                   * 1 = Ligne
+                   * 2 = Code
+                   * 3 = Message
+                   */
+
+                  const FILE_COLUMN = 0;
+                  const LINE_COLUMN = 1;
+                  const CODE_COLUMN = 2;
+                  const MESSAGE_COLUMN = 3;
+
+
+                  /*
+                   * ==================================================
+                   * FILTRE DES CATÉGORIES
+                   * ==================================================
+                   *
+                   * E501 -> E
+                   * F401 -> F
+                   * W291 -> W
+                   */
+
+                  const categories = new Set();
+
+
+                  rows.forEach(row => {
+
+                      const codeCell =
+                          row.cells[CODE_COLUMN];
+
+
+                      if (!codeCell) {
+                          return;
+                      }
+
+
+                      const code =
+                          codeCell.textContent.trim();
+
+
+                      if (code) {
+
+                          categories.add(
+                              code.charAt(0)
+                          );
+
+                      }
+
+                  });
+
+
+                  Array.from(categories)
+                      .sort()
+                      .forEach(category => {
+
+                          const option =
+                              document.createElement(
+                                  "option"
+                              );
+
+
+                          option.value =
+                              category;
+
+
+                          option.textContent =
+                              "Catégorie " + category;
+
+
+                          categoryFilter.appendChild(
+                              option
+                          );
+
+                      });
+
+
+                  /*
+                   * ==================================================
+                   * FILTRE + RECHERCHE
+                   * ==================================================
+                   */
+
+                  function filterTable() {
+
+                      const search =
+                          searchInput.value
+                              .toLowerCase()
+                              .trim();
+
+
+                      const category =
+                          categoryFilter.value;
+
+
+                      let visible = 0;
+
+
+                      rows.forEach(row => {
+
+                          const text =
+                              row.textContent
+                                  .toLowerCase();
+
+
+                          const codeCell =
+                              row.cells[
+                                  CODE_COLUMN
+                              ];
+
+
+                          const code =
+                              codeCell
+                                  ? codeCell.textContent.trim()
+                                  : "";
+
+
+                          const matchesSearch =
+                              !search ||
+                              text.includes(search);
+
+
+                          const matchesCategory =
+                              !category ||
+                              code.startsWith(category);
+
+
+                          const show =
+                              matchesSearch &&
+                              matchesCategory;
+
+
+                          row.style.display =
+                              show ? "" : "none";
+
+
+                          if (show) {
+                              visible++;
+                          }
+
+                      });
+
+
+                      counter.textContent =
+                          visible +
+                          " erreur(s) affichée(s) sur " +
+                          rows.length;
+
+                  }
+
+
+                  searchInput.addEventListener(
+                      "input",
+                      filterTable
+                  );
+
+
+                  categoryFilter.addEventListener(
+                      "change",
+                      filterTable
+                  );
+
+
+                  /*
+                   * ==================================================
+                   * TRI DES COLONNES
+                   * ==================================================
+                   */
+
+                  headers.forEach(
+                      (header, columnIndex) => {
+
+                          let ascending = true;
+
+
+                          const indicator =
+                              document.createElement(
+                                  "span"
+                              );
+
+
+                          indicator.className =
+                              "sort-indicator";
+
+
+                          header.appendChild(
+                              indicator
+                          );
+
+
+                          header.addEventListener(
+                              "click",
+                              () => {
+
+                                  const sortedRows =
+                                      Array.from(
+                                          tbody.querySelectorAll(
+                                              "tr"
+                                          )
+                                      );
+
+
+                                  sortedRows.sort(
+                                      (a, b) => {
+
+                                          const aCell =
+                                              a.cells[
+                                                  columnIndex
+                                              ];
+
+
+                                          const bCell =
+                                              b.cells[
+                                                  columnIndex
+                                              ];
+
+
+                                          if (
+                                              !aCell ||
+                                              !bCell
+                                          ) {
+                                              return 0;
+                                          }
+
+
+                                          const aText =
+                                              aCell.textContent
+                                                  .trim()
+                                                  .toLowerCase();
+
+
+                                          const bText =
+                                              bCell.textContent
+                                                  .trim()
+                                                  .toLowerCase();
+
+
+                                          /*
+                                           * Ligne :
+                                           * tri numérique
+                                           */
+
+                                          if (
+                                              columnIndex ===
+                                              LINE_COLUMN
+                                          ) {
+
+                                              const aNumber =
+                                                  parseInt(
+                                                      aText,
+                                                      10
+                                                  );
+
+
+                                              const bNumber =
+                                                  parseInt(
+                                                      bText,
+                                                      10
+                                                  );
+
+
+                                              if (
+                                                  !Number.isNaN(
+                                                      aNumber
+                                                  ) &&
+                                                  !Number.isNaN(
+                                                      bNumber
+                                                  )
+                                              ) {
+
+                                                  return ascending
+                                                      ? aNumber - bNumber
+                                                      : bNumber - aNumber;
+
+                                              }
+
+                                          }
+
+
+                                          /*
+                                           * Fichier,
+                                           * Code,
+                                           * Message
+                                           */
+
+                                          return ascending
+                                              ? aText.localeCompare(
+                                                  bText
+                                              )
+                                              : bText.localeCompare(
+                                                  aText
+                                              );
+
+                                      }
+                                  );
+
+
+                                  sortedRows.forEach(
+                                      row =>
+                                          tbody.appendChild(
+                                              row
+                                          )
+                                  );
+
+
+                                  /*
+                                   * Réinitialiser les indicateurs
+                                   */
+
+                                  headers.forEach(
+                                      h => {
+
+                                          const span =
+                                              h.querySelector(
+                                                  ".sort-indicator"
+                                              );
+
+
+                                          if (span) {
+                                              span.textContent = "";
+                                          }
+
+                                      }
+                                  );
+
+
+                                  indicator.textContent =
+                                      ascending
+                                          ? " ▲"
+                                          : " ▼";
+
+
+                                  ascending =
+                                      !ascending;
+
+
+                                  filterTable();
+
+                              }
+                          );
+
+                      }
+                  );
+
+
+                  /*
+                   * ==================================================
+                   * ÉTAT INITIAL
+                   * ==================================================
+                   */
+
+                  filterTable();
+
+              </script>
+
+          </body>
+
+          </html>
+          """
+
+
+          # ============================================================
+          # Insertion du tableau extrait
+          # ============================================================
+
+          html = html.replace(
+              "__TABLE_HTML__",
+              table_html
+          )
+
+
+          # ============================================================
+          # Écriture du fichier HTML
+          # ============================================================
+
+          html_file.write_text(
+              html,
+              encoding="utf-8"
+          )
+
+
+          print(
+              f"HTML report generated: {html_file}"
+          )
+
+          PYTHON
+
+
+
+
+      # ============================================================
+      # Affichage du rapport dans GitHub Actions
+      # ============================================================
+
+      - name: Display report
+        run: |
+
+          cat "$REPORT" >> "$GITHUB_STEP_SUMMARY"
+
+
+      # ============================================================
+      # Installation des outils d'archivage
+      # ============================================================
+
+      - name: Install archive tools
+        if: github.workflow == 'Nightly'
+        run: |
+
+          sudo apt-get update
+
+          sudo apt-get install -y zstd
+
+
+      # ============================================================
+      # Compression et archivage
+      # ============================================================
+
+      - name: 🗜️ Compress and archive reports
+        if: github.workflow == 'Nightly'
+        run: |
+
+          set -euo pipefail
+
+          REPORT_ROOT="reports/python"
+
+          TEMP_DIR=$(mktemp -d)
+
+          trap 'rm -rf "$TEMP_DIR"' EXIT
+
+
+          echo "======================================"
+          echo "🗜️ ARCHIVAGE DES RAPPORTS PYTHON"
+          echo "======================================"
+
+
+          mkdir -p "$REPORT_ROOT"
+
+
+          # ========================================================
+          # Fonction : meilleure compression possible
+          # ========================================================
+
+          compress_best() {
+
+            SOURCE_DIR="$1"
+
+            OUTPUT_ARCHIVE="$2"
+
+            BEST_ARCHIVE="$TEMP_DIR/best.tar.zst"
+
+            BEST_SIZE=""
+
+
+            echo ""
+            echo "🔧 Recherche de la meilleure compression..."
+
+
+            for LEVEL in 1 3 6 10 15 19
+            do
+
+              TEST_ARCHIVE="$TEMP_DIR/test-${LEVEL}.tar.zst"
+
+
+              echo "   → Test zstd niveau $LEVEL"
+
+
+              tar -C "$(dirname "$SOURCE_DIR")" \
+                -cf - \
+                "$(basename "$SOURCE_DIR")" \
+                | zstd -"$LEVEL" -T0 -q -o "$TEST_ARCHIVE"
+
+
+              SIZE=$(du -sb "$TEST_ARCHIVE" | awk '{print $1}')
+
+
+              echo "      Taille : $SIZE octets"
+
+
+              if [ -z "$BEST_SIZE" ] ||
+                 [ "$SIZE" -lt "$BEST_SIZE" ]
+              then
+
+                if [ -f "$BEST_ARCHIVE" ]
+                then
+                  rm -f "$BEST_ARCHIVE"
+                fi
+
+
+                cp "$TEST_ARCHIVE" "$BEST_ARCHIVE"
+
+                BEST_SIZE="$SIZE"
+
+              fi
+
+
+              rm -f "$TEST_ARCHIVE"
+
+            done
+
+
+            mv "$BEST_ARCHIVE" "$OUTPUT_ARCHIVE"
+
+
+            echo "🏆 Meilleure taille : $BEST_SIZE octets"
+
+          }
+
+
+          # ========================================================
+          # 1. Compression individuelle des dossiers de 2 jours
+          # ========================================================
+
+          echo ""
+          echo "======================================"
+          echo "📦 ÉTAPE 1 : ARCHIVES QUOTIDIENNES"
+          echo "======================================"
+
+
+          LIMIT=$(date -u -d "2 days ago" +%s)
+
+
+          for DIR in "$REPORT_ROOT"/*
+          do
+
+            [ -d "$DIR" ] || continue
+
+
+            NAME=$(basename "$DIR")
+
+
+            if ! [[ "$NAME" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}$ ]]
+            then
+              continue
+            fi
+
+
+            DATE_TS=$(date -u -d "$NAME" +%s 2>/dev/null || continue)
+
+
+            if [ "$DATE_TS" -gt "$LIMIT" ]
+            then
+
+              echo "⏭️ $NAME : trop récent"
+
+              continue
+
+            fi
+
+
+            echo ""
+            echo "📁 $NAME"
+
+
+            ORIGINAL_SIZE=$(du -sb "$DIR" | awk '{print $1}')
+
+
+            echo "   Taille originale : $ORIGINAL_SIZE octets"
+
+
+            ARCHIVE="$REPORT_ROOT/${NAME}.tar.zst"
+
+
+            compress_best "$DIR" "$ARCHIVE"
+
+
+            COMPRESSED_SIZE=$(du -sb "$ARCHIVE" | awk '{print $1}')
+
+
+            PERCENT=$(awk \
+              -v compressed="$COMPRESSED_SIZE" \
+              -v original="$ORIGINAL_SIZE" \
+              'BEGIN {
+                if (original == 0)
+                  print "0.00"
+                else
+                  printf "%.2f", (compressed / original) * 100
+              }')
+
+
+            echo "   📊 Taille finale : ${PERCENT} %"
+
+
+            if zstd -t "$ARCHIVE" >/dev/null 2>&1
+            then
+
+              echo "   ✅ Archive valide"
+
+              rm -rf "$DIR"
+
+              echo "   🗑️ Dossier original supprimé"
+
+            else
+
+              echo "   ❌ Archive invalide"
+
+              rm -f "$ARCHIVE"
+
+              exit 1
+
+            fi
+
+
+            if awk -v percent="$PERCENT" \
+              'BEGIN { exit !(percent <= 25) }'
+            then
+
+              echo "   🎯 Objectif ≤ 25 % atteint !"
+
+            else
+
+              echo "   ⚠️ > 25 % : meilleure compression conservée"
+
+            fi
+
+          done
+
+
+          # ========================================================
+          # 2. Détermination du mois précédent
+          # ========================================================
+
+          echo ""
+          echo "======================================"
+          echo "📅 ÉTAPE 2 : ARCHIVE MENSUELLE"
+          echo "======================================"
+
+
+          CURRENT_YEAR=$(date -u +%Y)
+
+          CURRENT_MONTH=$(date -u +%m)
+
+
+          PREVIOUS_DATE=$(date -u \
+            -d "$CURRENT_YEAR-$CURRENT_MONTH-01 - 1 month" \
+            +%Y-%m)
+
+
+          PREVIOUS_YEAR=$(date -u \
+            -d "$CURRENT_YEAR-$CURRENT_MONTH-01 - 1 month" \
+            +%Y)
+
+
+          PREVIOUS_MONTH=$(date -u \
+            -d "$CURRENT_YEAR-$CURRENT_MONTH-01 - 1 month" \
+            +%m)
+
+
+          MONTH_NAME="${PREVIOUS_MONTH}-${PREVIOUS_YEAR}"
+
+
+          echo "📅 Mois précédent : $MONTH_NAME"
+
+
+          # ========================================================
+          # 3. Vérifier si archive mensuelle existe
+          # ========================================================
+
+          MONTH_ARCHIVE="$REPORT_ROOT/${MONTH_NAME}.tar.zst"
+
+
+          if [ -f "$MONTH_ARCHIVE" ]
+          then
+
+            echo "ℹ️ Archive mensuelle déjà présente : $MONTH_ARCHIVE"
+
+            echo "⏭️ Aucun regroupement nécessaire."
+
+          else
+
+            MONTH_DIR="$TEMP_DIR/$MONTH_NAME"
+
+            mkdir -p "$MONTH_DIR"
+
+            FOUND=false
+
+
+            # ======================================================
+            # 4. Décompresser les archives quotidiennes
+            # ======================================================
+
+            echo ""
+            echo "📦 Recherche des archives quotidiennes..."
+
+
+            for ARCHIVE in "$REPORT_ROOT"/*.tar.zst
+            do
+
+              [ -f "$ARCHIVE" ] || continue
+
+
+              NAME=$(basename "$ARCHIVE" .tar.zst)
+
+
+              if [[ "$NAME" =~ ^${PREVIOUS_YEAR}-${PREVIOUS_MONTH}-[0-9]{2}$ ]]
+              then
+
+                echo "   📦 Décompression : $NAME"
+
+
+                zstd -d "$ARCHIVE" -c \
+                  | tar -x -C "$MONTH_DIR"
+
+
+                FOUND=true
+
+              fi
+
+            done
+
+
+            # ======================================================
+            # 5. Ajouter les dossiers du mois précédent
+            # ======================================================
+
+            echo ""
+            echo "📁 Recherche des dossiers restants..."
+
+
+            for DIR in "$REPORT_ROOT"/*
+            do
+
+              [ -d "$DIR" ] || continue
+
+
+              NAME=$(basename "$DIR")
+
+
+              if [[ "$NAME" =~ ^${PREVIOUS_YEAR}-${PREVIOUS_MONTH}-[0-9]{2}$ ]]
+              then
+
+                echo "   📁 Ajout : $NAME"
+
+
+                cp -a "$DIR" "$MONTH_DIR/"
+
+
+                FOUND=true
+
+              fi
+
+            done
+
+
+            # ======================================================
+            # 6. Créer l'archive mensuelle
+            # ======================================================
+
+            if [ "$FOUND" = true ]
+            then
+
+              echo ""
+              echo "📦 Création de $MONTH_NAME.tar.zst"
+
+
+              ORIGINAL_MONTH_SIZE=$(du -sb "$MONTH_DIR" | awk '{print $1}')
+
+
+              compress_best \
+                "$MONTH_DIR" \
+                "$TEMP_DIR/${MONTH_NAME}.tar.zst"
+
+
+              COMPRESSED_MONTH_SIZE=$(du -sb \
+                "$TEMP_DIR/${MONTH_NAME}.tar.zst" \
+                | awk '{print $1}')
+
+
+              MONTH_PERCENT=$(awk \
+                -v compressed="$COMPRESSED_MONTH_SIZE" \
+                -v original="$ORIGINAL_MONTH_SIZE" \
+                'BEGIN {
+                  if (original == 0)
+                    print "0.00"
+                  else
+                    printf "%.2f", (compressed / original) * 100
+                }')
+
+
+              echo ""
+              echo "📊 Taille originale : $ORIGINAL_MONTH_SIZE octets"
+              echo "📊 Taille compressée : $COMPRESSED_MONTH_SIZE octets"
+              echo "📊 Taille finale : ${MONTH_PERCENT} %"
+
+
+              # ====================================================
+              # 7. Vérifier l'archive mensuelle
+              # ====================================================
+
+              if zstd -t \
+                "$TEMP_DIR/${MONTH_NAME}.tar.zst" \
+                >/dev/null 2>&1
+              then
+
+                echo "✅ Archive mensuelle valide"
+
+              else
+
+                echo "❌ Archive mensuelle invalide"
+
+                exit 1
+
+              fi
+
+
+              # ====================================================
+              # 8. Installer l'archive mensuelle
+              # ====================================================
+
+              mv \
+                "$TEMP_DIR/${MONTH_NAME}.tar.zst" \
+                "$MONTH_ARCHIVE"
+
+
+              # ====================================================
+              # 9. Supprimer les archives quotidiennes
+              # ====================================================
+
+              echo ""
+              echo "🗑️ Suppression des anciennes archives..."
+
+
+              for ARCHIVE in "$REPORT_ROOT"/*.tar.zst
+              do
+
+                [ -f "$ARCHIVE" ] || continue
+
+
+                NAME=$(basename "$ARCHIVE" .tar.zst)
+
+
+                if [[ "$NAME" =~ ^${PREVIOUS_YEAR}-${PREVIOUS_MONTH}-[0-9]{2}$ ]]
+                then
+
+                  rm -f "$ARCHIVE"
+
+                  echo "   🗑️ $NAME.tar.zst"
+
+                fi
+
+              done
+
+
+              # ====================================================
+              # 10. Supprimer les dossiers du mois précédent
+              # ====================================================
+
+              echo ""
+              echo "🗑️ Suppression des dossiers..."
+
+
+              for DIR in "$REPORT_ROOT"/*
+              do
+
+                [ -d "$DIR" ] || continue
+
+
+                NAME=$(basename "$DIR")
+
+
+                if [[ "$NAME" =~ ^${PREVIOUS_YEAR}-${PREVIOUS_MONTH}-[0-9]{2}$ ]]
+                then
+
+                  rm -rf "$DIR"
+
+                  echo "   🗑️ $NAME"
+
+                fi
+
+              done
+
+
+              # ====================================================
+              # Résultat
+              # ====================================================
+
+              if awk -v percent="$MONTH_PERCENT" \
+                'BEGIN { exit !(percent <= 25) }'
+              then
+
+                echo ""
+                echo "🎯 Archive mensuelle ≤ 25 % !"
+
+              else
+
+                echo ""
+                echo "⚠️ Impossible d'atteindre 25 %."
+                echo "✅ Meilleure compression conservée."
+
+              fi
+
+            else
+
+              echo ""
+              echo "ℹ️ Aucun rapport du mois précédent à regrouper."
+
+            fi
+
+          fi
+
+
+          # ========================================================
+          # 11. Résultat final
+          # ========================================================
+
+          echo ""
+          echo "======================================"
+          echo "✅ ARCHIVAGE TERMINÉ"
+          echo "======================================"
+
+
+          echo ""
+          echo "📂 Structure actuelle :"
+
+
+          find "$REPORT_ROOT" -maxdepth 2 -print | sort
+
+
+      # ============================================================
+      # Commit des rapports
+      # ============================================================
+
+      - name: 💾 Commit reports
+        run: |
+
+          git config --global user.name "github-actions"
+
+          git config --global user.email "github-actions@github.com"
+
+          export GH_TOKEN="${{ github.token }}"
+
+
+          git fetch origin
+          
+
+
+          if git show-ref --verify --quiet refs/remotes/origin/ci-reports
+          then
+
+            git worktree add \
+              /tmp/ci-worktree \
+              origin/ci-reports
+
+          else
+
+            git worktree add \
+              -b ci-reports \
+              /tmp/ci-worktree
+
+          fi
+
+
+          echo "=== SOURCE ==="
+
+          find \
+            "$GITHUB_WORKSPACE/reports/python" \
+            -maxdepth 4 \
+            -type d \
+            -print
+
+
+          echo "=== DESTINATION ==="
+
+          find \
+            "/tmp/ci-worktree/reports" \
+            -maxdepth 4 \
+            -type d \
+            -print
+
+
+          mkdir -p  "/tmp/ci-worktree/reports/python"
+
+
+          rsync -a --delete   "$GITHUB_WORKSPACE/reports/python/"   "/tmp/ci-worktree/reports/python/" 2>/dev/null || true
+
+
+          cd /tmp/ci-worktree
+          git lfs install
+          echo "======================================"
+          echo "📦 Configuration Git LFS"
+          echo "======================================"
+          if [ -f .gitattributes ]
+          then
+          grep -vE '^reports/python/[0-9]{4}-[0-9]{2}-[0-9]{2}/\*\.md ' \
+          .gitattributes > .gitattributes.tmp || true
+
+          mv .gitattributes.tmp .gitattributes
+          fi
+          # Règles permanentes.
+          git lfs track "database/**/*.db"
+          git lfs track "*.png"
+          for DIR in reports/python/*
+          do
+          [ -d "$DIR" ] || continue
+          NAME=$(basename "$DIR")
+          if [[ "$NAME" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}$ ]]
+          then
+          echo "📝 Rapport temporaire LFS : $DIR/*.md"
+          echo "📝 Rapport temporaire LFS : $DIR/*.html"
+          git lfs track "$DIR/*.md"
+          git lfs track "$DIR/*.html"
+          fi
+          done
+
+          echo ""
+          echo "📄 Configuration LFS finale :"
+          cat .gitattributes
+          echo ""
+
+          git add -A
+
+
+          git status
+
+
+          if git diff --cached --quiet
+          then
+
+            echo "No changes to commit."
+
+            cd "$GITHUB_WORKSPACE"
+
+            git worktree remove \
+              /tmp/ci-worktree \
+              --force && rm -rf \
+              "/tmp/ci-worktree/reports/python"
+
+            exit 0
+
+          fi
+          git switch -c ci-reports --track origin/ci-reports
+
+          git commit \
+            -m "Report python n° ${REPORT_NUMBER}"
+
+
+          for i in 1 2 3
+          do
+
+            echo "Tentative $i/3"
+
+
+            git fetch origin
+            
+
+
+            echo "Branche actuelle :"
+
+            git branch --show-current
+
+
+            git status
+
+
+            if git push origin HEAD:ci-reports
+            then
+
+              echo "Push réussi"
+
+
+              cd "$GITHUB_WORKSPACE"
+
+
+              git worktree remove \
+                /tmp/ci-worktree \
+                --force && rm -rf \
+                "/tmp/ci-worktree/reports/python"
+
+
+              exit 0
+
+            fi
+
+
+            echo "Push échoué."
+
+
+            sleep 2
+
+          done
+
+
+          echo "======================================"
+          echo "Push direct impossible"
+          echo "Création de la branche de secours"
+          echo "======================================"
+
+
+          FALLBACK_BRANCH="ci-reports-update"
+
+
+          echo "Branche de secours : $FALLBACK_BRANCH"
+
+
+          # Crée ou met à jour la branche de secours
+
+          git push \
+            --force \
+            origin \
+            HEAD:"refs/heads/$FALLBACK_BRANCH"
+
+
+          echo "Branche de secours poussée."
+
+
+          # ========================================================
+          # Vérifier si une PR existe déjà
+          # ========================================================
+
+          PR_URL=$(gh pr list \
+            --base "ci-reports" \
+            --head "$FALLBACK_BRANCH" \
+            --state open \
+            --json url \
+            --jq '.[0].url')
+
+
+          if [ -n "$PR_URL" ]
+          then
+
+            echo "Une Pull Request existe déjà : $PR_URL"
+
+          else
+
+            echo "Création de la Pull Request..."
+
+
+            PR_URL=$(gh pr create \
+              --base ci-reports \
+              --head "$FALLBACK_BRANCH" \
+              --title "Report python n° ${REPORT_NUMBER}" \
+              --body "Le push direct vers \`ci-reports\` a échoué après 3 tentatives. Les changements générés par GitHub Actions sont disponibles dans cette Pull Request.")
+
+          fi
+          gh pr merge "$PR_URL" \
+          --auto \
+          --squash
+
+
+          cd "$GITHUB_WORKSPACE"
+
+
+          git worktree remove \
+            /tmp/ci-worktree \
+            --force && rm -rf \
+            "/tmp/ci-worktree/reports/python"

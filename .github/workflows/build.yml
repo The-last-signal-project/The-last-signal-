@@ -1,0 +1,928 @@
+name: Build CI Report
+on:
+
+  workflow_call:
+
+  
+
+permissions:
+  contents: write
+  pull-requests: write
+  
+concurrency:
+  group: build
+  queue: max
+env:
+  RUST_PROJECT: server_rust
+  DATABASE_Test_PATH: ${{ github.workspace }}/database-test
+  DATABASE_Test_URL: sqlite:${{ github.workspace }}/database-test/the_last_signal.db
+jobs:
+
+  build:
+
+    name: Build (${{ matrix.os }})
+    
+
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      fail-fast: false
+
+      matrix:
+        os:
+          - ubuntu-latest
+          - windows-latest
+          - macos-latest
+
+    steps:
+
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Setup Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.13"
+
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+      
+
+      - name: Create report
+        id: report
+        shell: bash
+        run: |
+          DATE=$(date -u +"%Y-%m-%d")
+          mkdir -p report-numbers
+          REPORT_DIR="reports/build/build-${{ matrix.os }}/${DATE}"
+          mkdir -p "$REPORT_DIR"
+
+          LAST=$(find "$REPORT_DIR" -type f -name 'build-${{ matrix.os }}*.md' \
+          -exec basename {} \; |
+          sed -E 's/build-${{ matrix.os }}([0-9]+)\.md/\1/' |
+          sort -n |
+          tail -1)
+
+          REPORT_NUMBER=$(( ${LAST:-0} + 1 ))
+
+          REPORT="${REPORT_DIR}/build-${{ matrix.os }}-${REPORT_NUMBER}.md"
+
+          echo "REPORT=$REPORT" >> "$GITHUB_ENV"
+          echo "REPORT_NUMBER=$REPORT_NUMBER" >> "$GITHUB_ENV"
+          echo "REPORT_DATE=$DATE" >> "$GITHUB_ENV"
+          echo "$REPORT_NUMBER" > \
+                "report-numbers/${{ matrix.os }}.txt"
+          
+
+          {
+            echo "# Build Report"
+            echo ""
+            echo "Run : ${GITHUB_RUN_NUMBER}"
+            echo "OS : ${{ matrix.os }}"
+            echo "Branch : ${GITHUB_REF_NAME}"
+            echo "Commit : ${GITHUB_SHA}"
+            echo "Date : $(date)"
+            echo ""
+          } > "$REPORT"
+
+      - name: Python build
+        continue-on-error: true
+        shell: bash
+        run: |
+          {
+            echo ""
+            echo "## Python"
+          } >> "$REPORT"
+
+          python -m compileall client_python tests >> "$REPORT" 2>&1
+
+      - name: Rust build
+        continue-on-error: true
+        shell: bash
+        run: |
+          {
+            echo ""
+            echo "## Rust"
+          } >> "$REPORT"
+
+          if find . -name Cargo.toml | grep -q .; then
+            cargo build --manifest-path "$RUST_PROJECT/Cargo.toml" \
+             --release>> "$REPORT" 2>&1
+          else
+            echo "No Rust project found." >> "$REPORT"
+          fi
+
+      - name: Godot build
+        continue-on-error: true
+        shell: bash
+        run: |
+          {
+            echo ""
+            echo "## Godot"
+          } >> "$REPORT"
+
+          if [ -f project.godot ]; then
+            echo "Godot export not configured yet." >> "$REPORT"
+          else
+            echo "No Godot project found." >> "$REPORT"
+          fi
+
+      - name: Build Summary
+        shell: bash
+        run: |
+          {
+            echo ""
+            echo "## Summary"
+            echo ""
+            echo "- Python build completed"
+            echo "- Rust build completed"
+            echo "- Godot build completed"
+          } >> "$REPORT"
+
+      - name: Publish Summary
+        shell: bash
+        run: |
+          cat "$REPORT" >> $GITHUB_STEP_SUMMARY
+      - name: Upload report number
+        uses: actions/upload-artifact@v7
+        with:
+           name: report-number-${{ matrix.os }}
+           path: report-numbers/
+           if-no-files-found: ignore
+      - name: Upload build report
+        uses: actions/upload-artifact@v7
+        with:
+          name: build-report-${{ matrix.os }}
+          path: reports/build/
+          if-no-files-found: ignore
+
+  commit:
+   name: commits
+   needs: build
+   runs-on: ubuntu-latest
+   steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - name: Download build reports
+        uses: actions/download-artifact@v7
+        with:
+          pattern: build-report-*
+          path: reports/build
+          merge-multiple: true
+      - name: Download report numbers
+        uses: actions/download-artifact@v6
+        with:
+          pattern: report-number-*
+          path: report-numbers
+          merge-multiple: true
+      - name: Display report numbers
+        run: |
+           echo "Ubuntu :"
+           cat report-numbers/ubuntu-latest.txt
+
+           echo "Windows :"
+           cat report-numbers/windows-latest.txt
+
+           echo "macOS :"
+           cat report-numbers/macos-latest.txt
+      - name: Install archive tools
+        if: github.workflow == 'Nightly'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y zstd
+      - name: 🗜️ Compress and archive reports
+        if: github.workflow == 'Nightly'
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          REPORT_ROOT="reports/build"
+          TEMP_DIR=$(mktemp -d)
+
+          cleanup() {
+            rm -rf "$TEMP_DIR"
+          }
+
+          trap cleanup EXIT
+
+          echo "======================================"
+          echo "🗜️ ARCHIVAGE DES RAPPORTS BUILD"
+          echo "======================================"
+
+          mkdir -p "$REPORT_ROOT"
+
+          ############################################################
+          # Fonction : trouver la meilleure compression
+          ############################################################
+
+          compress_best() {
+            local SOURCE_DIR="$1"
+            local OUTPUT_ARCHIVE="$2"
+
+            local BEST_ARCHIVE="$TEMP_DIR/best.tar.zst"
+            local BEST_SIZE=""
+
+            echo ""
+            echo "🔧 Recherche de la meilleure compression..."
+
+            for LEVEL in 1 3 6 10 15 19
+            do
+              local TEST_ARCHIVE="$TEMP_DIR/test-${LEVEL}.tar.zst"
+
+              echo ""
+              echo "   → Test zstd niveau $LEVEL"
+
+              tar \
+                -C "$(dirname "$SOURCE_DIR")" \
+                -cf - \
+                "$(basename "$SOURCE_DIR")" \
+                | zstd \
+                    -"$LEVEL" \
+                    -T0 \
+                    -q \
+                    -o "$TEST_ARCHIVE"
+
+              local SIZE
+              SIZE=$(du -sb "$TEST_ARCHIVE" | awk '{print $1}')
+
+              echo "      Taille : $SIZE octets"
+
+              if [ -z "$BEST_SIZE" ] || [ "$SIZE" -lt "$BEST_SIZE" ]
+              then
+                cp "$TEST_ARCHIVE" "$BEST_ARCHIVE"
+                BEST_SIZE="$SIZE"
+              fi
+
+              rm -f "$TEST_ARCHIVE"
+            done
+
+            if [ -z "$BEST_SIZE" ]
+            then
+              echo "❌ Impossible de créer une archive."
+              return 1
+            fi
+
+            mv "$BEST_ARCHIVE" "$OUTPUT_ARCHIVE"
+
+            echo ""
+            echo "🏆 Meilleure taille : $BEST_SIZE octets"
+          }
+
+          ############################################################
+          # 1. Trouver toutes les dates présentes
+          ############################################################
+
+          echo ""
+          echo "======================================"
+          echo "📅 RECHERCHE DES DATES"
+          echo "======================================"
+
+          DATES_FILE="$TEMP_DIR/dates.txt"
+
+          find "$REPORT_ROOT" \
+            -mindepth 2 \
+            -maxdepth 2 \
+            -type d \
+            -regextype posix-extended \
+            -regex '.*/[0-9]{4}-[0-9]{2}-[0-9]{2}$' \
+            -printf '%f\n' \
+            | sort -u \
+            > "$DATES_FILE"
+
+          echo "Dates trouvées :"
+
+          if [ -s "$DATES_FILE" ]
+          then
+            cat "$DATES_FILE"
+          else
+            echo "Aucune date trouvée."
+          fi
+
+          ############################################################
+          # 2. Archivage quotidien
+          ############################################################
+
+          echo ""
+          echo "======================================"
+          echo "📦 ARCHIVES QUOTIDIENNES"
+          echo "======================================"
+
+          LIMIT=$(date -u -d "2 days ago" +%s)
+
+          while IFS= read -r DATE
+          do
+            [ -n "$DATE" ] || continue
+
+            DATE_TS=$(date -u -d "$DATE" +%s 2>/dev/null || true)
+
+            if [ -z "$DATE_TS" ]
+            then
+              echo "⚠️ Date invalide : $DATE"
+              continue
+            fi
+
+            ##########################################################
+            # Ne pas archiver les rapports trop récents
+            ##########################################################
+
+            if [ "$DATE_TS" -gt "$LIMIT" ]
+            then
+              echo "⏭️ $DATE : trop récent"
+              continue
+            fi
+
+            ##########################################################
+            # Vérifier si l'archive existe déjà
+            ##########################################################
+
+            ARCHIVE="$REPORT_ROOT/${DATE}.tar.zst"
+
+            if [ -f "$ARCHIVE" ]
+            then
+              echo "⏭️ $DATE : archive déjà présente"
+              continue
+            fi
+
+            echo ""
+            echo "📅 Traitement de $DATE"
+
+            DAY_DIR="$TEMP_DIR/$DATE"
+
+            rm -rf "$DAY_DIR"
+            mkdir -p "$DAY_DIR"
+
+            FOUND=false
+
+            ##########################################################
+            # Récupérer les rapports des trois OS
+            ##########################################################
+
+            for OS_DIR in \
+              "build-ubuntu-latest" \
+              "build-windows-latest" \
+              "build-macos-latest"
+            do
+              SOURCE="$REPORT_ROOT/$OS_DIR/$DATE"
+
+              if [ -d "$SOURCE" ]
+              then
+                echo "   📁 $OS_DIR"
+
+                mkdir -p "$DAY_DIR/$OS_DIR"
+
+                cp -a "$SOURCE/." "$DAY_DIR/$OS_DIR/"
+
+                FOUND=true
+              fi
+            done
+
+            ##########################################################
+            # Aucun rapport trouvé
+            ##########################################################
+
+            if [ "$FOUND" = false ]
+            then
+              echo "ℹ️ Aucun rapport trouvé pour $DATE"
+
+              rm -rf "$DAY_DIR"
+
+              continue
+            fi
+
+            ##########################################################
+            # Taille originale
+            ##########################################################
+
+            ORIGINAL_SIZE=$(du -sb "$DAY_DIR" | awk '{print $1}')
+
+            echo ""
+            echo "   📏 Taille originale : $ORIGINAL_SIZE octets"
+
+            ##########################################################
+            # Compression
+            ##########################################################
+
+            TEMP_ARCHIVE="$TEMP_DIR/${DATE}.tar.zst"
+
+            compress_best \
+              "$DAY_DIR" \
+              "$TEMP_ARCHIVE"
+
+            ##########################################################
+            # Taille compressée
+            ##########################################################
+
+            COMPRESSED_SIZE=$(du -sb "$TEMP_ARCHIVE" | awk '{print $1}')
+
+            PERCENT=$(awk \
+              -v compressed="$COMPRESSED_SIZE" \
+              -v original="$ORIGINAL_SIZE" \
+              'BEGIN {
+                if (original == 0)
+                  print "0.00"
+                else
+                  printf "%.2f", (compressed / original) * 100
+              }')
+
+            echo "   📦 Taille compressée : $COMPRESSED_SIZE octets"
+            echo "   📊 Taille finale : ${PERCENT} %"
+
+            ##########################################################
+            # Vérification archive
+            ##########################################################
+
+            if zstd -t "$TEMP_ARCHIVE" >/dev/null 2>&1
+            then
+              echo "   ✅ Archive valide"
+            else
+              echo "   ❌ Archive invalide"
+              rm -f "$TEMP_ARCHIVE"
+              exit 1
+            fi
+
+            ##########################################################
+            # Installer l'archive
+            ##########################################################
+
+            mv "$TEMP_ARCHIVE" "$ARCHIVE"
+
+            echo "   📦 Archive créée : $ARCHIVE"
+
+            ##########################################################
+            # Supprimer les rapports originaux
+            ##########################################################
+
+            for OS_DIR in \
+              "build-ubuntu-latest" \
+              "build-windows-latest" \
+              "build-macos-latest"
+            do
+              SOURCE="$REPORT_ROOT/$OS_DIR/$DATE"
+
+              if [ -d "$SOURCE" ]
+              then
+                rm -rf "$SOURCE"
+
+                echo "   🗑️ Supprimé : $SOURCE"
+              fi
+            done
+
+            ##########################################################
+            # Résultat compression
+            ##########################################################
+
+            if awk \
+              -v percent="$PERCENT" \
+              'BEGIN { exit !(percent <= 25) }'
+            then
+              echo "   🎯 Objectif ≤ 25 % atteint !"
+            else
+              echo "   ⚠️ > 25 % : meilleure compression conservée"
+            fi
+
+            ##########################################################
+            # Nettoyage du dossier quotidien temporaire
+            ##########################################################
+
+            rm -rf "$DAY_DIR"
+
+          done < "$DATES_FILE"
+
+          ############################################################
+          # 3. Déterminer le mois précédent
+          ############################################################
+
+          echo ""
+          echo "======================================"
+          echo "📅 ARCHIVE MENSUELLE"
+          echo "======================================"
+
+          CURRENT_YEAR=$(date -u +%Y)
+          CURRENT_MONTH=$(date -u +%m)
+
+          PREVIOUS_DATE=$(date -u \
+            -d "$CURRENT_YEAR-$CURRENT_MONTH-01 - 1 month" \
+            +%Y-%m)
+
+          PREVIOUS_YEAR=${PREVIOUS_DATE%-*}
+          PREVIOUS_MONTH=${PREVIOUS_DATE#*-}
+
+          MONTH_NAME="${PREVIOUS_MONTH}-${PREVIOUS_YEAR}"
+
+          MONTH_ARCHIVE="$REPORT_ROOT/${MONTH_NAME}.tar.zst"
+
+          echo "📅 Mois précédent : $MONTH_NAME"
+
+          ############################################################
+          # 4. Vérifier si l'archive mensuelle existe
+          ############################################################
+
+          if [ -f "$MONTH_ARCHIVE" ]
+          then
+            echo ""
+            echo "ℹ️ Archive mensuelle déjà présente :"
+            echo "   $MONTH_ARCHIVE"
+
+          else
+
+            MONTH_DIR="$TEMP_DIR/$MONTH_NAME"
+
+            rm -rf "$MONTH_DIR"
+            mkdir -p "$MONTH_DIR"
+
+            FOUND=false
+
+            ##########################################################
+            # 5. Récupérer les archives quotidiennes du mois
+            ##########################################################
+
+            echo ""
+            echo "🔎 Recherche des archives quotidiennes..."
+
+            for DAILY_ARCHIVE in "$REPORT_ROOT"/*.tar.zst
+            do
+              [ -f "$DAILY_ARCHIVE" ] || continue
+
+              NAME=$(basename "$DAILY_ARCHIVE" .tar.zst)
+
+              if [[ "$NAME" =~ ^${PREVIOUS_YEAR}-${PREVIOUS_MONTH}-[0-9]{2}$ ]]
+              then
+
+                echo "   📦 Ajout : $NAME"
+
+                ######################################################
+                # Vérifier l'archive avant extraction
+                ######################################################
+
+                if ! zstd -t "$DAILY_ARCHIVE" >/dev/null 2>&1
+                then
+                  echo "   ❌ Archive invalide : $DAILY_ARCHIVE"
+                  exit 1
+                fi
+
+                ######################################################
+                # Extraire
+                ######################################################
+
+                zstd -d "$DAILY_ARCHIVE" -c \
+                  | tar -x -C "$MONTH_DIR"
+
+                FOUND=true
+
+              fi
+            done
+
+            ##########################################################
+            # 6. Vérifier qu'il y a quelque chose à archiver
+            ##########################################################
+
+            if [ "$FOUND" = false ]
+            then
+
+              echo ""
+              echo "ℹ️ Aucun rapport archivable pour le mois précédent."
+
+              rm -rf "$MONTH_DIR"
+
+            else
+
+              ########################################################
+              # Taille originale
+              ########################################################
+
+              ORIGINAL_SIZE=$(du -sb "$MONTH_DIR" | awk '{print $1}')
+
+              echo ""
+              echo "📏 Taille originale : $ORIGINAL_SIZE octets"
+
+              ########################################################
+              # Compression mensuelle
+              ########################################################
+
+              TEMP_MONTH_ARCHIVE="$TEMP_DIR/${MONTH_NAME}.tar.zst"
+
+              compress_best \
+                "$MONTH_DIR" \
+                "$TEMP_MONTH_ARCHIVE"
+
+              ########################################################
+              # Taille compressée
+              ########################################################
+
+              COMPRESSED_SIZE=$(du -sb "$TEMP_MONTH_ARCHIVE" | awk '{print $1}')
+
+              PERCENT=$(awk \
+                -v compressed="$COMPRESSED_SIZE" \
+                -v original="$ORIGINAL_SIZE" \
+                'BEGIN {
+                  if (original == 0)
+                    print "0.00"
+                  else
+                    printf "%.2f", (compressed / original) * 100
+                }')
+
+              echo "📦 Taille compressée : $COMPRESSED_SIZE octets"
+              echo "📊 Taille finale : ${PERCENT} %"
+
+              ########################################################
+              # Vérification
+              ########################################################
+
+              if zstd -t "$TEMP_MONTH_ARCHIVE" >/dev/null 2>&1
+              then
+                echo "✅ Archive mensuelle valide"
+              else
+                echo "❌ Archive mensuelle invalide"
+                rm -f "$TEMP_MONTH_ARCHIVE"
+                exit 1
+              fi
+
+              ########################################################
+              # Installer l'archive mensuelle
+              ########################################################
+
+              mv \
+                "$TEMP_MONTH_ARCHIVE" \
+                "$MONTH_ARCHIVE"
+
+              echo ""
+              echo "📦 Archive mensuelle créée :"
+              echo "   $MONTH_ARCHIVE"
+
+              ########################################################
+              # Supprimer les archives quotidiennes du mois
+              ########################################################
+
+              echo ""
+              echo "🗑️ Suppression des archives quotidiennes..."
+
+              for DAILY_ARCHIVE in "$REPORT_ROOT"/*.tar.zst
+              do
+                [ -f "$DAILY_ARCHIVE" ] || continue
+
+                NAME=$(basename "$DAILY_ARCHIVE" .tar.zst)
+
+                if [[ "$NAME" =~ ^${PREVIOUS_YEAR}-${PREVIOUS_MONTH}-[0-9]{2}$ ]]
+                then
+
+                  rm -f "$DAILY_ARCHIVE"
+
+                  echo "   🗑️ Supprimé : $NAME.tar.zst"
+
+                fi
+              done
+
+              ########################################################
+              # Résultat compression mensuelle
+              ########################################################
+
+              echo ""
+
+              if awk \
+                -v percent="$PERCENT" \
+                'BEGIN { exit !(percent <= 25) }'
+              then
+                echo "🎯 Archive mensuelle ≤ 25 % !"
+              else
+                echo "⚠️ Archive mensuelle > 25 %"
+                echo "   Meilleure compression conservée."
+              fi
+
+              ########################################################
+              # Nettoyage
+              ########################################################
+
+              rm -rf "$MONTH_DIR"
+
+            fi
+
+          fi
+
+          ############################################################
+          # 7. Nettoyage des dossiers vides
+          ############################################################
+
+          echo ""
+          echo "======================================"
+          echo "🧹 NETTOYAGE"
+          echo "======================================"
+
+          find "$REPORT_ROOT" \
+            -type d \
+            -empty \
+            -delete \
+            2>/dev/null || true
+
+          ############################################################
+          # 8. Afficher la structure finale
+          ############################################################
+
+          echo ""
+          echo "======================================"
+          echo "📂 STRUCTURE ACTUELLE"
+          echo "======================================"
+
+          find "$REPORT_ROOT" \
+            -maxdepth 4 \
+            -print \
+            | sort
+
+          echo ""
+          echo "======================================"
+          echo "✅ ARCHIVAGE TERMINÉ"
+          echo "======================================"
+      
+
+
+
+
+      
+             
+      
+      - name: 💾 Commit reports
+        run: |
+                cd "$GITHUB_WORKSPACE"   
+                git config --global user.name "github-actions"
+                git config --global user.email "github-actions@github.com"
+                export GH_TOKEN="${{ github.token }}"
+                
+                git fetch origin
+                if git show-ref --verify --quiet refs/remotes/origin/ci-reports
+                then
+                git worktree add /tmp/ci-worktree origin/ci-reports
+                else
+                git worktree add -b ci-reports /tmp/ci-worktree
+                fi
+                echo "======================================"
+                echo "SOURCE BUILD"
+                echo "======================================"
+
+                ls -la "$GITHUB_WORKSPACE/reports/build"
+
+                echo ""
+                echo "find :"
+
+                find "$GITHUB_WORKSPACE/reports/build" -maxdepth 4 -print
+
+                echo ""
+                echo "Noms bruts :"
+
+                printf '<%s>\n' "$GITHUB_WORKSPACE"/reports/build/*
+
+                echo ""
+                echo "DESTINATION BUILD"
+                echo "======================================"
+
+                ls -la "/tmp/ci-worktree/reports"
+
+                echo ""
+                echo "find :"
+
+                find "/tmp/ci-worktree/reports" -maxdepth 4 -print
+                
+                mkdir -p "/tmp/ci-worktree/reports/build"
+                rsync -a --delete   "$GITHUB_WORKSPACE/reports/build/"   "/tmp/ci-worktree/reports/build/" 2>/dev/null || true
+                cd /tmp/ci-worktree
+                git lfs install
+                echo "======================================"
+                echo "📦 Configuration Git LFS"
+                echo "======================================"
+
+                if [ -f .gitattributes ]
+                then
+                grep -vE '^reports/build/build-(ubuntu-latest|windows-latest|macos-latest)/[0-9]{4}-[0-9]{2}-[0-9]{2}/\*\.md ' \
+                .gitattributes > .gitattributes.tmp || true
+
+                mv .gitattributes.tmp .gitattributes 
+                fi
+
+                # Règles permanentes.
+                git lfs track "database/**/*.db"
+                git lfs track "*.png"
+
+                for OS in \
+                ubuntu-latest \
+                windows-latest \
+                macos-latest
+                do
+
+                ROOT="reports/build/build-${OS}"
+
+                [ -d "$ROOT" ] || continue
+
+                for DIR in "$ROOT"/*
+                do
+                [ -d "$DIR" ] || continue
+
+                NAME=$(basename "$DIR")
+
+                if [[ "$NAME" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}$ ]]
+                then
+                echo "📝 Rapport temporaire LFS : $DIR/*.md"
+                git lfs track "$DIR/*.md"
+                fi
+                done
+
+                done
+
+                echo ""
+                echo "📄 Configuration LFS finale :"
+                cat .gitattributes
+                echo ""
+                git add -A
+                git status
+                if git diff --cached --quiet; then
+                echo "No changes to commit."
+                cd "$GITHUB_WORKSPACE"
+                git worktree remove /tmp/ci-worktree --force && rm -rf "/tmp/ci-worktree/reports/build"
+                exit 0
+                fi
+                UBUNTU_NUMBER=""
+                WINDOWS_NUMBER=""
+                MACOS_NUMBER=""
+
+                [ -f report-numbers/ubuntu-latest.txt ] && \
+                UBUNTU_NUMBER=$(cat report-numbers/ubuntu-latest.txt)
+
+                [ -f report-numbers/windows-latest.txt ] && \
+                WINDOWS_NUMBER=$(cat report-numbers/windows-latest.txt)
+
+                [ -f report-numbers/macos-latest.txt ] && \
+                MACOS_NUMBER=$(cat report-numbers/macos-latest.txt)
+
+                COMMIT_MESSAGE="Report build"
+
+                [ -n "$UBUNTU_NUMBER" ] && \
+                    COMMIT_MESSAGE+=" Ubuntu n° $UBUNTU_NUMBER"
+
+                [ -n "$WINDOWS_NUMBER" ] && \
+                          COMMIT_MESSAGE+=" Windows n° $WINDOWS_NUMBER"
+
+                [ -n "$MACOS_NUMBER" ] && \
+                       COMMIT_MESSAGE+=" macOS n° $MACOS_NUMBER"
+
+                echo "Message : $COMMIT_MESSAGE"
+
+                git commit -m "$COMMIT_MESSAGE"
+                
+                for i in 1 2 3
+                do
+                echo "Tentative $i/3"
+                git fetch origin 
+                echo "Branche actuelle :"
+                git branch --show-current
+
+                git status
+
+                if git push origin HEAD:ci-reports
+                then
+                echo "Push réussi"
+                cd "$GITHUB_WORKSPACE"
+                git worktree remove /tmp/ci-worktree --force && rm -rf "/tmp/ci-worktree/reports/build"
+                exit 0
+                fi
+
+                echo "Push échoué."
+                sleep 2
+                done
+
+                echo "======================================"
+                echo "Push direct impossible"
+                echo "Création de la branche de secours"
+                echo "======================================"
+
+                FALLBACK_BRANCH="ci-reports-update"
+                echo "Branche de secours : $FALLBACK_BRANCH"
+
+                # Crée ou met à jour la branche de secours
+                git push --force origin HEAD:"refs/heads/$FALLBACK_BRANCH"
+                echo "Branche de secours poussée."
+
+                # Vérifie si une PR existe déjà
+                PR_URL=$(gh pr list \
+                --base "ci-reports" \
+                --head "$FALLBACK_BRANCH" \
+                --state open \
+                --json url \
+                --jq '.[0].url')
+                if [ -n "$PR_URL" ]; then
+                echo "Une Pull Request existe déjà : $PR_URL"
+                else
+                echo "Création de la Pull Request..."
+
+                gh pr create \
+                --base ci-reports \
+                --head "$FALLBACK_BRANCH" \
+                --title "Reports builds n° ${REPORT_NUMBER}"\
+                --body "Le push direct vers \`ci-reports\` a échoué après 3 tentatives. Les changements générés par GitHub Actions sont     disponibles dans cette Pull Request."
+                fi
+                gh pr merge "$PR_URL" \
+                --auto \
+                --squash
+
+                cd "$GITHUB_WORKSPACE"
+                git worktree remove /tmp/ci-worktree --force && rm -rf "/tmp/ci-worktree/reports/build"
+      
+  

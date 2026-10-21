@@ -1,0 +1,90 @@
+[package]
+name = "argon2"
+version = "0.6.0"
+description = """
+Pure Rust implementation of the Argon2 password hashing function with support
+for the Argon2d, Argon2i, and Argon2id algorithmic variants
+"""
+authors = ["RustCrypto Developers"]
+license = "MIT OR Apache-2.0"
+documentation = "https://docs.rs/argon2"
+homepage = "https://github.com/RustCrypto/password-hashes/tree/master/argon2"
+repository = "https://github.com/RustCrypto/password-hashes"
+keywords = ["crypto", "hashing", "password", "phf"]
+categories = ["authentication", "cryptography", "no-std"]
+readme = "README.md"
+edition = "2024"
+rust-version = "1.85"
+
+[dependencies]
+base64ct = "1.7"
+blake2 = { version = "0.11", default-features = false }
+
+# optional dependencies
+kdf = { version = "0.1", optional = true }
+rayon = { version = "1.7", optional = true }
+password-hash = { version = "0.6", optional = true, features = ["phc"] }
+zeroize = { version = "1", default-features = false, optional = true }
+
+[target.'cfg(any(target_arch = "x86", target_arch = "x86_64"))'.dependencies]
+cpufeatures = "0.3"
+
+[dev-dependencies]
+hex-literal = "1"
+
+[features]
+default = ["alloc", "getrandom", "password-hash"]
+alloc = ["password-hash?/alloc"]
+
+kdf = ["alloc", "dep:kdf"]
+getrandom = ["password-hash/getrandom"]
+parallel = ["dep:rayon"]
+password-hash = ["dep:password-hash"]
+rand_core = ["password-hash/rand_core"]
+zeroize = ["dep:zeroize"]
+
+[lints.clippy]
+borrow_as_ptr = "warn"
+cast_lossless = "warn"
+cast_possible_truncation = "warn"
+cast_possible_wrap = "warn"
+cast_precision_loss = "warn"
+cast_sign_loss = "warn"
+checked_conversions = "warn"
+doc_markdown = "warn"
+from_iter_instead_of_collect = "warn"
+implicit_saturating_sub = "warn"
+manual_assert = "warn"
+map_unwrap_or = "warn"
+missing_errors_doc = "warn"
+missing_panics_doc = "warn"
+mod_module_files = "warn"
+must_use_candidate = "warn"
+needless_range_loop = "allow"
+ptr_as_ptr = "warn"
+redundant_closure_for_method_calls = "warn"
+ref_as_ptr = "warn"
+return_self_not_must_use = "warn"
+semicolon_if_nothing_returned = "warn"
+trivially_copy_pass_by_ref = "warn"
+std_instead_of_alloc = "warn"
+std_instead_of_core = "warn"
+undocumented_unsafe_blocks = "warn"
+unnecessary_safety_comment = "warn"
+unwrap_used = "warn"
+
+[lints.rust]
+missing_copy_implementations = "warn"
+missing_debug_implementations = "warn"
+missing_docs = "warn"
+trivial_casts = "warn"
+trivial_numeric_casts = "warn"
+unused_lifetimes = "warn"
+unused_qualifications = "warn"
+
+[lints.rust.unexpected_cfgs]
+level = "warn"
+check-cfg = ['cfg(test_large_ram)']
+
+[package.metadata.docs.rs]
+all-features = true

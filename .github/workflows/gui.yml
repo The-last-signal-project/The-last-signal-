@@ -1,0 +1,197 @@
+name: GUI - PySide6 + VisPy
+
+on:
+  workflow_call: 
+
+permissions:
+  contents: read
+
+jobs:
+  gui-test:
+    name: PySide6 + VisPy
+    runs-on: ubuntu-latest
+
+    steps:
+      # ─────────────────────────────────────────────
+      # 1. Récupération du dépôt
+      # ─────────────────────────────────────────────
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      # ─────────────────────────────────────────────
+      # 2. Python 3.14
+      # ─────────────────────────────────────────────
+      - name: Setup Python 3.14
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.14"
+          cache: pip
+
+      - name: Check Python
+        run: |
+          python --version
+          python -m pip --version
+
+      # ─────────────────────────────────────────────
+      # 3. Vérification de l'environnement graphique
+      # ─────────────────────────────────────────────
+      - name: Check Xvfb
+        run: |
+          echo "Xvfb:"
+          which Xvfb || true
+
+          echo "xvfb-run:"
+          which xvfb-run || true
+
+          echo "Display:"
+          echo "${DISPLAY:-not set}"
+
+      # ─────────────────────────────────────────────
+      # 4. Installation Python
+      # ─────────────────────────────────────────────
+      - name: Upgrade pip
+        run: |
+          python -m pip install --upgrade pip
+
+      - name: Install PySide6 and VisPy
+        run: |
+          python -m pip install PySide6 VisPy
+      - name: Install GUI system dependencies
+        run: |
+           sudo apt-get install -y \
+           xvfb \
+           libegl1 \
+           libgl1 \
+           libxcb-cursor0 \
+           libxkbcommon-x11-0 \
+           libxcb-icccm4 \
+           libxcb-keysyms1 \
+           libxcb-shape0
+            echo "=== Vérification des bibliothèques ==="
+            dpkg -s libxcb-cursor0
+            ldconfig -p | grep libxcb-cursor
+
+      # ─────────────────────────────────────────────
+      # 5. Vérification des versions
+      # ─────────────────────────────────────────────
+      - name: Check installed packages
+        run: |
+          python -m pip show PySide6
+          python -m pip show VisPy
+
+      # ─────────────────────────────────────────────
+      # 6. Test PySide6
+      # ─────────────────────────────────────────────
+      - name: Test PySide6
+        run: |
+         echo "=== Qt plugin directory ==="
+
+         PLUGIN_DIR=$(python -c "
+         from PySide6.QtCore import QLibraryInfo
+         print(QLibraryInfo.path(QLibraryInfo.LibraryPath.PluginsPath))
+         ")
+
+         echo "$PLUGIN_DIR"
+
+         echo "=== XCB plugin ==="
+
+         XCB_PLUGIN=$(find "$PLUGIN_DIR" \
+         -name "libqxcb.so" \
+         -print -quit)
+
+         echo "XCB plugin: $XCB_PLUGIN"
+
+         echo "=== XCB dependencies ==="
+
+         ldd "$XCB_PLUGIN" | grep "not found" || true
+
+         echo "=== Complete XCB dependencies ==="
+
+         ldd "$XCB_PLUGIN"
+
+         echo "=== libxcb-cursor ==="
+
+         ldconfig -p | grep libxcb-cursor || true
+
+         echo "=== Qt debug ==="
+
+         QT_DEBUG_PLUGINS=1 xvfb-run -a python -c "
+         from PySide6.QtWidgets import QApplication
+
+         app = QApplication([])
+
+         print('QApplication OK')
+
+         app.quit()
+         "
+
+      # ─────────────────────────────────────────────
+      # 7. Test VisPy
+      # ─────────────────────────────────────────────
+      - name: Test VisPy
+        run: |
+          xvfb-run -a python -c "
+          from PySide6.QtWidgets import QApplication
+          from vispy import scene
+
+          app = QApplication([])
+
+          canvas = scene.SceneCanvas(
+              keys='interactive',
+              show=False,
+              size=(800, 600)
+          )
+
+          print('VisPy canvas created successfully')
+
+          canvas.show()
+
+          app.processEvents()
+
+          print('VisPy GUI initialized successfully')
+
+          canvas.close()
+          app.quit()
+          "
+
+      # ─────────────────────────────────────────────
+      # 8. Test OpenGL / VisPy
+      # ─────────────────────────────────────────────
+      - name: Test VisPy OpenGL
+        run: |
+          xvfb-run -a python -c "
+          from PySide6.QtWidgets import QApplication
+          from vispy import app
+
+          application = QApplication([])
+
+          canvas = app.Canvas(
+              title='VisPy OpenGL CI test',
+              size=(800, 600),
+              show=False
+          )
+
+          print('VisPy application created successfully')
+          print('Backend:', app.use_app().backend_name)
+
+          canvas.show()
+          application.processEvents()
+
+          print('VisPy backend initialized successfully')
+
+          canvas.close()
+          application.quit()
+          "
+
+      # ─────────────────────────────────────────────
+      # 9. Résumé
+      # ─────────────────────────────────────────────
+      - name: GUI test summary
+        if: success()
+        run: |
+          echo "========================================"
+          echo " PySide6 + VisPy GUI tests: SUCCESS"
+          echo " Python: 3.14"
+          echo " Runner: ubuntu-latest"
+          echo "========================================"
+

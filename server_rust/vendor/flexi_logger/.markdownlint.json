@@ -1,0 +1,15 @@
+{
+    "MD041": {
+        "level": 1
+    },
+    "MD013": {
+        "line_length": 100,
+        "heading_line_length": 300,
+        "code_block_line_length": 180
+    },
+    "MD033": {
+        "allowed_elements": [
+            "span"
+        ]
+    }
+}

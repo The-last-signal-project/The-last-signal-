@@ -1,0 +1,50 @@
+name: Dependabot Auto-merge
+
+on:
+  schedule:
+    - cron: "*/10 * * * *"
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  dependabot:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Find Dependabot PRs
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+
+          PRS=$(gh pr list \
+            --repo DDCoder23/The-last-signal- \
+            --state open \
+            --author dependabot[bot] \
+            --base main \
+            --json number,url \
+            --jq '.[] | "\(.number) \(.url)"')
+
+          if [ -z "$PRS" ]; then
+            echo "Aucune PR Dependabot trouvée."
+            exit 0
+          fi
+
+          echo "PR Dependabot trouvées :"
+          echo "$PRS"
+
+          while read -r PR_NUMBER PR_URL; do
+            echo "======================================"
+            echo "Traitement de la PR #$PR_NUMBER"
+            echo "======================================"
+
+            echo "Approbation..."
+            gh pr review "$PR_URL" --approve
+
+            echo "Activation de l'auto-merge..."
+            gh pr merge "$PR_URL" --auto --squash
+
+            echo "Terminé pour $PR_URL"
+          done <<< "$PRS"

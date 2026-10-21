@@ -1,0 +1,287 @@
+name: Workflow Watchdog
+
+on:
+  workflow_dispatch:
+  workflow_run:
+    workflows:
+      - "launcher"
+      - "Nigthly"
+      - "Security Report"
+    types:
+      - in_progress
+
+  schedule:
+    # Vérification toutes les 5 minutes
+    - cron: "*/5 * * * *"
+
+permissions:
+  actions: write
+  contents: read
+
+env:
+  # Temps maximum d'exécution d'un JOB
+  MAX_JOB_RUNTIME_MINUTES: 120
+
+  WATCHDOG_NAME: "Workflow Watchdog"
+
+jobs:
+  watchdog:
+    name: Monitor Workflow Jobs
+    strategy:
+      matrix:
+        os:
+          - ubuntu-latest
+          - windows-latest
+          
+
+    runs-on: ${{ matrix.os }}
+    
+
+    # Le watchdog ne doit jamais être bloqué par
+    # la concurrency de main-update.
+    concurrency:
+      group: workflow-watchdog-${{ matrix.os }}
+      queue: max
+
+    steps:
+      - name: Check running jobs
+        env:
+          GH_TOKEN: ${{ github.token }}
+
+        shell: bash
+
+        run: |
+          set -euo pipefail
+          
+
+          echo "========================================"
+          echo "       WORKFLOW WATCHDOG"
+          echo "========================================"
+
+          
+
+          echo "OS         : ${RUNNER_OS}"
+          echo "Repository : ${GITHUB_REPOSITORY}"
+          echo "Date       : $(date -u)"
+          echo "Max job runtime : ${MAX_JOB_RUNTIME_MINUTES} min"
+          echo
+
+          NOW=$(date +%s)
+
+          iso_to_timestamp() {
+            local timestamp="$1"
+
+            if [ "$RUNNER_OS" = "macOS" ]; then
+              date -j -f "%Y-%m-%dT%H:%M:%SZ" "$timestamp" "+%s"
+            else
+              date -d "$timestamp" "+%s"
+            fi
+          }
+
+          # ==========================================================
+          # RÉCUPÉRATION DES WORKFLOWS ACTUELLEMENT EN COURS
+          # ==========================================================
+
+          echo "Recherche des workflows actifs..."
+          echo
+
+          gh api \
+            -H "Accept: application/vnd.github+json" \
+            -H "X-GitHub-Api-Version: 2026-03-10" \
+            "/repos/${GITHUB_REPOSITORY}/actions/runs?status=in_progress&per_page=100" \
+            > /tmp/running.json
+
+          # ==========================================================
+          # POUR CHAQUE WORKFLOW
+          # ==========================================================
+
+          jq -c '.workflow_runs[]' /tmp/running.json |
+          while IFS= read -r RUN; do
+
+            RUN_ID=$(echo "$RUN" | jq -r '.id')
+            WORKFLOW_NAME=$(echo "$RUN" | jq -r '.name')
+
+            # ------------------------------------------------------
+            # Ne jamais surveiller le watchdog lui-même
+            # ------------------------------------------------------
+
+            if [ "$WORKFLOW_NAME" = "$WATCHDOG_NAME" ]; then
+              continue
+            fi
+
+            echo "----------------------------------------"
+            echo "Workflow : $WORKFLOW_NAME"
+            echo "Run ID   : $RUN_ID"
+            echo "----------------------------------------"
+
+            # ======================================================
+            # RÉCUPÉRATION DES JOBS DU WORKFLOW
+            # ======================================================
+
+            gh api \
+              -H "Accept: application/vnd.github+json" \
+              -H "X-GitHub-Api-Version: 2026-03-10" \
+              "/repos/${GITHUB_REPOSITORY}/actions/runs/${RUN_ID}/jobs?per_page=100" \
+              > "/tmp/jobs-${RUN_ID}.json"
+
+            JOB_COUNT=$(jq '.jobs | length' "/tmp/jobs-${RUN_ID}.json")
+
+            echo "Nombre de jobs : $JOB_COUNT"
+            echo
+
+            # ======================================================
+            # ANALYSE DES JOBS
+            # ======================================================
+
+            jq -c '.jobs[]' "/tmp/jobs-${RUN_ID}.json" |
+            while IFS= read -r JOB; do
+
+              JOB_ID=$(echo "$JOB" | jq -r '.id')
+              JOB_NAME=$(echo "$JOB" | jq -r '.name')
+              JOB_STATUS=$(echo "$JOB" | jq -r '.status')
+              JOB_CONCLUSION=$(echo "$JOB" | jq -r '.conclusion')
+              JOB_STARTED=$(echo "$JOB" | jq -r '.started_at')
+
+              echo "[JOB] $JOB_NAME"
+              echo "      ID         : $JOB_ID"
+              echo "      status     : $JOB_STATUS"
+              echo "      conclusion : $JOB_CONCLUSION"
+
+              # ----------------------------------------------------
+              # JOB PAS ENCORE DÉMARRÉ
+              # ----------------------------------------------------
+
+              if [ "$JOB_STARTED" = "null" ] || [ -z "$JOB_STARTED" ]; then
+
+                echo "      → Pas encore démarré"
+                echo
+
+                continue
+              fi
+
+              # ----------------------------------------------------
+              # CALCUL DU TEMPS D'EXÉCUTION
+              # ----------------------------------------------------
+
+              STARTED_TS=$(date -d "$JOB_STARTED" +%s)
+
+              if [ "$JOB_STATUS" = "completed" ]; then
+
+                COMPLETED=$(echo "$JOB" | jq -r '.completed_at')
+
+                if [ "$COMPLETED" = "null" ] || [ -z "$COMPLETED" ]; then
+                  echo "      → Terminé mais timestamp absent"
+                  echo
+                  continue
+                fi
+
+                COMPLETED_TS=$(date -d "$COMPLETED" +%s)
+
+                RUNTIME=$((COMPLETED_TS - STARTED_TS))
+
+              else
+
+                RUNTIME=$((NOW - STARTED_TS))
+
+              fi
+
+              RUNTIME_MIN=$((RUNTIME / 60))
+
+              echo "      démarré    : $JOB_STARTED"
+              echo "      durée      : ${RUNTIME_MIN} min"
+
+              # ====================================================
+              # JOB EN COURS
+              # ====================================================
+
+              if [ "$JOB_STATUS" = "in_progress" ]; then
+
+                if [ "$RUNTIME_MIN" -ge "$MAX_JOB_RUNTIME_MINUTES" ]; then
+
+                  echo
+                  echo "      ⚠️ JOB TROP LONG"
+                  echo "      → Workflow : $WORKFLOW_NAME"
+                  echo "      → Run      : $RUN_ID"
+                  echo "      → FORCE-CANCEL"
+
+                  # ------------------------------------------------
+                  # Vérification finale avant annulation
+                  # ------------------------------------------------
+
+                  CURRENT_STATUS=$(gh api \
+                    -H "Accept: application/vnd.github+json" \
+                    -H "X-GitHub-Api-Version: 2026-03-10" \
+                    "/repos/${GITHUB_REPOSITORY}/actions/runs/${RUN_ID}" \
+                    --jq '.status')
+
+                  if [ "$CURRENT_STATUS" = "in_progress" ]; then
+
+                    gh api \
+                      --method POST \
+                      -H "Accept: application/vnd.github+json" \
+                      -H "X-GitHub-Api-Version: 2026-03-10" \
+                      "/repos/${GITHUB_REPOSITORY}/actions/runs/${RUN_ID}/force-cancel"
+
+                    echo "      ✅ Force-cancel demandé."
+
+                  else
+
+                    echo "      ℹ️ Le workflow est déjà terminé."
+                    echo "      → Aucune action."
+
+                  fi
+
+                else
+
+                  REMAINING=$((MAX_JOB_RUNTIME_MINUTES - RUNTIME_MIN))
+
+                  echo "      → 🟢 OK"
+                  echo "      → marge restante : ${REMAINING} min"
+
+                fi
+
+              # ====================================================
+              # JOB TERMINÉ
+              # ====================================================
+
+              elif [ "$JOB_STATUS" = "completed" ]; then
+
+                case "$JOB_CONCLUSION" in
+
+                  success)
+                    echo "      → ✅ Succès"
+                    ;;
+
+                  failure)
+                    echo "      → ❌ Échec"
+                    ;;
+
+                  cancelled)
+                    echo "      → 🛑 Annulé"
+                    ;;
+
+                  skipped)
+                    echo "      → ⏭️ Ignoré"
+                    ;;
+
+                  *)
+                    echo "      → Conclusion : $JOB_CONCLUSION"
+                    ;;
+
+                esac
+
+              else
+
+                echo "      → État : $JOB_STATUS"
+
+              fi
+
+              echo
+
+            done
+
+          done
+
+          echo "========================================"
+          echo "Surveillance terminée."
+          echo "========================================"

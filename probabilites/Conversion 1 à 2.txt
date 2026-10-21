@@ -1,0 +1,18 @@
+épée
+Aura de feu I :
+Aura de feu II : 0.94
+Poison I :
+Poison II : 0.94
+Duarability I :
+Durability II : 0.94
+Foudre I :
+Foudre II : 0.94
+Putréfaction I :
+Putréfaction II : 0.94
+Critique I :
+Critique II : 0.94
+Cryogenisation I :
+Cryogenisation II : 0.94
+Précision I :
+Précision II : 0.94
+

@@ -1,0 +1,20 @@
+name: Test Secret
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Test
+        env:
+          TEST_SECRET: ${{ secrets.SECRET_MANAGER_TOKEN }}
+        run: |
+          if [ -z "$TEST_SECRET" ]; then
+            echo "❌ SECRET_MANAGER_TOKEN est VIDE"
+            exit 1
+          else
+            echo "✅ SECRET_MANAGER_TOKEN est bien disponible"
+          fi

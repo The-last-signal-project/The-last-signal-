@@ -1,0 +1,680 @@
+name: Rust CI Report
+
+on:
+  workflow_call:
+permissions:
+  contents: write
+  actions: write
+  pull-requests: write
+  
+env:
+  RUST_PROJECT: server_rust
+  CARGO_TERM_COLOR: never
+  DATABASE_Test_PATH: ${{ github.workspace }}/database-test
+  DATABASE_Test_URL: sqlite:${{ github.workspace }}/database-test/the_last_signal.db
+jobs:
+  rust-report:
+
+    name: Rust Quality Report
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+          persist-credentials: true
+      - name: Install Git LFS
+        run: git lfs install
+
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Cache Cargo
+        uses: Swatinem/rust-cache@v2
+
+      - name: Create report
+        run: |
+          DATE=$(date -u +"%Y-%m-%d")
+
+          REPORT_DIR="reports/rust/${DATE}"
+          mkdir -p "$REPORT_DIR"
+
+          LAST=$(find "$REPORT_DIR" -type f -name 'rust-report-*.md' \
+          -exec basename {} \; |
+          sed -E 's/rust-report-([0-9]+)\.md/\1/' |
+          sort -n |
+          tail -1)
+
+          REPORT_NUMBER=$(( ${LAST:-0} + 1 ))
+
+          REPORT="${REPORT_DIR}/rust-report-${REPORT_NUMBER}.md"
+
+          echo "REPORT=$REPORT" >> "$GITHUB_ENV"
+          echo "REPORT_NUMBER=$REPORT_NUMBER" >> "$GITHUB_ENV"
+          echo "REPORT_DATE=$DATE" >> "$GITHUB_ENV"
+
+          {
+            echo "# Rust Report"
+            echo ""
+            echo "Run : ${GITHUB_RUN_NUMBER}"
+            echo "Branch : ${GITHUB_REF_NAME}"
+            echo "Commit : ${GITHUB_SHA}"
+            echo "Date : $(date)"
+            echo ""
+          } > "$REPORT"
+
+      - name: Cargo fmt
+        continue-on-error: true
+        run: |
+          {
+            echo ""
+            echo "## Cargo fmt"
+          } >> "$REPORT"
+
+          if find . -name Cargo.toml | grep -q .; then
+            if ! cargo fmt \
+            --manifest-path "$RUST_PROJECT/Cargo.toml" \
+            -- --check \
+            >> "$REPORT" 2>&1
+            then
+            echo "⚠️ cargo fmt --check failed" \
+            >> "$REPORT"
+           fi
+          else
+            echo "No Rust project found." >> "$REPORT"
+          fi
+
+      - name: Cargo clippy
+        continue-on-error: true
+        run: |
+          {
+            echo ""
+            echo "## Cargo clippy"
+          } >> "$REPORT"
+
+          if find . -name Cargo.toml | grep -q .; then
+            cargo clippy \
+            --manifest-path "$RUST_PROJECT/Cargo.toml" \
+            --all-targets \
+            --all-features
+            >> "$REPORT" 2>&1
+          else
+            echo "No Rust project found." >> "$REPORT"
+          fi
+
+      - name: Cargo test
+        continue-on-error: true
+        run: |
+          {
+            echo ""
+            echo "## Cargo test"
+          } >> "$REPORT"
+
+          if find . -name Cargo.toml | grep -q .; then
+            cargo test \
+           --manifest-path "$RUST_PROJECT/Cargo.toml" >> "$REPORT" 2>&1
+          else
+            echo "No Rust tests found." >> "$REPORT"
+          fi
+
+      - name: Publish Summary
+        run: cat "$REPORT" >> $GITHUB_STEP_SUMMARY
+
+      - name: Install archive tools
+        if: github.workflow == 'Nightly'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y zstd
+      - name: 🗜️ Compress and archive reports
+        if: github.workflow == 'Nightly'
+        run: |
+          set -euo pipefail
+
+          REPORT_ROOT="reports/rust"
+          TEMP_DIR=$(mktemp -d)
+
+          trap 'rm -rf "$TEMP_DIR"' EXIT
+
+          echo "======================================"
+          echo "🗜️ ARCHIVAGE DES RAPPORTS PYTHON"
+          echo "======================================"
+
+          mkdir -p "$REPORT_ROOT"
+
+
+          ############################################################
+          # Fonction : meilleure compression possible
+          ############################################################
+
+          compress_best() {
+
+            SOURCE_DIR="$1"
+            OUTPUT_ARCHIVE="$2"
+
+            BEST_ARCHIVE="$TEMP_DIR/best.tar.zst"
+            BEST_SIZE=""
+
+            echo ""
+            echo "🔧 Recherche de la meilleure compression..."
+
+            # Plusieurs niveaux.
+            # 19 = compression maximale de zstd.
+            for LEVEL in 1 3 6 10 15 19
+            do
+
+              TEST_ARCHIVE="$TEMP_DIR/test-${LEVEL}.tar.zst"
+
+              echo "   → Test zstd niveau $LEVEL"
+
+              tar -C "$(dirname "$SOURCE_DIR")" \
+                -cf - \
+                "$(basename "$SOURCE_DIR")" \
+                | zstd -"$LEVEL" -T0 -q -o "$TEST_ARCHIVE"
+
+              SIZE=$(du -sb "$TEST_ARCHIVE" | awk '{print $1}')
+
+              echo "      Taille : $SIZE octets"
+
+              if [ -z "$BEST_SIZE" ] || [ "$SIZE" -lt "$BEST_SIZE" ]
+              then
+
+                if [ -f "$BEST_ARCHIVE" ]
+                then
+                  rm -f "$BEST_ARCHIVE"
+                fi
+
+                cp "$TEST_ARCHIVE" "$BEST_ARCHIVE"
+
+                BEST_SIZE="$SIZE"
+
+              fi
+
+              rm -f "$TEST_ARCHIVE"
+
+            done
+
+            mv "$BEST_ARCHIVE" "$OUTPUT_ARCHIVE"
+
+            echo "🏆 Meilleure taille : $BEST_SIZE octets"
+          }
+
+
+          ############################################################
+          # 1. Compression individuelle des dossiers de 2 jours
+          ############################################################
+
+          echo ""
+          echo "======================================"
+          echo "📦 ÉTAPE 1 : ARCHIVES QUOTIDIENNES"
+          echo "======================================"
+
+          LIMIT=$(date -u -d "2 days ago" +%s)
+
+          for DIR in "$REPORT_ROOT"/*
+          do
+
+            [ -d "$DIR" ] || continue
+
+            NAME=$(basename "$DIR")
+
+            # Seulement YYYY-MM-DD
+            if ! [[ "$NAME" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}$ ]]
+            then
+              continue
+            fi
+
+            DATE_TS=$(date -u -d "$NAME" +%s 2>/dev/null || continue)
+
+            # Moins de 2 jours
+            if [ "$DATE_TS" -gt "$LIMIT" ]
+            then
+              echo "⏭️ $NAME : trop récent"
+              continue
+            fi
+
+            echo ""
+            echo "📁 $NAME"
+
+            ORIGINAL_SIZE=$(du -sb "$DIR" | awk '{print $1}')
+
+            echo "   Taille originale : $ORIGINAL_SIZE octets"
+
+            ARCHIVE="$REPORT_ROOT/${NAME}.tar.zst"
+
+            compress_best "$DIR" "$ARCHIVE"
+
+            COMPRESSED_SIZE=$(du -sb "$ARCHIVE" | awk '{print $1}')
+
+            PERCENT=$(awk \
+              -v compressed="$COMPRESSED_SIZE" \
+              -v original="$ORIGINAL_SIZE" \
+              'BEGIN {
+                if (original == 0)
+                  print "0.00"
+                else
+                  printf "%.2f", (compressed / original) * 100
+              }')
+
+            echo "   📊 Taille finale : ${PERCENT} %"
+
+            # Vérification
+            if zstd -t "$ARCHIVE" >/dev/null 2>&1
+            then
+
+              echo "   ✅ Archive valide"
+
+              rm -rf "$DIR"
+
+              echo "   🗑️ Dossier original supprimé"
+
+            else
+
+              echo "   ❌ Archive invalide"
+
+              rm -f "$ARCHIVE"
+
+              exit 1
+
+            fi
+
+            if awk -v percent="$PERCENT" \
+              'BEGIN { exit !(percent <= 25) }'
+            then
+              echo "   🎯 Objectif ≤ 25 % atteint !"
+            else
+              echo "   ⚠️ > 25 % : meilleure compression conservée"
+            fi
+
+          done
+
+
+          ############################################################
+          # 2. Détermination du mois précédent
+          ############################################################
+
+          echo ""
+          echo "======================================"
+          echo "📅 ÉTAPE 2 : ARCHIVE MENSUELLE"
+          echo "======================================"
+
+          CURRENT_YEAR=$(date -u +%Y)
+          CURRENT_MONTH=$(date -u +%m)
+
+          PREVIOUS_DATE=$(date -u \
+            -d "$CURRENT_YEAR-$CURRENT_MONTH-01 - 1 month" \
+            +%Y-%m)
+
+          PREVIOUS_YEAR=$(date -u \
+            -d "$CURRENT_YEAR-$CURRENT_MONTH-01 - 1 month" \
+            +%Y)
+
+          PREVIOUS_MONTH=$(date -u \
+            -d "$CURRENT_YEAR-$CURRENT_MONTH-01 - 1 month" \
+            +%m)
+
+          MONTH_NAME="${PREVIOUS_MONTH}-${PREVIOUS_YEAR}"
+
+          echo "📅 Mois précédent : $MONTH_NAME"
+
+
+          ############################################################
+          # 3. Vérifier si une archive mensuelle existe déjà
+          ############################################################
+
+          MONTH_ARCHIVE="$REPORT_ROOT/${MONTH_NAME}.tar.zst"
+
+          if [ -f "$MONTH_ARCHIVE" ]
+          then
+
+            echo "ℹ️ Archive mensuelle déjà présente : $MONTH_ARCHIVE"
+            echo "⏭️ Aucun regroupement nécessaire."
+
+          else
+
+            MONTH_DIR="$TEMP_DIR/$MONTH_NAME"
+
+            mkdir -p "$MONTH_DIR"
+
+            FOUND=false
+
+
+            ########################################################
+            # 4. Décompresser les archives quotidiennes
+            ########################################################
+
+            echo ""
+            echo "📦 Recherche des archives quotidiennes..."
+
+            for ARCHIVE in "$REPORT_ROOT"/*.tar.zst
+            do
+
+              [ -f "$ARCHIVE" ] || continue
+
+              NAME=$(basename "$ARCHIVE" .tar.zst)
+
+              if [[ "$NAME" =~ ^${PREVIOUS_YEAR}-${PREVIOUS_MONTH}-[0-9]{2}$ ]]
+              then
+
+                echo "   📦 Décompression : $NAME"
+
+                zstd -d "$ARCHIVE" -c \
+                  | tar -x -C "$MONTH_DIR"
+
+                FOUND=true
+
+              fi
+
+            done
+
+
+            ########################################################
+            # 5. Ajouter les dossiers du mois précédent
+            ########################################################
+
+            echo ""
+            echo "📁 Recherche des dossiers restants..."
+
+            for DIR in "$REPORT_ROOT"/*
+            do
+
+              [ -d "$DIR" ] || continue
+
+              NAME=$(basename "$DIR")
+
+              if [[ "$NAME" =~ ^${PREVIOUS_YEAR}-${PREVIOUS_MONTH}-[0-9]{2}$ ]]
+              then
+
+                echo "   📁 Ajout : $NAME"
+
+                cp -a "$DIR" "$MONTH_DIR/"
+
+                FOUND=true
+
+              fi
+
+            done
+
+
+            ########################################################
+            # 6. Créer l'archive mensuelle
+            ########################################################
+
+            if [ "$FOUND" = true ]
+            then
+
+              echo ""
+              echo "📦 Création de $MONTH_NAME.tar.zst"
+
+              ORIGINAL_MONTH_SIZE=$(du -sb "$MONTH_DIR" | awk '{print $1}')
+
+              compress_best \
+                "$MONTH_DIR" \
+                "$TEMP_DIR/${MONTH_NAME}.tar.zst"
+
+              COMPRESSED_MONTH_SIZE=$(du -sb \
+                "$TEMP_DIR/${MONTH_NAME}.tar.zst" \
+                | awk '{print $1}')
+
+              MONTH_PERCENT=$(awk \
+                -v compressed="$COMPRESSED_MONTH_SIZE" \
+                -v original="$ORIGINAL_MONTH_SIZE" \
+                'BEGIN {
+                  if (original == 0)
+                    print "0.00"
+                  else
+                    printf "%.2f", (compressed / original) * 100
+                }')
+
+              echo ""
+              echo "📊 Taille originale : $ORIGINAL_MONTH_SIZE octets"
+              echo "📊 Taille compressée : $COMPRESSED_MONTH_SIZE octets"
+              echo "📊 Taille finale : ${MONTH_PERCENT} %"
+
+
+              ######################################################
+              # 7. Vérifier l'archive mensuelle
+              ######################################################
+
+              if zstd -t \
+                "$TEMP_DIR/${MONTH_NAME}.tar.zst" \
+                >/dev/null 2>&1
+              then
+
+                echo "✅ Archive mensuelle valide"
+
+              else
+
+                echo "❌ Archive mensuelle invalide"
+                exit 1
+
+              fi
+
+
+              ######################################################
+              # 8. Installer l'archive mensuelle
+              ######################################################
+
+              mv \
+                "$TEMP_DIR/${MONTH_NAME}.tar.zst" \
+                "$MONTH_ARCHIVE"
+
+
+              ######################################################
+              # 9. Supprimer les archives quotidiennes
+              ######################################################
+
+              echo ""
+              echo "🗑️ Suppression des anciennes archives..."
+
+              for ARCHIVE in "$REPORT_ROOT"/*.tar.zst
+              do
+
+                [ -f "$ARCHIVE" ] || continue
+
+                NAME=$(basename "$ARCHIVE" .tar.zst)
+
+                if [[ "$NAME" =~ ^${PREVIOUS_YEAR}-${PREVIOUS_MONTH}-[0-9]{2}$ ]]
+                then
+
+                  rm -f "$ARCHIVE"
+
+                  echo "   🗑️ $NAME.tar.zst"
+
+                fi
+
+              done
+
+
+              ######################################################
+              # 10. Supprimer les dossiers du mois précédent
+              ######################################################
+
+              echo ""
+              echo "🗑️ Suppression des dossiers..."
+
+              for DIR in "$REPORT_ROOT"/*
+              do
+
+                [ -d "$DIR" ] || continue
+
+                NAME=$(basename "$DIR")
+
+                if [[ "$NAME" =~ ^${PREVIOUS_YEAR}-${PREVIOUS_MONTH}-[0-9]{2}$ ]]
+                then
+
+                  rm -rf "$DIR"
+
+                  echo "   🗑️ $NAME"
+
+                fi
+
+              done
+
+
+              ######################################################
+              # Résultat
+              ######################################################
+
+              if awk -v percent="$MONTH_PERCENT" \
+                'BEGIN { exit !(percent <= 25) }'
+              then
+
+                echo ""
+                echo "🎯 Archive mensuelle ≤ 25 % !"
+
+              else
+
+                echo ""
+                echo "⚠️ Impossible d'atteindre 25 %."
+                echo "✅ Meilleure compression conservée."
+
+              fi
+
+            else
+
+              echo ""
+              echo "ℹ️ Aucun rapport du mois précédent à regrouper."
+
+            fi
+
+          fi
+
+
+          ############################################################
+          # 11. Résultat final
+          ############################################################
+
+          echo ""
+          echo "======================================"
+          echo "✅ ARCHIVAGE TERMINÉ"
+          echo "======================================"
+
+          echo ""
+          echo "📂 Structure actuelle :"
+
+          find "$REPORT_ROOT" -maxdepth 2 -print | sort
+
+
+
+      
+
+
+
+
+      
+             
+      
+      - name: 💾 Commit reports
+        run: |
+                git config --global user.name "github-actions"
+                git config --global user.email "github-actions@github.com"
+                export GH_TOKEN="${{ github.token }}"
+                git fetch origin
+                if git show-ref --verify --quiet refs/remotes/origin/ci-reports
+                then
+                git worktree add /tmp/ci-worktree origin/ci-reports
+                else
+                git worktree add -b ci-reports /tmp/ci-worktree
+                fi
+                
+                mkdir -p "/tmp/ci-worktree/reports/rust"
+                rsync -a --delete   "$GITHUB_WORKSPACE/reports/rust/"   "/tmp/ci-worktree/reports/rust/" 2>/dev/null || true
+                cd /tmp/ci-worktree
+                git lfs install
+                echo "======================================"
+                echo "📦 Configuration Git LFS"
+                echo "======================================"
+                if [ -f .gitattributes ]
+                then
+                grep -vE '^reports/rust/[0-9]{4}-[0-9]{2}-[0-9]{2}/\*\.md ' \
+                .gitattributes > .gitattributes.tmp || true
+
+                mv .gitattributes.tmp .gitattributes
+                fi
+                # Règles permanentes.
+                git lfs track "database/**/*.db"
+                git lfs track "*.png"
+                for DIR in reports/rust/*
+                do
+                [ -d "$DIR" ] || continue
+                NAME=$(basename "$DIR")
+                if [[ "$NAME" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}$ ]]
+                then
+                echo "📝 Rapport temporaire LFS : $DIR/*.md"
+                git lfs track "$DIR/*.md"
+                fi
+                done
+
+                echo ""
+                echo "📄 Configuration LFS finale :"
+                cat .gitattributes
+                echo ""
+                git add -A
+                git status
+                if git diff --cached --quiet; then
+                echo "No changes to commit."
+                cd "$GITHUB_WORKSPACE"
+                git worktree remove /tmp/ci-worktree --force && rm -rf "/tmp/ci-worktree/reports/rust"
+                exit 0
+                fi
+                git commit -m "Report rust n° ${REPORT_NUMBER}"
+                for i in 1 2 3
+                do
+                echo "Tentative $i/3"
+                git fetch origin 
+                echo "Branche actuelle :"
+                git branch --show-current
+
+                git status
+
+                if git push origin HEAD:ci-reports
+                then
+                echo "Push réussi"
+                cd "$GITHUB_WORKSPACE"
+                git worktree remove /tmp/ci-worktree --force && rm -rf "/tmp/ci-worktree/reports/rust"
+                exit 0
+                fi
+
+                echo "Push échoué."
+                sleep 2
+                done
+
+                echo "======================================"
+                echo "Push direct impossible"
+                echo "Création de la branche de secours"
+                echo "======================================"
+
+                FALLBACK_BRANCH="ci-reports-update"
+                echo "Branche de secours : $FALLBACK_BRANCH"
+
+                # Crée ou met à jour la branche de secours
+                git push --force origin HEAD:"refs/heads/$FALLBACK_BRANCH"
+                echo "Branche de secours poussée."
+
+                # Vérifie si une PR existe déjà
+                PR_URL=$(gh pr list \
+                --base "ci-reports" \
+                --head "$FALLBACK_BRANCH" \
+                --state open \
+                --json url \
+                --jq '.[0].url')
+                if [ -n "$PR_URL" ]; then
+                echo "Une Pull Request existe déjà : $PR_URL"
+                else
+                echo "Création de la Pull Request..."
+
+                PR_URL=$(gh pr create \
+                --base ci-reports \
+                --head "$FALLBACK_BRANCH" \
+                --title "Report rust n° ${REPORT_NUMBER}"\
+                --body "Le push direct vers \`ci-reports\` a échoué après 3 tentatives. Les changements générés par GitHub Actions sont disponibles dans cette Pull Request.")
+                fi
+                gh pr merge "$PR_URL" \
+                --auto \
+                --squash
+
+                cd "$GITHUB_WORKSPACE"
+                git worktree remove /tmp/ci-worktree --force && rm -rf /tmp/ci-worktree/reports/rust

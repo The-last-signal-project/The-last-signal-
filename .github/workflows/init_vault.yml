@@ -1,0 +1,159 @@
+name: Initialize Vault
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  initialize-vault:
+    runs-on: ubuntu-latest
+
+    env:
+      GH_TOKEN: ${{ secrets.SECRET_MANAGER_TOKEN }}
+
+    steps:
+      - name: Setup Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.13"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install cryptography pynacl
+
+      # --------------------------------------------------
+      # Génération de la clé Fernet
+      # --------------------------------------------------
+
+      - name: Generate Fernet key
+        run: |
+          python - <<'PY'
+          from cryptography.fernet import Fernet
+
+          key = Fernet.generate_key()
+
+          with open("master.key", "wb") as f:
+              f.write(key)
+
+          print("Clé Fernet générée.")
+          PY
+
+      # --------------------------------------------------
+      # Vérification du token
+      # --------------------------------------------------
+
+      - name: Test GitHub token
+        run: |
+          set -e
+
+          if [ -z "$GH_TOKEN" ]; then
+            echo "❌ SECRET_MANAGER_TOKEN est vide"
+            exit 1
+          fi
+
+          echo "Token présent."
+
+          curl -fsSL \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer $GH_TOKEN" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            "https://api.github.com/user" \
+            > /tmp/user.json
+
+          echo "Authentification GitHub réussie."
+
+          jq '{login, id}' /tmp/user.json
+
+      # --------------------------------------------------
+      # Récupération de la clé publique des secrets
+      # --------------------------------------------------
+
+      - name: Get GitHub public key
+        id: github-key
+        run: |
+          set -e
+
+          response=$(curl -fsSL \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer $GH_TOKEN" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/secrets/public-key")
+
+          echo "key_id=$(echo "$response" | jq -r '.key_id')" >> "$GITHUB_OUTPUT"
+
+          echo "public_key=$(echo "$response" | jq -r '.key')" >> "$GITHUB_OUTPUT"
+
+          echo "Clé publique GitHub récupérée."
+
+      # --------------------------------------------------
+      # Chiffrement de master.key avec la clé publique GitHub
+      # --------------------------------------------------
+
+      - name: Encrypt Fernet key
+        env:
+          PUBLIC_KEY: ${{ steps.github-key.outputs.public_key }}
+        run: |
+          set -e
+
+          python - <<'PY'
+          import base64
+          import os
+
+          from nacl.public import PublicKey, SealedBox
+
+          public_key = os.environ["PUBLIC_KEY"]
+
+          with open("master.key", "rb") as f:
+              secret = f.read()
+
+          encrypted = SealedBox(
+              PublicKey(base64.b64decode(public_key))
+          ).encrypt(secret)
+
+          with open("encrypted_key", "w") as f:
+              f.write(
+                  base64.b64encode(encrypted).decode()
+              )
+
+          print("Clé Fernet chiffrée.")
+          PY
+
+      # --------------------------------------------------
+      # Écriture dans GitHub Secrets
+      # --------------------------------------------------
+
+      - name: Write VAULT_KEY
+        env:
+          KEY_ID: ${{ steps.github-key.outputs.key_id }}
+        run: |
+          set -e
+
+          encrypted_value=$(cat encrypted_key)
+
+          curl -fsSL \
+            -X PUT \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer $GH_TOKEN" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/secrets/VAULT_KEY" \
+            -d "$(jq -n \
+              --arg encrypted_value "$encrypted_value" \
+              --arg key_id "$KEY_ID" \
+              '{
+                encrypted_value: $encrypted_value,
+                key_id: $key_id
+              }')"
+
+          echo "✅ VAULT_KEY créé/mis à jour avec succès."
+
+      # --------------------------------------------------
+      # Nettoyage
+      # --------------------------------------------------
+
+      - name: Cleanup
+        if: always()
+        run: |
+          rm -f master.key
+          rm -f encrypted_key             

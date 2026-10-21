@@ -1,0 +1,35 @@
+name: Force Cancel Workflow
+
+on:
+  workflow_dispatch:
+    inputs:
+      run_id:
+        description: "ID du workflow à force-cancel"
+        required: true
+        type: string
+
+permissions:
+  actions: write
+
+jobs:
+  force-cancel:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Force cancel workflow
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RUN_ID: ${{ inputs.run_id }}
+
+        run: |
+          set -euo pipefail
+
+          echo "Force-cancel du workflow : ${RUN_ID}"
+
+          gh api \
+            --method POST \
+            -H "Accept: application/vnd.github+json" \
+            -H "X-GitHub-Api-Version: 2026-03-10" \
+            "/repos/${GITHUB_REPOSITORY}/actions/runs/${RUN_ID}/force-cancel"
+
+          echo "✅ Force-cancel demandé."

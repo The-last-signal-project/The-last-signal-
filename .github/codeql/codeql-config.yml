@@ -1,0 +1,12 @@
+name: The Last Signal CodeQL
+
+paths:
+  - server_rust/src
+  - client_python
+  - scripts
+
+paths-ignore:
+  - server_rust/vendor
+  - server_rust/target
+  - vendor
+  - target

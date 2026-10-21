@@ -1,0 +1,118 @@
+name: Cancel Pending Workflows
+
+on:
+  workflow_call:
+    inputs:
+      mode:
+        required: true
+        type: string
+
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "Workflows à annuler"
+        required: true
+        type: choice
+        options:
+          - global
+          - launcher
+          - nightly
+          - security
+
+permissions:
+  actions: write
+
+jobs:
+  cancel:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Cancel waiting workflows
+        env:
+          GH_TOKEN: ${{ github.token }}
+          MODE: ${{ inputs.mode }}
+        run: |
+          set -Eeuo pipefail
+
+          REPO="$GITHUB_REPOSITORY"
+          CURRENT_RUN="$GITHUB_RUN_ID"
+
+          echo "Repository : $REPO"
+          echo "Current run : $CURRENT_RUN"
+          echo "Mode : $MODE"
+
+          case "$MODE" in
+
+            global)
+              WORKFLOWS=(
+                "323612663:launcher"
+                "310224372:Nightly"
+                "310224378:Security Report"
+              )
+              ;;
+
+            launcher)
+              WORKFLOWS=(
+                "323612663:launcher"
+              )
+              ;;
+
+            nightly)
+              WORKFLOWS=(
+                "310224372:Nightly"
+              )
+              ;;
+
+            security)
+              WORKFLOWS=(
+                "310224378:Security Report"
+              )
+              ;;
+
+            *)
+              echo "❌ Mode inconnu : $MODE"
+              exit 1
+              ;;
+          esac
+
+          for ENTRY in "${WORKFLOWS[@]}"; do
+
+            WORKFLOW_ID="${ENTRY%%:*}"
+            WORKFLOW_NAME="${ENTRY#*:}"
+
+            echo ""
+            echo "======================================"
+            echo "Workflow : $WORKFLOW_NAME"
+            echo "ID       : $WORKFLOW_ID"
+            echo "======================================"
+
+            gh api \
+              "/repos/$REPO/actions/workflows/$WORKFLOW_ID/runs?per_page=100" |
+            jq -r '
+              .workflow_runs[]
+              | select(.status == "pending" or .status == "queued")
+              | .id
+            ' |
+            while read -r RUN_ID; do
+
+              [ -z "$RUN_ID" ] && continue
+
+              if [ "$RUN_ID" = "$CURRENT_RUN" ]; then
+                echo "→ Run actuel ignoré : $RUN_ID"
+                continue
+              fi
+
+              echo "→ Annulation du run Waiting : $RUN_ID"
+
+              gh api \
+                --method POST \
+                "/repos/$REPO/actions/runs/$RUN_ID/cancel"
+
+            done
+
+          done
+
+          echo ""
+          echo "======================================"
+          echo "✅ Nettoyage terminé"
+          echo "======================================"
