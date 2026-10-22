@@ -5,52 +5,25 @@ INSERT INTO enchantments (enchantment_name) VALUES
     ('Putrefaction'),
     ('Lightning'),
     ('Critical'),
-    ('Cryogenisation'),
-    ('Précision'),
+    ('Cryogenization'),
+    ('Accuracy'),
     ('Rapidity'),
     ('Respiration'),
     ('Vitality'),
     ('Protection'),
-    ('Renvoie'),
-    ('Réparation'),
-    ('Blindage'),
-    ('Tranchant'),
-    ('Capturing item'),
+    ('Reflection'),
+    ('Repair'),
+    ('Plating'),
+    ('Sharpness'),
+    ('Item Capture'),
     ('luck');
-**⚔️ Swords**
+
+ 
 
 
-- Critical
-- Cryogenization
-- Accuracy
-- Durability
-- Repair
-- Sharpness
-- Item Capture
-
-**🔫 Guns**
-- Critical
-- Rapidity
-
-**🛡️ Armor**
-
-- Durability
-- Respiration
-- Protection
-- Reflection
-- Repair
-
-
-**Shields**
-- Plating
-- Vitality
-
-**⛏️ Pickaxes**
-- Luck
-- Repair
 
 INSERT INTO enchantment_types (enchantment_id, equipment_type)
-SELECT enchantment_id, 'épée'
+SELECT enchantment_id, 'Swords'
 FROM enchantments
 WHERE enchantment_name IN (
     'Fire Aura',
@@ -59,43 +32,43 @@ WHERE enchantment_name IN (
     'Putrefaction',
     'Lightning',
     'Critical',
-    'Cryogenisation',
-    'Réparation',
-    'Précision',
-    'Tranchant',
-    'Capturing item'
+    'Cryogenization',
+    'Repair',
+    'Accuracy',
+    'Sharpness',
+    'Item Capture'
 );
 INSERT INTO enchantment_types (enchantment_id, equipment_type)
-SELECT enchantment_id, 'armure'
+SELECT enchantment_id, 'Armors'
 FROM enchantments
 WHERE enchantment_name IN (
     'Respiration',
     'Durability',
     'Vitality',
     'Protection',
-    'Réparation',
-    'Renvoie'
+    'Repair',
+    'Reflection'
 );
 INSERT INTO enchantment_types (enchantment_id, equipment_type)
-SELECT enchantment_id, 'shield'
+SELECT enchantment_id, 'shields'
 FROM enchantments
 WHERE enchantment_name IN ( 
     'Protection',
-    'Blindage'
+    'Plating'
     );
 INSERT INTO enchantment_types (enchantment_id, equipment_type)
-SELECT enchantment_id, 'armes à feu'
+SELECT enchantment_id, 'Guns'
 FROM enchantments
 WHERE enchantment_name IN (
     'Rapidity',
     'Critical'
 );
 INSERT INTO enchantment_types (enchantment_id, equipment_type)
-SELECT enchantment_id, 'pioche'
+SELECT enchantment_id, 'Pickaxes'
 FROM enchantments
 WHERE enchantment_name IN (
     'luck',
-    'Réparation'
+    'Repair'
     );
 INSERT INTO enchantment_levels (
     enchantment_id,
