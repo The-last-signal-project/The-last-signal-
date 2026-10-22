@@ -13,7 +13,7 @@
 edition = "2024"
 rust-version = "1.88"
 name = "icu_normalizer"
-version = "2.3.0"
+version = "2.4.0"
 authors = ["The ICU4X Project Developers"]
 build = false
 include = [
@@ -149,21 +149,21 @@ optional = true
 default-features = false
 
 [dependencies.icu_collections]
-version = "~2.3.0"
+version = "~2.4.0"
 default-features = false
 
 [dependencies.icu_normalizer_data]
-version = "~2.3.0"
+version = "~2.4.0"
 optional = true
 default-features = false
 
 [dependencies.icu_properties]
-version = "~2.3.0"
+version = "~2.4.0"
 optional = true
 default-features = false
 
 [dependencies.icu_provider]
-version = "2.3.0"
+version = "2.4.0"
 default-features = false
 
 [dependencies.serde]
@@ -180,12 +180,12 @@ version = "1.10.0"
 default-features = false
 
 [dependencies.utf16_iter]
-version = "1.0.2"
+version = "1.0.4"
 optional = true
 default-features = false
 
 [dependencies.utf8_iter]
-version = "1.0.2"
+version = "1.0.4"
 optional = true
 default-features = false
 
@@ -196,7 +196,7 @@ optional = true
 default-features = false
 
 [dependencies.zerovec]
-version = "0.11.7"
+version = "0.11.9"
 default-features = false
 
 [dev-dependencies.atoi]

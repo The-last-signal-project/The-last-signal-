@@ -13,7 +13,7 @@
 edition = "2024"
 rust-version = "1.88"
 name = "icu_properties_data"
-version = "2.3.0"
+version = "2.4.0"
 authors = ["The ICU4X Project Developers"]
 build = "build.rs"
 include = [
@@ -50,10 +50,10 @@ repository = "https://github.com/unicode-org/icu4x"
 resolver = "2"
 
 [package.metadata.sources.cldr]
-tagged = "48.2.1"
+tagged = "49.0.0"
 
-[package.metadata.sources.icuexport]
-tagged = "release-78.1rc"
+[package.metadata.sources.unicode]
+tagged = "18.0.0"
 
 [package.metadata.sources.segmenter_lstm]
 tagged = "v0.1.0"
