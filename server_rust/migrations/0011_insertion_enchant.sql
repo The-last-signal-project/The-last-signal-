@@ -4,7 +4,7 @@ INSERT INTO enchantments (enchantment_name) VALUES
     ('Durability'),
     ('Putrefaction'),
     ('Lightning'),
-    ('Critique'),
+    ('Critical'),
     ('Cryogenisation'),
     ('Précision'),
     ('Rapidity'),
@@ -19,8 +19,7 @@ INSERT INTO enchantments (enchantment_name) VALUES
     ('luck');
 **⚔️ Swords**
 
-- Putrefaction
-- Lightning
+
 - Critical
 - Cryogenization
 - Accuracy
@@ -59,7 +58,7 @@ WHERE enchantment_name IN (
     'Durability',
     'Putrefaction',
     'Lightning',
-    'Critique',
+    'Critical',
     'Cryogenisation',
     'Réparation',
     'Précision',
@@ -89,7 +88,7 @@ SELECT enchantment_id, 'armes à feu'
 FROM enchantments
 WHERE enchantment_name IN (
     'Rapidity',
-    'Critique'
+    'Critical'
 );
 INSERT INTO enchantment_types (enchantment_id, equipment_type)
 SELECT enchantment_id, 'pioche'
