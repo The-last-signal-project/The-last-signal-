@@ -35,12 +35,12 @@ jobs:
     secrets:
         VAULT_KEY: ${{ secrets.VAULT_KEY }}
         DEPLOY_KEY: >-
-       ${{
-       (github.event_name == 'schedule' ||
-       github.event_name == 'workflow_dispatch') &&
-       secrets.CI_SYNC_DEPLOY_KEY ||
-       secrets.DEPLOY_KEY
-       }}
+         ${{
+         (github.event_name == 'schedule' ||
+         github.event_name == 'workflow_dispatch') &&
+         secrets.CI_SYNC_DEPLOY_KEY ||
+         secrets.DEPLOY_KEY
+         }}
     
   python:
     needs: integration
@@ -129,12 +129,12 @@ jobs:
     uses: ./.github/workflows/repository-stats.yml
     secrets:
         DEPLOY_KEY: >-
-       ${{
-       (github.event_name == 'schedule' ||
-       github.event_name == 'workflow_dispatch') &&
-       secrets.CI_SYNC_DEPLOY_KEY ||
-       secrets.DEPLOY_KEY
-       }}
+         ${{
+         (github.event_name == 'schedule' ||
+         github.event_name == 'workflow_dispatch') &&
+         secrets.CI_SYNC_DEPLOY_KEY ||
+         secrets.DEPLOY_KEY
+         }}
   cancel-launcher:
     needs:
 
