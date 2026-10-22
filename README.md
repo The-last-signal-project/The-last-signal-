@@ -135,10 +135,10 @@ Vous devez disposer de :
 ## 📥 1. Cloner le dépôt
 
 ```bash
-git clone https://github.com/DDCoder23/The-last-signal-.git
+git clone https://github.com/The-last-signal-project/The-last-signal-.git
 cd The-last-signal-
 ```
-
+Cela peut prendre un certain temps en fonction de votre vitesse de connexion et des capacités de votre ordinateur.
 ---
 
 ## 🐍 2. Installer les dépendances Python

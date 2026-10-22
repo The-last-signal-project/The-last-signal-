@@ -83,10 +83,10 @@ The Last Signal は完成（かんせい）したプロジェクトではあり�
 ## 📥 1. リポジトリをクローンする
 
 ```bash
-git clone https://github.com/DDCoder23/The-last-signal-.git
+git clone https://github.com/The-last-signal-project/The-last-signal-.git
 cd The-last-signal-
 ```
-
+接続(せつぞく)速度(そくど)やパソコンの性能(せいのう)によっては、時間(じかん)がかかることがあります。
 ---
 
 ## 🐍 2. Python の依存関係（いぞんかんけい）をインストールする

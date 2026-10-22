@@ -81,10 +81,10 @@ You need:
 ## 📥 1. Clone the Repository
 
 ```bash
-git clone https://github.com/DDCoder23/The-last-signal-.git
+git clone https://github.com/The-last-signal-project/The-last-signal-.git
 cd The-last-signal-
 ```
-
+It can took time depending on your computer ressources or network connexion 
 ---
 
 ## 🐍 2. Install Python Dependencies

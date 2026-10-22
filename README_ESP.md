@@ -81,10 +81,10 @@ Necesitas:
 ## 📥 1. Clonar el repositorio
 
 ```bash
-git clone https://github.com/DDCoder23/The-last-signal-.git
+git clone https://github.com/The-last-signal-project/The-last-signal-.git
 cd The-last-signal-
 ```
-
+Esto puede tardar un tiempo dependiendo de la velocidad de tu conexión y de las capacidades de tu ordenador.
 ---
 
 ## 🐍 2. Instalar las dependencias de Python
