@@ -4602,6 +4602,12 @@
         "module": "markdown"
     },
     {
+        "file": "README_ENG.md",
+        "severity": "warning",
+        "message": "Espace en fin de ligne (87).",
+        "module": "markdown"
+    },
+    {
         "file": "CHANGELOG.md",
         "severity": "warning",
         "message": "Espace en fin de ligne (40).",

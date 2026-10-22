@@ -1,5 +1,5 @@
 {
-    "generated": "2026-10-22T06:52:49.011249",
+    "generated": "2026-10-22T13:58:18.144915",
     "score": 64,
     "status": "Bon",
     "scores": {
@@ -11,7 +11,7 @@
         "rust": 0,
         "organization": 95
     },
-    "problem_count": 8424,
+    "problem_count": 8425,
     "details": {
         "markdown": {
             "score": 45,
@@ -4627,6 +4627,12 @@
                     "file": "CHANGELOG_ENG.md",
                     "severity": "warning",
                     "message": "Espace en fin de ligne (150).",
+                    "module": "markdown"
+                },
+                {
+                    "file": "README_ENG.md",
+                    "severity": "warning",
+                    "message": "Espace en fin de ligne (87).",
                     "module": "markdown"
                 },
                 {

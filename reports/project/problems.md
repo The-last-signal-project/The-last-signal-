@@ -1,14 +1,14 @@
 # Documentation Problems
 
-Generated: 2026-10-22 06:52:49
+Generated: 2026-10-22 13:58:19
 
 ## Summary
 
 |Type|Count|
 |---|---:|
 |Errors|473|
-|Warnings|7946|
-|**Total**|**8424**|
+|Warnings|7947|
+|**Total**|**8425**|
 
 ---
 
@@ -8495,6 +8495,11 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 - **Module :** markdown
 - **Message :** Ligne 299 > 120 caractères.
+
+## Warning
+
+- **Module :** markdown
+- **Message :** Espace en fin de ligne (87).
 
 ## Error
 
