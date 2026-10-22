@@ -1,9 +1,9 @@
 INSERT INTO enchantments (enchantment_name) VALUES
-    ('Aura de feu'),
+    ('Fire Aura'),
     ('Poison'),
     ('Durability'),
-    ('Putréfaction'),
-    ('Foudre'),
+    ('Putrefaction'),
+    ('Lightning'),
     ('Critique'),
     ('Cryogenisation'),
     ('Précision'),
@@ -17,15 +17,48 @@ INSERT INTO enchantments (enchantment_name) VALUES
     ('Tranchant'),
     ('Capturing item'),
     ('luck');
+**⚔️ Swords**
+
+- Putrefaction
+- Lightning
+- Critical
+- Cryogenization
+- Accuracy
+- Durability
+- Repair
+- Sharpness
+- Item Capture
+
+**🔫 Guns**
+- Critical
+- Rapidity
+
+**🛡️ Armor**
+
+- Durability
+- Respiration
+- Protection
+- Reflection
+- Repair
+
+
+**Shields**
+- Plating
+- Vitality
+
+**⛏️ Pickaxes**
+- Luck
+- Repair
+
 INSERT INTO enchantment_types (enchantment_id, equipment_type)
 SELECT enchantment_id, 'épée'
 FROM enchantments
 WHERE enchantment_name IN (
-    'Aura de feu',
+    'Fire Aura',
     'Poison',
     'Durability',
-    'Putréfaction',
-    'Foudre',
+    'Putrefaction',
+    'Lightning',
     'Critique',
     'Cryogenisation',
     'Réparation',
