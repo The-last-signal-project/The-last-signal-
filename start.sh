@@ -53,6 +53,14 @@ cleanup() {
   if [[ -n "$SERVER_PID" ]] && kill -0 "$SERVER_PID" 2>/dev/null; then
     kill -TERM "$SERVER_PID" 2>/dev/null || true
   fi
+  if [[ -n "$CLIENT_PID" ]] && kill -0 "$CLIENT_PID" 2>/dev/null; then
+    sleep 2
+    kill -KILL "$CLIENT_PID" 2>/dev/null || true
+  fi
+  if [[ -n "$SERVER_PID" ]] && kill -0 "$SERVER_PID" 2>/dev/null; then
+    sleep 2
+    kill -KILL "$SERVER_PID" 2>/dev/null || true
+  fi
   if [[ -n "$CLIENT_PID" ]]; then
     wait "$CLIENT_PID" 2>/dev/null || true
   fi
@@ -69,14 +77,19 @@ echo "[launcher] Starting Rust server (127.0.0.1:5000)..."
 SERVER_PID=$!
 
 READY=0
-for attempt in $(seq 1 60); do
+for ((attempt = 1; attempt <= 60; attempt++)); do
   if ! kill -0 "$SERVER_PID" 2>/dev/null; then
     wait "$SERVER_PID"
     status=$?
     echo "[launcher] Server exited before becoming ready (exit $status)." >&2
     exit "$status"
   fi
-  if (exec 3<>/dev/tcp/127.0.0.1/5000) 2>/dev/null; then
+  if command -v python3 >/dev/null 2>&1; then
+    if python3 -c 'import socket; s=socket.socket(); s.settimeout(0.5); s.connect(("127.0.0.1", 5000)); s.close()' >/dev/null 2>&1; then
+      READY=1
+      break
+    fi
+  elif "$PYTHON_BIN" -c 'import socket; s=socket.socket(); s.settimeout(0.5); s.connect(("127.0.0.1", 5000)); s.close()' >/dev/null 2>&1; then
     READY=1
     break
   fi
