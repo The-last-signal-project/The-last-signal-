@@ -593,7 +593,120 @@ pub fn inverse_mix_final(
 
     Ok(value)
 }
+/// Chiffre un message octet par octet.
+///
+/// L'ordre des opérations correspond au pipeline Python :
+/// update -> mix_before -> 16 rotors -> mix_final.
+pub fn encrypt(
+    communication_key: &[u8],
+    packet_type: u8,
+    plaintext: &[u8],
+) -> Result<Vec<u8>, &'static str> {
+    let rotors = generate_rotors(communication_key)?;
+    let mut state = RotorState::new(communication_key, packet_type)?;
 
+    let mut ciphertext = Vec::with_capacity(plaintext.len());
+    let mut previous_ciphertext = 0u8;
+
+    for (byte_counter, &plain_byte) in plaintext.iter().enumerate() {
+        state.update();
+
+        // Copier l'état après la mise à jour, comme en Python.
+        let positions = *state.positions();
+
+        let mut value = mix_before(
+            plain_byte,
+            communication_key,
+            &positions,
+            byte_counter as u64,
+            previous_ciphertext,
+        )?;
+
+        // Les rotors sont appliqués dans l'ordre R1 -> R16.
+        for rotor_index in 0..ROTOR_COUNT {
+            value = rotor_forward(
+                value,
+                positions[rotor_index],
+                &rotors[rotor_index],
+            );
+        }
+
+        value = mix_final(
+            value,
+            communication_key,
+            &positions,
+            byte_counter as u64,
+            previous_ciphertext,
+            packet_type,
+        )?;
+
+        ciphertext.push(value);
+
+        // Toujours conserver l'octet chiffré, pas l'octet clair.
+        previous_ciphertext = value;
+    }
+
+    Ok(ciphertext)
+}
+
+/// Déchiffre un message produit par encrypt().
+///
+/// Les opérations sont inversées dans l'ordre inverse.
+pub fn decrypt(
+    communication_key: &[u8],
+    packet_type: u8,
+    ciphertext: &[u8],
+) -> Result<Vec<u8>, &'static str> {
+    let rotors = generate_rotors(communication_key)?;
+    let inverse_rotors: [[u8; ROTOR_SIZE]; ROTOR_COUNT] =
+        std::array::from_fn(|i| inverse_permutation(&rotors[i]));
+
+    let mut state = RotorState::new(communication_key, packet_type)?;
+
+    let mut plaintext = Vec::with_capacity(ciphertext.len());
+    let mut previous_ciphertext = 0u8;
+
+    for (byte_counter, &cipher_byte) in ciphertext.iter().enumerate() {
+        state.update();
+
+        let positions = *state.positions();
+
+        // Annuler le dernier mélange.
+        let mut value = inverse_mix_final(
+            cipher_byte,
+            communication_key,
+            &positions,
+            byte_counter as u64,
+            previous_ciphertext,
+            packet_type,
+        )?;
+
+        // Inverser les rotors dans l'ordre R16 -> R1.
+        for rotor_index in (0..ROTOR_COUNT).rev() {
+            value = rotor_inverse(
+                value,
+                positions[rotor_index],
+                &rotors[rotor_index],
+            );
+        }
+
+        // Annuler le premier mélange.
+        value = inverse_mix_before(
+            value,
+            communication_key,
+            &positions,
+            byte_counter as u64,
+            previous_ciphertext,
+        )?;
+
+        plaintext.push(value);
+
+        // L'octet chiffré d'origine est nécessaire au prochain octet.
+        previous_ciphertext = cipher_byte;
+    }
+
+    Ok(plaintext)
+}
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -928,6 +1041,59 @@ fn mix_final_round_trip_all_byte_values() {
         }
     }
 }
+#[test]
+fn encrypt_decrypt_round_trip_all_packet_types() {
+    let key: [u8; 64] = std::array::from_fn(|i| i as u8);
 
+    let plaintext: Vec<u8> = (0..1024)
+        .map(|i| (i * 37 + 11) as u8)
+        .collect();
+
+    for packet_type in 1u8..=9 {
+        let ciphertext =
+            encrypt(&key, packet_type, &plaintext).unwrap();
+
+        assert_eq!(ciphertext.len(), plaintext.len());
+
+        let decrypted =
+            decrypt(&key, packet_type, &ciphertext).unwrap();
+
+        assert_eq!(
+            decrypted,
+            plaintext,
+            "Échec du round-trip pour packet_type={packet_type}"
+        );
+    }
+}
+
+#[test]
+fn encrypt_empty_message() {
+    let key = [0u8; 64];
+
+    let ciphertext = encrypt(&key, 1, &[]).unwrap();
+    let plaintext = decrypt(&key, 1, &ciphertext).unwrap();
+
+    assert!(ciphertext.is_empty());
+    assert!(plaintext.is_empty());
+}
+
+#[test]
+fn encrypt_rejects_invalid_key_length() {
+    let key = [0u8; 63];
+
+    assert!(encrypt(&key, 1, b"test").is_err());
+    assert!(decrypt(&key, 1, b"test").is_err());
+}
+
+#[test]
+fn encrypt_is_deterministic_for_same_inputs() {
+    let key: [u8; 64] = std::array::from_fn(|i| i as u8);
+    let plaintext = b"The Last Signal";
+
+    let first = encrypt(&key, 1, plaintext).unwrap();
+    let second = encrypt(&key, 1, plaintext).unwrap();
+
+    assert_eq!(first, second);
+}
 }
 
