@@ -139,11 +139,7 @@ jobs:
       - name: Set up Rust
         uses: dtolnay/rust-toolchain@stable
 
-      - name: Cache Cargo dependencies
-        uses: Swatinem/rust-cache@v2
-        with:
-          workspaces: server_rust
-
+      
       - name: Prepare local test database directories
         run: |
           mkdir -p "$DATABASE_PATH" "$DATABASE_TEST_PATH"
