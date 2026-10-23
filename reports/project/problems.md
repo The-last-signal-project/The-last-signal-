@@ -1,14 +1,14 @@
 # Documentation Problems
 
-Generated: 2026-10-23 08:04:40
+Generated: 2026-10-23 13:38:03
 
 ## Summary
 
 |Type|Count|
 |---|---:|
-|Errors|473|
+|Errors|472|
 |Warnings|7981|
-|**Total**|**8459**|
+|**Total**|**8458**|
 
 ---
 
@@ -18492,41 +18492,32 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## Warning
 
 - **Module :** markdown
-- **Message :** Ligne 44 > 120 caractères.
+- **Message :** Ligne 39 > 120 caractères.
 
 ## Warning
 
 - **Module :** markdown
-- **Message :** Ligne 73 > 120 caractères.
+- **Message :** Ligne 63 > 120 caractères.
+
+## Warning
+
+- **Module :** markdown
+- **Message :** Ligne 64 > 120 caractères.
+
+## Warning
+
+- **Module :** markdown
+- **Message :** Ligne 68 > 120 caractères.
+
+## Warning
+
+- **Module :** markdown
+- **Message :** Ligne 72 > 120 caractères.
 
 ## Warning
 
 - **Module :** markdown
 - **Message :** Ligne 74 > 120 caractères.
-
-## Warning
-
-- **Module :** markdown
-- **Message :** Ligne 78 > 120 caractères.
-
-## Warning
-
-- **Module :** markdown
-- **Message :** Ligne 84 > 120 caractères.
-
-## Warning
-
-- **Module :** markdown
-- **Message :** Ligne 88 > 120 caractères.
-
----
-
-# server_rust/README.md
-
-## Error
-
-- **Module :** titles
-- **Message :** server_rust/README.md: contient 0 titres H1 (1 attendu).
 
 ---
 
