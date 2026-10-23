@@ -13,7 +13,16 @@ jobs:
   prep:
     name: preparation
     runs-on: ubuntu-latest
+    
+    env:
+     DEPLOY_KEY: ${{ secrets.CI_SYNC_DEPLOY_KEY }}
     steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+        with:
+          lfs: true
+          fetch-depth: 0
+          ssh-key: ${{ env.DEPLOY_KEY }}  
       - name: update cargo vendor
         working-directory: server_rust
         run: | 
