@@ -1,6 +1,6 @@
 Documentation Quality Report
 
-**Date :** 2026-10-23 13:52:09
+**Date :** 2026-10-23 14:20:33
 
 # 64/100
 
@@ -10733,19 +10733,31 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** markdown
-- **Message :** Ligne 317 > 120 caractères.
+- **Message :** Ligne 171 > 120 caractères.
 
 - **module :** markdown
 
 ## ⚠️ Warning
 - **Module :** markdown
-- **Message :** Ligne 363 > 120 caractères.
+- **Message :** Ligne 173 > 120 caractères.
 
 - **module :** markdown
 
 ## ⚠️ Warning
 - **Module :** markdown
-- **Message :** Ligne 546 > 120 caractères.
+- **Message :** Ligne 318 > 120 caractères.
+
+- **module :** markdown
+
+## ⚠️ Warning
+- **Module :** markdown
+- **Message :** Ligne 364 > 120 caractères.
+
+- **module :** markdown
+
+## ⚠️ Warning
+- **Module :** markdown
+- **Message :** Ligne 547 > 120 caractères.
 
 - **module :** markdown
 
@@ -10763,7 +10775,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** README.md:473 saut de niveau H1 → H3.
+- **Message :** README.md:474 saut de niveau H1 → H3.
 
 - **module :** titles
 
@@ -10781,19 +10793,31 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** README.md:442 titre dupliqué (déjà présent dans CONTRIBUTING.md:206).
+- **Message :** README.md:158 titre dupliqué (déjà présent dans README_ENG.md:104).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** README.md:503 titre dupliqué (déjà présent dans README_ESP.md:444).
+- **Message :** README.md:165 titre dupliqué (déjà présent dans README_ENG.md:111).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** README.md:523 titre dupliqué (déjà présent dans README_ESP.md:460).
+- **Message :** README.md:443 titre dupliqué (déjà présent dans CONTRIBUTING.md:206).
+
+- **module :** titles
+
+## ⚠️ Warning
+- **Module :** titles
+- **Message :** README.md:504 titre dupliqué (déjà présent dans README_ESP.md:444).
+
+- **module :** titles
+
+## ⚠️ Warning
+- **Module :** titles
+- **Message :** README.md:524 titre dupliqué (déjà présent dans README_ESP.md:460).
 
 - **module :** titles
 
@@ -10807,25 +10831,37 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** markdown
-- **Message :** Ligne 179 > 120 caractères.
+- **Message :** Ligne 117 > 120 caractères.
 
 - **module :** markdown
 
 ## ⚠️ Warning
 - **Module :** markdown
-- **Message :** Ligne 251 > 120 caractères.
+- **Message :** Ligne 119 > 120 caractères.
 
 - **module :** markdown
 
 ## ⚠️ Warning
 - **Module :** markdown
-- **Message :** Ligne 271 > 120 caractères.
+- **Message :** Ligne 180 > 120 caractères.
 
 - **module :** markdown
 
 ## ⚠️ Warning
 - **Module :** markdown
-- **Message :** Ligne 299 > 120 caractères.
+- **Message :** Ligne 252 > 120 caractères.
+
+- **module :** markdown
+
+## ⚠️ Warning
+- **Module :** markdown
+- **Message :** Ligne 272 > 120 caractères.
+
+- **module :** markdown
+
+## ⚠️ Warning
+- **Module :** markdown
+- **Message :** Ligne 300 > 120 caractères.
 
 - **module :** markdown
 
@@ -10913,13 +10949,25 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** markdown
-- **Message :** Ligne 303 > 120 caractères.
+- **Message :** Ligne 119 > 120 caractères.
 
 - **module :** markdown
 
 ## ⚠️ Warning
 - **Module :** markdown
-- **Message :** Ligne 487 > 120 caractères.
+- **Message :** Ligne 121 > 120 caractères.
+
+- **module :** markdown
+
+## ⚠️ Warning
+- **Module :** markdown
+- **Message :** Ligne 304 > 120 caractères.
+
+- **module :** markdown
+
+## ⚠️ Warning
+- **Module :** markdown
+- **Message :** Ligne 488 > 120 caractères.
 
 - **module :** markdown
 
@@ -10931,7 +10979,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** README_JP.md:418 saut de niveau H1 → H3.
+- **Message :** README_JP.md:419 saut de niveau H1 → H3.
 
 - **module :** titles
 
@@ -10943,13 +10991,19 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** README_JP.md:448 titre dupliqué (déjà présent dans README_ESP.md:444).
+- **Message :** README_JP.md:106 titre dupliqué (déjà présent dans README_ENG.md:104).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** README_JP.md:464 titre dupliqué (déjà présent dans README_ESP.md:460).
+- **Message :** README_JP.md:449 titre dupliqué (déjà présent dans README_ESP.md:444).
+
+- **module :** titles
+
+## ⚠️ Warning
+- **Module :** titles
+- **Message :** README_JP.md:465 titre dupliqué (déjà présent dans README_ESP.md:460).
 
 - **module :** titles
 
@@ -12057,19 +12111,19 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** docs/README.md:45 titre dupliqué (déjà présent dans README.md:361).
+- **Message :** docs/README.md:45 titre dupliqué (déjà présent dans README.md:362).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** docs/README.md:72 titre dupliqué (déjà présent dans README.md:460).
+- **Message :** docs/README.md:72 titre dupliqué (déjà présent dans README.md:461).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** docs/README.md:178 titre dupliqué (déjà présent dans README.md:531).
+- **Message :** docs/README.md:178 titre dupliqué (déjà présent dans README.md:532).
 
 - **module :** titles
 
@@ -12537,6 +12591,200 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 - **module :** titles
 
+# 📄 docs/SECURITY_CRYPTO_REVIEW.md
+
+## ⚠️ Warning
+- **Module :** markdown
+- **Message :** Ligne 5 > 120 caractères.
+
+- **module :** markdown
+
+## ⚠️ Warning
+- **Module :** markdown
+- **Message :** Ligne 9 > 120 caractères.
+
+- **module :** markdown
+
+## ⚠️ Warning
+- **Module :** markdown
+- **Message :** Ligne 11 > 120 caractères.
+
+- **module :** markdown
+
+## ⚠️ Warning
+- **Module :** markdown
+- **Message :** Ligne 19 > 120 caractères.
+
+- **module :** markdown
+
+## ⚠️ Warning
+- **Module :** markdown
+- **Message :** Ligne 20 > 120 caractères.
+
+- **module :** markdown
+
+## ⚠️ Warning
+- **Module :** markdown
+- **Message :** Ligne 21 > 120 caractères.
+
+- **module :** markdown
+
+## ⚠️ Warning
+- **Module :** markdown
+- **Message :** Ligne 22 > 120 caractères.
+
+- **module :** markdown
+
+## ⚠️ Warning
+- **Module :** markdown
+- **Message :** Ligne 26 > 120 caractères.
+
+- **module :** markdown
+
+## ⚠️ Warning
+- **Module :** markdown
+- **Message :** Ligne 30 > 120 caractères.
+
+- **module :** markdown
+
+## ⚠️ Warning
+- **Module :** markdown
+- **Message :** Ligne 32 > 120 caractères.
+
+- **module :** markdown
+
+## ⚠️ Warning
+- **Module :** markdown
+- **Message :** Ligne 38 > 120 caractères.
+
+- **module :** markdown
+
+## ⚠️ Warning
+- **Module :** markdown
+- **Message :** Ligne 41 > 120 caractères.
+
+- **module :** markdown
+
+## ⚠️ Warning
+- **Module :** markdown
+- **Message :** Ligne 45 > 120 caractères.
+
+- **module :** markdown
+
+## ⚠️ Warning
+- **Module :** markdown
+- **Message :** Ligne 49 > 120 caractères.
+
+- **module :** markdown
+
+## ⚠️ Warning
+- **Module :** markdown
+- **Message :** Ligne 51 > 120 caractères.
+
+- **module :** markdown
+
+## ⚠️ Warning
+- **Module :** markdown
+- **Message :** Ligne 57 > 120 caractères.
+
+- **module :** markdown
+
+## ⚠️ Warning
+- **Module :** markdown
+- **Message :** Ligne 58 > 120 caractères.
+
+- **module :** markdown
+
+## ⚠️ Warning
+- **Module :** markdown
+- **Message :** Ligne 63 > 120 caractères.
+
+- **module :** markdown
+
+## ⚠️ Warning
+- **Module :** markdown
+- **Message :** Ligne 67 > 120 caractères.
+
+- **module :** markdown
+
+## ⚠️ Warning
+- **Module :** markdown
+- **Message :** Ligne 69 > 120 caractères.
+
+- **module :** markdown
+
+## ⚠️ Warning
+- **Module :** markdown
+- **Message :** Ligne 79 > 120 caractères.
+
+- **module :** markdown
+
+## ⚠️ Warning
+- **Module :** markdown
+- **Message :** Ligne 83 > 120 caractères.
+
+- **module :** markdown
+
+## ⚠️ Warning
+- **Module :** markdown
+- **Message :** Ligne 89 > 120 caractères.
+
+- **module :** markdown
+
+## ⚠️ Warning
+- **Module :** markdown
+- **Message :** Ligne 98 > 120 caractères.
+
+- **module :** markdown
+
+## ⚠️ Warning
+- **Module :** markdown
+- **Message :** Ligne 100 > 120 caractères.
+
+- **module :** markdown
+
+## ⚠️ Warning
+- **Module :** markdown
+- **Message :** Ligne 101 > 120 caractères.
+
+- **module :** markdown
+
+## ⚠️ Warning
+- **Module :** markdown
+- **Message :** Ligne 108 > 120 caractères.
+
+- **module :** markdown
+
+## ⚠️ Warning
+- **Module :** markdown
+- **Message :** Espace en fin de ligne (3).
+
+- **module :** markdown
+
+## ⚠️ Warning
+- **Module :** markdown
+- **Message :** Espace en fin de ligne (4).
+
+- **module :** markdown
+
+## ⚠️ Warning
+- **Module :** titles
+- **Message :** docs/SECURITY_CRYPTO_REVIEW.md:15 titre très long (83 caractères).
+
+- **module :** titles
+
+## ⚠️ Warning
+- **Module :** titles
+- **Message :** docs/SECURITY_CRYPTO_REVIEW.md:34 titre très long (103 caractères).
+
+- **module :** titles
+
+## ⚠️ Warning
+- **Module :** titles
+- **Message :** docs/SECURITY_CRYPTO_REVIEW.md:53 titre très long (86 caractères).
+
+- **module :** titles
+
 # 📄 docs/TEAM.md
 
 ## ❌ Error
@@ -12703,7 +12951,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** docs/gdd/02_UNIVERS.md:3 titre dupliqué (déjà présent dans README.md:361).
+- **Message :** docs/gdd/02_UNIVERS.md:3 titre dupliqué (déjà présent dans README.md:362).
 
 - **module :** titles
 
@@ -14917,7 +15165,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** docs/gdd/README.md:36 titre dupliqué (déjà présent dans README.md:361).
+- **Message :** docs/gdd/README.md:36 titre dupliqué (déjà présent dans README.md:362).
 
 - **module :** titles
 
@@ -20885,6 +21133,20 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 - **module :** titles
 
+# 📄 docs_JP/LAUNCH_JP.md
+
+## ⚠️ Warning
+- **Module :** markdown
+- **Message :** Ligne 32 > 120 caractères.
+
+- **module :** markdown
+
+## ⚠️ Warning
+- **Module :** titles
+- **Message :** docs_JP/LAUNCH_JP.md:19 titre dupliqué (déjà présent dans README_ENG.md:104).
+
+- **module :** titles
+
 # 📄 docs_JP/NETWORK_JP.md
 
 ## ❌ Error
@@ -20923,7 +21185,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** markdown
-- **Message :** Ligne 184 > 120 caractères.
+- **Message :** Ligne 194 > 120 caractères.
 
 - **module :** markdown
 
@@ -20935,7 +21197,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** docs_JP/README_JP.md:175 titre dupliqué (déjà présent dans README_JP.md:472).
+- **Message :** docs_JP/README_JP.md:185 titre dupliqué (déjà présent dans README_JP.md:473).
 
 - **module :** titles
 
