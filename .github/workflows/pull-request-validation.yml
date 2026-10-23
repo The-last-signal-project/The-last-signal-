@@ -148,6 +148,7 @@ jobs:
         working-directory: server_rust
         run: |
           ls
+          mkdir -p .cargo # created if needed it
           mv .cargo tmp/.cargo
           cargo test 
           cd tmp
