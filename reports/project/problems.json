@@ -956,25 +956,37 @@
     {
         "file": "README_ENG.md",
         "severity": "warning",
-        "message": "Ligne 179 > 120 caractères.",
+        "message": "Ligne 117 > 120 caractères.",
         "module": "markdown"
     },
     {
         "file": "README_ENG.md",
         "severity": "warning",
-        "message": "Ligne 251 > 120 caractères.",
+        "message": "Ligne 119 > 120 caractères.",
         "module": "markdown"
     },
     {
         "file": "README_ENG.md",
         "severity": "warning",
-        "message": "Ligne 271 > 120 caractères.",
+        "message": "Ligne 180 > 120 caractères.",
         "module": "markdown"
     },
     {
         "file": "README_ENG.md",
         "severity": "warning",
-        "message": "Ligne 299 > 120 caractères.",
+        "message": "Ligne 252 > 120 caractères.",
+        "module": "markdown"
+    },
+    {
+        "file": "README_ENG.md",
+        "severity": "warning",
+        "message": "Ligne 272 > 120 caractères.",
+        "module": "markdown"
+    },
+    {
+        "file": "README_ENG.md",
+        "severity": "warning",
+        "message": "Ligne 300 > 120 caractères.",
         "module": "markdown"
     },
     {
@@ -1040,13 +1052,25 @@
     {
         "file": "README_JP.md",
         "severity": "warning",
-        "message": "Ligne 303 > 120 caractères.",
+        "message": "Ligne 119 > 120 caractères.",
         "module": "markdown"
     },
     {
         "file": "README_JP.md",
         "severity": "warning",
-        "message": "Ligne 487 > 120 caractères.",
+        "message": "Ligne 121 > 120 caractères.",
+        "module": "markdown"
+    },
+    {
+        "file": "README_JP.md",
+        "severity": "warning",
+        "message": "Ligne 304 > 120 caractères.",
+        "module": "markdown"
+    },
+    {
+        "file": "README_JP.md",
+        "severity": "warning",
+        "message": "Ligne 488 > 120 caractères.",
         "module": "markdown"
     },
     {
@@ -1064,19 +1088,31 @@
     {
         "file": "README.md",
         "severity": "warning",
-        "message": "Ligne 317 > 120 caractères.",
+        "message": "Ligne 171 > 120 caractères.",
         "module": "markdown"
     },
     {
         "file": "README.md",
         "severity": "warning",
-        "message": "Ligne 363 > 120 caractères.",
+        "message": "Ligne 173 > 120 caractères.",
         "module": "markdown"
     },
     {
         "file": "README.md",
         "severity": "warning",
-        "message": "Ligne 546 > 120 caractères.",
+        "message": "Ligne 318 > 120 caractères.",
+        "module": "markdown"
+    },
+    {
+        "file": "README.md",
+        "severity": "warning",
+        "message": "Ligne 364 > 120 caractères.",
+        "module": "markdown"
+    },
+    {
+        "file": "README.md",
+        "severity": "warning",
+        "message": "Ligne 547 > 120 caractères.",
         "module": "markdown"
     },
     {
@@ -1142,7 +1178,13 @@
     {
         "file": "docs_JP/README_JP.md",
         "severity": "warning",
-        "message": "Ligne 184 > 120 caractères.",
+        "message": "Ligne 194 > 120 caractères.",
+        "module": "markdown"
+    },
+    {
+        "file": "docs_JP/LAUNCH_JP.md",
+        "severity": "warning",
+        "message": "Ligne 32 > 120 caractères.",
         "module": "markdown"
     },
     {
@@ -1539,6 +1581,168 @@
         "file": "docs/QRB_flake8_error.md",
         "severity": "warning",
         "message": "Ligne 1878 > 120 caractères.",
+        "module": "markdown"
+    },
+    {
+        "file": "docs/SECURITY_CRYPTO_REVIEW.md",
+        "severity": "warning",
+        "message": "Ligne 5 > 120 caractères.",
+        "module": "markdown"
+    },
+    {
+        "file": "docs/SECURITY_CRYPTO_REVIEW.md",
+        "severity": "warning",
+        "message": "Ligne 9 > 120 caractères.",
+        "module": "markdown"
+    },
+    {
+        "file": "docs/SECURITY_CRYPTO_REVIEW.md",
+        "severity": "warning",
+        "message": "Ligne 11 > 120 caractères.",
+        "module": "markdown"
+    },
+    {
+        "file": "docs/SECURITY_CRYPTO_REVIEW.md",
+        "severity": "warning",
+        "message": "Ligne 19 > 120 caractères.",
+        "module": "markdown"
+    },
+    {
+        "file": "docs/SECURITY_CRYPTO_REVIEW.md",
+        "severity": "warning",
+        "message": "Ligne 20 > 120 caractères.",
+        "module": "markdown"
+    },
+    {
+        "file": "docs/SECURITY_CRYPTO_REVIEW.md",
+        "severity": "warning",
+        "message": "Ligne 21 > 120 caractères.",
+        "module": "markdown"
+    },
+    {
+        "file": "docs/SECURITY_CRYPTO_REVIEW.md",
+        "severity": "warning",
+        "message": "Ligne 22 > 120 caractères.",
+        "module": "markdown"
+    },
+    {
+        "file": "docs/SECURITY_CRYPTO_REVIEW.md",
+        "severity": "warning",
+        "message": "Ligne 26 > 120 caractères.",
+        "module": "markdown"
+    },
+    {
+        "file": "docs/SECURITY_CRYPTO_REVIEW.md",
+        "severity": "warning",
+        "message": "Ligne 30 > 120 caractères.",
+        "module": "markdown"
+    },
+    {
+        "file": "docs/SECURITY_CRYPTO_REVIEW.md",
+        "severity": "warning",
+        "message": "Ligne 32 > 120 caractères.",
+        "module": "markdown"
+    },
+    {
+        "file": "docs/SECURITY_CRYPTO_REVIEW.md",
+        "severity": "warning",
+        "message": "Ligne 38 > 120 caractères.",
+        "module": "markdown"
+    },
+    {
+        "file": "docs/SECURITY_CRYPTO_REVIEW.md",
+        "severity": "warning",
+        "message": "Ligne 41 > 120 caractères.",
+        "module": "markdown"
+    },
+    {
+        "file": "docs/SECURITY_CRYPTO_REVIEW.md",
+        "severity": "warning",
+        "message": "Ligne 45 > 120 caractères.",
+        "module": "markdown"
+    },
+    {
+        "file": "docs/SECURITY_CRYPTO_REVIEW.md",
+        "severity": "warning",
+        "message": "Ligne 49 > 120 caractères.",
+        "module": "markdown"
+    },
+    {
+        "file": "docs/SECURITY_CRYPTO_REVIEW.md",
+        "severity": "warning",
+        "message": "Ligne 51 > 120 caractères.",
+        "module": "markdown"
+    },
+    {
+        "file": "docs/SECURITY_CRYPTO_REVIEW.md",
+        "severity": "warning",
+        "message": "Ligne 57 > 120 caractères.",
+        "module": "markdown"
+    },
+    {
+        "file": "docs/SECURITY_CRYPTO_REVIEW.md",
+        "severity": "warning",
+        "message": "Ligne 58 > 120 caractères.",
+        "module": "markdown"
+    },
+    {
+        "file": "docs/SECURITY_CRYPTO_REVIEW.md",
+        "severity": "warning",
+        "message": "Ligne 63 > 120 caractères.",
+        "module": "markdown"
+    },
+    {
+        "file": "docs/SECURITY_CRYPTO_REVIEW.md",
+        "severity": "warning",
+        "message": "Ligne 67 > 120 caractères.",
+        "module": "markdown"
+    },
+    {
+        "file": "docs/SECURITY_CRYPTO_REVIEW.md",
+        "severity": "warning",
+        "message": "Ligne 69 > 120 caractères.",
+        "module": "markdown"
+    },
+    {
+        "file": "docs/SECURITY_CRYPTO_REVIEW.md",
+        "severity": "warning",
+        "message": "Ligne 79 > 120 caractères.",
+        "module": "markdown"
+    },
+    {
+        "file": "docs/SECURITY_CRYPTO_REVIEW.md",
+        "severity": "warning",
+        "message": "Ligne 83 > 120 caractères.",
+        "module": "markdown"
+    },
+    {
+        "file": "docs/SECURITY_CRYPTO_REVIEW.md",
+        "severity": "warning",
+        "message": "Ligne 89 > 120 caractères.",
+        "module": "markdown"
+    },
+    {
+        "file": "docs/SECURITY_CRYPTO_REVIEW.md",
+        "severity": "warning",
+        "message": "Ligne 98 > 120 caractères.",
+        "module": "markdown"
+    },
+    {
+        "file": "docs/SECURITY_CRYPTO_REVIEW.md",
+        "severity": "warning",
+        "message": "Ligne 100 > 120 caractères.",
+        "module": "markdown"
+    },
+    {
+        "file": "docs/SECURITY_CRYPTO_REVIEW.md",
+        "severity": "warning",
+        "message": "Ligne 101 > 120 caractères.",
+        "module": "markdown"
+    },
+    {
+        "file": "docs/SECURITY_CRYPTO_REVIEW.md",
+        "severity": "warning",
+        "message": "Ligne 108 > 120 caractères.",
         "module": "markdown"
     },
     {
@@ -4719,6 +4923,18 @@
         "file": "docs/QRB_flake8_error.md",
         "severity": "warning",
         "message": "Espace en fin de ligne (1804).",
+        "module": "markdown"
+    },
+    {
+        "file": "docs/SECURITY_CRYPTO_REVIEW.md",
+        "severity": "warning",
+        "message": "Espace en fin de ligne (3).",
+        "module": "markdown"
+    },
+    {
+        "file": "docs/SECURITY_CRYPTO_REVIEW.md",
+        "severity": "warning",
+        "message": "Espace en fin de ligne (4).",
         "module": "markdown"
     },
     {
@@ -8522,7 +8738,7 @@
     {
         "file": "README_JP.md",
         "severity": "warning",
-        "message": "README_JP.md:418 saut de niveau H1 → H3.",
+        "message": "README_JP.md:419 saut de niveau H1 → H3.",
         "module": "titles"
     },
     {
@@ -8534,7 +8750,7 @@
     {
         "file": "README.md",
         "severity": "warning",
-        "message": "README.md:473 saut de niveau H1 → H3.",
+        "message": "README.md:474 saut de niveau H1 → H3.",
         "module": "titles"
     },
     {
@@ -16020,6 +16236,24 @@
         "module": "titles"
     },
     {
+        "file": "docs/SECURITY_CRYPTO_REVIEW.md",
+        "severity": "warning",
+        "message": "docs/SECURITY_CRYPTO_REVIEW.md:15 titre très long (83 caractères).",
+        "module": "titles"
+    },
+    {
+        "file": "docs/SECURITY_CRYPTO_REVIEW.md",
+        "severity": "warning",
+        "message": "docs/SECURITY_CRYPTO_REVIEW.md:34 titre très long (103 caractères).",
+        "module": "titles"
+    },
+    {
+        "file": "docs/SECURITY_CRYPTO_REVIEW.md",
+        "severity": "warning",
+        "message": "docs/SECURITY_CRYPTO_REVIEW.md:53 titre très long (86 caractères).",
+        "module": "titles"
+    },
+    {
         "file": "docs/gdd/12_STATISTIQUES.md",
         "severity": "warning",
         "message": "docs/gdd/12_STATISTIQUES.md:597 titre très long (88 caractères).",
@@ -17612,13 +17846,19 @@
     {
         "file": "README_JP.md",
         "severity": "warning",
-        "message": "README_JP.md:448 titre dupliqué (déjà présent dans README_ESP.md:444).",
+        "message": "README_JP.md:106 titre dupliqué (déjà présent dans README_ENG.md:104).",
         "module": "titles"
     },
     {
         "file": "README_JP.md",
         "severity": "warning",
-        "message": "README_JP.md:464 titre dupliqué (déjà présent dans README_ESP.md:460).",
+        "message": "README_JP.md:449 titre dupliqué (déjà présent dans README_ESP.md:444).",
+        "module": "titles"
+    },
+    {
+        "file": "README_JP.md",
+        "severity": "warning",
+        "message": "README_JP.md:465 titre dupliqué (déjà présent dans README_ESP.md:460).",
         "module": "titles"
     },
     {
@@ -17636,19 +17876,31 @@
     {
         "file": "README.md",
         "severity": "warning",
-        "message": "README.md:442 titre dupliqué (déjà présent dans CONTRIBUTING.md:206).",
+        "message": "README.md:158 titre dupliqué (déjà présent dans README_ENG.md:104).",
         "module": "titles"
     },
     {
         "file": "README.md",
         "severity": "warning",
-        "message": "README.md:503 titre dupliqué (déjà présent dans README_ESP.md:444).",
+        "message": "README.md:165 titre dupliqué (déjà présent dans README_ENG.md:111).",
         "module": "titles"
     },
     {
         "file": "README.md",
         "severity": "warning",
-        "message": "README.md:523 titre dupliqué (déjà présent dans README_ESP.md:460).",
+        "message": "README.md:443 titre dupliqué (déjà présent dans CONTRIBUTING.md:206).",
+        "module": "titles"
+    },
+    {
+        "file": "README.md",
+        "severity": "warning",
+        "message": "README.md:504 titre dupliqué (déjà présent dans README_ESP.md:444).",
+        "module": "titles"
+    },
+    {
+        "file": "README.md",
+        "severity": "warning",
+        "message": "README.md:524 titre dupliqué (déjà présent dans README_ESP.md:460).",
         "module": "titles"
     },
     {
@@ -17750,7 +18002,13 @@
     {
         "file": "docs_JP/README_JP.md",
         "severity": "warning",
-        "message": "docs_JP/README_JP.md:175 titre dupliqué (déjà présent dans README_JP.md:472).",
+        "message": "docs_JP/README_JP.md:185 titre dupliqué (déjà présent dans README_JP.md:473).",
+        "module": "titles"
+    },
+    {
+        "file": "docs_JP/LAUNCH_JP.md",
+        "severity": "warning",
+        "message": "docs_JP/LAUNCH_JP.md:19 titre dupliqué (déjà présent dans README_ENG.md:104).",
         "module": "titles"
     },
     {
@@ -18614,19 +18872,19 @@
     {
         "file": "docs/README.md",
         "severity": "warning",
-        "message": "docs/README.md:45 titre dupliqué (déjà présent dans README.md:361).",
+        "message": "docs/README.md:45 titre dupliqué (déjà présent dans README.md:362).",
         "module": "titles"
     },
     {
         "file": "docs/README.md",
         "severity": "warning",
-        "message": "docs/README.md:72 titre dupliqué (déjà présent dans README.md:460).",
+        "message": "docs/README.md:72 titre dupliqué (déjà présent dans README.md:461).",
         "module": "titles"
     },
     {
         "file": "docs/README.md",
         "severity": "warning",
-        "message": "docs/README.md:178 titre dupliqué (déjà présent dans README.md:531).",
+        "message": "docs/README.md:178 titre dupliqué (déjà présent dans README.md:532).",
         "module": "titles"
     },
     {
@@ -18764,7 +19022,7 @@
     {
         "file": "docs/gdd/02_UNIVERS.md",
         "severity": "warning",
-        "message": "docs/gdd/02_UNIVERS.md:3 titre dupliqué (déjà présent dans README.md:361).",
+        "message": "docs/gdd/02_UNIVERS.md:3 titre dupliqué (déjà présent dans README.md:362).",
         "module": "titles"
     },
     {
@@ -19430,7 +19688,7 @@
     {
         "file": "docs/gdd/README.md",
         "severity": "warning",
-        "message": "docs/gdd/README.md:36 titre dupliqué (déjà présent dans README.md:361).",
+        "message": "docs/gdd/README.md:36 titre dupliqué (déjà présent dans README.md:362).",
         "module": "titles"
     },
     {
