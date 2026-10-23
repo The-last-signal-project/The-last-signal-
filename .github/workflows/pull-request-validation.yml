@@ -13,15 +13,7 @@ jobs:
   prep:
     name: preparation
     runs-on: ubuntu-latest
-    env:
-      DEPLOY_KEY: ${{ secrets.CI_SYNC_DEPLOY_KEY }}
     steps:
-      - name: Check out repository
-        uses: actions/checkout@v7
-        with:
-          lfs: true
-          fetch-depth: 0
-          ssh-key: ${{ env.DEPLOY_KEY }}
       - name: update cargo vendor
         working-directory: server_rust
         run: | 
@@ -80,18 +72,23 @@ jobs:
 
 
   python-tests:
-   
-    
     name: Python tests
-    needs:
-       - prep
     runs-on: ubuntu-latest
-    
+    needs:
+        - prep
     env:
-      DEPLOY_KEY: ${{ secrets.CI_SYNC_DEPLOY_KEY }}
-      
-    timeout-minutes: 25
+     DEPLOY_KEY: ${{ secrets.CI_SYNC_DEPLOY_KEY }}
     steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+        with:
+          lfs: true
+          fetch-depth: 0
+          ssh-key: ${{ env.DEPLOY_KEY }}    
+    
+    
+      
+
       - name: Set up Python
         uses: actions/setup-python@v7
         with:
@@ -112,14 +109,22 @@ jobs:
     runs-on: ubuntu-latest
     needs:
        - prep
-    timeout-minutes: 30
+   
     env:
+      DEPLOY_KEY: ${{ secrets.CI_SYNC_DEPLOY_KEY }}
       DATABASE_PATH: ${{ github.workspace }}/database
       DATABASE_URL: sqlite:${{ github.workspace }}/database/the_last_signal.db
       DATABASE_TEST_PATH: ${{ github.workspace }}/database-test
       DATABASE_TEST_URL: sqlite:${{ github.workspace }}/database-test/the_last_signal.db
       CARGO_TERM_COLOR: always
     steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+        with:
+          lfs: true
+          fetch-depth: 0
+          ssh-key: ${{ env.DEPLOY_KEY }}
+    
       
 
       - name: Set up Rust
