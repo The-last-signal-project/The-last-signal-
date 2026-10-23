@@ -35,8 +35,20 @@ pub fn parse_login_payload(payload: &[u8]) -> Result<(String, String), String> {
     parse_credentials_payload(payload)
 }
 
+#[allow(dead_code)]
 pub fn parse_signup_payload(payload: &[u8]) -> Result<(String, String), String> {
     parse_credentials_payload(payload)
+}
+
+/// Inscription : [u16 + email][u16 + mot de passe][u16 + pseudo], le tout en UTF-8.
+pub fn parse_signup_with_pseudo_payload(
+    payload: &[u8],
+) -> Result<(String, String, String), String> {
+    let mut offset = 0;
+    let email = parse_length_prefixed_str(payload, &mut offset, "Email")?;
+    let password = parse_length_prefixed_str(payload, &mut offset, "Password")?;
+    let pseudo = parse_length_prefixed_str(payload, &mut offset, "Pseudo")?;
+    Ok((email, password, pseudo))
 }
 
 #[cfg(test)]
@@ -50,6 +62,46 @@ mod tests {
         bytes.extend_from_slice(&(password.len() as u16).to_be_bytes());
         bytes.extend_from_slice(password);
         bytes
+    }
+
+    fn build_signup_payload(email: &[u8], password: &[u8], pseudo: &[u8]) -> Vec<u8> {
+        let mut bytes = build_payload(email, password);
+        bytes.extend_from_slice(&(pseudo.len() as u16).to_be_bytes());
+        bytes.extend_from_slice(pseudo);
+        bytes
+    }
+
+    #[test]
+    fn test_signup_with_pseudo_valid() {
+        let payload = build_signup_payload(b"a@b.fr", b"motdepasse1", "Éclair_42".as_bytes());
+        let (email, password, pseudo) =
+            parse_signup_with_pseudo_payload(&payload).expect("valid payload should succeed");
+        assert_eq!(email, "a@b.fr");
+        assert_eq!(password, "motdepasse1");
+        assert_eq!(pseudo, "Éclair_42");
+    }
+
+    #[test]
+    fn test_signup_with_pseudo_missing_pseudo() {
+        let payload = build_payload(b"a@b.fr", b"motdepasse1");
+        let err = parse_signup_with_pseudo_payload(&payload).unwrap_err();
+        assert_eq!(err, "Pseudo length manquante");
+    }
+
+    #[test]
+    fn test_signup_with_pseudo_truncated_pseudo() {
+        let mut payload = build_payload(b"a@b.fr", b"motdepasse1");
+        payload.extend_from_slice(&[0x00, 0x08]);
+        payload.extend_from_slice(b"abc");
+        let err = parse_signup_with_pseudo_payload(&payload).unwrap_err();
+        assert_eq!(err, "Pseudo incomplet");
+    }
+
+    #[test]
+    fn test_signup_with_pseudo_invalid_utf8() {
+        let payload = build_signup_payload(b"a@b.fr", b"motdepasse1", &[0xFF, 0xFE]);
+        let err = parse_signup_with_pseudo_payload(&payload).unwrap_err();
+        assert_eq!(err, "Pseudo UTF-8 invalide");
     }
 
     #[test]

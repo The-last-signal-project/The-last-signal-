@@ -41,6 +41,9 @@ pub struct Client {
 
     account_id: Option<i64>,
     world: World,
+
+    /// Vrai une fois que le joueur est entré dans le monde (paquet SPAWN).
+    spawned: bool,
 }
 
 
@@ -69,6 +72,7 @@ impl Client {
 
             account_id: None,
             world,
+            spawned: false,
         }
     }
 
@@ -115,15 +119,6 @@ if let Err(e) = send_packet(
 info!(
     "Paquet SESSION envoyé"
 );
-let spawn_position = {
-    let mut rng = rand::rng();
-
-    Position::new(
-        rng.random_range(0..100),
-        rng.random_range(0..100),
-        0,
-    )
-};
 let snapshot = self.world.snapshot().await;
 info!(
     " Synchronisation initiale : {} joueur(s)",
@@ -151,15 +146,8 @@ for (player_id, position) in snapshot {
 }
 }
 
-self.world.set_position(
-    self.session_id,
-    spawn_position,
-).await;
-
-self.world.broadcast_player_state(
-    self.session_id,
-    spawn_position,
-);
+// Le joueur n'apparaît dans le monde (et n'est diffusé aux autres)
+// qu'au paquet SPAWN, envoyé par le jeu une fois connecté et son compte choisi.
 
 
          
@@ -723,13 +711,52 @@ async fn mark_disconnected(&self) {
     }
 
 
+    // ============================================================
+    // SPAWN
+    // ============================================================
+
+    pub fn is_spawned(&self) -> bool {
+        self.spawned
+    }
+
+    /// Fait entrer le joueur dans le monde : position de départ aléatoire, puis
+    /// diffusion de son état à tous (lui compris). Sans effet s'il a déjà spawné.
+    pub async fn spawn(&mut self) -> bool {
+        if self.spawned {
+            return false;
+        }
+
+        let spawn_position = {
+            let mut rng = rand::rng();
+
+            Position::new(
+                rng.random_range(0..100),
+                rng.random_range(0..100),
+                0,
+            )
+        };
+
+        self.world
+            .set_position(self.session_id, spawn_position)
+            .await;
+
+        self.world
+            .broadcast_player_state(self.session_id, spawn_position);
+
+        self.spawned = true;
+        true
+    }
+
+
       // ============================================================
     // NETTOYAGE DE LA SESSION
     // ============================================================
 
     async fn cleanup_session(&mut self) {
-        self.world.remove_player(self.session_id).await;
-        self.world.broadcast_player_remove(self.session_id);
+        if self.spawned {
+            self.world.remove_player(self.session_id).await;
+            self.world.broadcast_player_remove(self.session_id);
+        }
 
         self.mark_disconnected().await;
 
