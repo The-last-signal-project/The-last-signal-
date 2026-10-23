@@ -147,6 +147,7 @@ jobs:
       - name: Run Rust tests
         working-directory: server_rust
         run: |
+          ls
           mv .cargo tmp/.cargo
           cargo test 
           cd tmp
