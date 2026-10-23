@@ -195,12 +195,12 @@ jobs:
              if git diff --name-only --diff-filter=U | grep -q .; then
              echo "⚠️ Conflits détectés"
              git checkout --ours .
-             git add -A server_rust
+             git add -A .
              echo "✅ Conflits résolus avec ours"
              else
              echo "✅ Aucun conflit"
              fi
-             git add -A server_rust
+             git add -A .
              git diff --cached --quiet || git commit -m "chore: update Cargo vendor"
              
              
