@@ -31,7 +31,7 @@ else
 fi
 
 echo "[launcher] Building Rust server..."
-if ! cargo build --locked --manifest-path "$ROOT_DIR/server_rust/Cargo.toml"; then
+if ! (cd "$ROOT_DIR/server_rust" && cargo build --locked); then
   echo "[launcher] Server build failed; the client was not started." >&2
   exit 1
 fi
