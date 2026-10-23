@@ -60,4 +60,5 @@ jobs:
           mkdir -p "$DATABASE_PATH" "$DATABASE_Test_PATH"
 
       - name: Run Rust tests
-        run: cargo test --locked --manifest-path server_rust/Cargo.toml
+        working-directory: server_rust
+        run: cargo test --locked
