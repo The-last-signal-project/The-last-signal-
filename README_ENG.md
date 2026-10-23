@@ -97,50 +97,51 @@ pip install -r requirements.txt
 
 ---
 
-## 🦀 3. Start the Rust Server
+## 🚀 3. Start the prototype with one command (recommended)
 
-Open a first terminal and move into the server directory:
+From the repository root, use the launcher for your operating system.
+
+### Linux / macOS
+
+```bash
+chmod +x start.sh
+./start.sh
+```
+
+### Windows (PowerShell)
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\start.ps1
+```
+
+The launcher builds the Rust server first, creates the local database directory when needed, waits for the server to listen on `127.0.0.1:5000`, and only then starts the Python client. If the server build or startup fails, the client is not launched. When either process exits, the other is stopped as well.
+
+By default, the local database is stored at `database/the_last_signal.db`. Set `DATABASE_PATH` and `DATABASE_URL` before launching to override these defaults.
+
+### Manual launch (fallback)
+
+If you prefer to start the components separately:
+
+**Terminal 1 — Rust server**
 
 ```bash
 cd server_rust
-```
-
-Then start the server:
-
-```bash
 cargo run --locked
 ```
 
-### 🧹 Clean Build — Optional
-
-`cargo clean` is **not required every time you start the server**.
-
-If you want to perform a clean rebuild:
-
-```bash
-cargo clean
-cargo run --locked
-```
-
-Keep the server running in this terminal.
-
----
-
-## 🎮 4. Start the Client
-
-Open a **second terminal** and return to the project root:
-
-```bash
-cd The-last-signal-
-```
-
-Then start the client:
+**Terminal 2 — Python client**, from the repository root:
 
 ```bash
 python -m client_python.main
 ```
 
-The client will connect to the local server.
+A clean build is optional:
+
+```bash
+cd server_rust
+cargo clean
+cargo run --locked
+```
 
 ---
 
