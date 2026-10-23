@@ -10,5 +10,5 @@ bandit==1.9.4
 pytest-cov==7.1.0
 interrogate==1.7.0
 cryptography==50.0.2
-markdown==3.11.1
+markdown==3.11.2
 Pillow==13.0.0
