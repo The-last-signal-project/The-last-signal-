@@ -42,8 +42,6 @@ jobs:
       DATABASE_URL: sqlite:${{ github.workspace }}/database/the_last_signal.db
       DATABASE_TEST_PATH: ${{ github.workspace }}/database-test
       DATABASE_TEST_URL: sqlite:${{ github.workspace }}/database-test/the_last_signal.db
-      DATABASE_Test_PATH: ${{ github.workspace }}/database-test
-      DATABASE_Test_URL: sqlite:${{ github.workspace }}/database-test/the_last_signal.db
       CARGO_TERM_COLOR: always
     steps:
       - name: Check out repository
