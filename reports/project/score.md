@@ -1,6 +1,6 @@
 Documentation Quality Report
 
-**Date :** 2026-10-23 08:04:39
+**Date :** 2026-10-23 13:38:02
 
 # 64/100
 
@@ -21735,13 +21735,31 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** markdown
-- **Message :** Ligne 44 > 120 caractères.
+- **Message :** Ligne 39 > 120 caractères.
 
 - **module :** markdown
 
 ## ⚠️ Warning
 - **Module :** markdown
-- **Message :** Ligne 73 > 120 caractères.
+- **Message :** Ligne 63 > 120 caractères.
+
+- **module :** markdown
+
+## ⚠️ Warning
+- **Module :** markdown
+- **Message :** Ligne 64 > 120 caractères.
+
+- **module :** markdown
+
+## ⚠️ Warning
+- **Module :** markdown
+- **Message :** Ligne 68 > 120 caractères.
+
+- **module :** markdown
+
+## ⚠️ Warning
+- **Module :** markdown
+- **Message :** Ligne 72 > 120 caractères.
 
 - **module :** markdown
 
@@ -21750,32 +21768,6 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Message :** Ligne 74 > 120 caractères.
 
 - **module :** markdown
-
-## ⚠️ Warning
-- **Module :** markdown
-- **Message :** Ligne 78 > 120 caractères.
-
-- **module :** markdown
-
-## ⚠️ Warning
-- **Module :** markdown
-- **Message :** Ligne 84 > 120 caractères.
-
-- **module :** markdown
-
-## ⚠️ Warning
-- **Module :** markdown
-- **Message :** Ligne 88 > 120 caractères.
-
-- **module :** markdown
-
-# 📄 server_rust/README.md
-
-## ❌ Error
-- **Module :** titles
-- **Message :** server_rust/README.md: contient 0 titres H1 (1 attendu).
-
-- **module :** titles
 
 # 📄 server_rust/vendor/adler2/CHANGELOG.md
 

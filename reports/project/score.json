@@ -1,5 +1,5 @@
 {
-    "generated": "2026-10-23T08:04:39.703553",
+    "generated": "2026-10-23T13:38:02.271684",
     "score": 64,
     "status": "Bon",
     "scores": {
@@ -11,7 +11,7 @@
         "rust": 0,
         "organization": 95
     },
-    "problem_count": 8459,
+    "problem_count": 8458,
     "details": {
         "markdown": {
             "score": 45,
@@ -1128,37 +1128,37 @@
                 {
                     "file": "lychee/out.md",
                     "severity": "warning",
-                    "message": "Ligne 44 > 120 caractères.",
+                    "message": "Ligne 39 > 120 caractères.",
                     "module": "markdown"
                 },
                 {
                     "file": "lychee/out.md",
                     "severity": "warning",
-                    "message": "Ligne 73 > 120 caractères.",
+                    "message": "Ligne 63 > 120 caractères.",
+                    "module": "markdown"
+                },
+                {
+                    "file": "lychee/out.md",
+                    "severity": "warning",
+                    "message": "Ligne 64 > 120 caractères.",
+                    "module": "markdown"
+                },
+                {
+                    "file": "lychee/out.md",
+                    "severity": "warning",
+                    "message": "Ligne 68 > 120 caractères.",
+                    "module": "markdown"
+                },
+                {
+                    "file": "lychee/out.md",
+                    "severity": "warning",
+                    "message": "Ligne 72 > 120 caractères.",
                     "module": "markdown"
                 },
                 {
                     "file": "lychee/out.md",
                     "severity": "warning",
                     "message": "Ligne 74 > 120 caractères.",
-                    "module": "markdown"
-                },
-                {
-                    "file": "lychee/out.md",
-                    "severity": "warning",
-                    "message": "Ligne 78 > 120 caractères.",
-                    "module": "markdown"
-                },
-                {
-                    "file": "lychee/out.md",
-                    "severity": "warning",
-                    "message": "Ligne 84 > 120 caractères.",
-                    "module": "markdown"
-                },
-                {
-                    "file": "lychee/out.md",
-                    "severity": "warning",
-                    "message": "Ligne 88 > 120 caractères.",
                     "module": "markdown"
                 },
                 {
@@ -6639,12 +6639,6 @@
                     "file": "LINUX_COMMANDS_ENG.md",
                     "severity": "error",
                     "message": "LINUX_COMMANDS_ENG.md: contient 6 titres H1 (1 attendu).",
-                    "module": "titles"
-                },
-                {
-                    "file": "server_rust/README.md",
-                    "severity": "error",
-                    "message": "server_rust/README.md: contient 0 titres H1 (1 attendu).",
                     "module": "titles"
                 },
                 {
