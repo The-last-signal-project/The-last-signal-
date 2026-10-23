@@ -57,7 +57,7 @@ jobs:
 
       - name: Prepare local test database directories
         run: |
-          mkdir -p "$DATABASE_PATH" "$DATABASE_Test_PATH"
+          mkdir -p "$DATABASE_PATH" "$DATABASE_TEST_PATH"
 
       - name: Run Rust tests
         working-directory: server_rust
