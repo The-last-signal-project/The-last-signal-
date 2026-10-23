@@ -3,7 +3,7 @@
 """
 THE LAST SIGNAL - Menu principal  (version vispy)
 
-Installation :   pip install vispy glfw numpy pillow pygame-ce google-auth-oauthlib
+Installation :   pip install vispy glfw numpy pillow pygame-ce
 (tout s'installe aussi tout seul au premier lancement du script .py)
 
 Le menu est maintenant dessine par vispy (OpenGL) dans une fenetre glfw : meme interface qu'avant,
@@ -18,11 +18,9 @@ Fichiers a garder dans le meme dossier que ce script :
     music/                playlist d'ambiance horreur / aventure (.ogg/.mp3/.wav, lues en boucle dans le desordre)
     fonts/                polices (Saira Stencil One, Rubik Dirt - licence OFL).
                           Pour changer la police du titre : fonts/titre.ttf
-    token.json            (auto) session Google en cache
-    client_secret.json    (optionnel) identifiants Google (Application de bureau)
 
 Au premier lancement, un ecran d'installation cree le dossier du jeu, copie les fichiers
-et installe les modules manquants. Cree ensuite : saves/solo, saves/multi, accounts.json, settings.json
+et installe les modules manquants. Cree ensuite : saves/solo, saves/multi, settings.json
 Pour brancher ton jeu : modifie App.launch_game().
 Pour faire un .exe avec l'icone : double-clique sur creer_exe.bat
 
@@ -39,21 +37,14 @@ import sys
 import json
 import math
 import time
-import glob
 import queue
-import io
 import random
 import socket
-import hmac
 import shutil
-import hashlib
-import secrets
 import colorsys
 import importlib
 import threading
 import subprocess
-import webbrowser
-import urllib.request
 import tempfile
 from datetime import datetime
 
@@ -147,6 +138,7 @@ import numpy as np
 import glfw
 from vispy import app as vapp, gloo
 from PIL import Image, ImageDraw, ImageEnhance, ImageOps, ImageFont, ImageFilter, ImageChops
+from . import auth_session as net_proto      # connexion / comptes via le Client et les paquets du projet
 
 # --------------------------------------------------------------------------- #
 #  Chemins (compatible PyInstaller)
@@ -171,12 +163,9 @@ def default_install_dir():
 DATA_DIR = default_install_dir() if FROZEN else EXE_DIR
 
 SAVES_DIR = os.path.join(DATA_DIR, "saves")
-ACCOUNTS_FILE = os.path.join(DATA_DIR, "accounts.json")
 PROFILES_FILE = os.path.join(DATA_DIR, "profiles.json")
-AVATAR_FILE = os.path.join(DATA_DIR, "avatar.png")
 LOG_FILE = os.path.join(DATA_DIR, "journal.log")
 SETTINGS_FILE = os.path.join(DATA_DIR, "settings.json")
-GOOGLE_CONSOLE_URL = "https://console.cloud.google.com/apis/credentials"
 APP_ID = "TheLastSignal.Menu"
 
 # Voyant reseau du bouton Multijoueur : ("mon-serveur.com", 7777). Vide = on teste juste la connexion internet.
@@ -292,81 +281,6 @@ def find_background(settings=None):
     return names[choice]
 
 
-def find_google_secret():
-    for base in (DATA_DIR, EXE_DIR, RES_DIR):
-        p = os.path.join(base, "client_secret.json")
-        if os.path.exists(p):
-            return p
-        for f in sorted(glob.glob(os.path.join(base, "client_secret*.json"))):
-            return f
-    return None
-
-
-# --- Connexion Google (meme systeme que Recherche de contacts) ------------------------------------- #
-# client_secret.json (a cote de l'appli) + token.json (cache, reconnexion silencieuse sans navigateur).
-GOOGLE_SCOPES = ["openid",
-                 "https://www.googleapis.com/auth/userinfo.email",
-                 "https://www.googleapis.com/auth/userinfo.profile"]
-TOKEN_PATH = os.path.join(DATA_DIR, "token.json")
-CREDS_PATH = os.path.join(DATA_DIR, "client_secret.json")
-
-
-class CredentialsNotFound(Exception):
-    """Levee quand client_secret.json est introuvable a cote de l'appli."""
-
-
-def load_cached_credentials():
-    """Charge et rafraichit un token existant, sans jamais ouvrir de navigateur.
-    Retourne None si aucun token valide n'est disponible."""
-    if not os.path.exists(TOKEN_PATH):
-        return None
-    try:
-        from google.oauth2.credentials import Credentials
-        from google.auth.transport.requests import Request
-        creds = Credentials.from_authorized_user_file(TOKEN_PATH, GOOGLE_SCOPES)
-    except Exception:
-        return None
-    if creds and creds.valid:
-        return creds
-    if creds and creds.expired and creds.refresh_token:
-        try:
-            creds.refresh(Request())
-            with open(TOKEN_PATH, "w") as f:
-                f.write(creds.to_json())
-            return creds
-        except Exception:
-            return None
-    return None
-
-
-def google_login(success_message=""):
-    """Credentials valides : token en cache si possible, sinon ouvre le navigateur."""
-    creds = load_cached_credentials()
-    if creds:
-        return creds
-    secret = find_google_secret()
-    if not secret:
-        raise CredentialsNotFound(CREDS_PATH)
-    from google_auth_oauthlib.flow import InstalledAppFlow
-    flow = InstalledAppFlow.from_client_secrets_file(secret, GOOGLE_SCOPES)
-    kw = dict(port=0, prompt="select_account", authorization_prompt_message="", success_message=success_message)
-    try:
-        creds = flow.run_local_server(timeout_seconds=240, **kw)
-    except TypeError:
-        creds = flow.run_local_server(**kw)
-    with open(TOKEN_PATH, "w") as f:
-        f.write(creds.to_json())
-    return creds
-
-
-def google_profile(creds):
-    """(nom, url_photo) du compte Google connecte."""
-    req = urllib.request.Request("https://www.googleapis.com/oauth2/v3/userinfo",
-                                 headers={"Authorization": "Bearer " + creds.token})
-    info = json.loads(urllib.request.urlopen(req, timeout=15).read().decode("utf-8"))
-    return info.get("name") or info.get("email") or "Google", info.get("picture")
-
-
 def find_playlist():
     """Recherche les musiques dans le dossier du jeu et dans assets/music/."""
     exts = (".ogg", ".mp3", ".wav")
@@ -446,20 +360,9 @@ BASE_TR = {
         "err_creds": "Identifiant ou mot de passe incorrect.", "err_exists": "Cet identifiant existe déjà.",
         "err_fill": "Remplis tous les champs.", "err_mismatch": "Les mots de passe ne correspondent pas.",
         "err_short": "Mot de passe trop court (6 caractères minimum).", "fullscreen": "Plein écran",
-        "g_badfile": "Ce fichier n'est pas un identifiant Google « Application de bureau ».",
-        "g_open": "Ouvrir la console Google", "g_pick": "Choisir client_secret.json",
-        "g_saved": "Fichier enregistré, tu peux te connecter.",
-        "g_steps": "1. Ouvre la console Google Cloud.\n2. Crée des identifiants « ID client OAuth » de type "
-                   "Application de bureau.\n3. Télécharge le fichier JSON puis choisis-le ici.",
-        "g_title": "Connexion Google", "google": "Se connecter avec Google",
-        "google_done": "Connexion réussie ! Tu peux fermer cet onglet et retourner au jeu.",
-        "google_err": "La connexion Google a échoué.", "google_hint": "Un clic, puis tu choisis ton compte Google.",
-        "google_installing": "Installation du module Google…",
-        "google_nomodule": "Module Google manquant : installe google-auth-oauthlib.",
-        "google_offline": "Pas de connexion internet.", "google_timeout": "Délai dépassé, réessaie.",
-        "google_wait": "Connexion en cours… termine dans ton navigateur.", "language": "Langue",
+        "language": "Langue",
         "launching": "Lancement : {}", "load_save": "Charger une sauvegarde",
-        "local_account": "Utiliser un compte local", "logged_as": "Connecté : {}", "login": "Connexion",
+        "logged_as": "Connecté : {}", "login": "Connexion",
         "logout": "Se déconnecter", "multi": "Multijoueur", "net_off": "Hors ligne", "net_on": "En ligne",
         "new_multi": "Nouvelle partie", "new_solo": "Nouvelle partie", "no": "Non",
         "no_saves": "Aucune sauvegarde", "or": "ou", "password": "Mot de passe", "play": "Jouer",
@@ -471,6 +374,38 @@ BASE_TR = {
         "setup_ready": "Prêt !", "solo": "Solo",
         "thanks": "Un grand merci à toutes celles et ceux qui ont rendu ce jeu possible.",
         "username": "Identifiant", "volume": "Volume", "yes": "Oui",
+        "menu_login": "Se connecter",
+        "menu_signup": "S'enregistrer",
+        "signup_title": "Inscription",
+        "email": "Adresse e-mail",
+        "pick_account": "Sélectionner un compte",
+        "new_account": "Créer un nouveau compte",
+        "change_account": "Changer de compte",
+        "accounts_title": "Mes comptes",
+        "account_name": "Nom du compte",
+        "create_short": "Créer",
+        "choose_account": "Choisir ce compte",
+        "no_accounts": "Aucun compte pour le moment.",
+        "profile_account": "Compte",
+        "net_wait": "Communication avec le serveur…",
+        "game_failed": "Le jeu n'a pas pu démarrer.",
+        "err_pw_short": "Mot de passe trop court (8 caractères minimum).",
+        "err_email": "Adresse e-mail invalide.",
+        "err_email_used": "Cette adresse e-mail est déjà utilisée.",
+        "err_banned_perm": "Ce compte est banni définitivement.",
+        "err_banned_temp": "Ce compte est temporairement banni.",
+        "err_locked": "Trop de tentatives : compte bloqué temporairement.",
+        "err_already": "Ce compte est déjà connecté.",
+        "srv_unreachable": "Serveur injoignable.",
+        "srv_timeout": "Le serveur ne répond pas.",
+        "srv_error": "Erreur serveur.",
+        "srv_lost": "Connexion au serveur perdue.",
+        "srv_busy": "Patiente un instant…",
+        "pseudo": "Pseudo",
+        "err_pseudo": "Pseudo invalide (3 à 20 caractères : lettres, chiffres, _ et -).",
+        "err_pseudo_used": "Ce pseudo est déjà utilisé.",
+        "creating": "Création en cours…",
+        "logging_in": "Connexion en cours…",
     },
     "en": {
         "_name": "English",
@@ -479,19 +414,9 @@ BASE_TR = {
         "credits_title": "Credits", "delete": "Delete", "err_creds": "Wrong username or password.",
         "err_exists": "This username already exists.", "err_fill": "Please fill in every field.",
         "err_mismatch": "The passwords do not match.", "err_short": "Password too short (6 characters minimum).",
-        "fullscreen": "Fullscreen", "g_badfile": "This file is not a Google \"Desktop app\" client.",
-        "g_open": "Open the Google console", "g_pick": "Choose client_secret.json",
-        "g_saved": "File saved, you can sign in now.",
-        "g_steps": "1. Open the Google Cloud console.\n2. Create an \"OAuth client ID\" of type Desktop app.\n"
-                   "3. Download the JSON file and choose it here.",
-        "g_title": "Google sign-in", "google": "Sign in with Google",
-        "google_done": "Signed in! You can close this tab and go back to the game.",
-        "google_err": "Google sign-in failed.", "google_hint": "One click, then pick your Google account.",
-        "google_installing": "Installing the Google module…",
-        "google_nomodule": "Google module missing: install google-auth-oauthlib.",
-        "google_offline": "No internet connection.", "google_timeout": "Timed out, please try again.",
-        "google_wait": "Signing in… finish in your browser.", "language": "Language",
-        "launching": "Launching: {}", "load_save": "Load a save", "local_account": "Use a local account",
+        "fullscreen": "Fullscreen",
+        "language": "Language",
+        "launching": "Launching: {}", "load_save": "Load a save",
         "logged_as": "Signed in: {}", "login": "Sign in", "logout": "Sign out", "multi": "Multiplayer",
         "net_off": "Offline", "net_on": "Online", "new_multi": "New game", "new_solo": "New game", "no": "No",
         "no_saves": "No saves yet", "or": "or", "password": "Password", "play": "Play",
@@ -502,6 +427,38 @@ BASE_TR = {
         "setup_folder": "Creating the game folder…", "setup_ready": "Ready!", "solo": "Solo",
         "thanks": "A huge thank you to everyone who made this game possible.", "username": "Username",
         "volume": "Volume", "yes": "Yes",
+        "menu_login": "Sign in",
+        "menu_signup": "Sign up",
+        "signup_title": "Sign up",
+        "email": "E-mail address",
+        "pick_account": "Select an account",
+        "new_account": "Create a new account",
+        "change_account": "Switch account",
+        "accounts_title": "My accounts",
+        "account_name": "Account name",
+        "create_short": "Create",
+        "choose_account": "Use this account",
+        "no_accounts": "No account yet.",
+        "profile_account": "Account",
+        "net_wait": "Talking to the server…",
+        "game_failed": "The game could not start.",
+        "err_pw_short": "Password too short (8 characters minimum).",
+        "err_email": "Invalid e-mail address.",
+        "err_email_used": "This e-mail address is already in use.",
+        "err_banned_perm": "This account is permanently banned.",
+        "err_banned_temp": "This account is temporarily banned.",
+        "err_locked": "Too many attempts: account temporarily locked.",
+        "err_already": "This account is already signed in.",
+        "srv_unreachable": "Server unreachable.",
+        "srv_timeout": "The server is not responding.",
+        "srv_error": "Server error.",
+        "srv_lost": "Connection to the server lost.",
+        "srv_busy": "One moment…",
+        "pseudo": "Username",
+        "err_pseudo": "Invalid username (3 to 20 characters: letters, digits, _ and -).",
+        "err_pseudo_used": "This username is already taken.",
+        "creating": "Creating…",
+        "logging_in": "Signing in…",
     },
     "ja": {
         "_name": "日本語",
@@ -511,19 +468,8 @@ BASE_TR = {
         "err_creds": "IDまたはパスワードが違います。", "err_exists": "このIDはすでに使われています。",
         "err_fill": "すべての項目を入力してください。", "err_mismatch": "パスワードが一致しません。",
         "err_short": "パスワードは6文字以上にしてください。", "fullscreen": "フルスクリーン",
-        "g_badfile": "このファイルは「デスクトップアプリ」用のGoogle認証情報ではありません。",
-        "g_open": "Googleコンソールを開く", "g_pick": "client_secret.json を選ぶ",
-        "g_saved": "ファイルを保存しました。ログインできます。",
-        "g_steps": "1. Google Cloud コンソールを開く。\n2. 「OAuth クライアント ID」を「デスクトップ アプリ」で作成する。\n"
-                   "3. JSONファイルをダウンロードして、ここで選ぶ。",
-        "g_title": "Googleログイン", "google": "Googleでログイン",
-        "google_done": "ログインしました！このタブを閉じてゲームに戻ってください。",
-        "google_err": "Googleログインに失敗しました。", "google_hint": "ワンクリックでGoogleアカウントを選べます。",
-        "google_installing": "Googleモジュールをインストール中…",
-        "google_nomodule": "Googleモジュールがありません。google-auth-oauthlib をインストールしてください。",
-        "google_offline": "インターネットに接続されていません。", "google_timeout": "時間切れです。もう一度お試しください。",
-        "google_wait": "ログイン中… ブラウザで操作を完了してください。", "language": "言語",
-        "launching": "起動中：{}", "load_save": "セーブデータを読み込む", "local_account": "ローカルアカウントを使う",
+        "language": "言語",
+        "launching": "起動中：{}", "load_save": "セーブデータを読み込む",
         "logged_as": "ログイン中：{}", "login": "ログイン", "logout": "ログアウト", "multi": "マルチプレイ",
         "net_off": "オフライン", "net_on": "オンライン", "new_multi": "ニューゲーム", "new_solo": "ニューゲーム",
         "no": "いいえ", "no_saves": "セーブデータなし", "or": "または", "password": "パスワード", "play": "プレイ",
@@ -542,19 +488,9 @@ BASE_TR = {
         "credits_title": "Agradecimientos", "delete": "Eliminar", "err_creds": "Usuario o contraseña incorrectos.",
         "err_exists": "Este usuario ya existe.", "err_fill": "Rellena todos los campos.",
         "err_mismatch": "Las contraseñas no coinciden.", "err_short": "Contraseña demasiado corta (mínimo 6 caracteres).",
-        "fullscreen": "Pantalla completa", "g_badfile": "Este archivo no es una credencial de Google «Aplicación de escritorio».",
-        "g_open": "Abrir la consola de Google", "g_pick": "Elegir client_secret.json",
-        "g_saved": "Archivo guardado, ya puedes iniciar sesión.",
-        "g_steps": "1. Abre la consola de Google Cloud.\n2. Crea un «ID de cliente OAuth» de tipo Aplicación de "
-                   "escritorio.\n3. Descarga el archivo JSON y elígelo aquí.",
-        "g_title": "Inicio de sesión con Google", "google": "Iniciar sesión con Google",
-        "google_done": "¡Sesión iniciada! Puedes cerrar esta pestaña y volver al juego.",
-        "google_err": "Error al iniciar sesión con Google.", "google_hint": "Un clic y eliges tu cuenta de Google.",
-        "google_installing": "Instalando el módulo de Google…",
-        "google_nomodule": "Falta el módulo de Google: instala google-auth-oauthlib.",
-        "google_offline": "Sin conexión a internet.", "google_timeout": "Tiempo agotado, inténtalo de nuevo.",
-        "google_wait": "Conectando… termina en tu navegador.", "language": "Idioma",
-        "launching": "Iniciando: {}", "load_save": "Cargar una partida", "local_account": "Usar una cuenta local",
+        "fullscreen": "Pantalla completa",
+        "language": "Idioma",
+        "launching": "Iniciando: {}", "load_save": "Cargar una partida",
         "logged_as": "Sesión: {}", "login": "Iniciar sesión", "logout": "Cerrar sesión", "multi": "Multijugador",
         "net_off": "Sin conexión", "net_on": "En línea", "new_multi": "Nueva partida", "new_solo": "Nueva partida",
         "no": "No", "no_saves": "Ninguna partida guardada", "or": "o", "password": "Contraseña", "play": "Jugar",
@@ -833,10 +769,9 @@ def mix(c1, c2, t):
     return "#%02x%02x%02x" % tuple(int(a[i] + (b[i] - a[i]) * t) for i in range(3))
 
 
-def hash_pw(pw, salt=None):
-    salt = salt or secrets.token_hex(16)
-    h = hashlib.pbkdf2_hmac("sha256", pw.encode("utf-8"), bytes.fromhex(salt), 200_000).hex()
-    return salt, h
+def valid_pseudo(pseudo):
+    """3 a 20 caracteres : lettres, chiffres, _ et - (meme regle que le serveur)."""
+    return 3 <= len(pseudo) <= 20 and all(c.isalnum() or c in "_-" for c in pseudo)
 
 
 def ease_out_cubic(t):
@@ -1517,6 +1452,7 @@ class PanelUI:
     def __init__(self, app, scale=1.0):
         self.app, self.sk, self.pal, self.s = app, app.skin, app.pal, scale
         self.els = []
+        self.animated = False          # vrai si un element bouge (barre de progression)
         self.W = self.H = self.inner = 0
 
     def S(self, v):
@@ -1612,6 +1548,12 @@ class PanelUI:
     def spacer(self, h):
         self._add("spacer", 0, self.S(h))
 
+    def progress(self, text, width=300, pad=(4, 12)):
+        """Texte + barre de progression indeterminee (animee)."""
+        self.animated = True
+        self.label(text, self.app.body(12), "accent", pad=(4, 8))
+        return self._add("progress", self.S(width), self.S(10), pad=pad)
+
     def bindtable(self, rows, visible, on_cell, id="binds"):
         """Tableau des controles : rows = [(texte action, jeton clavier, jeton manette)]."""
         spec, head = self.app.body(12), self.app.body(11, True)
@@ -1705,6 +1647,17 @@ class PanelUI:
             else:
                 self.sk.draw_text(d, e["x"] + e["w"] / 2, e["y"] + i * lh, line, e["spec"], self.s,
                                   self.color(e["color"]), "c")
+
+    def _draw_progress(self, im, d, e, ps, now):
+        p, x, y, w, h = self.pal, e["x"], e["y"], e["w"], e["h"]
+        d.rectangle([x, y, x + w - 1, y + h - 1], fill=p["accent_dim"])
+        d.rectangle([x + 1, y + 1, x + w - 2, y + h - 2], fill=p["panel_alt"])
+        seg = max(8, int(w * 0.30))
+        pos = ((now - ps.t0) % 1.2) / 1.2                       # le segment traverse la barre en boucle
+        x0 = int(x + 1 + (w - 2 + seg) * pos) - seg
+        a, b = max(x + 1, x0), min(x + w - 2, x0 + seg)
+        if b > a:
+            d.rectangle([a, y + 1, b, y + h - 2], fill=p["accent"])
 
     def _draw_rule(self, im, d, e, ps, now):
         d.rectangle([e["x"], e["y"], e["x"] + e["w"] - 1, e["y"] + e["h"] - 1], fill=self.pal["accent_dim"])
@@ -1891,8 +1844,18 @@ class App:
         self.lang = self.settings.get("lang", "fr")
         if self.lang not in LANGS:
             self.lang = "fr"
-        self.user = self.settings.get("google_user") or None   # reconnexion Google automatique
-        self.pending_auth = None
+        # Session serveur : utilisateur connecte, compte de jeu choisi, connexion du menu. Les identifiants
+        # restent en memoire (jamais sur disque) pour que le processus du jeu se reconnecte lui-meme.
+        self.user = None
+        self.account = None
+        self.net = None
+        self._cred = None
+        self.accounts = None
+        self.net_busy = False
+        self.busy_text = "net_wait"
+        self.launching = False
+        self.in_flow = False       # False : accueil ; True : assistant Jouer (connexion -> compte -> jouer)
+        self._resume = None        # formulaire a rouvrir quand on referme les parametres
         self.jobs = queue.Queue()
 
         self.panel = self.panel_builder = self.ps = self.panel_ui = None
@@ -1902,7 +1865,6 @@ class App:
         self.menu_buttons = []
         self.auth_mode = "login"
         self.auth_msg = None
-        self.g_msg = None
 
         self.bg_mode = "full"
         self.banner_landed = False
@@ -1911,8 +1873,6 @@ class App:
         self._win_geo = None
         self._resize_job = None
         self._save_job = None
-        self.google_busy = False
-        self.show_local = False
         # effets CRT / glitch + navigation clavier-manette + musique etouffee
         self.crt, self.gl_on = bool(self.settings.get("crt", False)), bool(self.settings.get("glitch", False))
         self.post, self.post_ok, self._poll_sz = None, True, 0.0
@@ -2083,15 +2043,15 @@ class App:
     # ----- boucle principale ----------------------------------------------- #
     def run(self):
         self.canvas.show()
-        self.try_auto_login()
         try:
             while self.running:
                 t0 = time.time()
                 self.tick()
                 self.canvas.update()
                 self.vapp.process_events()
-                if time.time() - t0 < 0.008:          # (au cas ou la synchro verticale est coupee)
-                    time.sleep(0.008 - (time.time() - t0))
+                rest = 0.008 - (time.time() - t0)     # (au cas ou la synchro verticale est coupee)
+                if rest > 0:
+                    time.sleep(rest)
         finally:
             try:
                 self.canvas.close()
@@ -2143,6 +2103,9 @@ class App:
                 self._blink = blink
                 self.panel_dirty = True
             self.panel_hover_anim(dt)
+            if self.panel_ui.animated and now - getattr(self, "_anim_t", 0) > 0.04:
+                self._anim_t = now
+                self.panel_dirty = True         # barre de progression : ~25 images/s
             if getattr(self, "panel_dirty", False):
                 self.panel_dirty = False
                 self.panel.set_image(self.panel_ui.render(self.ps, now))
@@ -3097,6 +3060,41 @@ class App:
         self.show_menu("main")
 
     # ----- menus ----------------------------------------------------------- #
+    def menu_stage(self):
+        """home -> (Jouer) login -> account -> ready. Chaque etape a son propre bouton Retour."""
+        if not self.in_flow:
+            return "home"
+        if not self.user:
+            return "login"
+        if not self.account:
+            return "account"
+        return "ready"
+
+    def start_flow(self):
+        self.in_flow = True
+        self.show_menu("main")
+
+    def flow_back(self):
+        """Retour : remonte d'une etape (compte -> deconnexion, jeu pret -> choix du compte)."""
+        stage = self.menu_stage()
+        if stage == "login":
+            self.in_flow = False
+            self.close_flow_panel()
+            self.show_menu("main")
+        elif stage == "account":
+            self.logout()
+        elif stage == "ready":
+            self.change_account()
+
+    def play(self):
+        self.launch_game("multi")
+
+    def close_flow_panel(self):
+        """Ferme le formulaire de l'etape en cours, sans toucher aux parametres s'ils sont ouverts."""
+        if self.panel is not None and self.panel_builder in (self.build_auth, self.build_accounts,
+                                                              self.build_new_account):
+            self.close_panel()
+
     def account_label(self):
         if self.user:
             name = self.user if len(self.user) <= 16 else self.user[:15] + "..."
@@ -3119,22 +3117,27 @@ class App:
         self.nav_vis = False
 
         header = None
-        if name == "main":
-            specs = [(t("solo"), lambda: self.show_menu("solo")),
-                     (t("multi"), self.go_multi),
-                     (self.account_label(), lambda: self.open_auth(None)),
+        stage = self.menu_stage()
+        if stage == "home":
+            specs = [(t("play"), self.start_flow),
                      (t("credits"), self.open_credits),
                      (t("quit"), self.on_close)]
-        elif name == "solo":
-            header = t("solo")
-            specs = [(t("new_solo"), lambda: self.launch_game("solo")),
-                     (t("load_save"), lambda: self.open_saves("solo")),
-                     (t("back"), self.go_back)]
+        elif stage == "login":
+            self.remove_tag("led")           # pas de voyant reseau pendant la connexion
+            specs = [(t("menu_login"), lambda: self.open_auth("login")),
+                     (t("menu_signup"), lambda: self.open_auth("create")),
+                     (t("back"), self.flow_back)]
+        elif stage == "account":
+            self.remove_tag("led")
+            header = self.user if len(self.user) <= 22 else self.user[:21] + "..."
+            specs = []
+            if self.accounts is None or self.accounts:        # "selectionner" seulement s'il existe un compte
+                specs.append((t("pick_account"), self.open_accounts))
+            specs += [(t("new_account"), self.open_new_account), (t("back"), self.flow_back)]
         else:
-            header = t("multi")
-            specs = [(t("new_multi"), lambda: self.launch_game("multi")),
-                     (t("load_save"), lambda: self.open_saves("multi")),
-                     (t("back"), self.go_back)]
+            name_ = self.account.get("account_name", "")
+            header = name_ if len(name_) <= 22 else name_[:21] + "..."
+            specs = [(t("play"), self.play), (t("back"), self.flow_back)]
 
         # police ajustee : le plus long libelle doit tenir en entier dans le bouton, sans jamais sortir de la fenetre
         fs, max_btn = 14, self.W * 0.46
@@ -3161,7 +3164,7 @@ class App:
                 self.after(120 * i, lambda b=btn, yy=y, tx=mx: self.slide_in(b, tx, yy))
             else:
                 btn.sprite.x, btn.sprite.y = mx, y
-            if name == "main" and i == 1:       # voyant d'etat a cote de "Multijoueur"
+            if stage in ("home", "ready") and i == 0:       # voyant d'etat a cote de "Jouer"
                 lx = mx + btn.size()[0] // 2 + 26
                 self.after(120 * i + 480 if animate else 0, lambda lx=lx, yy=y: self.draw_led(lx, yy))
 
@@ -3170,7 +3173,7 @@ class App:
         return {True: "#46d36a", False: "#e0483c"}.get(self.net_ok, self.pal["muted"])
 
     def draw_led(self, x, y):
-        if self.menu_name != "main":
+        if self.menu_name != "main" or self.menu_stage() not in ("home", "ready"):
             return
         col, p = self.led_color(), self.pal
         txt = {True: self.t("net_on"), False: self.t("net_off")}.get(self.net_ok, "...").upper()
@@ -3220,12 +3223,6 @@ class App:
     def go_back(self):
         self.close_panel()
         self.show_menu("main")
-
-    def go_multi(self):
-        if self.user:
-            self.show_menu("multi")
-        else:
-            self.open_auth(lambda: self.show_menu("multi"))
 
     # ----- musique --------------------------------------------------------- #
     def start_music(self):
@@ -3403,6 +3400,9 @@ class App:
         if self._closing:
             return
         self._closing = True
+        net, self.net = self.net, None
+        if net is not None:       # previent le serveur (le compte repasse a DISCONNECTED)
+            threading.Thread(target=net.close, daemon=True).start()
         self.save_settings()
         self.fade_out_music(700)
         self.after(750, self.destroy)
@@ -3490,15 +3490,16 @@ class App:
         self.remove(self.panel)
         self.panel = self.panel_builder = self.ps = self.panel_ui = None
         self.pending_delete = None
-        self.show_local = False
         self.set_muffle(False)
         self.set_cursor(None)
 
     def cancel_panel(self):
         if self.panel is None or not self.panel_closable:
             return
-        self.pending_auth = None
+        was_settings = self.panel_builder == self.build_settings
         self.close_panel()
+        if was_settings:
+            self.resume_flow_panel()
 
     def lang_pick(self, on_change):
         """Callback de la liste de langues."""
@@ -3545,7 +3546,23 @@ class App:
         if self.panel_builder == self.build_settings:
             self.cancel_panel()
         else:
+            # le formulaire de l'etape en cours (connexion, comptes...) est rouvert, texte saisi compris,
+            # quand les parametres sont fermes
+            if self.panel_builder in (self.build_auth, self.build_accounts, self.build_new_account):
+                self._resume = (self.panel_builder, self.ps, self.menu_stage())
+            elif self.panel_builder != self.build_controls:
+                self._resume = None
             self.show_panel(self.build_settings, side=True)
+
+    def resume_flow_panel(self):
+        res, self._resume = self._resume, None
+        if not res or res[2] != self.menu_stage():       # l'etape a change entre-temps
+            return
+        builder, ps, _ = res
+        self.show_panel(builder, side=True)
+        ps.hover = ps.down = ps.drag = ps.capture = None
+        self.ps = ps
+        self.refresh_panel()
 
     def build_settings(self, ui):
         t = self.t
@@ -3734,20 +3751,13 @@ class App:
 
     def make_avatar(self, size=88):
         S = size * 4
-        pic = None
-        if self.settings.get("google_user") == self.user and os.path.exists(AVATAR_FILE):
-            try:
-                pic = ImageOps.fit(Image.open(AVATAR_FILE).convert("RGB"), (S, S), Image.LANCZOS)
-            except Exception:
-                pic = None
-        if pic is None:     # pas de photo : pastille avec l'initiale
-            pic = Image.new("RGB", (S, S), hex_rgb(self.pal["panel_alt"]))
-            d = ImageDraw.Draw(pic)
-            f = _title_font(find_asset("fonts", "SairaStencilOne-Regular.ttf"), int(S * 0.5))
-            ini = (self.user or "?")[:1].upper()
-            bb = d.textbbox((0, 0), ini, font=f)
-            d.text(((S - (bb[2] - bb[0])) / 2 - bb[0], (S - (bb[3] - bb[1])) / 2 - bb[1]), ini, font=f,
-                   fill=hex_rgb(self.pal["accent"]))
+        pic = Image.new("RGB", (S, S), hex_rgb(self.pal["panel_alt"]))      # pastille avec l'initiale
+        d = ImageDraw.Draw(pic)
+        f = _title_font(find_asset("fonts", "SairaStencilOne-Regular.ttf"), int(S * 0.5))
+        ini = (self.user or "?")[:1].upper()
+        bb = d.textbbox((0, 0), ini, font=f)
+        d.text(((S - (bb[2] - bb[0])) / 2 - bb[0], (S - (bb[3] - bb[1])) / 2 - bb[1]), ini, font=f,
+               fill=hex_rgb(self.pal["accent"]))
         mask = Image.new("L", (S, S), 0)
         ImageDraw.Draw(mask).ellipse([0, 0, S - 1, S - 1], fill=255)
         out = Image.new("RGBA", (S, S), (0, 0, 0, 0))
@@ -3756,206 +3766,260 @@ class App:
                                     width=max(2, S // 22))
         return out.resize((size, size), Image.LANCZOS)
 
-    # ----- connexion / compte --------------------------------------------- #
-    def open_auth(self, callback):
-        self.pending_auth = callback
-        self.auth_mode = "login"
+    # ----- connexion / comptes (serveur) ----------------------------------- #
+    # Etapes : connexion ou inscription -> choix (ou creation) d'un compte de jeu -> choix du mode.
+    # Les echanges (voir auth_session.py) tournent dans un thread ; le resultat revient dans la boucle
+    # d'affichage par self.jobs.
+    MIN_PASSWORD_BYTES = 8         # meme regle que UserManager::create_user cote serveur
+
+    def run_net(self, work, done, on_error=None, text="net_wait"):
+        """Execute work() dans un thread, puis done(resultat) dans la boucle d'affichage.
+        Une AuthError est affichee dans le panneau, ou transmise a on_error(cle).
+        Pendant l'operation, les formulaires affichent une barre de progression avec `text`."""
+        if self.net_busy:
+            return
+        self.net_busy = True
+        self.busy_text = text
+        self.set_auth_msg(text, "info")
+        fail = on_error or self.net_failed
+
+        def runner():
+            try:
+                result = work()
+                outcome = lambda: done(result)
+            except net_proto.AuthError as e:
+                outcome = lambda key=e.key: fail(key)
+            except Exception as e:
+                log(f"reseau : {e!r}")
+                outcome = lambda: fail("srv_error")
+
+            def finish():
+                self.net_busy = False
+                outcome()
+
+            self.jobs.put(finish)
+
+        threading.Thread(target=runner, daemon=True).start()
+
+    def net_failed(self, key):
+        if key == "srv_lost" and self.user:
+            return self.session_lost()
+        self.set_auth_msg(key)
+
+    def session_lost(self):
+        """Connexion au serveur coupee : retour a l'ecran de connexion."""
+        net, self.net = self.net, None
+        self.user = self.account = self._cred = self.accounts = None
+        if net is not None:
+            threading.Thread(target=net.close, args=(0,), daemon=True).start()
+        self.close_flow_panel()
+        self.show_menu("main", animate=False)
+        self.toast(self.t("srv_lost"))
+
+    def _net(self):
+        if self.net is None:           # jeu en cours de lancement / reconnexion
+            raise net_proto.AuthError("srv_busy")
+        return self.net
+
+    def set_auth_msg(self, key, kind="err"):
+        self.auth_msg = (key, kind)
+        if self.panel is not None and self.panel_builder in (self.build_auth, self.build_accounts,
+                                                              self.build_new_account):
+            self.refresh_panel()
+
+    def auth_msg_label(self, ui):
+        if self.net_busy:
+            ui.progress(self.t(self.busy_text))
+        elif self.auth_msg is None:
+            ui.label("", self.body(11), "muted", wrap=360, pad=(4, 8), minlines=1)
+        else:
+            key, kind = self.auth_msg
+            # une cle inconnue (message deja redige par le serveur) est affichee telle quelle
+            ui.label(self.t(key), self.body(11), {"err": "err", "ok": "ok"}.get(kind, "muted"), wrap=360,
+                     pad=(4, 8), minlines=1)
+
+    # ----- connexion / inscription ---------------------------------------- #
+    def open_auth(self, mode):
+        self.auth_mode = mode              # "login" | "create"
         self.auth_msg = None
         self.show_panel(self.build_auth, side=True)
 
     def build_auth(self, ui):
-        p, t = self.pal, self.t
-        ui.title(t("auth_title"))
-
-        if self.user:
-            ui.avatar(self.make_avatar(88))
-            ui.label(t("logged_as").format(self.user), self.body(14, True), "text", pad=(0, 14))
-            prof = load_json(PROFILES_FILE, {}).get(self.profile_key(), {})
-            newest, count = self.last_save_info()
-            last = (f"{newest[1]}  ·  {datetime.fromtimestamp(newest[0]):%d/%m/%Y %H:%M}"
-                    if newest else t("profile_none"))
-            ui.infobox([(t("profile_playtime"), fmt_duration(prof.get("playtime", 0))),
-                        (t("profile_last"), last), (t("profile_saves"), str(count))])
-            ui.button(t("logout"), self.logout, self.font(13), width=30)
-            ui.button(t("back"), self.cancel_panel, self.font(13), width=30, pad=(0, 0))
-            return
-
-        hero = dict(p, panel=p["accent"], text=p["panel"], accent=p["text"])      # bouton plein, bien visible
-        ui.button("G    " + t("google"), self.google_login, self.font(15), width=30, pal=hero, pady=16, pad=(0, 10))
-        ui.label(t("google_hint"), self.body(11), "muted", wrap=360, pad=(0, 6))
-        if self.auth_msg is None:
-            ui.label("", self.body(11), "muted", wrap=360, pad=(4, 8), minlines=1)
-        else:
-            key, kind = self.auth_msg
-            ui.label(t(key), self.body(11), {"err": "err", "ok": "ok"}.get(kind, "muted"), wrap=360, pad=(4, 8),
-                     minlines=1)
-
-        if not self.show_local:       # par defaut : seulement Google. Le compte local est replie.
-            ui.link(t("local_account"), lambda: self.toggle_local(True))
-            ui.button(t("back"), self.cancel_panel, self.font(13), width=30, pad=(0, 0))
-            return
-
-        ui.sep_or(t("or"))
-        ui.tabs([("login", t("login")), ("create", t("create"))], self.auth_mode, self.set_auth_mode)
+        t = self.t
+        signup = self.auth_mode == "create"
+        ui.title(t("signup_title") if signup else t("login"))
 
         def field(label, id, secret=False):
             ui.label(label, self.body(11), "muted", align="w", pad=(6, 2))
             ui.entry(id, secret=secret, on_submit=self.submit_auth)
 
-        field(t("username"), "e_user")
+        if signup:
+            field(t("pseudo"), "e_pseudo")
+        field(t("email"), "e_user")
         field(t("password"), "e_pw", True)
-        if self.auth_mode == "create":
+        if signup:
             field(t("repeat"), "e_pw2", True)
         if self.ps.focus is None:
-            self.ps.focus = "e_user"
-        ui.spacer(8)
-        ui.button(t(self.auth_mode), self.submit_auth, self.font(13), width=30)
+            self.ps.focus = "e_pseudo" if signup else "e_user"
+        self.auth_msg_label(ui)
+        ui.button(t("menu_signup") if signup else t("menu_login"), self.submit_auth, self.font(13), width=30)
         ui.button(t("back"), self.cancel_panel, self.font(13), width=30, pad=(0, 0))
-
-    def toggle_local(self, show):
-        self.show_local = show
-        self.auth_msg = None
-        self.refresh_panel()
-
-    def set_auth_mode(self, mode):
-        self.auth_mode = mode
-        self.auth_msg = None
-        self.refresh_panel()
-
-    def set_auth_msg(self, key, kind="err"):
-        self.auth_msg = (key, kind)
-        if self.panel_builder == self.build_auth:
-            self.refresh_panel()
 
     def submit_auth(self):
         if self.ps is None or self.panel_builder != self.build_auth:
             return
-        user, pw = self.ps.text.get("e_user", "").strip(), self.ps.text.get("e_pw", "")
-        accounts = load_json(ACCOUNTS_FILE, {})
-        key = user.lower()
-
-        if self.auth_mode == "create":
-            pw2 = self.ps.text.get("e_pw2", "")
-            if not user or not pw or not pw2:
-                return self.set_auth_msg("err_fill")
-            if pw != pw2:
+        email, pw = self.ps.text.get("e_user", "").strip(), self.ps.text.get("e_pw", "")
+        signup = self.auth_mode == "create"
+        if not email or not pw:
+            return self.set_auth_msg("err_fill")
+        pseudo = self.ps.text.get("e_pseudo", "").strip()
+        if signup:
+            if not valid_pseudo(pseudo):
+                return self.set_auth_msg("err_pseudo")
+            if "@" not in email:
+                return self.set_auth_msg("err_email")
+            if pw != self.ps.text.get("e_pw2", ""):
                 return self.set_auth_msg("err_mismatch")
-            if len(pw) < 6:
-                return self.set_auth_msg("err_short")
-            if key in accounts:
-                return self.set_auth_msg("err_exists")
-            salt, h = hash_pw(pw)
-            accounts[key] = {"name": user, "salt": salt, "hash": h}
-            save_json(ACCOUNTS_FILE, accounts)
-            self.on_login_success(user)
-        else:
-            if not user or not pw:
-                return self.set_auth_msg("err_fill")
-            acc = accounts.get(key)
-            if not acc or not hmac.compare_digest(hash_pw(pw, acc["salt"])[1], acc["hash"]):
-                return self.set_auth_msg("err_creds")
-            self.on_login_success(acc.get("name", user))
+            if len(pw.encode("utf-8")) < self.MIN_PASSWORD_BYTES:
+                return self.set_auth_msg("err_pw_short")
 
-    def on_login_success(self, name, remember=False):
-        self.user = name
-        self.next_track()           # nouvelle ambiance a la connexion
-        if remember:
-            self.settings["google_user"] = name
-        else:
-            self.settings.pop("google_user", None)
-        self.save_settings()
-        callback, self.pending_auth = self.pending_auth, None
-        self.close_panel()
-        self.show_menu(self.menu_name, animate=False)
-        if callback:
-            callback()
+        def work():
+            conn = net_proto.Connection().open()
+            try:
+                if signup:
+                    conn.signup(email, pw, pseudo)   # le serveur connecte le nouvel utilisateur
+                    name = pseudo
+                else:
+                    name = conn.login(email, pw, retries=3, delay=0.5)    # pseudo (ou e-mail d'un ancien compte)
+                accounts = conn.list_accounts()  # pour ne proposer "selectionner" que s'il y en a
+            except Exception:
+                conn.close(0)
+                raise
+            return conn, accounts, name
+
+        self.run_net(work, lambda r: self.on_session_open(r[0], r[1], r[2], email, pw),
+                     text="creating" if signup else "logging_in")
+
+    def on_session_open(self, conn, accounts, name, email, pw):
+        # self.user est le nom affiche (pseudo) ; _cred garde l'e-mail pour se reconnecter dans le jeu
+        self.net, self.user, self._cred, self.account = conn, name, (email, pw), None
+        self.accounts, self.auth_msg = accounts, None
+        self.next_track()                  # nouvelle ambiance a la connexion
+        self.close_flow_panel()
+        self.show_menu("main")
 
     def logout(self):
-        self.user = None
-        self.settings.pop("google_user", None)
-        self.save_settings()
-        try:
-            os.remove(TOKEN_PATH)                  # vraie deconnexion : le prochain clic redemande le compte
-        except OSError:
-            pass
-        self.close_panel()
+        net, self.net = self.net, None
+        self.user = self.account = self._cred = self.accounts = None
+        if net is not None:
+            threading.Thread(target=net.close, daemon=True).start()
+        self.close_flow_panel()
         self.show_menu("main", animate=False)
 
-    # ----- Google ---------------------------------------------------------- #
-    def google_login(self):
-        if self.google_busy:                       # une connexion est deja en cours
-            return self.set_auth_msg("google_wait", "info")
-        if not os.path.exists(TOKEN_PATH) and not find_google_secret():
-            self.g_msg = None
-            self.show_panel(self.build_google_setup, side=True)      # "as-tu le fichier ?" : choisir / obtenir
+    # ----- comptes de jeu --------------------------------------------------- #
+    def open_accounts(self):
+        self.accounts, self.auth_msg = None, None
+        self.show_panel(self.build_accounts, side=True)
+        self.run_net(lambda: self._net().list_accounts(), self.on_accounts)
+
+    def on_accounts(self, accounts):
+        self.accounts, self.auth_msg = accounts, None
+        if self.panel is not None and self.panel_builder == self.build_accounts:
+            self.refresh_panel()
+
+    def build_accounts(self, ui):
+        t, accounts = self.t, self.accounts
+        ui.title(t("accounts_title"))
+        if accounts:
+            items = []
+            for a in accounts:
+                line = f" {a.get('account_name', '?')}    ·    {a.get('role_name', '')}"
+                if a.get("balance") is not None:
+                    line += f"    ·    {a['balance']}"
+                items.append(line)
+
+            def pick():
+                sel = self.ps.sel.get("accounts", 0)
+                if 0 <= sel < len(accounts):
+                    self.choose_account(accounts[sel])
+
+            self.ps.focus = self.ps.focus or "accounts"
+            ui.listbox("accounts", items, pick, rows=min(6, max(3, len(items))), width=40, pad=(0, 16))
+            self.auth_msg_label(ui)
+            ui.button(t("choose_account"), pick, self.font(13), width=26)
+        else:
+            if accounts is not None:
+                ui.label(t("no_accounts"), self.body(13), "muted", pad=(10, 16))
+            self.auth_msg_label(ui)
+            if accounts is not None:
+                ui.button(t("new_account"), self.open_new_account, self.font(13), width=26)
+        ui.button(t("back"), self.cancel_panel, self.font(13), width=26, pad=(0, 0))
+
+    def choose_account(self, acc):
+        self.run_net(lambda: self._net().select_account(acc["account_id"]),
+                     lambda _: self.on_account_ready(acc))
+
+    def open_new_account(self):
+        self.auth_msg = None
+        self.show_panel(self.build_new_account, side=True)
+
+    def build_new_account(self, ui):
+        t = self.t
+        ui.title(t("new_account"))
+        ui.label(t("account_name"), self.body(11), "muted", align="w", pad=(6, 2))
+        ui.entry("e_acc", on_submit=self.submit_new_account)
+        if self.ps.focus is None:
+            self.ps.focus = "e_acc"
+        self.auth_msg_label(ui)
+        ui.button(t("create_short"), self.submit_new_account, self.font(13), width=30)
+        ui.button(t("back"), self.cancel_panel, self.font(13), width=30, pad=(0, 0))
+
+    def submit_new_account(self):
+        if self.ps is None or self.panel_builder != self.build_new_account:
             return
-        self.google_busy = True
-        self.set_auth_msg("google_wait", "info")
-        threading.Thread(target=self._google_worker, daemon=True).start()
+        name = self.ps.text.get("e_acc", "").strip()
+        if not name:
+            return self.set_auth_msg("err_fill")
 
-    def _google_profile_login(self, creds):
-        name, pic = google_profile(creds)
-        if pic:
-            try:
-                raw = urllib.request.urlopen(pic, timeout=10).read()
-                Image.open(io.BytesIO(raw)).convert("RGB").save(AVATAR_FILE)
-            except Exception:
-                pass
-        return name
+        def work():
+            net = self._net()
+            acc = net.create_account(name)
+            net.select_account(acc["account_id"])       # le compte cree devient le compte actif
+            return acc
 
-    def try_auto_login(self):
-        """Au demarrage : reconnexion silencieuse avec token.json, sans navigateur."""
-        if not self.settings.get("google_user"):
-            return
-        def worker():
-            try:
-                creds = load_cached_credentials()
-                if not creds:
-                    raise ValueError("no token")
-                name = self._google_profile_login(creds)
-                self.jobs.put(lambda: setattr(self, "user", name))
-            except Exception as e:
-                log(f"reconnexion Google : {e!r}")
-        threading.Thread(target=worker, daemon=True).start()
+        self.run_net(work, self.on_account_ready, text="creating")
 
-    def _google_worker(self):
-        try:
-            if not load_cached_credentials():
-                try:
-                    socket.create_connection(("accounts.google.com", 443), timeout=5).close()
-                except OSError:
-                    self.jobs.put(lambda: self.set_auth_msg("google_offline"))
-                    return
-            try:
-                import google_auth_oauthlib.flow  # noqa: F401
-            except ImportError:
-                if FROZEN:
-                    raise
-                self.jobs.put(lambda: self.set_auth_msg("google_installing", "info"))
-                subprocess.run([sys.executable, "-m", "pip", "install", "google-auth-oauthlib"],
-                               capture_output=True, timeout=900)
-                importlib.invalidate_caches()
-                import google_auth_oauthlib.flow  # noqa: F401
-            self.jobs.put(lambda: self.set_auth_msg("google_wait", "info"))
-            creds = google_login(self.t("google_done"))
-            name = self._google_profile_login(creds)
-            self.jobs.put(lambda: self.on_login_success(name, remember=True))
-        except CredentialsNotFound:
-            def need_file():
-                self.g_msg = None
-                self.show_panel(self.build_google_setup, side=True)
-            self.jobs.put(need_file)
-        except ImportError:
-            self.jobs.put(lambda: self.set_auth_msg("google_nomodule"))
-        except OSError as e:                      # reseau coupe / lent / DNS...
-            log(f"google (reseau) : {e!r}")
-            self.jobs.put(lambda: self.set_auth_msg("google_offline"))
-        except Exception as e:
-            log(f"google : {e!r}")
-            slow = "timeout" in (type(e).__name__ + str(e)).lower()
-            self.jobs.put(lambda: self.set_auth_msg("google_timeout" if slow else "google_err"))
-        finally:
-            self.jobs.put(lambda: setattr(self, "google_busy", False))
+    def on_account_ready(self, acc):
+        self.account, self.auth_msg = acc, None
+        if self.accounts is not None and all(a.get("account_id") != acc["account_id"] for a in self.accounts):
+            self.accounts.append(acc)
+        self.close_flow_panel()
+        self.show_menu("main")
+
+    def change_account(self):
+        self.account = None
+        self.close_flow_panel()
+        self.show_menu("main")
+
+    # ----- profil ----------------------------------------------------------- #
+    def open_profile(self):
+        self.show_panel(self.build_profile, side=True)
+
+    def build_profile(self, ui):
+        t = self.t
+        ui.title(t("auth_title"))
+        ui.avatar(self.make_avatar(88))
+        ui.label(t("logged_as").format(self.user), self.body(14, True), "text", pad=(0, 14))
+        prof = load_json(PROFILES_FILE, {}).get(self.profile_key(), {})
+        newest, count = self.last_save_info()
+        last = (f"{newest[1]}  ·  {datetime.fromtimestamp(newest[0]):%d/%m/%Y %H:%M}"
+                if newest else t("profile_none"))
+        ui.infobox([(t("profile_account"), (self.account or {}).get("account_name", "-")),
+                    (t("profile_playtime"), fmt_duration(prof.get("playtime", 0))),
+                    (t("profile_last"), last), (t("profile_saves"), str(count))])
+        ui.button(t("change_account"), self.change_account, self.font(13), width=30)
+        ui.button(t("logout"), self.logout, self.font(13), width=30)
+        ui.button(t("back"), self.cancel_panel, self.font(13), width=30, pad=(0, 0))
 
     # ----- musique etouffee (filtre passe-bas) quand un panneau est ouvert --------------------- #
     def set_muffle(self, on):
@@ -4036,46 +4100,6 @@ class App:
         except Exception:
             pass
 
-    def build_google_setup(self, ui):
-        t = self.t
-        ui.title(t("g_title"))
-        ui.label(t("g_steps"), self.body(12), "text", wrap=400, align="w", pad=(0, 16))
-        ui.button(t("g_open"), lambda: webbrowser.open(GOOGLE_CONSOLE_URL), self.font(12), width=30)
-        ui.button(t("g_pick"), self.pick_google_secret, self.font(12), width=30)
-        ui.label(self.g_msg or "", self.body(11), "err", wrap=380, pad=(4, 8), minlines=1)
-        ui.button(t("back"), lambda: self.show_panel(self.build_auth, side=True), self.font(12), width=30,
-                  pad=(0, 0))
-
-    def pick_google_secret(self):
-        path = ""
-        try:     # simple boite de dialogue de fichier (Tk n'est utilise que pour ca)
-            import tkinter as tk
-            from tkinter import filedialog
-            root = tk.Tk()
-            root.withdraw()
-            root.attributes("-topmost", True)
-            try:
-                path = filedialog.askopenfilename(title="client_secret.json", filetypes=[("JSON", "*.json")])
-            finally:
-                root.destroy()
-        except Exception as e:
-            log(f"selecteur de fichier : {e!r}")
-        if not path:
-            return
-        try:
-            with open(path, "r", encoding="utf-8") as f:
-                data = json.load(f)
-            if "installed" not in data:
-                raise ValueError("not a desktop client")
-            shutil.copyfile(path, os.path.join(DATA_DIR, "client_secret.json"))
-        except Exception:
-            self.g_msg = self.t("g_badfile")
-            self.refresh_panel()
-            return
-        self.auth_msg = ("g_saved", "ok")
-        self.show_panel(self.build_auth, side=True)
-        self.google_login()                       # nouvelle tentative de connexion
-
     def toast(self, text):
         p, spec = self.pal, self.body(13, True)
         self.remove_tag("toast")
@@ -4093,6 +4117,9 @@ class App:
     
     def launch_game(self, mode, save=None):
         """Lance le jeu sans rouvrir le menu."""
+        if self.launching or self.net_busy:
+            return
+        self.launching = True
 
         label = f"{mode} / {os.path.basename(save) if save else 'new'}"
         self.toast(self.t("launching").format(label))
@@ -4106,7 +4133,7 @@ class App:
             signal_file = os.path.join(
              tempfile.gettempdir(),
              f"last_signal_connected_{os.getpid()}.txt",
-             ) 
+             )
             if os.path.exists(signal_file):
                 os.remove(signal_file)
             cmd = [
@@ -4120,23 +4147,75 @@ class App:
             if save:
                 cmd += ["--save", save]
 
-            proc = subprocess.Popen(cmd, cwd=project_root)
-            
+            # Le serveur lie la connexion a un compte : le jeu (autre processus, autre socket) doit refaire
+            # connexion + choix du compte. Les identifiants lui sont transmis par son entree standard.
+            cred = None
+            if self._cred and self.account:
+                cred = {"email": self._cred[0], "password": self._cred[1],
+                        "account_id": self.account["account_id"]}
+                cmd.append("--auth-stdin")
 
-            threading.Thread(
-            target=self._watch_game,
-            args=(proc, time.time(),signal_file),
-            daemon=True,
-            ).start()
-            
-            
+            net, self.net = self.net, None
+            threading.Thread(target=self._spawn_game, args=(cmd, project_root, signal_file, net, cred),
+                             daemon=True).start()
 
         except Exception as e:
             log(f"lancement du jeu : {e!r}")
-
+            self.launching = False
             self.after(4200, self.restore_music)   # aucun jeu branche : on remet la musique
 
-    
+    def _spawn_game(self, cmd, cwd, signal_file, net, cred):
+        """Thread : ferme la session du menu (le serveur doit remettre le compte en DISCONNECTED avant que
+        le jeu se reconnecte avec), lance le jeu puis le surveille."""
+        try:
+            if net is not None:
+                net.close(wait=3.0)
+            proc = subprocess.Popen(cmd, cwd=cwd, stdin=subprocess.PIPE if cred else None)
+            if cred:
+                try:
+                    proc.stdin.write((json.dumps(cred) + "\n").encode("utf-8"))
+                    proc.stdin.close()
+                except OSError:           # le jeu s'est deja arrete
+                    pass
+        except Exception as e:
+            log(f"lancement du jeu : {e!r}")
+
+            def failed():
+                self.launching = False
+                self.after(4200, self.restore_music)
+                self.resume_session()
+
+            self.jobs.put(failed)
+            return
+        self._watch_game(proc, time.time(), signal_file)
+
+    def resume_session(self):
+        """Le jeu s'est arrete avant d'ouvrir sa fenetre : le menu rouvre sa propre session."""
+        if self._closing or not self._cred or self.net is not None:
+            return
+        self.toast(self.t("game_failed"))
+        email, pw = self._cred
+        acc = self.account
+
+        def work():
+            conn = net_proto.Connection().open()
+            try:
+                conn.login(email, pw, retries=10, delay=0.5)
+                if acc:
+                    conn.select_account(acc["account_id"])
+            except Exception:
+                conn.close(0)
+                raise
+            return conn
+
+        def done(conn):
+            if self._cred is None:        # deconnecte entre-temps
+                threading.Thread(target=conn.close, args=(0,), daemon=True).start()
+            else:
+                self.net = conn
+
+        self.run_net(work, done, on_error=lambda key: self.session_lost())
+
     def _watch_game(self, proc, t0, signal_file):
         menu_closed = False
 
@@ -4159,8 +4238,11 @@ class App:
         secs = time.time() - t0
 
         def finish():
+            self.launching = False
             self.add_playtime(secs)
             self.restore_music()
+            if not menu_closed:           # arret avant l'ouverture de la fenetre de jeu : on rouvre la session
+                self.resume_session()
 
         self.jobs.put(finish)
 
@@ -4172,7 +4254,7 @@ class App:
 # --------------------------------------------------------------------------- #
 #  Installation au premier lancement (dossier du jeu, fichiers, modules)
 # --------------------------------------------------------------------------- #
-BUNDLED = ("background.jpg", "background.png", "icon.png", "icon.ico", "ambient.wav", "client_secret.json")
+BUNDLED = ("background.jpg", "background.png", "icon.png", "icon.ico", "ambient.wav")
 
 
 def run_setup(report, tr):
@@ -4203,7 +4285,7 @@ def run_setup(report, tr):
             f.write(APP_VERSION)
     else:       # script .py : on installe ce qui manque
         report(30, tr("setup_files"))
-        for mod, pipname in (("pygame", "pygame-ce"), ("google_auth_oauthlib", "google-auth-oauthlib")):
+        for mod, pipname in (("pygame", "pygame-ce"),):
             try:
                 importlib.import_module(mod)
             except ImportError:

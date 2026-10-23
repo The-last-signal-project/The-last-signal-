@@ -5,19 +5,23 @@ from ..packet import Packet, PacketType
 
 class SingupPacket(Packet):
 
-    def __init__(self, email: str, password: str):
+    def __init__(self, email: str, password: str, pseudo: str = ""):
 
         self.email = email
         self.password = password
+        self.pseudo = pseudo
 
         email_bytes = email.encode("utf-8")
         password_bytes = password.encode("utf-8")
+        pseudo_bytes = pseudo.encode("utf-8")
 
         payload = (
             struct.pack("!H", len(email_bytes))
             + email_bytes
             + struct.pack("!H", len(password_bytes))
             + password_bytes
+            + struct.pack("!H", len(pseudo_bytes))
+            + pseudo_bytes
         )
 
         super().__init__(
@@ -74,4 +78,27 @@ class SingupPacket(Packet):
             offset:offset + password_length
         ].decode("utf-8")
 
-        return cls(email, password)
+        offset += password_length
+
+        # -------------------------
+        # Pseudo
+        # -------------------------
+
+        pseudo = ""
+
+        if len(payload) >= offset + 2:
+            pseudo_length = struct.unpack(
+                "!H",
+                payload[offset:offset + 2]
+            )[0]
+
+            offset += 2
+
+            if len(payload) < offset + pseudo_length:
+                raise ValueError("Pseudo incomplet")
+
+            pseudo = payload[
+                offset:offset + pseudo_length
+            ].decode("utf-8")
+
+        return cls(email, password, pseudo)
