@@ -17,7 +17,7 @@ if (-not (Get-Command cargo -ErrorAction SilentlyContinue)) {
     Write-Error "Rust/Cargo is required but was not found in PATH."
     exit 127
 }
-if (-not (Get-Command python -ErrorAction SilentlyContinue)) {
+if (-not (Get-Command python -ErrorAction SilentlyContinue) -and -not (Get-Command python3 -ErrorAction SilentlyContinue)) {
     Write-Error "Python is required but was not found in PATH."
     exit 127
 }
@@ -44,6 +44,7 @@ if (-not (Test-Path $ServerExe)) {
 
 $Server = $null
 $Client = $null
+$PythonCommand = if (Get-Command python -ErrorAction SilentlyContinue) { "python" } else { "python3" }
 
 function Stop-ProcessTree($Process) {
     if ($null -ne $Process) {
@@ -82,7 +83,7 @@ try {
     }
 
     Write-Host "[launcher] Server is ready; starting Python client..."
-    $Client = Start-Process -FilePath "python" -ArgumentList @("-m", "client_python.main") -WorkingDirectory $Root -PassThru -NoNewWindow
+    $Client = Start-Process -FilePath $PythonCommand -ArgumentList @("-m", "client_python.main") -WorkingDirectory $Root -PassThru -NoNewWindow
 
     while ($true) {
         $Server.Refresh()
@@ -100,7 +101,7 @@ try {
 } catch {
     Write-Error $_
     exit 1
-} finally {
+ } finally {
     Stop-ProcessTree $Client
     Stop-ProcessTree $Server
 }
