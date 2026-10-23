@@ -88,3 +88,13 @@ fn healing_at_maximum_does_not_overflow_before_clamping() {
     player.heal(2);
     assert_eq!(player.hp(), i32::MAX);
 }
+#[test]
+fn healing_near_maximum_health_clamps_without_overflow() {
+    let mut player = PlayerState::new(Uuid::nil(), i32::MAX).unwrap();
+
+    player.take_damage(1);
+    assert_eq!(player.hp(), i32::MAX - 1);
+
+    player.heal(2);
+    assert_eq!(player.hp(), i32::MAX);
+}
