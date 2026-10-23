@@ -22,12 +22,18 @@ if (-not (Get-Command python -ErrorAction SilentlyContinue)) {
     exit 127
 }
 
-$Manifest = Join-Path $Root "server_rust/Cargo.toml"
+$ServerDirectory = Join-Path $Root "server_rust"
 Write-Host "[launcher] Building Rust server..."
-& cargo build --locked --manifest-path $Manifest
-if ($LASTEXITCODE -ne 0) {
-    Write-Error "Server build failed (exit $LASTEXITCODE); the client was not started."
-    exit $LASTEXITCODE
+Push-Location $ServerDirectory
+try {
+    & cargo build --locked
+    $BuildExitCode = $LASTEXITCODE
+} finally {
+    Pop-Location
+}
+if ($BuildExitCode -ne 0) {
+    Write-Error "Server build failed (exit $BuildExitCode); the client was not started."
+    exit $BuildExitCode
 }
 
 $ServerExe = Join-Path $Root "server_rust/target/debug/the-last-signal-server.exe"
