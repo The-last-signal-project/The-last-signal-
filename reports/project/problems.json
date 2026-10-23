@@ -50931,7 +50931,111 @@
     },
     {
         "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/security/crypto.rs",
-        "line": 87,
+        "line": 88,
+        "severity": "warning",
+        "message": "Function 'generate_rotor' sans documentation",
+        "suggestion": "Ajoutez /// avant cette function",
+        "module": "rust"
+    },
+    {
+        "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/security/crypto.rs",
+        "line": 97,
+        "severity": "warning",
+        "message": "Function 'generate_rotors' sans documentation",
+        "suggestion": "Ajoutez /// avant cette function",
+        "module": "rust"
+    },
+    {
+        "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/security/crypto.rs",
+        "line": 113,
+        "severity": "warning",
+        "message": "Function 'rotor_forward' sans documentation",
+        "suggestion": "Ajoutez /// avant cette function",
+        "module": "rust"
+    },
+    {
+        "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/security/crypto.rs",
+        "line": 123,
+        "severity": "warning",
+        "message": "Function 'inverse_permutation' sans documentation",
+        "suggestion": "Ajoutez /// avant cette function",
+        "module": "rust"
+    },
+    {
+        "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/security/crypto.rs",
+        "line": 135,
+        "severity": "warning",
+        "message": "Function 'rotor_inverse' sans documentation",
+        "suggestion": "Ajoutez /// avant cette function",
+        "module": "rust"
+    },
+    {
+        "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/security/crypto.rs",
+        "line": 148,
+        "severity": "warning",
+        "message": "Struct 'RotorState' sans documentation",
+        "suggestion": "Ajoutez /// avant cette struct",
+        "module": "rust"
+    },
+    {
+        "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/security/crypto.rs",
+        "line": 156,
+        "severity": "warning",
+        "message": "Impl 'RotorState ' sans documentation",
+        "suggestion": "Ajoutez /// avant cette impl",
+        "module": "rust"
+    },
+    {
+        "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/security/crypto.rs",
+        "line": 157,
+        "severity": "warning",
+        "message": "Function 'new' sans documentation",
+        "suggestion": "Ajoutez /// avant cette function",
+        "module": "rust"
+    },
+    {
+        "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/security/crypto.rs",
+        "line": 177,
+        "severity": "warning",
+        "message": "Function 'positions' sans documentation",
+        "suggestion": "Ajoutez /// avant cette function",
+        "module": "rust"
+    },
+    {
+        "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/security/crypto.rs",
+        "line": 181,
+        "severity": "warning",
+        "message": "Function 'byte_counter' sans documentation",
+        "suggestion": "Ajoutez /// avant cette function",
+        "module": "rust"
+    },
+    {
+        "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/security/crypto.rs",
+        "line": 185,
+        "severity": "warning",
+        "message": "Function 'update' sans documentation",
+        "suggestion": "Ajoutez /// avant cette function",
+        "module": "rust"
+    },
+    {
+        "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/security/crypto.rs",
+        "line": 414,
+        "severity": "warning",
+        "message": "Function 'rotl8' sans documentation",
+        "suggestion": "Ajoutez /// avant cette function",
+        "module": "rust"
+    },
+    {
+        "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/security/crypto.rs",
+        "line": 418,
+        "severity": "warning",
+        "message": "Function 'rotr8' sans documentation",
+        "suggestion": "Ajoutez /// avant cette function",
+        "module": "rust"
+    },
+    {
+        "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/security/crypto.rs",
+        "line": 598,
         "severity": "warning",
         "message": "Mod 'tests' sans documentation",
         "suggestion": "Ajoutez /// avant cette mod",
@@ -50939,7 +51043,7 @@
     },
     {
         "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/security/crypto.rs",
-        "line": 91,
+        "line": 602,
         "severity": "warning",
         "message": "Function 'splitmix64_same_seed_same_sequence' sans documentation",
         "suggestion": "Ajoutez /// avant cette function",
@@ -50947,7 +51051,7 @@
     },
     {
         "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/security/crypto.rs",
-        "line": 101,
+        "line": 612,
         "severity": "warning",
         "message": "Function 'splitmix64_different_seed_different_sequence' sans documentation",
         "suggestion": "Ajoutez /// avant cette function",
@@ -50955,7 +51059,7 @@
     },
     {
         "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/security/crypto.rs",
-        "line": 112,
+        "line": 623,
         "severity": "warning",
         "message": "Function 'splitmix64_state_changes' sans documentation",
         "suggestion": "Ajoutez /// avant cette function",
@@ -50963,7 +51067,7 @@
     },
     {
         "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/security/crypto.rs",
-        "line": 122,
+        "line": 633,
         "severity": "warning",
         "message": "Function 'splitmix64_zero_seed' sans documentation",
         "suggestion": "Ajoutez /// avant cette function",
@@ -50971,7 +51075,7 @@
     },
     {
         "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/security/crypto.rs",
-        "line": 132,
+        "line": 643,
         "severity": "warning",
         "message": "Function 'splitmix64_max_seed' sans documentation",
         "suggestion": "Ajoutez /// avant cette function",
@@ -50979,7 +51083,7 @@
     },
     {
         "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/security/crypto.rs",
-        "line": 141,
+        "line": 652,
         "severity": "warning",
         "message": "Function 'derive_rotor_seed_rejects_invalid_key_length' sans documentation",
         "suggestion": "Ajoutez /// avant cette function",
@@ -50987,7 +51091,7 @@
     },
     {
         "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/security/crypto.rs",
-        "line": 150,
+        "line": 661,
         "severity": "warning",
         "message": "Function 'derive_rotor_seed_rejects_invalid_rotor_id' sans documentation",
         "suggestion": "Ajoutez /// avant cette function",
@@ -50995,7 +51099,7 @@
     },
     {
         "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/security/crypto.rs",
-        "line": 163,
+        "line": 674,
         "severity": "warning",
         "message": "Function 'derive_rotor_seed_is_deterministic' sans documentation",
         "suggestion": "Ajoutez /// avant cette function",
@@ -51003,7 +51107,7 @@
     },
     {
         "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/security/crypto.rs",
-        "line": 173,
+        "line": 684,
         "severity": "warning",
         "message": "Function 'derive_rotor_seed_differs_between_rotors' sans documentation",
         "suggestion": "Ajoutez /// avant cette function",
@@ -51011,7 +51115,7 @@
     },
     {
         "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/security/crypto.rs",
-        "line": 182,
+        "line": 693,
         "severity": "warning",
         "message": "Function 'fisher_yates_contains_all_values' sans documentation",
         "suggestion": "Ajoutez /// avant cette function",
@@ -51019,7 +51123,7 @@
     },
     {
         "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/security/crypto.rs",
-        "line": 196,
+        "line": 707,
         "severity": "warning",
         "message": "Function 'fisher_yates_is_deterministic' sans documentation",
         "suggestion": "Ajoutez /// avant cette function",
@@ -51027,9 +51131,137 @@
     },
     {
         "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/security/crypto.rs",
-        "line": 204,
+        "line": 715,
         "severity": "warning",
         "message": "Function 'fisher_yates_changes_with_seed' sans documentation",
+        "suggestion": "Ajoutez /// avant cette function",
+        "module": "rust"
+    },
+    {
+        "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/security/crypto.rs",
+        "line": 722,
+        "severity": "warning",
+        "message": "Function 'generate_rotor_is_deterministic' sans documentation",
+        "suggestion": "Ajoutez /// avant cette function",
+        "module": "rust"
+    },
+    {
+        "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/security/crypto.rs",
+        "line": 732,
+        "severity": "warning",
+        "message": "Function 'generate_rotors_creates_sixteen_rotors' sans documentation",
+        "suggestion": "Ajoutez /// avant cette function",
+        "module": "rust"
+    },
+    {
+        "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/security/crypto.rs",
+        "line": 741,
+        "severity": "warning",
+        "message": "Function 'generate_rotors_are_permutations' sans documentation",
+        "suggestion": "Ajoutez /// avant cette function",
+        "module": "rust"
+    },
+    {
+        "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/security/crypto.rs",
+        "line": 759,
+        "severity": "warning",
+        "message": "Function 'generate_rotors_are_different' sans documentation",
+        "suggestion": "Ajoutez /// avant cette function",
+        "module": "rust"
+    },
+    {
+        "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/security/crypto.rs",
+        "line": 771,
+        "severity": "warning",
+        "message": "Function 'rotor_forward_inverse_round_trip_all_values_and_positions' sans documentation",
+        "suggestion": "Ajoutez /// avant cette function",
+        "module": "rust"
+    },
+    {
+        "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/security/crypto.rs",
+        "line": 789,
+        "severity": "warning",
+        "message": "Function 'inverse_permutation_restores_original_values' sans documentation",
+        "suggestion": "Ajoutez /// avant cette function",
+        "module": "rust"
+    },
+    {
+        "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/security/crypto.rs",
+        "line": 800,
+        "severity": "warning",
+        "message": "Function 'rotor_state_starts_at_zero' sans documentation",
+        "suggestion": "Ajoutez /// avant cette function",
+        "module": "rust"
+    },
+    {
+        "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/security/crypto.rs",
+        "line": 809,
+        "severity": "warning",
+        "message": "Function 'rotor_state_updates_all_positions' sans documentation",
+        "suggestion": "Ajoutez /// avant cette function",
+        "module": "rust"
+    },
+    {
+        "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/security/crypto.rs",
+        "line": 820,
+        "severity": "warning",
+        "message": "Function 'rotor_state_is_deterministic' sans documentation",
+        "suggestion": "Ajoutez /// avant cette function",
+        "module": "rust"
+    },
+    {
+        "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/security/crypto.rs",
+        "line": 834,
+        "severity": "warning",
+        "message": "Function 'rotor_state_supports_all_nine_packet_types' sans documentation",
+        "suggestion": "Ajoutez /// avant cette function",
+        "module": "rust"
+    },
+    {
+        "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/security/crypto.rs",
+        "line": 849,
+        "severity": "warning",
+        "message": "Function 'rotor_state_rejects_invalid_key_length' sans documentation",
+        "suggestion": "Ajoutez /// avant cette function",
+        "module": "rust"
+    },
+    {
+        "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/security/crypto.rs",
+        "line": 856,
+        "severity": "warning",
+        "message": "Function 'rotl8_and_rotr8_are_inverses' sans documentation",
+        "suggestion": "Ajoutez /// avant cette function",
+        "module": "rust"
+    },
+    {
+        "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/security/crypto.rs",
+        "line": 868,
+        "severity": "warning",
+        "message": "Function 'rotor_groups_are_deterministic' sans documentation",
+        "suggestion": "Ajoutez /// avant cette function",
+        "module": "rust"
+    },
+    {
+        "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/security/crypto.rs",
+        "line": 878,
+        "severity": "warning",
+        "message": "Function 'rotor_groups_match_expected_xor_values' sans documentation",
+        "suggestion": "Ajoutez /// avant cette function",
+        "module": "rust"
+    },
+    {
+        "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/security/crypto.rs",
+        "line": 890,
+        "severity": "warning",
+        "message": "Function 'mix_before_round_trip_all_byte_values' sans documentation",
+        "suggestion": "Ajoutez /// avant cette function",
+        "module": "rust"
+    },
+    {
+        "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/security/crypto.rs",
+        "line": 909,
+        "severity": "warning",
+        "message": "Function 'mix_final_round_trip_all_byte_values' sans documentation",
         "suggestion": "Ajoutez /// avant cette function",
         "module": "rust"
     },

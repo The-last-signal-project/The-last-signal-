@@ -1,6 +1,6 @@
 Documentation Quality Report
 
-**Date :** 2026-10-23 07:50:30
+**Date :** 2026-10-23 08:04:39
 
 # 64/100
 
@@ -7231,9 +7231,139 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** rust
+- **Message :** Function 'generate_rotor' sans documentation
+
+- **line :** 88
+
+- **suggestion :** Ajoutez /// avant cette function
+
+- **module :** rust
+
+## ⚠️ Warning
+- **Module :** rust
+- **Message :** Function 'generate_rotors' sans documentation
+
+- **line :** 97
+
+- **suggestion :** Ajoutez /// avant cette function
+
+- **module :** rust
+
+## ⚠️ Warning
+- **Module :** rust
+- **Message :** Function 'rotor_forward' sans documentation
+
+- **line :** 113
+
+- **suggestion :** Ajoutez /// avant cette function
+
+- **module :** rust
+
+## ⚠️ Warning
+- **Module :** rust
+- **Message :** Function 'inverse_permutation' sans documentation
+
+- **line :** 123
+
+- **suggestion :** Ajoutez /// avant cette function
+
+- **module :** rust
+
+## ⚠️ Warning
+- **Module :** rust
+- **Message :** Function 'rotor_inverse' sans documentation
+
+- **line :** 135
+
+- **suggestion :** Ajoutez /// avant cette function
+
+- **module :** rust
+
+## ⚠️ Warning
+- **Module :** rust
+- **Message :** Struct 'RotorState' sans documentation
+
+- **line :** 148
+
+- **suggestion :** Ajoutez /// avant cette struct
+
+- **module :** rust
+
+## ⚠️ Warning
+- **Module :** rust
+- **Message :** Impl 'RotorState ' sans documentation
+
+- **line :** 156
+
+- **suggestion :** Ajoutez /// avant cette impl
+
+- **module :** rust
+
+## ⚠️ Warning
+- **Module :** rust
+- **Message :** Function 'new' sans documentation
+
+- **line :** 157
+
+- **suggestion :** Ajoutez /// avant cette function
+
+- **module :** rust
+
+## ⚠️ Warning
+- **Module :** rust
+- **Message :** Function 'positions' sans documentation
+
+- **line :** 177
+
+- **suggestion :** Ajoutez /// avant cette function
+
+- **module :** rust
+
+## ⚠️ Warning
+- **Module :** rust
+- **Message :** Function 'byte_counter' sans documentation
+
+- **line :** 181
+
+- **suggestion :** Ajoutez /// avant cette function
+
+- **module :** rust
+
+## ⚠️ Warning
+- **Module :** rust
+- **Message :** Function 'update' sans documentation
+
+- **line :** 185
+
+- **suggestion :** Ajoutez /// avant cette function
+
+- **module :** rust
+
+## ⚠️ Warning
+- **Module :** rust
+- **Message :** Function 'rotl8' sans documentation
+
+- **line :** 414
+
+- **suggestion :** Ajoutez /// avant cette function
+
+- **module :** rust
+
+## ⚠️ Warning
+- **Module :** rust
+- **Message :** Function 'rotr8' sans documentation
+
+- **line :** 418
+
+- **suggestion :** Ajoutez /// avant cette function
+
+- **module :** rust
+
+## ⚠️ Warning
+- **Module :** rust
 - **Message :** Mod 'tests' sans documentation
 
-- **line :** 87
+- **line :** 598
 
 - **suggestion :** Ajoutez /// avant cette mod
 
@@ -7243,7 +7373,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'splitmix64_same_seed_same_sequence' sans documentation
 
-- **line :** 91
+- **line :** 602
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -7253,7 +7383,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'splitmix64_different_seed_different_sequence' sans documentation
 
-- **line :** 101
+- **line :** 612
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -7263,7 +7393,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'splitmix64_state_changes' sans documentation
 
-- **line :** 112
+- **line :** 623
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -7273,7 +7403,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'splitmix64_zero_seed' sans documentation
 
-- **line :** 122
+- **line :** 633
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -7283,7 +7413,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'splitmix64_max_seed' sans documentation
 
-- **line :** 132
+- **line :** 643
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -7293,7 +7423,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'derive_rotor_seed_rejects_invalid_key_length' sans documentation
 
-- **line :** 141
+- **line :** 652
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -7303,7 +7433,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'derive_rotor_seed_rejects_invalid_rotor_id' sans documentation
 
-- **line :** 150
+- **line :** 661
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -7313,7 +7443,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'derive_rotor_seed_is_deterministic' sans documentation
 
-- **line :** 163
+- **line :** 674
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -7323,7 +7453,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'derive_rotor_seed_differs_between_rotors' sans documentation
 
-- **line :** 173
+- **line :** 684
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -7333,7 +7463,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'fisher_yates_contains_all_values' sans documentation
 
-- **line :** 182
+- **line :** 693
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -7343,7 +7473,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'fisher_yates_is_deterministic' sans documentation
 
-- **line :** 196
+- **line :** 707
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -7353,7 +7483,167 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'fisher_yates_changes_with_seed' sans documentation
 
-- **line :** 204
+- **line :** 715
+
+- **suggestion :** Ajoutez /// avant cette function
+
+- **module :** rust
+
+## ⚠️ Warning
+- **Module :** rust
+- **Message :** Function 'generate_rotor_is_deterministic' sans documentation
+
+- **line :** 722
+
+- **suggestion :** Ajoutez /// avant cette function
+
+- **module :** rust
+
+## ⚠️ Warning
+- **Module :** rust
+- **Message :** Function 'generate_rotors_creates_sixteen_rotors' sans documentation
+
+- **line :** 732
+
+- **suggestion :** Ajoutez /// avant cette function
+
+- **module :** rust
+
+## ⚠️ Warning
+- **Module :** rust
+- **Message :** Function 'generate_rotors_are_permutations' sans documentation
+
+- **line :** 741
+
+- **suggestion :** Ajoutez /// avant cette function
+
+- **module :** rust
+
+## ⚠️ Warning
+- **Module :** rust
+- **Message :** Function 'generate_rotors_are_different' sans documentation
+
+- **line :** 759
+
+- **suggestion :** Ajoutez /// avant cette function
+
+- **module :** rust
+
+## ⚠️ Warning
+- **Module :** rust
+- **Message :** Function 'rotor_forward_inverse_round_trip_all_values_and_positions' sans documentation
+
+- **line :** 771
+
+- **suggestion :** Ajoutez /// avant cette function
+
+- **module :** rust
+
+## ⚠️ Warning
+- **Module :** rust
+- **Message :** Function 'inverse_permutation_restores_original_values' sans documentation
+
+- **line :** 789
+
+- **suggestion :** Ajoutez /// avant cette function
+
+- **module :** rust
+
+## ⚠️ Warning
+- **Module :** rust
+- **Message :** Function 'rotor_state_starts_at_zero' sans documentation
+
+- **line :** 800
+
+- **suggestion :** Ajoutez /// avant cette function
+
+- **module :** rust
+
+## ⚠️ Warning
+- **Module :** rust
+- **Message :** Function 'rotor_state_updates_all_positions' sans documentation
+
+- **line :** 809
+
+- **suggestion :** Ajoutez /// avant cette function
+
+- **module :** rust
+
+## ⚠️ Warning
+- **Module :** rust
+- **Message :** Function 'rotor_state_is_deterministic' sans documentation
+
+- **line :** 820
+
+- **suggestion :** Ajoutez /// avant cette function
+
+- **module :** rust
+
+## ⚠️ Warning
+- **Module :** rust
+- **Message :** Function 'rotor_state_supports_all_nine_packet_types' sans documentation
+
+- **line :** 834
+
+- **suggestion :** Ajoutez /// avant cette function
+
+- **module :** rust
+
+## ⚠️ Warning
+- **Module :** rust
+- **Message :** Function 'rotor_state_rejects_invalid_key_length' sans documentation
+
+- **line :** 849
+
+- **suggestion :** Ajoutez /// avant cette function
+
+- **module :** rust
+
+## ⚠️ Warning
+- **Module :** rust
+- **Message :** Function 'rotl8_and_rotr8_are_inverses' sans documentation
+
+- **line :** 856
+
+- **suggestion :** Ajoutez /// avant cette function
+
+- **module :** rust
+
+## ⚠️ Warning
+- **Module :** rust
+- **Message :** Function 'rotor_groups_are_deterministic' sans documentation
+
+- **line :** 868
+
+- **suggestion :** Ajoutez /// avant cette function
+
+- **module :** rust
+
+## ⚠️ Warning
+- **Module :** rust
+- **Message :** Function 'rotor_groups_match_expected_xor_values' sans documentation
+
+- **line :** 878
+
+- **suggestion :** Ajoutez /// avant cette function
+
+- **module :** rust
+
+## ⚠️ Warning
+- **Module :** rust
+- **Message :** Function 'mix_before_round_trip_all_byte_values' sans documentation
+
+- **line :** 890
+
+- **suggestion :** Ajoutez /// avant cette function
+
+- **module :** rust
+
+## ⚠️ Warning
+- **Module :** rust
+- **Message :** Function 'mix_final_round_trip_all_byte_values' sans documentation
+
+- **line :** 909
 
 - **suggestion :** Ajoutez /// avant cette function
 
