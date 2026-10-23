@@ -1,0 +1,63 @@
+name: Pull Request Validation
+
+on:
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  python-tests:
+    name: Python tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.14"
+          cache: pip
+          cache-dependency-path: requirements.txt
+
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements.txt
+
+      - name: Run Python tests
+        run: python -m pytest tests/ --ignore=tests/security
+
+  rust-tests:
+    name: Rust tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      DATABASE_PATH: ${{ github.workspace }}/database
+      DATABASE_URL: sqlite:${{ github.workspace }}/database/the_last_signal.db
+      DATABASE_Test_PATH: ${{ github.workspace }}/database-test
+      DATABASE_Test_URL: sqlite:${{ github.workspace }}/database-test/the_last_signal.db
+      CARGO_TERM_COLOR: always
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+
+      - name: Set up Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Cache Cargo dependencies
+        uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: server_rust
+
+      - name: Prepare local test database directories
+        run: |
+          mkdir -p "$DATABASE_PATH" "$DATABASE_Test_PATH"
+
+      - name: Run Rust tests
+        run: cargo test --locked --manifest-path server_rust/Cargo.toml
