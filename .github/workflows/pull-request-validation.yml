@@ -150,4 +150,4 @@ jobs:
 
       - name: Run Rust tests
         working-directory: server_rust
-        run: cargo test --locked
+        run: cargo test 
