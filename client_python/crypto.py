@@ -894,3 +894,127 @@ def inverse_mix_final(
     value ^= g3
 
     return value & 0xFF
+
+def encrypt(communication_key, packet_type, plaintext):
+    """Chiffre les octets avec les 16 rotors et les mélanges."""
+    if not isinstance(communication_key, (bytes, bytearray)):
+        raise TypeError("communication_key must be bytes")
+
+    communication_key = bytes(communication_key)
+
+    if len(communication_key) != COMMUNICATION_KEY_SIZE:
+        raise ValueError("Communication_key must be exactly 64 bytes")
+
+    if not 0 <= packet_type <= 255:
+        raise ValueError("packet_type must be between 0 and 255")
+
+    plaintext = bytes(plaintext)
+    rotors = generate_rotors(communication_key)
+    state = RotorState(communication_key, packet_type)
+
+    ciphertext = bytearray()
+    previous_ciphertext = 0
+
+    for byte_counter, plain_byte in enumerate(plaintext):
+        # Mettre à jour les positions des rotors.
+        state.update()
+        positions = state.positions.copy()
+
+        # Mélange avant les rotors.
+        value = mix_before(
+            plain_byte,
+            communication_key,
+            positions,
+            byte_counter,
+            previous_ciphertext,
+        )
+
+        # Appliquer les rotors R1 à R16.
+        for rotor_index in range(ROTOR_COUNT):
+            value = rotor_forward(
+                value,
+                positions[rotor_index],
+                rotors[rotor_index],
+            )
+
+        # Mélange final.
+        value = mix_final(
+            value,
+            communication_key,
+            positions,
+            byte_counter,
+            previous_ciphertext,
+            packet_type,
+        )
+
+        ciphertext.append(value)
+        previous_ciphertext = value
+
+    return bytes(ciphertext)
+
+
+def decrypt(communication_key, packet_type, ciphertext):
+    """Déchiffre les octets produits par encrypt()."""
+    if not isinstance(communication_key, (bytes, bytearray)):
+        raise TypeError("communication_key must be bytes")
+
+    communication_key = bytes(communication_key)
+
+    if len(communication_key) != COMMUNICATION_KEY_SIZE:
+        raise ValueError("Communication_key must be exactly 64 bytes")
+
+    if not 0 <= packet_type <= 255:
+        raise ValueError("packet_type must be between 0 and 255")
+
+    ciphertext = bytes(ciphertext)
+
+    rotors = generate_rotors(communication_key)
+
+    # Calculer les permutations inverses une seule fois.
+    inverse_rotors = [
+        inverse_permutation(rotor)
+        for rotor in rotors
+    ]
+
+    state = RotorState(communication_key, packet_type)
+    plaintext = bytearray()
+    previous_ciphertext = 0
+
+    for byte_counter, cipher_byte in enumerate(ciphertext):
+        state.update()
+        positions = state.positions.copy()
+
+        # Annuler le mélange final.
+        value = inverse_mix_final(
+            cipher_byte,
+            communication_key,
+            positions,
+            byte_counter,
+            previous_ciphertext,
+            packet_type,
+        )
+
+        # Annuler les rotors dans l'ordre inverse : R16 à R1.
+        for rotor_index in range(ROTOR_COUNT - 1, -1, -1):
+            position = positions[rotor_index]
+
+            value = (value + position) & 0xFF
+            value = inverse_rotors[rotor_index][value]
+            value = (value - position) & 0xFF
+
+        # Annuler le mélange initial.
+        value = inverse_mix_before(
+            value,
+            communication_key,
+            positions,
+            byte_counter,
+            previous_ciphertext,
+        )
+
+        plaintext.append(value)
+
+        # Important : conserver l'octet chiffré précédent.
+        previous_ciphertext = cipher_byte
+
+    return bytes(plaintext)
+
