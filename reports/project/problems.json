@@ -43688,7 +43688,43 @@
     {
         "file": "/home/runner/work/The-last-signal-/The-last-signal-/tests/test_crypto_rotor.py",
         "severity": "warning",
-        "message": "La fonction 'communication_key'ligne 17 ne possède pas de docstring.",
+        "message": "La fonction 'test_encrypt_decrypt_round_trip'ligne 15 ne possède pas de docstring.",
+        "module": "python"
+    },
+    {
+        "file": "/home/runner/work/The-last-signal-/The-last-signal-/tests/test_crypto_rotor.py",
+        "severity": "warning",
+        "message": "La fonction 'test_encrypt_decrypt_round_trip' ne possède pas d'annotations de type.",
+        "module": "python"
+    },
+    {
+        "file": "/home/runner/work/The-last-signal-/The-last-signal-/tests/test_crypto_rotor.py",
+        "severity": "warning",
+        "message": "La fonction 'test_python_reference_vector_packet_type_1'ligne 26 ne possède pas de docstring.",
+        "module": "python"
+    },
+    {
+        "file": "/home/runner/work/The-last-signal-/The-last-signal-/tests/test_crypto_rotor.py",
+        "severity": "warning",
+        "message": "La fonction 'test_python_reference_vector_packet_type_1' ne possède pas d'annotations de type.",
+        "module": "python"
+    },
+    {
+        "file": "/home/runner/work/The-last-signal-/The-last-signal-/tests/test_crypto_rotor.py",
+        "severity": "warning",
+        "message": "La fonction 'test_empty_message'ligne 40 ne possède pas de docstring.",
+        "module": "python"
+    },
+    {
+        "file": "/home/runner/work/The-last-signal-/The-last-signal-/tests/test_crypto_rotor.py",
+        "severity": "warning",
+        "message": "La fonction 'test_empty_message' ne possède pas d'annotations de type.",
+        "module": "python"
+    },
+    {
+        "file": "/home/runner/work/The-last-signal-/The-last-signal-/tests/test_crypto_rotor.py",
+        "severity": "warning",
+        "message": "La fonction 'communication_key'ligne 52 ne possède pas de docstring.",
         "module": "python"
     },
     {
@@ -43700,7 +43736,7 @@
     {
         "file": "/home/runner/work/The-last-signal-/The-last-signal-/tests/test_crypto_rotor.py",
         "severity": "warning",
-        "message": "La fonction 'test_splitmix64_deterministic'ligne 28 ne possède pas de docstring.",
+        "message": "La fonction 'test_splitmix64_deterministic'ligne 63 ne possède pas de docstring.",
         "module": "python"
     },
     {
@@ -43712,7 +43748,7 @@
     {
         "file": "/home/runner/work/The-last-signal-/The-last-signal-/tests/test_crypto_rotor.py",
         "severity": "warning",
-        "message": "La fonction 'test_splitmix64_different_seeds'ligne 40 ne possède pas de docstring.",
+        "message": "La fonction 'test_splitmix64_different_seeds'ligne 75 ne possède pas de docstring.",
         "module": "python"
     },
     {
@@ -43724,7 +43760,7 @@
     {
         "file": "/home/runner/work/The-last-signal-/The-last-signal-/tests/test_crypto_rotor.py",
         "severity": "warning",
-        "message": "La fonction 'test_splitmix64_is_u64'ligne 51 ne possède pas de docstring.",
+        "message": "La fonction 'test_splitmix64_is_u64'ligne 86 ne possède pas de docstring.",
         "module": "python"
     },
     {
@@ -43736,7 +43772,7 @@
     {
         "file": "/home/runner/work/The-last-signal-/The-last-signal-/tests/test_crypto_rotor.py",
         "severity": "warning",
-        "message": "La fonction 'test_rotor_seed_deterministic'ligne 69 ne possède pas de docstring.",
+        "message": "La fonction 'test_rotor_seed_deterministic'ligne 104 ne possède pas de docstring.",
         "module": "python"
     },
     {
@@ -43748,7 +43784,7 @@
     {
         "file": "/home/runner/work/The-last-signal-/The-last-signal-/tests/test_crypto_rotor.py",
         "severity": "warning",
-        "message": "La fonction 'test_rotor_seeds_are_different'ligne 86 ne possède pas de docstring.",
+        "message": "La fonction 'test_rotor_seeds_are_different'ligne 121 ne possède pas de docstring.",
         "module": "python"
     },
     {
@@ -43760,7 +43796,7 @@
     {
         "file": "/home/runner/work/The-last-signal-/The-last-signal-/tests/test_crypto_rotor.py",
         "severity": "warning",
-        "message": "La fonction 'test_rotor_seed_is_u64'ligne 101 ne possède pas de docstring.",
+        "message": "La fonction 'test_rotor_seed_is_u64'ligne 136 ne possède pas de docstring.",
         "module": "python"
     },
     {
@@ -43772,7 +43808,7 @@
     {
         "file": "/home/runner/work/The-last-signal-/The-last-signal-/tests/test_crypto_rotor.py",
         "severity": "warning",
-        "message": "La fonction 'test_rotor_has_256_values'ligne 119 ne possède pas de docstring.",
+        "message": "La fonction 'test_rotor_has_256_values'ligne 154 ne possède pas de docstring.",
         "module": "python"
     },
     {
@@ -43784,7 +43820,7 @@
     {
         "file": "/home/runner/work/The-last-signal-/The-last-signal-/tests/test_crypto_rotor.py",
         "severity": "warning",
-        "message": "La fonction 'test_rotor_is_permutation'ligne 131 ne possède pas de docstring.",
+        "message": "La fonction 'test_rotor_is_permutation'ligne 166 ne possède pas de docstring.",
         "module": "python"
     },
     {
@@ -43796,7 +43832,7 @@
     {
         "file": "/home/runner/work/The-last-signal-/The-last-signal-/tests/test_crypto_rotor.py",
         "severity": "warning",
-        "message": "La fonction 'test_all_16_rotors_are_valid'ligne 145 ne possède pas de docstring.",
+        "message": "La fonction 'test_all_16_rotors_are_valid'ligne 180 ne possède pas de docstring.",
         "module": "python"
     },
     {
@@ -43808,7 +43844,7 @@
     {
         "file": "/home/runner/work/The-last-signal-/The-last-signal-/tests/test_crypto_rotor.py",
         "severity": "warning",
-        "message": "La fonction 'test_rotor_is_deterministic'ligne 163 ne possède pas de docstring.",
+        "message": "La fonction 'test_rotor_is_deterministic'ligne 198 ne possède pas de docstring.",
         "module": "python"
     },
     {
@@ -43820,7 +43856,7 @@
     {
         "file": "/home/runner/work/The-last-signal-/The-last-signal-/tests/test_crypto_rotor.py",
         "severity": "warning",
-        "message": "La fonction 'test_rotors_are_different'ligne 180 ne possède pas de docstring.",
+        "message": "La fonction 'test_rotors_are_different'ligne 215 ne possède pas de docstring.",
         "module": "python"
     },
     {
@@ -43832,7 +43868,7 @@
     {
         "file": "/home/runner/work/The-last-signal-/The-last-signal-/tests/test_crypto_rotor.py",
         "severity": "warning",
-        "message": "La fonction 'test_rotor_forward_inverse'ligne 219 ne possède pas de docstring.",
+        "message": "La fonction 'test_rotor_forward_inverse'ligne 254 ne possède pas de docstring.",
         "module": "python"
     },
     {
@@ -43844,7 +43880,7 @@
     {
         "file": "/home/runner/work/The-last-signal-/The-last-signal-/tests/test_crypto_rotor.py",
         "severity": "warning",
-        "message": "La fonction 'test_all_16_rotors_forward_inverse'ligne 253 ne possède pas de docstring.",
+        "message": "La fonction 'test_all_16_rotors_forward_inverse'ligne 288 ne possède pas de docstring.",
         "module": "python"
     },
     {
@@ -43856,7 +43892,7 @@
     {
         "file": "/home/runner/work/The-last-signal-/The-last-signal-/tests/test_crypto_rotor.py",
         "severity": "warning",
-        "message": "La fonction 'test_rotors_are_valid_permutations'ligne 282 ne possède pas de docstring.",
+        "message": "La fonction 'test_rotors_are_valid_permutations'ligne 317 ne possède pas de docstring.",
         "module": "python"
     },
     {
@@ -43868,7 +43904,7 @@
     {
         "file": "/home/runner/work/The-last-signal-/The-last-signal-/tests/test_crypto_rotor.py",
         "severity": "warning",
-        "message": "La fonction 'test_rotors_are_deterministic'ligne 298 ne possède pas de docstring.",
+        "message": "La fonction 'test_rotors_are_deterministic'ligne 333 ne possède pas de docstring.",
         "module": "python"
     },
     {
@@ -43880,7 +43916,7 @@
     {
         "file": "/home/runner/work/The-last-signal-/The-last-signal-/tests/test_crypto_rotor.py",
         "severity": "warning",
-        "message": "La fonction 'test_rotors_depend_on_key'ligne 319 ne possède pas de docstring.",
+        "message": "La fonction 'test_rotors_depend_on_key'ligne 354 ne possède pas de docstring.",
         "module": "python"
     },
     {
@@ -43892,7 +43928,7 @@
     {
         "file": "/home/runner/work/The-last-signal-/The-last-signal-/tests/test_crypto_rotor.py",
         "severity": "warning",
-        "message": "La fonction 'test_all_16_rotors_round_trip'ligne 341 ne possède pas de docstring.",
+        "message": "La fonction 'test_all_16_rotors_round_trip'ligne 376 ne possède pas de docstring.",
         "module": "python"
     },
     {
@@ -43904,7 +43940,7 @@
     {
         "file": "/home/runner/work/The-last-signal-/The-last-signal-/tests/test_crypto_rotor.py",
         "severity": "warning",
-        "message": "La fonction 'test_invalid_communication_key'ligne 383 ne possède pas de docstring.",
+        "message": "La fonction 'test_invalid_communication_key'ligne 418 ne possède pas de docstring.",
         "module": "python"
     },
     {
@@ -47457,6 +47493,18 @@
         "file": "/home/runner/work/The-last-signal-/The-last-signal-/client_python/crypto.py",
         "severity": "warning",
         "message": "La fonction 'inverse_mix_final' ne possède pas d'annotations de type.",
+        "module": "python"
+    },
+    {
+        "file": "/home/runner/work/The-last-signal-/The-last-signal-/client_python/crypto.py",
+        "severity": "warning",
+        "message": "La fonction 'encrypt' ne possède pas d'annotations de type.",
+        "module": "python"
+    },
+    {
+        "file": "/home/runner/work/The-last-signal-/The-last-signal-/client_python/crypto.py",
+        "severity": "warning",
+        "message": "La fonction 'decrypt' ne possède pas d'annotations de type.",
         "module": "python"
     },
     {
@@ -51513,7 +51561,7 @@
     },
     {
         "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/security/crypto.rs",
-        "line": 598,
+        "line": 711,
         "severity": "warning",
         "message": "Mod 'tests' sans documentation",
         "suggestion": "Ajoutez /// avant cette mod",
@@ -51521,7 +51569,7 @@
     },
     {
         "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/security/crypto.rs",
-        "line": 602,
+        "line": 715,
         "severity": "warning",
         "message": "Function 'splitmix64_same_seed_same_sequence' sans documentation",
         "suggestion": "Ajoutez /// avant cette function",
@@ -51529,7 +51577,7 @@
     },
     {
         "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/security/crypto.rs",
-        "line": 612,
+        "line": 725,
         "severity": "warning",
         "message": "Function 'splitmix64_different_seed_different_sequence' sans documentation",
         "suggestion": "Ajoutez /// avant cette function",
@@ -51537,7 +51585,7 @@
     },
     {
         "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/security/crypto.rs",
-        "line": 623,
+        "line": 736,
         "severity": "warning",
         "message": "Function 'splitmix64_state_changes' sans documentation",
         "suggestion": "Ajoutez /// avant cette function",
@@ -51545,7 +51593,7 @@
     },
     {
         "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/security/crypto.rs",
-        "line": 633,
+        "line": 746,
         "severity": "warning",
         "message": "Function 'splitmix64_zero_seed' sans documentation",
         "suggestion": "Ajoutez /// avant cette function",
@@ -51553,7 +51601,7 @@
     },
     {
         "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/security/crypto.rs",
-        "line": 643,
+        "line": 756,
         "severity": "warning",
         "message": "Function 'splitmix64_max_seed' sans documentation",
         "suggestion": "Ajoutez /// avant cette function",
@@ -51561,7 +51609,7 @@
     },
     {
         "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/security/crypto.rs",
-        "line": 652,
+        "line": 765,
         "severity": "warning",
         "message": "Function 'derive_rotor_seed_rejects_invalid_key_length' sans documentation",
         "suggestion": "Ajoutez /// avant cette function",
@@ -51569,7 +51617,7 @@
     },
     {
         "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/security/crypto.rs",
-        "line": 661,
+        "line": 774,
         "severity": "warning",
         "message": "Function 'derive_rotor_seed_rejects_invalid_rotor_id' sans documentation",
         "suggestion": "Ajoutez /// avant cette function",
@@ -51577,7 +51625,7 @@
     },
     {
         "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/security/crypto.rs",
-        "line": 674,
+        "line": 787,
         "severity": "warning",
         "message": "Function 'derive_rotor_seed_is_deterministic' sans documentation",
         "suggestion": "Ajoutez /// avant cette function",
@@ -51585,7 +51633,7 @@
     },
     {
         "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/security/crypto.rs",
-        "line": 684,
+        "line": 797,
         "severity": "warning",
         "message": "Function 'derive_rotor_seed_differs_between_rotors' sans documentation",
         "suggestion": "Ajoutez /// avant cette function",
@@ -51593,7 +51641,7 @@
     },
     {
         "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/security/crypto.rs",
-        "line": 693,
+        "line": 806,
         "severity": "warning",
         "message": "Function 'fisher_yates_contains_all_values' sans documentation",
         "suggestion": "Ajoutez /// avant cette function",
@@ -51601,7 +51649,7 @@
     },
     {
         "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/security/crypto.rs",
-        "line": 707,
+        "line": 820,
         "severity": "warning",
         "message": "Function 'fisher_yates_is_deterministic' sans documentation",
         "suggestion": "Ajoutez /// avant cette function",
@@ -51609,7 +51657,7 @@
     },
     {
         "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/security/crypto.rs",
-        "line": 715,
+        "line": 828,
         "severity": "warning",
         "message": "Function 'fisher_yates_changes_with_seed' sans documentation",
         "suggestion": "Ajoutez /// avant cette function",
@@ -51617,7 +51665,7 @@
     },
     {
         "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/security/crypto.rs",
-        "line": 722,
+        "line": 835,
         "severity": "warning",
         "message": "Function 'generate_rotor_is_deterministic' sans documentation",
         "suggestion": "Ajoutez /// avant cette function",
@@ -51625,7 +51673,7 @@
     },
     {
         "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/security/crypto.rs",
-        "line": 732,
+        "line": 845,
         "severity": "warning",
         "message": "Function 'generate_rotors_creates_sixteen_rotors' sans documentation",
         "suggestion": "Ajoutez /// avant cette function",
@@ -51633,7 +51681,7 @@
     },
     {
         "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/security/crypto.rs",
-        "line": 741,
+        "line": 854,
         "severity": "warning",
         "message": "Function 'generate_rotors_are_permutations' sans documentation",
         "suggestion": "Ajoutez /// avant cette function",
@@ -51641,7 +51689,7 @@
     },
     {
         "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/security/crypto.rs",
-        "line": 759,
+        "line": 872,
         "severity": "warning",
         "message": "Function 'generate_rotors_are_different' sans documentation",
         "suggestion": "Ajoutez /// avant cette function",
@@ -51649,7 +51697,7 @@
     },
     {
         "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/security/crypto.rs",
-        "line": 771,
+        "line": 884,
         "severity": "warning",
         "message": "Function 'rotor_forward_inverse_round_trip_all_values_and_positions' sans documentation",
         "suggestion": "Ajoutez /// avant cette function",
@@ -51657,7 +51705,7 @@
     },
     {
         "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/security/crypto.rs",
-        "line": 789,
+        "line": 902,
         "severity": "warning",
         "message": "Function 'inverse_permutation_restores_original_values' sans documentation",
         "suggestion": "Ajoutez /// avant cette function",
@@ -51665,7 +51713,7 @@
     },
     {
         "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/security/crypto.rs",
-        "line": 800,
+        "line": 913,
         "severity": "warning",
         "message": "Function 'rotor_state_starts_at_zero' sans documentation",
         "suggestion": "Ajoutez /// avant cette function",
@@ -51673,7 +51721,7 @@
     },
     {
         "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/security/crypto.rs",
-        "line": 809,
+        "line": 922,
         "severity": "warning",
         "message": "Function 'rotor_state_updates_all_positions' sans documentation",
         "suggestion": "Ajoutez /// avant cette function",
@@ -51681,7 +51729,7 @@
     },
     {
         "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/security/crypto.rs",
-        "line": 820,
+        "line": 933,
         "severity": "warning",
         "message": "Function 'rotor_state_is_deterministic' sans documentation",
         "suggestion": "Ajoutez /// avant cette function",
@@ -51689,7 +51737,7 @@
     },
     {
         "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/security/crypto.rs",
-        "line": 834,
+        "line": 947,
         "severity": "warning",
         "message": "Function 'rotor_state_supports_all_nine_packet_types' sans documentation",
         "suggestion": "Ajoutez /// avant cette function",
@@ -51697,7 +51745,7 @@
     },
     {
         "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/security/crypto.rs",
-        "line": 849,
+        "line": 962,
         "severity": "warning",
         "message": "Function 'rotor_state_rejects_invalid_key_length' sans documentation",
         "suggestion": "Ajoutez /// avant cette function",
@@ -51705,7 +51753,7 @@
     },
     {
         "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/security/crypto.rs",
-        "line": 856,
+        "line": 969,
         "severity": "warning",
         "message": "Function 'rotl8_and_rotr8_are_inverses' sans documentation",
         "suggestion": "Ajoutez /// avant cette function",
@@ -51713,7 +51761,7 @@
     },
     {
         "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/security/crypto.rs",
-        "line": 868,
+        "line": 981,
         "severity": "warning",
         "message": "Function 'rotor_groups_are_deterministic' sans documentation",
         "suggestion": "Ajoutez /// avant cette function",
@@ -51721,7 +51769,7 @@
     },
     {
         "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/security/crypto.rs",
-        "line": 878,
+        "line": 991,
         "severity": "warning",
         "message": "Function 'rotor_groups_match_expected_xor_values' sans documentation",
         "suggestion": "Ajoutez /// avant cette function",
@@ -51729,7 +51777,7 @@
     },
     {
         "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/security/crypto.rs",
-        "line": 890,
+        "line": 1003,
         "severity": "warning",
         "message": "Function 'mix_before_round_trip_all_byte_values' sans documentation",
         "suggestion": "Ajoutez /// avant cette function",
@@ -51737,9 +51785,41 @@
     },
     {
         "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/security/crypto.rs",
-        "line": 909,
+        "line": 1022,
         "severity": "warning",
         "message": "Function 'mix_final_round_trip_all_byte_values' sans documentation",
+        "suggestion": "Ajoutez /// avant cette function",
+        "module": "rust"
+    },
+    {
+        "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/security/crypto.rs",
+        "line": 1045,
+        "severity": "warning",
+        "message": "Function 'encrypt_decrypt_round_trip_all_packet_types' sans documentation",
+        "suggestion": "Ajoutez /// avant cette function",
+        "module": "rust"
+    },
+    {
+        "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/security/crypto.rs",
+        "line": 1070,
+        "severity": "warning",
+        "message": "Function 'encrypt_empty_message' sans documentation",
+        "suggestion": "Ajoutez /// avant cette function",
+        "module": "rust"
+    },
+    {
+        "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/security/crypto.rs",
+        "line": 1081,
+        "severity": "warning",
+        "message": "Function 'encrypt_rejects_invalid_key_length' sans documentation",
+        "suggestion": "Ajoutez /// avant cette function",
+        "module": "rust"
+    },
+    {
+        "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/security/crypto.rs",
+        "line": 1089,
+        "severity": "warning",
+        "message": "Function 'encrypt_is_deterministic_for_same_inputs' sans documentation",
         "suggestion": "Ajoutez /// avant cette function",
         "module": "rust"
     },
