@@ -1,6 +1,6 @@
 Documentation Quality Report
 
-**Date :** 2026-10-24 09:32:39
+**Date :** 2026-10-24 09:45:13
 
 # 64/100
 
@@ -5983,6 +5983,16 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 - **module :** rust
 
+## ⚠️ Warning
+- **Module :** rust
+- **Message :** Mod 'player' sans documentation
+
+- **line :** 8
+
+- **suggestion :** Ajoutez /// avant cette mod
+
+- **module :** rust
+
 # 📄 /home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/main.rs
 
 ## ⚠️ Warning
@@ -7167,6 +7177,108 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 - **module :** rust
 
+# 📄 /home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/player/mod.rs
+
+## ⚠️ Warning
+- **Module :** rust
+- **Message :** Struct 'PlayerState' sans documentation
+
+- **line :** 8
+
+- **suggestion :** Ajoutez /// avant cette struct
+
+- **module :** rust
+
+## ⚠️ Warning
+- **Module :** rust
+- **Message :** Enum 'PlayerStateError' sans documentation
+
+- **line :** 15
+
+- **suggestion :** Ajoutez /// avant cette enum
+
+- **module :** rust
+
+## ⚠️ Warning
+- **Module :** rust
+- **Message :** Impl 'std' sans documentation
+
+- **line :** 19
+
+- **suggestion :** Ajoutez /// avant cette impl
+
+- **module :** rust
+
+## ⚠️ Warning
+- **Module :** rust
+- **Message :** Function 'fmt' sans documentation
+
+- **line :** 20
+
+- **suggestion :** Ajoutez /// avant cette function
+
+- **module :** rust
+
+## ⚠️ Warning
+- **Module :** rust
+- **Message :** Impl 'std' sans documentation
+
+- **line :** 27
+
+- **suggestion :** Ajoutez /// avant cette impl
+
+- **module :** rust
+
+## ⚠️ Warning
+- **Module :** rust
+- **Message :** Impl 'PlayerState ' sans documentation
+
+- **line :** 29
+
+- **suggestion :** Ajoutez /// avant cette impl
+
+- **module :** rust
+
+## ⚠️ Warning
+- **Module :** rust
+- **Message :** Function 'player_id' sans documentation
+
+- **line :** 45
+
+- **suggestion :** Ajoutez /// avant cette function
+
+- **module :** rust
+
+## ⚠️ Warning
+- **Module :** rust
+- **Message :** Function 'hp' sans documentation
+
+- **line :** 49
+
+- **suggestion :** Ajoutez /// avant cette function
+
+- **module :** rust
+
+## ⚠️ Warning
+- **Module :** rust
+- **Message :** Function 'max_hp' sans documentation
+
+- **line :** 53
+
+- **suggestion :** Ajoutez /// avant cette function
+
+- **module :** rust
+
+## ⚠️ Warning
+- **Module :** rust
+- **Message :** Function 'is_alive' sans documentation
+
+- **line :** 69
+
+- **suggestion :** Ajoutez /// avant cette function
+
+- **module :** rust
+
 # 📄 /home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/security/crypto.rs
 
 ## ⚠️ Warning
@@ -8204,6 +8316,68 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Message :** Function 'default' sans documentation
 
 - **line :** 244
+
+- **suggestion :** Ajoutez /// avant cette function
+
+- **module :** rust
+
+# 📄 /home/runner/work/The-last-signal-/The-last-signal-/server_rust/tests/player_health.rs
+
+## ⚠️ Warning
+- **Module :** rust
+- **Message :** Function 'new_player_starts_at_maximum_health' sans documentation
+
+- **line :** 5
+
+- **suggestion :** Ajoutez /// avant cette function
+
+- **module :** rust
+
+## ⚠️ Warning
+- **Module :** rust
+- **Message :** Function 'new_rejects_zero_or_negative_maximum_health' sans documentation
+
+- **line :** 16
+
+- **suggestion :** Ajoutez /// avant cette function
+
+- **module :** rust
+
+## ⚠️ Warning
+- **Module :** rust
+- **Message :** Function 'damage_reduces_health_and_never_goes_below_zero' sans documentation
+
+- **line :** 28
+
+- **suggestion :** Ajoutez /// avant cette function
+
+- **module :** rust
+
+## ⚠️ Warning
+- **Module :** rust
+- **Message :** Function 'healing_restores_health_and_never_exceeds_maximum' sans documentation
+
+- **line :** 43
+
+- **suggestion :** Ajoutez /// avant cette function
+
+- **module :** rust
+
+## ⚠️ Warning
+- **Module :** rust
+- **Message :** Function 'negative_damage_and_healing_are_ignored' sans documentation
+
+- **line :** 56
+
+- **suggestion :** Ajoutez /// avant cette function
+
+- **module :** rust
+
+## ⚠️ Warning
+- **Module :** rust
+- **Message :** Function 'extreme_amounts_do_not_overflow' sans documentation
+
+- **line :** 68
 
 - **suggestion :** Ajoutez /// avant cette function
 
