@@ -48888,6 +48888,54 @@
         "module": "python"
     },
     {
+        "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/tests/player_health.rs",
+        "line": 5,
+        "severity": "warning",
+        "message": "Function 'new_player_starts_at_maximum_health' sans documentation",
+        "suggestion": "Ajoutez /// avant cette function",
+        "module": "rust"
+    },
+    {
+        "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/tests/player_health.rs",
+        "line": 16,
+        "severity": "warning",
+        "message": "Function 'new_rejects_zero_or_negative_maximum_health' sans documentation",
+        "suggestion": "Ajoutez /// avant cette function",
+        "module": "rust"
+    },
+    {
+        "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/tests/player_health.rs",
+        "line": 28,
+        "severity": "warning",
+        "message": "Function 'damage_reduces_health_and_never_goes_below_zero' sans documentation",
+        "suggestion": "Ajoutez /// avant cette function",
+        "module": "rust"
+    },
+    {
+        "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/tests/player_health.rs",
+        "line": 43,
+        "severity": "warning",
+        "message": "Function 'healing_restores_health_and_never_exceeds_maximum' sans documentation",
+        "suggestion": "Ajoutez /// avant cette function",
+        "module": "rust"
+    },
+    {
+        "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/tests/player_health.rs",
+        "line": 56,
+        "severity": "warning",
+        "message": "Function 'negative_damage_and_healing_are_ignored' sans documentation",
+        "suggestion": "Ajoutez /// avant cette function",
+        "module": "rust"
+    },
+    {
+        "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/tests/player_health.rs",
+        "line": 68,
+        "severity": "warning",
+        "message": "Function 'extreme_amounts_do_not_overflow' sans documentation",
+        "suggestion": "Ajoutez /// avant cette function",
+        "module": "rust"
+    },
+    {
         "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/main.rs",
         "line": 23,
         "severity": "warning",
@@ -48964,6 +49012,14 @@
         "line": 7,
         "severity": "warning",
         "message": "Mod 'world' sans documentation",
+        "suggestion": "Ajoutez /// avant cette mod",
+        "module": "rust"
+    },
+    {
+        "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/lib.rs",
+        "line": 8,
+        "severity": "warning",
+        "message": "Mod 'player' sans documentation",
         "suggestion": "Ajoutez /// avant cette mod",
         "module": "rust"
     },
@@ -50212,6 +50268,86 @@
         "line": 126,
         "severity": "warning",
         "message": "Function 'modified' sans documentation",
+        "suggestion": "Ajoutez /// avant cette function",
+        "module": "rust"
+    },
+    {
+        "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/player/mod.rs",
+        "line": 8,
+        "severity": "warning",
+        "message": "Struct 'PlayerState' sans documentation",
+        "suggestion": "Ajoutez /// avant cette struct",
+        "module": "rust"
+    },
+    {
+        "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/player/mod.rs",
+        "line": 15,
+        "severity": "warning",
+        "message": "Enum 'PlayerStateError' sans documentation",
+        "suggestion": "Ajoutez /// avant cette enum",
+        "module": "rust"
+    },
+    {
+        "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/player/mod.rs",
+        "line": 19,
+        "severity": "warning",
+        "message": "Impl 'std' sans documentation",
+        "suggestion": "Ajoutez /// avant cette impl",
+        "module": "rust"
+    },
+    {
+        "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/player/mod.rs",
+        "line": 20,
+        "severity": "warning",
+        "message": "Function 'fmt' sans documentation",
+        "suggestion": "Ajoutez /// avant cette function",
+        "module": "rust"
+    },
+    {
+        "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/player/mod.rs",
+        "line": 27,
+        "severity": "warning",
+        "message": "Impl 'std' sans documentation",
+        "suggestion": "Ajoutez /// avant cette impl",
+        "module": "rust"
+    },
+    {
+        "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/player/mod.rs",
+        "line": 29,
+        "severity": "warning",
+        "message": "Impl 'PlayerState ' sans documentation",
+        "suggestion": "Ajoutez /// avant cette impl",
+        "module": "rust"
+    },
+    {
+        "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/player/mod.rs",
+        "line": 45,
+        "severity": "warning",
+        "message": "Function 'player_id' sans documentation",
+        "suggestion": "Ajoutez /// avant cette function",
+        "module": "rust"
+    },
+    {
+        "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/player/mod.rs",
+        "line": 49,
+        "severity": "warning",
+        "message": "Function 'hp' sans documentation",
+        "suggestion": "Ajoutez /// avant cette function",
+        "module": "rust"
+    },
+    {
+        "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/player/mod.rs",
+        "line": 53,
+        "severity": "warning",
+        "message": "Function 'max_hp' sans documentation",
+        "suggestion": "Ajoutez /// avant cette function",
+        "module": "rust"
+    },
+    {
+        "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/player/mod.rs",
+        "line": 69,
+        "severity": "warning",
+        "message": "Function 'is_alive' sans documentation",
         "suggestion": "Ajoutez /// avant cette function",
         "module": "rust"
     },
