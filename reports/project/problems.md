@@ -1,14 +1,14 @@
 # Documentation Problems
 
-Generated: 2026-10-24 10:08:47
+Generated: 2026-10-24 10:20:36
 
 ## Summary
 
 |Type|Count|
 |---|---:|
 |Errors|472|
-|Warnings|8056|
-|**Total**|**8533**|
+|Warnings|8068|
+|**Total**|**8545**|
 
 ---
 
@@ -560,6 +560,16 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 - **Module :** python
 - **Message :** La fonction 'inverse_mix_final' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'encrypt' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'decrypt' ne possède pas d'annotations de type.
 
 ## Warning
 
@@ -5990,203 +6000,231 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 - **Module :** rust
 - **Message :** Mod 'tests' sans documentation
-- **line :** 598
+- **line :** 711
 - **suggestion :** Ajoutez /// avant cette mod
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'splitmix64_same_seed_same_sequence' sans documentation
-- **line :** 602
-- **suggestion :** Ajoutez /// avant cette function
-
-## Warning
-
-- **Module :** rust
-- **Message :** Function 'splitmix64_different_seed_different_sequence' sans documentation
-- **line :** 612
-- **suggestion :** Ajoutez /// avant cette function
-
-## Warning
-
-- **Module :** rust
-- **Message :** Function 'splitmix64_state_changes' sans documentation
-- **line :** 623
-- **suggestion :** Ajoutez /// avant cette function
-
-## Warning
-
-- **Module :** rust
-- **Message :** Function 'splitmix64_zero_seed' sans documentation
-- **line :** 633
-- **suggestion :** Ajoutez /// avant cette function
-
-## Warning
-
-- **Module :** rust
-- **Message :** Function 'splitmix64_max_seed' sans documentation
-- **line :** 643
-- **suggestion :** Ajoutez /// avant cette function
-
-## Warning
-
-- **Module :** rust
-- **Message :** Function 'derive_rotor_seed_rejects_invalid_key_length' sans documentation
-- **line :** 652
-- **suggestion :** Ajoutez /// avant cette function
-
-## Warning
-
-- **Module :** rust
-- **Message :** Function 'derive_rotor_seed_rejects_invalid_rotor_id' sans documentation
-- **line :** 661
-- **suggestion :** Ajoutez /// avant cette function
-
-## Warning
-
-- **Module :** rust
-- **Message :** Function 'derive_rotor_seed_is_deterministic' sans documentation
-- **line :** 674
-- **suggestion :** Ajoutez /// avant cette function
-
-## Warning
-
-- **Module :** rust
-- **Message :** Function 'derive_rotor_seed_differs_between_rotors' sans documentation
-- **line :** 684
-- **suggestion :** Ajoutez /// avant cette function
-
-## Warning
-
-- **Module :** rust
-- **Message :** Function 'fisher_yates_contains_all_values' sans documentation
-- **line :** 693
-- **suggestion :** Ajoutez /// avant cette function
-
-## Warning
-
-- **Module :** rust
-- **Message :** Function 'fisher_yates_is_deterministic' sans documentation
-- **line :** 707
-- **suggestion :** Ajoutez /// avant cette function
-
-## Warning
-
-- **Module :** rust
-- **Message :** Function 'fisher_yates_changes_with_seed' sans documentation
 - **line :** 715
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
-- **Message :** Function 'generate_rotor_is_deterministic' sans documentation
-- **line :** 722
+- **Message :** Function 'splitmix64_different_seed_different_sequence' sans documentation
+- **line :** 725
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
-- **Message :** Function 'generate_rotors_creates_sixteen_rotors' sans documentation
-- **line :** 732
+- **Message :** Function 'splitmix64_state_changes' sans documentation
+- **line :** 736
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
-- **Message :** Function 'generate_rotors_are_permutations' sans documentation
-- **line :** 741
+- **Message :** Function 'splitmix64_zero_seed' sans documentation
+- **line :** 746
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
-- **Message :** Function 'generate_rotors_are_different' sans documentation
-- **line :** 759
+- **Message :** Function 'splitmix64_max_seed' sans documentation
+- **line :** 756
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
-- **Message :** Function 'rotor_forward_inverse_round_trip_all_values_and_positions' sans documentation
-- **line :** 771
+- **Message :** Function 'derive_rotor_seed_rejects_invalid_key_length' sans documentation
+- **line :** 765
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
-- **Message :** Function 'inverse_permutation_restores_original_values' sans documentation
-- **line :** 789
+- **Message :** Function 'derive_rotor_seed_rejects_invalid_rotor_id' sans documentation
+- **line :** 774
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
-- **Message :** Function 'rotor_state_starts_at_zero' sans documentation
-- **line :** 800
+- **Message :** Function 'derive_rotor_seed_is_deterministic' sans documentation
+- **line :** 787
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
-- **Message :** Function 'rotor_state_updates_all_positions' sans documentation
-- **line :** 809
+- **Message :** Function 'derive_rotor_seed_differs_between_rotors' sans documentation
+- **line :** 797
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
-- **Message :** Function 'rotor_state_is_deterministic' sans documentation
+- **Message :** Function 'fisher_yates_contains_all_values' sans documentation
+- **line :** 806
+- **suggestion :** Ajoutez /// avant cette function
+
+## Warning
+
+- **Module :** rust
+- **Message :** Function 'fisher_yates_is_deterministic' sans documentation
 - **line :** 820
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
+- **Message :** Function 'fisher_yates_changes_with_seed' sans documentation
+- **line :** 828
+- **suggestion :** Ajoutez /// avant cette function
+
+## Warning
+
+- **Module :** rust
+- **Message :** Function 'generate_rotor_is_deterministic' sans documentation
+- **line :** 835
+- **suggestion :** Ajoutez /// avant cette function
+
+## Warning
+
+- **Module :** rust
+- **Message :** Function 'generate_rotors_creates_sixteen_rotors' sans documentation
+- **line :** 845
+- **suggestion :** Ajoutez /// avant cette function
+
+## Warning
+
+- **Module :** rust
+- **Message :** Function 'generate_rotors_are_permutations' sans documentation
+- **line :** 854
+- **suggestion :** Ajoutez /// avant cette function
+
+## Warning
+
+- **Module :** rust
+- **Message :** Function 'generate_rotors_are_different' sans documentation
+- **line :** 872
+- **suggestion :** Ajoutez /// avant cette function
+
+## Warning
+
+- **Module :** rust
+- **Message :** Function 'rotor_forward_inverse_round_trip_all_values_and_positions' sans documentation
+- **line :** 884
+- **suggestion :** Ajoutez /// avant cette function
+
+## Warning
+
+- **Module :** rust
+- **Message :** Function 'inverse_permutation_restores_original_values' sans documentation
+- **line :** 902
+- **suggestion :** Ajoutez /// avant cette function
+
+## Warning
+
+- **Module :** rust
+- **Message :** Function 'rotor_state_starts_at_zero' sans documentation
+- **line :** 913
+- **suggestion :** Ajoutez /// avant cette function
+
+## Warning
+
+- **Module :** rust
+- **Message :** Function 'rotor_state_updates_all_positions' sans documentation
+- **line :** 922
+- **suggestion :** Ajoutez /// avant cette function
+
+## Warning
+
+- **Module :** rust
+- **Message :** Function 'rotor_state_is_deterministic' sans documentation
+- **line :** 933
+- **suggestion :** Ajoutez /// avant cette function
+
+## Warning
+
+- **Module :** rust
 - **Message :** Function 'rotor_state_supports_all_nine_packet_types' sans documentation
-- **line :** 834
+- **line :** 947
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'rotor_state_rejects_invalid_key_length' sans documentation
-- **line :** 849
+- **line :** 962
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'rotl8_and_rotr8_are_inverses' sans documentation
-- **line :** 856
+- **line :** 969
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'rotor_groups_are_deterministic' sans documentation
-- **line :** 868
+- **line :** 981
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'rotor_groups_match_expected_xor_values' sans documentation
-- **line :** 878
+- **line :** 991
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'mix_before_round_trip_all_byte_values' sans documentation
-- **line :** 890
+- **line :** 1003
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'mix_final_round_trip_all_byte_values' sans documentation
-- **line :** 909
+- **line :** 1022
+- **suggestion :** Ajoutez /// avant cette function
+
+## Warning
+
+- **Module :** rust
+- **Message :** Function 'encrypt_decrypt_round_trip_all_packet_types' sans documentation
+- **line :** 1045
+- **suggestion :** Ajoutez /// avant cette function
+
+## Warning
+
+- **Module :** rust
+- **Message :** Function 'encrypt_empty_message' sans documentation
+- **line :** 1070
+- **suggestion :** Ajoutez /// avant cette function
+
+## Warning
+
+- **Module :** rust
+- **Message :** Function 'encrypt_rejects_invalid_key_length' sans documentation
+- **line :** 1081
+- **suggestion :** Ajoutez /// avant cette function
+
+## Warning
+
+- **Module :** rust
+- **Message :** Function 'encrypt_is_deterministic_for_same_inputs' sans documentation
+- **line :** 1089
 - **suggestion :** Ajoutez /// avant cette function
 
 ---
@@ -7297,7 +7335,37 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## Warning
 
 - **Module :** python
-- **Message :** La fonction 'communication_key'ligne 17 ne possède pas de docstring.
+- **Message :** La fonction 'test_encrypt_decrypt_round_trip'ligne 15 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'test_encrypt_decrypt_round_trip' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'test_python_reference_vector_packet_type_1'ligne 26 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'test_python_reference_vector_packet_type_1' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'test_empty_message'ligne 40 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'test_empty_message' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'communication_key'ligne 52 ne possède pas de docstring.
 
 ## Warning
 
@@ -7307,7 +7375,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## Warning
 
 - **Module :** python
-- **Message :** La fonction 'test_splitmix64_deterministic'ligne 28 ne possède pas de docstring.
+- **Message :** La fonction 'test_splitmix64_deterministic'ligne 63 ne possède pas de docstring.
 
 ## Warning
 
@@ -7317,7 +7385,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## Warning
 
 - **Module :** python
-- **Message :** La fonction 'test_splitmix64_different_seeds'ligne 40 ne possède pas de docstring.
+- **Message :** La fonction 'test_splitmix64_different_seeds'ligne 75 ne possède pas de docstring.
 
 ## Warning
 
@@ -7327,7 +7395,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## Warning
 
 - **Module :** python
-- **Message :** La fonction 'test_splitmix64_is_u64'ligne 51 ne possède pas de docstring.
+- **Message :** La fonction 'test_splitmix64_is_u64'ligne 86 ne possède pas de docstring.
 
 ## Warning
 
@@ -7337,7 +7405,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## Warning
 
 - **Module :** python
-- **Message :** La fonction 'test_rotor_seed_deterministic'ligne 69 ne possède pas de docstring.
+- **Message :** La fonction 'test_rotor_seed_deterministic'ligne 104 ne possède pas de docstring.
 
 ## Warning
 
@@ -7347,7 +7415,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## Warning
 
 - **Module :** python
-- **Message :** La fonction 'test_rotor_seeds_are_different'ligne 86 ne possède pas de docstring.
+- **Message :** La fonction 'test_rotor_seeds_are_different'ligne 121 ne possède pas de docstring.
 
 ## Warning
 
@@ -7357,7 +7425,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## Warning
 
 - **Module :** python
-- **Message :** La fonction 'test_rotor_seed_is_u64'ligne 101 ne possède pas de docstring.
+- **Message :** La fonction 'test_rotor_seed_is_u64'ligne 136 ne possède pas de docstring.
 
 ## Warning
 
@@ -7367,7 +7435,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## Warning
 
 - **Module :** python
-- **Message :** La fonction 'test_rotor_has_256_values'ligne 119 ne possède pas de docstring.
+- **Message :** La fonction 'test_rotor_has_256_values'ligne 154 ne possède pas de docstring.
 
 ## Warning
 
@@ -7377,7 +7445,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## Warning
 
 - **Module :** python
-- **Message :** La fonction 'test_rotor_is_permutation'ligne 131 ne possède pas de docstring.
+- **Message :** La fonction 'test_rotor_is_permutation'ligne 166 ne possède pas de docstring.
 
 ## Warning
 
@@ -7387,7 +7455,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## Warning
 
 - **Module :** python
-- **Message :** La fonction 'test_all_16_rotors_are_valid'ligne 145 ne possède pas de docstring.
+- **Message :** La fonction 'test_all_16_rotors_are_valid'ligne 180 ne possède pas de docstring.
 
 ## Warning
 
@@ -7397,7 +7465,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## Warning
 
 - **Module :** python
-- **Message :** La fonction 'test_rotor_is_deterministic'ligne 163 ne possède pas de docstring.
+- **Message :** La fonction 'test_rotor_is_deterministic'ligne 198 ne possède pas de docstring.
 
 ## Warning
 
@@ -7407,7 +7475,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## Warning
 
 - **Module :** python
-- **Message :** La fonction 'test_rotors_are_different'ligne 180 ne possède pas de docstring.
+- **Message :** La fonction 'test_rotors_are_different'ligne 215 ne possède pas de docstring.
 
 ## Warning
 
@@ -7417,7 +7485,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## Warning
 
 - **Module :** python
-- **Message :** La fonction 'test_rotor_forward_inverse'ligne 219 ne possède pas de docstring.
+- **Message :** La fonction 'test_rotor_forward_inverse'ligne 254 ne possède pas de docstring.
 
 ## Warning
 
@@ -7427,7 +7495,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## Warning
 
 - **Module :** python
-- **Message :** La fonction 'test_all_16_rotors_forward_inverse'ligne 253 ne possède pas de docstring.
+- **Message :** La fonction 'test_all_16_rotors_forward_inverse'ligne 288 ne possède pas de docstring.
 
 ## Warning
 
@@ -7437,7 +7505,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## Warning
 
 - **Module :** python
-- **Message :** La fonction 'test_rotors_are_valid_permutations'ligne 282 ne possède pas de docstring.
+- **Message :** La fonction 'test_rotors_are_valid_permutations'ligne 317 ne possède pas de docstring.
 
 ## Warning
 
@@ -7447,7 +7515,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## Warning
 
 - **Module :** python
-- **Message :** La fonction 'test_rotors_are_deterministic'ligne 298 ne possède pas de docstring.
+- **Message :** La fonction 'test_rotors_are_deterministic'ligne 333 ne possède pas de docstring.
 
 ## Warning
 
@@ -7457,7 +7525,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## Warning
 
 - **Module :** python
-- **Message :** La fonction 'test_rotors_depend_on_key'ligne 319 ne possède pas de docstring.
+- **Message :** La fonction 'test_rotors_depend_on_key'ligne 354 ne possède pas de docstring.
 
 ## Warning
 
@@ -7467,7 +7535,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## Warning
 
 - **Module :** python
-- **Message :** La fonction 'test_all_16_rotors_round_trip'ligne 341 ne possède pas de docstring.
+- **Message :** La fonction 'test_all_16_rotors_round_trip'ligne 376 ne possède pas de docstring.
 
 ## Warning
 
@@ -7477,7 +7545,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## Warning
 
 - **Module :** python
-- **Message :** La fonction 'test_invalid_communication_key'ligne 383 ne possède pas de docstring.
+- **Message :** La fonction 'test_invalid_communication_key'ligne 418 ne possède pas de docstring.
 
 ## Warning
 
