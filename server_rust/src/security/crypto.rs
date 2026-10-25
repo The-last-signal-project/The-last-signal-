@@ -1095,6 +1095,7 @@ fn encrypt_is_deterministic_for_same_inputs() {
 
     assert_eq!(first, second);
 }
+
     
 #[test]
 fn test_python_reference_vectors_all_22_packet_types() {
@@ -1160,6 +1161,52 @@ fn test_python_reference_vectors_all_22_packet_types() {
     }
 
     assert_eq!(count, 22, "Il faut exactement 22 vecteurs de référence");
+
+#[test]
+fn test_python_reference_vector_packet_type_1() {
+    let key: [u8; 64] = std::array::from_fn(|i| i as u8);
+    let plaintext: Vec<u8> = (0..16).collect();
+
+    let expected = [
+        0xe2, 0xd0, 0xc4, 0xf3, 0x02, 0xea, 0x3d, 0xa1,
+        0x2c, 0xe8, 0xaf, 0x9b, 0x85, 0x24, 0x60, 0xd4,
+    ];
+
+    let ciphertext = encrypt(&key, 1, &plaintext).unwrap();
+    assert_eq!(ciphertext, expected);
+
+    let decrypted = decrypt(&key, 1, &expected).unwrap();
+    assert_eq!(decrypted, plaintext);
+}
+
+#[test]
+fn test_encrypt_decrypt_round_trip_all_22_packet_types() {
+    let key: [u8; 64] = std::array::from_fn(|i| i as u8);
+
+    let plaintext: Vec<u8> = (0..1024)
+        .map(|i| ((i * 37 + 11) & 0xFF) as u8)
+        .collect();
+
+    for packet_type in 1u8..=22 {
+        let ciphertext =
+            encrypt(&key, packet_type, &plaintext).unwrap();
+
+        assert_eq!(
+            ciphertext.len(),
+            plaintext.len(),
+            "Longueur incorrecte pour packet_type={packet_type}"
+        );
+
+        let decrypted =
+            decrypt(&key, packet_type, &ciphertext).unwrap();
+
+        assert_eq!(
+            decrypted,
+            plaintext,
+            "Échec du round-trip pour packet_type={packet_type}"
+        );
+    }
+
 }
 
 }
