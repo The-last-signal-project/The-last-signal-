@@ -1,5 +1,5 @@
 {
-    "generated": "2026-10-26T13:08:55.749560",
+    "generated": "2026-10-26T14:06:46.473498",
     "score": 64,
     "status": "Bon",
     "scores": {
@@ -11,7 +11,7 @@
         "rust": 0,
         "organization": 95
     },
-    "problem_count": 8547,
+    "problem_count": 8550,
     "details": {
         "markdown": {
             "score": 45,
@@ -42644,9 +42644,9 @@
             "score": 0,
             "max_score": 30,
             "results": {
-                "modules": 66,
+                "modules": 67,
                 "classes": 43,
-                "functions": 599,
+                "functions": 600,
                 "documented_modules": 10,
                 "documented_classes": 27,
                 "documented_functions": 138,
@@ -42743,6 +42743,24 @@
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/security/__init__.py",
                     "severity": "warning",
                     "message": "Le module ne possède pas de docstring.",
+                    "module": "python"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/scripts/generate_crypto_vectors.py",
+                    "severity": "warning",
+                    "message": "Le module ne possède pas de docstring.",
+                    "module": "python"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/scripts/generate_crypto_vectors.py",
+                    "severity": "warning",
+                    "message": "La fonction 'main'ligne 10 ne possède pas de docstring.",
+                    "module": "python"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/scripts/generate_crypto_vectors.py",
+                    "severity": "warning",
+                    "message": "La fonction 'main' ne possède pas d'annotations de type.",
                     "module": "python"
                 },
                 {

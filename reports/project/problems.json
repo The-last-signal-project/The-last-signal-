@@ -42672,6 +42672,24 @@
         "module": "python"
     },
     {
+        "file": "/home/runner/work/The-last-signal-/The-last-signal-/scripts/generate_crypto_vectors.py",
+        "severity": "warning",
+        "message": "Le module ne possède pas de docstring.",
+        "module": "python"
+    },
+    {
+        "file": "/home/runner/work/The-last-signal-/The-last-signal-/scripts/generate_crypto_vectors.py",
+        "severity": "warning",
+        "message": "La fonction 'main'ligne 10 ne possède pas de docstring.",
+        "module": "python"
+    },
+    {
+        "file": "/home/runner/work/The-last-signal-/The-last-signal-/scripts/generate_crypto_vectors.py",
+        "severity": "warning",
+        "message": "La fonction 'main' ne possède pas d'annotations de type.",
+        "module": "python"
+    },
+    {
         "file": "/home/runner/work/The-last-signal-/The-last-signal-/scripts/voir_database.py",
         "severity": "warning",
         "message": "Le module ne possède pas de docstring.",
