@@ -1095,5 +1095,72 @@ fn encrypt_is_deterministic_for_same_inputs() {
 
     assert_eq!(first, second);
 }
+    
+#[test]
+fn test_python_reference_vectors_all_22_packet_types() {
+    let key: [u8; 64] = std::array::from_fn(|i| i as u8);
+    let plaintext: Vec<u8> = (0u8..16).collect();
+
+    let vectors = include_str!("../../../tests/crypto_reference_vectors.txt");
+
+    let mut count = 0;
+
+    for line in vectors.lines() {
+        let line = line.trim();
+
+        if line.is_empty() || line.starts_with('#') {
+            continue;
+        }
+
+        let (type_text, hex_text) = line
+            .split_once(':')
+            .expect("Ligne de vecteur invalide");
+
+        let packet_type: u8 = type_text
+            .parse()
+            .expect("Type de paquet invalide");
+
+        let expected: Vec<u8> = hex_text
+            .as_bytes()
+            .chunks_exact(2)
+            .map(|pair| {
+                let digit = |c: u8| -> u8 {
+                    match c {
+                        b'0'..=b'9' => c - b'0',
+                        b'a'..=b'f' => c - b'a' + 10,
+                        b'A'..=b'F' => c - b'A' + 10,
+                        _ => panic!("Caractere hexadecimal invalide"),
+                    }
+                };
+
+                (digit(pair[0]) << 4) | digit(pair[1])
+            })
+            .collect();
+
+        assert!(
+            (1..=22).contains(&packet_type),
+            "Type de paquet hors plage : {packet_type}"
+        );
+
+        let actual = encrypt(&key, packet_type, &plaintext).unwrap();
+
+        assert_eq!(
+            actual, expected,
+            "Divergence Python/Rust pour packet_type={packet_type}"
+        );
+
+        let decrypted = decrypt(&key, packet_type, &expected).unwrap();
+
+        assert_eq!(
+            decrypted, plaintext,
+            "Déchiffrement incorrect pour packet_type={packet_type}"
+        );
+
+        count += 1;
+    }
+
+    assert_eq!(count, 22, "Il faut exactement 22 vecteurs de référence");
+}
+
 }
 
