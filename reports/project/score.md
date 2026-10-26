@@ -1,6 +1,6 @@
 Documentation Quality Report
 
-**Date :** 2026-10-26 13:08:55
+**Date :** 2026-10-26 14:06:46
 
 # 64/100
 
@@ -4132,6 +4132,26 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## ⚠️ Warning
 - **Module :** python
 - **Message :** La fonction 'check_duplicate_titles' ne possède pas d'annotations de type.
+
+- **module :** python
+
+# 📄 /home/runner/work/The-last-signal-/The-last-signal-/scripts/generate_crypto_vectors.py
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** Le module ne possède pas de docstring.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'main'ligne 10 ne possède pas de docstring.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'main' ne possède pas d'annotations de type.
 
 - **module :** python
 
