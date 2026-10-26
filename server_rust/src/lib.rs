@@ -5,3 +5,4 @@ pub mod gameplay;
 pub mod security;
 pub mod auth;
 pub mod world;
+pub mod player;

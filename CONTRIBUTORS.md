@@ -20,6 +20,7 @@ These contributors have helped improve the project through code, documentation, 
 - <u> **wingkuitsoi** </u> — Community and technical contributions
 - <u> **asxxb** </u> — Documentation and Japanese translation improvements
 - <u> **Dinesh Dhanoki** </u> – Testing, Networking tests
+- <u> **frpboy** </u> – all areas
 
 ## Contribution areas
 

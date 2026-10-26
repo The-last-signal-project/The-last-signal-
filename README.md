@@ -151,50 +151,51 @@ pip install -r requirements.txt
 
 ---
 
-## 🦀 3. Lancer le serveur Rust
+## 🚀 3. Lancer le prototype avec une seule commande (recommandé)
 
-Ouvrez un premier terminal et placez-vous dans le dossier du serveur :
+Depuis la racine du dépôt, lancez le script adapté à votre système.
+
+### Linux / macOS
+
+```bash
+chmod +x start.sh
+./start.sh
+```
+
+### Windows (PowerShell)
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\start.ps1
+```
+
+Le lanceur compile d'abord le serveur Rust, crée le dossier local de base de données si nécessaire, attend que le serveur écoute sur `127.0.0.1:5000`, puis démarre le client Python. Si la compilation ou le démarrage du serveur échoue, le client n'est pas lancé. Lorsque l'un des deux processus s'arrête, l'autre est arrêté également.
+
+Par défaut, la base locale se trouve dans `database/the_last_signal.db`. Les variables `DATABASE_PATH` et `DATABASE_URL` peuvent être définies avant le lancement pour remplacer ces valeurs.
+
+### Lancement manuel (solution de secours)
+
+Si vous préférez démarrer les composants séparément :
+
+**Terminal 1 — serveur Rust**
 
 ```bash
 cd server_rust
-```
-
-Puis lancez :
-
-```bash
 cargo run --locked
 ```
 
-Laissez le serveur fonctionner dans ce terminal.
-
-### 🧹 Compilation propre — optionnelle
-
-`cargo clean` n'est **pas nécessaire à chaque lancement**.
-
-Pour repartir d'une compilation propre :
-
-```bash
-cargo clean
-cargo run --locked
-```
-
----
-
-## 🎮 4. Lancer le client
-
-Ouvrez un deuxième terminal et revenez à la racine du projet :
-
-```bash
-cd The-last-signal-
-```
-
-Puis lancez :
+**Terminal 2 — client Python**, depuis la racine du dépôt :
 
 ```bash
 python -m client_python.main
 ```
 
-Le client se connectera alors au serveur local.
+Une compilation propre reste facultative :
+
+```bash
+cd server_rust
+cargo clean
+cargo run --locked
+```
 
 ---
 

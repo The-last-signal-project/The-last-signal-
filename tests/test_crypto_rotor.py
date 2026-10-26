@@ -6,7 +6,42 @@ from client_python.crypto import (
     generate_rotors,
     rotor_forward,
     rotor_inverse,
+    encrypt, decrypt
 )
+
+ 
+
+
+def test_encrypt_decrypt_round_trip():
+    key = bytes(range(64))
+    plaintext = bytes(range(256)) * 4
+
+    for packet_type in range(1, 10):
+        ciphertext = encrypt(key, packet_type, plaintext)
+
+        assert len(ciphertext) == len(plaintext)
+        assert decrypt(key, packet_type, ciphertext) == plaintext
+
+
+def test_python_reference_vector_packet_type_1():
+    key = bytes(range(64))
+    plaintext = bytes(range(16))
+
+    expected = bytes.fromhex(
+        "e2d0c4f302ea3da12ce8af9b852460d4"
+    )
+
+    ciphertext = encrypt(key, 1, plaintext)
+
+    assert ciphertext == expected
+    assert decrypt(key, 1, expected) == plaintext
+
+
+def test_empty_message():
+    key = bytes(range(64))
+
+    assert encrypt(key, 1, b"") == b""
+    assert decrypt(key, 1, b"") == b""
 
 
 # ============================================================
