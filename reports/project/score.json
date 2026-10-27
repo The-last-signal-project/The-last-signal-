@@ -1,5 +1,5 @@
 {
-    "generated": "2026-10-27T05:45:02.887086",
+    "generated": "2026-10-27T06:11:28.646961",
     "score": 64,
     "status": "Bon",
     "scores": {
@@ -1164,37 +1164,37 @@
                 {
                     "file": "lychee/out.md",
                     "severity": "warning",
-                    "message": "Ligne 39 > 120 caractères.",
+                    "message": "Ligne 44 > 120 caractères.",
                     "module": "markdown"
                 },
                 {
                     "file": "lychee/out.md",
                     "severity": "warning",
-                    "message": "Ligne 63 > 120 caractères.",
-                    "module": "markdown"
-                },
-                {
-                    "file": "lychee/out.md",
-                    "severity": "warning",
-                    "message": "Ligne 64 > 120 caractères.",
-                    "module": "markdown"
-                },
-                {
-                    "file": "lychee/out.md",
-                    "severity": "warning",
-                    "message": "Ligne 68 > 120 caractères.",
-                    "module": "markdown"
-                },
-                {
-                    "file": "lychee/out.md",
-                    "severity": "warning",
-                    "message": "Ligne 72 > 120 caractères.",
+                    "message": "Ligne 73 > 120 caractères.",
                     "module": "markdown"
                 },
                 {
                     "file": "lychee/out.md",
                     "severity": "warning",
                     "message": "Ligne 74 > 120 caractères.",
+                    "module": "markdown"
+                },
+                {
+                    "file": "lychee/out.md",
+                    "severity": "warning",
+                    "message": "Ligne 78 > 120 caractères.",
+                    "module": "markdown"
+                },
+                {
+                    "file": "lychee/out.md",
+                    "severity": "warning",
+                    "message": "Ligne 84 > 120 caractères.",
+                    "module": "markdown"
+                },
+                {
+                    "file": "lychee/out.md",
+                    "severity": "warning",
+                    "message": "Ligne 88 > 120 caractères.",
                     "module": "markdown"
                 },
                 {
