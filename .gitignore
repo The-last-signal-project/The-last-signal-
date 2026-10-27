@@ -10,6 +10,8 @@ client_python/save.json
 # Local scripts
 *.sh
 *.bat
+!start.sh
+!start.bat
 
 # Secrets
 security/master.key

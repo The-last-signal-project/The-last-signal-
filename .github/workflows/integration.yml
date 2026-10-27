@@ -384,7 +384,7 @@ jobs:
              git config --global user.email "github-actions@github.com"
              git status
              git fetch origin
-             git rm -f --ignore-unmatch logs/
+             git rm -rf --ignore-unmatch logs/
              rm -rf ../ci-database
              if git ls-remote --exit-code --heads origin ci-database >/dev/null; then
              git worktree add ../ci-database ci-database

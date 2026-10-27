@@ -6,7 +6,7 @@ on:
       database:
         description: "Chemin de la base SQLite"
         required: true
-        default: "database/the_last_signal.sql"
+        default: "database/the_last_signal.db"
 
       table:
         description: "Table (laisser vide = toutes)"
@@ -38,8 +38,7 @@ permissions:
   contents: write
 
 jobs:
-    
-    search:
+  search:
       
       runs-on: ubuntu-latest
     
