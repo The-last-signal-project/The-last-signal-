@@ -1,7 +1,7 @@
 
 from pathlib import Path
 
-from client_python.crypto import encrypt
+from crypto import encrypt
 
 ROOT = Path(__file__).resolve().parent.parent
 OUTPUT = ROOT / "tests" / "crypto_reference_vectors.txt"
