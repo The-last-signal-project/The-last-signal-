@@ -1,6 +1,6 @@
 # Documentation Problems
 
-Generated: 2026-10-28 08:38:47
+Generated: 2026-10-28 08:50:39
 
 ## Summary
 
@@ -713,6 +713,25 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 - **Module :** python
 - **Message :** La fonction 'main'ligne 11 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'main' ne possède pas d'annotations de type.
+
+---
+
+# /home/runner/work/The-last-signal-/The-last-signal-/client_python/generate_crypto_vectors.py
+
+## Warning
+
+- **Module :** python
+- **Message :** Le module ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'main'ligne 10 ne possède pas de docstring.
 
 ## Warning
 
@@ -3526,25 +3545,6 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 - **Module :** python
 - **Message :** La fonction 'check_duplicate_titles' ne possède pas d'annotations de type.
-
----
-
-# /home/runner/work/The-last-signal-/The-last-signal-/scripts/generate_crypto_vectors.py
-
-## Warning
-
-- **Module :** python
-- **Message :** Le module ne possède pas de docstring.
-
-## Warning
-
-- **Module :** python
-- **Message :** La fonction 'main'ligne 10 ne possède pas de docstring.
-
-## Warning
-
-- **Module :** python
-- **Message :** La fonction 'main' ne possède pas d'annotations de type.
 
 ---
 
