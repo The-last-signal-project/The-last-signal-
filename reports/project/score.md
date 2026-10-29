@@ -1,6 +1,6 @@
 Documentation Quality Report
 
-**Date :** 2026-10-29 20:33:56
+**Date :** 2026-10-29 20:43:58
 
 # 64/100
 
@@ -22347,37 +22347,37 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** markdown
-- **Message :** Ligne 39 > 120 caractères.
+- **Message :** Ligne 44 > 120 caractères.
 
 - **module :** markdown
 
 ## ⚠️ Warning
 - **Module :** markdown
-- **Message :** Ligne 63 > 120 caractères.
-
-- **module :** markdown
-
-## ⚠️ Warning
-- **Module :** markdown
-- **Message :** Ligne 64 > 120 caractères.
-
-- **module :** markdown
-
-## ⚠️ Warning
-- **Module :** markdown
-- **Message :** Ligne 68 > 120 caractères.
-
-- **module :** markdown
-
-## ⚠️ Warning
-- **Module :** markdown
-- **Message :** Ligne 72 > 120 caractères.
+- **Message :** Ligne 73 > 120 caractères.
 
 - **module :** markdown
 
 ## ⚠️ Warning
 - **Module :** markdown
 - **Message :** Ligne 74 > 120 caractères.
+
+- **module :** markdown
+
+## ⚠️ Warning
+- **Module :** markdown
+- **Message :** Ligne 78 > 120 caractères.
+
+- **module :** markdown
+
+## ⚠️ Warning
+- **Module :** markdown
+- **Message :** Ligne 84 > 120 caractères.
+
+- **module :** markdown
+
+## ⚠️ Warning
+- **Module :** markdown
+- **Message :** Ligne 88 > 120 caractères.
 
 - **module :** markdown
 
@@ -24011,13 +24011,13 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/bitflags/CHANGELOG.md:587 titre dupliqué (déjà présent dans server_rust/vendor/utf8_iter/README.md:37).
+- **Message :** server_rust/vendor/bitflags/CHANGELOG.md:587 titre dupliqué (déjà présent dans server_rust/vendor/utf8_iter/README.md:47).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/bitflags/CHANGELOG.md:597 titre dupliqué (déjà présent dans server_rust/vendor/utf8_iter/README.md:41).
+- **Message :** server_rust/vendor/bitflags/CHANGELOG.md:597 titre dupliqué (déjà présent dans server_rust/vendor/utf8_iter/README.md:51).
 
 - **module :** titles
 
@@ -39619,13 +39619,13 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/mio/CHANGELOG.md:75 titre dupliqué (déjà présent dans server_rust/vendor/utf8_iter/README.md:37).
+- **Message :** server_rust/vendor/mio/CHANGELOG.md:75 titre dupliqué (déjà présent dans server_rust/vendor/utf8_iter/README.md:47).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/mio/CHANGELOG.md:86 titre dupliqué (déjà présent dans server_rust/vendor/utf8_iter/README.md:41).
+- **Message :** server_rust/vendor/mio/CHANGELOG.md:86 titre dupliqué (déjà présent dans server_rust/vendor/utf8_iter/README.md:51).
 
 - **module :** titles
 
@@ -52989,6 +52989,12 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
+- **Message :** server_rust/vendor/utf8_iter/README.md:23 titre dupliqué (déjà présent dans server_rust/vendor/utf_types/README.md:8).
+
+- **module :** titles
+
+## ⚠️ Warning
+- **Module :** titles
 - **Message :** server_rust/vendor/utf8_iter/README.md:30 titre dupliqué (déjà présent dans server_rust/vendor/regex/README.md:16).
 
 - **module :** titles
@@ -53001,19 +53007,59 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/utf8_iter/README.md:45 titre dupliqué (déjà présent dans server_rust/vendor/once_cell/CHANGELOG.md:184).
+- **Message :** server_rust/vendor/utf8_iter/README.md:37 titre dupliqué (déjà présent dans server_rust/vendor/once_cell/CHANGELOG.md:179).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/utf8_iter/README.md:49 titre dupliqué (déjà présent dans server_rust/vendor/once_cell/CHANGELOG.md:188).
+- **Message :** server_rust/vendor/utf8_iter/README.md:55 titre dupliqué (déjà présent dans server_rust/vendor/once_cell/CHANGELOG.md:184).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/utf8_iter/README.md:54 titre dupliqué (déjà présent dans server_rust/vendor/once_cell/CHANGELOG.md:195).
+- **Message :** server_rust/vendor/utf8_iter/README.md:59 titre dupliqué (déjà présent dans server_rust/vendor/once_cell/CHANGELOG.md:188).
+
+- **module :** titles
+
+## ⚠️ Warning
+- **Module :** titles
+- **Message :** server_rust/vendor/utf8_iter/README.md:64 titre dupliqué (déjà présent dans server_rust/vendor/once_cell/CHANGELOG.md:195).
+
+- **module :** titles
+
+# 📄 server_rust/vendor/utf_types/CONTRIBUTING.md
+
+## ❌ Error
+- **Module :** titles
+- **Message :** server_rust/vendor/utf_types/CONTRIBUTING.md: contient 0 titres H1 (1 attendu).
+
+- **module :** titles
+
+## ⚠️ Warning
+- **Module :** titles
+- **Message :** server_rust/vendor/utf_types/CONTRIBUTING.md:3 titre dupliqué (déjà présent dans server_rust/vendor/utf_types/README.md:8).
+
+- **module :** titles
+
+# 📄 server_rust/vendor/utf_types/README.md
+
+## ⚠️ Warning
+- **Module :** titles
+- **Message :** server_rust/vendor/utf_types/README.md:15 titre dupliqué (déjà présent dans server_rust/vendor/regex/README.md:16).
+
+- **module :** titles
+
+## ⚠️ Warning
+- **Module :** titles
+- **Message :** server_rust/vendor/utf_types/README.md:31 titre dupliqué (déjà présent dans server_rust/vendor/autocfg/README.md:44).
+
+- **module :** titles
+
+## ⚠️ Warning
+- **Module :** titles
+- **Message :** server_rust/vendor/utf_types/README.md:33 titre dupliqué (déjà présent dans server_rust/vendor/once_cell/CHANGELOG.md:195).
 
 - **module :** titles
 

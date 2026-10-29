@@ -1,5 +1,5 @@
 {
-    "generated": "2026-10-29T20:33:56.198977",
+    "generated": "2026-10-29T20:43:58.647629",
     "score": 64,
     "status": "Bon",
     "scores": {
@@ -11,7 +11,7 @@
         "rust": 0,
         "organization": 95
     },
-    "problem_count": 8552,
+    "problem_count": 8559,
     "details": {
         "markdown": {
             "score": 45,
@@ -2148,37 +2148,37 @@
                 {
                     "file": "lychee/out.md",
                     "severity": "warning",
-                    "message": "Ligne 39 > 120 caractères.",
+                    "message": "Ligne 44 > 120 caractères.",
                     "module": "markdown"
                 },
                 {
                     "file": "lychee/out.md",
                     "severity": "warning",
-                    "message": "Ligne 63 > 120 caractères.",
-                    "module": "markdown"
-                },
-                {
-                    "file": "lychee/out.md",
-                    "severity": "warning",
-                    "message": "Ligne 64 > 120 caractères.",
-                    "module": "markdown"
-                },
-                {
-                    "file": "lychee/out.md",
-                    "severity": "warning",
-                    "message": "Ligne 68 > 120 caractères.",
-                    "module": "markdown"
-                },
-                {
-                    "file": "lychee/out.md",
-                    "severity": "warning",
-                    "message": "Ligne 72 > 120 caractères.",
+                    "message": "Ligne 73 > 120 caractères.",
                     "module": "markdown"
                 },
                 {
                     "file": "lychee/out.md",
                     "severity": "warning",
                     "message": "Ligne 74 > 120 caractères.",
+                    "module": "markdown"
+                },
+                {
+                    "file": "lychee/out.md",
+                    "severity": "warning",
+                    "message": "Ligne 78 > 120 caractères.",
+                    "module": "markdown"
+                },
+                {
+                    "file": "lychee/out.md",
+                    "severity": "warning",
+                    "message": "Ligne 84 > 120 caractères.",
+                    "module": "markdown"
+                },
+                {
+                    "file": "lychee/out.md",
+                    "severity": "warning",
+                    "message": "Ligne 88 > 120 caractères.",
                     "module": "markdown"
                 },
                 {
@@ -8187,6 +8187,12 @@
                     "file": "server_rust/vendor/indexmap/README.md",
                     "severity": "error",
                     "message": "server_rust/vendor/indexmap/README.md: contient 3 titres H1 (1 attendu).",
+                    "module": "titles"
+                },
+                {
+                    "file": "server_rust/vendor/utf_types/CONTRIBUTING.md",
+                    "severity": "error",
+                    "message": "server_rust/vendor/utf_types/CONTRIBUTING.md: contient 0 titres H1 (1 attendu).",
                     "module": "titles"
                 },
                 {
@@ -31170,6 +31176,30 @@
                     "module": "titles"
                 },
                 {
+                    "file": "server_rust/vendor/utf_types/README.md",
+                    "severity": "warning",
+                    "message": "server_rust/vendor/utf_types/README.md:15 titre dupliqué (déjà présent dans server_rust/vendor/regex/README.md:16).",
+                    "module": "titles"
+                },
+                {
+                    "file": "server_rust/vendor/utf_types/README.md",
+                    "severity": "warning",
+                    "message": "server_rust/vendor/utf_types/README.md:31 titre dupliqué (déjà présent dans server_rust/vendor/autocfg/README.md:44).",
+                    "module": "titles"
+                },
+                {
+                    "file": "server_rust/vendor/utf_types/README.md",
+                    "severity": "warning",
+                    "message": "server_rust/vendor/utf_types/README.md:33 titre dupliqué (déjà présent dans server_rust/vendor/once_cell/CHANGELOG.md:195).",
+                    "module": "titles"
+                },
+                {
+                    "file": "server_rust/vendor/utf_types/CONTRIBUTING.md",
+                    "severity": "warning",
+                    "message": "server_rust/vendor/utf_types/CONTRIBUTING.md:3 titre dupliqué (déjà présent dans server_rust/vendor/utf_types/README.md:8).",
+                    "module": "titles"
+                },
+                {
                     "file": "server_rust/vendor/crypto-common-0.1.6/CHANGELOG.md",
                     "severity": "warning",
                     "message": "server_rust/vendor/crypto-common-0.1.6/CHANGELOG.md:1 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:1).",
@@ -35600,6 +35630,12 @@
                 {
                     "file": "server_rust/vendor/utf8_iter/README.md",
                     "severity": "warning",
+                    "message": "server_rust/vendor/utf8_iter/README.md:23 titre dupliqué (déjà présent dans server_rust/vendor/utf_types/README.md:8).",
+                    "module": "titles"
+                },
+                {
+                    "file": "server_rust/vendor/utf8_iter/README.md",
+                    "severity": "warning",
                     "message": "server_rust/vendor/utf8_iter/README.md:30 titre dupliqué (déjà présent dans server_rust/vendor/regex/README.md:16).",
                     "module": "titles"
                 },
@@ -35612,19 +35648,25 @@
                 {
                     "file": "server_rust/vendor/utf8_iter/README.md",
                     "severity": "warning",
-                    "message": "server_rust/vendor/utf8_iter/README.md:45 titre dupliqué (déjà présent dans server_rust/vendor/once_cell/CHANGELOG.md:184).",
+                    "message": "server_rust/vendor/utf8_iter/README.md:37 titre dupliqué (déjà présent dans server_rust/vendor/once_cell/CHANGELOG.md:179).",
                     "module": "titles"
                 },
                 {
                     "file": "server_rust/vendor/utf8_iter/README.md",
                     "severity": "warning",
-                    "message": "server_rust/vendor/utf8_iter/README.md:49 titre dupliqué (déjà présent dans server_rust/vendor/once_cell/CHANGELOG.md:188).",
+                    "message": "server_rust/vendor/utf8_iter/README.md:55 titre dupliqué (déjà présent dans server_rust/vendor/once_cell/CHANGELOG.md:184).",
                     "module": "titles"
                 },
                 {
                     "file": "server_rust/vendor/utf8_iter/README.md",
                     "severity": "warning",
-                    "message": "server_rust/vendor/utf8_iter/README.md:54 titre dupliqué (déjà présent dans server_rust/vendor/once_cell/CHANGELOG.md:195).",
+                    "message": "server_rust/vendor/utf8_iter/README.md:59 titre dupliqué (déjà présent dans server_rust/vendor/once_cell/CHANGELOG.md:188).",
+                    "module": "titles"
+                },
+                {
+                    "file": "server_rust/vendor/utf8_iter/README.md",
+                    "severity": "warning",
+                    "message": "server_rust/vendor/utf8_iter/README.md:64 titre dupliqué (déjà présent dans server_rust/vendor/once_cell/CHANGELOG.md:195).",
                     "module": "titles"
                 },
                 {
@@ -37418,13 +37460,13 @@
                 {
                     "file": "server_rust/vendor/bitflags/CHANGELOG.md",
                     "severity": "warning",
-                    "message": "server_rust/vendor/bitflags/CHANGELOG.md:587 titre dupliqué (déjà présent dans server_rust/vendor/utf8_iter/README.md:37).",
+                    "message": "server_rust/vendor/bitflags/CHANGELOG.md:587 titre dupliqué (déjà présent dans server_rust/vendor/utf8_iter/README.md:47).",
                     "module": "titles"
                 },
                 {
                     "file": "server_rust/vendor/bitflags/CHANGELOG.md",
                     "severity": "warning",
-                    "message": "server_rust/vendor/bitflags/CHANGELOG.md:597 titre dupliqué (déjà présent dans server_rust/vendor/utf8_iter/README.md:41).",
+                    "message": "server_rust/vendor/bitflags/CHANGELOG.md:597 titre dupliqué (déjà présent dans server_rust/vendor/utf8_iter/README.md:51).",
                     "module": "titles"
                 },
                 {
@@ -38564,13 +38606,13 @@
                 {
                     "file": "server_rust/vendor/mio/CHANGELOG.md",
                     "severity": "warning",
-                    "message": "server_rust/vendor/mio/CHANGELOG.md:75 titre dupliqué (déjà présent dans server_rust/vendor/utf8_iter/README.md:37).",
+                    "message": "server_rust/vendor/mio/CHANGELOG.md:75 titre dupliqué (déjà présent dans server_rust/vendor/utf8_iter/README.md:47).",
                     "module": "titles"
                 },
                 {
                     "file": "server_rust/vendor/mio/CHANGELOG.md",
                     "severity": "warning",
-                    "message": "server_rust/vendor/mio/CHANGELOG.md:86 titre dupliqué (déjà présent dans server_rust/vendor/utf8_iter/README.md:41).",
+                    "message": "server_rust/vendor/mio/CHANGELOG.md:86 titre dupliqué (déjà présent dans server_rust/vendor/utf8_iter/README.md:51).",
                     "module": "titles"
                 },
                 {
