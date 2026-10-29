@@ -1,14 +1,14 @@
 # Documentation Problems
 
-Generated: 2026-10-29 01:10:14
+Generated: 2026-10-29 01:22:11
 
 ## Summary
 
 |Type|Count|
 |---|---:|
 |Errors|472|
-|Warnings|8073|
-|**Total**|**8550**|
+|Warnings|8075|
+|**Total**|**8552**|
 
 ---
 
@@ -18988,32 +18988,32 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## Warning
 
 - **Module :** markdown
-- **Message :** Ligne 39 > 120 caractères.
+- **Message :** Ligne 44 > 120 caractères.
 
 ## Warning
 
 - **Module :** markdown
-- **Message :** Ligne 63 > 120 caractères.
-
-## Warning
-
-- **Module :** markdown
-- **Message :** Ligne 64 > 120 caractères.
-
-## Warning
-
-- **Module :** markdown
-- **Message :** Ligne 68 > 120 caractères.
-
-## Warning
-
-- **Module :** markdown
-- **Message :** Ligne 72 > 120 caractères.
+- **Message :** Ligne 73 > 120 caractères.
 
 ## Warning
 
 - **Module :** markdown
 - **Message :** Ligne 74 > 120 caractères.
+
+## Warning
+
+- **Module :** markdown
+- **Message :** Ligne 78 > 120 caractères.
+
+## Warning
+
+- **Module :** markdown
+- **Message :** Ligne 84 > 120 caractères.
+
+## Warning
+
+- **Module :** markdown
+- **Message :** Ligne 88 > 120 caractères.
 
 ---
 
@@ -21048,7 +21048,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/bumpalo/CHANGELOG.md:25 titre dupliqué (déjà présent dans server_rust/vendor/ctutils/CHANGELOG.md:26).
+- **Message :** server_rust/vendor/bumpalo/CHANGELOG.md:25 titre dupliqué (déjà présent dans server_rust/vendor/ctutils/CHANGELOG.md:8).
 
 ## Warning
 
@@ -21198,7 +21198,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/bumpalo/CHANGELOG.md:327 titre dupliqué (déjà présent dans server_rust/vendor/ctutils/CHANGELOG.md:26).
+- **Message :** server_rust/vendor/bumpalo/CHANGELOG.md:327 titre dupliqué (déjà présent dans server_rust/vendor/ctutils/CHANGELOG.md:8).
 
 ## Warning
 
@@ -21283,7 +21283,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/bumpalo/CHANGELOG.md:587 titre dupliqué (déjà présent dans server_rust/vendor/ctutils/CHANGELOG.md:26).
+- **Message :** server_rust/vendor/bumpalo/CHANGELOG.md:587 titre dupliqué (déjà présent dans server_rust/vendor/ctutils/CHANGELOG.md:8).
 
 ## Warning
 
@@ -23741,7 +23741,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/chacha20/CHANGELOG.md:261 titre dupliqué (déjà présent dans server_rust/vendor/ctutils/CHANGELOG.md:26).
+- **Message :** server_rust/vendor/chacha20/CHANGELOG.md:261 titre dupliqué (déjà présent dans server_rust/vendor/ctutils/CHANGELOG.md:8).
 
 ## Warning
 
@@ -23780,7 +23780,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/chacha20/README.md:24 titre dupliqué (déjà présent dans server_rust/vendor/ctutils/CHANGELOG.md:26).
+- **Message :** server_rust/vendor/chacha20/README.md:24 titre dupliqué (déjà présent dans server_rust/vendor/ctutils/CHANGELOG.md:8).
 
 ## Warning
 
@@ -23918,7 +23918,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/cmov/CHANGELOG.md:8 titre dupliqué (déjà présent dans server_rust/vendor/ctutils/CHANGELOG.md:26).
+- **Message :** server_rust/vendor/cmov/CHANGELOG.md:8 titre dupliqué (déjà présent dans server_rust/vendor/ctutils/CHANGELOG.md:8).
 
 ## Warning
 
@@ -23973,7 +23973,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/cmov/CHANGELOG.md:82 titre dupliqué (déjà présent dans server_rust/vendor/ctutils/CHANGELOG.md:26).
+- **Message :** server_rust/vendor/cmov/CHANGELOG.md:82 titre dupliqué (déjà présent dans server_rust/vendor/ctutils/CHANGELOG.md:8).
 
 ## Warning
 
@@ -25654,22 +25654,22 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/ctutils/CHANGELOG.md:15 titre sans ligne vide avant.
+- **Message :** server_rust/vendor/ctutils/CHANGELOG.md:14 titre sans ligne vide avant.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/ctutils/CHANGELOG.md:26 titre sans ligne vide avant.
+- **Message :** server_rust/vendor/ctutils/CHANGELOG.md:21 titre sans ligne vide avant.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/ctutils/CHANGELOG.md:34 titre sans ligne vide avant.
+- **Message :** server_rust/vendor/ctutils/CHANGELOG.md:32 titre sans ligne vide avant.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/ctutils/CHANGELOG.md:42 titre sans ligne vide avant.
+- **Message :** server_rust/vendor/ctutils/CHANGELOG.md:40 titre sans ligne vide avant.
 
 ## Warning
 
@@ -25679,32 +25679,32 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/ctutils/CHANGELOG.md:56 titre sans ligne vide avant.
+- **Message :** server_rust/vendor/ctutils/CHANGELOG.md:54 titre sans ligne vide avant.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/ctutils/CHANGELOG.md:83 titre sans ligne vide avant.
+- **Message :** server_rust/vendor/ctutils/CHANGELOG.md:62 titre sans ligne vide avant.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/ctutils/CHANGELOG.md:97 titre sans ligne vide avant.
+- **Message :** server_rust/vendor/ctutils/CHANGELOG.md:89 titre sans ligne vide avant.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/ctutils/CHANGELOG.md:105 titre sans ligne vide avant.
+- **Message :** server_rust/vendor/ctutils/CHANGELOG.md:103 titre sans ligne vide avant.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/ctutils/CHANGELOG.md:113 titre sans ligne vide avant.
+- **Message :** server_rust/vendor/ctutils/CHANGELOG.md:111 titre sans ligne vide avant.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/ctutils/CHANGELOG.md:125 titre sans ligne vide avant.
+- **Message :** server_rust/vendor/ctutils/CHANGELOG.md:119 titre sans ligne vide avant.
 
 ## Warning
 
@@ -25714,12 +25714,12 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/ctutils/CHANGELOG.md:141 titre sans ligne vide avant.
+- **Message :** server_rust/vendor/ctutils/CHANGELOG.md:137 titre sans ligne vide avant.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/ctutils/CHANGELOG.md:153 titre sans ligne vide avant.
+- **Message :** server_rust/vendor/ctutils/CHANGELOG.md:147 titre sans ligne vide avant.
 
 ## Warning
 
@@ -25734,7 +25734,12 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/ctutils/CHANGELOG.md:184 titre sans ligne vide avant.
+- **Message :** server_rust/vendor/ctutils/CHANGELOG.md:171 titre sans ligne vide avant.
+
+## Warning
+
+- **Module :** titles
+- **Message :** server_rust/vendor/ctutils/CHANGELOG.md:190 titre sans ligne vide avant.
 
 ## Warning
 
@@ -25744,82 +25749,82 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/ctutils/CHANGELOG.md:8 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/ctutils/CHANGELOG.md:14 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/ctutils/CHANGELOG.md:15 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/ctutils/CHANGELOG.md:21 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/ctutils/CHANGELOG.md:18 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
+- **Message :** server_rust/vendor/ctutils/CHANGELOG.md:24 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/ctutils/CHANGELOG.md:34 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:30).
+- **Message :** server_rust/vendor/ctutils/CHANGELOG.md:32 titre dupliqué (déjà présent dans server_rust/vendor/ctutils/CHANGELOG.md:8).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/ctutils/CHANGELOG.md:42 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
+- **Message :** server_rust/vendor/ctutils/CHANGELOG.md:40 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:30).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/ctutils/CHANGELOG.md:48 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/ctutils/CHANGELOG.md:48 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/ctutils/CHANGELOG.md:56 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/ctutils/CHANGELOG.md:54 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/ctutils/CHANGELOG.md:64 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:30).
+- **Message :** server_rust/vendor/ctutils/CHANGELOG.md:62 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/ctutils/CHANGELOG.md:68 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:146).
+- **Message :** server_rust/vendor/ctutils/CHANGELOG.md:70 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:30).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/ctutils/CHANGELOG.md:83 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/ctutils/CHANGELOG.md:74 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:146).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/ctutils/CHANGELOG.md:88 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:30).
+- **Message :** server_rust/vendor/ctutils/CHANGELOG.md:89 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/ctutils/CHANGELOG.md:97 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/ctutils/CHANGELOG.md:94 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:30).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/ctutils/CHANGELOG.md:105 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:146).
+- **Message :** server_rust/vendor/ctutils/CHANGELOG.md:103 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/ctutils/CHANGELOG.md:113 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/ctutils/CHANGELOG.md:111 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:146).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/ctutils/CHANGELOG.md:117 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:30).
+- **Message :** server_rust/vendor/ctutils/CHANGELOG.md:119 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/ctutils/CHANGELOG.md:125 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/ctutils/CHANGELOG.md:123 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:30).
 
 ## Warning
 
@@ -25829,37 +25834,42 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/ctutils/CHANGELOG.md:134 titre dupliqué (déjà présent dans server_rust/vendor/ctutils/CHANGELOG.md:26).
+- **Message :** server_rust/vendor/ctutils/CHANGELOG.md:137 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/ctutils/CHANGELOG.md:141 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/ctutils/CHANGELOG.md:140 titre dupliqué (déjà présent dans server_rust/vendor/ctutils/CHANGELOG.md:8).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/ctutils/CHANGELOG.md:145 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:30).
+- **Message :** server_rust/vendor/ctutils/CHANGELOG.md:147 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/ctutils/CHANGELOG.md:153 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/ctutils/CHANGELOG.md:151 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:30).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/ctutils/CHANGELOG.md:159 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
+- **Message :** server_rust/vendor/ctutils/CHANGELOG.md:159 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/ctutils/CHANGELOG.md:165 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/ctutils/CHANGELOG.md:165 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/ctutils/CHANGELOG.md:184 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/ctutils/CHANGELOG.md:171 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+
+## Warning
+
+- **Module :** titles
+- **Message :** server_rust/vendor/ctutils/CHANGELOG.md:190 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ---
 
