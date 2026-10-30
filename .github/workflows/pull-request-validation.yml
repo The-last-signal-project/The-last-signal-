@@ -10,6 +10,7 @@ concurrency:
   queue: max
 permissions:
   contents: write
+  actions:  write
 
 jobs:
   python-tests:
