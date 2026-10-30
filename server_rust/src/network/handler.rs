@@ -963,43 +963,23 @@ let login_data = LoginData {
                 // Vérifier si déjà connecté
                 // ------------------------------------------------
 
-                let is_already_connected =
-                    match sqlx::query_scalar::<_, i64>(
-                        r#"
-                        SELECT EXISTS(
-                            SELECT 1
+                
+let is_already_connected =
+    match manager.is_connected(&login_data.user_id).await {
+        Ok(connected) => connected,
+        Err(error) => {
+            error!(
+                "Erreur lors de la vérification de connexion : {}",
+                error
+            );
 
-                            FROM users
+            return HandlerResult::Response(Packet::new(
+                PacketType::LoginResponse,
+                b"Erreur serveur".to_vec(),
+            ));
+        }
+    };
 
-                            WHERE user_id = ?
-
-                              AND status = 'CONNECTED'
-                        )
-                        "#,
-                    )
-                    .bind(&login_data.user_id)
-                    .fetch_one(&pool)
-                    .await
-                    {
-
-                        Ok(value) =>
-                            value != 0,
-
-                        Err(error) => {
-
-                            error!(
-                                "Erreur lors de la vérification de connexion : {}",
-                                error
-                            );
-
-                            return HandlerResult::Response(
-                                Packet::new(
-                                    PacketType::LoginResponse,
-                                    b"Erreur serveur".to_vec(),
-                                )
-                            );
-                        }
-                    };
 
 
                 if is_already_connected {
