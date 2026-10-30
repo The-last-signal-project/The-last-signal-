@@ -848,6 +848,11 @@ where
     }
 }
 
+impl_nullable_into_shared_abi!(
+    null = <&JsValue as NullableIntoWasmAbi>::null();
+    [T] &ScopedClosure<'_, T> where T: WasmClosure + ?Sized
+);
+
 /// `'static` closures can be passed by value to JS, transferring ownership.
 ///
 /// This is useful for one-shot callbacks where you want JS to own the closure.
@@ -887,6 +892,11 @@ where
         0
     }
 }
+
+impl_nullable_into_shared_abi!(
+    null = <JsValue as NullableIntoWasmAbi>::null();
+    [T] ScopedClosure<'static, T> where T: WasmClosure + ?Sized
+);
 
 fn _check() {
     fn _assert<T: IntoWasmAbi>() {}
@@ -994,7 +1004,10 @@ where
     }
 }
 
-// In ScopedClosure, the Rust closure type is the phantom type that erases.
-unsafe impl<T: ?Sized + WasmClosure> ErasableGeneric for ScopedClosure<'_, T> {
-    type Repr = ScopedClosure<'static, dyn FnMut()>;
+// In ScopedClosure, the Rust closure type is the phantom type that erases. The
+// scope lifetime is preserved (not erased to `'static`) so the `Repr`-equality
+// gate on `upcast`/`upcast_into` cannot launder a borrowed closure's lifetime;
+// see #5176.
+unsafe impl<'a, T: ?Sized + WasmClosure> ErasableGeneric for ScopedClosure<'a, T> {
+    type Repr = ScopedClosure<'a, dyn FnMut()>;
 }
