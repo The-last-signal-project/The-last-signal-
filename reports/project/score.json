@@ -1,5 +1,5 @@
 {
-    "generated": "2026-10-30T10:22:01.276074",
+    "generated": "2026-10-30T12:31:02.659515",
     "score": 64,
     "status": "Bon",
     "scores": {
@@ -11,7 +11,7 @@
         "rust": 0,
         "organization": 95
     },
-    "problem_count": 8559,
+    "problem_count": 8572,
     "details": {
         "markdown": {
             "score": 45,
@@ -42698,13 +42698,13 @@
             "score": 0,
             "max_score": 30,
             "results": {
-                "modules": 67,
-                "classes": 43,
-                "functions": 600,
-                "documented_modules": 10,
-                "documented_classes": 27,
-                "documented_functions": 138,
-                "typed_functions": 96,
+                "modules": 68,
+                "classes": 46,
+                "functions": 607,
+                "documented_modules": 11,
+                "documented_classes": 28,
+                "documented_functions": 140,
+                "typed_functions": 97,
                 "todo": 4,
                 "long_functions": 21
             },
@@ -45923,6 +45923,84 @@
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/scripts/voir_database.py",
                     "severity": "warning",
                     "message": "La fonction 'afficher_database' ne possède pas d'annotations de type.",
+                    "module": "python"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/scripts/generate_maps.py",
+                    "severity": "warning",
+                    "message": "La classe 'Config' ne possède pas de docstring.",
+                    "module": "python"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/scripts/generate_maps.py",
+                    "severity": "warning",
+                    "message": "La classe 'Noise' ne possède pas de docstring.",
+                    "module": "python"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/scripts/generate_maps.py",
+                    "severity": "warning",
+                    "message": "La fonction 'terrain_pass'ligne 130 ne possède pas de docstring.",
+                    "module": "python"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/scripts/generate_maps.py",
+                    "severity": "warning",
+                    "message": "La fonction 'terrain_pass' ne possède pas d'annotations de type.",
+                    "module": "python"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/scripts/generate_maps.py",
+                    "severity": "warning",
+                    "message": "La fonction 'color_pass'ligne 181 ne possède pas de docstring.",
+                    "module": "python"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/scripts/generate_maps.py",
+                    "severity": "warning",
+                    "message": "La fonction 'color_pass' ne possède pas d'annotations de type.",
+                    "module": "python"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/scripts/generate_maps.py",
+                    "severity": "warning",
+                    "message": "La fonction 'slope_band'ligne 234 ne possède pas de docstring.",
+                    "module": "python"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/scripts/generate_maps.py",
+                    "severity": "warning",
+                    "message": "La fonction 'slope_band' ne possède pas d'annotations de type.",
+                    "module": "python"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/scripts/generate_maps.py",
+                    "severity": "warning",
+                    "message": "La fonction 'collision_pass' ne possède pas d'annotations de type.",
+                    "module": "python"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/scripts/generate_maps.py",
+                    "severity": "warning",
+                    "message": "La fonction 'main'ligne 263 ne possède pas de docstring.",
+                    "module": "python"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/scripts/generate_maps.py",
+                    "severity": "warning",
+                    "message": "La fonction 'main' ne possède pas d'annotations de type.",
+                    "module": "python"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/scripts/generate_maps.py",
+                    "severity": "warning",
+                    "message": "La fonction 'fbm'ligne 116 ne possède pas de docstring.",
+                    "module": "python"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/scripts/generate_maps.py",
+                    "severity": "warning",
+                    "message": "La fonction 'fbm' ne possède pas d'annotations de type.",
                     "module": "python"
                 },
                 {
