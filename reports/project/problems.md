@@ -1,14 +1,14 @@
 # Documentation Problems
 
-Generated: 2026-10-30 10:22:02
+Generated: 2026-10-30 12:31:03
 
 ## Summary
 
 |Type|Count|
 |---|---:|
 |Errors|473|
-|Warnings|8081|
-|**Total**|**8559**|
+|Warnings|8094|
+|**Total**|**8572**|
 
 ---
 
@@ -3545,6 +3545,75 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 - **Module :** python
 - **Message :** La fonction 'check_duplicate_titles' ne possède pas d'annotations de type.
+
+---
+
+# /home/runner/work/The-last-signal-/The-last-signal-/scripts/generate_maps.py
+
+## Warning
+
+- **Module :** python
+- **Message :** La classe 'Config' ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La classe 'Noise' ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'terrain_pass'ligne 130 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'terrain_pass' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'color_pass'ligne 181 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'color_pass' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'slope_band'ligne 234 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'slope_band' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'collision_pass' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'main'ligne 263 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'main' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'fbm'ligne 116 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'fbm' ne possède pas d'annotations de type.
 
 ---
 
