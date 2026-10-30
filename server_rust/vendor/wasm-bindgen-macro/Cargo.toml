@@ -13,7 +13,7 @@
 edition = "2021"
 rust-version = "1.81"
 name = "wasm-bindgen-macro"
-version = "0.2.129"
+version = "0.2.130"
 authors = ["The wasm-bindgen Developers"]
 build = false
 include = [
@@ -46,7 +46,7 @@ proc-macro = true
 version = "1.0"
 
 [dependencies.wasm-bindgen-macro-support]
-version = "=0.2.129"
+version = "=0.2.130"
 
 [dev-dependencies.trybuild]
 version = "1.0"
@@ -73,4 +73,5 @@ check-cfg = [
     "cfg(tokio_unstable)",
     "cfg(wasm_bindgen_unstable_tokio)",
     "cfg(wasm_bindgen_unstable_jspi)",
+    "cfg(wasm_bindgen_unstable_try_trait)",
 ]

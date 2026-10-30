@@ -40,6 +40,10 @@
 
 #![no_std]
 #![cfg_attr(wasm_bindgen_unstable_test_coverage, feature(coverage_attribute))]
+#![cfg_attr(
+    wasm_bindgen_unstable_try_trait,
+    feature(try_trait_v2, try_trait_v2_residual)
+)]
 #![cfg_attr(target_feature = "atomics", feature(thread_local))]
 #![cfg_attr(
     any(target_feature = "atomics", wasm_bindgen_unstable_test_coverage),
@@ -130,6 +134,7 @@ pub mod prelude {
     pub use crate::convert::Upcast; // provides upcast() and upcast_ref()
     pub use crate::JsCast;
     pub use crate::JsValue;
+    pub use crate::Nullable;
     pub use crate::UnwrapThrowExt;
     #[doc(hidden)]
     pub use wasm_bindgen_macro::__wasm_bindgen_class_marker;
@@ -144,7 +149,10 @@ pub mod closure;
 pub mod convert;
 pub mod describe;
 mod link;
+mod nullable;
 pub mod sys;
+
+pub use crate::nullable::Nullable;
 
 #[cfg(wbg_reference_types)]
 mod externref;
@@ -224,6 +232,21 @@ impl JsValue {
     #[inline]
     pub fn from_str(s: &str) -> JsValue {
         wbg_cast(s)
+    }
+
+    /// Creates a new JS value which is a string, decoding `bytes` as UTF-8.
+    ///
+    /// Invalid UTF-8 sequences are replaced with U+FFFD, so this behaves like
+    /// `JsValue::from_str(&String::from_utf8_lossy(bytes))` without the
+    /// intermediate Rust allocation: the bytes are decoded directly from
+    /// Wasm memory on the JS side.
+    #[inline]
+    pub fn from_utf8_lossy(bytes: &[u8]) -> JsValue {
+        #[cfg(feature = "enable-interning")]
+        if let Some(value) = cache::intern::get_bytes(bytes) {
+            return value;
+        }
+        __wbindgen_string_from_utf8_lossy(bytes)
     }
 
     /// Creates a new JS value which is a number.
@@ -979,6 +1002,8 @@ impl AsRef<JsValue> for JsValue {
 }
 
 impl UpcastFrom<JsValue> for JsValue {}
+impl<Target: UpcastFrom<JsValue>> UpcastFrom<JsValue> for Option<Target> {}
+impl<Target: UpcastFrom<JsValue>> UpcastFrom<JsValue> for Nullable<Target> {}
 
 // Loosely based on toInt32 in ecma-272 for abi semantics
 // with restriction that it only applies for numbers
@@ -1149,11 +1174,30 @@ impl TryFromJsValue for () {
 }
 
 impl<T: TryFromJsValue> TryFromJsValue for Option<T> {
+    const NULLABLE: bool = !T::NULLABLE;
+
     fn try_from_js_value_ref(value: &JsValue) -> Option<Self> {
-        if value.is_undefined() {
+        let none = if T::NULLABLE {
+            value.is_undefined()
+        } else {
+            value.is_null_or_undefined()
+        };
+        if none {
             Some(None)
         } else {
             T::try_from_js_value_ref(value).map(Some)
+        }
+    }
+}
+
+impl<T: TryFromJsValue> TryFromJsValue for Nullable<T> {
+    const NULLABLE: bool = true;
+
+    fn try_from_js_value_ref(value: &JsValue) -> Option<Self> {
+        if value.is_null() {
+            Some(Nullable::Null)
+        } else {
+            T::try_from_js_value_ref(value).map(Nullable::Value)
         }
     }
 }
@@ -1295,6 +1339,7 @@ extern "C" {
     fn __wbindgen_number_get(js: &JsValue) -> Option<f64>;
     fn __wbindgen_boolean_get(js: &JsValue) -> Option<bool>;
     fn __wbindgen_string_get(js: &JsValue) -> Option<String>;
+    fn __wbindgen_string_from_utf8_lossy(bytes: &[u8]) -> JsValue;
     fn __wbindgen_bigint_get_as_i64(js: &JsValue) -> Option<i64>;
 
     fn __wbindgen_debug_string(js: &JsValue) -> String;
@@ -1339,10 +1384,25 @@ externs! {
     }
 }
 
+/// One past the last fixed `externref` table slot: the reserved constants
+/// and the `static_string` constants. Those slots are shared by every
+/// `JsValue` with that index, so they are never dropped and clone for free.
+#[inline]
+fn externref_statics_end() -> u32 {
+    #[cfg(wbg_reference_types)]
+    return externref::statics_end();
+    #[cfg(not(wbg_reference_types))]
+    __rt::JSIDX_RESERVED
+}
+
 impl Clone for JsValue {
     #[inline]
     fn clone(&self) -> JsValue {
-        JsValue::_new(unsafe { __wbindgen_object_clone_ref(self.idx) })
+        if (__rt::JSIDX_OFFSET..externref_statics_end()).contains(&self.idx) {
+            JsValue::_new(self.idx)
+        } else {
+            JsValue::_new(unsafe { __wbindgen_object_clone_ref(self.idx) })
+        }
     }
 }
 
@@ -1363,10 +1423,10 @@ impl Drop for JsValue {
                 self.idx
             );
 
-            // Otherwise if we're not dropping one of our reserved values,
+            // Otherwise if we're not dropping one of our fixed values,
             // actually call the intrinsic. See #1054 for eventually removing
             // this branch.
-            if self.idx >= __rt::JSIDX_RESERVED {
+            if self.idx >= externref_statics_end() {
                 __wbindgen_object_drop_ref(self.idx);
             }
         }
