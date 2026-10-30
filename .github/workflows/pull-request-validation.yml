@@ -9,7 +9,7 @@ concurrency:
   group: main-update
   queue: max
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   python-tests:
@@ -17,6 +17,8 @@ jobs:
     runs-on: ubuntu-latest
     env:
      DEPLOY_KEY: ${{ secrets.CI_SYNC_DEPLOY_KEY }}
+     DATABASE_PATH: ${{ github.workspace }}/database
+     DATABASE_URL: sqlite:${{ github.workspace }}/database/the_last_signal.db
     steps:
       - name: Check out repository
         uses: actions/checkout@v7
@@ -89,7 +91,7 @@ jobs:
              
 
              git add vendor Cargo.lock .cargo/config.toml
-             git stash --staged
+             git stash -S
              git fetch origin main
              git reset --hard origin/main
              if git stash list | grep -q '^stash@{0}:'
