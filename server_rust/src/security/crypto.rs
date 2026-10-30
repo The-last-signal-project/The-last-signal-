@@ -1161,6 +1161,7 @@ fn test_python_reference_vectors_all_22_packet_types() {
     }
 
     assert_eq!(count, 22, "Il faut exactement 22 vecteurs de référence");
+}
 
 #[test]
 fn test_python_reference_vector_packet_type_1() {
