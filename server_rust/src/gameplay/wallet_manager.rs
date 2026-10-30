@@ -44,16 +44,18 @@ impl WalletManager {
             UPDATE wallets
             SET balance = balance + ?
             WHERE account_id = ?
+              AND balance <= ?
             "#,
         )
         .bind(montant)
         .bind(self.account_id)
+        .bind(i64::MAX - montant)
         .execute(&self.pool)
         .await?;
 
         if result.rows_affected() == 0 {
             return Err(sqlx::Error::Protocol(
-                "Portefeuille inexistant".into(),
+                "Portefeuille inexistant ou limite maximale atteinte".into(),
             ));
         }
 
@@ -141,16 +143,18 @@ impl WalletManager {
             UPDATE wallets
             SET balance = balance + ?
             WHERE account_id = ?
+              AND balance <= ?
             "#,
         )
         .bind(montant)
         .bind(account_id)
+        .bind(i64::MAX - montant)
         .execute(&mut **tx)
         .await?;
 
         if result.rows_affected() == 0 {
             return Err(sqlx::Error::Protocol(
-                "Portefeuille inexistant".into(),
+                "Portefeuille inexistant ou limite maximale atteinte".into(),
             ));
         }
 
