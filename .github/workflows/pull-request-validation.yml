@@ -95,8 +95,9 @@ jobs:
              FILES=("vendor" "Cargo.lock" ".cargo/config.toml")
              git add -- "${FILES[@]}"
              git stash -S
-             git fetch origin main
-             git reset --hard origin/main
+             git fetch origin
+             git switch -f main
+             git reset --hard 
              if git stash list | grep -q '^stash@{0}:'
              then
              
