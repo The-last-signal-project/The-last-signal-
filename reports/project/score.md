@@ -1,6 +1,6 @@
 Documentation Quality Report
 
-**Date :** 2026-10-30 23:59:02
+**Date :** 2026-10-31 00:08:44
 
 # 64/100
 
@@ -22427,37 +22427,37 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** markdown
-- **Message :** Ligne 39 > 120 caractères.
+- **Message :** Ligne 44 > 120 caractères.
 
 - **module :** markdown
 
 ## ⚠️ Warning
 - **Module :** markdown
-- **Message :** Ligne 63 > 120 caractères.
-
-- **module :** markdown
-
-## ⚠️ Warning
-- **Module :** markdown
-- **Message :** Ligne 64 > 120 caractères.
-
-- **module :** markdown
-
-## ⚠️ Warning
-- **Module :** markdown
-- **Message :** Ligne 68 > 120 caractères.
-
-- **module :** markdown
-
-## ⚠️ Warning
-- **Module :** markdown
-- **Message :** Ligne 72 > 120 caractères.
+- **Message :** Ligne 73 > 120 caractères.
 
 - **module :** markdown
 
 ## ⚠️ Warning
 - **Module :** markdown
 - **Message :** Ligne 74 > 120 caractères.
+
+- **module :** markdown
+
+## ⚠️ Warning
+- **Module :** markdown
+- **Message :** Ligne 78 > 120 caractères.
+
+- **module :** markdown
+
+## ⚠️ Warning
+- **Module :** markdown
+- **Message :** Ligne 84 > 120 caractères.
+
+- **module :** markdown
+
+## ⚠️ Warning
+- **Module :** markdown
+- **Message :** Ligne 88 > 120 caractères.
 
 - **module :** markdown
 
@@ -23677,31 +23677,31 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/bitflags/CHANGELOG.md:3 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:5).
+- **Message :** server_rust/vendor/bitflags/CHANGELOG.md:3 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:20).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/bitflags/CHANGELOG.md:11 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:5).
+- **Message :** server_rust/vendor/bitflags/CHANGELOG.md:11 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:20).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/bitflags/CHANGELOG.md:14 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:9).
+- **Message :** server_rust/vendor/bitflags/CHANGELOG.md:14 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:24).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/bitflags/CHANGELOG.md:21 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:5).
+- **Message :** server_rust/vendor/bitflags/CHANGELOG.md:21 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:20).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/bitflags/CHANGELOG.md:28 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:5).
+- **Message :** server_rust/vendor/bitflags/CHANGELOG.md:28 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:20).
 
 - **module :** titles
 
@@ -23713,103 +23713,103 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/bitflags/CHANGELOG.md:39 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:5).
+- **Message :** server_rust/vendor/bitflags/CHANGELOG.md:39 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:20).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/bitflags/CHANGELOG.md:47 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:5).
+- **Message :** server_rust/vendor/bitflags/CHANGELOG.md:47 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:20).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/bitflags/CHANGELOG.md:52 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:9).
+- **Message :** server_rust/vendor/bitflags/CHANGELOG.md:52 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:24).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/bitflags/CHANGELOG.md:59 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:5).
+- **Message :** server_rust/vendor/bitflags/CHANGELOG.md:59 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:20).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/bitflags/CHANGELOG.md:63 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:9).
+- **Message :** server_rust/vendor/bitflags/CHANGELOG.md:63 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:24).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/bitflags/CHANGELOG.md:71 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:5).
+- **Message :** server_rust/vendor/bitflags/CHANGELOG.md:71 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:20).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/bitflags/CHANGELOG.md:75 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:9).
+- **Message :** server_rust/vendor/bitflags/CHANGELOG.md:75 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:24).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/bitflags/CHANGELOG.md:82 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:5).
+- **Message :** server_rust/vendor/bitflags/CHANGELOG.md:82 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:20).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/bitflags/CHANGELOG.md:89 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:5).
+- **Message :** server_rust/vendor/bitflags/CHANGELOG.md:89 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:20).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/bitflags/CHANGELOG.md:92 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:9).
+- **Message :** server_rust/vendor/bitflags/CHANGELOG.md:92 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:24).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/bitflags/CHANGELOG.md:99 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:5).
+- **Message :** server_rust/vendor/bitflags/CHANGELOG.md:99 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:20).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/bitflags/CHANGELOG.md:109 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:5).
+- **Message :** server_rust/vendor/bitflags/CHANGELOG.md:109 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:20).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/bitflags/CHANGELOG.md:117 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:5).
+- **Message :** server_rust/vendor/bitflags/CHANGELOG.md:117 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:20).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/bitflags/CHANGELOG.md:126 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:5).
+- **Message :** server_rust/vendor/bitflags/CHANGELOG.md:126 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:20).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/bitflags/CHANGELOG.md:130 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:9).
+- **Message :** server_rust/vendor/bitflags/CHANGELOG.md:130 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:24).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/bitflags/CHANGELOG.md:137 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:5).
+- **Message :** server_rust/vendor/bitflags/CHANGELOG.md:137 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:20).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/bitflags/CHANGELOG.md:147 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:9).
+- **Message :** server_rust/vendor/bitflags/CHANGELOG.md:147 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:24).
 
 - **module :** titles
 
@@ -23821,13 +23821,13 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/bitflags/CHANGELOG.md:154 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:5).
+- **Message :** server_rust/vendor/bitflags/CHANGELOG.md:154 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:20).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/bitflags/CHANGELOG.md:164 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:9).
+- **Message :** server_rust/vendor/bitflags/CHANGELOG.md:164 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:24).
 
 - **module :** titles
 
@@ -23839,13 +23839,13 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/bitflags/CHANGELOG.md:173 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:5).
+- **Message :** server_rust/vendor/bitflags/CHANGELOG.md:173 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:20).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/bitflags/CHANGELOG.md:177 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:9).
+- **Message :** server_rust/vendor/bitflags/CHANGELOG.md:177 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:24).
 
 - **module :** titles
 
@@ -23857,13 +23857,13 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/bitflags/CHANGELOG.md:184 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:5).
+- **Message :** server_rust/vendor/bitflags/CHANGELOG.md:184 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:20).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/bitflags/CHANGELOG.md:191 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:9).
+- **Message :** server_rust/vendor/bitflags/CHANGELOG.md:191 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:24).
 
 - **module :** titles
 
@@ -23875,7 +23875,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/bitflags/CHANGELOG.md:199 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:5).
+- **Message :** server_rust/vendor/bitflags/CHANGELOG.md:199 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:20).
 
 - **module :** titles
 
@@ -23887,37 +23887,37 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/bitflags/CHANGELOG.md:206 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:5).
+- **Message :** server_rust/vendor/bitflags/CHANGELOG.md:206 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:20).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/bitflags/CHANGELOG.md:212 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:9).
+- **Message :** server_rust/vendor/bitflags/CHANGELOG.md:212 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:24).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/bitflags/CHANGELOG.md:240 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:5).
+- **Message :** server_rust/vendor/bitflags/CHANGELOG.md:240 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:20).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/bitflags/CHANGELOG.md:247 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:5).
+- **Message :** server_rust/vendor/bitflags/CHANGELOG.md:247 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:20).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/bitflags/CHANGELOG.md:250 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:9).
+- **Message :** server_rust/vendor/bitflags/CHANGELOG.md:250 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:24).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/bitflags/CHANGELOG.md:257 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:5).
+- **Message :** server_rust/vendor/bitflags/CHANGELOG.md:257 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:20).
 
 - **module :** titles
 
@@ -23929,7 +23929,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/bitflags/CHANGELOG.md:276 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:5).
+- **Message :** server_rust/vendor/bitflags/CHANGELOG.md:276 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:20).
 
 - **module :** titles
 
@@ -23941,7 +23941,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/bitflags/CHANGELOG.md:284 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:5).
+- **Message :** server_rust/vendor/bitflags/CHANGELOG.md:284 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:20).
 
 - **module :** titles
 
@@ -23953,13 +23953,13 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/bitflags/CHANGELOG.md:291 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:5).
+- **Message :** server_rust/vendor/bitflags/CHANGELOG.md:291 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:20).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/bitflags/CHANGELOG.md:297 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:9).
+- **Message :** server_rust/vendor/bitflags/CHANGELOG.md:297 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:24).
 
 - **module :** titles
 
@@ -23971,19 +23971,19 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/bitflags/CHANGELOG.md:304 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:5).
+- **Message :** server_rust/vendor/bitflags/CHANGELOG.md:304 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:20).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/bitflags/CHANGELOG.md:310 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:9).
+- **Message :** server_rust/vendor/bitflags/CHANGELOG.md:310 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:24).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/bitflags/CHANGELOG.md:317 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:5).
+- **Message :** server_rust/vendor/bitflags/CHANGELOG.md:317 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:20).
 
 - **module :** titles
 
@@ -23995,13 +23995,13 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/bitflags/CHANGELOG.md:324 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:5).
+- **Message :** server_rust/vendor/bitflags/CHANGELOG.md:324 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:20).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/bitflags/CHANGELOG.md:329 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:9).
+- **Message :** server_rust/vendor/bitflags/CHANGELOG.md:329 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:24).
 
 - **module :** titles
 
@@ -24019,49 +24019,49 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/bitflags/CHANGELOG.md:389 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:5).
+- **Message :** server_rust/vendor/bitflags/CHANGELOG.md:389 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:20).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/bitflags/CHANGELOG.md:419 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:9).
+- **Message :** server_rust/vendor/bitflags/CHANGELOG.md:419 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:24).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/bitflags/CHANGELOG.md:433 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:5).
+- **Message :** server_rust/vendor/bitflags/CHANGELOG.md:433 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:20).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/bitflags/CHANGELOG.md:437 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:9).
+- **Message :** server_rust/vendor/bitflags/CHANGELOG.md:437 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:24).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/bitflags/CHANGELOG.md:452 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:5).
+- **Message :** server_rust/vendor/bitflags/CHANGELOG.md:452 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:20).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/bitflags/CHANGELOG.md:459 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:9).
+- **Message :** server_rust/vendor/bitflags/CHANGELOG.md:459 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:24).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/bitflags/CHANGELOG.md:470 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:5).
+- **Message :** server_rust/vendor/bitflags/CHANGELOG.md:470 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:20).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/bitflags/CHANGELOG.md:490 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:9).
+- **Message :** server_rust/vendor/bitflags/CHANGELOG.md:490 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:24).
 
 - **module :** titles
 
@@ -39127,253 +39127,277 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/log/CHANGELOG.md:17 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:5).
+- **Message :** server_rust/vendor/log/CHANGELOG.md:10 titre très long (81 caractères).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/log/CHANGELOG.md:20 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:9).
+- **Message :** server_rust/vendor/log/CHANGELOG.md:1 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:1).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/log/CHANGELOG.md:27 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:5).
+- **Message :** server_rust/vendor/log/CHANGELOG.md:8 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:8).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/log/CHANGELOG.md:34 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:5).
+- **Message :** server_rust/vendor/log/CHANGELOG.md:14 titre dupliqué (déjà présent dans server_rust/vendor/libc/CHANGELOG.md:352).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/log/CHANGELOG.md:37 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:9).
+- **Message :** server_rust/vendor/log/CHANGELOG.md:32 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:20).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/log/CHANGELOG.md:44 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:5).
+- **Message :** server_rust/vendor/log/CHANGELOG.md:35 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:24).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/log/CHANGELOG.md:47 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:9).
+- **Message :** server_rust/vendor/log/CHANGELOG.md:42 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:20).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/log/CHANGELOG.md:58 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:5).
+- **Message :** server_rust/vendor/log/CHANGELOG.md:49 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:20).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/log/CHANGELOG.md:62 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:9).
+- **Message :** server_rust/vendor/log/CHANGELOG.md:52 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:24).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/log/CHANGELOG.md:70 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:5).
+- **Message :** server_rust/vendor/log/CHANGELOG.md:59 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:20).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/log/CHANGELOG.md:75 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:9).
+- **Message :** server_rust/vendor/log/CHANGELOG.md:62 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:24).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/log/CHANGELOG.md:83 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:53).
+- **Message :** server_rust/vendor/log/CHANGELOG.md:73 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:20).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/log/CHANGELOG.md:88 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:5).
+- **Message :** server_rust/vendor/log/CHANGELOG.md:77 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:24).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/log/CHANGELOG.md:100 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:5).
+- **Message :** server_rust/vendor/log/CHANGELOG.md:85 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:20).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/log/CHANGELOG.md:109 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:5).
+- **Message :** server_rust/vendor/log/CHANGELOG.md:90 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:24).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/log/CHANGELOG.md:117 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:5).
+- **Message :** server_rust/vendor/log/CHANGELOG.md:98 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:68).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/log/CHANGELOG.md:125 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:5).
+- **Message :** server_rust/vendor/log/CHANGELOG.md:103 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:20).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/log/CHANGELOG.md:136 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:9).
+- **Message :** server_rust/vendor/log/CHANGELOG.md:115 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:20).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/log/CHANGELOG.md:149 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:5).
+- **Message :** server_rust/vendor/log/CHANGELOG.md:124 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:20).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/log/CHANGELOG.md:160 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:9).
+- **Message :** server_rust/vendor/log/CHANGELOG.md:132 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:20).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/log/CHANGELOG.md:169 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:5).
+- **Message :** server_rust/vendor/log/CHANGELOG.md:140 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:20).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/log/CHANGELOG.md:189 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:9).
+- **Message :** server_rust/vendor/log/CHANGELOG.md:151 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:24).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/log/CHANGELOG.md:271 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
+- **Message :** server_rust/vendor/log/CHANGELOG.md:164 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:20).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/log/CHANGELOG.md:277 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:262).
+- **Message :** server_rust/vendor/log/CHANGELOG.md:175 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:24).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/log/CHANGELOG.md:282 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
+- **Message :** server_rust/vendor/log/CHANGELOG.md:184 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:20).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/log/CHANGELOG.md:292 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
+- **Message :** server_rust/vendor/log/CHANGELOG.md:204 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:24).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/log/CHANGELOG.md:298 titre dupliqué (déjà présent dans server_rust/vendor/sha2-0.10.9/README.md:17).
+- **Message :** server_rust/vendor/log/CHANGELOG.md:286 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/log/CHANGELOG.md:304 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:262).
+- **Message :** server_rust/vendor/log/CHANGELOG.md:292 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:277).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/log/CHANGELOG.md:315 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:262).
+- **Message :** server_rust/vendor/log/CHANGELOG.md:297 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/log/CHANGELOG.md:321 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:262).
+- **Message :** server_rust/vendor/log/CHANGELOG.md:307 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/log/CHANGELOG.md:328 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:308).
+- **Message :** server_rust/vendor/log/CHANGELOG.md:313 titre dupliqué (déjà présent dans server_rust/vendor/sha2-0.10.9/README.md:17).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/log/CHANGELOG.md:335 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:308).
+- **Message :** server_rust/vendor/log/CHANGELOG.md:319 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:277).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/log/CHANGELOG.md:341 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:308).
+- **Message :** server_rust/vendor/log/CHANGELOG.md:330 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:277).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/log/CHANGELOG.md:348 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:308).
+- **Message :** server_rust/vendor/log/CHANGELOG.md:336 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:277).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/log/CHANGELOG.md:354 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:308).
+- **Message :** server_rust/vendor/log/CHANGELOG.md:343 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:323).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/log/CHANGELOG.md:360 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:308).
+- **Message :** server_rust/vendor/log/CHANGELOG.md:350 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:323).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/log/CHANGELOG.md:364 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
+- **Message :** server_rust/vendor/log/CHANGELOG.md:356 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:323).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/log/CHANGELOG.md:370 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
+- **Message :** server_rust/vendor/log/CHANGELOG.md:363 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:323).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/log/CHANGELOG.md:380 titre dupliqué (déjà présent dans server_rust/vendor/num-traits/README.md:41).
+- **Message :** server_rust/vendor/log/CHANGELOG.md:369 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:323).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/log/CHANGELOG.md:396 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:262).
+- **Message :** server_rust/vendor/log/CHANGELOG.md:375 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:323).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/log/CHANGELOG.md:410 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:146).
+- **Message :** server_rust/vendor/log/CHANGELOG.md:379 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/log/CHANGELOG.md:417 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:30).
+- **Message :** server_rust/vendor/log/CHANGELOG.md:385 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
+
+- **module :** titles
+
+## ⚠️ Warning
+- **Module :** titles
+- **Message :** server_rust/vendor/log/CHANGELOG.md:395 titre dupliqué (déjà présent dans server_rust/vendor/num-traits/README.md:41).
+
+- **module :** titles
+
+## ⚠️ Warning
+- **Module :** titles
+- **Message :** server_rust/vendor/log/CHANGELOG.md:411 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:277).
+
+- **module :** titles
+
+## ⚠️ Warning
+- **Module :** titles
+- **Message :** server_rust/vendor/log/CHANGELOG.md:425 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:146).
+
+- **module :** titles
+
+## ⚠️ Warning
+- **Module :** titles
+- **Message :** server_rust/vendor/log/CHANGELOG.md:432 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:30).
 
 - **module :** titles
 
@@ -40237,12 +40261,6 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:1 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:1).
-
-- **module :** titles
-
-## ⚠️ Warning
-- **Module :** titles
 - **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:3 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:8).
 
 - **module :** titles
@@ -40889,7 +40907,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:1 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:1).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:1 titre dupliqué (déjà présent dans server_rust/vendor/openssl-sys/CHANGELOG.md:1).
 
 - **module :** titles
 
@@ -41801,7 +41819,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:1116 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:439).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:1116 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:454).
 
 - **module :** titles
 
