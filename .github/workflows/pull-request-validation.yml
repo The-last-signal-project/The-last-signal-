@@ -10,6 +10,7 @@ concurrency:
   queue: max
 permissions:
   contents: write
+  actions:  write
 
 jobs:
   python-tests:
@@ -17,8 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
      DEPLOY_KEY: ${{ secrets.CI_SYNC_DEPLOY_KEY }}
-     DATABASE_PATH: ${{ github.workspace }}/database
-     DATABASE_URL: sqlite:${{ github.workspace }}/database/the_last_signal.db
+     
     steps:
       - name: Check out repository
         uses: actions/checkout@v7
@@ -43,6 +43,9 @@ jobs:
           python -m pip install -r requirements.txt
 
       - name: Run Python tests
+        env:
+           DATABASE_PATH: ${{ github.workspace }}/database
+           DATABASE_URL: sqlite:${{ github.workspace }}/database/the_last_signal.db
         run: pytest tests/ -m "not security" -v -s 
   
   rust-tests:
@@ -89,30 +92,40 @@ jobs:
              git remote -v
              
              
-
-             git add vendor Cargo.lock .cargo/config.toml
+               FILES=("vendor" "Cargo.lock" ".cargo/config.toml")
+             git add -- "${FILES[@]}"
              git stash -S
-             git fetch origin main
-             git reset --hard origin/main
+             git add -A
+             git stash -S
+             git fetch origin 
+             git switch -f main
+             git reset --hard 
+             if git stash list | grep -q '^stash@{1}:'
+             then
+             
+             echo "stash@{1} trouvé → application"
+             git stash pop stash@{1} || true
+             git stash clear
+             
+             else
              if git stash list | grep -q '^stash@{0}:'
              then
              
              echo "stash@{0} trouvé → application"
              git stash pop stash@{0} || true
-             
              else
              echo "stash@{0} inexistant → aucune action"
              fi
-             
+             fi
              if git diff --name-only --diff-filter=U | grep -q .; then
              echo "⚠️ Conflits détectés"
-             git checkout --ours .
-             git add -A
+             git checkout --ours -- "${FILES[@]}"
+             git add -- "${FILES[@]}"
              echo "✅ Conflits résolus avec ours"
              else
              echo "✅ Aucun conflit"
              fi
-             git add -A
+             git add -- "${FILES[@]}"
              git diff --cached --quiet || git commit -m "chore: update Cargo vendor"
              
              
