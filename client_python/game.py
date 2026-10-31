@@ -1,7 +1,9 @@
 from __future__ import annotations
+import math
 import queue
 import struct
 import threading
+import time
 import uuid
 from pathlib import Path
 import numpy as np
@@ -14,6 +16,23 @@ from .packets.move import MovePacket
 from PySide6 import QtWidgets, QtCore
 
 
+class FixedFollowCamera(scene.cameras.TurntableCamera):
+    """Caméra de suivi pilotée uniquement par le code.
+
+    TurntableCamera se connecte aux événements souris/clavier du ViewBox
+    (orbite, zoom, translation, reset). On neutralise ici ces deux
+    gestionnaires : ni la souris, ni les flèches, ni la molette ne peuvent
+    déplacer ou faire tourner la caméra. Les événements clavier/souris du
+    canvas (déplacement du joueur, Échap) ne sont pas affectés.
+    """
+
+    def viewbox_mouse_event(self, event):
+        return None
+
+    def viewbox_key_event(self, event):
+        return None
+
+
 class Game(scene.SceneCanvas):
     """Client 3D de The Last Signal avec terrain découpé en chunks."""
 
@@ -23,31 +42,85 @@ class Game(scene.SceneCanvas):
 
     WORLD_WIDTH = 1000.0
     WORLD_DEPTH = 1000.0
-    WORLD_HEIGHT = 120.0
+    # Amplitude verticale totale (sommet des montagnes). 120 rendait les
+    # bords de montagne quasi verticaux (pente > 80°) ; 40 les rend
+    # franchissables par endroits tout en gardant un relief net.
+    WORLD_HEIGHT = 40.0
 
-    # Taille maximale de la heightmap après réduction.
+    # Taille maximale de la heightmap après réduction (une 8192x8192 est
+    # réduite une seule fois au chargement, jamais par frame).
     MAX_TERRAIN_SIZE = 1024
+
+    # map_height.png : le noir correspond aux montagnes et le blanc au sol
+    # bas / à l'eau (vérifié sur les données). L'altitude = 1 - valeur.
+    INVERT_HEIGHT = True
+
+    # Lissage gaussien de l'altitude, exprimé en unités du monde
+    # (indépendant de la résolution de l'image). 0 = désactivé.
+    HEIGHT_SMOOTH_SIGMA = 5.0
 
     # Taille d'un chunk en unités du monde.
     CHUNK_SIZE = 64.0
 
-    # Nombre de chunks dans chaque direction autour du joueur.
-    # 2 = jusqu'à 25 chunks actifs.
+    # Conservé pour compatibilité : 0 = un seul chunk (le chunk actif).
     RENDER_DISTANCE = 0
 
-    # Caméra et joueur.
-    PLAYER_HEIGHT = 2.0
-    PLAYER_SPEED = 5.0
+    # Marge (unités) avant de changer de chunk : évite de reconstruire le
+    # maillage en boucle quand le joueur longe une frontière.
+    CHUNK_SWITCH_MARGIN = 3.0
+
+    # Éclairage cuit dans les couleurs de sommet. 0.0 = couleurs EXACTES de
+    # map_color.png (défaut). Une valeur entre 0 et 1 ajoute un léger relief
+    # ombré ; le sol plat garde sa couleur d'origine.
+    RELIEF_SHADING_STRENGTH = 0.0
+    RELIEF_LIGHT_DIRECTION = (0.45, 0.80, 0.40)
+
+    # Joueur.
+    PLAYER_HEIGHT = 1.8              # hauteur du point visé par la caméra
+    MARKER_HEIGHT = 1.0              # hauteur du marqueur rouge du joueur
+    PLAYER_SPEED = 12.0              # unités par seconde en terrain normal
     WATER_SPEED_MULTIPLIER = 0.20
     SAND_SPEED_MULTIPLIER = 0.70
     MOUNTAIN_UPHILL_MULTIPLIER = 0.40
-    MAX_WALKABLE_SLOPE_DEGREES = 38.0
-    MOUNTAIN_BLOCK_SLOPE_DEGREES = 52.0
-    HEIGHT_SMOOTH_RADIUS = 1.25
-    COLLISION_SAMPLE_STEP = 1.5
+    MAX_WALKABLE_SLOPE_DEGREES = 38.0       # pente de la marche (montée)
+    MOUNTAIN_BLOCK_SLOPE_DEGREES = 52.0     # falaise : montée interdite
+    UPHILL_SLOW_MIN_DEGREES = 6.0           # pente à partir de laquelle on ralentit
+    COLLISION_SAMPLE_STEP = 0.5             # pas max de test de collision
+
+    # Caméra de suivi rapprochée (fixe en orientation).
+    CAMERA_DISTANCE = 7.0
+    CAMERA_ELEVATION = 24.0
+    CAMERA_AZIMUTH = 45.0
+    CAMERA_FOV = 55.0
+    CAMERA_MIN_GROUND_CLEARANCE = 1.2
+    CAMERA_LIFT_SMOOTHING = 0.25
+
+    # Classification des biomes (tolérances configurables).
+    BLUE_MIN = 75
+    BLUE_OVER_RED = 1.18
+    BLUE_OVER_GREEN = 1.10
+    SAND_MIN_RED = 150
+    SAND_MIN_RED_MINUS_BLUE = 35
+    GRAY_CHANNEL_TOLERANCE = 14
+    GRAY_MIN = 60
+    GRAY_MAX = 215
+    # Codes observés dans map_collision.png : R=20 eau, R=70 sable,
+    # R=100 terre ; B>=128 marque la zone montagneuse.
+    COLLISION_CODE_WATER = 20
+    COLLISION_CODE_SAND = 70
+    COLLISION_CODE_TOLERANCE = 8
+    COLLISION_MOUNTAIN_MIN_BLUE = 100
+
+    BIOME_NORMAL = 0
+    BIOME_WATER = 1
+    BIOME_SAND = 2
+    BIOME_MOUNTAIN = 3
 
     # Réseau.
     NETWORK_QUEUE_LIMIT = 100
+    # Écart (unités) au-delà duquel une position serveur est une correction
+    # (téléportation) ; en dessous c'est un simple écho de notre position.
+    SERVER_CORRECTION_THRESHOLD = 4.0
 
     # Joueurs distants.
     REMOTE_PLAYER_RADIUS = 2.0
@@ -77,6 +150,9 @@ class Game(scene.SceneCanvas):
         self._last_sent_position: tuple[int, int, int] | None = None
         self.local_marker: visuals.Markers | None = None
 
+        # Touches de déplacement maintenues.
+        self._pressed_keys: set[str] = set()
+
         # Joueurs distants.
         self.remote_players: dict[
             uuid.UUID, tuple[int, int, int]
@@ -102,29 +178,29 @@ class Game(scene.SceneCanvas):
 
         # ==========================================================
         # SCENE AND CAMERA
-        # ==============================================================
+        # ==========================================================
 
         self.view = self.central_widget.add_view()
 
-        # Caméra orbitale demandée. Le terrain du jeu utilise Y comme axe
-        # vertical ; up="y" garde donc la caméra cohérente avec les sommets
-        # du terrain (X, hauteur Y, profondeur Z).
-        self.view.camera = scene.cameras.TurntableCamera(
-            elevation=42,
-            azimuth=45,
-            distance=38,
-            fov=48.0,
+        # Caméra de suivi rapprochée. Le terrain utilise Y comme axe
+        # vertical (X, hauteur Y, profondeur Z) donc up="y".
+        # FixedFollowCamera ignore souris, molette et clavier ; seul le code
+        # modifie son centre. Orientation fixe (azimut/élévation constants).
+        self.view.camera = FixedFollowCamera(
+            elevation=self.CAMERA_ELEVATION,
+            azimuth=self.CAMERA_AZIMUTH,
+            distance=self.CAMERA_DISTANCE,
+            fov=self.CAMERA_FOV,
             up="y",
             parent=self.view.scene,
         )
-        # La caméra est pilotée exclusivement par le code : aucun drag/zoom
-        # souris ni raccourci hérité du contrôleur VisPy.
         self.view.camera.interactive = False
         self.camera = self.view.camera
+        self._camera_lift = 0.0
 
         # ==========================================================
         # TERRAIN DATA
-        # ==============================================================
+        # ==========================================================
 
         self.heightmap: np.ndarray | None = None
         # Couleurs et classes de biome sont conservées en uint8, sans conversion
@@ -132,9 +208,12 @@ class Game(scene.SceneCanvas):
         self.color_map: np.ndarray | None = None
         self.biome_map: np.ndarray | None = None
         self.collision_map: np.ndarray | None = None
-        self._last_update_time = None
+        self.slope_map: np.ndarray | None = None
+        self._grad_x: np.ndarray | None = None
+        self._grad_z: np.ndarray | None = None
+        self._last_update_time: float | None = None
 
-        # (chunk_x, chunk_z) -> maillage VisPy.
+        # (chunk_x, chunk_z) -> maillage VisPy. Contient au plus UN élément.
         self.terrain_chunks: dict[
             tuple[int, int], visuals.Mesh
         ] = {}
@@ -147,7 +226,7 @@ class Game(scene.SceneCanvas):
 
         # ==========================================================
         # TIMER
-        # ==============================================================
+        # ==========================================================
 
         self.timer = app.Timer(
             interval=1.0 / 60.0,
@@ -157,7 +236,7 @@ class Game(scene.SceneCanvas):
 
         # ==========================================================
         # EVENTS
-        # ==============================================================
+        # ==========================================================
 
         self.events.key_press.connect(self._on_key_press)
         self.events.key_release.connect(self._on_key_release)
@@ -165,7 +244,7 @@ class Game(scene.SceneCanvas):
 
         # ==========================================================
         # NETWORK THREAD
-        # ==============================================================
+        # ==========================================================
 
         self.network_thread.start()
 
@@ -198,8 +277,30 @@ class Game(scene.SceneCanvas):
     # TERRAIN DATA
     # ==============================================================
 
+    @staticmethod
+    def _gaussian_blur(data: np.ndarray, sigma: float) -> np.ndarray:
+        """Flou gaussien séparable en float32 (pas de quantification 8 bits)."""
+        if sigma <= 0.05:
+            return data.astype(np.float32, copy=False)
+        radius = max(1, int(math.ceil(3.0 * sigma)))
+        offsets = np.arange(-radius, radius + 1, dtype=np.float32)
+        kernel = np.exp(-(offsets ** 2) / (2.0 * sigma * sigma))
+        kernel /= kernel.sum()
+        h, w = data.shape
+
+        padded = np.pad(data, ((0, 0), (radius, radius)), mode="edge")
+        horizontal = np.zeros((h, w), dtype=np.float32)
+        for i, weight in enumerate(kernel):
+            horizontal += weight * padded[:, i:i + w]
+
+        padded = np.pad(horizontal, ((radius, radius), (0, 0)), mode="edge")
+        result = np.zeros((h, w), dtype=np.float32)
+        for i, weight in enumerate(kernel):
+            result += weight * padded[i:i + h, :]
+        return result
+
     def _load_terrain(self) -> None:
-        """Charge les cartes et prépare une heightmap lissée et des biomes."""
+        """Charge les cartes et prépare altitude lissée, couleurs et biomes."""
         assets = self._assets_directory()
         height_path = assets / "map_height.png"
         color_path = assets / "map_color.png"
@@ -207,80 +308,139 @@ class Game(scene.SceneCanvas):
         if not height_path.is_file():
             raise FileNotFoundError(f"Heightmap introuvable : {height_path}")
 
+        # --- Altitude : réduction éventuelle, normalisation, inversion,
+        # lissage en float32 -------------------------------------------
         with Image.open(height_path) as image:
             print(f"[GAME] Heightmap source : {image.size}, mode={image.mode}")
-            raw = image.convert("L")
-            source = np.asarray(raw, dtype=np.uint8)
-            low, high = int(source.min()), int(source.max())
-            if high > low:
-                normalized = np.uint8(np.clip((source.astype(np.float32) - low)
-                                              * (255.0 / (high - low)), 0, 255))
-            else:
-                normalized = np.zeros_like(source, dtype=np.uint8)
-            raw = Image.fromarray(normalized)
-            # Un flou spatial léger atténue les marches de hauteur avant
-            # l'échantillonnage du maillage ; map_color reste intacte.
-            if self.HEIGHT_SMOOTH_RADIUS > 0:
-                from PIL import ImageFilter
-                raw = raw.filter(ImageFilter.GaussianBlur(self.HEIGHT_SMOOTH_RADIUS))
-            height = np.asarray(raw, dtype=np.float32) / 255.0
+            gray = image.convert("L")
+            width, height = gray.size
+            largest = max(width, height)
+            if largest > self.MAX_TERRAIN_SIZE:
+                scale = largest / self.MAX_TERRAIN_SIZE
+                gray = gray.resize(
+                    (max(2, int(round(width / scale))),
+                     max(2, int(round(height / scale)))),
+                    Image.Resampling.BOX,
+                )
+            source = np.asarray(gray, dtype=np.float32) / 255.0
 
-        self.heightmap = self._downsample_height(height)
-        terrain_height, terrain_width = self.heightmap.shape
+        low, high = float(source.min()), float(source.max())
+        if high > low:
+            source = (source - low) / (high - low)
+        else:
+            source = np.zeros_like(source)
+        if self.INVERT_HEIGHT:
+            source = 1.0 - source
 
+        terrain_height, terrain_width = source.shape
+        spacing_x = self.WORLD_WIDTH / max(1, terrain_width - 1)
+        sigma_px = self.HEIGHT_SMOOTH_SIGMA / spacing_x
+        self.heightmap = np.ascontiguousarray(
+            self._gaussian_blur(source, sigma_px), dtype=np.float32
+        )
+
+        # --- Pente et gradients (une seule fois) -----------------------
+        spacing_z = self.WORLD_DEPTH / max(1, terrain_height - 1)
+        grad_z, grad_x = np.gradient(
+            self.heightmap * self.WORLD_HEIGHT, spacing_z, spacing_x
+        )
+        self._grad_x = grad_x.astype(np.float32)
+        self._grad_z = grad_z.astype(np.float32)
+        self.slope_map = np.degrees(
+            np.arctan(np.hypot(grad_x, grad_z))
+        ).astype(np.float32)
+
+        # --- Couleurs : jamais lissées ni modifiées --------------------
         if color_path.is_file():
             with Image.open(color_path) as image:
                 print(f"[GAME] Couleurs source : {image.size}, mode={image.mode}")
-                # NEAREST préserve les couleurs de référence au lieu de créer
-                # des couleurs intermédiaires par interpolation bilinéaire.
-                color = image.convert("RGB").resize(
-                    (terrain_width, terrain_height), Image.Resampling.NEAREST
-                )
+                color = image.convert("RGB")
+                if color.size != (terrain_width, terrain_height):
+                    # NEAREST : aucune couleur intermédiaire inventée.
+                    color = color.resize(
+                        (terrain_width, terrain_height),
+                        Image.Resampling.NEAREST,
+                    )
                 self.color_map = np.asarray(color, dtype=np.uint8).copy()
-            self.biome_map = self._classify_biomes(self.color_map)
         else:
             self.color_map = None
-            self.biome_map = np.zeros((terrain_height, terrain_width), dtype=np.uint8)
-            print("[GAME] map_color.png absent : collisions de biome désactivées.")
+            print("[GAME] map_color.png absent : couleurs de repli.")
 
-        # Le fichier est inspecté (dimensions/mode), mais son encodage n'est pas
-        # interprété arbitrairement : aucune sémantique n'est supposée.
+        # --- Collision : codes observés (voir constantes COLLISION_*) --
         if collision_path.is_file():
             with Image.open(collision_path) as image:
-                print(f"[GAME] Collision source : {image.size}, mode={image.mode}; "
-                      "non utilisée sans convention de codage documentée.")
-                self.collision_map = np.asarray(image.convert("L"), dtype=np.uint8)
+                print(f"[GAME] Collision source : {image.size}, mode={image.mode}")
+                collision = image.convert("RGB")
+                if collision.size != (terrain_width, terrain_height):
+                    collision = collision.resize(
+                        (terrain_width, terrain_height),
+                        Image.Resampling.NEAREST,
+                    )
+                self.collision_map = np.asarray(collision, dtype=np.uint8).copy()
         else:
             self.collision_map = None
-            print("[GAME] map_collision.png absent.")
+            print("[GAME] map_collision.png absent : biomes via map_color seul.")
+
+        self.biome_map = self._classify_biomes(self.color_map, self.collision_map)
 
         print(f"[GAME] Terrain préparé : {terrain_width} x {terrain_height}; "
-              f"chunk={self.CHUNK_SIZE:g}; rendu=1 chunk")
+              f"chunk={self.CHUNK_SIZE:g}; rendu=1 chunk; "
+              f"sigma={sigma_px:.2f}px")
 
-    def _classify_biomes(self, rgb: np.ndarray) -> np.ndarray:
-        """Classes 0=normal, 1=eau bleue, 2=sable clair, 3=montagne grise."""
-        colors = rgb.astype(np.int16)
-        r, g, b = colors[..., 0], colors[..., 1], colors[..., 2]
-        blue = (b >= 75) & (b > r * 1.18) & (b > g * 1.10)
-        light = (r >= 170) & (g >= 155) & (b >= 125) & ((r - b) <= 100)
-        gray = (np.abs(r - g) <= 22) & (np.abs(g - b) <= 22) & (r >= 65) & (r <= 205)
-        result = np.zeros(rgb.shape[:2], dtype=np.uint8)
-        result[blue] = 1
-        result[light & ~blue] = 2
-        result[gray & ~blue & ~light] = 3
+    def _classify_biomes(
+        self,
+        rgb: np.ndarray | None,
+        collision: np.ndarray | None = None,
+    ) -> np.ndarray:
+        """Classes 0=normal, 1=eau, 2=sable, 3=montagne.
+
+        Priorité : eau > montagne grise > sable > zone montagneuse de
+        map_collision. La couleur est comparée avec tolérances ; map_collision
+        confirme l'eau et le sable (codes R) et ajoute la zone montagneuse (B).
+        """
+        if rgb is not None:
+            shape = rgb.shape[:2]
+        elif collision is not None:
+            shape = collision.shape[:2]
+        else:
+            return np.zeros(self.heightmap.shape, dtype=np.uint8)
+
+        water = np.zeros(shape, dtype=bool)
+        sand = np.zeros(shape, dtype=bool)
+        gray = np.zeros(shape, dtype=bool)
+        coll_mountain = np.zeros(shape, dtype=bool)
+
+        if rgb is not None:
+            c = rgb.astype(np.int16)
+            r, g, b = c[..., 0], c[..., 1], c[..., 2]
+            water |= ((b >= self.BLUE_MIN)
+                      & (b > r * self.BLUE_OVER_RED)
+                      & (b > g * self.BLUE_OVER_GREEN))
+            # Sable : beige chaud (R > G > B). Le gris clair des sommets
+            # (R≈G≈B) n'est donc plus pris pour du sable.
+            sand |= ((r >= self.SAND_MIN_RED)
+                     & ((r - b) >= self.SAND_MIN_RED_MINUS_BLUE)
+                     & (g > b) & (r >= g - 4) & ~water)
+            tol = self.GRAY_CHANNEL_TOLERANCE
+            gray |= ((np.abs(r - g) <= tol) & (np.abs(g - b) <= tol)
+                     & (b >= r - 10)
+                     & (r >= self.GRAY_MIN) & (r <= self.GRAY_MAX)
+                     & ~water & ~sand)
+
+        if collision is not None:
+            cr = collision[..., 0].astype(np.int16)
+            cb = collision[..., 2].astype(np.int16)
+            tol = self.COLLISION_CODE_TOLERANCE
+            water |= np.abs(cr - self.COLLISION_CODE_WATER) <= tol
+            sand |= (np.abs(cr - self.COLLISION_CODE_SAND) <= tol) & ~water
+            coll_mountain = cb >= self.COLLISION_MOUNTAIN_MIN_BLUE
+
+        result = np.zeros(shape, dtype=np.uint8)
+        result[coll_mountain] = self.BIOME_MOUNTAIN
+        result[sand] = self.BIOME_SAND
+        result[gray] = self.BIOME_MOUNTAIN
+        result[water] = self.BIOME_WATER
         return result
-
-    def _downsample_height(self, height: np.ndarray) -> np.ndarray:
-        """Réduit la heightmap sans parcourir l'image complète à chaque frame."""
-        h, w = height.shape
-        if max(h, w) <= self.MAX_TERRAIN_SIZE:
-            return height.astype(np.float32, copy=False)
-        scale = max(h, w) / self.MAX_TERRAIN_SIZE
-        new_w = max(2, int(round(w / scale)))
-        new_h = max(2, int(round(h / scale)))
-        image = Image.fromarray(np.uint8(np.clip(height, 0.0, 1.0) * 255.0))
-        image = image.resize((new_w, new_h), Image.Resampling.BILINEAR)
-        return np.asarray(image, dtype=np.float32) / 255.0
 
     # ==============================================================
     # MESH HELPERS
@@ -291,7 +451,11 @@ class Game(scene.SceneCanvas):
         width: int,
         height: int,
     ) -> np.ndarray:
-        """Construit deux triangles pour chaque cellule du maillage."""
+        """Construit deux triangles pour chaque cellule du maillage.
+
+        La diagonale de chaque cellule va de b (haut-droite) à c (bas-gauche) ;
+        _heights_at() interpole exactement sur ces mêmes triangles.
+        """
 
         if width < 2 or height < 2:
             return np.empty((0, 3), dtype=np.uint32)
@@ -311,8 +475,7 @@ class Game(scene.SceneCanvas):
             dtype=np.uint32,
         )
 
-        # Ordre des sommets orienté vers le haut (+Y). Avec X horizontal
-        # et Z profondeur, l'ancien ordre produisait des normales vers -Y.
+        # Ordre des sommets orienté vers le haut (+Y).
         faces[0::2] = np.column_stack((a, c, b))
         faces[1::2] = np.column_stack((b, c, d))
 
@@ -359,6 +522,30 @@ class Game(scene.SceneCanvas):
             int(np.clip(chunk_z, 0, count_z - 1)),
         )
 
+    def _chunk_world_bounds(
+        self,
+        chunk_x: int,
+        chunk_z: int,
+    ) -> tuple[float, float, float, float]:
+        """(x0, z0, x1, z1) du chunk en coordonnées monde."""
+        x0 = -self.WORLD_WIDTH / 2.0 + chunk_x * self.CHUNK_SIZE
+        z0 = -self.WORLD_DEPTH / 2.0 + chunk_z * self.CHUNK_SIZE
+        x1 = min(-self.WORLD_WIDTH / 2.0 + (chunk_x + 1) * self.CHUNK_SIZE,
+                 self.WORLD_WIDTH / 2.0)
+        z1 = min(-self.WORLD_DEPTH / 2.0 + (chunk_z + 1) * self.CHUNK_SIZE,
+                 self.WORLD_DEPTH / 2.0)
+        return x0, z0, x1, z1
+
+    def _chunk_edge_pixel(self, edge_index: int, axis_length: float,
+                          pixel_count: int) -> int:
+        """Indice pixel de la frontière numéro edge_index.
+
+        Même fonction pour la fin du chunk k et le début du chunk k+1 : les
+        sommets frontières sont donc strictement identiques (pas de trou).
+        """
+        position = min(edge_index * self.CHUNK_SIZE, axis_length)
+        return int(round(position / axis_length * (pixel_count - 1)))
+
     # ==============================================================
     # CHUNK MESH CREATION
     # ==============================================================
@@ -376,83 +563,37 @@ class Game(scene.SceneCanvas):
         heightmap = self.heightmap
         map_height, map_width = heightmap.shape
 
-        # Limites mondiales du chunk.
-        world_x0 = (
-            -self.WORLD_WIDTH / 2.0
-            + chunk_x * self.CHUNK_SIZE
-        )
-
-        world_z0 = (
-            -self.WORLD_DEPTH / 2.0
-            + chunk_z * self.CHUNK_SIZE
-        )
-
-        world_x1 = min(
-            world_x0 + self.CHUNK_SIZE,
-            self.WORLD_WIDTH / 2.0,
-        )
-
-        world_z1 = min(
-            world_z0 + self.CHUNK_SIZE,
-            self.WORLD_DEPTH / 2.0,
-        )
-
-        # Conversion des limites mondiales en indices de heightmap.
-        col0 = int(round(
-            (world_x0 + self.WORLD_WIDTH / 2.0)
-            / self.WORLD_WIDTH
-            * (map_width - 1)
-        ))
-
-        col1 = int(round(
-            (world_x1 + self.WORLD_WIDTH / 2.0)
-            / self.WORLD_WIDTH
-            * (map_width - 1)
-        ))
-
-        row0 = int(round(
-            (world_z0 + self.WORLD_DEPTH / 2.0)
-            / self.WORLD_DEPTH
-            * (map_height - 1)
-        ))
-
-        row1 = int(round(
-            (world_z1 + self.WORLD_DEPTH / 2.0)
-            / self.WORLD_DEPTH
-            * (map_height - 1)
-        ))
+        col0 = self._chunk_edge_pixel(chunk_x, self.WORLD_WIDTH, map_width)
+        col1 = self._chunk_edge_pixel(chunk_x + 1, self.WORLD_WIDTH, map_width)
+        row0 = self._chunk_edge_pixel(chunk_z, self.WORLD_DEPTH, map_height)
+        row1 = self._chunk_edge_pixel(chunk_z + 1, self.WORLD_DEPTH, map_height)
 
         col0 = int(np.clip(col0, 0, map_width - 2))
         col1 = int(np.clip(col1, col0 + 1, map_width - 1))
-
         row0 = int(np.clip(row0, 0, map_height - 2))
         row1 = int(np.clip(row1, row0 + 1, map_height - 1))
 
-        heights = heightmap[
-            row0:row1 + 1,
-            col0:col1 + 1,
-        ]
-
+        heights = heightmap[row0:row1 + 1, col0:col1 + 1]
         rows, cols = heights.shape
 
-        # Coordonnées calculées à partir des indices réels :
-        # les sommets des chunks voisins coïncident exactement.
+        # Coordonnées calculées à partir des indices pixel globaux : un
+        # sommet a la même position quel que soit le chunk qui le produit.
         x = (
             -self.WORLD_WIDTH / 2.0
-            + np.arange(col0, col1 + 1, dtype=np.float32)
+            + np.arange(col0, col1 + 1, dtype=np.float64)
             / (map_width - 1)
             * self.WORLD_WIDTH
         )
 
         z = (
             -self.WORLD_DEPTH / 2.0
-            + np.arange(row0, row1 + 1, dtype=np.float32)
+            + np.arange(row0, row1 + 1, dtype=np.float64)
             / (map_height - 1)
             * self.WORLD_DEPTH
         )
 
         xx, zz = np.meshgrid(x, z)
-        yy = heights * self.WORLD_HEIGHT
+        yy = heights.astype(np.float64) * self.WORLD_HEIGHT
 
         vertices = np.column_stack((
             xx.ravel(),
@@ -462,38 +603,43 @@ class Game(scene.SceneCanvas):
 
         faces = self._build_faces(cols, rows)
 
-        # Couleurs du chunk.
+        # Couleurs : un sommet par pixel, couleur du pixel copiée telle
+        # quelle (même grille que l'altitude : correspondance pixel à pixel).
         if self.color_map is not None:
             rgb = (
                 self.color_map[row0:row1 + 1, col0:col1 + 1]
                 .astype(np.float32) / 255.0
             ).reshape(-1, 3)
-
-            alpha = np.ones(
-                (rgb.shape[0], 1),
-                dtype=np.float32,
-            )
-
-            colors = np.concatenate(
-                (rgb, alpha),
-                axis=1,
-            )
         else:
-            colors = np.empty(
-                (rows * cols, 4),
-                dtype=np.float32,
-            )
+            rgb = np.empty((rows * cols, 3), dtype=np.float32)
+            rgb[:, 0] = 0.25
+            rgb[:, 1] = 0.55
+            rgb[:, 2] = 0.25
 
-            colors[:, 0] = 0.25
-            colors[:, 1] = 0.55
-            colors[:, 2] = 0.25
-            colors[:, 3] = 1.0
+        strength = float(self.RELIEF_SHADING_STRENGTH)
+        if strength > 0.0 and self._grad_x is not None:
+            gx = self._grad_x[row0:row1 + 1, col0:col1 + 1].ravel()
+            gz = self._grad_z[row0:row1 + 1, col0:col1 + 1].ravel()
+            normal = np.stack((-gx, np.ones_like(gx), -gz), axis=1)
+            normal /= np.linalg.norm(normal, axis=1, keepdims=True)
+            light = np.asarray(self.RELIEF_LIGHT_DIRECTION, dtype=np.float32)
+            light /= np.linalg.norm(light)
+            lambert = np.clip(normal @ light, 0.0, 1.0)
+            # Sol plat (normale verticale) -> facteur 1.0 : couleur intacte.
+            factor = 1.0 + strength * (lambert - light[1]) / light[1]
+            rgb = np.clip(rgb * np.clip(factor, 0.2, 1.15)[:, None], 0.0, 1.0)
 
+        colors = np.concatenate(
+            (rgb, np.ones((rgb.shape[0], 1), dtype=np.float32)),
+            axis=1,
+        ).astype(np.float32)
+
+        # shading=None : aucun éclairage VisPy ne modifie les couleurs.
         return visuals.Mesh(
             vertices=vertices,
             faces=faces,
             vertex_colors=colors,
-            shading="smooth",
+            shading=None,
             parent=self.view.scene,
         )
 
@@ -501,40 +647,63 @@ class Game(scene.SceneCanvas):
     # CHUNK STREAMING
     # ==============================================================
 
+    def _chunk_contains(self, chunk: tuple[int, int], world_x: float,
+                        world_z: float, margin: float) -> bool:
+        x0, z0, x1, z1 = self._chunk_world_bounds(*chunk)
+        return (x0 - margin <= world_x <= x1 + margin
+                and z0 - margin <= world_z <= z1 + margin)
+
     def _update_terrain_chunks(self) -> None:
         """Ne conserve qu'un unique maillage : celui du chunk du joueur."""
         if self.heightmap is None:
             return
         world_x = self._server_x_to_world(self.local_x)
         world_z = self._server_y_to_world(self.local_y)
-        center_chunk = self._chunk_coordinates(world_x, world_z)
-        if center_chunk == self._last_chunk_center and len(self.terrain_chunks) <= 1:
+
+        active = self._last_chunk_center
+        if (active is not None and active in self.terrain_chunks
+                and len(self.terrain_chunks) == 1
+                and self._chunk_contains(active, world_x, world_z,
+                                         self.CHUNK_SWITCH_MARGIN)):
             return
-        self._last_chunk_center = center_chunk
+
+        new_chunk = self._chunk_coordinates(world_x, world_z)
+        if new_chunk == active and new_chunk in self.terrain_chunks \
+                and len(self.terrain_chunks) == 1:
+            return
+
+        # Le nouveau maillage est créé avant de retirer l'ancien : aucune
+        # frame sans terrain pendant la transition.
+        new_mesh = None
+        if new_chunk not in self.terrain_chunks:
+            new_mesh = self._create_terrain_chunk(*new_chunk)
+
         for key, mesh in list(self.terrain_chunks.items()):
-            if key != center_chunk:
+            if key != new_chunk:
                 mesh.parent = None
                 del self.terrain_chunks[key]
-        if center_chunk not in self.terrain_chunks:
-            mesh = self._create_terrain_chunk(*center_chunk)
-            if mesh is not None:
-                self.terrain_chunks[center_chunk] = mesh
-        print(f"[GAME] Chunk actif : {center_chunk}; maillages={len(self.terrain_chunks)}")
+        if new_mesh is not None:
+            self.terrain_chunks[new_chunk] = new_mesh
+
+        self._last_chunk_center = new_chunk
+        print(f"[GAME] Chunk actif : {new_chunk}; "
+              f"maillages={len(self.terrain_chunks)}")
 
     # ==============================================================
     # CAMERA
     # ==============================================================
 
     def _place_camera_initially(self) -> None:
-        """Centre la caméra orbitale sur la position initiale du joueur."""
+        """Centre la caméra sur la position initiale du joueur."""
         world_x = self._server_x_to_world(self.local_x)
         world_z = self._server_y_to_world(self.local_y)
         terrain_y = self._terrain_height_at(world_x, world_z)
-        target = (world_x, terrain_y + self.PLAYER_HEIGHT, world_z)
-        self.camera.center = target
+        self.local_z = terrain_y
+        self._camera_lift = 0.0
+        self.camera.center = (world_x, terrain_y + self.PLAYER_HEIGHT, world_z)
 
         marker_pos = np.array(
-            [[world_x, terrain_y + self.PLAYER_HEIGHT, world_z]],
+            [[world_x, terrain_y + self.MARKER_HEIGHT, world_z]],
             dtype=np.float32,
         )
         self.local_marker = visuals.Markers(
@@ -544,82 +713,114 @@ class Game(scene.SceneCanvas):
             edge_color="white",
             parent=self.view.scene,
         )
+        self._update_camera_position()
 
         print(
-            "[GAME] Caméra fixe de suivi prête : "
+            "[GAME] Caméra de suivi prête : "
             f"joueur=({world_x:.1f}, {terrain_y:.1f}, {world_z:.1f}), "
-            "distance=38, fov=48"
+            f"distance={self.CAMERA_DISTANCE:g}, fov={self.CAMERA_FOV:g}"
         )
 
+    def _required_camera_lift(self, world_x: float, world_z: float,
+                              eye_y: float) -> float:
+        """Hauteur supplémentaire pour que la caméra reste au-dessus du sol.
+
+        La position exacte de la caméra dépend de la convention d'azimut de
+        VisPy ; on teste donc le terrain sur tout le cercle de rayon
+        distance*cos(élévation) (et à mi-rayon) : estimation conservatrice,
+        indépendante de la convention.
+        """
+        elevation = math.radians(self.CAMERA_ELEVATION)
+        horizontal = self.CAMERA_DISTANCE * math.cos(elevation)
+        camera_rise = self.CAMERA_DISTANCE * math.sin(elevation)
+        angles = np.linspace(0.0, 2.0 * math.pi, 16, endpoint=False)
+        radii = np.array([0.5 * horizontal, horizontal])
+        xs = (world_x + np.outer(radii, np.cos(angles))).ravel()
+        zs = (world_z + np.outer(radii, np.sin(angles))).ravel()
+        highest = float(self._heights_at(xs, zs).max())
+        needed = highest + self.CAMERA_MIN_GROUND_CLEARANCE
+        return max(0.0, needed - (eye_y + camera_rise))
+
     def _update_camera_position(self) -> None:
-        """Suit le joueur avec le centre de l'orbite sans déplacer le terrain."""
+        """Suit le joueur : seul le centre de la caméra change."""
         world_x = self._server_x_to_world(self.local_x)
         world_z = self._server_y_to_world(self.local_y)
         terrain_y = self._terrain_height_at(world_x, world_z)
-        target_y = terrain_y + self.PLAYER_HEIGHT
+        self.local_z = terrain_y
+        eye_y = terrain_y + self.PLAYER_HEIGHT
 
-        # Le centre est le point autour duquel TurntableCamera orbite.
-        self.camera.center = (world_x, target_y, world_z)
+        target_lift = self._required_camera_lift(world_x, world_z, eye_y)
+        # Montée immédiate (jamais sous le sol), descente progressive.
+        if target_lift > self._camera_lift:
+            self._camera_lift = target_lift
+        else:
+            self._camera_lift += (
+                (target_lift - self._camera_lift) * self.CAMERA_LIFT_SMOOTHING
+            )
+
+        self.camera.center = (world_x, eye_y + self._camera_lift, world_z)
 
         if self.local_marker is not None:
             self.local_marker.set_data(
-                pos=np.array([[world_x, target_y, world_z]], dtype=np.float32),
+                pos=np.array(
+                    [[world_x, terrain_y + self.MARKER_HEIGHT, world_z]],
+                    dtype=np.float32,
+                ),
                 size=14,
                 face_color=(1.0, 0.1, 0.1, 1.0),
                 edge_color="white",
             )
+
+    def _heights_at(self, world_x, world_z) -> np.ndarray:
+        """Altitude (unités monde) aux positions données, vectorisée.
+
+        Interpolation exacte sur les triangles du maillage (diagonale b-c),
+        donc le joueur marche sur la surface réellement affichée.
+        """
+        height, width = self.heightmap.shape
+        nx = np.clip((np.asarray(world_x, dtype=np.float64)
+                      + self.WORLD_WIDTH / 2.0) / self.WORLD_WIDTH, 0.0, 1.0)
+        nz = np.clip((np.asarray(world_z, dtype=np.float64)
+                      + self.WORLD_DEPTH / 2.0) / self.WORLD_DEPTH, 0.0, 1.0)
+        px = nx * (width - 1)
+        pz = nz * (height - 1)
+
+        x0 = np.minimum(np.floor(px).astype(np.intp), width - 2)
+        z0 = np.minimum(np.floor(pz).astype(np.intp), height - 2)
+        fx = px - x0
+        fz = pz - z0
+
+        hm = self.heightmap
+        ha = hm[z0, x0]
+        hb = hm[z0, x0 + 1]
+        z1 = z0 + 1
+        hc = hm[z1, x0]
+        hd = hm[z1, x0 + 1]
+
+        lower = (fx + fz) <= 1.0
+        value = np.where(
+            lower,
+            ha + fx * (hb - ha) + fz * (hc - ha),
+            hd + (1.0 - fx) * (hc - hd) + (1.0 - fz) * (hb - hd),
+        )
+        return value * self.WORLD_HEIGHT
 
     def _terrain_height_at(
         self,
         world_x: float,
         world_z: float,
     ) -> float:
-        """Interpole la hauteur du terrain à une position mondiale."""
+        """Altitude du terrain à une position mondiale."""
 
         if self.heightmap is None:
             return 0.0
-
-        height, width = self.heightmap.shape
-
-        normalized_x = float(np.clip(
-            (world_x + self.WORLD_WIDTH / 2.0)
-            / self.WORLD_WIDTH,
-            0.0,
-            1.0,
-        ))
-
-        normalized_z = float(np.clip(
-            (world_z + self.WORLD_DEPTH / 2.0)
-            / self.WORLD_DEPTH,
-            0.0,
-            1.0,
-        ))
-
-        px = normalized_x * (width - 1)
-        pz = normalized_z * (height - 1)
-
-        x0 = int(np.floor(px))
-        z0 = int(np.floor(pz))
-
-        x1 = min(x0 + 1, width - 1)
-        z1 = min(z0 + 1, height - 1)
-
-        fx = px - x0
-        fz = pz - z0
-
-        h00 = float(self.heightmap[z0, x0])
-        h10 = float(self.heightmap[z0, x1])
-        h01 = float(self.heightmap[z1, x0])
-        h11 = float(self.heightmap[z1, x1])
-
-        h0 = h00 * (1.0 - fx) + h10 * fx
-        h1 = h01 * (1.0 - fx) + h11 * fx
-
-        value = h0 * (1.0 - fz) + h1 * fz
-
-        return value * self.WORLD_HEIGHT
+        return float(self._heights_at(np.float64(world_x),
+                                      np.float64(world_z)))
 
     # ==============================================================
+    # TERRAIN QUERIES
+    # ==============================================================
+
     def _sample_map_index(self, world_x: float, world_z: float) -> tuple[int, int]:
         """Coordonnées source cohérentes avec le maillage (colonne, ligne)."""
         assert self.heightmap is not None
@@ -629,37 +830,55 @@ class Game(scene.SceneCanvas):
         return col, row
 
     def _slope_degrees_at(self, world_x: float, world_z: float) -> float:
-        if self.heightmap is None:
+        """Pente du terrain (précalculée au chargement)."""
+        if self.slope_map is None:
             return 0.0
-        step_x = self.WORLD_WIDTH / max(1, self.heightmap.shape[1] - 1)
-        step_z = self.WORLD_DEPTH / max(1, self.heightmap.shape[0] - 1)
-        gx = (self._terrain_height_at(world_x + step_x, world_z) -
-              self._terrain_height_at(world_x - step_x, world_z)) / (2 * step_x)
-        gz = (self._terrain_height_at(world_x, world_z + step_z) -
-              self._terrain_height_at(world_x, world_z - step_z)) / (2 * step_z)
-        return float(np.degrees(np.arctan(np.hypot(gx, gz))))
+        col, row = self._sample_map_index(world_x, world_z)
+        return float(self.slope_map[row, col])
+
+    def _biome_at(self, world_x: float, world_z: float) -> int:
+        if self.biome_map is None:
+            return self.BIOME_NORMAL
+        col, row = self._sample_map_index(world_x, world_z)
+        return int(self.biome_map[row, col])
 
     def _terrain_multiplier(self, world_x: float, world_z: float,
                             old_world_x: float, old_world_z: float) -> float:
-        biome = 0
-        if self.biome_map is not None:
-            col, row = self._sample_map_index(world_x, world_z)
-            biome = int(self.biome_map[row, col])
-        if biome == 1:
-            return self.WATER_SPEED_MULTIPLIER
-        if biome == 2:
-            return self.SAND_SPEED_MULTIPLIER
-        slope = self._slope_degrees_at(world_x, world_z)
-        if slope >= self.MOUNTAIN_BLOCK_SLOPE_DEGREES:
-            return 0.0
-        if slope > self.MAX_WALKABLE_SLOPE_DEGREES:
-            return 0.0
-        old_h = self._terrain_height_at(old_world_x, old_world_z)
-        new_h = self._terrain_height_at(world_x, world_z)
-        if (biome == 3 or new_h > old_h + 0.05) and slope > 8.0:
-            return self.MOUNTAIN_UPHILL_MULTIPLIER
-        return 1.0
+        """Multiplicateur de vitesse pour aller de old vers (x, z).
 
+        Retourne 0.0 si le passage est bloqué. Appliqué à chaque sous-pas du
+        déplacement, jamais déduit de la couleur affichée.
+        """
+        biome = self._biome_at(world_x, world_z)
+
+        new_h = self._terrain_height_at(world_x, world_z)
+        old_h = self._terrain_height_at(old_world_x, old_world_z)
+        distance = max(0.05, math.hypot(world_x - old_world_x,
+                                        world_z - old_world_z))
+        rise = new_h - old_h
+
+        uphill_slope = 0.0
+        if rise > 1e-4:
+            # Pente réelle du déplacement (dénivelé / distance horizontale).
+            uphill_slope = math.degrees(math.atan2(rise, distance))
+            terrain_slope = self._slope_degrees_at(world_x, world_z)
+            if uphill_slope > self.MAX_WALKABLE_SLOPE_DEGREES:
+                return 0.0
+            if terrain_slope >= self.MOUNTAIN_BLOCK_SLOPE_DEGREES:
+                return 0.0
+
+        if biome == self.BIOME_WATER:
+            multiplier = self.WATER_SPEED_MULTIPLIER
+        elif biome == self.BIOME_SAND:
+            multiplier = self.SAND_SPEED_MULTIPLIER
+        else:
+            multiplier = 1.0
+
+        if uphill_slope >= self.UPHILL_SLOW_MIN_DEGREES:
+            multiplier = min(multiplier, self.MOUNTAIN_UPHILL_MULTIPLIER)
+        return multiplier
+
+    # ==============================================================
     # COORDINATE CONVERSION
     # ==============================================================
 
@@ -797,6 +1016,15 @@ class Game(scene.SceneCanvas):
         local_id = self._get_local_player_id()
 
         if local_id is not None and player_id == local_id:
+            # Le déplacement étant continu côté client, un écho serveur
+            # retardé de notre propre position ne doit pas nous ramener en
+            # arrière ; seule une vraie correction (écart important) ou la
+            # position initiale est appliquée.
+            last = self._last_sent_position
+            if last is not None:
+                gap = math.hypot(x - last[0], y - last[1])
+                if gap <= self.SERVER_CORRECTION_THRESHOLD:
+                    return
             self.local_x = float(np.clip(x, 0, self.WORLD_WIDTH))
             self.local_y = float(np.clip(y, 0, self.WORLD_DEPTH))
             self.local_z = float(z)
@@ -924,57 +1152,65 @@ class Game(scene.SceneCanvas):
         self._send_position_to_server(*position)
         self._last_sent_position = position
 
-    def _move_player(self, dx: float, dz: float) -> None:
-        """Déplace le joueur avec ralentissement de biome et collisions de pente."""
+    def _move_player(self, dx: float, dz: float, dt: float = 1.0 / 60.0) -> bool:
+        """Déplace le joueur pendant dt secondes.
+
+        La distance totale est PLAYER_SPEED * dt, découpée en sous-pas de
+        COLLISION_SAMPLE_STEP au plus : aucun obstacle ne peut être sauté,
+        même à grande vitesse ou avec un dt élevé. Chaque sous-pas applique
+        le multiplicateur du terrain visé (eau, sable, montée) et, si le
+        sous-pas est bloqué, tente de glisser le long de l'obstacle.
+        Retourne True si le joueur a bougé.
+        """
         length = float(np.hypot(dx, dz))
-        if length == 0:
-            return
+        if length == 0 or dt <= 0:
+            return False
         dx /= length
         dz /= length
-        azimuth = np.deg2rad(45.0)
+
+        # Repère de déplacement lié à l'orientation FIXE de la caméra.
+        azimuth = np.deg2rad(self.CAMERA_AZIMUTH)
         forward_x, forward_z = np.sin(azimuth), np.cos(azimuth)
         right_x, right_z = np.cos(azimuth), -np.sin(azimuth)
-        direction_x = right_x * dx + forward_x * dz
-        direction_z = right_z * dx + forward_z * dz
-        old_x = self._server_x_to_world(self.local_x)
-        old_z = self._server_y_to_world(self.local_y)
+        direction_x = float(right_x * dx + forward_x * dz)
+        direction_z = float(right_z * dx + forward_z * dz)
 
-        # Le biome est évalué à l'emplacement visé ; son multiplicateur agit
-        # réellement sur la distance, pas seulement sur l'affichage.
-        probe_x = float(np.clip(self.local_x + direction_x * self.PLAYER_SPEED,
-                                0, self.WORLD_WIDTH))
-        probe_y = float(np.clip(self.local_y + direction_z * self.PLAYER_SPEED,
-                                0, self.WORLD_DEPTH))
-        probe_wx = self._server_x_to_world(probe_x)
-        probe_wz = self._server_y_to_world(probe_y)
-        multiplier = self._terrain_multiplier(probe_wx, probe_wz, old_x, old_z)
-        if multiplier <= 0:
-            # Une pente trop raide bloque le mouvement vers l'avant, mais le
-            # joueur peut toujours glisser latéralement le long de l'obstacle.
-            return
-        distance = self.PLAYER_SPEED * multiplier
-        candidate_x = float(np.clip(self.local_x + direction_x * distance, 0, self.WORLD_WIDTH))
-        candidate_y = float(np.clip(self.local_y + direction_z * distance, 0, self.WORLD_DEPTH))
-        new_x = self._server_x_to_world(candidate_x)
-        new_z = self._server_y_to_world(candidate_y)
+        x = self._server_x_to_world(self.local_x)
+        z = self._server_y_to_world(self.local_y)
+        half_w = self.WORLD_WIDTH / 2.0
+        half_d = self.WORLD_DEPTH / 2.0
 
-        travel = float(np.hypot(new_x - old_x, new_z - old_z))
-        steps = max(1, int(np.ceil(travel / self.COLLISION_SAMPLE_STEP)))
-        accepted_x, accepted_z = old_x, old_z
-        for i in range(1, steps + 1):
-            t = i / steps
-            test_x = old_x + (new_x - old_x) * t
-            test_z = old_z + (new_z - old_z) * t
-            if self._terrain_multiplier(test_x, test_z, accepted_x, accepted_z) <= 0:
+        budget = self.PLAYER_SPEED * dt
+        sub_step = max(0.05, self.COLLISION_SAMPLE_STEP)
+        moved = False
+
+        while budget > 1e-6:
+            step = min(sub_step, budget)
+            budget -= step
+            for vx, vz in ((direction_x, direction_z),
+                           (direction_x, 0.0),
+                           (0.0, direction_z)):
+                if vx == 0.0 and vz == 0.0:
+                    continue
+                probe_x = float(np.clip(x + vx * step, -half_w, half_w))
+                probe_z = float(np.clip(z + vz * step, -half_d, half_d))
+                multiplier = self._terrain_multiplier(probe_x, probe_z, x, z)
+                if multiplier <= 0.0:
+                    continue
+                x = float(np.clip(x + vx * step * multiplier, -half_w, half_w))
+                z = float(np.clip(z + vz * step * multiplier, -half_d, half_d))
+                moved = True
                 break
-            accepted_x, accepted_z = test_x, test_z
+            else:
+                break  # bloqué dans toutes les directions testées
 
-        self.local_x = float(np.clip(accepted_x + self.WORLD_WIDTH / 2, 0, self.WORLD_WIDTH))
-        self.local_y = float(np.clip(accepted_z + self.WORLD_DEPTH / 2, 0, self.WORLD_DEPTH))
-        self.local_z = self._terrain_height_at(accepted_x, accepted_z)
-        self._update_camera_position()
-        self._update_terrain_chunks()
-        self._sync_camera_to_server()
+        if not moved:
+            return False
+
+        self.local_x = float(np.clip(x + half_w, 0, self.WORLD_WIDTH))
+        self.local_y = float(np.clip(z + half_d, 0, self.WORLD_DEPTH))
+        self.local_z = self._terrain_height_at(x, z)
+        return True
 
     def _send_position_to_server(
         self,
@@ -1003,13 +1239,33 @@ class Game(scene.SceneCanvas):
     # GAME LOOP
     # ==============================================================
 
+    def _held_direction(self) -> tuple[float, float]:
+        """Direction de déplacement résultant des touches maintenues."""
+        dx = (1.0 if "right" in self._pressed_keys or "d" in self._pressed_keys else 0.0) \
+            - (1.0 if "left" in self._pressed_keys or "a" in self._pressed_keys else 0.0)
+        dz = (1.0 if "up" in self._pressed_keys or "w" in self._pressed_keys else 0.0) \
+            - (1.0 if "down" in self._pressed_keys or "s" in self._pressed_keys else 0.0)
+        return dx, dz
+
     def _update(self, event) -> None:
         """Boucle principale exécutée sur le thread VisPy."""
 
         if not self.running:
             return
 
+        now = time.perf_counter()
+        if self._last_update_time is None:
+            dt = 1.0 / 60.0
+        else:
+            dt = min(now - self._last_update_time, 0.1)
+        self._last_update_time = now
+
         self._process_network_queue()
+
+        dx, dz = self._held_direction()
+        if dx or dz:
+            self._move_player(dx, dz, dt)
+
         self._update_camera_position()
         self._update_terrain_chunks()
         self._sync_camera_to_server()
@@ -1020,36 +1276,39 @@ class Game(scene.SceneCanvas):
     # INPUT
     # ==============================================================
 
-    def _on_key_press(self, event) -> None:
-        """Contrôles : flèches/WASD pour se déplacer, Échap pour quitter."""
+    @staticmethod
+    def _key_name(event) -> str | None:
         key = getattr(event, "key", None)
         if key is None:
-            return
+            return None
+        name = str(getattr(key, "name", key)).lower()
+        return name.replace("key_", "").replace("arrow", "")
 
-        key_name = str(getattr(key, "name", key)).lower()
-        key_name = key_name.replace("key_", "").replace("arrow", "")
+    def _on_key_press(self, event) -> None:
+        """Contrôles : flèches/WASD pour se déplacer, Échap pour quitter.
+
+        Les flèches ne pilotent que le personnage ; la caméra ignore tout
+        événement clavier/souris (voir FixedFollowCamera).
+        """
+        key_name = self._key_name(event)
+        if key_name is None:
+            return
 
         if key_name in ("escape", "esc"):
             self.close()
             return
 
-        # Flèches ou WASD. La caméra reste orbitale ; elle ne se déplace
-        # pas librement et ne contrôle plus directement les coordonnées joueur.
-        movement = {
-            "up": (0.0, 1.0), "w": (0.0, 1.0),
-            "down": (0.0, -1.0), "s": (0.0, -1.0),
-            "left": (-1.0, 0.0), "a": (-1.0, 0.0),
-            "right": (1.0, 0.0), "d": (1.0, 0.0),
-        }
-        if key_name in movement:
-            self._move_player(*movement[key_name])
+        if key_name in ("up", "w", "down", "s", "left", "a", "right", "d"):
+            self._pressed_keys.add(key_name)
 
     def _on_key_release(self, event) -> None:
-        """Aucun état de touche maintenue n'est nécessaire pour le moment."""
-        pass
+        """Relâche une touche de déplacement."""
+        key_name = self._key_name(event)
+        if key_name is not None:
+            self._pressed_keys.discard(key_name)
 
     def _on_mouse_press(self, event) -> None:
-        """TurntableCamera gère l'orbite et le zoom à la souris."""
+        """La souris ne contrôle plus la caméra ; rien à faire ici."""
         pass
 
     # ==============================================================
@@ -1120,8 +1379,8 @@ class VispyWidget:
         self.info_text.setReadOnly(True)
         self.info_text.setMaximumHeight(80)
         self.info_text.setPlainText(
-            "The Last Signal — Échap : quitter. "
-            "Le déplacement et la synchronisation réseau sont gérés par le client 3D."
+            "The Last Signal — Flèches / WASD : se déplacer, Échap : quitter. "
+            "La caméra suit automatiquement le personnage."
         )
         layout.addWidget(self.info_text)
 
