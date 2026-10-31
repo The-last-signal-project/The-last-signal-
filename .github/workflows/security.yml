@@ -39,10 +39,9 @@ jobs:
       VAULT_KEY: ${{ secrets.VAULT_KEY }}
       DEPLOY_KEY: >-
        ${{
-       (github.event_name == 'schedule' ||
-       github.event_name == 'workflow_dispatch') &&
-       secrets.CI_SYNC_DEPLOY_KEY ||
-       secrets.DEPLOY_KEY
+       (github.workflow == 'Nightly') &&
+       secrets.DEPLOY_KEY ||
+       secrets.CI_SYNC_DEPLOY_KEY
        }}
       DATABASE_PATH: ${{ github.workspace }}/database
       DATABASE_URL: sqlite:${{ github.workspace }}/database/the_last_signal.db
