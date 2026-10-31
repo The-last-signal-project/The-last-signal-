@@ -12,7 +12,7 @@
 [package]
 edition = "2021"
 name = "unicode-properties"
-version = "0.1.4"
+version = "0.1.5"
 authors = [
     "Charles Lew <crlf0710@gmail.com>",
     "Manish Goregaokar <manishsmail@gmail.com>",
@@ -21,6 +21,7 @@ build = false
 exclude = [
     "target/*",
     "Cargo.lock",
+    "scripts/*",
 ]
 autolib = false
 autobins = false
@@ -39,7 +40,7 @@ keywords = [
     "unicode",
 ]
 categories = ["no-std::no-alloc"]
-license = "MIT/Apache-2.0"
+license = "(MIT OR Apache-2.0) AND Unicode-3.0"
 repository = "https://github.com/unicode-rs/unicode-properties"
 
 [features]
