@@ -92,25 +92,31 @@ jobs:
              git remote -v
              
              
-             FILES=("vendor" "Cargo.lock" ".cargo/config.toml")
+               FILES=("vendor" "Cargo.lock" ".cargo/config.toml")
              git add -- "${FILES[@]}"
              git stash -S
-             git fetch origin
+             git add -A
+             git stash -S
+             git fetch origin 
              git switch -f main
              git reset --hard 
+             if git stash list | grep -q '^stash@{1}:'
+             then
+             
+             echo "stash@{1} trouvé → application"
+             git stash pop stash@{1} || true
+             git stash clear
+             
+             else
              if git stash list | grep -q '^stash@{0}:'
              then
              
              echo "stash@{0} trouvé → application"
              git stash pop stash@{0} || true
-             
              else
              echo "stash@{0} inexistant → aucune action"
              fi
-             
-
- 
-
+             fi
              if git diff --name-only --diff-filter=U | grep -q .; then
              echo "⚠️ Conflits détectés"
              git checkout --ours -- "${FILES[@]}"
