@@ -1215,129 +1215,116 @@ impl Inventaire {
     // RETRAIT DANS UNE TRANSACTION EXISTANTE
     // ========================================================
 
-    pub async fn retirer_tx(
-        tx: &mut sqlx::Transaction<'_, sqlx::Sqlite>,
-        account_id: i64,
-        objet_id: i64,
-        quantite: u64,
-    ) -> Result<(), sqlx::Error> {
-        if quantite == 0 {
-            return Err(sqlx::Error::Protocol(
-                "La quantité à retirer doit être supérieure à 0"
-                    .into(),
-            ));
-        }
-
-        let quantite_i64 =
-            Self::quantite_sqlite(quantite)?;
-
-        let quantity: Option<i64> =
-            sqlx::query_scalar(
-                r#"
-                SELECT quantity
-                FROM stuff
-                WHERE account_id = ?
-                  AND objet_id = ?
-                  AND stack_key = 'base'
-                "#,
-            )
-            .bind(account_id)
-            .bind(objet_id)
-            .fetch_optional(&mut **tx)
-            .await?;
-
-        let quantity =
-            quantity.unwrap_or(0);
-
-        if quantity < quantite_i64 {
-            return Err(sqlx::Error::Protocol(
-                "Quantité insuffisante".into(),
-            ));
-        }
-
-        if quantity == quantite_i64 {
-            sqlx::query(
-                r#"
-                DELETE FROM stuff
-                WHERE account_id = ?
-                  AND objet_id = ?
-                  AND stack_key = 'base'
-                "#,
-            )
-            .bind(account_id)
-            .bind(objet_id)
-            .execute(&mut **tx)
-            .await?;
-        } else {
-            sqlx::query(
-                r#"
-                UPDATE stuff
-                SET quantity = quantity - ?
-                WHERE account_id = ?
-                  AND objet_id = ?
-                  AND stack_key = 'base'
-                  AND quantity >= ?
-                "#,
-            )
-            .bind(quantite_i64)
-            .bind(account_id)
-            .bind(objet_id)
-            .bind(quantite_i64)
-            .execute(&mut **tx)
-            .await?;
-        }
-
-        Ok(())
+    
+pub async fn retirer_tx(
+    tx: &mut sqlx::Transaction<'_, sqlx::Sqlite>,
+    account_id: i64,
+    objet_id: i64,
+    quantite: u64,
+) -> Result<(), sqlx::Error> {
+    if quantite == 0 {
+        return Err(sqlx::Error::Protocol(
+            "La quantité à retirer doit être supérieure à 0".into(),
+        ));
     }
+
+    let quantite_i64 = Self::quantite_sqlite(quantite)?;
+
+    let result = sqlx::query(
+        r#"
+        UPDATE stuff
+        SET quantity = quantity - ?
+        WHERE account_id = ?
+          AND objet_id = ?
+          AND stack_key = 'base'
+          AND quantity >= ?
+        "#,
+    )
+    .bind(quantite_i64)
+    .bind(account_id)
+    .bind(objet_id)
+    .bind(quantite_i64)
+    .execute(&mut **tx)
+    .await?;
+
+    if result.rows_affected() != 1 {
+        return Err(sqlx::Error::Protocol(
+            "Quantité insuffisante ou objet absent de l'inventaire".into(),
+        ));
+    }
+
+    sqlx::query(
+        r#"
+        DELETE FROM stuff
+        WHERE account_id = ?
+          AND objet_id = ?
+          AND stack_key = 'base'
+          AND quantity = 0
+        "#,
+    )
+    .bind(account_id)
+    .bind(objet_id)
+    .execute(&mut **tx)
+    .await?;
+
+    Ok(())
+}
+
 
     // ========================================================
     // AJOUT DANS UNE TRANSACTION EXISTANTE
     // ========================================================
 
-    pub async fn ajouter_tx(
-        tx: &mut sqlx::Transaction<'_, sqlx::Sqlite>,
-        account_id: i64,
-        objet_id: i64,
-        quantite: u64,
-    ) -> Result<(), sqlx::Error> {
-        if quantite == 0 {
-            return Err(sqlx::Error::Protocol(
-                "La quantité à ajouter doit être supérieure à 0"
-                    .into(),
-            ));
-        }
-
-        let quantite_i64 =
-            Self::quantite_sqlite(quantite)?;
-
-        sqlx::query(
-            r#"
-            INSERT INTO stuff (
-                account_id,
-                objet_id,
-                quantity,
-                stack_key
-            )
-            VALUES (?, ?, ?, 'base')
-
-            ON CONFLICT (
-                account_id,
-                objet_id,
-                stack_key
-            )
-            DO UPDATE SET
-                quantity =
-                    quantity + excluded.quantity
-            "#,
-        )
-        .bind(account_id)
-        .bind(objet_id)
-        .bind(quantite_i64)
-        .execute(&mut **tx)
-        .await?;
-
-        Ok(())
+    
+pub async fn ajouter_tx(
+    tx: &mut sqlx::Transaction<'_, sqlx::Sqlite>,
+    account_id: i64,
+    objet_id: i64,
+    quantite: u64,
+) -> Result<(), sqlx::Error> {
+    if quantite == 0 {
+        return Err(sqlx::Error::Protocol(
+            "La quantité à ajouter doit être supérieure à 0".into(),
+        ));
     }
+
+    let quantite_i64 = Self::quantite_sqlite(quantite)?;
+
+    let result = sqlx::query(
+        r#"
+        INSERT INTO stuff (
+            account_id,
+            objet_id,
+            quantity,
+            stack_key
+        )
+        VALUES (?, ?, ?, 'base')
+
+        ON CONFLICT (
+            account_id,
+            objet_id,
+            stack_key
+        )
+        DO UPDATE SET
+            quantity = quantity + excluded.quantity
+        WHERE quantity <= 9223372036854775807 - excluded.quantity
+        "#,
+    )
+    .bind(account_id)
+    .bind(objet_id)
+    .bind(quantite_i64)
+    .execute(&mut **tx)
+    .await?;
+
+    if result.rows_affected() != 1 {
+        return Err(sqlx::Error::Protocol(
+            "Impossible d'ajouter cette quantité : limite SQLite dépassée".into(),
+        ));
+    }
+
+    Ok(())
+}
+
 
     // ========================================================
     // QUANTITÉ TOTALE D'UN OBJET PAR NOM

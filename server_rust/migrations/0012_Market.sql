@@ -114,6 +114,25 @@ CREATE TABLE IF NOT EXISTS transactions_marche (
 
     FOREIGN KEY (objet_id)
         REFERENCES objets_dispo(objet_id),
+    FOREIGN KEY (ordre_achat_id)
+    REFERENCES ordres_achat(ordre_id)
+    ON DELETE RESTRICT,
+
+FOREIGN KEY (ordre_vente_id)
+    REFERENCES ordres_vente(ordre_id)
+    ON DELETE RESTRICT,
+
+FOREIGN KEY (acheteur_id)
+    REFERENCES accounts(account_id)
+    ON DELETE RESTRICT,
+
+FOREIGN KEY (vendeur_id)
+    REFERENCES accounts(account_id)
+    ON DELETE RESTRICT,
+
+CHECK (acheteur_id != vendeur_id),
+
+CHECK (montant_total = quantity * prix_unitaire),
 
     CHECK (quantity > 0),
     CHECK (prix_unitaire > 0),
