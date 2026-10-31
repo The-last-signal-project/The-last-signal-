@@ -19,12 +19,12 @@ VALUES
 
     ('potion de soin léger', 'potion', 'potion_de_soin_léger.png', 25),
     ('potion de soin modéré', 'potion', 'potion_de_soin_modéré.png', 35),
-    ('potion de délivrance', 'potion', 'potion_de_délivrance.png', 100),
+    ('potion de délivrance', 'potion', 'potion_de_délivrance.png', 200),
     ('potion de mana', 'potion', 'potion_de_mana.png', 75),
 
     ('gemmes', 'basic', 'gemmes.png', 100000),
     ('sac', 'material', 'sac.png', 10),
-    ('corde', 'material', 'corde.png', 7),
+    ('corde', 'material', 'corde.png', 10),
 
 
     ('torche', 'material', 'torche.png', 5),
