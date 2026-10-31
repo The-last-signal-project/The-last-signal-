@@ -474,31 +474,18 @@ impl Inventaire {
     ) -> Result<(), sqlx::Error> {
         let quantite = Self::quantite_sqlite(quantite)?;
 
-        sqlx::query(
-            r#"
-            INSERT INTO stuff (
-                account_id,
-                objet_id,
-                quantity,
-                stack_key
-            )
-            VALUES (?, ?, ?, 'base')
+        let mut tx = self.pool.begin().await?;
 
-            ON CONFLICT (
-                account_id,
-                objet_id,
-                stack_key
-            )
-            DO UPDATE SET
-                quantity =
-                    quantity + excluded.quantity
-            "#,
+        Self::ajouter_stackable_tx(
+            &mut tx,
+            self.account_id,
+            objet_id,
+            "base",
+            quantite,
         )
-        .bind(self.account_id)
-        .bind(objet_id)
-        .bind(quantite)
-        .execute(&self.pool)
         .await?;
+
+        tx.commit().await?;
 
         Ok(())
     }
@@ -538,7 +525,105 @@ impl Inventaire {
 
         let mut tx = self.pool.begin().await?;
 
-        let stuff_id: i64 = sqlx::query_scalar(
+        // Peut toucher plusieurs stacks si le stack principal est plein.
+        let stuff_ids = Self::ajouter_stackable_tx(
+            &mut tx,
+            self.account_id,
+            objet_id,
+            &stack_key,
+            quantite,
+        )
+        .await?;
+
+        // INSERT OR IGNORE : les stacks déjà existants ont déjà leur ligne potions.
+        for stuff_id in stuff_ids {
+            sqlx::query(
+                r#"
+                INSERT OR IGNORE INTO potions (
+                    stuff_id,
+                    effect
+                )
+                VALUES (?, ?)
+                "#,
+            )
+            .bind(stuff_id)
+            .bind(&effet)
+            .execute(&mut *tx)
+            .await?;
+        }
+
+        tx.commit().await?;
+
+        Ok(())
+    }
+
+    // ========================================================
+    // STACKS : AJOUT AVEC DÉBORDEMENT
+    // ========================================================
+    //
+    // Un stack = une ligne `stuff`, quantité max i64::MAX.
+    // L'inventaire, lui, est illimité : quand un stack est plein,
+    // le reste va dans un nouveau stack dont la stack_key est
+    //
+    //     <stack_key>:overflow:<uuid>
+    //
+    // Famille d'un stack = la stack_key d'origine + tous ses
+    // stacks de débordement.
+    // ========================================================
+
+    /// Stacks d'une famille (triés par stuff_id).
+    /// `avec_place = true` : uniquement ceux qui ne sont pas pleins.
+    async fn stacks_famille_tx(
+        tx: &mut sqlx::Transaction<'_, sqlx::Sqlite>,
+        account_id: i64,
+        objet_id: i64,
+        stack_key: &str,
+        avec_place: bool,
+    ) -> Result<Vec<(i64, i64)>, sqlx::Error> {
+        let filtre = if avec_place {
+            "AND quantity < 9223372036854775807"
+        } else {
+            ""
+        };
+
+        let requete = format!(
+            r#"
+            SELECT stuff_id, quantity
+            FROM stuff
+            WHERE account_id = ?
+              AND objet_id = ?
+              AND (
+                    stack_key = ?
+                 OR substr(stack_key, 1, length(?) + 10)
+                        = ? || ':overflow:'
+              )
+              {filtre}
+            ORDER BY stuff_id
+            "#
+        );
+
+        sqlx::query_as(&requete)
+            .bind(account_id)
+            .bind(objet_id)
+            .bind(stack_key)
+            .bind(stack_key)
+            .bind(stack_key)
+            .fetch_all(&mut **tx)
+            .await
+    }
+
+    /// Ajoute `quantite` (> 0) à une famille de stacks.
+    /// Retourne les stuff_id touchés (existants ou créés).
+    async fn ajouter_stackable_tx(
+        tx: &mut sqlx::Transaction<'_, sqlx::Sqlite>,
+        account_id: i64,
+        objet_id: i64,
+        stack_key: &str,
+        quantite: i64,
+    ) -> Result<Vec<i64>, sqlx::Error> {
+        // 1. Chemin normal : tout rentre dans le stack principal.
+        //    Écriture directe, sans lecture préalable.
+        let direct: Option<i64> = sqlx::query_scalar(
             r#"
             INSERT INTO stuff (
                 account_id,
@@ -554,38 +639,84 @@ impl Inventaire {
                 stack_key
             )
             DO UPDATE SET
-                quantity =
-                    quantity + excluded.quantity
+                quantity = quantity + excluded.quantity
+            WHERE quantity <= 9223372036854775807 - excluded.quantity
 
             RETURNING stuff_id
             "#,
         )
-        .bind(self.account_id)
+        .bind(account_id)
         .bind(objet_id)
         .bind(quantite)
-        .bind(&stack_key)
-        .fetch_one(&mut *tx)
+        .bind(stack_key)
+        .fetch_optional(&mut **tx)
         .await?;
 
-        // Si la ligne existait déjà, la ligne potions existe
-        // également. INSERT OR IGNORE évite donc toute collision.
-        sqlx::query(
-            r#"
-            INSERT OR IGNORE INTO potions (
-                stuff_id,
-                effect
-            )
-            VALUES (?, ?)
-            "#,
+        if let Some(stuff_id) = direct {
+            return Ok(vec![stuff_id]);
+        }
+
+        // 2. Le stack principal est trop plein.
+        //    Le verrou d'écriture est déjà pris : lecture sûre.
+        let mut reste = quantite;
+        let mut touches: Vec<i64> = Vec::new();
+
+        let libres = Self::stacks_famille_tx(
+            tx,
+            account_id,
+            objet_id,
+            stack_key,
+            true,
         )
-        .bind(stuff_id)
-        .bind(&effet)
-        .execute(&mut *tx)
         .await?;
 
-        tx.commit().await?;
+        for (stuff_id, quantite_actuelle) in libres {
+            if reste == 0 {
+                break;
+            }
 
-        Ok(())
+            let ajout = reste.min(i64::MAX - quantite_actuelle);
+
+            sqlx::query(
+                "UPDATE stuff SET quantity = quantity + ? WHERE stuff_id = ?",
+            )
+            .bind(ajout)
+            .bind(stuff_id)
+            .execute(&mut **tx)
+            .await?;
+
+            reste -= ajout;
+            touches.push(stuff_id);
+        }
+
+        // 3. Il reste encore : nouveau stack de débordement
+        //    (reste <= quantite <= i64::MAX, donc il rentre).
+        if reste > 0 {
+            let cle = format!("{stack_key}:overflow:{}", Uuid::new_v4());
+
+            let stuff_id: i64 = sqlx::query_scalar(
+                r#"
+                INSERT INTO stuff (
+                    account_id,
+                    objet_id,
+                    quantity,
+                    stack_key
+                )
+                VALUES (?, ?, ?, ?)
+                RETURNING stuff_id
+                "#,
+            )
+            .bind(account_id)
+            .bind(objet_id)
+            .bind(reste)
+            .bind(&cle)
+            .fetch_one(&mut **tx)
+            .await?;
+
+            touches.push(stuff_id);
+        }
+
+        Ok(touches)
     }
 
     // ========================================================
@@ -924,7 +1055,7 @@ impl Inventaire {
         // 9. Créer le stack ou augmenter sa quantité
         // ----------------------------------------------------
 
-        let stuff_id: i64 =
+        let direct: Option<i64> =
             sqlx::query_scalar(
                 r#"
                 INSERT INTO stuff (
@@ -943,6 +1074,7 @@ impl Inventaire {
                 DO UPDATE SET
                     quantity =
                         quantity + 1
+                WHERE quantity < 9223372036854775807
 
                 RETURNING stuff_id
                 "#,
@@ -950,8 +1082,63 @@ impl Inventaire {
             .bind(self.account_id)
             .bind(objet_id)
             .bind(&stack_key)
-            .fetch_one(&mut *tx)
+            .fetch_optional(&mut *tx)
             .await?;
+
+        let stuff_id: i64 = match direct {
+            Some(id) => id,
+
+            // Stack plein : le verrou d'écriture est déjà pris,
+            // les lectures suivantes sont sûres.
+            None => {
+                let libres = Self::stacks_famille_tx(
+                    &mut tx,
+                    self.account_id,
+                    objet_id,
+                    &stack_key,
+                    true,
+                )
+                .await?;
+
+                if let Some(&(id, _)) = libres.first() {
+                    // Un stack de débordement a encore de la place.
+                    sqlx::query(
+                        "UPDATE stuff SET quantity = quantity + 1 WHERE stuff_id = ?",
+                    )
+                    .bind(id)
+                    .execute(&mut *tx)
+                    .await?;
+
+                    id
+                } else {
+                    // Nouveau stack de débordement (le livre sera créé
+                    // plus bas : aucune ligne enchanted_books n'existe
+                    // pour ce stuff_id).
+                    let cle = format!(
+                        "{stack_key}:overflow:{}",
+                        Uuid::new_v4()
+                    );
+
+                    sqlx::query_scalar(
+                        r#"
+                        INSERT INTO stuff (
+                            account_id,
+                            objet_id,
+                            quantity,
+                            stack_key
+                        )
+                        VALUES (?, ?, 1, ?)
+                        RETURNING stuff_id
+                        "#,
+                    )
+                    .bind(self.account_id)
+                    .bind(objet_id)
+                    .bind(&cle)
+                    .fetch_one(&mut *tx)
+                    .await?
+                }
+            }
+        };
 
         // ----------------------------------------------------
         // 10. Vérifier si le livre existe déjà
@@ -1230,6 +1417,7 @@ pub async fn retirer_tx(
 
     let quantite_i64 = Self::quantite_sqlite(quantite)?;
 
+    // 1. Chemin rapide : le stack principal suffit.
     let result = sqlx::query(
         r#"
         UPDATE stuff
@@ -1247,25 +1435,69 @@ pub async fn retirer_tx(
     .execute(&mut **tx)
     .await?;
 
-    if result.rows_affected() != 1 {
+    if result.rows_affected() == 1 {
+        sqlx::query(
+            r#"
+            DELETE FROM stuff
+            WHERE account_id = ?
+              AND objet_id = ?
+              AND stack_key = 'base'
+              AND quantity = 0
+            "#,
+        )
+        .bind(account_id)
+        .bind(objet_id)
+        .execute(&mut **tx)
+        .await?;
+
+        return Ok(());
+    }
+
+    // 2. Sinon : on prend dans tous les stacks de la famille
+    //    (principal + débordements). Verrou d'écriture déjà pris.
+    let stacks = Self::stacks_famille_tx(
+        tx,
+        account_id,
+        objet_id,
+        "base",
+        false,
+    )
+    .await?;
+
+    let total: i128 = stacks.iter().map(|(_, q)| *q as i128).sum();
+
+    if total < quantite_i64 as i128 {
         return Err(sqlx::Error::Protocol(
             "Quantité insuffisante ou objet absent de l'inventaire".into(),
         ));
     }
 
-    sqlx::query(
-        r#"
-        DELETE FROM stuff
-        WHERE account_id = ?
-          AND objet_id = ?
-          AND stack_key = 'base'
-          AND quantity = 0
-        "#,
-    )
-    .bind(account_id)
-    .bind(objet_id)
-    .execute(&mut **tx)
-    .await?;
+    let mut reste = quantite_i64;
+
+    for (stuff_id, disponible) in stacks {
+        if reste == 0 {
+            break;
+        }
+
+        let pris = reste.min(disponible);
+
+        if pris == disponible {
+            sqlx::query("DELETE FROM stuff WHERE stuff_id = ?")
+                .bind(stuff_id)
+                .execute(&mut **tx)
+                .await?;
+        } else {
+            sqlx::query(
+                "UPDATE stuff SET quantity = quantity - ? WHERE stuff_id = ?",
+            )
+            .bind(pris)
+            .bind(stuff_id)
+            .execute(&mut **tx)
+            .await?;
+        }
+
+        reste -= pris;
+    }
 
     Ok(())
 }
@@ -1290,37 +1522,15 @@ pub async fn ajouter_tx(
 
     let quantite_i64 = Self::quantite_sqlite(quantite)?;
 
-    let result = sqlx::query(
-        r#"
-        INSERT INTO stuff (
-            account_id,
-            objet_id,
-            quantity,
-            stack_key
-        )
-        VALUES (?, ?, ?, 'base')
-
-        ON CONFLICT (
-            account_id,
-            objet_id,
-            stack_key
-        )
-        DO UPDATE SET
-            quantity = quantity + excluded.quantity
-        WHERE quantity <= 9223372036854775807 - excluded.quantity
-        "#,
+    // Si le stack est plein, le reste déborde dans un nouveau stack.
+    Self::ajouter_stackable_tx(
+        tx,
+        account_id,
+        objet_id,
+        "base",
+        quantite_i64,
     )
-    .bind(account_id)
-    .bind(objet_id)
-    .bind(quantite_i64)
-    .execute(&mut **tx)
     .await?;
-
-    if result.rows_affected() != 1 {
-        return Err(sqlx::Error::Protocol(
-            "Impossible d'ajouter cette quantité : limite SQLite dépassée".into(),
-        ));
-    }
 
     Ok(())
 }
@@ -1330,17 +1540,17 @@ pub async fn ajouter_tx(
     // QUANTITÉ TOTALE D'UN OBJET PAR NOM
     // ========================================================
 
+    /// Quantité totale d'un objet, tous stacks confondus.
+    /// Le total peut dépasser i64 (plusieurs stacks) : calculé en u128
+    /// puis plafonné à u64::MAX pour garder la signature.
     pub async fn get_quantity(
         &self,
         nom: &str,
     ) -> Result<u64, sqlx::Error> {
-        let quantity: i64 =
+        let quantites: Vec<i64> =
             sqlx::query_scalar(
                 r#"
-                SELECT COALESCE(
-                    SUM(s.quantity),
-                    0
-                )
+                SELECT s.quantity
                 FROM stuff s
                 JOIN objets_dispo o
                     ON s.objet_id = o.objet_id
@@ -1350,21 +1560,17 @@ pub async fn ajouter_tx(
             )
             .bind(self.account_id)
             .bind(nom)
-            .fetch_one(&self.pool)
+            .fetch_all(&self.pool)
             .await?;
 
-        u64::try_from(quantity)
-            .map_err(|_| {
-                sqlx::Error::Protocol(
-                    format!(
-                        "Quantité invalide pour {nom}"
-                    )
-                    .into(),
-                )
-            })
+        let total: u128 = quantites
+            .into_iter()
+            .map(|q| u128::try_from(q).unwrap_or(0))
+            .sum();
+
+        Ok(u64::try_from(total).unwrap_or(u64::MAX))
     }
 
-    
     // ========================================================
     // CONVERSION QUANTITÉ SQLITE
     // ========================================================

@@ -83,7 +83,11 @@ impl NomAffiche for Objet {
 
 impl AjouterRetirer for Objet {
     fn ajouter(&mut self, qte: u64) {
-        self.quantite += qte;
+        // Plafonné à i64::MAX : c'est la limite des INTEGER SQLite.
+        self.quantite = self
+            .quantite
+            .saturating_add(qte)
+            .min(i64::MAX as u64);
     }
 
     fn retirer(&mut self, qte: u64) {
