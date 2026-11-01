@@ -18,9 +18,10 @@ use crate::x509::extension::{
 use crate::x509::store::X509Lookup;
 use crate::x509::store::X509StoreBuilder;
 use crate::x509::verify::{X509VerifyFlags, X509VerifyParam};
-#[cfg(any(ossl110, boringssl, awslc))]
-use crate::x509::X509PurposeId;
-use crate::x509::{CrlNumber, X509CrlBuilder, X509PurposeRef, X509Ref, X509RevokedBuilder};
+use crate::x509::{
+    CrlNumber, X509CrlBuilder, X509ExtendedKeyUsage, X509KeyUsage, X509PurposeId, X509PurposeRef,
+    X509Ref, X509RevokedBuilder,
+};
 #[cfg(ossl110)]
 use crate::x509::{CrlReason, X509Builder};
 use crate::x509::{
@@ -44,7 +45,7 @@ fn test_cert_loading() {
     let cert = X509::from_pem(cert).unwrap();
     let fingerprint = cert.digest(MessageDigest::sha1()).unwrap();
 
-    let hash_str = "59172d9313e84459bcff27f967e79e6e9217e584";
+    let hash_str = "0b8fe8f15bdc0ef5d32acbd9a872b80bcbde8fe6";
     let hash_vec = Vec::from_hex(hash_str).unwrap();
 
     assert_eq!(hash_vec, &*fingerprint);
@@ -63,7 +64,7 @@ fn test_debug() {
     assert!(debugged.contains(r#"countryName = "AU""#));
     assert!(debugged.contains(r#"stateOrProvinceName = "Some-State""#));
     assert!(debugged.contains(r#"not_before: Aug 14 17:00:03 2016 GMT"#));
-    assert!(debugged.contains(r#"not_after: Aug 12 17:00:03 2026 GMT"#));
+    assert!(debugged.contains(r#"not_after: Dec 31 23:59:59 2037 GMT"#));
 }
 
 #[test]
@@ -74,7 +75,7 @@ fn test_cert_issue_validity() {
     let not_after = cert.not_after().to_string();
 
     assert_eq!(not_before, "Aug 14 17:00:03 2016 GMT");
-    assert_eq!(not_after, "Aug 12 17:00:03 2026 GMT");
+    assert_eq!(not_after, "Dec 31 23:59:59 2037 GMT");
 }
 
 #[test]
@@ -351,6 +352,14 @@ fn x509_builder() {
         .unwrap();
     assert_eq!(cn.data().as_slice(), b"foobar.com");
     assert_eq!(serial, x509.serial_number().to_bn().unwrap());
+    assert_eq!(
+        x509.key_usage(),
+        Some(X509KeyUsage::DIGITAL_SIGNATURE | X509KeyUsage::KEY_ENCIPHERMENT)
+    );
+    assert_eq!(
+        x509.extended_key_usage(),
+        Some(X509ExtendedKeyUsage::SSL_SERVER | X509ExtendedKeyUsage::SSL_CLIENT)
+    );
 }
 
 #[test]
@@ -475,11 +484,11 @@ fn test_stack_from_pem() {
     assert_eq!(certs.len(), 2);
     assert_eq!(
         hex::encode(certs[0].digest(MessageDigest::sha1()).unwrap()),
-        "59172d9313e84459bcff27f967e79e6e9217e584"
+        "0b8fe8f15bdc0ef5d32acbd9a872b80bcbde8fe6"
     );
     assert_eq!(
         hex::encode(certs[1].digest(MessageDigest::sha1()).unwrap()),
-        "c0cbdf7cdd03c9773e5468e1f6d2da7d5cbb1875"
+        "9826e2edbd5b80acd2a868ffcca95a86e7a4ad72"
     );
 }
 
@@ -501,13 +510,13 @@ fn signature() {
     let signature = cert.signature();
     assert_eq!(
         hex::encode(signature.as_slice()),
-        "4af607b889790b43470442cfa551cdb8b6d0b0340d2958f76b9e3ef6ad4992230cead6842587f0ecad5\
-         78e6e11a221521e940187e3d6652de14e84e82f6671f097cc47932e022add3c0cb54a26bf27fa84c107\
-         4971caa6bee2e42d34a5b066c427f2d452038082b8073993399548088429de034fdd589dcfb0dd33be7\
-         ebdfdf698a28d628a89568881d658151276bde333600969502c4e62e1d3470a683364dfb241f78d310a\
-         89c119297df093eb36b7fd7540224f488806780305d1e79ffc938fe2275441726522ab36d88348e6c51\
-         f13dcc46b5e1cdac23c974fd5ef86aa41e91c9311655090a52333bc79687c748d833595d4c5f987508f\
-         e121997410d37c"
+        "99195ffd60e2ace1f28b3c9bf2b7e7a73ec43258a66e5a02e6d8312bc311485610fad2fa9d286a832da\
+         12dcb15d4e369e4a9ebbc99c5c56b9a2fbd0b5e6b40a2cfe792f6c511b5a3f7a6423202c6b0b2873ab7\
+         d3d67bac879300877c48e9a319fdab263a26f5418556a6ac7bca5b944325907d4b95779b9c8800693c2\
+         47d2eaa481f613a255c6d265543997ef10db2b577736bd54e6049fe82a6dcccbf5ef15e27a1bd0a066c\
+         7747cf770a0a5404b65199930d8200a1a1d7f07563ed96c2e7f3b0fd188bf80de4024fd7ff53227aa12\
+         4034f60f5cc18ed68af7f025afc6dfbdee356fcaa5fb903e2f6e3ed5547693dc89eafafae20767611a2\
+         11be4208612ffb"
     );
     let algorithm = cert.signature_algorithm();
     assert_eq!(algorithm.object().nid(), Nid::SHA256WITHRSAENCRYPTION);
@@ -541,6 +550,64 @@ fn test_verify_cert() {
     assert!(context
         .init(&store, &cert, &chain, |c| c.verify_cert())
         .unwrap());
+}
+
+#[test]
+fn test_store_ctx_cleared_after_init() {
+    let mut context = X509StoreContext::new().unwrap();
+
+    {
+        let cert = include_bytes!("../../test/cert.pem");
+        let cert = X509::from_pem(cert).unwrap();
+        let ca = include_bytes!("../../test/root-ca.pem");
+        let ca = X509::from_pem(ca).unwrap();
+        let chain = Stack::new().unwrap();
+        let mut store_bldr = X509StoreBuilder::new().unwrap();
+        store_bldr.add_cert(ca).unwrap();
+        let store = store_bldr.build();
+
+        assert!(context
+            .init(&store, &cert, &chain, |c| {
+                let ok = c.verify_cert()?;
+                assert!(c.current_cert().is_some());
+                Ok(ok)
+            })
+            .unwrap());
+    }
+
+    // The certificate, chain and store passed to `init` have been dropped, so
+    // the context must not refer to them anymore.
+    assert!(context.current_cert().is_none());
+    // BoringSSL reports this as a failed verification, the others as an error.
+    assert!(!context.verify_cert().unwrap_or(false));
+}
+
+#[test]
+fn test_store_ctx_nested_init() {
+    let cert = include_bytes!("../../test/cert.pem");
+    let cert = X509::from_pem(cert).unwrap();
+    let ca = include_bytes!("../../test/root-ca.pem");
+    let ca = X509::from_pem(ca).unwrap();
+    let chain = Stack::new().unwrap();
+    let mut store_bldr = X509StoreBuilder::new().unwrap();
+    store_bldr.add_cert(ca).unwrap();
+    let store = store_bldr.build();
+
+    let mut context = X509StoreContext::new().unwrap();
+    context
+        .init(&store, &cert, &chain, |c| {
+            {
+                let tmp = X509::from_pem(include_bytes!("../../test/cert.pem")).unwrap();
+                let tmp_chain = Stack::new().unwrap();
+                let tmp_store = X509StoreBuilder::new().unwrap().build();
+                c.init(&tmp_store, &tmp, &tmp_chain, |_| Ok(())).unwrap();
+            }
+            // The inner `init` has cleaned up the context.
+            assert!(!c.verify_cert().unwrap_or(false));
+            assert!(c.current_cert().is_none());
+            Ok(())
+        })
+        .unwrap();
 }
 
 #[test]
@@ -848,7 +915,11 @@ fn test_name_to_owned() {
 
 #[test]
 fn test_verify_param_set_time_fails_verification() {
-    const TEST_T_2030: time_t = 1893456000;
+    // The certificate fixtures expire at the end of 2037 so that this clock,
+    // which has to fall after their notAfter for the verification to fail,
+    // still fits in a 32-bit time_t. Such a time_t cannot represent any point
+    // after 2038-01-19.
+    const TEST_T_2038: time_t = 2145916800;
 
     let cert = include_bytes!("../../test/cert.pem");
     let cert = X509::from_pem(cert).unwrap();
@@ -859,7 +930,7 @@ fn test_verify_param_set_time_fails_verification() {
     let mut store_bldr = X509StoreBuilder::new().unwrap();
     store_bldr.add_cert(ca).unwrap();
     let mut verify_params = X509VerifyParam::new().unwrap();
-    verify_params.set_time(TEST_T_2030);
+    verify_params.set_time(TEST_T_2038);
     store_bldr.set_param(&verify_params).unwrap();
     let store = store_bldr.build();
 
@@ -1004,7 +1075,6 @@ fn test_verify_param_auth_level() {
 }
 
 #[test]
-#[cfg(any(ossl110, boringssl, awslc))]
 fn test_set_purpose() {
     let cert = include_bytes!("../../test/leaf.pem");
     let cert = X509::from_pem(cert).unwrap();
@@ -1029,7 +1099,6 @@ fn test_set_purpose() {
 }
 
 #[test]
-#[cfg(any(ossl110, boringssl, awslc))]
 fn test_set_purpose_fails_verification() {
     let cert = include_bytes!("../../test/leaf.pem");
     let cert = X509::from_pem(cert).unwrap();
