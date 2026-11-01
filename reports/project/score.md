@@ -1,6 +1,6 @@
 Documentation Quality Report
 
-**Date :** 2026-11-01 21:27:46
+**Date :** 2026-11-01 21:39:00
 
 # 64/100
 
@@ -40273,13 +40273,13 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:13 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:30).
+- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:15 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:30).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:19 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:30).
+- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:19 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
 
 - **module :** titles
 
@@ -40291,169 +40291,169 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:30 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:30).
+- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:31 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:30).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:36 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:37 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:30).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:41 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:30).
+- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:43 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:48 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:48 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:30).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:52 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:30).
+- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:54 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:58 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:59 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:30).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:69 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:30).
+- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:66 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:73 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:146).
+- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:70 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:30).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:81 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:76 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:88 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:87 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:30).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:93 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:30).
+- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:91 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:146).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:98 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
+- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:99 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:105 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:146).
+- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:106 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:112 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
+- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:111 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:30).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:119 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:116 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:125 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:123 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:146).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:131 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:130 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:138 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:137 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:144 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:143 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:152 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:30).
+- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:149 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:160 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:156 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:168 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:162 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:174 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
+- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:170 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:30).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:180 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:178 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:189 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:186 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:194 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:30).
+- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:192 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:200 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:198 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:205 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:30).
+- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:207 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
@@ -40465,127 +40465,127 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:216 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:218 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:222 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:30).
+- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:223 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:30).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:226 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:230 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:30).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:234 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:30).
+- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:234 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:238 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:240 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:30).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:245 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:30).
+- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:244 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:249 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:252 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:30).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:259 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:30).
+- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:256 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:263 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:263 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:30).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:269 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:267 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:277 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:277 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:30).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:288 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
+- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:281 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:294 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
+- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:287 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:298 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:295 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:309 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:306 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:321 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:312 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:332 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
+- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:316 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:336 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:327 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:343 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:339 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:349 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:350 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:357 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
+- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:354 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
@@ -40597,7 +40597,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:368 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:367 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
@@ -40615,169 +40615,175 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:391 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:146).
+- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:386 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:397 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
+- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:393 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:401 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:397 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:410 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:409 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:146).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:417 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:415 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:431 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:419 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:438 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:428 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:448 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
+- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:435 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:454 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:449 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:461 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:456 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:469 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:466 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:480 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:30).
+- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:472 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:485 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:479 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:493 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
+- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:487 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:497 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:498 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:30).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:514 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
+- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:503 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:520 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:30).
+- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:511 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:524 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:515 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:531 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:532 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:540 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:538 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:30).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:546 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:542 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:554 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
+- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:549 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:560 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:558 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:575 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:564 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:581 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:572 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:589 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:578 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:604 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:593 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:611 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:599 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+
+- **module :** titles
+
+## ⚠️ Warning
+- **Module :** titles
+- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:607 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
@@ -40789,91 +40795,85 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:634 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:629 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:640 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
+- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:640 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:644 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:652 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:650 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
+- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:658 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:654 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:662 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:666 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:668 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:677 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:672 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:688 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:684 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:694 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:695 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:700 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:706 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:710 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:712 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:716 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:718 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:727 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:728 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:733 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
-
-- **module :** titles
-
-## ⚠️ Warning
-- **Module :** titles
-- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:739 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
+- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:734 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
@@ -40885,13 +40885,31 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:751 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
+- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:751 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:757 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:757 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
+
+- **module :** titles
+
+## ⚠️ Warning
+- **Module :** titles
+- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:763 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+
+- **module :** titles
+
+## ⚠️ Warning
+- **Module :** titles
+- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:769 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
+
+- **module :** titles
+
+## ⚠️ Warning
+- **Module :** titles
+- **Message :** server_rust/vendor/openssl-sys/CHANGELOG.md:775 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
@@ -40925,25 +40943,19 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:11 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:16 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:18 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:30).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:26 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:30).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:24 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
-
-- **module :** titles
-
-## ⚠️ Warning
-- **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:30 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:30).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:32 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
 
 - **module :** titles
 
@@ -40955,253 +40967,253 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:46 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:43 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:30).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:55 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:49 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:60 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:55 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:30).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:75 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:61 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:81 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:71 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:93 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:80 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:102 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:85 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:108 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:100 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:112 titre dupliqué (déjà présent dans server_rust/vendor/tracing-core/CHANGELOG.md:588).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:106 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:118 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:118 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:129 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:30).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:127 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:134 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:133 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:138 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:146).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:137 titre dupliqué (déjà présent dans server_rust/vendor/tracing-core/CHANGELOG.md:588).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:145 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:143 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:149 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:30).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:154 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:30).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:155 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:159 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:159 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:163 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:146).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:165 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:170 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:171 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:174 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:30).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:175 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:180 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:181 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:184 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:185 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:190 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:193 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:196 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:199 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:200 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:204 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:206 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:209 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:30).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:210 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:216 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:218 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:222 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:224 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:226 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:30).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:229 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:232 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:234 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:30).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:240 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:241 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:248 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:30).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:247 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:255 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:251 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:30).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:260 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:257 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:266 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:30).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:265 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:270 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:273 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:30).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:276 titre dupliqué (déjà présent dans server_rust/vendor/tracing-core/CHANGELOG.md:588).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:280 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:280 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:285 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:284 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:291 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:30).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:292 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:30).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:295 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:299 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:301 titre dupliqué (déjà présent dans server_rust/vendor/tracing-core/CHANGELOG.md:588).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:303 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:30).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:305 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
 
 - **module :** titles
 
@@ -41213,193 +41225,199 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:319 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:30).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:317 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:30).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:327 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:324 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:332 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:30).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:328 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:30).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:337 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:334 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:348 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:344 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:30).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:354 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:352 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:363 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:357 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:30).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:369 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:362 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:377 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:373 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:386 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:379 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:393 titre dupliqué (déjà présent dans server_rust/vendor/tracing-core/CHANGELOG.md:588).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:388 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:400 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:394 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:406 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:402 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:410 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:411 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:417 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:418 titre dupliqué (déjà présent dans server_rust/vendor/tracing-core/CHANGELOG.md:588).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:427 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:425 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:434 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:431 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:440 titre dupliqué (déjà présent dans server_rust/vendor/tracing-core/CHANGELOG.md:588).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:435 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:446 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:442 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:461 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:452 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:466 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:459 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:475 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:465 titre dupliqué (déjà présent dans server_rust/vendor/tracing-core/CHANGELOG.md:588).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:483 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:471 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:494 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:486 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:505 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:491 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:511 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:500 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:515 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:508 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:525 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:519 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:531 titre dupliqué (déjà présent dans server_rust/vendor/tracing-core/CHANGELOG.md:588).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:530 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:535 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:536 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:550 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:540 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:556 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:550 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
+
+- **module :** titles
+
+## ⚠️ Warning
+- **Module :** titles
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:556 titre dupliqué (déjà présent dans server_rust/vendor/tracing-core/CHANGELOG.md:588).
 
 - **module :** titles
 
@@ -41411,307 +41429,313 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:568 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:575 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:577 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:581 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:581 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:585 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:588 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:593 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:597 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:602 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:601 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:606 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:615 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:613 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:619 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:622 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:630 titre dupliqué (déjà présent dans server_rust/vendor/tracing-core/CHANGELOG.md:588).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:626 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:637 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:640 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:653 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:644 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:657 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:30).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:655 titre dupliqué (déjà présent dans server_rust/vendor/tracing-core/CHANGELOG.md:588).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:661 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:662 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:671 titre dupliqué (déjà présent dans server_rust/vendor/tracing-core/CHANGELOG.md:588).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:678 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:677 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:682 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:30).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:681 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:686 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:694 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:696 titre dupliqué (déjà présent dans server_rust/vendor/tracing-core/CHANGELOG.md:588).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:701 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:702 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:710 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:706 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:714 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:719 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:726 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:726 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:730 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:735 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:737 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:739 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:741 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:751 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:755 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:755 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:759 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:762 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:765 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:766 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:771 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:780 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:775 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:784 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:782 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:790 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:791 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:796 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:803 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:800 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:809 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:807 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:821 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:816 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:829 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:828 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:835 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:834 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:839 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:846 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:843 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:30).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:854 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:849 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:860 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:853 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:864 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:862 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:868 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:30).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:866 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:874 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:874 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:878 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:883 titre dupliqué (déjà présent dans server_rust/vendor/tracing-core/CHANGELOG.md:588).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:887 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:890 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:891 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:897 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:899 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:902 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:908 titre dupliqué (déjà présent dans server_rust/vendor/tracing-core/CHANGELOG.md:588).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:913 titre dupliqué (déjà présent dans server_rust/vendor/tracing-core/CHANGELOG.md:588).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:915 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:919 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:922 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:929 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:927 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:941 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:938 titre dupliqué (déjà présent dans server_rust/vendor/tracing-core/CHANGELOG.md:588).
+
+- **module :** titles
+
+## ⚠️ Warning
+- **Module :** titles
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:944 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
 
 - **module :** titles
 
@@ -41723,103 +41747,115 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:973 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:30).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:966 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:981 titre dupliqué (déjà présent dans server_rust/vendor/tracing-core/CHANGELOG.md:588).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:979 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:988 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:998 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:30).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:992 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:1006 titre dupliqué (déjà présent dans server_rust/vendor/tracing-core/CHANGELOG.md:588).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:1003 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:30).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:1013 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:1007 titre dupliqué (déjà présent dans server_rust/vendor/tracing-core/CHANGELOG.md:588).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:1017 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:1013 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:1028 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:30).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:1026 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:1032 titre dupliqué (déjà présent dans server_rust/vendor/tracing-core/CHANGELOG.md:588).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:1033 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:1038 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:1039 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:1051 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:1045 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:1058 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:1053 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:1064 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:35).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:1059 titre dupliqué (déjà présent dans server_rust/vendor/num-traits/README.md:41).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:1070 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:1063 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:1078 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:1072 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:30).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:1084 titre dupliqué (déjà présent dans server_rust/vendor/num-traits/README.md:41).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:1108 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:146).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:1088 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:1116 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:454).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:1097 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:30).
+
+- **module :** titles
+
+## ⚠️ Warning
+- **Module :** titles
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:1133 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/CHANGELOG.md:146).
+
+- **module :** titles
+
+## ⚠️ Warning
+- **Module :** titles
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:1141 titre dupliqué (déjà présent dans server_rust/vendor/log/CHANGELOG.md:454).
 
 - **module :** titles
 
