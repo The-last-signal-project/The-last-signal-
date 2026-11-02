@@ -6,6 +6,7 @@ client_python/save.json
 # IDE
 .idea/
 *.iml
+Microsoft/*
 
 # Local scripts
 *.sh
