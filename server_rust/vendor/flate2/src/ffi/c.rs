@@ -187,6 +187,7 @@ impl Direction for DirDecompress {
 #[derive(Debug)]
 pub struct Inflate {
     pub inner: Stream<DirDecompress>,
+    window_bits: u8,
 }
 
 impl Inflate {
@@ -255,6 +256,7 @@ impl InflateBackend for Inflate {
                     total_out: 0,
                     _marker: marker::PhantomData,
                 },
+                window_bits,
             }
         }
     }
@@ -278,13 +280,18 @@ impl InflateBackend for Inflate {
 
     fn reset(&mut self, zlib_header: bool) {
         let bits = if zlib_header {
-            MZ_DEFAULT_WINDOW_BITS
+            self.window_bits as c_int
         } else {
-            -MZ_DEFAULT_WINDOW_BITS
+            // Keep only the base-2 logarithm of the window size: a decoder
+            // created for gzip (window_bits + 16) resets to a raw deflate
+            // stream with the same window size.
+            -((self.window_bits & 15) as c_int)
         };
-        unsafe {
-            inflateReset2(self.inner.stream_wrapper.inner, bits);
-        }
+        let rc = unsafe { inflateReset2(self.inner.stream_wrapper.inner, bits) };
+        assert_eq!(
+            rc, MZ_OK,
+            "inflateReset2 failed despite valid window bits and an initialized stream"
+        );
         self.inner.total_out = 0;
         self.inner.total_in = 0;
     }

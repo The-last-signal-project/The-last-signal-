@@ -91,13 +91,9 @@ impl<W: Write> DeflateEncoder<W> {
     /// Attempt to finish this output stream, writing out final chunks of data.
     ///
     /// Note that this function can only be used once data has finished being
-    /// written to the output stream. After this function is called then further
-    /// calls to `write` may result in a panic.
-    ///
-    /// # Panics
-    ///
-    /// Attempts to write data to this stream may result in a panic after this
-    /// function is called.
+    /// written to the output stream. Once this function returns `Ok(())`, further
+    /// calls to `write` return `Ok(0)` or an error. Call [`reset`](Self::reset) to
+    /// start a new stream.
     ///
     /// # Errors
     ///
@@ -132,7 +128,7 @@ impl<W: Write> DeflateEncoder<W> {
     /// This will flush the underlying data stream and then return the contained
     /// writer if the flush succeeded.
     /// The compressed stream will not closed but only flushed. This
-    /// means that obtained byte array can by extended by another deflated
+    /// means that obtained byte array can be extended by another deflated
     /// stream. To close the stream add the two bytes 0x3 and 0x0.
     ///
     /// # Errors
@@ -255,8 +251,8 @@ impl<W: Write> DeflateDecoder<W> {
     /// Resets the state of this decoder entirely, swapping out the output
     /// stream for another.
     ///
-    /// This function will finish encoding the current stream into the current
-    /// output stream before swapping out the two output streams.
+    /// Any pending output will be written to the current output stream before
+    /// swapping out the two output streams.
     ///
     /// This will then reset the internal state of this decoder and replace the
     /// output stream with the one provided, returning the previous output
@@ -265,10 +261,10 @@ impl<W: Write> DeflateDecoder<W> {
     ///
     /// # Errors
     ///
-    /// This function will perform I/O to finish the stream, and if that I/O
-    /// returns an error then that will be returned from this function.
+    /// This function will perform I/O to write any pending output, and if that
+    /// I/O returns an error then that will be returned from this function.
     pub fn reset(&mut self, w: W) -> io::Result<W> {
-        self.inner.finish()?;
+        self.inner.drain()?;
         self.inner.data = Decompress::new(false);
         Ok(self.inner.replace(w))
     }
