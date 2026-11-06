@@ -37,8 +37,7 @@ impl BankManager {
         Self { pool }
     }
 
-    // Les tables sont créées par la migration
-    // `migrations/20261104120000_bank.sql` (sqlx::migrate!()).
+ 
 
     /// Prend le verrou d'écriture SQLite dès le début de la transaction.
     /// À appeler avant une lecture suivie d'écritures (évite SQLITE_BUSY_SNAPSHOT).
