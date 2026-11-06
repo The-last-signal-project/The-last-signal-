@@ -1,5 +1,5 @@
 {
-    "generated": "2026-11-06T21:11:38.559115",
+    "generated": "2026-11-06T21:34:35.057670",
     "score": 64,
     "status": "Bon",
     "scores": {
@@ -11,7 +11,7 @@
         "rust": 0,
         "organization": 95
     },
-    "problem_count": 8593,
+    "problem_count": 8592,
     "details": {
         "markdown": {
             "score": 45,
@@ -8373,12 +8373,6 @@
                     "file": "server_rust/vendor/windows-core/readme.md",
                     "severity": "error",
                     "message": "server_rust/vendor/windows-core/readme.md: contient 0 titres H1 (1 attendu).",
-                    "module": "titles"
-                },
-                {
-                    "file": "server_rust/vendor/smallvec/README.md",
-                    "severity": "error",
-                    "message": "server_rust/vendor/smallvec/README.md: contient 0 titres H1 (1 attendu).",
                     "module": "titles"
                 },
                 {

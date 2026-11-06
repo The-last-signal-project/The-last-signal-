@@ -1,6 +1,6 @@
 Documentation Quality Report
 
-**Date :** 2026-11-06 21:11:38
+**Date :** 2026-11-06 21:34:35
 
 # 64/100
 
@@ -45580,12 +45580,6 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **module :** titles
 
 # 📄 server_rust/vendor/smallvec/README.md
-
-## ❌ Error
-- **Module :** titles
-- **Message :** server_rust/vendor/smallvec/README.md: contient 0 titres H1 (1 attendu).
-
-- **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles

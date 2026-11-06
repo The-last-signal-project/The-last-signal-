@@ -8334,12 +8334,6 @@
         "module": "titles"
     },
     {
-        "file": "server_rust/vendor/smallvec/README.md",
-        "severity": "error",
-        "message": "server_rust/vendor/smallvec/README.md: contient 0 titres H1 (1 attendu).",
-        "module": "titles"
-    },
-    {
         "file": "server_rust/vendor/heck/CHANGELOG.md",
         "severity": "error",
         "message": "server_rust/vendor/heck/CHANGELOG.md: contient 4 titres H1 (1 attendu).",
