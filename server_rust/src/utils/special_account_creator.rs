@@ -1,5 +1,6 @@
 use uuid::Uuid;
 use sqlx::SqlitePool;
+use crate::gameplay::bank_manager:: Bankmanager
 pub async fn create_account(
     pool: &SqlitePool,
     email: &str,
@@ -99,6 +100,7 @@ pub async fn create_account(
         .bind(max_balance)
         .execute(&mut *tx) 
         .await?;
+    Bankmanager::invertir(account_id,i32)
     if let Some(status) = status {
         sqlx::query(
             r#"
