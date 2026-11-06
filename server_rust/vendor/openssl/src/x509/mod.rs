@@ -7,6 +7,7 @@
 //! Internet protocols, including SSL/TLS, which is the basis for HTTPS,
 //! the secure protocol for browsing the web.
 
+use bitflags::bitflags;
 use foreign_types::{ForeignType, ForeignTypeRef, Opaque};
 use libc::{c_int, c_long, c_uint, c_void};
 use std::cmp::{self, Ordering};
@@ -139,6 +140,16 @@ impl X509StoreContextRef {
             fn drop(&mut self) {
                 unsafe {
                     ffi::X509_STORE_CTX_cleanup(self.0.as_ptr());
+                    // OpenSSL and LibreSSL leave the certificate pointers in
+                    // place after cleanup, but they are only borrowed for the
+                    // duration of `init`. Clear them so that `verify_cert` and
+                    // `current_cert` can't use them afterwards. BoringSSL and
+                    // AWS-LC zero the whole context on cleanup.
+                    #[cfg(not(any(boringssl, awslc)))]
+                    {
+                        ffi::X509_STORE_CTX_set_cert(self.0.as_ptr(), ptr::null_mut());
+                        ffi::X509_STORE_CTX_set_current_cert(self.0.as_ptr(), ptr::null_mut());
+                    }
                 }
             }
         }
@@ -161,7 +172,8 @@ impl X509StoreContextRef {
     /// Returns `true` if verification succeeds. The `error` method will return the specific
     /// validation error if the certificate was not valid.
     ///
-    /// This will only work inside of a call to `init`.
+    /// This will only work inside of a call to `init`. Otherwise it returns `Ok(false)` or an
+    /// error, depending on the library.
     #[corresponds(X509_verify_cert)]
     pub fn verify_cert(&mut self) -> Result<bool, ErrorStack> {
         unsafe { cvt_n(ffi::X509_verify_cert(self.as_ptr())).map(|n| n != 0) }
@@ -372,6 +384,40 @@ impl X509Builder {
     }
 }
 
+bitflags! {
+    /// Flags in the certificate's `KeyUsage` extension.
+    #[derive(Copy, Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd)]
+    #[repr(transparent)]
+    pub struct X509KeyUsage: u32 {
+        const DIGITAL_SIGNATURE = ffi::X509v3_KU_DIGITAL_SIGNATURE as _;
+        const NON_REPUDIATION = ffi::X509v3_KU_NON_REPUDIATION as _;
+        const KEY_ENCIPHERMENT = ffi::X509v3_KU_KEY_ENCIPHERMENT as _;
+        const DATA_ENCIPHERMENT = ffi::X509v3_KU_DATA_ENCIPHERMENT as _;
+        const KEY_AGREEMENT = ffi::X509v3_KU_KEY_AGREEMENT as _;
+        const KEY_CERT_SIGN = ffi::X509v3_KU_KEY_CERT_SIGN as _;
+        const CRL_SIGN = ffi::X509v3_KU_CRL_SIGN as _;
+        const ENCIPHER_ONLY = ffi::X509v3_KU_ENCIPHER_ONLY as _;
+        const DECIPHER_ONLY = ffi::X509v3_KU_DECIPHER_ONLY as _;
+    }
+}
+
+bitflags! {
+    /// Purposes recognized in a certificate's `ExtendedKeyUsage` extension.
+    #[derive(Copy, Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd)]
+    #[repr(transparent)]
+    pub struct X509ExtendedKeyUsage: u32 {
+        const SSL_SERVER = ffi::XKU_SSL_SERVER as _;
+        const SSL_CLIENT = ffi::XKU_SSL_CLIENT as _;
+        const SMIME = ffi::XKU_SMIME as _;
+        const CODE_SIGN = ffi::XKU_CODE_SIGN as _;
+        const SGC = ffi::XKU_SGC as _;
+        const OCSP_SIGN = ffi::XKU_OCSP_SIGN as _;
+        const TIMESTAMP = ffi::XKU_TIMESTAMP as _;
+        const DVCS = ffi::XKU_DVCS as _;
+        const ANYEKU = ffi::XKU_ANYEKU as _;
+    }
+}
+
 foreign_type_and_impl_send_sync! {
     type CType = ffi::X509;
     fn drop = ffi::X509_free;
@@ -522,6 +568,39 @@ impl X509Ref {
         unsafe {
             let r = ffi::X509_get0_authority_serial(self.as_ptr());
             Asn1IntegerRef::from_const_ptr_opt(r)
+        }
+    }
+
+    /// Returns the flags in this certificate's `KeyUsage` extension, if it exists.
+    ///
+    /// Returns `None` if the extension is absent, in which case key usage is
+    /// typically unrestricted. Returns `Some(X509KeyUsage::empty())` if the
+    /// certificate's extensions could not be processed.
+    #[corresponds(X509_get_key_usage)]
+    pub fn key_usage(&self) -> Option<X509KeyUsage> {
+        let bits = unsafe { ffi::X509_get_key_usage(self.as_ptr()) };
+        if bits == u32::MAX {
+            None
+        } else {
+            Some(X509KeyUsage::from_bits_retain(bits))
+        }
+    }
+
+    /// Returns the purposes recognized in this certificate's `ExtendedKeyUsage`
+    /// extension, if it exists.
+    ///
+    /// Returns `None` if the extension is absent, in which case extended key usage is
+    /// typically unrestricted. Only the purposes defined in `X509ExtendedKeyUsage` are
+    /// represented; other purpose OIDs in the extension are not visible, so an extension
+    /// listing only such purposes returns `Some(X509ExtendedKeyUsage::empty())`. The
+    /// same value is returned if the certificate's extensions could not be processed.
+    #[corresponds(X509_get_extended_key_usage)]
+    pub fn extended_key_usage(&self) -> Option<X509ExtendedKeyUsage> {
+        let bits = unsafe { ffi::X509_get_extended_key_usage(self.as_ptr()) };
+        if bits == u32::MAX {
+            None
+        } else {
+            Some(X509ExtendedKeyUsage::from_bits_retain(bits))
         }
     }
 
@@ -710,7 +789,8 @@ impl ToOwned for X509Ref {
 
     fn to_owned(&self) -> X509 {
         unsafe {
-            X509_up_ref(self.as_ptr());
+            let r = X509_up_ref(self.as_ptr());
+            assert!(r == 1);
             X509::from_ptr(self.as_ptr())
         }
     }
@@ -1887,9 +1967,9 @@ impl X509CrlBuilder {
 
     /// Consumes the builder, returning the CRL.
     ///
-    /// # Panics
+    /// # Errors
     ///
-    /// Panics if any of nextUpdate, revoked, AuthorityKeyIdentifier or CrlNumber is missing
+    /// Returns an error if any of nextUpdate, revoked, AuthorityKeyIdentifier or CrlNumber is missing
     pub fn build(self) -> Result<X509Crl, ErrorStack> {
         unsafe {
             let loc = ffi::X509_CRL_get_ext_by_NID(
@@ -1897,36 +1977,43 @@ impl X509CrlBuilder {
                 Nid::AUTHORITY_KEY_IDENTIFIER.as_raw(),
                 -1,
             );
-            assert!(
-                loc >= 0,
-                "CRL must have an Authority Key Identifier extension"
-            );
+            if loc < 0 {
+                return Err(ErrorStack::internal_error(
+                    "CRL must have an Authority Key Identifier extension",
+                ));
+            }
             let ext = ffi::X509_CRL_get_ext(self.0.as_ptr(), loc);
-            assert_eq!(
-                ffi::X509_EXTENSION_get_critical(ext),
-                0,
-                "Authority Key Identifier extension must not be critical"
-            );
+            if ffi::X509_EXTENSION_get_critical(ext) != 0 {
+                return Err(ErrorStack::internal_error(
+                    "Authority Key Identifier extension must not be critical",
+                ));
+            }
 
             let loc = ffi::X509_CRL_get_ext_by_NID(self.0.as_ptr(), Nid::CRL_NUMBER.as_raw(), -1);
-            assert!(loc >= 0, "CRL must have a Crl Number extension");
+            if loc < 0 {
+                return Err(ErrorStack::internal_error(
+                    "CRL must have a Crl Number extension",
+                ));
+            }
             let ext = ffi::X509_CRL_get_ext(self.0.as_ptr(), loc);
-            assert_eq!(
-                ffi::X509_EXTENSION_get_critical(ext),
-                0,
-                "Crl Number extension must not be critical"
-            );
+            if ffi::X509_EXTENSION_get_critical(ext) != 0 {
+                return Err(ErrorStack::internal_error(
+                    "Crl Number extension must not be critical",
+                ));
+            }
 
-            assert!(
-                !X509_CRL_get0_nextUpdate(self.0.as_ptr()).is_null(),
-                "CRL must have nextUpdate time set"
-            );
+            if X509_CRL_get0_nextUpdate(self.0.as_ptr()).is_null() {
+                return Err(ErrorStack::internal_error(
+                    "CRL must have nextUpdate time set",
+                ));
+            }
             let revoked = self.0.get_revoked();
-            assert!(
-                // XXX - switch to is_none_or() once MSRV is 1.82.
-                revoked.is_none() || revoked.is_some_and(|r| !r.is_empty()),
-                "Revoked must be absent or non-empty"
-            );
+            // XXX - switch to is_none_or() once MSRV is 1.82.
+            if !(revoked.is_none() || revoked.is_some_and(|r| !r.is_empty())) {
+                return Err(ErrorStack::internal_error(
+                    "Revoked must be absent or non-empty",
+                ));
+            }
         }
 
         Ok(self.0)
@@ -2584,6 +2671,8 @@ impl X509PurposeId {
 }
 
 /// A reference to an [`X509_PURPOSE`].
+///
+/// [`X509_PURPOSE`]: https://docs.openssl.org/master/man3/X509_check_purpose/
 pub struct X509PurposeRef(Opaque);
 
 /// Implements a wrapper type for the static `X509_PURPOSE` table in OpenSSL.
