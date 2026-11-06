@@ -4,3 +4,4 @@ pub mod tresor;
 pub mod stuff_manager;
 pub mod wallet_manager;
 pub mod market_manager;
+pub mod bank_manager;
