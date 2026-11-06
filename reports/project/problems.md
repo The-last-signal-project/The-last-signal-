@@ -1,14 +1,14 @@
 # Documentation Problems
 
-Generated: 2026-11-06 21:11:39
+Generated: 2026-11-06 21:34:35
 
 ## Summary
 
 |Type|Count|
 |---|---:|
-|Errors|473|
+|Errors|472|
 |Warnings|8115|
-|**Total**|**8593**|
+|**Total**|**8592**|
 
 ---
 
@@ -38849,11 +38849,6 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ---
 
 # server_rust/vendor/smallvec/README.md
-
-## Error
-
-- **Module :** titles
-- **Message :** server_rust/vendor/smallvec/README.md: contient 0 titres H1 (1 attendu).
 
 ## Warning
 
