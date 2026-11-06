@@ -724,6 +724,101 @@ mod tests {
         assert!(dst.starts_with(string));
     }
 
+    #[cfg(all(not(feature = "any_zlib"), feature = "miniz_oxide"))]
+    #[test]
+    fn reset_clears_miniz_oxide_dictionary() {
+        let secret = [b'A'; 32 * 1024];
+        // A raw DEFLATE stream containing one final, uncompressed (stored) block:
+        // 0x01 sets BFINAL=1 and BTYPE=00, followed by padding to a byte boundary.
+        // LEN is the payload length; NLEN is its one's complement.
+        // The payload fills the entire 32 KiB dictionary with secret bytes.
+        let len = secret.len() as u16;
+        let nlen = !len;
+        let mut victim_stream = Vec::with_capacity(secret.len() + 5);
+        victim_stream.push(0x01);
+        victim_stream.extend_from_slice(&len.to_le_bytes());
+        victim_stream.extend_from_slice(&nlen.to_le_bytes());
+        victim_stream.extend_from_slice(&secret);
+
+        let mut decoder = Decompress::new(false);
+        let mut victim_output = [0; 32 * 1024];
+        decoder
+            .decompress(&victim_stream, &mut victim_output, FlushDecompress::None)
+            .unwrap();
+        assert_eq!(
+            victim_output, secret,
+            "the first stream must fill the 32 KiB dictionary with secret bytes"
+        );
+
+        decoder.reset(false);
+
+        let mut attacker_output = [0; 258];
+        let _ = decoder.decompress(
+            &[0x1b, 0xbd, 0xff, 0x1f, 0x00],
+            &mut attacker_output,
+            FlushDecompress::None,
+        );
+        assert!(
+            !attacker_output.contains(&b'A'),
+            "reset must clear the dictionary: a distance-32768 match leaked bytes \
+             from the previous stream; both FullReset and the current upstream \
+             reset() prevent this, but MinReset does not"
+        );
+    }
+
+    #[test]
+    fn unfinished_compressor_can_be_dropped() {
+        let mut encoder = Compress::new(Compression::default(), false);
+        encoder
+            .compress(b"hello", &mut [0; 1024], FlushCompress::None)
+            .unwrap();
+        assert_eq!(encoder.total_in(), 5);
+    }
+
+    #[cfg(feature = "any_zlib")]
+    #[test]
+    fn reset_preserves_gzip_configuration() {
+        let string = "hello, hello!".as_bytes();
+
+        let mut encoded = Vec::with_capacity(1024);
+        let mut encoder = Compress::new_gzip(Compression::default(), 9);
+        encoder
+            .compress_vec(string, &mut encoded, FlushCompress::Finish)
+            .unwrap();
+
+        let mut decoder = Decompress::new_gzip(9);
+        let mut decoded = [0; 1024];
+        decoder
+            .decompress(&encoded, &mut decoded, FlushDecompress::Finish)
+            .unwrap();
+        assert_eq!(&decoded[..decoder.total_out() as usize], string);
+
+        decoder.reset(true);
+        let mut decoded = [0; 1024];
+        decoder
+            .decompress(&encoded, &mut decoded, FlushDecompress::Finish)
+            .expect("reset must preserve the gzip wrapper selected at construction");
+        assert_eq!(&decoded[..decoder.total_out() as usize], string);
+    }
+
+    #[cfg(feature = "any_zlib")]
+    #[test]
+    fn reset_preserves_window_bits() {
+        // A valid zlib header declaring a 32 KiB (15-bit) window: CMF 0x78, FLG 0x9c.
+        let header_15_bit_window = [0x78, 0x9c];
+        let mut decoded = [0; 64];
+
+        let mut decoder = Decompress::new_with_window_bits(true, 9);
+        decoder
+            .decompress(&header_15_bit_window, &mut decoded, FlushDecompress::None)
+            .expect_err("a 15-bit-window stream must be rejected by a 9-bit-window decoder");
+
+        decoder.reset(true);
+        decoder
+            .decompress(&header_15_bit_window, &mut decoded, FlushDecompress::None)
+            .expect_err("reset must preserve the window size selected at construction");
+    }
+
     #[cfg(feature = "any_zlib")]
     #[test]
     fn test_gzip_flate() {

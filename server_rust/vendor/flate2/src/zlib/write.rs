@@ -99,13 +99,9 @@ impl<W: Write> ZlibEncoder<W> {
     /// Attempt to finish this output stream, writing out final chunks of data.
     ///
     /// Note that this function can only be used once data has finished being
-    /// written to the output stream. After this function is called then further
-    /// calls to `write` may result in a panic.
-    ///
-    /// # Panics
-    ///
-    /// Attempts to write data to this stream may result in a panic after this
-    /// function is called.
+    /// written to the output stream. Once this function returns `Ok(())`, further
+    /// calls to `write` return `Ok(0)` or an error. Call [`reset`](Self::reset) to
+    /// start a new stream.
     ///
     /// # Errors
     ///
@@ -140,7 +136,7 @@ impl<W: Write> ZlibEncoder<W> {
     /// This will flush the underlying data stream and then return the contained
     /// writer if the flush succeeded.
     /// The compressed stream will not be closed but only flushed. This
-    /// means that obtained byte array can by extended by another deflated
+    /// means that obtained byte array can be extended by another deflated
     /// stream. To close the stream add the two bytes 0x3 and 0x0.
     ///
     /// # Errors
@@ -283,10 +279,10 @@ impl<W: Write> ZlibDecoder<W> {
     ///
     /// # Errors
     ///
-    /// This function will perform I/O to complete this stream, and any I/O
+    /// This function will perform I/O to write any pending output, and any I/O
     /// errors which occur will be returned from this function.
     pub fn reset(&mut self, w: W) -> io::Result<W> {
-        self.inner.finish()?;
+        self.inner.drain()?;
         self.inner.data = Decompress::new(true);
         Ok(self.inner.replace(w))
     }
