@@ -38,7 +38,7 @@
 //!
 //! ```toml
 //! [dependencies.uuid]
-//! version = "1.29.0"
+//! version = "1.29.1"
 //! # Lets you generate random UUIDs
 //! features = [
 //!     "v4",
@@ -101,8 +101,6 @@
 //!
 //! * `serde` - adds the ability to serialize and deserialize a UUID using
 //!   `serde`.
-//! * `borsh` - adds the ability to serialize and deserialize a UUID using
-//!   `borsh`.
 //! * `arbitrary` - adds an `Arbitrary` trait implementation to `Uuid` for
 //!   fuzzing.
 //! * `fast-rng` - uses a faster algorithm for generating random UUIDs when available.
@@ -138,7 +136,7 @@
 //!
 //! ```toml
 //! [dependencies.uuid]
-//! version = "1.29.0"
+//! version = "1.29.1"
 //! features = [
 //!     "v4",
 //!     "v7",
@@ -153,7 +151,7 @@
 //!
 //! ```toml
 //! [dependencies.uuid]
-//! version = "1.29.0"
+//! version = "1.29.1"
 //! default-features = false
 //! ```
 //!
@@ -209,11 +207,6 @@
 #![no_std]
 #![deny(missing_debug_implementations, missing_docs)]
 #![allow(clippy::mixed_attributes_style)]
-#![doc(
-    html_logo_url = "https://www.rust-lang.org/logos/rust-logo-128x128-blk-v2.png",
-    html_favicon_url = "https://www.rust-lang.org/favicon.ico",
-    html_root_url = "https://docs.rs/uuid/1.29.0"
-)]
 
 #[cfg(any(feature = "std", test))]
 #[macro_use]
@@ -446,10 +439,6 @@ pub enum Variant {
 #[repr(transparent)]
 // NOTE: Also check `NonNilUuid` when ading new derives here
 #[cfg_attr(
-    feature = "borsh",
-    derive(borsh_derive::BorshDeserialize, borsh_derive::BorshSerialize)
-)]
-#[cfg_attr(
     feature = "bytemuck",
     derive(bytemuck::Zeroable, bytemuck::Pod, bytemuck::TransparentWrapper)
 )]
@@ -462,6 +451,11 @@ pub enum Variant {
         zerocopy::Immutable,
         zerocopy::Unaligned
     )
+)]
+// NOTE: `borsh` support is deprecated; use the `uuid` feature of `borsh` instead
+#[cfg_attr(
+    feature = "borsh",
+    derive(borsh_derive::BorshDeserialize, borsh_derive::BorshSerialize)
 )]
 pub struct Uuid(Bytes);
 
