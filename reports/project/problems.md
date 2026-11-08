@@ -1,14 +1,14 @@
 # Documentation Problems
 
-Generated: 2026-11-08 08:26:00
+Generated: 2026-11-08 10:54:39
 
 ## Summary
 
 |Type|Count|
 |---|---:|
 |Errors|472|
-|Warnings|8115|
-|**Total**|**8592**|
+|Warnings|8162|
+|**Total**|**8639**|
 
 ---
 
@@ -19057,32 +19057,267 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## Warning
 
 - **Module :** markdown
-- **Message :** Ligne 44 > 120 caractères.
+- **Message :** Ligne 23 > 120 caractères.
 
 ## Warning
 
 - **Module :** markdown
-- **Message :** Ligne 73 > 120 caractères.
+- **Message :** Ligne 24 > 120 caractères.
 
 ## Warning
 
 - **Module :** markdown
-- **Message :** Ligne 74 > 120 caractères.
+- **Message :** Ligne 25 > 120 caractères.
 
 ## Warning
 
 - **Module :** markdown
-- **Message :** Ligne 78 > 120 caractères.
+- **Message :** Ligne 26 > 120 caractères.
 
 ## Warning
 
 - **Module :** markdown
-- **Message :** Ligne 84 > 120 caractères.
+- **Message :** Ligne 27 > 120 caractères.
+
+## Warning
+
+- **Module :** markdown
+- **Message :** Ligne 31 > 120 caractères.
+
+## Warning
+
+- **Module :** markdown
+- **Message :** Ligne 32 > 120 caractères.
+
+## Warning
+
+- **Module :** markdown
+- **Message :** Ligne 33 > 120 caractères.
+
+## Warning
+
+- **Module :** markdown
+- **Message :** Ligne 34 > 120 caractères.
+
+## Warning
+
+- **Module :** markdown
+- **Message :** Ligne 35 > 120 caractères.
+
+## Warning
+
+- **Module :** markdown
+- **Message :** Ligne 36 > 120 caractères.
+
+## Warning
+
+- **Module :** markdown
+- **Message :** Ligne 37 > 120 caractères.
+
+## Warning
+
+- **Module :** markdown
+- **Message :** Ligne 38 > 120 caractères.
+
+## Warning
+
+- **Module :** markdown
+- **Message :** Ligne 39 > 120 caractères.
+
+## Warning
+
+- **Module :** markdown
+- **Message :** Ligne 40 > 120 caractères.
+
+## Warning
+
+- **Module :** markdown
+- **Message :** Ligne 41 > 120 caractères.
+
+## Warning
+
+- **Module :** markdown
+- **Message :** Ligne 46 > 120 caractères.
+
+## Warning
+
+- **Module :** markdown
+- **Message :** Ligne 47 > 120 caractères.
+
+## Warning
+
+- **Module :** markdown
+- **Message :** Ligne 48 > 120 caractères.
+
+## Warning
+
+- **Module :** markdown
+- **Message :** Ligne 52 > 120 caractères.
+
+## Warning
+
+- **Module :** markdown
+- **Message :** Ligne 53 > 120 caractères.
+
+## Warning
+
+- **Module :** markdown
+- **Message :** Ligne 54 > 120 caractères.
+
+## Warning
+
+- **Module :** markdown
+- **Message :** Ligne 55 > 120 caractères.
+
+## Warning
+
+- **Module :** markdown
+- **Message :** Ligne 56 > 120 caractères.
+
+## Warning
+
+- **Module :** markdown
+- **Message :** Ligne 60 > 120 caractères.
+
+## Warning
+
+- **Module :** markdown
+- **Message :** Ligne 61 > 120 caractères.
+
+## Warning
+
+- **Module :** markdown
+- **Message :** Ligne 62 > 120 caractères.
+
+## Warning
+
+- **Module :** markdown
+- **Message :** Ligne 63 > 120 caractères.
+
+## Warning
+
+- **Module :** markdown
+- **Message :** Ligne 64 > 120 caractères.
+
+## Warning
+
+- **Module :** markdown
+- **Message :** Ligne 65 > 120 caractères.
+
+## Warning
+
+- **Module :** markdown
+- **Message :** Ligne 66 > 120 caractères.
+
+## Warning
+
+- **Module :** markdown
+- **Message :** Ligne 67 > 120 caractères.
+
+## Warning
+
+- **Module :** markdown
+- **Message :** Ligne 68 > 120 caractères.
+
+## Warning
+
+- **Module :** markdown
+- **Message :** Ligne 69 > 120 caractères.
+
+## Warning
+
+- **Module :** markdown
+- **Message :** Ligne 70 > 120 caractères.
+
+## Warning
+
+- **Module :** markdown
+- **Message :** Ligne 76 > 120 caractères.
+
+## Warning
+
+- **Module :** markdown
+- **Message :** Ligne 80 > 120 caractères.
+
+## Warning
+
+- **Module :** markdown
+- **Message :** Ligne 81 > 120 caractères.
+
+## Warning
+
+- **Module :** markdown
+- **Message :** Ligne 85 > 120 caractères.
+
+## Warning
+
+- **Module :** markdown
+- **Message :** Ligne 86 > 120 caractères.
+
+## Warning
+
+- **Module :** markdown
+- **Message :** Ligne 87 > 120 caractères.
 
 ## Warning
 
 - **Module :** markdown
 - **Message :** Ligne 88 > 120 caractères.
+
+## Warning
+
+- **Module :** markdown
+- **Message :** Ligne 89 > 120 caractères.
+
+## Warning
+
+- **Module :** markdown
+- **Message :** Ligne 90 > 120 caractères.
+
+## Warning
+
+- **Module :** markdown
+- **Message :** Ligne 94 > 120 caractères.
+
+## Warning
+
+- **Module :** markdown
+- **Message :** Ligne 95 > 120 caractères.
+
+## Warning
+
+- **Module :** markdown
+- **Message :** Ligne 96 > 120 caractères.
+
+## Warning
+
+- **Module :** markdown
+- **Message :** Ligne 97 > 120 caractères.
+
+## Warning
+
+- **Module :** markdown
+- **Message :** Ligne 98 > 120 caractères.
+
+## Warning
+
+- **Module :** markdown
+- **Message :** Ligne 99 > 120 caractères.
+
+## Warning
+
+- **Module :** markdown
+- **Message :** Ligne 103 > 120 caractères.
+
+## Warning
+
+- **Module :** markdown
+- **Message :** Ligne 104 > 120 caractères.
+
+## Warning
+
+- **Module :** markdown
+- **Message :** Ligne 116 > 120 caractères.
 
 ---
 
