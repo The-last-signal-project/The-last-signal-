@@ -197,7 +197,12 @@ mod tests {
                                     is_militaire,
                                     Some(*coefficient),
                                 )
-                                .await?;
+                                .await?.en_hashmap();
+                            for a in &objets.artefacts {
+    println!("{}", a); // ex. "épée de pierre x1 [Rare - rank B]"
+                            }
+
+
 
                             /*
                              * On ajoute les livres dans l'inventaire.
