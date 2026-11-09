@@ -1,9 +1,9 @@
 # Security Report
 
-Run : 714
+Run : 715
 Branch : 191/merge
-Commit : 66d599f0e5fe3cd9cb5bb096348bb8b505c6b010
-Date : Mon Nov  9 18:19:42 UTC 2026
+Commit : e891061eddc4f46a1df4e82d3f12ca134e566a3f
+Date : Mon Nov  9 21:07:32 UTC 2026
 
 Fuzzing
 
@@ -36,12 +36,12 @@ THE LAST SIGNAL - RED TEAM FILE INTEGRITY TEST V2
 
 === RED TEAM CLONE ===
 Repository : https://github.com/The-last-signal-project/The-last-signal-.git
-SHA        : 66d599f0e5fe3cd9cb5bb096348bb8b505c6b010
-[CMD] git clone --no-tags --filter=blob:none https://github.com/The-last-signal-project/The-last-signal-.git /tmp/security_red_team_9yd4yeqb/repository
-[CMD] git fetch --depth=1 origin 66d599f0e5fe3cd9cb5bb096348bb8b505c6b010
-[CMD] git checkout --detach 66d599f0e5fe3cd9cb5bb096348bb8b505c6b010
+SHA        : e891061eddc4f46a1df4e82d3f12ca134e566a3f
+[CMD] git clone --no-tags --filter=blob:none https://github.com/The-last-signal-project/The-last-signal-.git /tmp/security_red_team_avbub5dz/repository
+[CMD] git fetch --depth=1 origin e891061eddc4f46a1df4e82d3f12ca134e566a3f
+[CMD] git checkout --detach e891061eddc4f46a1df4e82d3f12ca134e566a3f
 [CMD] git rev-parse HEAD
-[PASS] Exact commit verified: 66d599f0e5fe3cd9cb5bb096348bb8b505c6b010
+[PASS] Exact commit verified: e891061eddc4f46a1df4e82d3f12ca134e566a3f
 
 === CREATING SECURITY LAB ===
 [PASS] Laboratory created.
@@ -160,7 +160,7 @@ Files/objects inspected: 10496
 [INFO] Working tree contains changes.
 [FAIL] Sensitive file tracked by Git: server_rust/vendor/sqlx/tests/.env
 [INFO] core.filemode=true
-[INFO] HEAD=66d599f0e5fe3cd9cb5bb096348bb8b505c6b010
+[INFO] HEAD=e891061eddc4f46a1df4e82d3f12ca134e566a3f
 [INFO] Scanning Git history for obvious secrets...
 [FAIL] Potential secret detected in Git history.
 [FAIL] 2 Git security issue(s) detected.
@@ -42156,7 +42156,7 @@ Aucun log disponible.
 
 # Security report
 
-**Run:** 714
+**Run:** 715
 
 ## Tests
 
@@ -42179,8 +42179,8 @@ Aucun log disponible.
 [main]	INFO	cli include tests: None
 [main]	INFO	cli exclude tests: None
 [main]	INFO	running on Python 3.14.10
-Working... ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:00
-Run started:2026-11-09 18:20:44.596476+00:00
+Working... ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:01
+Run started:2026-11-09 21:08:46.880735+00:00
 
 Test results:
 >> Issue: [B404:blacklist] Consider possible security implications associated with the subprocess module.
@@ -46078,7 +46078,7 @@ It will be compatible before version 2.0.0.
 
   Using [1mopen-source vulnerability database[0m
 [1m  Found and scanned 145 packages[0m
-  Timestamp [1m2026-11-09 18:20:51[0m
+  Timestamp [1m2026-11-09 21:08:52[0m
 [1m  1[0m[1m vulnerability reported[0m
 [1m  0[0m[1m vulnerabilities ignored[0m
 
@@ -46254,9 +46254,9 @@ Ran 297 rules on 104 files: 8 findings.
     ○ ░
     ░    gitleaks
 
-[90m7:18PM[0m [32mINF[0m [1m5617 commits scanned.[0m
-[90m7:18PM[0m [32mINF[0m [1mscanned ~55553077818 bytes (55.55 GB) in 57m51s[0m
-[90m7:18PM[0m [32mINF[0m [1mno leaks found[0m
+[90m10:43PM[0m [32mINF[0m [1m5619 commits scanned.[0m
+[90m10:43PM[0m [32mINF[0m [1mscanned ~55553099951 bytes (55.55 GB) in 1h34m18s[0m
+[90m10:43PM[0m [32mINF[0m [1mno leaks found[0m
 
 ## Python Licenses
  Name                                      Version     License                                            
@@ -46403,7 +46403,7 @@ Ran 297 rules on 104 files: 8 findings.
  zipp                                      4.1.2       MIT                                                
 
 ## Cargo Deny
-2026-11-09 19:18:54 [[33mWARN[0m] unable to find a config path, falling back to default config[0m
+2026-11-09 22:43:25 [[33mWARN[0m] unable to find a config path, falling back to default config[0m
 [0m[1m[38;5;9merror[rejected][0m[1m: failed to satisfy license requirements[0m
    [0m[36m┌─[0m /home/runner/work/The-last-signal-/The-last-signal-/server_rust/vendor/adler2/Cargo.toml:38:12
    [0m[36m│[0m
