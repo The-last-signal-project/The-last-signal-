@@ -3,6 +3,7 @@ use sqlx::SqlitePool;
 use std::collections::HashMap;
 use crate::gameplay::dice::jet_de_des;
 use log::error;
+use crate::objets::{Rank, Rarete};
 
 const PA: u32 = 1;
 const PO: u32 = PA * 10;
@@ -20,6 +21,53 @@ pub struct Loot {
     pub admin: u32,
     pub militaire: u32,
 }
+/// Artéfact tiré à l'ouverture d'un coffre, avec sa rareté et son rank.
+/// `rarete` / `rank` valent `None` pour les artéfacts admin et militaires.
+#[allow(dead_code)]
+#[derive(Debug, Clone)]
+pub struct ArtefactTire {
+    pub nom: String,
+    pub quantite: u32,
+    pub rarete: Option<Rarete>,
+    pub rank: Option<Rank>,
+}
+
+impl std::fmt::Display for ArtefactTire {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{} x{}", self.nom, self.quantite)?;
+        if let Some(r) = self.rarete {
+            write!(f, " [{}", r.label())?;
+            if let Some(rank) = self.rank {
+                write!(f, " - rank {}", rank.label())?;
+            }
+            write!(f, "]")?;
+        }
+        Ok(())
+    }
+}
+
+/// Contenu complet d'un coffre ouvert.
+#[allow(dead_code)]
+#[derive(Debug, Clone, Default)]
+pub struct ResultatOuverture {
+    /// Objets garantis (argent, torches, ...), sans rareté ni rank.
+    pub objets: HashMap<String, u32>,
+    /// Artéfacts tirés, chacun avec sa rareté et son rank.
+    pub artefacts: Vec<ArtefactTire>,
+}
+
+impl ResultatOuverture {
+    /// Ancien format de `ouvrir` : noms et quantités fusionnés,
+    /// sans rareté ni rank. Pratique pour adapter un ancien appelant.
+    pub fn en_hashmap(&self) -> HashMap<String, u32> {
+        let mut objets = self.objets.clone();
+        for artefact in &self.artefacts {
+            *objets.entry(artefact.nom.clone()).or_insert(0) += artefact.quantite;
+        }
+        objets
+    }
+}
+
 #[allow(dead_code)]
 #[derive(Debug, Clone)]
 pub struct Tresor {
@@ -693,200 +741,143 @@ let sous_loot_livre_admin = HashMap::from([
         }
     }
     
-      pub async fn ouvrir(
-    &mut self,
-    pool: &SqlitePool,
-    account_id: i64,
-    niveau: u32,
-    is_admin: bool,
-    is_militaire: bool,
-    coeff_loot: Option<f64>,
-) -> Result<HashMap<String, u32>, sqlx::Error> {
-    // Mise à jour du coefficient de loot avec valeur par défaut 1.0
-    self.coeff_loot = coeff_loot.unwrap_or(1.0);
-    
-    let mut rng = rand::rng();
+    /// Ouvre un coffre : chaque artéfact reçoit sa rareté (celle de la
+    /// catégorie dans laquelle il a été tiré) et un rank de G à SSS.
+    pub async fn ouvrir(
+        &mut self,
+        pool: &SqlitePool,
+        account_id: i64,
+        niveau: u32,
+        is_admin: bool,
+        is_militaire: bool,
+        coeff_loot: Option<f64>,
+    ) -> Result<ResultatOuverture, sqlx::Error> {
+        // Mise à jour du coefficient de loot avec valeur par défaut 1.0
+        self.coeff_loot = coeff_loot.unwrap_or(1.0);
 
-    let loot = self
-        .loot_par_niveau
-        .get(&niveau)
-        .cloned()
-        .expect("Niveau de coffre invalide");
+        let mut rng = rand::rng();
 
-    let mut objets = HashMap::new();
+        let loot = self
+            .loot_par_niveau
+            .get(&niveau)
+            .cloned()
+            .expect("Niveau de coffre invalide");
 
-    // ==========================================
-    // OBJETS GARANTIS
-    // ==========================================
+        let mut resultat = ResultatOuverture::default();
 
-    if let Some(garantis) = self.objets_garantis.get(&niveau) {
-        for (objet, quantite) in garantis {
-            *objets.entry(objet.clone()).or_insert(0) += *quantite;
+        // ==========================================
+        // OBJETS GARANTIS
+        // ==========================================
+
+        if let Some(garantis) = self.objets_garantis.get(&niveau) {
+            for (objet, quantite) in garantis {
+                *resultat.objets.entry(objet.clone()).or_insert(0) += *quantite;
+            }
         }
+
+        // ==========================================
+        // ARTÉFACTS PAR RARETÉ
+        // (nombre de tirages, seuil du jet, catégorie, rareté)
+        // Il n'existe pas de seuil épique/légendaire : 20 par défaut.
+        // ==========================================
+
+        let categories = [
+            (
+                loot.commun,
+                self.seuil_artefact_commun.get(&niveau).copied().unwrap_or(20),
+                "Artefact commun",
+                Rarete::Commun,
+            ),
+            (
+                loot.peu_commun,
+                self.seuil_artefact_peu_commun.get(&niveau).copied().unwrap_or(20),
+                "Artefact peu commun",
+                Rarete::PeuCommun,
+            ),
+            (
+                loot.rare,
+                self.seuil_artefact_rare.get(&niveau).copied().unwrap_or(20),
+                "Artefact rare",
+                Rarete::Rare,
+            ),
+            (
+                loot.super_rare,
+                self.seuil_artefact_super_rare.get(&niveau).copied().unwrap_or(20),
+                "Artefact super rare",
+                Rarete::SuperRare,
+            ),
+            (loot.epique, 20, "Artefact epique", Rarete::Epique),
+            (loot.legendaire, 20, "Artefact legendaire", Rarete::Legendaire),
+        ];
+
+        for (nombre, seuil, categorie, rarete) in categories {
+            for _ in 0..nombre {
+                // Application du coefficient au seuil
+                let seuil_ajuste =
+                    (seuil as f64 * (1.0 / self.coeff_loot).max(0.1)) as u32;
+                let jet = rng.random_range(1..=20);
+
+                if jet >= seuil_ajuste {
+                    let nom = self
+                        .tirer_objet(pool, account_id, categorie, &mut rng, is_admin)
+                        .await?;
+                    let quantite =
+                        self.quantite_objets.get(&nom).copied().unwrap_or(1);
+                    let rank = Rank::tirer(rarete, &mut rng);
+
+                    resultat.artefacts.push(ArtefactTire {
+                        nom,
+                        quantite,
+                        rarete: Some(rarete),
+                        rank: Some(rank),
+                    });
+                }
+            }
+        }
+
+        // ==========================================
+        // LOOT ADMIN (pas de jet, pas de rareté ni de rank)
+        // ==========================================
+
+        if is_admin {
+            for _ in 0..loot.admin {
+                let nom = self
+                    .tirer_objet(pool, account_id, "Artefact admin", &mut rng, is_admin)
+                    .await?;
+                let quantite = self.quantite_objets.get(&nom).copied().unwrap_or(1);
+
+                resultat.artefacts.push(ArtefactTire {
+                    nom,
+                    quantite,
+                    rarete: None,
+                    rank: None,
+                });
+            }
+        }
+
+        // ==========================================
+        // LOOT MILITAIRE (pas de jet, pas de rareté ni de rank)
+        // ==========================================
+
+        if is_admin || is_militaire {
+            for _ in 0..loot.militaire {
+                let nom = self
+                    .tirer_objet(pool, account_id, "Artefact militaire", &mut rng, is_admin)
+                    .await?;
+                let quantite = self.quantite_objets.get(&nom).copied().unwrap_or(1);
+
+                resultat.artefacts.push(ArtefactTire {
+                    nom,
+                    quantite,
+                    rarete: None,
+                    rank: None,
+                });
+            }
+        }
+
+        Ok(resultat)
     }
 
-    // ==========================================
-    // OBJETS COMMUNS
-    // ==========================================
-
-    for _ in 0..loot.commun {
-        let seuil = self
-            .seuil_artefact_commun
-            .get(&niveau)
-            .copied()
-            .unwrap_or(20);
-
-        // Application du coefficient au seuil
-        let seuil_ajuste = (seuil as f64 * (1.0 / self.coeff_loot).max(0.1)) as u32;
-        let jet = rng.random_range(1..=20);
-
-        if jet >= seuil_ajuste {
-            let objet = self
-                .tirer_objet(
-                    pool,
-                    account_id,
-                    "Artefact commun",
-                    &mut rng,
-                    is_admin,
-                    
-                )
-                .await?;
-
-            let quantite = self
-                .quantite_objets
-                .get(&objet)
-                .copied()
-                .unwrap_or(1);
-
-            *objets.entry(objet).or_insert(0) += quantite;
-        }
-    }
-          for _ in 0..loot.peu_commun {
-        let seuil = self
-            .seuil_artefact_peu_commun
-            .get(&niveau)
-            .copied()
-            .unwrap_or(20);
-
-        // Application du coefficient au seuil
-        let seuil_ajuste = (seuil as f64 * (1.0 / self.coeff_loot).max(0.1)) as u32;
-        let jet = rng.random_range(1..=20);
-
-        if jet >= seuil_ajuste {
-            let objet = self
-                .tirer_objet(
-                    pool,
-                    account_id,
-                    "Artefact peu commun",
-                    &mut rng,
-                    is_admin,
-                    
-                )
-                .await?;
-
-            let quantite = self
-                .quantite_objets
-                .get(&objet)
-                .copied()
-                .unwrap_or(1);
-
-            *objets.entry(objet).or_insert(0) += quantite;
-        }
-          }
-          for _ in 0..loot.rare {
-        let seuil = self
-            .seuil_artefact_rare
-            .get(&niveau)
-            .copied()
-            .unwrap_or(20);
-
-        // Application du coefficient au seuil
-        let seuil_ajuste = (seuil as f64 * (1.0 / self.coeff_loot).max(0.1)) as u32;
-        let jet = rng.random_range(1..=20);
-
-        if jet >= seuil_ajuste {
-            let objet = self
-                .tirer_objet(
-                    pool,
-                    account_id,
-                    "Artefact rare",
-                    &mut rng,
-                    is_admin,
-                    
-                )
-                .await?;
-
-            let quantite = self
-                .quantite_objets
-                .get(&objet)
-                .copied()
-                .unwrap_or(1);
-
-            *objets.entry(objet).or_insert(0) += quantite;
-        }
-          }
-
-    // ==========================================
-    // LOOT ADMIN
-    // ==========================================
-
-    if is_admin {
-        for _ in 0..loot.admin {
-            let objet = self
-                .tirer_objet(
-                    pool,
-                    account_id,
-                    "Artefact admin",
-                    &mut rng,
-                    is_admin,
-                    
-                )
-                .await?;
-
-            let quantite = self
-                .quantite_objets
-                .get(&objet)
-                .copied()
-                .unwrap_or(1);
-
-            *objets.entry(objet).or_insert(0) += quantite;
-        }
-    }
-          if is_admin || is_militaire {
-        for _ in 0..loot.militaire {
-            let objet = self
-                .tirer_objet(
-                    pool,
-                    account_id,
-                    "Artefact militaire",
-                    &mut rng,
-                    is_admin,
-                    
-                )
-                .await?;
-
-            let quantite = self
-                .quantite_objets
-                .get(&objet)
-                .copied()
-                .unwrap_or(1);
-
-            *objets.entry(objet).or_insert(0) += quantite;
-        }
-          }
-
-    Ok(objets)
-                }  
-            
-        
-            
-
-        
-
-            
-    
-
-            
         pub fn tirer_pondere(
     table: &HashMap<String, f64>,
     rng: &mut impl Rng,
