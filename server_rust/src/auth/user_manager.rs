@@ -10,7 +10,6 @@ pub struct UserSummary {
     pub user_id: String,
     pub email: String,
     pub status: String,
-    pub created_at: String,
     pub last_login: Option<String>,
 }
 
@@ -21,6 +20,8 @@ pub struct UserCredentials {
     pub user_id: String,
     pub email: String,
     pub password_hash: String,
+    /// Pseudo affiché à la place de l'e-mail (absent pour les anciens comptes).
+    pub pseudo: Option<String>,
 }
 
 pub struct UserManager {
@@ -32,12 +33,67 @@ impl UserManager {
         Self { pool }
     }
 
-    /// Inscrit un utilisateur normal.
-    /// Le mot de passe est haché avant d'être stocké.
+    /// Vérifie un pseudo : 3 à 20 caractères, lettres / chiffres / `_` / `-`.
+    pub fn validate_pseudo(pseudo: &str) -> Result<String, String> {
+        let pseudo = pseudo.trim();
+        let len = pseudo.chars().count();
+
+        if !(3..=20).contains(&len) {
+            return Err("Pseudo invalide : 3 à 20 caractères.".into());
+        }
+
+        if !pseudo
+            .chars()
+            .all(|c| c.is_alphanumeric() || c == '_' || c == '-')
+        {
+            return Err("Pseudo invalide : lettres, chiffres, _ et - uniquement.".into());
+        }
+
+        Ok(pseudo.to_string())
+    }
+
+    
+    
+
+    /// Au démarrage, plus aucun client n'est connecté : remet à DISCONNECTED les comptes
+    /// restés CONNECTED après un arrêt brutal (sinon « Ce compte est déjà connecté » à vie).
+    pub async fn reset_connected_users(pool: &SqlitePool) -> Result<u64, String> {
+        let result = sqlx::query(
+            "UPDATE users SET status = 'DISCONNECTED' WHERE status = 'CONNECTED'",
+        )
+        .execute(pool)
+        .await
+        .map_err(|e| format!("Impossible de réinitialiser les statuts : {e}"))?;
+
+        Ok(result.rows_affected())
+    }
+
+    /// Inscrit un utilisateur sans pseudo (conservé pour compatibilité).
     pub async fn create_user(
         &self,
         email: &str,
         password: &str,
+    ) -> Result<UserSummary, String> {
+        self.create_user_inner(email, password, None).await
+    }
+
+    /// Inscrit un utilisateur avec son pseudo.
+    /// Le mot de passe est haché avant d'être stocké.
+    pub async fn create_user_with_pseudo(
+        &self,
+        email: &str,
+        password: &str,
+        pseudo: &str,
+    ) -> Result<UserSummary, String> {
+        let pseudo = Self::validate_pseudo(pseudo)?;
+        self.create_user_inner(email, password, Some(pseudo)).await
+    }
+
+    async fn create_user_inner(
+        &self,
+        email: &str,
+        password: &str,
+        pseudo: Option<String>,
     ) -> Result<UserSummary, String> {
         let email = email.trim().to_lowercase();
 
@@ -51,23 +107,33 @@ impl UserManager {
             );
         }
 
-        let password_hash = hash_password(password)?;
+        // Argon2 est volontairement lent : on le sort du thread asynchrone pour ne pas
+        // bloquer le serveur (et les autres joueurs) pendant l'inscription.
+        let password_owned = password.to_string();
+        let password_hash =
+            tokio::task::spawn_blocking(move || hash_password(&password_owned))
+                .await
+                .map_err(|e| format!("Erreur lors du hash du mot de passe : {e}"))??;
 
         let user_id = Uuid::new_v4().to_string();
 
         sqlx::query(
     r#"
-    INSERT INTO users (user_id, email, password_hash, status)
-    VALUES (?, ?, ?, 'DISCONNECTED')
+    INSERT INTO users (user_id, email, password_hash, status, pseudo)
+    VALUES (?, ?, ?, 'DISCONNECTED', ?)
     "#
 )
 .bind(&user_id)
 .bind(&email)
 .bind(&password_hash)
+.bind(&pseudo)
 .execute(&self.pool)
 .await
 .map_err(|e| {
-    if e.to_string().contains("UNIQUE constraint failed") {
+    let text = e.to_string();
+    if text.contains("UNIQUE constraint failed") && text.contains("pseudo") {
+        "Ce pseudo est déjà utilisé.".to_string()
+    } else if text.contains("UNIQUE constraint failed") {
         "Cette adresse e-mail est déjà utilisée.".to_string()
     } else {
         format!("Impossible de créer l'utilisateur : {e}")
@@ -88,7 +154,7 @@ impl UserManager {
     ) -> Result<Option<UserSummary>, String> {
         let row = sqlx::query(
             r#"
-            SELECT user_id, email, status, created_at, last_login
+            SELECT user_id, email, status,  last_login
             FROM users
             WHERE user_id = ?
             "#,
@@ -102,7 +168,6 @@ impl UserManager {
             user_id: row.get("user_id"),
             email: row.get("email"),
             status: row.get("status"),
-            created_at: row.get("created_at"),
             last_login: row.get("last_login"),
         }))
     }
@@ -117,7 +182,7 @@ impl UserManager {
 
         let row = sqlx::query(
             r#"
-            SELECT user_id, email, password_hash
+            SELECT user_id, email, password_hash, pseudo
             FROM users
             WHERE email = ?
             "#,
@@ -131,6 +196,7 @@ impl UserManager {
             user_id: row.get("user_id"),
             email: row.get("email"),
             password_hash: row.get("password_hash"),
+            pseudo: row.get("pseudo"),
         }))
     }
 

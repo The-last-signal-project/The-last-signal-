@@ -1,6 +1,6 @@
 use crate::network::{parser::{
     parse_login_payload,
-    parse_signup_payload,},packet::{
+    parse_signup_with_pseudo_payload,},packet::{
     Packet,
     PacketType,
     LogLevel,
@@ -216,8 +216,16 @@ fn read_u64(
 
             
 PacketType::SignUp => {
-    let (email, password) =
-        match parse_signup_payload(&packet.payload) {
+    // Une connexion ne porte qu'un seul utilisateur (sinon l'ancien resterait CONNECTED).
+    if client.user_id().is_some() {
+        return HandlerResult::Response(Packet::new(
+            PacketType::SignUpResponse,
+            b"Deja authentifie".to_vec(),
+        ));
+    }
+
+    let (email, password, pseudo) =
+        match parse_signup_with_pseudo_payload(&packet.payload) {
             Ok(signup) => signup,
             Err(e) => {
                 debug!("SIGN_UP invalide : {}", e);
@@ -231,7 +239,7 @@ PacketType::SignUp => {
 
     let manager = UserManager::new(pool.clone());
 
-    match manager.create_user(&email, &password).await {
+    match manager.create_user_with_pseudo(&email, &password, &pseudo).await {
     Ok(user) => {
         // Connecter automatiquement le nouvel utilisateur.
         match manager.set_status(&user.user_id, "CONNECTED").await {
@@ -269,7 +277,11 @@ PacketType::SignUp => {
     Err(message) => {
         debug!("Inscription refusée : {}", message);
 
-        let response = if message.contains("déjà utilisée") {
+        let response = if message.contains("pseudo est déjà utilisé") {
+            b"Pseudo deja utilise".to_vec()
+        } else if message.starts_with("Pseudo invalide") {
+            b"Pseudo invalide".to_vec()
+        } else if message.contains("déjà utilisée") {
             b"Email deja utilise".to_vec()
         } else if message.contains("au moins 8 caractères") {
             b"Mot de passe trop court".to_vec()
@@ -297,6 +309,14 @@ PacketType::SignUp => {
             // =================================================
 
             PacketType::Login => {
+
+                // Une connexion ne porte qu'un seul utilisateur.
+                if client.user_id().is_some() {
+                    return HandlerResult::Response(Packet::new(
+                        PacketType::LoginResponse,
+                        b"Deja authentifie".to_vec(),
+                    ));
+                }
 
                 // ------------------------------------------------
                 // Parser LOGIN
@@ -356,6 +376,12 @@ let credentials = match manager.get_credentials_by_email(&email).await {
         ));
     }
 };
+
+// Nom affiché dans le menu : le pseudo, ou l'e-mail pour les anciens comptes.
+let display_name = credentials
+    .pseudo
+    .clone()
+    .unwrap_or_else(|| credentials.email.clone());
 
 let ban_row = match sqlx::query(
     r#"
@@ -438,11 +464,17 @@ let login_data = LoginData {
                 // Vérification mot de passe
                 // ------------------------------------------------
 
-                let password_valid =
-                    verify_password(
-                        &password,
-                        &login_data.password_hash,
-                    );
+                // Argon2 est lent : vérification hors du thread asynchrone pour ne pas figer le serveur.
+                let password_valid = {
+                    let password = password.clone();
+                    let password_hash = login_data.password_hash.clone();
+
+                    tokio::task::spawn_blocking(move || {
+                        verify_password(&password, &password_hash)
+                    })
+                    .await
+                    .unwrap_or(false)
+                };
 
 
                 // =================================================
@@ -1126,10 +1158,7 @@ if let Err(e) = manager.record_login(&login_data.user_id).await {
                 HandlerResult::Response(
                     Packet::new(
                         PacketType::LoginResponse,
-                        format!(
-                            "Utilisateur {} authentifié",
-                            email
-                        )
+                        format!("Utilisateur {} authentifié", display_name)
                         .into_bytes(),
                     )
                 )
@@ -1163,6 +1192,11 @@ if let Err(e) = manager.record_login(&login_data.user_id).await {
             // =================================================
 
            PacketType::Move => {
+    // Un joueur qui n'est pas entré dans le monde ne peut pas s'y déplacer.
+    if !client.is_spawned() {
+        return HandlerResult::Nothing;
+    }
+
     if packet.payload.len() != 12 {
         warn!(
             "Paquet Move invalide : {} octets",
@@ -1208,6 +1242,26 @@ if let Err(e) = manager.record_login(&login_data.user_id).await {
 
     HandlerResult::Nothing
 }
+            // =================================================
+            // SPAWN : le joueur entre dans le monde
+            // =================================================
+
+            PacketType::Spawn => {
+                if client.user_id().is_none() || client.account_id().is_none() {
+                    warn!(
+                        "Spawn refusé : aucun compte sélectionné [{}]",
+                        client.session_id()
+                    );
+                    return HandlerResult::Nothing;
+                }
+
+                if client.spawn().await {
+                    info!("Joueur entré dans le monde [{}]", client.session_id());
+                }
+
+                HandlerResult::Nothing
+            }
+
             PacketType::DECO => {
 
     info!(

@@ -21,6 +21,12 @@ class PacketType(IntEnum):
     PLAYER_STATE = 15
     PLAYER_REMOVE = 16
     SESSION = 17
+    ACCOUNT_LIST = 18
+    ACCOUNT_LIST_RESPONSE = 19
+    ACCOUNT_CREATE = 20
+    ACCOUNT_SELECT = 21
+    ACCOUNT_RESULT = 22
+    SPAWN = 23
 
 
 class Packet:

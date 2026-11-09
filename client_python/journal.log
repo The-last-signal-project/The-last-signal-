@@ -104,3 +104,112 @@
 16/10 12:31:33  lecture : 01_frequence_morte.wav
 16/10 12:33:17  playlist (10) : ['01_frequence_morte.wav', '02_battement.wav', '03_chuchotements.wav', '04_radio_fantome.wav', '05_sentier_de_cendres.wav', '06_horizon_brise.wav', '07_brouillard_noir.wav', '07_ville_au_crepuscule.wav', '08_le_phare_eteint.wav', '09_expedition_oubliee.wav']
 16/10 12:33:17  lecture : 07_brouillard_noir.wav
+20/10 17:23:23  playlist (10) : ['01_frequence_morte.wav', '02_battement.wav', '03_chuchotements.wav', '04_radio_fantome.wav', '05_sentier_de_cendres.wav', '06_horizon_brise.wav', '07_brouillard_noir.wav', '07_ville_au_crepuscule.wav', '08_le_phare_eteint.wav', '09_expedition_oubliee.wav']
+20/10 17:23:24  lecture : 08_le_phare_eteint.wav
+22/10 10:22:59  playlist (10) : ['01_frequence_morte.wav', '02_battement.wav', '03_chuchotements.wav', '04_radio_fantome.wav', '05_sentier_de_cendres.wav', '06_horizon_brise.wav', '07_brouillard_noir.wav', '07_ville_au_crepuscule.wav', '08_le_phare_eteint.wav', '09_expedition_oubliee.wav']
+22/10 10:23:00  lecture : 04_radio_fantome.wav
+22/10 10:24:02  lecture : 08_le_phare_eteint.wav
+22/10 10:25:04  lecture : 09_expedition_oubliee.wav
+22/10 10:26:05  lecture : 07_brouillard_noir.wav
+22/10 10:26:53  lecture : 03_chuchotements.wav
+22/10 10:27:56  lecture : 02_battement.wav
+22/10 10:28:54  lecture : 05_sentier_de_cendres.wav
+22/10 10:29:56  lecture : 07_ville_au_crepuscule.wav
+22/10 10:30:37  playlist (10) : ['01_frequence_morte.wav', '02_battement.wav', '03_chuchotements.wav', '04_radio_fantome.wav', '05_sentier_de_cendres.wav', '06_horizon_brise.wav', '07_brouillard_noir.wav', '07_ville_au_crepuscule.wav', '08_le_phare_eteint.wav', '09_expedition_oubliee.wav']
+22/10 10:30:37  lecture : 09_expedition_oubliee.wav
+22/10 10:31:39  lecture : 08_le_phare_eteint.wav
+22/10 10:32:41  lecture : 03_chuchotements.wav
+22/10 10:44:49  playlist (10) : ['01_frequence_morte.wav', '02_battement.wav', '03_chuchotements.wav', '04_radio_fantome.wav', '05_sentier_de_cendres.wav', '06_horizon_brise.wav', '07_brouillard_noir.wav', '07_ville_au_crepuscule.wav', '08_le_phare_eteint.wav', '09_expedition_oubliee.wav']
+22/10 10:44:50  lecture : 07_brouillard_noir.wav
+22/10 10:45:38  lecture : 07_ville_au_crepuscule.wav
+22/10 10:45:59  lecture : 09_expedition_oubliee.wav
+22/10 10:47:01  lecture : 06_horizon_brise.wav
+22/10 10:48:03  lecture : 03_chuchotements.wav
+22/10 10:49:05  lecture : 02_battement.wav
+22/10 10:50:06  lecture : 05_sentier_de_cendres.wav
+22/10 10:51:08  lecture : 08_le_phare_eteint.wav
+22/10 10:52:10  lecture : 01_frequence_morte.wav
+22/10 10:53:11  lecture : 04_radio_fantome.wav
+22/10 10:54:51  playlist (10) : ['01_frequence_morte.wav', '02_battement.wav', '03_chuchotements.wav', '04_radio_fantome.wav', '05_sentier_de_cendres.wav', '06_horizon_brise.wav', '07_brouillard_noir.wav', '07_ville_au_crepuscule.wav', '08_le_phare_eteint.wav', '09_expedition_oubliee.wav']
+22/10 10:54:51  lecture : 07_brouillard_noir.wav
+22/10 10:55:44  lecture : 08_le_phare_eteint.wav
+22/10 10:55:53  lecture : 05_sentier_de_cendres.wav
+22/10 13:36:34  playlist (10) : ['01_frequence_morte.wav', '02_battement.wav', '03_chuchotements.wav', '04_radio_fantome.wav', '05_sentier_de_cendres.wav', '06_horizon_brise.wav', '07_brouillard_noir.wav', '07_ville_au_crepuscule.wav', '08_le_phare_eteint.wav', '09_expedition_oubliee.wav']
+22/10 13:36:34  lecture : 09_expedition_oubliee.wav
+22/10 13:37:36  lecture : 06_horizon_brise.wav
+22/10 13:38:16  reseau : TypeError('SingupPacket.__init__() takes 3 positional arguments but 4 were given')
+22/10 13:38:29  reseau : TypeError('SingupPacket.__init__() takes 3 positional arguments but 4 were given')
+22/10 13:38:30  reseau : TypeError('SingupPacket.__init__() takes 3 positional arguments but 4 were given')
+22/10 13:38:38  lecture : 03_chuchotements.wav
+22/10 13:42:21  playlist (10) : ['01_frequence_morte.wav', '02_battement.wav', '03_chuchotements.wav', '04_radio_fantome.wav', '05_sentier_de_cendres.wav', '06_horizon_brise.wav', '07_brouillard_noir.wav', '07_ville_au_crepuscule.wav', '08_le_phare_eteint.wav', '09_expedition_oubliee.wav']
+22/10 13:42:21  lecture : 07_brouillard_noir.wav
+22/10 13:43:09  lecture : 07_ville_au_crepuscule.wav
+22/10 13:43:30  reseau : TypeError('SingupPacket.__init__() takes 3 positional arguments but 4 were given')
+22/10 13:43:33  reseau : TypeError('SingupPacket.__init__() takes 3 positional arguments but 4 were given')
+22/10 13:43:37  reseau : TypeError('SingupPacket.__init__() takes 3 positional arguments but 4 were given')
+22/10 13:44:12  lecture : 05_sentier_de_cendres.wav
+22/10 13:45:14  lecture : 04_radio_fantome.wav
+22/10 13:46:16  lecture : 06_horizon_brise.wav
+22/10 13:47:17  lecture : 03_chuchotements.wav
+22/10 13:48:19  lecture : 09_expedition_oubliee.wav
+22/10 13:49:21  lecture : 01_frequence_morte.wav
+22/10 13:50:23  lecture : 08_le_phare_eteint.wav
+22/10 13:51:25  lecture : 02_battement.wav
+22/10 13:52:26  lecture : 05_sentier_de_cendres.wav
+22/10 13:53:28  lecture : 04_radio_fantome.wav
+22/10 13:54:30  lecture : 03_chuchotements.wav
+22/10 13:55:32  lecture : 07_brouillard_noir.wav
+22/10 13:56:20  lecture : 07_ville_au_crepuscule.wav
+22/10 13:57:21  lecture : 08_le_phare_eteint.wav
+22/10 13:58:23  lecture : 02_battement.wav
+22/10 13:59:25  lecture : 01_frequence_morte.wav
+22/10 14:00:27  lecture : 06_horizon_brise.wav
+22/10 14:01:28  lecture : 09_expedition_oubliee.wav
+22/10 14:02:30  lecture : 04_radio_fantome.wav
+22/10 14:03:32  lecture : 01_frequence_morte.wav
+22/10 14:04:33  lecture : 07_ville_au_crepuscule.wav
+22/10 14:05:35  lecture : 06_horizon_brise.wav
+22/10 14:06:37  lecture : 09_expedition_oubliee.wav
+22/10 14:07:38  lecture : 07_brouillard_noir.wav
+22/10 14:08:26  lecture : 02_battement.wav
+22/10 14:09:28  lecture : 08_le_phare_eteint.wav
+22/10 14:10:30  lecture : 03_chuchotements.wav
+22/10 14:11:31  lecture : 05_sentier_de_cendres.wav
+22/10 14:12:33  lecture : 07_brouillard_noir.wav
+22/10 14:13:21  lecture : 02_battement.wav
+22/10 14:14:23  lecture : 08_le_phare_eteint.wav
+22/10 14:15:24  lecture : 07_ville_au_crepuscule.wav
+22/10 14:16:26  lecture : 09_expedition_oubliee.wav
+22/10 14:17:28  lecture : 06_horizon_brise.wav
+22/10 14:18:29  lecture : 04_radio_fantome.wav
+22/10 14:19:31  lecture : 01_frequence_morte.wav
+22/10 14:20:33  lecture : 05_sentier_de_cendres.wav
+22/10 14:21:35  lecture : 03_chuchotements.wav
+22/10 14:22:36  lecture : 06_horizon_brise.wav
+22/10 14:23:38  lecture : 05_sentier_de_cendres.wav
+22/10 14:24:40  lecture : 04_radio_fantome.wav
+22/10 14:25:41  lecture : 09_expedition_oubliee.wav
+22/10 14:26:43  lecture : 03_chuchotements.wav
+22/10 14:27:22  reseau : TypeError('SingupPacket.__init__() takes 3 positional arguments but 4 were given')
+22/10 14:27:24  reseau : TypeError('SingupPacket.__init__() takes 3 positional arguments but 4 were given')
+22/10 14:30:43  playlist (10) : ['01_frequence_morte.wav', '02_battement.wav', '03_chuchotements.wav', '04_radio_fantome.wav', '05_sentier_de_cendres.wav', '06_horizon_brise.wav', '07_brouillard_noir.wav', '07_ville_au_crepuscule.wav', '08_le_phare_eteint.wav', '09_expedition_oubliee.wav']
+22/10 14:30:43  lecture : 03_chuchotements.wav
+22/10 14:31:38  reseau : TypeError('SingupPacket.__init__() takes 3 positional arguments but 4 were given')
+22/10 14:31:39  reseau : TypeError('SingupPacket.__init__() takes 3 positional arguments but 4 were given')
+22/10 14:31:45  lecture : 09_expedition_oubliee.wav
+22/10 17:06:41  playlist (10) : ['01_frequence_morte.wav', '02_battement.wav', '03_chuchotements.wav', '04_radio_fantome.wav', '05_sentier_de_cendres.wav', '06_horizon_brise.wav', '07_brouillard_noir.wav', '07_ville_au_crepuscule.wav', '08_le_phare_eteint.wav', '09_expedition_oubliee.wav']
+22/10 17:06:42  lecture : 08_le_phare_eteint.wav
+22/10 17:07:44  lecture : 02_battement.wav
+22/10 17:08:45  lecture : 07_brouillard_noir.wav
+22/10 17:09:51  lecture : 03_chuchotements.wav
+22/10 17:10:53  lecture : 07_ville_au_crepuscule.wav
+22/10 17:11:55  lecture : 06_horizon_brise.wav
+22/10 17:19:03  playlist (10) : ['01_frequence_morte.wav', '02_battement.wav', '03_chuchotements.wav', '04_radio_fantome.wav', '05_sentier_de_cendres.wav', '06_horizon_brise.wav', '07_brouillard_noir.wav', '07_ville_au_crepuscule.wav', '08_le_phare_eteint.wav', '09_expedition_oubliee.wav']
+22/10 17:19:04  lecture : 06_horizon_brise.wav
+22/10 17:20:05  lecture : 07_ville_au_crepuscule.wav
+22/10 17:21:07  lecture : 05_sentier_de_cendres.wav
+22/10 17:22:09  lecture : 07_brouillard_noir.wav
+22/10 17:22:57  lecture : 02_battement.wav
+22/10 17:23:59  lecture : 04_radio_fantome.wav
+22/10 17:25:01  lecture : 03_chuchotements.wav
+22/10 17:26:03  lecture : 09_expedition_oubliee.wav
