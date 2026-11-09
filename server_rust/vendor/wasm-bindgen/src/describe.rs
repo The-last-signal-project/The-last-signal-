@@ -3,13 +3,14 @@
 
 #![doc(hidden)]
 
+use alloc::borrow::Cow;
 use alloc::boxed::Box;
 use alloc::string::String;
 use alloc::vec::Vec;
 use core::panic::AssertUnwindSafe;
 use core::{mem::MaybeUninit, ptr::NonNull};
 
-use crate::{__rt::marker::ErasableGeneric, Clamped, JsError, JsValue};
+use crate::{__rt::marker::ErasableGeneric, Clamped, JsError, JsValue, Nullable};
 use cfg_if::cfg_if;
 
 pub use wasm_bindgen_shared::tys::*;
@@ -184,6 +185,21 @@ cfg_if! {
     }
 }
 
+// Pointees for `&Box<str>` and `&Cow<str>`, described like `str`.
+impl WasmDescribe for Box<str> {
+    #[cfg_attr(wasm_bindgen_unstable_test_coverage, coverage(off))]
+    fn describe() {
+        str::describe();
+    }
+}
+
+impl WasmDescribe for Cow<'_, str> {
+    #[cfg_attr(wasm_bindgen_unstable_test_coverage, coverage(off))]
+    fn describe() {
+        str::describe();
+    }
+}
+
 impl<T: ErasableGeneric<Repr = JsValue> + WasmDescribe> WasmDescribeVector for T {
     #[cfg_attr(wasm_bindgen_unstable_test_coverage, coverage(off))]
     fn describe_vector() {
@@ -213,6 +229,14 @@ impl<T: WasmDescribe> WasmDescribe for Option<T> {
     #[cfg_attr(wasm_bindgen_unstable_test_coverage, coverage(off))]
     fn describe() {
         inform(OPTIONAL);
+        T::describe();
+    }
+}
+
+impl<T: WasmDescribe> WasmDescribe for Nullable<T> {
+    #[cfg_attr(wasm_bindgen_unstable_test_coverage, coverage(off))]
+    fn describe() {
+        inform(NULLABLE);
         T::describe();
     }
 }
@@ -259,6 +283,22 @@ where
     T: WasmDescribe,
 {
     fn describe() {
+        T::describe();
+    }
+}
+
+/// Describes an import argument whose wire is described by `T` under a
+/// `slice = ..` or `vec = ..` mode word (see `SEQ_MODE_*`). The CLI applies
+/// the mode to sequences of its key's shape with typed elements. Prefixed
+/// because generated describe code glob-imports this module, where a plain
+/// `SeqMode` would shadow a user type of that name.
+pub struct WasmDescribeSeqMode<T: ?Sized, const MODE: u32>(core::marker::PhantomData<T>);
+
+impl<T: WasmDescribe + ?Sized, const MODE: u32> WasmDescribe for WasmDescribeSeqMode<T, MODE> {
+    #[cfg_attr(wasm_bindgen_unstable_test_coverage, coverage(off))]
+    fn describe() {
+        inform(SEQ_MODE);
+        inform(MODE);
         T::describe();
     }
 }

@@ -13,7 +13,7 @@
 edition = "2021"
 rust-version = "1.81"
 name = "wasm-bindgen-shared"
-version = "0.2.129"
+version = "0.2.130"
 authors = ["The wasm-bindgen Developers"]
 build = "build.rs"
 links = "wasm_bindgen"
@@ -66,4 +66,5 @@ check-cfg = [
     "cfg(tokio_unstable)",
     "cfg(wasm_bindgen_unstable_tokio)",
     "cfg(wasm_bindgen_unstable_jspi)",
+    "cfg(wasm_bindgen_unstable_try_trait)",
 ]

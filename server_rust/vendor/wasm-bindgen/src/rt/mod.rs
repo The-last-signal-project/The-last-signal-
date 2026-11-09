@@ -10,7 +10,7 @@ use core::any::Any;
 use core::borrow::{Borrow, BorrowMut};
 #[cfg(target_feature = "atomics")]
 use core::cell::UnsafeCell;
-use core::cell::{Cell, RefCell};
+use core::cell::{Cell, LazyCell as Lazy, RefCell};
 use core::convert::Infallible;
 use core::marker::PhantomData;
 use core::ops::{Deref, DerefMut};
@@ -21,7 +21,6 @@ use wasm_bindgen_shared::tys::FUNCTION;
 
 use alloc::alloc::{alloc, dealloc, realloc, Layout};
 use alloc::rc::Rc;
-use once_cell::unsync::Lazy;
 
 pub extern crate alloc;
 pub extern crate core;
@@ -129,7 +128,7 @@ pub fn wbg_cast<From: IntoWasmAbi, To: FromWasmAbi>(value: From) -> To {
     unsafe { To::from_abi(breaks_if_inlined::<From, To>(prim1, prim2, prim3, prim4).join()) }
 }
 
-pub(crate) const JSIDX_OFFSET: u32 = 1024; // keep in sync with js/mod.rs
+pub(crate) const JSIDX_OFFSET: u32 = 1024; // keep in sync with crates/cli-support/src/lib.rs
 pub(crate) const JSIDX_UNDEFINED: u32 = JSIDX_OFFSET;
 pub(crate) const JSIDX_NULL: u32 = JSIDX_OFFSET + 1;
 pub(crate) const JSIDX_TRUE: u32 = JSIDX_OFFSET + 2;
@@ -147,13 +146,11 @@ unsafe impl<T> Send for ThreadLocalWrapper<T> {}
 /// Wrapper around [`Lazy`] adding `Send + Sync` when `atomics` is not enabled.
 pub struct LazyCell<T, F = fn() -> T>(ThreadLocalWrapper<Lazy<T, F>>);
 
-impl<T, F> LazyCell<T, F> {
+impl<T, F: FnOnce() -> T> LazyCell<T, F> {
     pub const fn new(init: F) -> LazyCell<T, F> {
         Self(ThreadLocalWrapper(Lazy::new(init)))
     }
-}
 
-impl<T, F: FnOnce() -> T> LazyCell<T, F> {
     pub fn force(this: &Self) -> &T {
         &this.0 .0
     }
@@ -163,7 +160,7 @@ impl<T> Deref for LazyCell<T> {
     type Target = T;
 
     fn deref(&self) -> &T {
-        ::once_cell::unsync::Lazy::force(&self.0 .0)
+        Lazy::force(&self.0 .0)
     }
 }
 
@@ -430,6 +427,18 @@ impl<T> WasmPtr<T> {
     pub fn is_null(&self) -> bool {
         self.word.is_zero()
     }
+
+    /// The pointer `Nullable::Null` crosses as: address `1`, which no
+    /// aligned allocation can have, where the null pointer is `None`.
+    #[inline]
+    pub fn js_null() -> Self {
+        Self::from_usize(1)
+    }
+
+    #[inline]
+    pub fn is_js_null(&self) -> bool {
+        self.word.into_usize() == 1
+    }
 }
 
 impl<T> WasmAbi for WasmPtr<T> {
@@ -472,7 +481,91 @@ mod tests {
 #[cold]
 #[inline(never)]
 fn throw_null() -> ! {
-    super::throw_str("null pointer passed to rust");
+    super::throw_str(NULL_ERROR);
+}
+
+pub const NULL_ERROR: &str = "null pointer passed to rust";
+pub const BORROW_ERROR: &str =
+    "recursive use of an object detected which would lead to unsafe aliasing in rust";
+pub const OWNERSHIP_ERROR: &str = "attempted to take ownership of Rust value while it was borrowed";
+pub const WRONG_TYPE_ERROR: &str = "array contains a value of the wrong type";
+
+/// Takes the value out of an exported Rust object JS gave up its pointer to.
+/// When the object is still borrowed, the pointer's strong count is released
+/// rather than leaked, so the object is freed once the borrow ends.
+///
+/// # Safety
+///
+/// `ptr` must be null or a pointer from `Rc::into_raw` that the caller owns.
+#[inline]
+pub unsafe fn take_rust_object<T>(ptr: *mut WasmRefCell<T>) -> Result<T, &'static str> {
+    if ptr.is_null() {
+        return Err(NULL_ERROR);
+    }
+    match Rc::try_unwrap(Rc::from_raw(ptr)) {
+        Ok(cell) => Ok(cell.into_inner()),
+        Err(_) => Err(OWNERSHIP_ERROR),
+    }
+}
+
+/// Releases the pointer JS held to an exported Rust object, dropping the
+/// object in place unless a borrow still holds it, in which case it's dropped
+/// once the borrow ends. `free()` reports that as an error, while finalization
+/// and consuming a borrowed `self` accept it as `allow_delayed`.
+///
+/// # Safety
+///
+/// `ptr` must be null or a pointer from `Rc::into_raw` that the caller owns.
+#[inline]
+pub unsafe fn free_rust_object<T>(ptr: *mut WasmRefCell<T>, allow_delayed: bool) {
+    if ptr.is_null() {
+        throw_null();
+    }
+    let rc = Rc::from_raw(ptr);
+    let unique = Rc::strong_count(&rc) == 1;
+    drop(rc);
+    if !unique && !allow_delayed {
+        super::throw_str(OWNERSHIP_ERROR);
+    }
+}
+
+/// Borrows an exported Rust object for the duration of a call, holding a
+/// strong count of its own once the borrow succeeds.
+///
+/// # Safety
+///
+/// `ptr` must be null or a live pointer from `Rc::into_raw`.
+#[inline]
+pub unsafe fn borrow_rust_object<T>(ptr: *mut WasmRefCell<T>) -> Result<RcRef<T>, &'static str> {
+    if ptr.is_null() {
+        return Err(NULL_ERROR);
+    }
+    let ref_ = (*ptr).try_borrow().ok_or(BORROW_ERROR)?;
+    Rc::increment_strong_count(ptr);
+    Ok(RcRef {
+        ref_,
+        _rc: Rc::from_raw(ptr),
+    })
+}
+
+/// The mutable form of [`borrow_rust_object`].
+///
+/// # Safety
+///
+/// `ptr` must be null or a live pointer from `Rc::into_raw`.
+#[inline]
+pub unsafe fn borrow_mut_rust_object<T>(
+    ptr: *mut WasmRefCell<T>,
+) -> Result<RcRefMut<T>, &'static str> {
+    if ptr.is_null() {
+        return Err(NULL_ERROR);
+    }
+    let ref_ = (*ptr).try_borrow_mut().ok_or(BORROW_ERROR)?;
+    Rc::increment_strong_count(ptr);
+    Ok(RcRefMut {
+        ref_,
+        _rc: Rc::from_raw(ptr),
+    })
 }
 
 /// A wrapper around the `RefCell` from the standard library.
@@ -525,6 +618,17 @@ impl<T: ?Sized> WasmRefCell<T> {
             Ok(inner) => RefMut { inner },
             Err(_) => borrow_fail(),
         }
+    }
+
+    pub fn try_borrow(&self) -> Option<Ref<'_, T>> {
+        self.inner.try_borrow().ok().map(|inner| Ref { inner })
+    }
+
+    pub fn try_borrow_mut(&self) -> Option<RefMut<'_, T>> {
+        self.inner
+            .try_borrow_mut()
+            .ok()
+            .map(|inner| RefMut { inner })
     }
 
     pub fn into_inner(self) -> T
@@ -591,18 +695,12 @@ impl<T: ?Sized> BorrowMut<T> for RefMut<'_, T> {
 
 #[cfg(panic = "unwind")]
 fn borrow_fail() -> ! {
-    panic!(
-        "recursive use of an object detected which would lead to \
-		 unsafe aliasing in rust",
-    )
+    panic!("{}", BORROW_ERROR)
 }
 
 #[cfg(not(panic = "unwind"))]
 fn borrow_fail() -> ! {
-    super::throw_str(
-        "recursive use of an object detected which would lead to \
-		 unsafe aliasing in rust",
-    );
+    super::throw_str(BORROW_ERROR);
 }
 
 /// A type that encapsulates an `Rc<WasmRefCell<T>>` as well as a `Ref`
@@ -627,8 +725,16 @@ impl<T: ?Sized> UnwindSafe for RcRef<T> {}
 
 impl<T: ?Sized> RcRef<T> {
     pub fn new(rc: Rc<WasmRefCell<T>>) -> Self {
-        let ref_ = unsafe { (*Rc::as_ptr(&rc)).borrow() };
-        Self { _rc: rc, ref_ }
+        match Self::try_new(rc) {
+            Some(this) => this,
+            None => borrow_fail(),
+        }
+    }
+
+    /// Fails, dropping `rc`, if the object is mutably borrowed.
+    pub fn try_new(rc: Rc<WasmRefCell<T>>) -> Option<Self> {
+        let ref_ = unsafe { (*Rc::as_ptr(&rc)).try_borrow()? };
+        Some(Self { _rc: rc, ref_ })
     }
 }
 
@@ -660,8 +766,16 @@ pub struct RcRefMut<T: ?Sized + 'static> {
 
 impl<T: ?Sized> RcRefMut<T> {
     pub fn new(rc: Rc<WasmRefCell<T>>) -> Self {
-        let ref_ = unsafe { (*Rc::as_ptr(&rc)).borrow_mut() };
-        Self { _rc: rc, ref_ }
+        match Self::try_new(rc) {
+            Some(this) => this,
+            None => borrow_fail(),
+        }
+    }
+
+    /// Fails, dropping `rc`, if the object is borrowed.
+    pub fn try_new(rc: Rc<WasmRefCell<T>>) -> Option<Self> {
+        let ref_ = unsafe { (*Rc::as_ptr(&rc)).try_borrow_mut()? };
+        Some(Self { _rc: rc, ref_ })
     }
 }
 
@@ -990,6 +1104,8 @@ impl<E: core::fmt::Debug> Main for &mut MainWrapper<Result<(), E>> {
         }
     }
 }
+
+pub use wasm_bindgen_shared::module_path_hash;
 
 pub const fn flat_len<T, const SIZE: usize>(slices: [&[T]; SIZE]) -> usize {
     let mut len = 0;

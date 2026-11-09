@@ -107,8 +107,8 @@ if let Err(e) = send_packet(
     &session_packet,
 ).await {
     error!(
-        "Impossible d'envoyer le paquet SESSION [{}] : {}",
-        self.session_id,
+        "Impossible d'envoyer le paquet SESSION  : {}",
+        
         e
     );
 
