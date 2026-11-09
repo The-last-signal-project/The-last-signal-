@@ -44,6 +44,15 @@ VALUES
     ('Au', 'mineral', 'au.png',150),
     ('Diam', 'mineral', 'diam.png',400),
     ('Re', 'mineral', 'rhénium.png', 1200),
-
-    ('carreau pour arbalète', 'muni', 'carreau.png', 15);
+    ('ManaStone G','mineral','manastone.png',1200),
+    ('ManaStone F','mineral','manastone.png',1500),
+    ('ManaStone E','mineral','manastone.png',1900),
+    ('ManaStone D','mineral','manastone.png',2300),
+    ('ManaStone C','mineral','manastone.png',2800),
+    ('ManaStone B','mineral','manastone.png',5000),
+    ('ManaStone A','mineral','manastone.png',6500),
+    ('ManaStone S','mineral','manastone.png',8000),
+    ('ManaStone SS','mineral','manastone.png',9500),
+    ('ManaStone SSS','mineral','manastone.png',105000),
+    ('carreau pour arbalète', 'muni', 'carreau.png', 50);
     
