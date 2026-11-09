@@ -159,6 +159,8 @@ use rustc_ast::ast::TestBinderConstraint;
 use rustc_ast::ast::TestBinderConstraints;
 use rustc_ast::ast::TestBinderExists;
 use rustc_ast::ast::TestBinderForall;
+use rustc_ast::ast::TestBinderItem;
+use rustc_ast::ast::TestBinderRegionEquality;
 use rustc_ast::ast::Trait;
 use rustc_ast::ast::TraitAlias;
 use rustc_ast::ast::TraitBoundModifiers;
@@ -184,7 +186,6 @@ use rustc_ast::ast::Visibility;
 use rustc_ast::ast::VisibilityKind;
 use rustc_ast::ast::WhereBoundPredicate;
 use rustc_ast::ast::WhereClause;
-use rustc_ast::ast::WhereEqPredicate;
 use rustc_ast::ast::WherePredicate;
 use rustc_ast::ast::WherePredicateKind;
 use rustc_ast::ast::WhereRegionPredicate;
@@ -192,8 +193,7 @@ use rustc_ast::ast::YieldKind;
 use rustc_ast::attr::data_structures::CfgEntry;
 use rustc_ast::token::{self, CommentKind, Delimiter, IdentKind, Lit, Token, TokenKind};
 use rustc_ast::tokenstream::{
-    AttrTokenStream, AttrTokenTree, AttrsTarget, DelimSpacing, DelimSpan, LazyAttrTokenStream,
-    Spacing, TokenStream, TokenTree,
+    AttrsTarget, DelimSpacing, DelimSpan, LazyTokenStream, Spacing, TokenStream, TokenTree,
 };
 use rustc_data_structures::packed::Pu128;
 use rustc_span::symbol::{sym, ByteSymbol, Ident, Symbol};
@@ -499,7 +499,6 @@ spanless_eq_struct!(AnonConst; id value);
 spanless_eq_struct!(Arm; attrs pat guard body span id is_placeholder);
 spanless_eq_struct!(AssocItemConstraint; id ident gen_args kind span);
 spanless_eq_struct!(AttrItem; unsafety path args span);
-spanless_eq_struct!(AttrTokenStream; 0);
 spanless_eq_struct!(Attribute; kind id style span);
 spanless_eq_struct!(AttrsTarget; attrs tokens);
 spanless_eq_struct!(BindingMode; 0 1);
@@ -565,11 +564,12 @@ spanless_eq_struct!(StaticItem; ident ty safety mutability expr define_opaque ei
 spanless_eq_struct!(Stmt; id kind span);
 spanless_eq_struct!(StrLit; symbol suffix symbol_unescaped style span);
 spanless_eq_struct!(StructExpr; qself path fields rest);
-spanless_eq_struct!(TestBinderBody; foralls exists constraints predicates);
+spanless_eq_struct!(TestBinderBody; span items);
 spanless_eq_struct!(TestBinderBoundTypeConstraint; span node_id params lhs rhs);
 spanless_eq_struct!(TestBinderConstraints; generics body);
 spanless_eq_struct!(TestBinderExists; span node_id params body);
 spanless_eq_struct!(TestBinderForall; span node_id generics body assert_on_exit);
+spanless_eq_struct!(TestBinderRegionEquality; lhs rhs);
 spanless_eq_struct!(Token; kind span);
 spanless_eq_struct!(Trait; constness safety is_auto impl_restriction ident generics bounds items);
 spanless_eq_struct!(TraitAlias; constness ident generics bounds);
@@ -586,7 +586,6 @@ spanless_eq_struct!(Variant; attrs id span !vis ident data disr_expr is_placehol
 spanless_eq_struct!(Visibility; kind span);
 spanless_eq_struct!(WhereBoundPredicate; bound_generic_params bounded_ty bounds);
 spanless_eq_struct!(WhereClause; has_where_token predicates span);
-spanless_eq_struct!(WhereEqPredicate; lhs_ty rhs_ty);
 spanless_eq_struct!(WherePredicate; attrs kind id span is_placeholder);
 spanless_eq_struct!(WhereRegionPredicate; lifetime bounds);
 spanless_eq_enum!(AngleBracketedArg; Arg(0) Constraint(0));
@@ -595,7 +594,6 @@ spanless_eq_enum!(AssocItemConstraintKind; Equality(term) Bound(bounds));
 spanless_eq_enum!(AssocItemKind; Const(0) Fn(0) Type(0) MacCall(0) Delegation(0) DelegationMac(0));
 spanless_eq_enum!(AttrArgs; Empty Delimited(0) Eq(eq_span expr));
 spanless_eq_enum!(AttrStyle; Outer Inner);
-spanless_eq_enum!(AttrTokenTree; Token(0 1) Delimited(0 1 2 3) AttrsTarget(0));
 spanless_eq_enum!(BinOpKind; Add Sub Mul Div Rem And Or BitXor BitAnd BitOr Shl Shr Eq Lt Le Ne Ge Gt);
 spanless_eq_enum!(BlockCheckMode; Default Unsafe(0));
 spanless_eq_enum!(BorrowKind; Ref Raw Pin);
@@ -656,6 +654,7 @@ spanless_eq_enum!(StmtKind; Let(0) Item(0) Expr(0) Semi(0) Empty MacCall(0));
 spanless_eq_enum!(StrStyle; Cooked Raw(0));
 spanless_eq_enum!(StructRest; Base(0) Rest(0) None NoneWithError(0));
 spanless_eq_enum!(SyntheticAttr; CfgTrace(0) CfgAttrTrace(0));
+spanless_eq_enum!(TestBinderItem; Forall(0) Exists(0) RegionEquality(0) Constraint(0) Predicate(0));
 spanless_eq_enum!(Term; Ty(0) Const(0));
 spanless_eq_enum!(TokenTree; Token(0 1) Delimited(0 1 2 3));
 spanless_eq_enum!(TraitObjectSyntax; Dyn None);
@@ -724,6 +723,7 @@ impl SpanlessEq for Param {
             id,
             span: _,
             is_placeholder,
+            has_const_keyword,
         } = self;
         let Param {
             attrs: attrs2,
@@ -732,9 +732,11 @@ impl SpanlessEq for Param {
             id: id2,
             span: _,
             is_placeholder: is_placeholder2,
+            has_const_keyword: has_const_keyword2,
         } = other;
         SpanlessEq::eq(id, id2)
             && SpanlessEq::eq(is_placeholder, is_placeholder2)
+            && SpanlessEq::eq(has_const_keyword, has_const_keyword2)
             && (matches!(ty.kind, TyKind::Err(_))
                 || matches!(ty2.kind, TyKind::Err(_))
                 || SpanlessEq::eq(attrs, attrs2)
@@ -892,10 +894,10 @@ fn is_escaped_lit_kind(kind: &LitKind, unescaped: Symbol) -> bool {
     }
 }
 
-impl SpanlessEq for LazyAttrTokenStream {
+impl SpanlessEq for LazyTokenStream {
     fn eq(&self, other: &Self) -> bool {
-        let this = self.to_attr_token_stream();
-        let other = other.to_attr_token_stream();
+        let this = self.to_token_stream();
+        let other = other.to_token_stream();
         SpanlessEq::eq(&this, &other)
     }
 }
@@ -927,7 +929,8 @@ impl SpanlessEq for AttrKind {
                     }
             }
             (AttrKind::Normal(_), AttrKind::DocComment(..)) => SpanlessEq::eq(other, self),
-            (AttrKind::Synthetic(_), _) | (_, AttrKind::Synthetic(_)) => false,
+            (AttrKind::Synthetic(_) | AttrKind::Generated(_), _)
+            | (_, AttrKind::Synthetic(_) | AttrKind::Generated(_)) => unreachable!(),
         }
     }
 }
