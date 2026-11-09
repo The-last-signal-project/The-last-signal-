@@ -1,9 +1,9 @@
 # Security Report
 
-Run : 712
-Branch : 195/merge
-Commit : 94ead72268a0058c0409b46582c0563cf577b793
-Date : Mon Nov  9 16:52:59 UTC 2026
+Run : 714
+Branch : 191/merge
+Commit : 66d599f0e5fe3cd9cb5bb096348bb8b505c6b010
+Date : Mon Nov  9 18:19:42 UTC 2026
 
 Fuzzing
 
@@ -36,12 +36,12 @@ THE LAST SIGNAL - RED TEAM FILE INTEGRITY TEST V2
 
 === RED TEAM CLONE ===
 Repository : https://github.com/The-last-signal-project/The-last-signal-.git
-SHA        : 94ead72268a0058c0409b46582c0563cf577b793
-[CMD] git clone --no-tags --filter=blob:none https://github.com/The-last-signal-project/The-last-signal-.git /tmp/security_red_team_6kjko1pv/repository
-[CMD] git fetch --depth=1 origin 94ead72268a0058c0409b46582c0563cf577b793
-[CMD] git checkout --detach 94ead72268a0058c0409b46582c0563cf577b793
+SHA        : 66d599f0e5fe3cd9cb5bb096348bb8b505c6b010
+[CMD] git clone --no-tags --filter=blob:none https://github.com/The-last-signal-project/The-last-signal-.git /tmp/security_red_team_9yd4yeqb/repository
+[CMD] git fetch --depth=1 origin 66d599f0e5fe3cd9cb5bb096348bb8b505c6b010
+[CMD] git checkout --detach 66d599f0e5fe3cd9cb5bb096348bb8b505c6b010
 [CMD] git rev-parse HEAD
-[PASS] Exact commit verified: 94ead72268a0058c0409b46582c0563cf577b793
+[PASS] Exact commit verified: 66d599f0e5fe3cd9cb5bb096348bb8b505c6b010
 
 === CREATING SECURITY LAB ===
 [PASS] Laboratory created.
@@ -152,7 +152,7 @@ Git integrity: FAIL
 [WARN] World-executable script: server_rust/vendor/sqlx/tests/mssql/entrypoint.sh
 [WARN] World-executable script: server_rust/vendor/sqlx/tests/mssql/configure-db.sh
 
-Files/objects inspected: 10497
+Files/objects inspected: 10496
 [PASS] No dangerous filesystem permissions detected.
 
 ## Git Security Test
@@ -160,7 +160,7 @@ Files/objects inspected: 10497
 [INFO] Working tree contains changes.
 [FAIL] Sensitive file tracked by Git: server_rust/vendor/sqlx/tests/.env
 [INFO] core.filemode=true
-[INFO] HEAD=94ead72268a0058c0409b46582c0563cf577b793
+[INFO] HEAD=66d599f0e5fe3cd9cb5bb096348bb8b505c6b010
 [INFO] Scanning Git history for obvious secrets...
 [FAIL] Potential secret detected in Git history.
 [FAIL] 2 Git security issue(s) detected.
@@ -177,24 +177,24 @@ Python files inspected: 73
 
 ## Rust Security Test
 === RUST SECURITY SCAN ===
-[WARN] server_rust/src/main.rs:137 - Potential dynamic SQL
-[WARN] server_rust/src/main.rs:141 - Potential dynamic SQL
-[WARN] server_rust/src/main.rs:144 - Potential dynamic SQL
-[WARN] server_rust/src/main.rs:148 - Potential dynamic SQL
-[WARN] server_rust/src/main.rs:151 - Potential dynamic SQL
-[WARN] server_rust/src/main.rs:155 - Potential dynamic SQL
-[WARN] server_rust/src/main.rs:259 - Potential dynamic SQL
+[WARN] server_rust/src/main.rs:132 - Potential dynamic SQL
+[WARN] server_rust/src/main.rs:136 - Potential dynamic SQL
+[WARN] server_rust/src/main.rs:139 - Potential dynamic SQL
+[WARN] server_rust/src/main.rs:143 - Potential dynamic SQL
+[WARN] server_rust/src/main.rs:146 - Potential dynamic SQL
+[WARN] server_rust/src/main.rs:150 - Potential dynamic SQL
+[WARN] server_rust/src/main.rs:254 - Potential dynamic SQL
 [WARN] server_rust/tests/player_health.rs:7 - Potential unwrap
 [WARN] server_rust/tests/player_health.rs:29 - Potential unwrap
 [WARN] server_rust/tests/player_health.rs:44 - Potential unwrap
 [WARN] server_rust/tests/player_health.rs:57 - Potential unwrap
 [WARN] server_rust/tests/player_health.rs:69 - Potential unwrap
-[WARN] server_rust/src/utils/special_account_creator.rs:35 - Potential dynamic SQL
-[WARN] server_rust/src/utils/special_account_creator.rs:48 - Potential dynamic SQL
-[WARN] server_rust/src/utils/special_account_creator.rs:92 - Potential dynamic SQL
-[WARN] server_rust/src/utils/special_account_creator.rs:101 - Potential dynamic SQL
-[WARN] server_rust/src/utils/special_account_creator.rs:105 - Potential dynamic SQL
-[WARN] server_rust/src/utils/special_account_creator.rs:114 - Potential dynamic SQL
+[WARN] server_rust/src/utils/special_account_creator.rs:34 - Potential dynamic SQL
+[WARN] server_rust/src/utils/special_account_creator.rs:47 - Potential dynamic SQL
+[WARN] server_rust/src/utils/special_account_creator.rs:91 - Potential dynamic SQL
+[WARN] server_rust/src/utils/special_account_creator.rs:100 - Potential dynamic SQL
+[WARN] server_rust/src/utils/special_account_creator.rs:103 - Potential dynamic SQL
+[WARN] server_rust/src/utils/special_account_creator.rs:112 - Potential dynamic SQL
 [WARN] server_rust/src/auth/account_manager.rs:30 - Potential dynamic SQL
 [WARN] server_rust/src/auth/account_manager.rs:94 - Potential dynamic SQL
 [WARN] server_rust/src/auth/account_manager.rs:103 - Potential dynamic SQL
@@ -245,9 +245,9 @@ Python files inspected: 73
 [WARN] server_rust/src/network/handler.rs:907 - Potential dynamic SQL
 [WARN] server_rust/src/network/handler.rs:938 - Potential dynamic SQL
 [WARN] server_rust/src/network/handler.rs:946 - Potential dynamic SQL
-[WARN] server_rust/src/network/handler.rs:1095 - Potential dynamic SQL
-[WARN] server_rust/src/network/handler.rs:1103 - Potential dynamic SQL
-[WARN] server_rust/src/network/handler.rs:1504 - Potential unwrap
+[WARN] server_rust/src/network/handler.rs:1115 - Potential dynamic SQL
+[WARN] server_rust/src/network/handler.rs:1123 - Potential dynamic SQL
+[WARN] server_rust/src/network/handler.rs:1524 - Potential unwrap
 [WARN] server_rust/src/network/parser.rs:78 - Potential expect
 [WARN] server_rust/src/network/parser.rs:111 - Potential expect
 [WARN] server_rust/src/network/parser.rs:184 - Potential expect
@@ -288,65 +288,37 @@ Python files inspected: 73
 [WARN] server_rust/src/security/crypto.rs:1074 - Potential unwrap
 [WARN] server_rust/src/security/crypto.rs:1093 - Potential unwrap
 [WARN] server_rust/src/security/crypto.rs:1094 - Potential unwrap
-[WARN] server_rust/src/gameplay/wallet_manager.rs:54 - Potential dynamic SQL
-[WARN] server_rust/src/gameplay/wallet_manager.rs:65 - Potential dynamic SQL
-[WARN] server_rust/src/gameplay/wallet_manager.rs:88 - Potential dynamic SQL
-[WARN] server_rust/src/gameplay/wallet_manager.rs:99 - Potential dynamic SQL
-[WARN] server_rust/src/gameplay/wallet_manager.rs:130 - Potential dynamic SQL
-[WARN] server_rust/src/gameplay/wallet_manager.rs:141 - Potential dynamic SQL
-[WARN] server_rust/src/gameplay/wallet_manager.rs:166 - Potential dynamic SQL
-[WARN] server_rust/src/gameplay/wallet_manager.rs:171 - Potential dynamic SQL
-[WARN] server_rust/src/gameplay/wallet_manager.rs:196 - Potential dynamic SQL
-[WARN] server_rust/src/gameplay/wallet_manager.rs:207 - Potential dynamic SQL
-[WARN] server_rust/src/gameplay/bank_manager.rs:47 - Potential dynamic SQL
-[WARN] server_rust/src/gameplay/bank_manager.rs:48 - Potential dynamic SQL
-[WARN] server_rust/src/gameplay/bank_manager.rs:116 - Potential dynamic SQL
-[WARN] server_rust/src/gameplay/bank_manager.rs:124 - Potential dynamic SQL
-[WARN] server_rust/src/gameplay/bank_manager.rs:141 - Potential dynamic SQL
-[WARN] server_rust/src/gameplay/bank_manager.rs:178 - Potential dynamic SQL
-[WARN] server_rust/src/gameplay/bank_manager.rs:180 - Potential dynamic SQL
-[WARN] server_rust/src/gameplay/bank_manager.rs:185 - Potential dynamic SQL
-[WARN] server_rust/src/gameplay/bank_manager.rs:188 - Potential dynamic SQL
-[WARN] server_rust/src/gameplay/bank_manager.rs:224 - Potential dynamic SQL
-[WARN] server_rust/src/gameplay/bank_manager.rs:227 - Potential dynamic SQL
-[WARN] server_rust/src/gameplay/bank_manager.rs:246 - Potential dynamic SQL
-[WARN] server_rust/src/gameplay/bank_manager.rs:249 - Potential dynamic SQL
-[WARN] server_rust/src/gameplay/bank_manager.rs:269 - Potential dynamic SQL
-[WARN] server_rust/src/gameplay/bank_manager.rs:296 - Potential dynamic SQL
-[WARN] server_rust/src/gameplay/bank_manager.rs:299 - Potential dynamic SQL
-[WARN] server_rust/src/gameplay/bank_manager.rs:302 - Potential dynamic SQL
-[WARN] server_rust/src/gameplay/bank_manager.rs:336 - Potential dynamic SQL
-[WARN] server_rust/src/gameplay/bank_manager.rs:341 - Potential dynamic SQL
-[WARN] server_rust/src/gameplay/bank_manager.rs:344 - Potential dynamic SQL
-[WARN] server_rust/src/gameplay/bank_manager.rs:351 - Potential dynamic SQL
+[WARN] server_rust/src/gameplay/wallet_manager.rs:42 - Potential dynamic SQL
+[WARN] server_rust/src/gameplay/wallet_manager.rs:51 - Potential dynamic SQL
+[WARN] server_rust/src/gameplay/wallet_manager.rs:70 - Potential dynamic SQL
+[WARN] server_rust/src/gameplay/wallet_manager.rs:81 - Potential dynamic SQL
+[WARN] server_rust/src/gameplay/wallet_manager.rs:104 - Potential dynamic SQL
+[WARN] server_rust/src/gameplay/wallet_manager.rs:115 - Potential dynamic SQL
+[WARN] server_rust/src/gameplay/wallet_manager.rs:139 - Potential dynamic SQL
+[WARN] server_rust/src/gameplay/wallet_manager.rs:148 - Potential dynamic SQL
 [WARN] server_rust/src/gameplay/stuff_manager.rs:207 - Potential dynamic SQL
 [WARN] server_rust/src/gameplay/stuff_manager.rs:262 - Potential dynamic SQL
 [WARN] server_rust/src/gameplay/stuff_manager.rs:297 - Potential dynamic SQL
 [WARN] server_rust/src/gameplay/stuff_manager.rs:320 - Potential dynamic SQL
-[WARN] server_rust/src/gameplay/stuff_manager.rs:540 - Potential dynamic SQL
-[WARN] server_rust/src/gameplay/stuff_manager.rs:551 - Potential dynamic SQL
-[WARN] server_rust/src/gameplay/stuff_manager.rs:605 - Potential dynamic SQL
-[WARN] server_rust/src/gameplay/stuff_manager.rs:680 - Potential dynamic SQL
-[WARN] server_rust/src/gameplay/stuff_manager.rs:685 - Potential dynamic SQL
-[WARN] server_rust/src/gameplay/stuff_manager.rs:785 - Potential dynamic SQL
-[WARN] server_rust/src/gameplay/stuff_manager.rs:799 - Potential dynamic SQL
-[WARN] server_rust/src/gameplay/stuff_manager.rs:935 - Potential dynamic SQL
-[WARN] server_rust/src/gameplay/stuff_manager.rs:1105 - Potential dynamic SQL
-[WARN] server_rust/src/gameplay/stuff_manager.rs:1109 - Potential dynamic SQL
-[WARN] server_rust/src/gameplay/stuff_manager.rs:1200 - Potential dynamic SQL
-[WARN] server_rust/src/gameplay/stuff_manager.rs:1213 - Potential dynamic SQL
-[WARN] server_rust/src/gameplay/stuff_manager.rs:1343 - Potential dynamic SQL
-[WARN] server_rust/src/gameplay/stuff_manager.rs:1352 - Potential dynamic SQL
-[WARN] server_rust/src/gameplay/stuff_manager.rs:1361 - Potential dynamic SQL
-[WARN] server_rust/src/gameplay/stuff_manager.rs:1374 - Potential dynamic SQL
-[WARN] server_rust/src/gameplay/stuff_manager.rs:1421 - Potential dynamic SQL
-[WARN] server_rust/src/gameplay/stuff_manager.rs:1435 - Potential dynamic SQL
-[WARN] server_rust/src/gameplay/stuff_manager.rs:1439 - Potential dynamic SQL
-[WARN] server_rust/src/gameplay/stuff_manager.rs:1450 - Potential dynamic SQL
-[WARN] server_rust/src/gameplay/stuff_manager.rs:1485 - Potential dynamic SQL
-[WARN] server_rust/src/gameplay/stuff_manager.rs:1487 - Potential dynamic SQL
-[WARN] server_rust/src/gameplay/stuff_manager.rs:1490 - Potential dynamic SQL
-[WARN] server_rust/src/gameplay/stuff_manager.rs:1495 - Potential dynamic SQL
+[WARN] server_rust/src/gameplay/stuff_manager.rs:477 - Potential dynamic SQL
+[WARN] server_rust/src/gameplay/stuff_manager.rs:500 - Potential dynamic SQL
+[WARN] server_rust/src/gameplay/stuff_manager.rs:572 - Potential dynamic SQL
+[WARN] server_rust/src/gameplay/stuff_manager.rs:583 - Potential dynamic SQL
+[WARN] server_rust/src/gameplay/stuff_manager.rs:654 - Potential dynamic SQL
+[WARN] server_rust/src/gameplay/stuff_manager.rs:668 - Potential dynamic SQL
+[WARN] server_rust/src/gameplay/stuff_manager.rs:804 - Potential dynamic SQL
+[WARN] server_rust/src/gameplay/stuff_manager.rs:1013 - Potential dynamic SQL
+[WARN] server_rust/src/gameplay/stuff_manager.rs:1026 - Potential dynamic SQL
+[WARN] server_rust/src/gameplay/stuff_manager.rs:1156 - Potential dynamic SQL
+[WARN] server_rust/src/gameplay/stuff_manager.rs:1165 - Potential dynamic SQL
+[WARN] server_rust/src/gameplay/stuff_manager.rs:1174 - Potential dynamic SQL
+[WARN] server_rust/src/gameplay/stuff_manager.rs:1187 - Potential dynamic SQL
+[WARN] server_rust/src/gameplay/stuff_manager.rs:1259 - Potential dynamic SQL
+[WARN] server_rust/src/gameplay/stuff_manager.rs:1269 - Potential dynamic SQL
+[WARN] server_rust/src/gameplay/stuff_manager.rs:1272 - Potential dynamic SQL
+[WARN] server_rust/src/gameplay/stuff_manager.rs:1286 - Potential dynamic SQL
+[WARN] server_rust/src/gameplay/stuff_manager.rs:1313 - Potential dynamic SQL
+[WARN] server_rust/src/gameplay/stuff_manager.rs:1336 - Potential dynamic SQL
 [WARN] server_rust/src/gameplay/tresor.rs:714 - Potential expect
 [WARN] server_rust/src/gameplay/tresor.rs:1111 - Potential dynamic SQL
 [WARN] server_rust/src/gameplay/tresor.rs:1133 - Potential dynamic SQL
@@ -42167,7 +42139,7 @@ Python files inspected: 73
 [WARN] server_rust/vendor/parking/src/lib.rs:433 - Potential unwrap
 
 Rust files inspected: 5157
-[WARN] 41988 Rust security review point(s) detected.
+[WARN] 41960 Rust security review point(s) detected.
 
 ## Web Security Test
 === WEB SECURITY SCAN ===
@@ -42184,7 +42156,7 @@ Aucun log disponible.
 
 # Security report
 
-**Run:** 712
+**Run:** 714
 
 ## Tests
 
@@ -42208,7 +42180,7 @@ Aucun log disponible.
 [main]	INFO	cli exclude tests: None
 [main]	INFO	running on Python 3.14.10
 Working... ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:00
-Run started:2026-11-09 16:54:02.296506+00:00
+Run started:2026-11-09 18:20:44.596476+00:00
 
 Test results:
 >> Issue: [B404:blacklist] Consider possible security implications associated with the subprocess module.
@@ -46106,7 +46078,7 @@ It will be compatible before version 2.0.0.
 
   Using [1mopen-source vulnerability database[0m
 [1m  Found and scanned 145 packages[0m
-  Timestamp [1m2026-11-09 16:54:10[0m
+  Timestamp [1m2026-11-09 18:20:51[0m
 [1m  1[0m[1m vulnerability reported[0m
 [1m  0[0m[1m vulnerabilities ignored[0m
 
@@ -46174,11 +46146,11 @@ It will be compatible before version 2.0.0.
 ┌─────────────┐
 │ Scan Status │
 └─────────────┘
-  Scanning 105 files tracked by git with 1074 Code rules:
+  Scanning 104 files tracked by git with 1074 Code rules:
                                                                                                                         
   Language      Rules   Files          Origin      Rules                                                                
  ─────────────────────────────        ───────────────────                                                               
-  <multilang>      48     105          Community    1074                                                                
+  <multilang>      48     104          Community    1074                                                                
   python          243      42                                                                                           
   rust              4      36                                                                                           
   json              4       2                                                                                           
@@ -46266,13 +46238,13 @@ It will be compatible before version 2.0.0.
 ✅ Scan completed successfully.
  • Findings: 8 (8 blocking)
  • Rules run: 297
- • Targets scanned: 105
+ • Targets scanned: 104
  • Parsed lines: ~100.0%
  • Scan skipped: 
    ◦ Files matching .semgrepignore patterns: 8230
  • Scan was limited to files tracked by git
  • For a detailed list of skipped files and lines, run semgrep with the --verbose flag
-Ran 297 rules on 105 files: 8 findings.
+Ran 297 rules on 104 files: 8 findings.
 
 ## Gitleaks
 
@@ -46282,9 +46254,9 @@ Ran 297 rules on 105 files: 8 findings.
     ○ ░
     ░    gitleaks
 
-[90m6:06PM[0m [32mINF[0m [1m5615 commits scanned.[0m
-[90m6:06PM[0m [32mINF[0m [1mscanned ~55553061864 bytes (55.55 GB) in 1h12m11s[0m
-[90m6:06PM[0m [32mINF[0m [1mno leaks found[0m
+[90m7:18PM[0m [32mINF[0m [1m5617 commits scanned.[0m
+[90m7:18PM[0m [32mINF[0m [1mscanned ~55553077818 bytes (55.55 GB) in 57m51s[0m
+[90m7:18PM[0m [32mINF[0m [1mno leaks found[0m
 
 ## Python Licenses
  Name                                      Version     License                                            
@@ -46431,7 +46403,7 @@ Ran 297 rules on 105 files: 8 findings.
  zipp                                      4.1.2       MIT                                                
 
 ## Cargo Deny
-2026-11-09 18:06:33 [[33mWARN[0m] unable to find a config path, falling back to default config[0m
+2026-11-09 19:18:54 [[33mWARN[0m] unable to find a config path, falling back to default config[0m
 [0m[1m[38;5;9merror[rejected][0m[1m: failed to satisfy license requirements[0m
    [0m[36m┌─[0m /home/runner/work/The-last-signal-/The-last-signal-/server_rust/vendor/adler2/Cargo.toml:38:12
    [0m[36m│[0m
@@ -52011,8 +51983,8 @@ Package                                  Version Latest Type
 boltons                                  21.0.0  26.2.0 wheel
 click                                    8.4.2   8.5.1  wheel
 exceptiongroup                           1.2.2   1.3.1  wheel
-filelock                                 3.32.7  4.2.9  wheel
-importlib_metadata                       8.7.1   10.1.0 wheel
+filelock                                 3.32.7  4.2.10 wheel
+importlib_metadata                       8.7.1   10.2.0 wheel
 jsonschema                               4.25.1  4.26.0 wheel
 mando                                    0.7.1   0.8.2  wheel
 mcp                                      1.29.0  2.3.0  wheel
@@ -52025,7 +51997,7 @@ peewee                                   3.19.0  4.5.3  wheel
 protobuf                                 6.33.6  7.36.2 wheel
 safety-schemas                           0.0.16  0.0.21 wheel
 tomli                                    2.4.1   2.5.0  wheel
-typer                                    0.25.1  0.28.0 wheel
+typer                                    0.25.1  0.29.0 wheel
 wcmatch                                  8.5.2   12.0.1 wheel
 wrapt                                    1.17.3  2.5.2  wheel
 
