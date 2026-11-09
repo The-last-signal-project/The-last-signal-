@@ -1,6 +1,6 @@
 Documentation Quality Report
 
-**Date :** 2026-11-09 07:10:54
+**Date :** 2026-11-09 10:31:14
 
 # 64/100
 
@@ -437,6 +437,146 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 - **module :** python
 
+# 📄 /home/runner/work/The-last-signal-/The-last-signal-/client_python/auth_session.py
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'read_body' ne possède pas d'annotations de type.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'check_login_reply' ne possède pas d'annotations de type.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'check_signup_reply'ligne 108 ne possède pas de docstring.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'check_signup_reply' ne possède pas d'annotations de type.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'parse_account_list' ne possède pas d'annotations de type.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'check_account_result' ne possède pas d'annotations de type.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'authenticate_client' ne possède pas d'annotations de type.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'spawn' ne possède pas d'annotations de type.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'sock'ligne 162 ne possède pas de docstring.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'sock' ne possède pas d'annotations de type.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'open' ne possède pas d'annotations de type.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'request' ne possède pas d'annotations de type.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'login' ne possède pas d'annotations de type.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'signup' ne possède pas d'annotations de type.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'list_accounts'ligne 253 ne possède pas de docstring.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'list_accounts' ne possède pas d'annotations de type.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'create_account'ligne 257 ne possède pas de docstring.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'create_account' ne possède pas d'annotations de type.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'select_account'ligne 265 ne possède pas de docstring.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'select_account' ne possède pas d'annotations de type.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'close' ne possède pas d'annotations de type.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'wait'ligne 307 ne possède pas de docstring.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'wait' ne possède pas d'annotations de type.
+
+- **module :** python
+
 # 📄 /home/runner/work/The-last-signal-/The-last-signal-/client_python/client.py
 
 ## ⚠️ Warning
@@ -831,7 +971,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'main'ligne 11 ne possède pas de docstring.
+- **Message :** La fonction 'main'ligne 13 ne possède pas de docstring.
 
 - **module :** python
 
@@ -911,7 +1051,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'log'ligne 193 ne possède pas de docstring.
+- **Message :** La fonction 'log'ligne 182 ne possède pas de docstring.
 
 - **module :** python
 
@@ -923,7 +1063,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'fmt_duration'ligne 201 ne possède pas de docstring.
+- **Message :** La fonction 'fmt_duration'ligne 190 ne possède pas de docstring.
 
 - **module :** python
 
@@ -953,43 +1093,13 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'find_google_secret'ligne 295 ne possède pas de docstring.
-
-- **module :** python
-
-## ⚠️ Warning
-- **Module :** python
-- **Message :** La fonction 'find_google_secret' ne possède pas d'annotations de type.
-
-- **module :** python
-
-## ⚠️ Warning
-- **Module :** python
-- **Message :** La fonction 'load_cached_credentials' ne possède pas d'annotations de type.
-
-- **module :** python
-
-## ⚠️ Warning
-- **Module :** python
-- **Message :** La fonction 'google_login' ne possède pas d'annotations de type.
-
-- **module :** python
-
-## ⚠️ Warning
-- **Module :** python
-- **Message :** La fonction 'google_profile' ne possède pas d'annotations de type.
-
-- **module :** python
-
-## ⚠️ Warning
-- **Module :** python
 - **Message :** La fonction 'find_playlist' ne possède pas d'annotations de type.
 
 - **module :** python
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'load_json'ligne 419 ne possède pas de docstring.
+- **Message :** La fonction 'load_json'ligne 333 ne possède pas de docstring.
 
 - **module :** python
 
@@ -1001,7 +1111,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'save_json'ligne 427 ne possède pas de docstring.
+- **Message :** La fonction 'save_json'ligne 341 ne possède pas de docstring.
 
 - **module :** python
 
@@ -1037,7 +1147,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'translate'ligne 817 ne possède pas de docstring.
+- **Message :** La fonction 'translate'ligne 753 ne possède pas de docstring.
 
 - **module :** python
 
@@ -1049,7 +1159,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'hsv_hex'ligne 822 ne possède pas de docstring.
+- **Message :** La fonction 'hsv_hex'ligne 758 ne possède pas de docstring.
 
 - **module :** python
 
@@ -1061,7 +1171,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'hex_rgb'ligne 827 ne possède pas de docstring.
+- **Message :** La fonction 'hex_rgb'ligne 763 ne possède pas de docstring.
 
 - **module :** python
 
@@ -1073,7 +1183,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'mix'ligne 831 ne possède pas de docstring.
+- **Message :** La fonction 'mix'ligne 767 ne possède pas de docstring.
 
 - **module :** python
 
@@ -1085,19 +1195,13 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'hash_pw'ligne 836 ne possède pas de docstring.
+- **Message :** La fonction 'valid_pseudo' ne possède pas d'annotations de type.
 
 - **module :** python
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'hash_pw' ne possède pas d'annotations de type.
-
-- **module :** python
-
-## ⚠️ Warning
-- **Module :** python
-- **Message :** La fonction 'ease_out_cubic'ligne 842 ne possède pas de docstring.
+- **Message :** La fonction 'ease_out_cubic'ligne 777 ne possède pas de docstring.
 
 - **module :** python
 
@@ -1109,7 +1213,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'ease_out_expo'ligne 846 ne possède pas de docstring.
+- **Message :** La fonction 'ease_out_expo'ligne 781 ne possède pas de docstring.
 
 - **module :** python
 
@@ -1121,7 +1225,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'ease_in_out'ligne 850 ne possède pas de docstring.
+- **Message :** La fonction 'ease_in_out'ligne 785 ne possède pas de docstring.
 
 - **module :** python
 
@@ -1133,7 +1237,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'ease_out_bounce'ligne 854 ne possède pas de docstring.
+- **Message :** La fonction 'ease_out_bounce'ligne 789 ne possède pas de docstring.
 
 - **module :** python
 
@@ -1145,7 +1249,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'extract_palette'ligne 875 ne possède pas de docstring.
+- **Message :** La fonction 'extract_palette'ligne 810 ne possède pas de docstring.
 
 - **module :** python
 
@@ -1169,7 +1273,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'sfx'ligne 992 ne possède pas de docstring.
+- **Message :** La fonction 'sfx'ligne 927 ne possède pas de docstring.
 
 - **module :** python
 
@@ -1181,7 +1285,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'hex_tint'ligne 1110 ne possède pas de docstring.
+- **Message :** La fonction 'hex_tint'ligne 1045 ne possède pas de docstring.
 
 - **module :** python
 
@@ -1205,7 +1309,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'begin'ligne 1089 ne possède pas de docstring.
+- **Message :** La fonction 'begin'ligne 1024 ne possède pas de docstring.
 
 - **module :** python
 
@@ -1217,7 +1321,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'end'ligne 1094 ne possède pas de docstring.
+- **Message :** La fonction 'end'ligne 1029 ne possède pas de docstring.
 
 - **module :** python
 
@@ -1229,7 +1333,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'set_image'ligne 1134 ne possède pas de docstring.
+- **Message :** La fonction 'set_image'ligne 1069 ne possède pas de docstring.
 
 - **module :** python
 
@@ -1241,7 +1345,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'free'ligne 1144 ne possède pas de docstring.
+- **Message :** La fonction 'free'ligne 1079 ne possède pas de docstring.
 
 - **module :** python
 
@@ -1253,7 +1357,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'draw'ligne 1162 ne possède pas de docstring.
+- **Message :** La fonction 'draw'ligne 1097 ne possède pas de docstring.
 
 - **module :** python
 
@@ -1271,7 +1375,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'runs'ligne 1336 ne possède pas de docstring.
+- **Message :** La fonction 'runs'ligne 1271 ne possède pas de docstring.
 
 - **module :** python
 
@@ -1283,7 +1387,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'lh'ligne 1346 ne possède pas de docstring.
+- **Message :** La fonction 'lh'ligne 1281 ne possède pas de docstring.
 
 - **module :** python
 
@@ -1295,7 +1399,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'zero'ligne 1350 ne possède pas de docstring.
+- **Message :** La fonction 'zero'ligne 1285 ne possède pas de docstring.
 
 - **module :** python
 
@@ -1307,7 +1411,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'width'ligne 1353 ne possède pas de docstring.
+- **Message :** La fonction 'width'ligne 1288 ne possède pas de docstring.
 
 - **module :** python
 
@@ -1331,7 +1435,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'btn_size'ligne 1396 ne possède pas de docstring.
+- **Message :** La fonction 'btn_size'ligne 1331 ne possède pas de docstring.
 
 - **module :** python
 
@@ -1349,7 +1453,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'sprites'ligne 1457 ne possède pas de docstring.
+- **Message :** La fonction 'sprites'ligne 1392 ne possède pas de docstring.
 
 - **module :** python
 
@@ -1361,7 +1465,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'set_state'ligne 1460 ne possède pas de docstring.
+- **Message :** La fonction 'set_state'ligne 1395 ne possède pas de docstring.
 
 - **module :** python
 
@@ -1373,7 +1477,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'set_focus'ligne 1465 ne possède pas de docstring.
+- **Message :** La fonction 'set_focus'ligne 1400 ne possède pas de docstring.
 
 - **module :** python
 
@@ -1391,7 +1495,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'size'ligne 1489 ne possède pas de docstring.
+- **Message :** La fonction 'size'ligne 1424 ne possède pas de docstring.
 
 - **module :** python
 
@@ -1403,7 +1507,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'contains'ligne 1492 ne possède pas de docstring.
+- **Message :** La fonction 'contains'ligne 1427 ne possède pas de docstring.
 
 - **module :** python
 
@@ -1415,7 +1519,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'S'ligne 1522 ne possède pas de docstring.
+- **Message :** La fonction 'S'ligne 1458 ne possède pas de docstring.
 
 - **module :** python
 
@@ -1427,7 +1531,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'P'ligne 1525 ne possède pas de docstring.
+- **Message :** La fonction 'P'ligne 1461 ne possède pas de docstring.
 
 - **module :** python
 
@@ -1439,7 +1543,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'title'ligne 1534 ne possède pas de docstring.
+- **Message :** La fonction 'title'ligne 1470 ne possède pas de docstring.
 
 - **module :** python
 
@@ -1451,7 +1555,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'label'ligne 1540 ne possède pas de docstring.
+- **Message :** La fonction 'label'ligne 1476 ne possède pas de docstring.
 
 - **module :** python
 
@@ -1463,7 +1567,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'button'ligne 1548 ne possède pas de docstring.
+- **Message :** La fonction 'button'ligne 1484 ne possède pas de docstring.
 
 - **module :** python
 
@@ -1475,7 +1579,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'combo'ligne 1554 ne possède pas de docstring.
+- **Message :** La fonction 'combo'ligne 1490 ne possède pas de docstring.
 
 - **module :** python
 
@@ -1487,7 +1591,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'slider'ligne 1561 ne possède pas de docstring.
+- **Message :** La fonction 'slider'ligne 1497 ne possède pas de docstring.
 
 - **module :** python
 
@@ -1499,7 +1603,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'entry'ligne 1566 ne possède pas de docstring.
+- **Message :** La fonction 'entry'ligne 1502 ne possède pas de docstring.
 
 - **module :** python
 
@@ -1511,7 +1615,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'listbox'ligne 1572 ne possède pas de docstring.
+- **Message :** La fonction 'listbox'ligne 1508 ne possède pas de docstring.
 
 - **module :** python
 
@@ -1523,7 +1627,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'infobox'ligne 1580 ne possède pas de docstring.
+- **Message :** La fonction 'infobox'ligne 1516 ne possède pas de docstring.
 
 - **module :** python
 
@@ -1535,7 +1639,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'avatar'ligne 1592 ne possède pas de docstring.
+- **Message :** La fonction 'avatar'ligne 1528 ne possède pas de docstring.
 
 - **module :** python
 
@@ -1547,7 +1651,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'tabs'ligne 1596 ne possède pas de docstring.
+- **Message :** La fonction 'tabs'ligne 1532 ne possède pas de docstring.
 
 - **module :** python
 
@@ -1559,7 +1663,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'link'ligne 1603 ne possède pas de docstring.
+- **Message :** La fonction 'link'ligne 1539 ne possède pas de docstring.
 
 - **module :** python
 
@@ -1571,7 +1675,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'sep_or'ligne 1608 ne possède pas de docstring.
+- **Message :** La fonction 'sep_or'ligne 1544 ne possède pas de docstring.
 
 - **module :** python
 
@@ -1583,7 +1687,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'spacer'ligne 1612 ne possède pas de docstring.
+- **Message :** La fonction 'spacer'ligne 1548 ne possède pas de docstring.
 
 - **module :** python
 
@@ -1595,13 +1699,19 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
+- **Message :** La fonction 'progress' ne possède pas d'annotations de type.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
 - **Message :** La fonction 'bindtable' ne possède pas d'annotations de type.
 
 - **module :** python
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'finish'ligne 1630 ne possède pas de docstring.
+- **Message :** La fonction 'finish'ligne 1572 ne possède pas de docstring.
 
 - **module :** python
 
@@ -1613,7 +1723,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'find'ligne 1644 ne possède pas de docstring.
+- **Message :** La fonction 'find'ligne 1586 ne possède pas de docstring.
 
 - **module :** python
 
@@ -1631,7 +1741,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'sub'ligne 1657 ne possède pas de docstring.
+- **Message :** La fonction 'sub'ligne 1599 ne possède pas de docstring.
 
 - **module :** python
 
@@ -1643,7 +1753,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'color'ligne 1682 ne possède pas de docstring.
+- **Message :** La fonction 'color'ligne 1624 ne possède pas de docstring.
 
 - **module :** python
 
@@ -1655,7 +1765,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'render'ligne 1685 ne possède pas de docstring.
+- **Message :** La fonction 'render'ligne 1627 ne possède pas de docstring.
 
 - **module :** python
 
@@ -1667,7 +1777,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 't'ligne 2018 ne possède pas de docstring.
+- **Message :** La fonction 't'ligne 1978 ne possède pas de docstring.
 
 - **module :** python
 
@@ -1691,7 +1801,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'menu_x'ligne 2029 ne possède pas de docstring.
+- **Message :** La fonction 'menu_x'ligne 1989 ne possède pas de docstring.
 
 - **module :** python
 
@@ -1703,7 +1813,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'add'ligne 2032 ne possède pas de docstring.
+- **Message :** La fonction 'add'ligne 1992 ne possède pas de docstring.
 
 - **module :** python
 
@@ -1715,7 +1825,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'remove'ligne 2036 ne possède pas de docstring.
+- **Message :** La fonction 'remove'ligne 1996 ne possède pas de docstring.
 
 - **module :** python
 
@@ -1727,7 +1837,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'remove_tag'ligne 2042 ne possède pas de docstring.
+- **Message :** La fonction 'remove_tag'ligne 2002 ne possède pas de docstring.
 
 - **module :** python
 
@@ -1739,7 +1849,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'after'ligne 2046 ne possède pas de docstring.
+- **Message :** La fonction 'after'ligne 2006 ne possède pas de docstring.
 
 - **module :** python
 
@@ -1751,7 +1861,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'after_idle'ligne 2051 ne possède pas de docstring.
+- **Message :** La fonction 'after_idle'ligne 2011 ne possède pas de docstring.
 
 - **module :** python
 
@@ -1763,7 +1873,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'after_cancel'ligne 2054 ne possède pas de docstring.
+- **Message :** La fonction 'after_cancel'ligne 2014 ne possède pas de docstring.
 
 - **module :** python
 
@@ -1787,7 +1897,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'save_settings'ligne 2067 ne possède pas de docstring.
+- **Message :** La fonction 'save_settings'ligne 2027 ne possède pas de docstring.
 
 - **module :** python
 
@@ -1799,7 +1909,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'set_icon'ligne 2071 ne possède pas de docstring.
+- **Message :** La fonction 'set_icon'ligne 2031 ne possède pas de docstring.
 
 - **module :** python
 
@@ -1811,7 +1921,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'run'ligne 2084 ne possède pas de docstring.
+- **Message :** La fonction 'run'ligne 2044 ne possède pas de docstring.
 
 - **module :** python
 
@@ -1823,7 +1933,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'destroy'ligne 2101 ne possède pas de docstring.
+- **Message :** La fonction 'destroy'ligne 2061 ne possède pas de docstring.
 
 - **module :** python
 
@@ -1835,7 +1945,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'tick'ligne 2104 ne possède pas de docstring.
+- **Message :** La fonction 'tick'ligne 2064 ne possède pas de docstring.
 
 - **module :** python
 
@@ -1847,7 +1957,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'on_draw'ligne 2150 ne possède pas de docstring.
+- **Message :** La fonction 'on_draw'ligne 2113 ne possède pas de docstring.
 
 - **module :** python
 
@@ -1865,7 +1975,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'panel_hover_anim'ligne 2208 ne possède pas de docstring.
+- **Message :** La fonction 'panel_hover_anim'ligne 2171 ne possède pas de docstring.
 
 - **module :** python
 
@@ -1877,7 +1987,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'on_resize'ligne 2227 ne possède pas de docstring.
+- **Message :** La fonction 'on_resize'ligne 2190 ne possède pas de docstring.
 
 - **module :** python
 
@@ -1889,7 +1999,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'relayout'ligne 2235 ne possède pas de docstring.
+- **Message :** La fonction 'relayout'ligne 2198 ne possède pas de docstring.
 
 - **module :** python
 
@@ -1901,7 +2011,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'toggle_fullscreen'ligne 2258 ne possède pas de docstring.
+- **Message :** La fonction 'toggle_fullscreen'ligne 2221 ne possède pas de docstring.
 
 - **module :** python
 
@@ -1913,7 +2023,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'on_escape'ligne 2275 ne possède pas de docstring.
+- **Message :** La fonction 'on_escape'ligne 2238 ne possède pas de docstring.
 
 - **module :** python
 
@@ -1931,7 +2041,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'set_bg'ligne 2297 ne possède pas de docstring.
+- **Message :** La fonction 'set_bg'ligne 2260 ne possède pas de docstring.
 
 - **module :** python
 
@@ -1943,7 +2053,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'build_splash'ligne 2303 ne possède pas de docstring.
+- **Message :** La fonction 'build_splash'ligne 2266 ne possède pas de docstring.
 
 - **module :** python
 
@@ -1955,7 +2065,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'splash_draw'ligne 2336 ne possède pas de docstring.
+- **Message :** La fonction 'splash_draw'ligne 2299 ne possède pas de docstring.
 
 - **module :** python
 
@@ -1967,7 +2077,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'poll_splash'ligne 2354 ne possède pas de docstring.
+- **Message :** La fonction 'poll_splash'ligne 2317 ne possède pas de docstring.
 
 - **module :** python
 
@@ -1991,7 +2101,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'monitors_info'ligne 2458 ne possède pas de docstring.
+- **Message :** La fonction 'monitors_info'ligne 2421 ne possède pas de docstring.
 
 - **module :** python
 
@@ -2015,7 +2125,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'set_cursor'ligne 2504 ne possède pas de docstring.
+- **Message :** La fonction 'set_cursor'ligne 2467 ne possède pas de docstring.
 
 - **module :** python
 
@@ -2027,7 +2137,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'panel_origin'ligne 2513 ne possède pas de docstring.
+- **Message :** La fonction 'panel_origin'ligne 2476 ne possède pas de docstring.
 
 - **module :** python
 
@@ -2045,7 +2155,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'on_move'ligne 2536 ne possède pas de docstring.
+- **Message :** La fonction 'on_move'ligne 2499 ne possède pas de docstring.
 
 - **module :** python
 
@@ -2057,7 +2167,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'on_press'ligne 2586 ne possède pas de docstring.
+- **Message :** La fonction 'on_press'ligne 2549 ne possède pas de docstring.
 
 - **module :** python
 
@@ -2069,7 +2179,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'panel_press'ligne 2618 ne possède pas de docstring.
+- **Message :** La fonction 'panel_press'ligne 2581 ne possède pas de docstring.
 
 - **module :** python
 
@@ -2087,7 +2197,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'on_release'ligne 2666 ne possède pas de docstring.
+- **Message :** La fonction 'on_release'ligne 2629 ne possède pas de docstring.
 
 - **module :** python
 
@@ -2099,7 +2209,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'on_scroll'ligne 2692 ne possède pas de docstring.
+- **Message :** La fonction 'on_scroll'ligne 2655 ne possède pas de docstring.
 
 - **module :** python
 
@@ -2111,7 +2221,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'slider_to'ligne 2707 ne possède pas de docstring.
+- **Message :** La fonction 'slider_to'ligne 2670 ne possède pas de docstring.
 
 - **module :** python
 
@@ -2123,7 +2233,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'on_key'ligne 2720 ne possède pas de docstring.
+- **Message :** La fonction 'on_key'ligne 2683 ne possède pas de docstring.
 
 - **module :** python
 
@@ -2135,7 +2245,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'nav_list'ligne 2788 ne possède pas de docstring.
+- **Message :** La fonction 'nav_list'ligne 2751 ne possède pas de docstring.
 
 - **module :** python
 
@@ -2147,7 +2257,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'nav_set'ligne 2791 ne possède pas de docstring.
+- **Message :** La fonction 'nav_set'ligne 2754 ne possède pas de docstring.
 
 - **module :** python
 
@@ -2159,7 +2269,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'menu_key'ligne 2796 ne possède pas de docstring.
+- **Message :** La fonction 'menu_key'ligne 2759 ne possède pas de docstring.
 
 - **module :** python
 
@@ -2171,7 +2281,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'panel_items'ligne 2809 ne possède pas de docstring.
+- **Message :** La fonction 'panel_items'ligne 2772 ne possède pas de docstring.
 
 - **module :** python
 
@@ -2183,7 +2293,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'panel_focus'ligne 2812 ne possède pas de docstring.
+- **Message :** La fonction 'panel_focus'ligne 2775 ne possède pas de docstring.
 
 - **module :** python
 
@@ -2195,7 +2305,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'panel_nav'ligne 2821 ne possède pas de docstring.
+- **Message :** La fonction 'panel_nav'ligne 2784 ne possède pas de docstring.
 
 - **module :** python
 
@@ -2207,7 +2317,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'panel_key'ligne 2832 ne possède pas de docstring.
+- **Message :** La fonction 'panel_key'ligne 2795 ne possède pas de docstring.
 
 - **module :** python
 
@@ -2219,7 +2329,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'entry_key'ligne 2856 ne possède pas de docstring.
+- **Message :** La fonction 'entry_key'ligne 2819 ne possède pas de docstring.
 
 - **module :** python
 
@@ -2231,7 +2341,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'on_char'ligne 2890 ne possède pas de docstring.
+- **Message :** La fonction 'on_char'ligne 2853 ne possède pas de docstring.
 
 - **module :** python
 
@@ -2243,7 +2353,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'poll_gamepad'ligne 2905 ne possède pas de docstring.
+- **Message :** La fonction 'poll_gamepad'ligne 2868 ne possède pas de docstring.
 
 - **module :** python
 
@@ -2255,7 +2365,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'open_dropdown'ligne 2962 ne possède pas de docstring.
+- **Message :** La fonction 'open_dropdown'ligne 2925 ne possède pas de docstring.
 
 - **module :** python
 
@@ -2267,7 +2377,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'dd_draw'ligne 2975 ne possède pas de docstring.
+- **Message :** La fonction 'dd_draw'ligne 2938 ne possède pas de docstring.
 
 - **module :** python
 
@@ -2279,7 +2389,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'close_dropdown'ligne 2990 ne possède pas de docstring.
+- **Message :** La fonction 'close_dropdown'ligne 2953 ne possède pas de docstring.
 
 - **module :** python
 
@@ -2291,7 +2401,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'dd_choose'ligne 2995 ne possède pas de docstring.
+- **Message :** La fonction 'dd_choose'ligne 2958 ne possède pas de docstring.
 
 - **module :** python
 
@@ -2309,7 +2419,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'draw_banner'ligne 3028 ne possède pas de docstring.
+- **Message :** La fonction 'draw_banner'ligne 2991 ne possède pas de docstring.
 
 - **module :** python
 
@@ -2321,7 +2431,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'set_banner_dy'ligne 3070 ne possède pas de docstring.
+- **Message :** La fonction 'set_banner_dy'ligne 3033 ne possède pas de docstring.
 
 - **module :** python
 
@@ -2333,7 +2443,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'drop_banner'ligne 3074 ne possède pas de docstring.
+- **Message :** La fonction 'drop_banner'ligne 3037 ne possède pas de docstring.
 
 - **module :** python
 
@@ -2345,7 +2455,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'pulse'ligne 3077 ne possède pas de docstring.
+- **Message :** La fonction 'pulse'ligne 3040 ne possède pas de docstring.
 
 - **module :** python
 
@@ -2357,7 +2467,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'after_banner'ligne 3088 ne possède pas de docstring.
+- **Message :** La fonction 'after_banner'ligne 3051 ne possède pas de docstring.
 
 - **module :** python
 
@@ -2369,7 +2479,49 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'account_label'ligne 3100 ne possède pas de docstring.
+- **Message :** La fonction 'menu_stage' ne possède pas d'annotations de type.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'start_flow'ligne 3073 ne possède pas de docstring.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'start_flow' ne possède pas d'annotations de type.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'flow_back' ne possède pas d'annotations de type.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'play'ligne 3089 ne possède pas de docstring.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'play' ne possède pas d'annotations de type.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'close_flow_panel' ne possède pas d'annotations de type.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'account_label'ligne 3098 ne possède pas de docstring.
 
 - **module :** python
 
@@ -2381,7 +2533,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'text_sprite'ligne 3106 ne possède pas de docstring.
+- **Message :** La fonction 'text_sprite'ligne 3104 ne possède pas de docstring.
 
 - **module :** python
 
@@ -2393,7 +2545,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'show_menu'ligne 3113 ne possède pas de docstring.
+- **Message :** La fonction 'show_menu'ligne 3111 ne possède pas de docstring.
 
 - **module :** python
 
@@ -2405,7 +2557,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'led_color'ligne 3169 ne possède pas de docstring.
+- **Message :** La fonction 'led_color'ligne 3172 ne possède pas de docstring.
 
 - **module :** python
 
@@ -2417,7 +2569,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'draw_led'ligne 3172 ne possède pas de docstring.
+- **Message :** La fonction 'draw_led'ligne 3175 ne possède pas de docstring.
 
 - **module :** python
 
@@ -2429,7 +2581,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'start_net_monitor'ligne 3188 ne possède pas de docstring.
+- **Message :** La fonction 'start_net_monitor'ligne 3191 ne possède pas de docstring.
 
 - **module :** python
 
@@ -2441,7 +2593,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'set_net'ligne 3205 ne possède pas de docstring.
+- **Message :** La fonction 'set_net'ligne 3208 ne possède pas de docstring.
 
 - **module :** python
 
@@ -2453,7 +2605,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'slide_in'ligne 3211 ne possède pas de docstring.
+- **Message :** La fonction 'slide_in'ligne 3214 ne possède pas de docstring.
 
 - **module :** python
 
@@ -2465,7 +2617,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'go_back'ligne 3220 ne possède pas de docstring.
+- **Message :** La fonction 'go_back'ligne 3223 ne possède pas de docstring.
 
 - **module :** python
 
@@ -2477,19 +2629,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'go_multi'ligne 3224 ne possède pas de docstring.
-
-- **module :** python
-
-## ⚠️ Warning
-- **Module :** python
-- **Message :** La fonction 'go_multi' ne possède pas d'annotations de type.
-
-- **module :** python
-
-## ⚠️ Warning
-- **Module :** python
-- **Message :** La fonction 'start_music'ligne 3231 ne possède pas de docstring.
+- **Message :** La fonction 'start_music'ligne 3228 ne possède pas de docstring.
 
 - **module :** python
 
@@ -2501,7 +2641,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'load_sfx'ligne 3235 ne possède pas de docstring.
+- **Message :** La fonction 'load_sfx'ligne 3232 ne possède pas de docstring.
 
 - **module :** python
 
@@ -2513,7 +2653,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'play_sfx'ligne 3246 ne possède pas de docstring.
+- **Message :** La fonction 'play_sfx'ligne 3243 ne possède pas de docstring.
 
 - **module :** python
 
@@ -2531,7 +2671,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'apply_volume'ligne 3358 ne possède pas de docstring.
+- **Message :** La fonction 'apply_volume'ligne 3355 ne possède pas de docstring.
 
 - **module :** python
 
@@ -2549,7 +2689,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'restore_music'ligne 3397 ne possède pas de docstring.
+- **Message :** La fonction 'restore_music'ligne 3394 ne possède pas de docstring.
 
 - **module :** python
 
@@ -2561,7 +2701,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'on_close'ligne 3402 ne possède pas de docstring.
+- **Message :** La fonction 'on_close'ligne 3399 ne possède pas de docstring.
 
 - **module :** python
 
@@ -2633,7 +2773,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'cancel_panel'ligne 3497 ne possède pas de docstring.
+- **Message :** La fonction 'cancel_panel'ligne 3496 ne possède pas de docstring.
 
 - **module :** python
 
@@ -2651,7 +2791,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'build_lang_popup'ligne 3512 ne possède pas de docstring.
+- **Message :** La fonction 'build_lang_popup'ligne 3513 ne possède pas de docstring.
 
 - **module :** python
 
@@ -2663,7 +2803,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'confirm_language'ligne 3517 ne possède pas de docstring.
+- **Message :** La fonction 'confirm_language'ligne 3518 ne possède pas de docstring.
 
 - **module :** python
 
@@ -2681,7 +2821,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'open_credits'ligne 3531 ne possède pas de docstring.
+- **Message :** La fonction 'open_credits'ligne 3532 ne possède pas de docstring.
 
 - **module :** python
 
@@ -2693,7 +2833,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'build_credits'ligne 3534 ne possède pas de docstring.
+- **Message :** La fonction 'build_credits'ligne 3535 ne possède pas de docstring.
 
 - **module :** python
 
@@ -2705,7 +2845,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'toggle_settings'ligne 3544 ne possède pas de docstring.
+- **Message :** La fonction 'toggle_settings'ligne 3545 ne possède pas de docstring.
 
 - **module :** python
 
@@ -2717,7 +2857,19 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'build_settings'ligne 3550 ne possède pas de docstring.
+- **Message :** La fonction 'resume_flow_panel'ligne 3557 ne possède pas de docstring.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'resume_flow_panel' ne possède pas d'annotations de type.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'build_settings'ligne 3567 ne possède pas de docstring.
 
 - **module :** python
 
@@ -2729,7 +2881,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'toggle_crt'ligne 3572 ne possède pas de docstring.
+- **Message :** La fonction 'toggle_crt'ligne 3589 ne possède pas de docstring.
 
 - **module :** python
 
@@ -2741,7 +2893,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'toggle_glitch'ligne 3578 ne possède pas de docstring.
+- **Message :** La fonction 'toggle_glitch'ligne 3595 ne possède pas de docstring.
 
 - **module :** python
 
@@ -2753,7 +2905,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'pick_resolution'ligne 3584 ne possède pas de docstring.
+- **Message :** La fonction 'pick_resolution'ligne 3601 ne possède pas de docstring.
 
 - **module :** python
 
@@ -2765,7 +2917,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'set_volume'ligne 3590 ne possède pas de docstring.
+- **Message :** La fonction 'set_volume'ligne 3607 ne possède pas de docstring.
 
 - **module :** python
 
@@ -2777,7 +2929,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'refresh_all'ligne 3595 ne possède pas de docstring.
+- **Message :** La fonction 'refresh_all'ligne 3612 ne possède pas de docstring.
 
 - **module :** python
 
@@ -2789,7 +2941,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'open_controls'ligne 3600 ne possède pas de docstring.
+- **Message :** La fonction 'open_controls'ligne 3617 ne possède pas de docstring.
 
 - **module :** python
 
@@ -2801,7 +2953,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'build_controls'ligne 3603 ne possède pas de docstring.
+- **Message :** La fonction 'build_controls'ligne 3620 ne possède pas de docstring.
 
 - **module :** python
 
@@ -2819,7 +2971,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'reset_controls'ligne 3634 ne possède pas de docstring.
+- **Message :** La fonction 'reset_controls'ligne 3651 ne possède pas de docstring.
 
 - **module :** python
 
@@ -2831,7 +2983,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'open_saves'ligne 3642 ne possède pas de docstring.
+- **Message :** La fonction 'open_saves'ligne 3659 ne possède pas de docstring.
 
 - **module :** python
 
@@ -2843,7 +2995,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'build_saves'ligne 3645 ne possède pas de docstring.
+- **Message :** La fonction 'build_saves'ligne 3662 ne possède pas de docstring.
 
 - **module :** python
 
@@ -2855,7 +3007,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'do_delete_save'ligne 3695 ne possède pas de docstring.
+- **Message :** La fonction 'do_delete_save'ligne 3712 ne possède pas de docstring.
 
 - **module :** python
 
@@ -2867,7 +3019,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'cancel_delete'ligne 3704 ne possède pas de docstring.
+- **Message :** La fonction 'cancel_delete'ligne 3721 ne possède pas de docstring.
 
 - **module :** python
 
@@ -2879,7 +3031,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'profile_key'ligne 3710 ne possède pas de docstring.
+- **Message :** La fonction 'profile_key'ligne 3727 ne possède pas de docstring.
 
 - **module :** python
 
@@ -2891,7 +3043,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'add_playtime'ligne 3713 ne possède pas de docstring.
+- **Message :** La fonction 'add_playtime'ligne 3730 ne possède pas de docstring.
 
 - **module :** python
 
@@ -2903,7 +3055,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'last_save_info'ligne 3719 ne possède pas de docstring.
+- **Message :** La fonction 'last_save_info'ligne 3736 ne possède pas de docstring.
 
 - **module :** python
 
@@ -2915,7 +3067,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'make_avatar'ligne 3735 ne possède pas de docstring.
+- **Message :** La fonction 'make_avatar'ligne 3752 ne possède pas de docstring.
 
 - **module :** python
 
@@ -2927,55 +3079,31 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'open_auth'ligne 3760 ne possède pas de docstring.
+- **Message :** La fonction 'run_net' ne possède pas d'annotations de type.
 
 - **module :** python
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'open_auth' ne possède pas d'annotations de type.
+- **Message :** La fonction 'net_failed'ligne 3804 ne possède pas de docstring.
 
 - **module :** python
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'build_auth'ligne 3766 ne possède pas de docstring.
+- **Message :** La fonction 'net_failed' ne possède pas d'annotations de type.
 
 - **module :** python
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'build_auth' ne possède pas d'annotations de type.
+- **Message :** La fonction 'session_lost' ne possède pas d'annotations de type.
 
 - **module :** python
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'toggle_local'ligne 3815 ne possède pas de docstring.
-
-- **module :** python
-
-## ⚠️ Warning
-- **Module :** python
-- **Message :** La fonction 'toggle_local' ne possède pas d'annotations de type.
-
-- **module :** python
-
-## ⚠️ Warning
-- **Module :** python
-- **Message :** La fonction 'set_auth_mode'ligne 3820 ne possède pas de docstring.
-
-- **module :** python
-
-## ⚠️ Warning
-- **Module :** python
-- **Message :** La fonction 'set_auth_mode' ne possède pas d'annotations de type.
-
-- **module :** python
-
-## ⚠️ Warning
-- **Module :** python
-- **Message :** La fonction 'set_auth_msg'ligne 3825 ne possède pas de docstring.
+- **Message :** La fonction 'set_auth_msg'ligne 3824 ne possède pas de docstring.
 
 - **module :** python
 
@@ -2987,7 +3115,43 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'submit_auth'ligne 3830 ne possède pas de docstring.
+- **Message :** La fonction 'auth_msg_label'ligne 3830 ne possède pas de docstring.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'auth_msg_label' ne possède pas d'annotations de type.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'open_auth'ligne 3842 ne possède pas de docstring.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'open_auth' ne possède pas d'annotations de type.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'build_auth'ligne 3847 ne possède pas de docstring.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'build_auth' ne possède pas d'annotations de type.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'submit_auth'ligne 3868 ne possède pas de docstring.
 
 - **module :** python
 
@@ -2999,19 +3163,19 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'on_login_success'ligne 3859 ne possède pas de docstring.
+- **Message :** La fonction 'on_session_open'ligne 3903 ne possède pas de docstring.
 
 - **module :** python
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'on_login_success' ne possède pas d'annotations de type.
+- **Message :** La fonction 'on_session_open' ne possède pas d'annotations de type.
 
 - **module :** python
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'logout'ligne 3873 ne possède pas de docstring.
+- **Message :** La fonction 'logout'ligne 3911 ne possède pas de docstring.
 
 - **module :** python
 
@@ -3023,25 +3187,139 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'google_login'ligne 3885 ne possède pas de docstring.
+- **Message :** La fonction 'open_accounts'ligne 3920 ne possède pas de docstring.
 
 - **module :** python
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'google_login' ne possède pas d'annotations de type.
+- **Message :** La fonction 'open_accounts' ne possède pas d'annotations de type.
 
 - **module :** python
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'try_auto_login' ne possède pas d'annotations de type.
+- **Message :** La fonction 'on_accounts'ligne 3925 ne possède pas de docstring.
 
 - **module :** python
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'set_muffle'ligne 3961 ne possède pas de docstring.
+- **Message :** La fonction 'on_accounts' ne possède pas d'annotations de type.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'build_accounts'ligne 3930 ne possède pas de docstring.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'build_accounts' ne possède pas d'annotations de type.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'choose_account'ligne 3958 ne possède pas de docstring.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'choose_account' ne possède pas d'annotations de type.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'open_new_account'ligne 3962 ne possède pas de docstring.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'open_new_account' ne possède pas d'annotations de type.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'build_new_account'ligne 3966 ne possède pas de docstring.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'build_new_account' ne possède pas d'annotations de type.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'submit_new_account'ligne 3977 ne possède pas de docstring.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'submit_new_account' ne possède pas d'annotations de type.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'on_account_ready'ligne 3992 ne possède pas de docstring.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'on_account_ready' ne possède pas d'annotations de type.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'change_account'ligne 3999 ne possède pas de docstring.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'change_account' ne possède pas d'annotations de type.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'open_profile'ligne 4005 ne possède pas de docstring.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'open_profile' ne possède pas d'annotations de type.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'build_profile'ligne 4008 ne possède pas de docstring.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'build_profile' ne possède pas d'annotations de type.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'set_muffle'ligne 4025 ne possède pas de docstring.
 
 - **module :** python
 
@@ -3053,7 +3331,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'muffle_update'ligne 3964 ne possède pas de docstring.
+- **Message :** La fonction 'muffle_update'ligne 4028 ne possède pas de docstring.
 
 - **module :** python
 
@@ -3065,7 +3343,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'muffle_apply'ligne 3975 ne possède pas de docstring.
+- **Message :** La fonction 'muffle_apply'ligne 4039 ne possède pas de docstring.
 
 - **module :** python
 
@@ -3083,7 +3361,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'muffle_stop'ligne 4030 ne possède pas de docstring.
+- **Message :** La fonction 'muffle_stop'ligne 4094 ne possède pas de docstring.
 
 - **module :** python
 
@@ -3095,31 +3373,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'build_google_setup'ligne 4039 ne possède pas de docstring.
-
-- **module :** python
-
-## ⚠️ Warning
-- **Module :** python
-- **Message :** La fonction 'build_google_setup' ne possède pas d'annotations de type.
-
-- **module :** python
-
-## ⚠️ Warning
-- **Module :** python
-- **Message :** La fonction 'pick_google_secret'ligne 4049 ne possède pas de docstring.
-
-- **module :** python
-
-## ⚠️ Warning
-- **Module :** python
-- **Message :** La fonction 'pick_google_secret' ne possède pas d'annotations de type.
-
-- **module :** python
-
-## ⚠️ Warning
-- **Module :** python
-- **Message :** La fonction 'toast'ligne 4079 ne possède pas de docstring.
+- **Message :** La fonction 'toast'ligne 4103 ne possède pas de docstring.
 
 - **module :** python
 
@@ -3137,7 +3391,13 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'local_font'ligne 1205 ne possède pas de docstring.
+- **Message :** La fonction 'resume_session' ne possède pas d'annotations de type.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'local_font'ligne 1140 ne possède pas de docstring.
 
 - **module :** python
 
@@ -3149,7 +3409,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'ramp'ligne 2421 ne possède pas de docstring.
+- **Message :** La fonction 'ramp'ligne 2384 ne possède pas de docstring.
 
 - **module :** python
 
@@ -3161,7 +3421,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'step'ligne 2426 ne possède pas de docstring.
+- **Message :** La fonction 'step'ligne 2389 ne possède pas de docstring.
 
 - **module :** python
 
@@ -3173,7 +3433,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'overlap'ligne 2483 ne possède pas de docstring.
+- **Message :** La fonction 'overlap'ligne 2446 ne possède pas de docstring.
 
 - **module :** python
 
@@ -3185,7 +3445,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'step'ligne 3065 ne possède pas de docstring.
+- **Message :** La fonction 'step'ligne 3028 ne possède pas de docstring.
 
 - **module :** python
 
@@ -3197,7 +3457,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'step'ligne 3214 ne possède pas de docstring.
+- **Message :** La fonction 'step'ligne 3217 ne possède pas de docstring.
 
 - **module :** python
 
@@ -3221,7 +3481,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'selected'ligne 3505 ne possède pas de docstring.
+- **Message :** La fonction 'selected'ligne 3506 ne possède pas de docstring.
 
 - **module :** python
 
@@ -3233,7 +3493,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'done'ligne 3524 ne possède pas de docstring.
+- **Message :** La fonction 'done'ligne 3525 ne possède pas de docstring.
 
 - **module :** python
 
@@ -3245,7 +3505,19 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'field'ligne 3801 ne possède pas de docstring.
+- **Message :** La fonction 'runner'ligne 3786 ne possède pas de docstring.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'runner' ne possède pas d'annotations de type.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'field'ligne 3852 ne possède pas de docstring.
 
 - **module :** python
 
@@ -3257,19 +3529,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'worker'ligne 3910 ne possède pas de docstring.
-
-- **module :** python
-
-## ⚠️ Warning
-- **Module :** python
-- **Message :** La fonction 'worker' ne possède pas d'annotations de type.
-
-- **module :** python
-
-## ⚠️ Warning
-- **Module :** python
-- **Message :** La fonction 'work'ligne 3998 ne possède pas de docstring.
+- **Message :** La fonction 'work'ligne 3886 ne possède pas de docstring.
 
 - **module :** python
 
@@ -3281,7 +3541,55 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'finish'ligne 4161 ne possède pas de docstring.
+- **Message :** La fonction 'work'ligne 3984 ne possède pas de docstring.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'work' ne possède pas d'annotations de type.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'work'ligne 4062 ne possède pas de docstring.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'work' ne possède pas d'annotations de type.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'work'ligne 4200 ne possède pas de docstring.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'work' ne possède pas d'annotations de type.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'done'ligne 4211 ne possède pas de docstring.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'done' ne possède pas d'annotations de type.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'finish'ligne 4240 ne possède pas de docstring.
 
 - **module :** python
 
@@ -3293,7 +3601,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'play'ligne 3667 ne possède pas de docstring.
+- **Message :** La fonction 'play'ligne 3684 ne possède pas de docstring.
 
 - **module :** python
 
@@ -3305,7 +3613,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'ask_delete'ligne 3685 ne possède pas de docstring.
+- **Message :** La fonction 'ask_delete'ligne 3702 ne possède pas de docstring.
 
 - **module :** python
 
@@ -3317,19 +3625,43 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'need_file'ligne 3944 ne possède pas de docstring.
+- **Message :** La fonction 'finish'ligne 3796 ne possède pas de docstring.
 
 - **module :** python
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'need_file' ne possède pas d'annotations de type.
+- **Message :** La fonction 'finish' ne possède pas d'annotations de type.
 
 - **module :** python
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'close_menu'ligne 4147 ne possède pas de docstring.
+- **Message :** La fonction 'pick'ligne 3941 ne possède pas de docstring.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'pick' ne possède pas d'annotations de type.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'failed'ligne 4183 ne possède pas de docstring.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'failed' ne possède pas d'annotations de type.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'close_menu'ligne 4226 ne possède pas de docstring.
 
 - **module :** python
 
@@ -3361,7 +3693,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'encode'ligne 38 ne possède pas de docstring.
+- **Message :** La fonction 'encode'ligne 44 ne possède pas de docstring.
 
 - **module :** python
 
@@ -3373,7 +3705,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'decode'ligne 60 ne possède pas de docstring.
+- **Message :** La fonction 'decode'ligne 66 ne possède pas de docstring.
 
 - **module :** python
 
@@ -3667,7 +3999,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'from_payload'ligne 29 ne possède pas de docstring.
+- **Message :** La fonction 'from_payload'ligne 33 ne possède pas de docstring.
 
 - **module :** python
 
@@ -4679,7 +5011,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Struct 'UserCredentials' sans documentation
 
-- **line :** 20
+- **line :** 19
 
 - **suggestion :** Ajoutez /// avant cette struct
 
@@ -4689,7 +5021,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Struct 'UserManager' sans documentation
 
-- **line :** 26
+- **line :** 27
 
 - **suggestion :** Ajoutez /// avant cette struct
 
@@ -4699,7 +5031,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Impl 'UserManager ' sans documentation
 
-- **line :** 30
+- **line :** 31
 
 - **suggestion :** Ajoutez /// avant cette impl
 
@@ -4709,7 +5041,17 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'new' sans documentation
 
-- **line :** 31
+- **line :** 32
+
+- **suggestion :** Ajoutez /// avant cette function
+
+- **module :** rust
+
+## ⚠️ Warning
+- **Module :** rust
+- **Message :** Function 'create_user_inner' sans documentation
+
+- **line :** 92
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -6153,7 +6495,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Impl 'Client ' sans documentation
 
-- **line :** 47
+- **line :** 50
 
 - **suggestion :** Ajoutez /// avant cette impl
 
@@ -6163,7 +6505,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'new' sans documentation
 
-- **line :** 53
+- **line :** 56
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -6173,7 +6515,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'run' sans documentation
 
-- **line :** 80
+- **line :** 84
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -6183,7 +6525,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'get_ban_info' sans documentation
 
-- **line :** 474
+- **line :** 462
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -6193,7 +6535,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'encode_ban_payload' sans documentation
 
-- **line :** 581
+- **line :** 569
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -6203,7 +6545,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'mark_disconnected' sans documentation
 
-- **line :** 607
+- **line :** 595
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -6213,7 +6555,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'set_user_id' sans documentation
 
-- **line :** 648
+- **line :** 636
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -6223,7 +6565,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'user_id' sans documentation
 
-- **line :** 661
+- **line :** 649
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -6233,7 +6575,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'set_client_id' sans documentation
 
-- **line :** 674
+- **line :** 662
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -6243,7 +6585,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'client_id' sans documentation
 
-- **line :** 687
+- **line :** 675
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -6253,7 +6595,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'session_id' sans documentation
 
-- **line :** 693
+- **line :** 681
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -6263,7 +6605,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'set_account_id' sans documentation
 
-- **line :** 705
+- **line :** 693
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -6272,6 +6614,16 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## ⚠️ Warning
 - **Module :** rust
 - **Message :** Function 'account_id' sans documentation
+
+- **line :** 706
+
+- **suggestion :** Ajoutez /// avant cette function
+
+- **module :** rust
+
+## ⚠️ Warning
+- **Module :** rust
+- **Message :** Function 'is_spawned' sans documentation
 
 - **line :** 718
 
@@ -6283,7 +6635,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'cleanup_session' sans documentation
 
-- **line :** 730
+- **line :** 755
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -6293,7 +6645,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'disconnect' sans documentation
 
-- **line :** 751
+- **line :** 778
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -6449,7 +6801,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Enum 'BanType' sans documentation
 
-- **line :** 38
+- **line :** 39
 
 - **suggestion :** Ajoutez /// avant cette enum
 
@@ -6459,7 +6811,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Struct 'BanInfo' sans documentation
 
-- **line :** 42
+- **line :** 43
 
 - **suggestion :** Ajoutez /// avant cette struct
 
@@ -6469,7 +6821,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Enum 'LogLevel' sans documentation
 
-- **line :** 49
+- **line :** 50
 
 - **suggestion :** Ajoutez /// avant cette enum
 
@@ -6479,7 +6831,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Struct 'ClientLog' sans documentation
 
-- **line :** 58
+- **line :** 59
 
 - **suggestion :** Ajoutez /// avant cette struct
 
@@ -6489,7 +6841,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Impl 'PacketType ' sans documentation
 
-- **line :** 65
+- **line :** 66
 
 - **suggestion :** Ajoutez /// avant cette impl
 
@@ -6499,7 +6851,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'from_u16' sans documentation
 
-- **line :** 66
+- **line :** 67
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -6509,7 +6861,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Struct 'Packet' sans documentation
 
-- **line :** 98
+- **line :** 100
 
 - **suggestion :** Ajoutez /// avant cette struct
 
@@ -6519,7 +6871,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Impl 'Packet ' sans documentation
 
-- **line :** 103
+- **line :** 105
 
 - **suggestion :** Ajoutez /// avant cette impl
 
@@ -6529,7 +6881,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'new' sans documentation
 
-- **line :** 104
+- **line :** 106
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -6539,7 +6891,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'encode_ban' sans documentation
 
-- **line :** 135
+- **line :** 137
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -6549,7 +6901,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Mod 'tests' sans documentation
 
-- **line :** 209
+- **line :** 211
 
 - **suggestion :** Ajoutez /// avant cette mod
 
@@ -6559,7 +6911,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'create_tcp_pair' sans documentation
 
-- **line :** 215
+- **line :** 217
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -6569,7 +6921,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'test_packet_type_from_u16_all_valid' sans documentation
 
-- **line :** 232
+- **line :** 234
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -6579,7 +6931,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'test_packet_type_from_u16_invalid_values' sans documentation
 
-- **line :** 258
+- **line :** 261
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -6589,7 +6941,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'test_encode_ban_temporary' sans documentation
 
-- **line :** 267
+- **line :** 270
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -6599,7 +6951,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'test_encode_ban_permanent' sans documentation
 
-- **line :** 277
+- **line :** 280
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -6609,7 +6961,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'test_receive_packet_size_zero_fails' sans documentation
 
-- **line :** 283
+- **line :** 286
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -6619,7 +6971,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'test_receive_packet_size_one_fails' sans documentation
 
-- **line :** 299
+- **line :** 302
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -6629,7 +6981,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'test_receive_packet_exceeds_max_size' sans documentation
 
-- **line :** 315
+- **line :** 318
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -6639,7 +6991,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'test_receive_packet_unknown_packet_type' sans documentation
 
-- **line :** 331
+- **line :** 334
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -6649,7 +7001,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'test_receive_packet_truncated_header' sans documentation
 
-- **line :** 349
+- **line :** 352
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -6659,7 +7011,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'test_receive_packet_truncated_payload' sans documentation
 
-- **line :** 365
+- **line :** 368
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -6669,7 +7021,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'test_send_packet_exceeds_max_size' sans documentation
 
-- **line :** 385
+- **line :** 388
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -6679,7 +7031,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'test_send_and_receive_roundtrip' sans documentation
 
-- **line :** 399
+- **line :** 402
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -6689,7 +7041,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'test_packet_parse_body_too_short' sans documentation
 
-- **line :** 418
+- **line :** 421
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -6699,7 +7051,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'test_packet_parse_body_unknown_type' sans documentation
 
-- **line :** 429
+- **line :** 432
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -6709,7 +7061,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'test_packet_parse_body_empty_payload' sans documentation
 
-- **line :** 436
+- **line :** 439
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -6719,7 +7071,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'test_packet_parse_body_with_payload' sans documentation
 
-- **line :** 445
+- **line :** 448
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -6729,7 +7081,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'test_packet_new_empty_payload' sans documentation
 
-- **line :** 454
+- **line :** 457
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -6739,7 +7091,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'test_packet_new_non_empty_payload' sans documentation
 
-- **line :** 464
+- **line :** 467
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -6749,7 +7101,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'test_packet_clone' sans documentation
 
-- **line :** 472
+- **line :** 475
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -6759,7 +7111,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'test_parse_body_all_supported_packet_types_protocol_lock' sans documentation
 
-- **line :** 484
+- **line :** 487
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -6769,7 +7121,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'test_parse_body_unknown_type_boundary_cases' sans documentation
 
-- **line :** 528
+- **line :** 532
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -6779,7 +7131,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'test_parse_body_realistic_move_payload' sans documentation
 
-- **line :** 545
+- **line :** 549
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -6789,7 +7141,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'test_parse_body_realistic_session_payload' sans documentation
 
-- **line :** 563
+- **line :** 567
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -6799,7 +7151,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'test_parse_body_realistic_player_state_payload' sans documentation
 
-- **line :** 575
+- **line :** 579
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -6809,7 +7161,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'test_send_packet_wire_format_inspection' sans documentation
 
-- **line :** 591
+- **line :** 595
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -6819,7 +7171,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'test_send_and_receive_empty_payload_roundtrip' sans documentation
 
-- **line :** 637
+- **line :** 641
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -6829,7 +7181,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'test_send_and_receive_exact_max_allowed_boundary' sans documentation
 
-- **line :** 655
+- **line :** 659
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -6839,7 +7191,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'test_receive_packet_oversized_header_rejected_without_waiting' sans documentation
 
-- **line :** 686
+- **line :** 690
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -6849,7 +7201,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'test_encode_ban_none_vs_empty_expiration' sans documentation
 
-- **line :** 708
+- **line :** 712
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -6859,7 +7211,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'test_encode_ban_empty_reason' sans documentation
 
-- **line :** 719
+- **line :** 723
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -6869,7 +7221,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'test_encode_ban_multibyte_utf8' sans documentation
 
-- **line :** 725
+- **line :** 729
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -6879,7 +7231,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'test_encode_ban_reason_with_nul_documents_delimiter_collision' sans documentation
 
-- **line :** 732
+- **line :** 736
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -6921,7 +7273,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'parse_signup_payload' sans documentation
 
-- **line :** 38
+- **line :** 39
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -6931,7 +7283,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Mod 'tests' sans documentation
 
-- **line :** 43
+- **line :** 55
 
 - **suggestion :** Ajoutez /// avant cette mod
 
@@ -6941,7 +7293,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'build_payload' sans documentation
 
-- **line :** 46
+- **line :** 58
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -6949,19 +7301,9 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** rust
-- **Message :** Function 'test_login_payload_valid' sans documentation
+- **Message :** Function 'build_signup_payload' sans documentation
 
-- **line :** 56
-
-- **suggestion :** Ajoutez /// avant cette function
-
-- **module :** rust
-
-## ⚠️ Warning
-- **Module :** rust
-- **Message :** Function 'test_login_payload_empty' sans documentation
-
-- **line :** 65
+- **line :** 67
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -6969,19 +7311,9 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** rust
-- **Message :** Function 'test_login_payload_truncated_email_length' sans documentation
+- **Message :** Function 'test_signup_with_pseudo_valid' sans documentation
 
-- **line :** 71
-
-- **suggestion :** Ajoutez /// avant cette function
-
-- **module :** rust
-
-## ⚠️ Warning
-- **Module :** rust
-- **Message :** Function 'test_login_payload_truncated_email_body' sans documentation
-
-- **line :** 77
+- **line :** 75
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -6989,7 +7321,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** rust
-- **Message :** Function 'test_login_payload_invalid_email_utf8' sans documentation
+- **Message :** Function 'test_signup_with_pseudo_missing_pseudo' sans documentation
 
 - **line :** 85
 
@@ -6999,9 +7331,9 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** rust
-- **Message :** Function 'test_login_payload_missing_password_length' sans documentation
+- **Message :** Function 'test_signup_with_pseudo_truncated_pseudo' sans documentation
 
-- **line :** 93
+- **line :** 92
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -7009,7 +7341,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** rust
-- **Message :** Function 'test_login_payload_truncated_password_length' sans documentation
+- **Message :** Function 'test_signup_with_pseudo_invalid_utf8' sans documentation
 
 - **line :** 101
 
@@ -7019,19 +7351,9 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** rust
-- **Message :** Function 'test_login_payload_truncated_password_body' sans documentation
+- **Message :** Function 'test_login_payload_valid' sans documentation
 
-- **line :** 110
-
-- **suggestion :** Ajoutez /// avant cette function
-
-- **module :** rust
-
-## ⚠️ Warning
-- **Module :** rust
-- **Message :** Function 'test_login_payload_invalid_password_utf8' sans documentation
-
-- **line :** 120
+- **line :** 108
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -7039,19 +7361,9 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** rust
-- **Message :** Function 'test_login_payload_trailing_bytes_accepted' sans documentation
+- **Message :** Function 'test_login_payload_empty' sans documentation
 
-- **line :** 128
-
-- **suggestion :** Ajoutez /// avant cette function
-
-- **module :** rust
-
-## ⚠️ Warning
-- **Module :** rust
-- **Message :** Function 'test_signup_payload_valid' sans documentation
-
-- **line :** 138
+- **line :** 117
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -7059,9 +7371,9 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** rust
-- **Message :** Function 'test_signup_payload_empty' sans documentation
+- **Message :** Function 'test_login_payload_truncated_email_length' sans documentation
 
-- **line :** 147
+- **line :** 123
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -7069,7 +7381,37 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** rust
-- **Message :** Function 'test_signup_payload_truncated_email_length' sans documentation
+- **Message :** Function 'test_login_payload_truncated_email_body' sans documentation
+
+- **line :** 129
+
+- **suggestion :** Ajoutez /// avant cette function
+
+- **module :** rust
+
+## ⚠️ Warning
+- **Module :** rust
+- **Message :** Function 'test_login_payload_invalid_email_utf8' sans documentation
+
+- **line :** 137
+
+- **suggestion :** Ajoutez /// avant cette function
+
+- **module :** rust
+
+## ⚠️ Warning
+- **Module :** rust
+- **Message :** Function 'test_login_payload_missing_password_length' sans documentation
+
+- **line :** 145
+
+- **suggestion :** Ajoutez /// avant cette function
+
+- **module :** rust
+
+## ⚠️ Warning
+- **Module :** rust
+- **Message :** Function 'test_login_payload_truncated_password_length' sans documentation
 
 - **line :** 153
 
@@ -7079,9 +7421,69 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** rust
+- **Message :** Function 'test_login_payload_truncated_password_body' sans documentation
+
+- **line :** 162
+
+- **suggestion :** Ajoutez /// avant cette function
+
+- **module :** rust
+
+## ⚠️ Warning
+- **Module :** rust
+- **Message :** Function 'test_login_payload_invalid_password_utf8' sans documentation
+
+- **line :** 172
+
+- **suggestion :** Ajoutez /// avant cette function
+
+- **module :** rust
+
+## ⚠️ Warning
+- **Module :** rust
+- **Message :** Function 'test_login_payload_trailing_bytes_accepted' sans documentation
+
+- **line :** 180
+
+- **suggestion :** Ajoutez /// avant cette function
+
+- **module :** rust
+
+## ⚠️ Warning
+- **Module :** rust
+- **Message :** Function 'test_signup_payload_valid' sans documentation
+
+- **line :** 190
+
+- **suggestion :** Ajoutez /// avant cette function
+
+- **module :** rust
+
+## ⚠️ Warning
+- **Module :** rust
+- **Message :** Function 'test_signup_payload_empty' sans documentation
+
+- **line :** 199
+
+- **suggestion :** Ajoutez /// avant cette function
+
+- **module :** rust
+
+## ⚠️ Warning
+- **Module :** rust
+- **Message :** Function 'test_signup_payload_truncated_email_length' sans documentation
+
+- **line :** 205
+
+- **suggestion :** Ajoutez /// avant cette function
+
+- **module :** rust
+
+## ⚠️ Warning
+- **Module :** rust
 - **Message :** Function 'test_signup_payload_truncated_email_body' sans documentation
 
-- **line :** 159
+- **line :** 211
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -7091,7 +7493,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'test_signup_payload_invalid_email_utf8' sans documentation
 
-- **line :** 167
+- **line :** 219
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -7101,7 +7503,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'test_signup_payload_missing_password_length' sans documentation
 
-- **line :** 175
+- **line :** 227
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -7111,7 +7513,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'test_signup_payload_truncated_password_length' sans documentation
 
-- **line :** 183
+- **line :** 235
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -7121,7 +7523,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'test_signup_payload_truncated_password_body' sans documentation
 
-- **line :** 192
+- **line :** 244
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -7131,7 +7533,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'test_signup_payload_invalid_password_utf8' sans documentation
 
-- **line :** 202
+- **line :** 254
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -7141,7 +7543,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'test_signup_payload_trailing_bytes_accepted' sans documentation
 
-- **line :** 210
+- **line :** 262
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -7151,7 +7553,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'test_login_payload_empty_strings' sans documentation
 
-- **line :** 220
+- **line :** 272
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -7161,7 +7563,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'test_login_payload_large_u16_length_incomplet' sans documentation
 
-- **line :** 229
+- **line :** 281
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -7171,7 +7573,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'test_signup_payload_empty_strings' sans documentation
 
-- **line :** 238
+- **line :** 290
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -7181,7 +7583,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'test_signup_payload_large_u16_length_incomplet' sans documentation
 
-- **line :** 247
+- **line :** 299
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -7191,7 +7593,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'test_parse_credentials_multibyte_utf8_success' sans documentation
 
-- **line :** 255
+- **line :** 307
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -7201,7 +7603,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'test_parse_credentials_mid_codepoint_slice_rejected' sans documentation
 
-- **line :** 272
+- **line :** 324
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -7211,7 +7613,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'test_parse_credentials_char_count_prefix_misaligns_next_field' sans documentation
 
-- **line :** 289
+- **line :** 341
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -7221,7 +7623,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'test_parse_credentials_preserves_whitespace' sans documentation
 
-- **line :** 304
+- **line :** 356
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -7231,7 +7633,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'test_parse_credentials_long_strings' sans documentation
 
-- **line :** 322
+- **line :** 374
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -7241,7 +7643,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'test_parse_credentials_special_ascii_symbols' sans documentation
 
-- **line :** 334
+- **line :** 386
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -7253,7 +7655,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Struct 'Server' sans documentation
 
-- **line :** 11
+- **line :** 12
 
 - **suggestion :** Ajoutez /// avant cette struct
 
@@ -7263,7 +7665,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Impl 'Server ' sans documentation
 
-- **line :** 17
+- **line :** 18
 
 - **suggestion :** Ajoutez /// avant cette impl
 
@@ -7273,7 +7675,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'new' sans documentation
 
-- **line :** 18
+- **line :** 19
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -7283,7 +7685,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'start' sans documentation
 
-- **line :** 35
+- **line :** 50
 
 - **suggestion :** Ajoutez /// avant cette function
 
