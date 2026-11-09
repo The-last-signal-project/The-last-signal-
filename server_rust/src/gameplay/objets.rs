@@ -13,6 +13,7 @@ pub enum Rarete {
     SuperRare,
     Epique,
     Legendaire,
+    Mythique,
 }
 
 impl Rarete {
@@ -23,6 +24,7 @@ impl Rarete {
         Rarete::SuperRare,
         Rarete::Epique,
         Rarete::Legendaire,
+        Rarete::Mythique,
     ];
 
     pub fn label(&self) -> &'static str {
@@ -33,6 +35,7 @@ impl Rarete {
             Rarete::SuperRare => "Super rare",
             Rarete::Epique => "Épique",
             Rarete::Legendaire => "Légendaire",
+            Rarete::Mythique => "Mythique"
         }
     }
 
@@ -45,6 +48,7 @@ impl Rarete {
             Rarete::SuperRare => 30,
             Rarete::Epique => 15,
             Rarete::Legendaire => 5,
+            Rarete::Mythique => 3,
         }
     }
 
@@ -113,6 +117,7 @@ impl Rank {
             Rarete::SuperRare => [2, 5, 10, 16, 22, 20, 14, 8, 3, 0],
             Rarete::Epique => [1, 3, 6, 12, 20, 24, 18, 10, 5, 1],
             Rarete::Legendaire => [0, 0, 1, 3, 8, 15, 25, 25, 16, 7],
+            Rarete::Mythique => [0, 0, 0, 5, 8, 14, 22, 25, 16, 10],
         }
     }
 
