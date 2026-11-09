@@ -13,7 +13,7 @@
 edition = "2021"
 rust-version = "1.89.0"
 name = "uuid"
-version = "1.29.1"
+version = "1.29.2"
 build = false
 include = [
     "src",
@@ -197,32 +197,32 @@ version = "1.0.56"
 [dev-dependencies.trybuild]
 version = "1.0.52"
 
-[target.'cfg(all(target_arch = "wasm32", any(target_os = "unknown", target_os = "none")))'.dependencies.uuid-rng-internal-lib]
-version = "1.29.1"
+[target.'cfg(all(target_family = "wasm", any(target_os = "unknown", target_os = "none")))'.dependencies.uuid-rng-internal-lib]
+version = "1.29.2"
 optional = true
 package = "uuid-rng-internal"
 
-[target.'cfg(all(target_arch = "wasm32", any(target_os = "unknown", target_os = "none")))'.dependencies.wasm-bindgen]
+[target.'cfg(all(target_family = "wasm", any(target_os = "unknown", target_os = "none")))'.dependencies.wasm-bindgen]
 version = "0.2"
 optional = true
 default-features = false
 
-[target.'cfg(all(target_arch = "wasm32", any(target_os = "unknown", target_os = "none")))'.dev-dependencies.wasm-bindgen]
+[target.'cfg(all(target_family = "wasm", any(target_os = "unknown", target_os = "none")))'.dev-dependencies.wasm-bindgen]
 version = "0.2"
 
-[target.'cfg(all(target_arch = "wasm32", any(target_os = "unknown", target_os = "none")))'.dev-dependencies.wasm-bindgen-test]
+[target.'cfg(all(target_family = "wasm", any(target_os = "unknown", target_os = "none")))'.dev-dependencies.wasm-bindgen-test]
 version = "0.3"
 
-[target.'cfg(all(target_arch = "wasm32", any(target_os = "unknown", target_os = "none"), target_feature = "atomics"))'.dependencies.js-sys]
+[target.'cfg(all(target_family = "wasm", any(target_os = "unknown", target_os = "none"), target_feature = "atomics"))'.dependencies.js-sys]
 version = "0.3"
 optional = true
 default-features = false
 
-[target.'cfg(not(all(target_arch = "wasm32", any(target_os = "unknown", target_os = "none"))))'.dependencies.getrandom]
+[target.'cfg(not(all(target_family = "wasm", any(target_os = "unknown", target_os = "none"))))'.dependencies.getrandom]
 version = "0.4"
 optional = true
 
-[target.'cfg(not(all(target_arch = "wasm32", any(target_os = "unknown", target_os = "none"))))'.dependencies.rand]
+[target.'cfg(not(all(target_family = "wasm", any(target_os = "unknown", target_os = "none"))))'.dependencies.rand]
 version = "0.10"
 optional = true
 
