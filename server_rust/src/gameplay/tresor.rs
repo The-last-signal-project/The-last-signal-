@@ -1,6 +1,6 @@
 use rand::{Rng,RngExt};
 use sqlx::SqlitePool;
-use std::collections::HashMap;
+use std::collections::{HashMap, HashSet};
 use crate::gameplay::dice::jet_de_des;
 use log::error;
 use crate::gameplay::objets::{Rank, Rarete};
@@ -18,6 +18,7 @@ pub struct Loot {
     pub super_rare: u32,
     pub epique: u32,
     pub legendaire: u32,
+    pub mythique: u32,
     pub admin: u32,
     pub militaire: u32,
 }
@@ -68,6 +69,173 @@ impl ResultatOuverture {
     }
 }
 
+// ============================================================
+//  CACHE DE PITY
+// ============================================================
+//
+// Avant : chaque tirage faisait 1 à 2 SELECT par entrée de table, puis
+// un INSERT ... ON CONFLICT par entrée (un commit SQLite chacun).
+//
+// Maintenant : tout le pity du compte est lu UNE fois au début de
+// l'ouverture, les tirages se font en mémoire, et seules les lignes
+// modifiées sont écrites, dans UNE seule transaction à la fin.
+// (Aucune lecture n'a lieu dans la transaction d'écriture : pas de
+// risque de SQLITE_BUSY_SNAPSHOT.)
+
+#[derive(Default)]
+struct PityCache {
+    /// nom d'objet -> objet_id (table objets_dispo)
+    objet_ids: HashMap<String, i64>,
+    /// (categorie racine, sous-catégorie, objet_id) -> nombre d'échecs
+    echecs_objets: HashMap<(String, String, i64), i64>,
+    /// (catégorie, sous-catégorie) -> nombre d'échecs
+    echecs_sous: HashMap<(String, String), i64>,
+    modifies_objets: HashSet<(String, String, i64)>,
+    modifies_sous: HashSet<(String, String)>,
+}
+
+impl PityCache {
+    async fn charger(pool: &SqlitePool, account_id: i64) -> Result<Self, sqlx::Error> {
+        let ids: Vec<(String, i64)> =
+            sqlx::query_as("SELECT nom, objet_id FROM objets_dispo")
+                .fetch_all(pool)
+                .await?;
+
+        let objets: Vec<(String, String, i64, i64)> = sqlx::query_as(
+            r#"
+            SELECT categorie, sous_categorie, objet_id, nombre
+            FROM echecs_objets
+            WHERE account_id = ?
+            "#,
+        )
+        .bind(account_id)
+        .fetch_all(pool)
+        .await?;
+
+        let sous: Vec<(String, String, i64)> = sqlx::query_as(
+            r#"
+            SELECT categorie, sous_categorie, nombre
+            FROM echecs_sous_categories
+            WHERE account_id = ?
+            "#,
+        )
+        .bind(account_id)
+        .fetch_all(pool)
+        .await?;
+
+        Ok(Self {
+            objet_ids: ids.into_iter().collect(),
+            echecs_objets: objets
+                .into_iter()
+                .map(|(c, sc, id, n)| ((c, sc, id), n))
+                .collect(),
+            echecs_sous: sous
+                .into_iter()
+                .map(|(c, sc, n)| ((c, sc), n))
+                .collect(),
+            modifies_objets: HashSet::new(),
+            modifies_sous: HashSet::new(),
+        })
+    }
+
+    fn objet_id(&self, nom: &str) -> Option<i64> {
+        self.objet_ids.get(nom).copied()
+    }
+
+    fn echecs_objet(&self, racine: &str, categorie: &str, objet_id: i64) -> i64 {
+        self.echecs_objets
+            .get(&(racine.to_string(), categorie.to_string(), objet_id))
+            .copied()
+            .unwrap_or(0)
+    }
+
+    fn echecs_sous(&self, categorie: &str, sous_categorie: &str) -> i64 {
+        self.echecs_sous
+            .get(&(categorie.to_string(), sous_categorie.to_string()))
+            .copied()
+            .unwrap_or(0)
+    }
+
+    /// Obtenu -> reset à 0, sinon +1. N'écrit que si la valeur change.
+    fn maj_echecs_objet(&mut self, racine: &str, categorie: &str, objet_id: i64, obtenu: bool) {
+        let cle = (racine.to_string(), categorie.to_string(), objet_id);
+        let ancien = self.echecs_objets.get(&cle).copied().unwrap_or(0);
+        let nouveau = if obtenu { 0 } else { ancien + 1 };
+
+        if nouveau != ancien {
+            self.echecs_objets.insert(cle.clone(), nouveau);
+            self.modifies_objets.insert(cle);
+        }
+    }
+
+    fn maj_echecs_sous(&mut self, categorie: &str, sous_categorie: &str, obtenu: bool) {
+        let cle = (categorie.to_string(), sous_categorie.to_string());
+        let ancien = self.echecs_sous.get(&cle).copied().unwrap_or(0);
+        let nouveau = if obtenu { 0 } else { ancien + 1 };
+
+        if nouveau != ancien {
+            self.echecs_sous.insert(cle.clone(), nouveau);
+            self.modifies_sous.insert(cle);
+        }
+    }
+
+    /// Écrit toutes les lignes modifiées en une seule transaction.
+    async fn sauvegarder(&self, pool: &SqlitePool, account_id: i64) -> Result<(), sqlx::Error> {
+        if self.modifies_objets.is_empty() && self.modifies_sous.is_empty() {
+            return Ok(());
+        }
+
+        let mut tx = pool.begin().await?;
+
+        for cle in &self.modifies_sous {
+            let nombre = self.echecs_sous.get(cle).copied().unwrap_or(0);
+
+            sqlx::query(
+                r#"
+                INSERT INTO echecs_sous_categories (
+                    account_id, categorie, sous_categorie, nombre
+                )
+                VALUES (?, ?, ?, ?)
+                ON CONFLICT (account_id, categorie, sous_categorie)
+                DO UPDATE SET nombre = excluded.nombre
+                "#,
+            )
+            .bind(account_id)
+            .bind(&cle.0)
+            .bind(&cle.1)
+            .bind(nombre)
+            .execute(&mut *tx)
+            .await?;
+        }
+
+        for cle in &self.modifies_objets {
+            let nombre = self.echecs_objets.get(cle).copied().unwrap_or(0);
+
+            sqlx::query(
+                r#"
+                INSERT INTO echecs_objets (
+                    account_id, categorie, sous_categorie, objet_id, nombre
+                )
+                VALUES (?, ?, ?, ?, ?)
+                ON CONFLICT (account_id, categorie, sous_categorie, objet_id)
+                DO UPDATE SET nombre = excluded.nombre
+                "#,
+            )
+            .bind(account_id)
+            .bind(&cle.0)
+            .bind(&cle.1)
+            .bind(cle.2)
+            .bind(nombre)
+            .execute(&mut *tx)
+            .await?;
+        }
+
+        tx.commit().await?;
+
+        Ok(())
+    }
+}
+
 #[allow(dead_code)]
 #[derive(Debug, Clone)]
 pub struct Tresor {
@@ -109,6 +277,7 @@ impl Tresor {
                 super_rare: 0,
                 epique: 0,
                 legendaire: 0,
+                mythique: 0,
                 admin: 1,
                 militaire: 1,
             },
@@ -123,6 +292,7 @@ impl Tresor {
                 super_rare: 0,
                 epique: 0,
                 legendaire: 0,
+                mythique: 0,
                 admin: 1,
                 militaire: 1,
             },
@@ -137,6 +307,7 @@ impl Tresor {
                 super_rare: 0,
                 epique: 0,
                 legendaire: 0,
+                mythique: 0,
                 admin: 1,
                 militaire: 1,
             },
@@ -151,6 +322,7 @@ impl Tresor {
                 super_rare: 0,
                 epique: 0,
                 legendaire: 0,
+                mythique: 0,
                 admin: 1,
                 militaire: 1,
             },
@@ -165,6 +337,7 @@ impl Tresor {
                 super_rare: 0,
                 epique: 0,
                 legendaire: 0,
+                mythique: 0,
                 admin: 1,
                 militaire: 1,
             },
@@ -178,6 +351,7 @@ impl Tresor {
                 super_rare: 0,
                 epique: 0,
                 legendaire: 0,
+                mythique: 0,
                 admin: 2,
                 militaire: 2,
             },
@@ -191,6 +365,7 @@ impl Tresor {
                 super_rare: 0,
                 epique: 0,
                 legendaire: 0,
+                mythique: 0,
                 admin: 2,
                 militaire: 2,
             },
@@ -204,6 +379,7 @@ impl Tresor {
                 super_rare: 0,
                 epique: 0,
                 legendaire: 0,
+                mythique: 0,
                 admin: 2,
                 militaire: 2,
             },
@@ -217,6 +393,7 @@ impl Tresor {
                 super_rare: 0,
                 epique: 0,
                 legendaire: 0,
+                mythique: 0,
                 admin: 2,
                 militaire: 2,
             },
@@ -230,6 +407,7 @@ impl Tresor {
                 super_rare: 0,
                 epique: 0,
                 legendaire: 0,
+                mythique: 0,
                 admin: 2,
                 militaire: 2,
             },
@@ -243,6 +421,7 @@ impl Tresor {
                 super_rare: 0,
                 epique: 0,
                 legendaire: 0,
+                mythique: 0,
                 admin: 3,
                 militaire: 3,
             },
@@ -256,6 +435,7 @@ impl Tresor {
                 super_rare: 0,
                 epique: 0,
                 legendaire: 0,
+                mythique: 0,
                 admin: 3,
                 militaire: 3,
             },
@@ -269,6 +449,7 @@ impl Tresor {
                 super_rare: 0,
                 epique: 0,
                 legendaire: 0,
+                mythique: 0,
                 admin: 3,
                 militaire: 3,
             },
@@ -282,6 +463,7 @@ impl Tresor {
                 super_rare: 1,
                 epique: 0,
                 legendaire: 0,
+                mythique: 0,
                 admin: 3,
                 militaire: 3,
             },
@@ -602,6 +784,15 @@ impl Tresor {
         
     ]),
 );
+        // À ajuster : table de loot des artéfacts mythiques.
+        sous_loot.insert(
+    "Artefact mythique".to_string(),
+    HashMap::from([
+        ("potion".to_string(), 2.0),
+        ("équi".to_string(), 78.0),
+        ("livre enchant".to_string(), 20.0),
+    ]),
+);
         sous_loot.insert(
     "Artefact militaire".to_string(),
     HashMap::from([
@@ -743,6 +934,9 @@ let sous_loot_livre_admin = HashMap::from([
     
     /// Ouvre un coffre : chaque artéfact reçoit sa rareté (celle de la
     /// catégorie dans laquelle il a été tiré) et un rank de G à SSS.
+    ///
+    /// Accès base de données : 3 lectures au début (uniquement s'il y a au
+    /// moins un artéfact à tirer) + 1 transaction d'écriture à la fin.
     pub async fn ouvrir(
         &mut self,
         pool: &SqlitePool,
@@ -754,8 +948,6 @@ let sous_loot_livre_admin = HashMap::from([
     ) -> Result<ResultatOuverture, sqlx::Error> {
         // Mise à jour du coefficient de loot avec valeur par défaut 1.0
         self.coeff_loot = coeff_loot.unwrap_or(1.0);
-
-        let mut rng = rand::rng();
 
         let loot = self
             .loot_par_niveau
@@ -776,716 +968,378 @@ let sous_loot_livre_admin = HashMap::from([
         }
 
         // ==========================================
-        // ARTÉFACTS PAR RARETÉ
-        // (nombre de tirages, seuil du jet, catégorie, rareté)
+        // PHASE 1 : JETS DE DÉS (aucun accès base)
+        //
+        // On détermine d'abord combien de tirages réussissent, pour ne
+        // toucher à la base que s'il y en a au moins un.
         // Il n'existe pas de seuil épique/légendaire : 20 par défaut.
         // ==========================================
 
-        let categories = [
-            (
-                loot.commun,
-                self.seuil_artefact_commun.get(&niveau).copied().unwrap_or(20),
-                "Artefact commun",
-                Rarete::Commun,
-            ),
-            (
-                loot.peu_commun,
-                self.seuil_artefact_peu_commun.get(&niveau).copied().unwrap_or(20),
-                "Artefact peu commun",
-                Rarete::PeuCommun,
-            ),
-            (
-                loot.rare,
-                self.seuil_artefact_rare.get(&niveau).copied().unwrap_or(20),
-                "Artefact rare",
-                Rarete::Rare,
-            ),
-            (
-                loot.super_rare,
-                self.seuil_artefact_super_rare.get(&niveau).copied().unwrap_or(20),
-                "Artefact super rare",
-                Rarete::SuperRare,
-            ),
-            (loot.epique, 20, "Artefact epique", Rarete::Epique),
-            (loot.legendaire, 20, "Artefact legendaire", Rarete::Legendaire),
-        ];
+        let tirages: Vec<(&'static str, Option<Rarete>)> = {
+            let mut rng = rand::rng();
+            let mut tirages = Vec::new();
 
-        for (nombre, seuil, categorie, rarete) in categories {
-            for _ in 0..nombre {
+            let categories = [
+                (
+                    loot.commun,
+                    self.seuil_artefact_commun.get(&niveau).copied().unwrap_or(20),
+                    "Artefact commun",
+                    Rarete::Commun,
+                ),
+                (
+                    loot.peu_commun,
+                    self.seuil_artefact_peu_commun.get(&niveau).copied().unwrap_or(20),
+                    "Artefact peu commun",
+                    Rarete::PeuCommun,
+                ),
+                (
+                    loot.rare,
+                    self.seuil_artefact_rare.get(&niveau).copied().unwrap_or(20),
+                    "Artefact rare",
+                    Rarete::Rare,
+                ),
+                (
+                    loot.super_rare,
+                    self.seuil_artefact_super_rare.get(&niveau).copied().unwrap_or(20),
+                    "Artefact super rare",
+                    Rarete::SuperRare,
+                ),
+                (loot.epique, 20, "Artefact epique", Rarete::Epique),
+                (loot.legendaire, 20, "Artefact legendaire", Rarete::Legendaire),
+                (loot.mythique, 20, "Artefact mythique", Rarete::Mythique),
+            ];
+
+            for (nombre, seuil, categorie, rarete) in categories {
                 // Application du coefficient au seuil
                 let seuil_ajuste =
                     (seuil as f64 * (1.0 / self.coeff_loot).max(0.1)) as u32;
-                let jet = rng.random_range(1..=20);
 
-                if jet >= seuil_ajuste {
-                    let nom = self
-                        .tirer_objet(pool, account_id, categorie, &mut rng, is_admin)
-                        .await?;
-                    let quantite =
-                        self.quantite_objets.get(&nom).copied().unwrap_or(1);
-                    let rank = Rank::tirer(rarete, &mut rng);
+                for _ in 0..nombre {
+                    let jet = rng.random_range(1..=20);
 
-                    resultat.artefacts.push(ArtefactTire {
-                        nom,
-                        quantite,
-                        rarete: Some(rarete),
-                        rank: Some(rank),
-                    });
+                    if jet >= seuil_ajuste {
+                        tirages.push((categorie, Some(rarete)));
+                    }
                 }
             }
+
+            // Loot admin / militaire : pas de jet, pas de rareté ni de rank
+            if is_admin {
+                for _ in 0..loot.admin {
+                    tirages.push(("Artefact admin", None));
+                }
+            }
+
+            if is_admin || is_militaire {
+                for _ in 0..loot.militaire {
+                    tirages.push(("Artefact militaire", None));
+                }
+            }
+
+            tirages
+        };
+
+        if tirages.is_empty() {
+            return Ok(resultat);
         }
 
         // ==========================================
-        // LOOT ADMIN (pas de jet, pas de rareté ni de rank)
+        // PHASE 2 : LECTURE UNIQUE DU PITY DU COMPTE
         // ==========================================
 
-        if is_admin {
-            for _ in 0..loot.admin {
-                let nom = self
-                    .tirer_objet(pool, account_id, "Artefact admin", &mut rng, is_admin)
-                    .await?;
+        let mut cache = PityCache::charger(pool, account_id).await?;
+
+        // ==========================================
+        // PHASE 3 : TIRAGES EN MÉMOIRE
+        // ==========================================
+
+        {
+            let mut rng = rand::rng();
+
+            resultat.artefacts.reserve(tirages.len());
+
+            for (categorie, rarete) in tirages {
+                let nom = self.tirer_objet_cache(&mut cache, categorie, &mut rng, is_admin);
                 let quantite = self.quantite_objets.get(&nom).copied().unwrap_or(1);
+                let rank = rarete.map(|r| Rank::tirer(r, &mut rng));
 
                 resultat.artefacts.push(ArtefactTire {
                     nom,
                     quantite,
-                    rarete: None,
-                    rank: None,
+                    rarete,
+                    rank,
                 });
             }
         }
 
         // ==========================================
-        // LOOT MILITAIRE (pas de jet, pas de rareté ni de rank)
+        // PHASE 4 : ÉCRITURE UNIQUE DU PITY
         // ==========================================
 
-        if is_admin || is_militaire {
-            for _ in 0..loot.militaire {
-                let nom = self
-                    .tirer_objet(pool, account_id, "Artefact militaire", &mut rng, is_admin)
-                    .await?;
-                let quantite = self.quantite_objets.get(&nom).copied().unwrap_or(1);
-
-                resultat.artefacts.push(ArtefactTire {
-                    nom,
-                    quantite,
-                    rarete: None,
-                    rank: None,
-                });
-            }
-        }
+        cache.sauvegarder(pool, account_id).await?;
 
         Ok(resultat)
     }
 
-        pub fn tirer_pondere(
-    table: &HashMap<String, f64>,
-    rng: &mut impl Rng,
-) -> String {
-    let total: f64 = table.values().sum();
-
-    if total <= 0.0 {
-        panic!("Table de loot vide");
-    }
-
-    let tirage = rng.random_range(0.0..total);
-
-    let mut cumul = 0.0;
-
-    for (objet, poids) in table {
-        cumul += poids;
-
-        if tirage < cumul {
-            return objet.clone();
-        }
-    }
-
-    unreachable!("Le tirage n'a trouvé aucun résultat")
-}
-
-    
-    pub async fn tirer_objet(
-    &mut self,
-    pool: &SqlitePool,
-    account_id: i64,
-    categorie: &str,
-    rng: &mut impl Rng,
-    is_admin: bool,
-) -> Result<String, sqlx::Error> {
-
-    // Catégorie principale du tirage.
-    // Exemple : "Artefact rare"
-    let categorie_racine = categorie.to_string();
-
-    // Catégorie actuellement parcourue.
-    // Elle change lorsqu'on descend dans les sous-catégories.
-    let mut categorie_actuelle = categorie.to_string();
-
-    loop {
-        // ==========================================
-        // RÉCUPÉRATION DE LA TABLE ACTUELLE
-        // ==========================================
-
-        let table_originale = self
-            .sous_loot
-            .get(&categorie_actuelle)
-            .cloned()
-            .unwrap_or_else(|| {
-                panic!(
-                    "Catégorie de loot inconnue : {:?}",
-                    categorie_actuelle
-                );
-            });
-
-        let total: f64 = table_originale.values().sum();
+    /// Tirage pondéré sur un slice (sans allocation de HashMap).
+    fn tirer_pondere_slice<'a>(
+        table: &[(&'a str, f64)],
+        rng: &mut impl Rng,
+    ) -> &'a str {
+        let total: f64 = table.iter().map(|(_, p)| *p).sum();
 
         if total <= 0.0 {
             panic!("Table de loot vide");
         }
 
-        // ==========================================
-        // CALCUL DES POIDS AVEC PITY
-        // ==========================================
+        let tirage = rng.random_range(0.0..total);
 
-        let mut table_ajustee = HashMap::new();
+        let mut cumul = 0.0;
 
-        for (nom, poids) in &table_originale {
+        for (nom, poids) in table {
+            cumul += *poids;
 
-            let probabilite = poids / total;
-
-            // Est-ce que cette entrée est une
-            // sous-catégorie ?
-            let est_sous_categorie =
-                self.sous_loot.contains_key(nom);
-
-            let echecs: i64;
-
-            if est_sous_categorie {
-
-                // ==================================
-                // PITY SOUS-CATÉGORIE
-                // ==================================
-
-                echecs = sqlx::query_scalar(
-                    r#"
-                    SELECT nombre
-                    FROM echecs_sous_categories
-                    WHERE account_id = ?
-                      AND categorie = ?
-                      AND sous_categorie = ?
-                    "#,
-                )
-                .bind(account_id)
-                .bind(&categorie_actuelle)
-                .bind(nom)
-                .fetch_optional(pool)
-                .await?
-                .unwrap_or(0);
-
-            } else {
-
-                // ==================================
-                // PITY OBJET
-                // ==================================
-
-                let objet_id: Option<i64> = sqlx::query_scalar(
-                    r#"
-                    SELECT objet_id
-                    FROM objets_dispo
-                    WHERE nom = ?
-                    "#,
-                )
-                .bind(nom)
-                .fetch_optional(pool)
-                .await?;
-
-                // Si l'objet n'existe pas encore dans
-                // objets_dispo, il n'a simplement pas
-                // encore de pity.
-                echecs = match objet_id {
-                    Some(objet_id) => {
-                        sqlx::query_scalar(
-                            r#"
-                            SELECT nombre
-                            FROM echecs_objets
-                            WHERE account_id = ?
-                              AND categorie = ?
-                              AND sous_categorie = ?
-                              AND objet_id = ?
-                            "#,
-                        )
-                        .bind(account_id)
-                        .bind(&categorie_racine)
-                        .bind(&categorie_actuelle)
-                        .bind(objet_id)
-                        .fetch_optional(pool)
-                        .await?
-                        .unwrap_or(0)
-                    }
-
-                    None => 0,
-                };
+            if tirage < cumul {
+                return *nom;
             }
-
-            // ==================================
-            // APPLICATION DU PITY
-            // ==================================
-
-            /*
-             * Le pity s'applique uniquement aux
-             * résultats ayant une probabilité
-             * originale strictement inférieure à 3 %.
-             *
-             * Chaque échec ajoute +7,5 % du poids
-             * original.
-             *
-             * Le coefficient de loot est également
-             * appliqué.
-             */
-
-            let poids_ajuste = if probabilite < 0.03 {
-                *poids
-                    * self.coeff_loot
-                    * (1.0 + 0.075 * echecs as f64)
-            } else {
-                *poids * self.coeff_loot
-            };
-
-            table_ajustee.insert(
-                nom.clone(),
-                poids_ajuste,
-            );
         }
 
-        // ==========================================
-        // TIRAGE
-        // ==========================================
+        // Filet de sécurité contre les erreurs d'arrondi flottant.
+        table[table.len() - 1].0
+    }
 
-        let resultat = Self::tirer_pondere(
-            &table_ajustee,
-            rng,
-        );
+    /// Version publique conservée pour compatibilité.
+    pub fn tirer_pondere(
+        table: &HashMap<String, f64>,
+        rng: &mut impl Rng,
+    ) -> String {
+        let poids: Vec<(&str, f64)> =
+            table.iter().map(|(n, p)| (n.as_str(), *p)).collect();
 
-        // ==========================================
-        // LE RÉSULTAT EST-IL UNE SOUS-CATÉGORIE ?
-        // ==========================================
+        Self::tirer_pondere_slice(&poids, rng).to_string()
+    }
 
-        let resultat_est_sous_categorie =
-            self.sous_loot.contains_key(&resultat);
+    /// Tirage d'un objet dans une catégorie, entièrement en mémoire.
+    /// Le pity est lu et mis à jour dans `cache` (écrit plus tard).
+    fn tirer_objet_cache(
+        &self,
+        cache: &mut PityCache,
+        categorie: &str,
+        rng: &mut impl Rng,
+        is_admin: bool,
+    ) -> String {
+        // Catégorie principale du tirage. Exemple : "Artefact rare"
+        let categorie_racine = categorie;
 
-        // ==========================================
-        // MISE À JOUR DU PITY
-        // ==========================================
+        // Catégorie actuellement parcourue.
+        // Elle change lorsqu'on descend dans les sous-catégories.
+        let mut categorie_actuelle = categorie.to_string();
 
-        for (nom, poids) in &table_originale {
+        loop {
+            let table = self
+                .sous_loot
+                .get(&categorie_actuelle)
+                .unwrap_or_else(|| {
+                    panic!("Catégorie de loot inconnue : {:?}", categorie_actuelle);
+                });
 
-            let probabilite = poids / total;
+            let total: f64 = table.values().sum();
 
-            // Pas de pity pour les probabilités >= 3 %.
-            if probabilite >= 0.03 {
-                continue;
+            if total <= 0.0 {
+                panic!("Table de loot vide");
             }
 
             // ======================================
-            // SOUS-CATÉGORIE
+            // CALCUL DES POIDS AVEC PITY
+            //
+            // Le pity s'applique uniquement aux résultats ayant une
+            // probabilité originale < 3 %. Chaque échec ajoute +7,5 %
+            // du poids original. Le coefficient de loot est appliqué.
             // ======================================
 
-            if self.sous_loot.contains_key(nom) {
+            let mut poids_ajustes: Vec<(&str, f64)> = Vec::with_capacity(table.len());
 
-                if nom == &resultat {
+            for (nom, poids) in table {
+                let probabilite = poids / total;
 
-                    // ------------------------------
-                    // SOUS-CATÉGORIE OBTENUE
-                    // → RESET
-                    // ------------------------------
-
-                    sqlx::query(
-                        r#"
-                        INSERT INTO echecs_sous_categories (
-                            account_id,
-                            categorie,
-                            sous_categorie,
-                            nombre
-                        )
-                        VALUES (?, ?, ?, 0)
-
-                        ON CONFLICT (
-                            account_id,
-                            categorie,
-                            sous_categorie
-                        )
-                        DO UPDATE SET
-                            nombre = 0
-                        "#,
-                    )
-                    .bind(account_id)
-                    .bind(&categorie_actuelle)
-                    .bind(nom)
-                    .execute(pool)
-                    .await?;
-
+                let echecs = if self.sous_loot.contains_key(nom) {
+                    cache.echecs_sous(&categorie_actuelle, nom)
                 } else {
+                    match cache.objet_id(nom) {
+                        Some(objet_id) => {
+                            cache.echecs_objet(categorie_racine, &categorie_actuelle, objet_id)
+                        }
+                        // Objet absent de objets_dispo : pas encore de pity.
+                        None => 0,
+                    }
+                };
 
-                    // ------------------------------
-                    // SOUS-CATÉGORIE NON OBTENUE
-                    // → +1 ÉCHEC
-                    // ------------------------------
+                let poids_ajuste = if probabilite < 0.03 {
+                    *poids * self.coeff_loot * (1.0 + 0.075 * echecs as f64)
+                } else {
+                    *poids * self.coeff_loot
+                };
 
-                    sqlx::query(
-                        r#"
-                        INSERT INTO echecs_sous_categories (
-                            account_id,
-                            categorie,
-                            sous_categorie,
-                            nombre
-                        )
-                        VALUES (?, ?, ?, 1)
+                poids_ajustes.push((nom.as_str(), poids_ajuste));
+            }
 
-                        ON CONFLICT (
-                            account_id,
-                            categorie,
-                            sous_categorie
-                        )
-                        DO UPDATE SET
-                            nombre = nombre + 1
-                        "#,
-                    )
-                    .bind(account_id)
-                    .bind(&categorie_actuelle)
-                    .bind(nom)
-                    .execute(pool)
-                    .await?;
+            // ======================================
+            // TIRAGE
+            // ======================================
+
+            let resultat: String =
+                Self::tirer_pondere_slice(&poids_ajustes, rng).to_string();
+
+            let resultat_est_sous_categorie = self.sous_loot.contains_key(&resultat);
+
+            // ======================================
+            // MISE À JOUR DU PITY (en mémoire)
+            // ======================================
+
+            for (nom, poids) in table {
+                // Pas de pity pour les probabilités >= 3 %.
+                if poids / total >= 0.03 {
+                    continue;
                 }
+
+                let obtenu = nom == &resultat;
+
+                if self.sous_loot.contains_key(nom) {
+                    cache.maj_echecs_sous(&categorie_actuelle, nom, obtenu);
+                } else if let Some(objet_id) = cache.objet_id(nom) {
+                    // Si l'objet n'existe pas dans objets_dispo, on ne
+                    // peut pas enregistrer son pity.
+                    cache.maj_echecs_objet(
+                        categorie_racine,
+                        &categorie_actuelle,
+                        objet_id,
+                        obtenu,
+                    );
+                }
+            }
+
+            // ======================================
+            // LIVRE ENCHANTÉ
+            // ======================================
+
+            if resultat == "livre enchant" {
+                return self.tirer_livre_cache(cache, rng, is_admin);
+            }
+
+            // ======================================
+            // DESCENTE DANS UNE SOUS-CATÉGORIE
+            // ======================================
+
+            if resultat_est_sous_categorie {
+                categorie_actuelle = resultat;
+                continue;
+            }
 
             // ======================================
             // OBJET FINAL
             // ======================================
 
-            } else {
+            return resultat;
+        }
+    }
 
-                let objet_id: Option<i64> = sqlx::query_scalar(
-                    r#"
-                    SELECT objet_id
-                    FROM objets_dispo
-                    WHERE nom = ?
-                    "#,
-                )
-                .bind(nom)
-                .fetch_optional(pool)
-                .await?;
+    /// Tirage d'un livre enchanté, entièrement en mémoire.
+    fn tirer_livre_cache(
+        &self,
+        cache: &mut PityCache,
+        rng: &mut impl Rng,
+        is_admin: bool,
+    ) -> String {
+        let categorie = if is_admin {
+            "livre enchant admin"
+        } else {
+            "livre enchant normal"
+        };
 
-                // Si l'objet n'existe pas dans
-                // objets_dispo, on ne peut pas
-                // enregistrer son pity.
-                let Some(objet_id) = objet_id else {
-                    continue;
-                };
+        let table = if is_admin {
+            &self.sous_loot_livre_admin
+        } else {
+            &self.sous_loot_livre_normal
+        };
 
-                if nom == &resultat {
+        let total: f64 = table.values().sum();
 
-                    // ------------------------------
-                    // OBJET OBTENU
-                    // → RESET
-                    // ------------------------------
+        if total <= 0.0 {
+            panic!("Table de loot des livres vide");
+        }
 
-                    sqlx::query(
-                        r#"
-                        INSERT INTO echecs_objets (
-                            account_id,
-                            categorie,
-                            sous_categorie,
-                            objet_id,
-                            nombre
-                        )
-                        VALUES (?, ?, ?, ?, 0)
+        let mut poids_ajustes: Vec<(&str, f64)> = Vec::with_capacity(table.len());
 
-                        ON CONFLICT (
-                            account_id,
-                            categorie,
-                            sous_categorie,
-                            objet_id
-                        )
-                        DO UPDATE SET
-                            nombre = 0
-                        "#,
-                    )
-                    .bind(account_id)
-                    .bind(&categorie_racine)
-                    .bind(&categorie_actuelle)
-                    .bind(objet_id)
-                    .execute(pool)
-                    .await?;
+        for (objet, poids) in table {
+            let probabilite = poids / total;
 
-                } else {
-
-                    // ------------------------------
-                    // OBJET NON OBTENU
-                    // → +1 ÉCHEC
-                    // ------------------------------
-
-                    sqlx::query(
-                        r#"
-                        INSERT INTO echecs_objets (
-                            account_id,
-                            categorie,
-                            sous_categorie,
-                            objet_id,
-                            nombre
-                        )
-                        VALUES (?, ?, ?, ?, 1)
-
-                        ON CONFLICT (
-                            account_id,
-                            categorie,
-                            sous_categorie,
-                            objet_id
-                        )
-                        DO UPDATE SET
-                            nombre = nombre + 1
-                        "#,
-                    )
-                    .bind(account_id)
-                    .bind(&categorie_racine)
-                    .bind(&categorie_actuelle)
-                    .bind(objet_id)
-                    .execute(pool)
-                    .await?;
+            let echecs = match cache.objet_id(objet) {
+                Some(objet_id) => cache.echecs_objet(categorie, categorie, objet_id),
+                None => {
+                    error!("Livre absent de objets_dispo : {:?}", objet);
+                    0
                 }
-            }
+            };
+
+            let poids_ajuste = if probabilite < 0.03 {
+                *poids * self.coeff_loot * (1.0 + 0.075 * echecs as f64)
+            } else {
+                *poids * self.coeff_loot
+            };
+
+            poids_ajustes.push((objet.as_str(), poids_ajuste));
         }
 
-        // ==========================================
-        // LIVRE ENCHANTÉ
-        // ==========================================
+        let resultat: String = Self::tirer_pondere_slice(&poids_ajustes, rng).to_string();
 
-        if resultat == "livre enchant" {
-            return self
-                .tirer_livre(
-                    pool,
-                    account_id,
-                    rng,
-                    is_admin,
-                )
-                .await;
-        }
-
-        // ==========================================
-        // DESCENTE DANS UNE SOUS-CATÉGORIE
-        // ==========================================
-
-        if resultat_est_sous_categorie {
-            categorie_actuelle = resultat;
-            continue;
-        }
-
-        // ==========================================
-        // OBJET FINAL
-        // ==========================================
-
-        return Ok(resultat);
-    }
-}
-    pub async fn tirer_livre(
-    &mut self,
-    pool: &SqlitePool,
-    account_id: i64,
-    rng: &mut impl Rng,
-    is_admin: bool,
-) -> Result<String, sqlx::Error> {
-    let categorie = if is_admin {
-        "livre enchant admin"
-    } else {
-        "livre enchant normal"
-    };
-
-    let table_originale = if is_admin {
-        self.sous_loot_livre_admin.clone()
-    } else {
-        self.sous_loot_livre_normal.clone()
-    };
-
-    let total: f64 = table_originale.values().sum();
-
-    if total <= 0.0 {
-        panic!("Table de loot des livres vide");
-    }
-
-    // ==========================================
-    // CALCUL DES POIDS AVEC PITY
-    // ==========================================
-
-    let mut table_ajustee = HashMap::new();
-
-    for (objet, poids) in &table_originale {
-        let probabilite = poids / total;
-
-        let objet_id: Option<i64> = sqlx::query_scalar(
-            r#"
-            SELECT objet_id
-            FROM objets_dispo
-            WHERE nom = ?
-            "#,
-        )
-        .bind(objet)
-        .fetch_optional(pool)
-        .await?;
-
-        let echecs = match objet_id {
-            Some(objet_id) => {
-                sqlx::query_scalar(
-                    r#"
-                    SELECT nombre
-                    FROM echecs_objets
-                    WHERE account_id = ?
-                      AND categorie = ?
-                      AND sous_categorie = ?
-                      AND objet_id = ?
-                    "#,
-                )
-                .bind(account_id)
-                .bind(categorie)
-                .bind(categorie)
-                .bind(objet_id)
-                .fetch_optional(pool)
-                .await?
-                .unwrap_or(0)
+        for (objet, poids) in table {
+            if poids / total >= 0.03 {
+                continue;
             }
 
-            None => {
+            let Some(objet_id) = cache.objet_id(objet) else {
                 error!(
-                    "Livre absent de objets_dispo : {:?}",
+                    "Impossible de mettre à jour la pity : \
+                     livre absent de objets_dispo : {:?}",
                     objet
                 );
+                continue;
+            };
 
-                0
-            }
-        };
-
-        let poids_ajuste = if probabilite < 0.03 {
-            *poids
-                * self.coeff_loot
-                * (1.0 + 0.075 * echecs as f64)
-        } else {
-            *poids * self.coeff_loot
-        };
-
-        table_ajustee.insert(
-            objet.clone(),
-            poids_ajuste,
-        );
-    }
-
-    // ==========================================
-    // TIRAGE
-    // ==========================================
-
-    let resultat = Self::tirer_pondere(
-        &table_ajustee,
-        rng,
-    );
-
-    // ==========================================
-    // MISE À JOUR DES ÉCHECS
-    // ==========================================
-
-    for (objet, poids) in &table_originale {
-        let probabilite = poids / total;
-
-        if probabilite >= 0.03 {
-            continue;
+            cache.maj_echecs_objet(categorie, categorie, objet_id, objet == &resultat);
         }
 
-        let objet_id: Option<i64> = sqlx::query_scalar(
-            r#"
-            SELECT objet_id
-            FROM objets_dispo
-            WHERE nom = ?
-            "#,
-        )
-        .bind(objet)
-        .fetch_optional(pool)
-        .await?;
-
-        let Some(objet_id) = objet_id else {
-            error!(
-                "Impossible de mettre à jour la pity : \
-                 livre absent de objets_dispo : {:?}",
-                objet
-            );
-            continue;
-        };
-
-        if objet == &resultat {
-            // ==================================
-            // OBTENU → RESET
-            // ==================================
-
-            sqlx::query(
-                r#"
-                INSERT INTO echecs_objets (
-                    account_id,
-                    categorie,
-                    sous_categorie,
-                    objet_id,
-                    nombre
-                )
-                VALUES (?, ?, ?, ?, 0)
-
-                ON CONFLICT (
-                    account_id,
-                    categorie,
-                    sous_categorie,
-                    objet_id
-                )
-                DO UPDATE SET
-                    nombre = 0
-                "#,
-            )
-            .bind(account_id)
-            .bind(categorie)
-            .bind(categorie)
-            .bind(objet_id)
-            .execute(pool)
-            .await?;
-
-        } else {
-            // ==================================
-            // PAS OBTENU → +1
-            // ==================================
-
-            sqlx::query(
-                r#"
-                INSERT INTO echecs_objets (
-                    account_id,
-                    categorie,
-                    sous_categorie,
-                    objet_id,
-                    nombre
-                )
-                VALUES (?, ?, ?, ?, 1)
-
-                ON CONFLICT (
-                    account_id,
-                    categorie,
-                    sous_categorie,
-                    objet_id
-                )
-                DO UPDATE SET
-                    nombre = nombre + 1
-                "#,
-            )
-            .bind(account_id)
-            .bind(categorie)
-            .bind(categorie)
-            .bind(objet_id)
-            .execute(pool)
-            .await?;
-        }
+        resultat
     }
 
-    Ok(resultat)
-}
-}
-   
+    /// Tire un objet dans une catégorie (API publique conservée).
+    /// Pour plusieurs tirages, préfère `ouvrir` qui ne fait qu'une
+    /// lecture et qu'une écriture pour tout le coffre.
+    pub async fn tirer_objet(
+        &mut self,
+        pool: &SqlitePool,
+        account_id: i64,
+        categorie: &str,
+        rng: &mut impl Rng,
+        is_admin: bool,
+    ) -> Result<String, sqlx::Error> {
+        let mut cache = PityCache::charger(pool, account_id).await?;
+        let resultat = self.tirer_objet_cache(&mut cache, categorie, rng, is_admin);
+        cache.sauvegarder(pool, account_id).await?;
+        Ok(resultat)
+    }
 
-
+    /// Tire un livre enchanté (API publique conservée).
+    pub async fn tirer_livre(
+        &mut self,
+        pool: &SqlitePool,
+        account_id: i64,
+        rng: &mut impl Rng,
+        is_admin: bool,
+    ) -> Result<String, sqlx::Error> {
+        let mut cache = PityCache::charger(pool, account_id).await?;
+        let resultat = self.tirer_livre_cache(&mut cache, rng, is_admin);
+        cache.sauvegarder(pool, account_id).await?;
+        Ok(resultat)
+    }
+}

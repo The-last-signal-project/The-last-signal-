@@ -1,153 +1,5 @@
-use rand::{Rng, RngExt};
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
-
-// ============================================================
-//  RARETÉ (Commun -> Légendaire)
-// ============================================================
-#[derive(Debug, Serialize, Deserialize, Clone, Copy, PartialEq, Eq)]
-pub enum Rarete {
-    Commun,
-    PeuCommun,
-    Rare,
-    SuperRare,
-    Epique,
-    Legendaire,
-    Mythique,
-}
-
-impl Rarete {
-    pub const TOUTES: [Rarete; 7] = [
-        Rarete::Commun,
-        Rarete::PeuCommun,
-        Rarete::Rare,
-        Rarete::SuperRare,
-        Rarete::Epique,
-        Rarete::Legendaire,
-        Rarete::Mythique,
-    ];
-
-    pub fn label(&self) -> &'static str {
-        match self {
-            Rarete::Commun => "Commun",
-            Rarete::PeuCommun => "Peu commun",
-            Rarete::Rare => "Rare",
-            Rarete::SuperRare => "Super rare",
-            Rarete::Epique => "Épique",
-            Rarete::Legendaire => "Légendaire",
-            Rarete::Mythique => "Mythique"
-        }
-    }
-
-    /// Poids de tirage (modifiables). Total = 1000 => pour mille.
-    pub fn poids(&self) -> u32 {
-        match self {
-            Rarete::Commun => 600,
-            Rarete::PeuCommun => 250,
-            Rarete::Rare => 100,
-            Rarete::SuperRare => 30,
-            Rarete::Epique => 15,
-            Rarete::Legendaire => 5,
-            Rarete::Mythique => 3,
-        }
-    }
-
-    pub fn tirer<R: Rng>(rng: &mut R) -> Rarete {
-        let table: Vec<(Rarete, u32)> =
-            Self::TOUTES.iter().map(|r| (*r, r.poids())).collect();
-        tirer_pondere(&table, rng)
-    }
-}
-
-// ============================================================
-//  RANK (G -> SSS)
-// ============================================================
-#[derive(Debug, Serialize, Deserialize, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
-pub enum Rank {
-    G,
-    F,
-    E,
-    D,
-    C,
-    B,
-    A,
-    S,
-    SS,
-    SSS,
-}
-
-impl Rank {
-    pub const TOUS: [Rank; 10] = [
-        Rank::G,
-        Rank::F,
-        Rank::E,
-        Rank::D,
-        Rank::C,
-        Rank::B,
-        Rank::A,
-        Rank::S,
-        Rank::SS,
-        Rank::SSS,
-    ];
-
-    pub fn label(&self) -> &'static str {
-        match self {
-            Rank::G => "G",
-            Rank::F => "F",
-            Rank::E => "E",
-            Rank::D => "D",
-            Rank::C => "C",
-            Rank::B => "B",
-            Rank::A => "A",
-            Rank::S => "S",
-            Rank::SS => "SS",
-            Rank::SSS => "SSS",
-        }
-    }
-
-    /// Poids de tirage du rank selon la rareté (plus l'objet est rare,
-    /// plus le rank est élevé en moyenne).
-    /// Ordre des colonnes : G, F, E, D, C, B, A, S, SS, SSS.
-    /// Pour un rank indépendant de la rareté, mets la même ligne partout.
-    fn poids_pour(rarete: Rarete) -> [u32; 10] {
-        match rarete {
-            Rarete::Commun => [35, 28, 18, 10, 6, 2, 1, 0, 0, 0],
-            Rarete::PeuCommun => [15, 22, 22, 18, 12, 7, 3, 1, 0, 0],
-            Rarete::Rare => [5, 10, 16, 22, 20, 14, 8, 4, 1, 0],
-            Rarete::SuperRare => [2, 5, 10, 16, 22, 20, 14, 8, 3, 0],
-            Rarete::Epique => [1, 3, 6, 12, 20, 24, 18, 10, 5, 1],
-            Rarete::Legendaire => [0, 0, 1, 3, 8, 15, 25, 25, 16, 7],
-            Rarete::Mythique => [0, 0, 0, 5, 8, 14, 22, 25, 16, 10],
-        }
-    }
-
-    pub fn tirer<R: Rng>(rarete: Rarete, rng: &mut R) -> Rank {
-        let poids = Self::poids_pour(rarete);
-        let table: Vec<(Rank, u32)> = Self::TOUS
-            .iter()
-            .zip(poids.iter())
-            .map(|(r, p)| (*r, *p))
-            .collect();
-        tirer_pondere(&table, rng)
-    }
-}
-
-/// Tirage au sort pondéré générique.
-fn tirer_pondere<T: Copy, R: Rng>(table: &[(T, u32)], rng: &mut R) -> T {
-    let total: u32 = table.iter().map(|(_, p)| *p).sum();
-    let mut tirage = rng.random_range(0..total);
-    for (item, poids) in table {
-        if tirage < *poids {
-            return *item;
-        }
-        tirage -= *poids;
-    }
-    table[0].0 // jamais atteint si total > 0
-}
-
-// ============================================================
-//  TRAITS
-// ============================================================
 
 // Enum pour les types d'objets
 #[derive(Debug, Serialize, Deserialize, Clone, PartialEq)]
@@ -170,43 +22,13 @@ pub trait AjouterRetirer {
     fn retirer(&mut self, qte: u64);
 }
 
-/// Trait à appeler à l'ouverture d'un trésor : donne une rareté
-/// et un rank aléatoires à l'artéfact.
-pub trait Rarifiable {
-    fn objet_mut(&mut self) -> &mut Objet;
-
-    /// Rareté DÉJÀ connue (ex. catégorie du coffre) : on tire seulement le rank.
-    fn attribuer_rank_pour(&mut self, rarete: Rarete) {
-        let mut rng = rand::rng();
-        let rank = Rank::tirer(rarete, &mut rng);
-        let objet = self.objet_mut();
-        objet.set_rarete(rarete);
-        objet.set_rank(rank);
-    }
-
-    /// Tire la rareté puis le rank (dépendant de la rareté).
-    fn attribuer_rarete_et_rank(&mut self) {
-        let mut rng = rand::rng();
-        let rarete = Rarete::tirer(&mut rng);
-        let rank = Rank::tirer(rarete, &mut rng);
-        let objet = self.objet_mut();
-        objet.set_rarete(rarete);
-        objet.set_rank(rank);
-    }
-}
-
-// ============================================================
-//  OBJET DE BASE
-// ============================================================
+// Objet de base
 #[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct Objet {
     pub nom_base: String,
     pub quantite: u64,
     pub type_objet: TypeObjet,
     pub rarety: Option<String>,
-    /// Rank de G à SSS (None tant que non attribué)
-    #[serde(default)]
-    pub rank: Option<String>,
     pub nom_image: Option<String>,
     pub attributs: HashMap<String, serde_json::Value>,
 }
@@ -224,25 +46,8 @@ impl Objet {
             quantite,
             type_objet,
             rarety: rarety.map(|s| s.to_string()),
-            rank: None,
             nom_image: image.map(|s| s.to_string()),
             attributs: HashMap::new(),
-        }
-    }
-
-    pub fn set_rarete(&mut self, rarete: Rarete) {
-        self.rarety = Some(rarete.label().to_string());
-    }
-
-    pub fn set_rank(&mut self, rank: Rank) {
-        self.rank = Some(rank.label().to_string());
-    }
-
-    /// Suffixe d'affichage du rank, ex. " [S]"
-    fn suffixe_rank(&self) -> String {
-        match &self.rank {
-            Some(r) => format!(" [{}]", r),
-            None => String::new(),
         }
     }
 
@@ -265,12 +70,6 @@ impl Objet {
     }
 }
 
-impl Rarifiable for Objet {
-    fn objet_mut(&mut self) -> &mut Objet {
-        self
-    }
-}
-
 impl NomAffiche for Objet {
     fn nom_affiche(&self) -> String {
         let base = self.nom_base.clone();
@@ -279,16 +78,21 @@ impl NomAffiche for Objet {
             return base;
         }
 
-        let est_enchante = self.attribut_superieur_a_un("enchantements");
+        let est_enchante =
+            self.attribut_superieur_a_un("enchantements");
 
-        let nom = match (est_enchante, self.rarety.as_ref()) {
-            (true, Some(rarety)) => format!("{} {} enchanté(e)", base, rarety),
-            (true, None) => format!("{} enchanté(e)", base),
-            (false, Some(rarety)) => format!("{} {}", base, rarety),
+        match (est_enchante, self.rarety.as_ref()) {
+            (true, Some(rarety)) => {
+                format!("{} {} enchanté(e)", base, rarety)
+            }
+            (true, None) => {
+                format!("{} enchanté(e)", base)
+            }
+            (false, Some(rarety)) => {
+                format!("{} {}", base, rarety)
+            }
             (false, None) => base,
-        };
-
-        format!("{}{}", nom, self.suffixe_rank())
+        }
     }
 }
 
@@ -308,9 +112,7 @@ impl std::fmt::Display for Objet {
     }
 }
 
-// ============================================================
-//  EQUIPEMENT
-// ============================================================
+// Equipement
 #[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct Equipement {
     pub objet: Objet,
@@ -330,7 +132,13 @@ impl Equipement {
         enchantements: Vec<String>,
         rarety: Option<&str>,
     ) -> Self {
-        let objet = Objet::new(nom, image, quantite, TypeObjet::Equipement, rarety);
+        let objet = Objet::new(
+            nom,
+            image,
+            quantite,
+            TypeObjet::Equipement,
+            rarety,
+        );
 
         let parts: Vec<&str> = nom.split_whitespace().collect();
         let category = parts.first().unwrap_or(&"").to_string();
@@ -349,12 +157,6 @@ impl Equipement {
     }
 }
 
-impl Rarifiable for Equipement {
-    fn objet_mut(&mut self) -> &mut Objet {
-        &mut self.objet
-    }
-}
-
 impl NomAffiche for Equipement {
     fn nom_affiche(&self) -> String {
         let base = self.objet.nom_base.clone();
@@ -363,12 +165,14 @@ impl NomAffiche for Equipement {
             return self.objet.nom_affiche();
         }
 
-        let nom = match &self.objet.rarety {
-            Some(rarety) => format!("{} {} enchanté(e)", base, rarety),
-            None => format!("{} enchanté(e)", base),
-        };
-
-        format!("{}{}", nom, self.objet.suffixe_rank())
+        match &self.objet.rarety {
+            Some(rarety) => {
+                format!("{} {} enchanté(e)", base, rarety)
+            }
+            None => {
+                format!("{} enchanté(e)", base)
+            }
+        }
     }
 }
 
@@ -387,14 +191,15 @@ impl std::fmt::Display for Equipement {
         write!(
             f,
             "{} [Niveau {} | bonus : {} | enchantements : {:?}]",
-            self.objet.quantite, self.niv, self.bonus, self.enchantements
+            self.objet.quantite,
+            self.niv,
+            self.bonus,
+            self.enchantements
         )
     }
 }
 
-// ============================================================
-//  ARME
-// ============================================================
+// Arme
 #[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct Arme {
     pub equipement: Equipement,
@@ -413,8 +218,15 @@ impl Arme {
         enchantements: Vec<String>,
         rarety: Option<&str>,
     ) -> Self {
-        let equipement =
-            Equipement::new(nom, image, quantite, niv, bonus, enchantements, rarety);
+        let equipement = Equipement::new(
+            nom,
+            image,
+            quantite,
+            niv,
+            bonus,
+            enchantements,
+            rarety,
+        );
 
         Self {
             equipement,
@@ -429,12 +241,6 @@ impl Arme {
 
     pub fn enchanter(&mut self, enc: Vec<String>) {
         self.equipement.enchanter(enc);
-    }
-}
-
-impl Rarifiable for Arme {
-    fn objet_mut(&mut self) -> &mut Objet {
-        &mut self.equipement.objet
     }
 }
 
@@ -469,9 +275,7 @@ impl std::fmt::Display for Arme {
     }
 }
 
-// ============================================================
-//  POTION
-// ============================================================
+// Potion
 #[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct Potion {
     pub objet: Objet,
@@ -486,7 +290,13 @@ impl Potion {
         effet: Option<&str>,
         rarety: Option<&str>,
     ) -> Self {
-        let objet = Objet::new(nom, image, quantite, TypeObjet::Potion, rarety);
+        let objet = Objet::new(
+            nom,
+            image,
+            quantite,
+            TypeObjet::Potion,
+            rarety,
+        );
 
         Self {
             objet,
@@ -496,12 +306,6 @@ impl Potion {
 
     pub fn appliquer_effet(&self) {
         println!("Effet appliqué : {:?}", self.effet);
-    }
-}
-
-impl Rarifiable for Potion {
-    fn objet_mut(&mut self) -> &mut Objet {
-        &mut self.objet
     }
 }
 
@@ -521,9 +325,7 @@ impl AjouterRetirer for Potion {
     }
 }
 
-// ============================================================
-//  LIVRE
-// ============================================================
+// Livre
 #[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct Livre {
     pub objet: Objet,
@@ -542,7 +344,13 @@ impl Livre {
         rarety: Option<&str>,
         niv: u32,
     ) -> Self {
-        let objet = Objet::new(nom, image, quantite, TypeObjet::Livre, rarety);
+        let objet = Objet::new(
+            nom,
+            image,
+            quantite,
+            TypeObjet::Livre,
+            rarety,
+        );
 
         Self {
             objet,
@@ -575,7 +383,8 @@ impl Livre {
         if enchants.len() >= max_enchants {
             return Err(format!(
                 "Un livre de niveau {} ne peut pas avoir plus de {} enchantement(s)",
-                self.niv, max_enchants
+                self.niv,
+                max_enchants
             ));
         }
 
@@ -586,12 +395,6 @@ impl Livre {
         ));
 
         Ok(())
-    }
-}
-
-impl Rarifiable for Livre {
-    fn objet_mut(&mut self) -> &mut Objet {
-        &mut self.objet
     }
 }
 
@@ -621,31 +424,9 @@ impl std::fmt::Display for Livre {
         write!(
             f,
             "{} [Niveau {} | {}]",
-            self.objet.quantite, self.niv, enchants_str
+            self.objet.quantite,
+            self.niv,
+            enchants_str
         )
-    }
-}
-
-// ============================================================
-//  TESTS
-// ============================================================
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn attribution_donne_rarete_et_rank() {
-        let mut arme = Arme::new("Epee longue", None, 1, 1, 100, 5, vec![], None);
-        arme.attribuer_rarete_et_rank();
-        assert!(arme.equipement.objet.rarety.is_some());
-        assert!(arme.equipement.objet.rank.is_some());
-    }
-
-    #[test]
-    fn commun_ne_donne_jamais_sss() {
-        let mut rng = rand::rng();
-        for _ in 0..10_000 {
-            assert!(Rank::tirer(Rarete::Commun, &mut rng) < Rank::S);
-        }
     }
 }
