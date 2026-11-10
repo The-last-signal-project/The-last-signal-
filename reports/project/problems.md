@@ -1,14 +1,14 @@
 # Documentation Problems
 
-Generated: 2026-11-10 10:35:41
+Generated: 2026-11-10 17:18:44
 
 ## Summary
 
 |Type|Count|
 |---|---:|
 |Errors|472|
-|Warnings|8206|
-|**Total**|**8683**|
+|Warnings|8196|
+|**Total**|**8673**|
 
 ---
 
@@ -4473,603 +4473,435 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## Warning
 
 - **Module :** rust
-- **Message :** Enum 'Rarete' sans documentation
-- **line :** 9
-- **suggestion :** Ajoutez /// avant cette enum
-
-## Warning
-
-- **Module :** rust
-- **Message :** Impl 'Rarete ' sans documentation
-- **line :** 19
-- **suggestion :** Ajoutez /// avant cette impl
-
-## Warning
-
-- **Module :** rust
-- **Message :** Function 'label' sans documentation
-- **line :** 30
-- **suggestion :** Ajoutez /// avant cette function
-
-## Warning
-
-- **Module :** rust
-- **Message :** Function 'tirer' sans documentation
-- **line :** 55
-- **suggestion :** Ajoutez /// avant cette function
-
-## Warning
-
-- **Module :** rust
-- **Message :** Enum 'Rank' sans documentation
-- **line :** 66
-- **suggestion :** Ajoutez /// avant cette enum
-
-## Warning
-
-- **Module :** rust
-- **Message :** Impl 'Rank ' sans documentation
-- **line :** 79
-- **suggestion :** Ajoutez /// avant cette impl
-
-## Warning
-
-- **Module :** rust
-- **Message :** Function 'label' sans documentation
-- **line :** 93
-- **suggestion :** Ajoutez /// avant cette function
-
-## Warning
-
-- **Module :** rust
-- **Message :** Function 'tirer' sans documentation
-- **line :** 124
-- **suggestion :** Ajoutez /// avant cette function
-
-## Warning
-
-- **Module :** rust
 - **Message :** Enum 'TypeObjet' sans documentation
-- **line :** 154
+- **line :** 6
 - **suggestion :** Ajoutez /// avant cette enum
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Trait 'NomAffiche' sans documentation
-- **line :** 163
+- **line :** 15
 - **suggestion :** Ajoutez /// avant cette trait
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'nom_affiche' sans documentation
-- **line :** 164
+- **line :** 16
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Trait 'AjouterRetirer' sans documentation
-- **line :** 168
+- **line :** 20
 - **suggestion :** Ajoutez /// avant cette trait
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'ajouter' sans documentation
-- **line :** 169
+- **line :** 21
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'retirer' sans documentation
-- **line :** 170
-- **suggestion :** Ajoutez /// avant cette function
-
-## Warning
-
-- **Module :** rust
-- **Message :** Function 'objet_mut' sans documentation
-- **line :** 176
+- **line :** 22
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Struct 'Objet' sans documentation
-- **line :** 202
+- **line :** 27
 - **suggestion :** Ajoutez /// avant cette struct
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Impl 'Objet ' sans documentation
-- **line :** 214
+- **line :** 36
 - **suggestion :** Ajoutez /// avant cette impl
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'new' sans documentation
-- **line :** 215
-- **suggestion :** Ajoutez /// avant cette function
-
-## Warning
-
-- **Module :** rust
-- **Message :** Function 'set_rarete' sans documentation
-- **line :** 233
-- **suggestion :** Ajoutez /// avant cette function
-
-## Warning
-
-- **Module :** rust
-- **Message :** Function 'set_rank' sans documentation
-- **line :** 237
+- **line :** 37
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'set_attribut' sans documentation
-- **line :** 249
+- **line :** 54
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'attribut_superieur_a_un' sans documentation
-- **line :** 253
-- **suggestion :** Ajoutez /// avant cette function
-
-## Warning
-
-- **Module :** rust
-- **Message :** Impl 'Rarifiable for Objet ' sans documentation
-- **line :** 268
-- **suggestion :** Ajoutez /// avant cette impl
-
-## Warning
-
-- **Module :** rust
-- **Message :** Function 'objet_mut' sans documentation
-- **line :** 269
+- **line :** 58
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Impl 'NomAffiche for Objet ' sans documentation
-- **line :** 274
+- **line :** 73
 - **suggestion :** Ajoutez /// avant cette impl
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'nom_affiche' sans documentation
-- **line :** 275
+- **line :** 74
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Impl 'AjouterRetirer for Objet ' sans documentation
-- **line :** 295
+- **line :** 99
 - **suggestion :** Ajoutez /// avant cette impl
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'ajouter' sans documentation
-- **line :** 296
+- **line :** 100
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'retirer' sans documentation
-- **line :** 300
+- **line :** 104
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Impl 'std' sans documentation
-- **line :** 305
+- **line :** 109
 - **suggestion :** Ajoutez /// avant cette impl
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'fmt' sans documentation
-- **line :** 306
+- **line :** 110
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Struct 'Equipement' sans documentation
-- **line :** 315
+- **line :** 117
 - **suggestion :** Ajoutez /// avant cette struct
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Impl 'Equipement ' sans documentation
-- **line :** 323
+- **line :** 125
 - **suggestion :** Ajoutez /// avant cette impl
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'new' sans documentation
-- **line :** 324
+- **line :** 126
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'enchanter' sans documentation
-- **line :** 347
-- **suggestion :** Ajoutez /// avant cette function
-
-## Warning
-
-- **Module :** rust
-- **Message :** Impl 'Rarifiable for Equipement ' sans documentation
-- **line :** 352
-- **suggestion :** Ajoutez /// avant cette impl
-
-## Warning
-
-- **Module :** rust
-- **Message :** Function 'objet_mut' sans documentation
-- **line :** 353
+- **line :** 155
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Impl 'NomAffiche for Equipement ' sans documentation
-- **line :** 358
+- **line :** 160
 - **suggestion :** Ajoutez /// avant cette impl
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'nom_affiche' sans documentation
-- **line :** 359
+- **line :** 161
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Impl 'AjouterRetirer for Equipement ' sans documentation
-- **line :** 375
+- **line :** 179
 - **suggestion :** Ajoutez /// avant cette impl
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'ajouter' sans documentation
-- **line :** 376
+- **line :** 180
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'retirer' sans documentation
-- **line :** 380
+- **line :** 184
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Impl 'std' sans documentation
-- **line :** 385
+- **line :** 189
 - **suggestion :** Ajoutez /// avant cette impl
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'fmt' sans documentation
-- **line :** 386
+- **line :** 190
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Struct 'Arme' sans documentation
-- **line :** 399
+- **line :** 204
 - **suggestion :** Ajoutez /// avant cette struct
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Impl 'Arme ' sans documentation
-- **line :** 405
+- **line :** 210
 - **suggestion :** Ajoutez /// avant cette impl
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'new' sans documentation
-- **line :** 406
+- **line :** 211
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'taux_de_critique' sans documentation
-- **line :** 426
+- **line :** 238
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'enchanter' sans documentation
-- **line :** 430
-- **suggestion :** Ajoutez /// avant cette function
-
-## Warning
-
-- **Module :** rust
-- **Message :** Impl 'Rarifiable for Arme ' sans documentation
-- **line :** 435
-- **suggestion :** Ajoutez /// avant cette impl
-
-## Warning
-
-- **Module :** rust
-- **Message :** Function 'objet_mut' sans documentation
-- **line :** 436
+- **line :** 242
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Impl 'NomAffiche for Arme ' sans documentation
-- **line :** 441
+- **line :** 247
 - **suggestion :** Ajoutez /// avant cette impl
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'nom_affiche' sans documentation
-- **line :** 442
+- **line :** 248
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Impl 'AjouterRetirer for Arme ' sans documentation
-- **line :** 447
+- **line :** 253
 - **suggestion :** Ajoutez /// avant cette impl
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'ajouter' sans documentation
-- **line :** 448
+- **line :** 254
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'retirer' sans documentation
-- **line :** 452
+- **line :** 258
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Impl 'std' sans documentation
-- **line :** 457
+- **line :** 263
 - **suggestion :** Ajoutez /// avant cette impl
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'fmt' sans documentation
-- **line :** 458
+- **line :** 264
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Struct 'Potion' sans documentation
-- **line :** 476
+- **line :** 280
 - **suggestion :** Ajoutez /// avant cette struct
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Impl 'Potion ' sans documentation
-- **line :** 481
+- **line :** 285
 - **suggestion :** Ajoutez /// avant cette impl
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'new' sans documentation
-- **line :** 482
+- **line :** 286
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'appliquer_effet' sans documentation
-- **line :** 497
-- **suggestion :** Ajoutez /// avant cette function
-
-## Warning
-
-- **Module :** rust
-- **Message :** Impl 'Rarifiable for Potion ' sans documentation
-- **line :** 502
-- **suggestion :** Ajoutez /// avant cette impl
-
-## Warning
-
-- **Module :** rust
-- **Message :** Function 'objet_mut' sans documentation
-- **line :** 503
+- **line :** 307
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Impl 'NomAffiche for Potion ' sans documentation
-- **line :** 508
+- **line :** 312
 - **suggestion :** Ajoutez /// avant cette impl
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'nom_affiche' sans documentation
-- **line :** 509
+- **line :** 313
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Impl 'AjouterRetirer for Potion ' sans documentation
-- **line :** 514
+- **line :** 318
 - **suggestion :** Ajoutez /// avant cette impl
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'ajouter' sans documentation
-- **line :** 515
+- **line :** 319
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'retirer' sans documentation
-- **line :** 519
+- **line :** 323
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Struct 'Livre' sans documentation
-- **line :** 528
+- **line :** 330
 - **suggestion :** Ajoutez /// avant cette struct
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Impl 'Livre ' sans documentation
-- **line :** 535
+- **line :** 337
 - **suggestion :** Ajoutez /// avant cette impl
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'new' sans documentation
-- **line :** 536
+- **line :** 338
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'niv_to_roman' sans documentation
-- **line :** 555
+- **line :** 363
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'ajouter_enchantement' sans documentation
-- **line :** 567
-- **suggestion :** Ajoutez /// avant cette function
-
-## Warning
-
-- **Module :** rust
-- **Message :** Impl 'Rarifiable for Livre ' sans documentation
-- **line :** 592
-- **suggestion :** Ajoutez /// avant cette impl
-
-## Warning
-
-- **Module :** rust
-- **Message :** Function 'objet_mut' sans documentation
-- **line :** 593
+- **line :** 375
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Impl 'NomAffiche for Livre ' sans documentation
-- **line :** 598
+- **line :** 401
 - **suggestion :** Ajoutez /// avant cette impl
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'nom_affiche' sans documentation
-- **line :** 599
+- **line :** 402
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Impl 'AjouterRetirer for Livre ' sans documentation
-- **line :** 604
+- **line :** 407
 - **suggestion :** Ajoutez /// avant cette impl
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'ajouter' sans documentation
-- **line :** 605
+- **line :** 408
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'retirer' sans documentation
-- **line :** 609
+- **line :** 412
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Impl 'std' sans documentation
-- **line :** 614
+- **line :** 417
 - **suggestion :** Ajoutez /// avant cette impl
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'fmt' sans documentation
-- **line :** 615
-- **suggestion :** Ajoutez /// avant cette function
-
-## Warning
-
-- **Module :** rust
-- **Message :** Mod 'tests' sans documentation
-- **line :** 633
-- **suggestion :** Ajoutez /// avant cette mod
-
-## Warning
-
-- **Module :** rust
-- **Message :** Function 'attribution_donne_rarete_et_rank' sans documentation
-- **line :** 637
-- **suggestion :** Ajoutez /// avant cette function
-
-## Warning
-
-- **Module :** rust
-- **Message :** Function 'commun_ne_donne_jamais_sss' sans documentation
-- **line :** 645
+- **line :** 418
 - **suggestion :** Ajoutez /// avant cette function
 
 ---
@@ -5080,238 +4912,308 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 - **Module :** rust
 - **Message :** Enum 'ObjetInventaire' sans documentation
-- **line :** 22
+- **line :** 29
 - **suggestion :** Ajoutez /// avant cette enum
 
 ## Warning
 
 - **Module :** rust
+- **Message :** Impl 'ObjetInventaire ' sans documentation
+- **line :** 37
+- **suggestion :** Ajoutez /// avant cette impl
+
+## Warning
+
+- **Module :** rust
+- **Message :** Function 'objet_mut' sans documentation
+- **line :** 49
+- **suggestion :** Ajoutez /// avant cette function
+
+## Warning
+
+- **Module :** rust
 - **Message :** Impl 'NomAffiche for ObjetInventaire ' sans documentation
-- **line :** 30
+- **line :** 70
 - **suggestion :** Ajoutez /// avant cette impl
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'nom_affiche' sans documentation
-- **line :** 31
+- **line :** 71
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Impl 'AjouterRetirer for ObjetInventaire ' sans documentation
-- **line :** 42
+- **line :** 82
 - **suggestion :** Ajoutez /// avant cette impl
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'ajouter' sans documentation
-- **line :** 43
+- **line :** 83
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'retirer' sans documentation
-- **line :** 53
+- **line :** 87
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
-- **Message :** Struct 'Inventaire' sans documentation
-- **line :** 68
-- **suggestion :** Ajoutez /// avant cette struct
-
-## Warning
-
-- **Module :** rust
-- **Message :** Struct 'StuffRow' sans documentation
-- **line :** 79
-- **suggestion :** Ajoutez /// avant cette struct
-
-## Warning
-
-- **Module :** rust
-- **Message :** Struct 'EquipmentRow' sans documentation
-- **line :** 88
-- **suggestion :** Ajoutez /// avant cette struct
-
-## Warning
-
-- **Module :** rust
-- **Message :** Struct 'PotionRow' sans documentation
-- **line :** 96
-- **suggestion :** Ajoutez /// avant cette struct
-
-## Warning
-
-- **Module :** rust
-- **Message :** Struct 'BookRow' sans documentation
+- **Message :** Struct 'Marque' sans documentation
 - **line :** 101
 - **suggestion :** Ajoutez /// avant cette struct
 
 ## Warning
 
 - **Module :** rust
-- **Message :** Struct 'EnchantRow' sans documentation
+- **Message :** Impl 'Marque ' sans documentation
+- **line :** 106
+- **suggestion :** Ajoutez /// avant cette impl
+
+## Warning
+
+- **Module :** rust
+- **Message :** Function 'depuis' sans documentation
 - **line :** 107
+- **suggestion :** Ajoutez /// avant cette function
+
+## Warning
+
+- **Module :** rust
+- **Message :** Enum 'Ecriture' sans documentation
+- **line :** 137
+- **suggestion :** Ajoutez /// avant cette enum
+
+## Warning
+
+- **Module :** rust
+- **Message :** Struct 'Inventaire' sans documentation
+- **line :** 169
+- **suggestion :** Ajoutez /// avant cette struct
+
+## Warning
+
+- **Module :** rust
+- **Message :** Struct 'StuffRow' sans documentation
+- **line :** 180
+- **suggestion :** Ajoutez /// avant cette struct
+
+## Warning
+
+- **Module :** rust
+- **Message :** Struct 'EquipmentRow' sans documentation
+- **line :** 191
+- **suggestion :** Ajoutez /// avant cette struct
+
+## Warning
+
+- **Module :** rust
+- **Message :** Struct 'PotionRow' sans documentation
+- **line :** 200
+- **suggestion :** Ajoutez /// avant cette struct
+
+## Warning
+
+- **Module :** rust
+- **Message :** Struct 'BookRow' sans documentation
+- **line :** 206
+- **suggestion :** Ajoutez /// avant cette struct
+
+## Warning
+
+- **Module :** rust
+- **Message :** Struct 'EnchantRow' sans documentation
+- **line :** 213
 - **suggestion :** Ajoutez /// avant cette struct
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Struct 'GeneratedEnchant' sans documentation
-- **line :** 113
+- **line :** 220
 - **suggestion :** Ajoutez /// avant cette struct
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Impl 'Inventaire ' sans documentation
-- **line :** 122
+- **line :** 229
 - **suggestion :** Ajoutez /// avant cette impl
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'new' sans documentation
-- **line :** 127
+- **line :** 234
+- **suggestion :** Ajoutez /// avant cette function
+
+## Warning
+
+- **Module :** rust
+- **Message :** Function 'migrer_schema' sans documentation
+- **line :** 255
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'charger_objets' sans documentation
-- **line :** 144
+- **line :** 284
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'construire_objet' sans documentation
-- **line :** 184
+- **line :** 411
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'ajouter_objet' sans documentation
-- **line :** 388
+- **line :** 548
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
-- **Message :** Function 'ajouter_objet_base' sans documentation
-- **line :** 470
+- **Message :** Function 'ajouter_artefact' sans documentation
+- **line :** 571
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
-- **Message :** Function 'ajouter_potion' sans documentation
-- **line :** 529
+- **Message :** Function 'ajouter_resultat' sans documentation
+- **line :** 597
+- **suggestion :** Ajoutez /// avant cette function
+
+## Warning
+
+- **Module :** rust
+- **Message :** Function 'ouvrir_coffre' sans documentation
+- **line :** 640
+- **suggestion :** Ajoutez /// avant cette function
+
+## Warning
+
+- **Module :** rust
+- **Message :** Function 'ajouter_lot' sans documentation
+- **line :** 668
+- **suggestion :** Ajoutez /// avant cette function
+
+## Warning
+
+- **Module :** rust
+- **Message :** Function 'charger_catalogue' sans documentation
+- **line :** 705
+- **suggestion :** Ajoutez /// avant cette function
+
+## Warning
+
+- **Module :** rust
+- **Message :** Function 'preparer' sans documentation
+- **line :** 724
+- **suggestion :** Ajoutez /// avant cette function
+
+## Warning
+
+- **Module :** rust
+- **Message :** Function 'executer' sans documentation
+- **line :** 813
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'effet_potion' sans documentation
-- **line :** 595
+- **line :** 1090
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
-- **Message :** Function 'ajouter_non_stackable' sans documentation
-- **line :** 618
-- **suggestion :** Ajoutez /// avant cette function
-
-## Warning
-
-- **Module :** rust
-- **Message :** Function 'ajouter_livre' sans documentation
-- **line :** 682
-- **suggestion :** Ajoutez /// avant cette function
-
-## Warning
-
-- **Module :** rust
-- **Message :** Function 'ajouter_un_livre' sans documentation
-- **line :** 722
+- **Message :** Function 'preparer_livre' sans documentation
+- **line :** 1117
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'niveau_livre' sans documentation
-- **line :** 1043
-- **suggestion :** Ajoutez /// avant cette function
-
-## Warning
-
-- **Module :** rust
-- **Message :** Function 'retirer_objet' sans documentation
-- **line :** 1084
-- **suggestion :** Ajoutez /// avant cette function
-
-## Warning
-
-- **Module :** rust
-- **Message :** Function 'retirer_tx' sans documentation
-- **line :** 1218
-- **suggestion :** Ajoutez /// avant cette function
-
-## Warning
-
-- **Module :** rust
-- **Message :** Function 'ajouter_tx' sans documentation
 - **line :** 1297
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
+- **Message :** Function 'retirer_objet' sans documentation
+- **line :** 1330
+- **suggestion :** Ajoutez /// avant cette function
+
+## Warning
+
+- **Module :** rust
+- **Message :** Function 'retirer_tx' sans documentation
+- **line :** 1461
+- **suggestion :** Ajoutez /// avant cette function
+
+## Warning
+
+- **Module :** rust
+- **Message :** Function 'ajouter_tx' sans documentation
+- **line :** 1538
+- **suggestion :** Ajoutez /// avant cette function
+
+## Warning
+
+- **Module :** rust
 - **Message :** Function 'get_quantity' sans documentation
-- **line :** 1346
+- **line :** 1586
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'quantite_sqlite' sans documentation
-- **line :** 1385
+- **line :** 1619
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'objets' sans documentation
-- **line :** 1403
+- **line :** 1635
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'objets_mut' sans documentation
-- **line :** 1407
+- **line :** 1639
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'recharger' sans documentation
-- **line :** 1415
+- **line :** 1647
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'account_id' sans documentation
-- **line :** 1429
+- **line :** 1661
 - **suggestion :** Ajoutez /// avant cette function
 
 ---
@@ -5329,77 +5231,105 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 - **Module :** rust
 - **Message :** Struct 'ArtefactTire' sans documentation
-- **line :** 28
+- **line :** 29
 - **suggestion :** Ajoutez /// avant cette struct
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Impl 'std' sans documentation
-- **line :** 35
+- **line :** 36
 - **suggestion :** Ajoutez /// avant cette impl
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'fmt' sans documentation
-- **line :** 36
+- **line :** 37
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Struct 'ResultatOuverture' sans documentation
-- **line :** 52
+- **line :** 53
 - **suggestion :** Ajoutez /// avant cette struct
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Impl 'ResultatOuverture ' sans documentation
-- **line :** 59
+- **line :** 60
 - **suggestion :** Ajoutez /// avant cette impl
 
 ## Warning
 
 - **Module :** rust
+- **Message :** Struct 'PityCache' sans documentation
+- **line :** 86
+- **suggestion :** Ajoutez /// avant cette struct
+
+## Warning
+
+- **Module :** rust
+- **Message :** Impl 'PityCache ' sans documentation
+- **line :** 97
+- **suggestion :** Ajoutez /// avant cette impl
+
+## Warning
+
+- **Module :** rust
+- **Message :** Function 'charger' sans documentation
+- **line :** 98
+- **suggestion :** Ajoutez /// avant cette function
+
+## Warning
+
+- **Module :** rust
+- **Message :** Function 'objet_id' sans documentation
+- **line :** 141
+- **suggestion :** Ajoutez /// avant cette function
+
+## Warning
+
+- **Module :** rust
+- **Message :** Function 'echecs_objet' sans documentation
+- **line :** 145
+- **suggestion :** Ajoutez /// avant cette function
+
+## Warning
+
+- **Module :** rust
+- **Message :** Function 'echecs_sous' sans documentation
+- **line :** 152
+- **suggestion :** Ajoutez /// avant cette function
+
+## Warning
+
+- **Module :** rust
+- **Message :** Function 'maj_echecs_sous' sans documentation
+- **line :** 171
+- **suggestion :** Ajoutez /// avant cette function
+
+## Warning
+
+- **Module :** rust
 - **Message :** Struct 'Tresor' sans documentation
-- **line :** 73
+- **line :** 241
 - **suggestion :** Ajoutez /// avant cette struct
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Impl 'Tresor ' sans documentation
-- **line :** 93
+- **line :** 261
 - **suggestion :** Ajoutez /// avant cette impl
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'new' sans documentation
-- **line :** 94
-- **suggestion :** Ajoutez /// avant cette function
-
-## Warning
-
-- **Module :** rust
-- **Message :** Function 'tirer_pondere' sans documentation
-- **line :** 881
-- **suggestion :** Ajoutez /// avant cette function
-
-## Warning
-
-- **Module :** rust
-- **Message :** Function 'tirer_objet' sans documentation
-- **line :** 907
-- **suggestion :** Ajoutez /// avant cette function
-
-## Warning
-
-- **Module :** rust
-- **Message :** Function 'tirer_livre' sans documentation
-- **line :** 1288
+- **line :** 262
 - **suggestion :** Ajoutez /// avant cette function
 
 ---
@@ -25878,12 +25808,12 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/crc32fast/README.md:80 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:54).
+- **Message :** server_rust/vendor/crc32fast/README.md:81 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:54).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/crc32fast/README.md:91 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:63).
+- **Message :** server_rust/vendor/crc32fast/README.md:92 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:63).
 
 ---
 
