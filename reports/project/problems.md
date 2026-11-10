@@ -1,6 +1,6 @@
 # Documentation Problems
 
-Generated: 2026-11-10 19:27:46
+Generated: 2026-11-10 19:40:52
 
 ## Summary
 
@@ -4383,31 +4383,6 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ---
 
-# /home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/main.rs
-
-## Warning
-
-- **Module :** rust
-- **Message :** Function 'main' sans documentation
-- **line :** 23
-- **suggestion :** Ajoutez /// avant cette function
-
-## Warning
-
-- **Module :** rust
-- **Message :** Mod 'tests' sans documentation
-- **line :** 51
-- **suggestion :** Ajoutez /// avant cette mod
-
-## Warning
-
-- **Module :** rust
-- **Message :** Function 'test_tresor' sans documentation
-- **line :** 56
-- **suggestion :** Ajoutez /// avant cette function
-
----
-
 # /home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/market_manager.rs
 
 ## Warning
@@ -5525,6 +5500,31 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Message :** Mod 'player' sans documentation
 - **line :** 8
 - **suggestion :** Ajoutez /// avant cette mod
+
+---
+
+# /home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/main.rs
+
+## Warning
+
+- **Module :** rust
+- **Message :** Function 'main' sans documentation
+- **line :** 23
+- **suggestion :** Ajoutez /// avant cette function
+
+## Warning
+
+- **Module :** rust
+- **Message :** Mod 'tests' sans documentation
+- **line :** 51
+- **suggestion :** Ajoutez /// avant cette mod
+
+## Warning
+
+- **Module :** rust
+- **Message :** Function 'test_tresor' sans documentation
+- **line :** 56
+- **suggestion :** Ajoutez /// avant cette function
 
 ---
 

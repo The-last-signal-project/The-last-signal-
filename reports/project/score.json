@@ -1,5 +1,5 @@
 {
-    "generated": "2026-11-10T19:27:45.198308",
+    "generated": "2026-11-10T19:40:51.826847",
     "score": 64,
     "status": "Bon",
     "scores": {
@@ -49651,6 +49651,30 @@
             },
             "problems": [
                 {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/main.rs",
+                    "line": 23,
+                    "severity": "warning",
+                    "message": "Function 'main' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette function",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/main.rs",
+                    "line": 51,
+                    "severity": "warning",
+                    "message": "Mod 'tests' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette mod",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/main.rs",
+                    "line": 56,
+                    "severity": "warning",
+                    "message": "Function 'test_tresor' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette function",
+                    "module": "rust"
+                },
+                {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/lib.rs",
                     "line": 1,
                     "severity": "warning",
@@ -52160,30 +52184,6 @@
                     "severity": "warning",
                     "message": "Mod 'market_manager' sans documentation",
                     "suggestion": "Ajoutez /// avant cette mod",
-                    "module": "rust"
-                },
-                {
-                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/main.rs",
-                    "line": 23,
-                    "severity": "warning",
-                    "message": "Function 'main' sans documentation",
-                    "suggestion": "Ajoutez /// avant cette function",
-                    "module": "rust"
-                },
-                {
-                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/main.rs",
-                    "line": 51,
-                    "severity": "warning",
-                    "message": "Mod 'tests' sans documentation",
-                    "suggestion": "Ajoutez /// avant cette mod",
-                    "module": "rust"
-                },
-                {
-                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/main.rs",
-                    "line": 56,
-                    "severity": "warning",
-                    "message": "Function 'test_tresor' sans documentation",
-                    "suggestion": "Ajoutez /// avant cette function",
                     "module": "rust"
                 },
                 {
