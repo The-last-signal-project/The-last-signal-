@@ -17,7 +17,7 @@ pub enum Rarete {
 }
 
 impl Rarete {
-    pub const TOUTES: [Rarete; 6] = [
+    pub const TOUTES: [Rarete; 7] = [
         Rarete::Commun,
         Rarete::PeuCommun,
         Rarete::Rare,
