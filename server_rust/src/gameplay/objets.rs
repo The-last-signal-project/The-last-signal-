@@ -1,4 +1,5 @@
 use serde::{Deserialize, Serialize};
+use rand::{Rng, RngExt};
 use std::collections::HashMap;
 
 // Enum pour les types d'objets
@@ -9,6 +10,147 @@ pub enum TypeObjet {
     Arme,
     Potion,
     Livre,
+}
+
+// ============================================================
+// RARETÉ ET RANK
+// ============================================================
+
+/// Rareté d'un artéfact (celle de la catégorie dans laquelle il est tiré).
+#[derive(Debug, Serialize, Deserialize, Clone, Copy, PartialEq, Eq, Hash)]
+pub enum Rarete {
+    Commun,
+    PeuCommun,
+    Rare,
+    SuperRare,
+    Epique,
+    Legendaire,
+    Mythique,
+}
+
+impl Rarete {
+    pub fn label(self) -> &'static str {
+        match self {
+            Rarete::Commun => "Commun",
+            Rarete::PeuCommun => "Peu commun",
+            Rarete::Rare => "Rare",
+            Rarete::SuperRare => "Super rare",
+            Rarete::Epique => "Épique",
+            Rarete::Legendaire => "Légendaire",
+            Rarete::Mythique => "Mythique",
+        }
+    }
+
+    pub fn depuis_label(label: &str) -> Option<Self> {
+        [
+            Rarete::Commun,
+            Rarete::PeuCommun,
+            Rarete::Rare,
+            Rarete::SuperRare,
+            Rarete::Epique,
+            Rarete::Legendaire,
+            Rarete::Mythique,
+        ]
+        .into_iter()
+        .find(|r| r.label() == label)
+    }
+}
+
+/// Rank d'un objet, du plus faible (G) au plus fort (SSS).
+#[derive(Debug, Serialize, Deserialize, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
+pub enum Rank {
+    G,
+    F,
+    E,
+    D,
+    C,
+    B,
+    A,
+    S,
+    SS,
+    SSS,
+}
+
+impl Rank {
+    pub const TOUS: [Rank; 10] = [
+        Rank::G,
+        Rank::F,
+        Rank::E,
+        Rank::D,
+        Rank::C,
+        Rank::B,
+        Rank::A,
+        Rank::S,
+        Rank::SS,
+        Rank::SSS,
+    ];
+
+    pub fn label(self) -> &'static str {
+        match self {
+            Rank::G => "G",
+            Rank::F => "F",
+            Rank::E => "E",
+            Rank::D => "D",
+            Rank::C => "C",
+            Rank::B => "B",
+            Rank::A => "A",
+            Rank::S => "S",
+            Rank::SS => "SS",
+            Rank::SSS => "SSS",
+        }
+    }
+
+    pub fn depuis_label(label: &str) -> Option<Self> {
+        Self::TOUS.into_iter().find(|r| r.label() == label)
+    }
+
+    /// Multiplicateur de stats (à ajuster à ta convenance).
+    pub fn multiplicateur(self) -> f64 {
+        match self {
+            Rank::G => 0.5,
+            Rank::F => 0.75,
+            Rank::E => 1.0,
+            Rank::D => 1.5,
+            Rank::C => 2.0,
+            Rank::B => 3.0,
+            Rank::A => 4.0,
+            Rank::S => 6.0,
+            Rank::SS => 8.0,
+            Rank::SSS => 10.0,
+        }
+    }
+
+    /// Poids de tirage de chaque rank (dans l'ordre de `TOUS`)
+    /// selon la rareté. Plus la rareté est haute, plus les ranks élevés
+    /// sont probables.
+    fn poids(rarete: Rarete) -> [u32; 10] {
+        //                       G   F   E   D   C   B   A   S  SS SSS
+        match rarete {
+            Rarete::Commun     => [50, 30, 15, 5, 0, 0, 0, 0, 0, 0],
+            Rarete::PeuCommun  => [0, 30, 35, 25, 10, 0, 0, 0, 0, 0],
+            Rarete::Rare       => [0, 0, 25, 35, 25, 15, 0, 0, 0, 0],
+            Rarete::SuperRare  => [0, 0, 0, 20, 35, 30, 15, 0, 0, 0],
+            Rarete::Epique     => [0, 0, 0, 0, 20, 40, 30, 10, 0, 0],
+            Rarete::Legendaire => [0, 0, 0, 0, 0, 15, 40, 35, 10, 0],
+            Rarete::Mythique   => [0, 0, 0, 0, 0, 0, 20, 40, 30, 10],
+        }
+    }
+
+    /// Tire un rank au hasard selon la rareté.
+    pub fn tirer(rarete: Rarete, rng: &mut impl Rng) -> Rank {
+        let poids = Self::poids(rarete);
+        let total: u32 = poids.iter().sum();
+        let mut tirage = rng.random_range(0..total);
+
+        for (rank, p) in Self::TOUS.iter().zip(poids) {
+            if tirage < p {
+                return *rank;
+            }
+            tirage -= p;
+        }
+
+        Rank::G
+    }
 }
 
 // Trait pour les noms personnalisés
@@ -29,6 +171,9 @@ pub struct Objet {
     pub quantite: u64,
     pub type_objet: TypeObjet,
     pub rarety: Option<String>,
+    /// Rank ("G" ... "SSS"), s'il existe.
+    #[serde(default)]
+    pub rank: Option<String>,
     pub nom_image: Option<String>,
     pub attributs: HashMap<String, serde_json::Value>,
 }
@@ -46,6 +191,7 @@ impl Objet {
             quantite,
             type_objet,
             rarety: rarety.map(|s| s.to_string()),
+            rank: None,
             nom_image: image.map(|s| s.to_string()),
             attributs: HashMap::new(),
         }

@@ -261,14 +261,16 @@ impl Inventaire {
         .fetch_all(pool)
         .await?;
 
-        for colonne in ["rarete", "rang"] {
-            if !colonnes.iter().any(|c| c == colonne) {
-                let sql = format!(
-                    "ALTER TABLE stuff ADD COLUMN {colonne} TEXT"
-                );
+        if !colonnes.iter().any(|c| c == "rarete") {
+            sqlx::query("ALTER TABLE stuff ADD COLUMN rarete TEXT")
+                .execute(pool)
+                .await?;
+        }
 
-                sqlx::query(&sql).execute(pool).await?;
-            }
+        if !colonnes.iter().any(|c| c == "rang") {
+            sqlx::query("ALTER TABLE stuff ADD COLUMN rang TEXT")
+                .execute(pool)
+                .await?;
         }
 
         Ok(())
