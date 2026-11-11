@@ -1,5 +1,5 @@
 {
-    "generated": "2026-11-11T13:12:59.489710",
+    "generated": "2026-11-11T16:12:01.690038",
     "score": 64,
     "status": "Bon",
     "scores": {
@@ -49646,7 +49646,7 @@
             "max_score": 30,
             "results": {
                 "files_checked": 38,
-                "total_elements": 479,
+                "total_elements": 480,
                 "elements_without_docs": 422
             },
             "problems": [
@@ -51780,7 +51780,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/wallet_manager.rs",
-                    "line": 63,
+                    "line": 65,
                     "severity": "warning",
                     "message": "Function 'debiter' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
