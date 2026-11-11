@@ -1,5 +1,5 @@
 {
-    "generated": "2026-11-11T16:12:01.690038",
+    "generated": "2026-11-11T17:02:02.481092",
     "score": 64,
     "status": "Bon",
     "scores": {
@@ -11,7 +11,7 @@
         "rust": 0,
         "organization": 95
     },
-    "problem_count": 8684,
+    "problem_count": 8761,
     "details": {
         "markdown": {
             "score": 45,
@@ -1111,6 +1111,12 @@
                     "file": "CONTRIBUTING.md",
                     "severity": "warning",
                     "message": "Ligne 722 > 120 caractères.",
+                    "module": "markdown"
+                },
+                {
+                    "file": "VERSIONING.md",
+                    "severity": "warning",
+                    "message": "Ligne 11 > 120 caractères.",
                     "module": "markdown"
                 },
                 {
@@ -42836,21 +42842,423 @@
             "score": 0,
             "max_score": 30,
             "results": {
-                "modules": 69,
-                "classes": 47,
-                "functions": 642,
-                "documented_modules": 12,
+                "modules": 73,
+                "classes": 52,
+                "functions": 682,
+                "documented_modules": 16,
                 "documented_classes": 29,
-                "documented_functions": 155,
-                "typed_functions": 97,
+                "documented_functions": 165,
+                "typed_functions": 105,
                 "todo": 4,
                 "long_functions": 21
             },
             "problems": [
                 {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/anti_cheat_server.py",
+                    "severity": "warning",
+                    "message": "La fonction 'db' ne possède pas d'annotations de type.",
+                    "module": "python"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/anti_cheat_server.py",
+                    "severity": "warning",
+                    "message": "La fonction 'get_player'ligne 90 ne possède pas de docstring.",
+                    "module": "python"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/anti_cheat_server.py",
+                    "severity": "warning",
+                    "message": "La fonction 'require_player' ne possède pas d'annotations de type.",
+                    "module": "python"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/anti_cheat_server.py",
+                    "severity": "warning",
+                    "message": "La fonction 'ban'ligne 132 ne possède pas de docstring.",
+                    "module": "python"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/anti_cheat_server.py",
+                    "severity": "warning",
+                    "message": "La fonction 'ban' ne possède pas d'annotations de type.",
+                    "module": "python"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/anti_cheat_server.py",
+                    "severity": "warning",
+                    "message": "La fonction 'flag'ligne 137 ne possède pas de docstring.",
+                    "module": "python"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/anti_cheat_server.py",
+                    "severity": "warning",
+                    "message": "La fonction 'flag' ne possède pas d'annotations de type.",
+                    "module": "python"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/anti_cheat_server.py",
+                    "severity": "warning",
+                    "message": "La classe 'RunFinish' ne possède pas de docstring.",
+                    "module": "python"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/anti_cheat_server.py",
+                    "severity": "warning",
+                    "message": "La fonction 'run_start'ligne 155 ne possède pas de docstring.",
+                    "module": "python"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/anti_cheat_server.py",
+                    "severity": "warning",
+                    "message": "La fonction 'run_start' ne possède pas d'annotations de type.",
+                    "module": "python"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/anti_cheat_server.py",
+                    "severity": "warning",
+                    "message": "La fonction 'run_finish'ligne 184 ne possède pas de docstring.",
+                    "module": "python"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/anti_cheat_server.py",
+                    "severity": "warning",
+                    "message": "La fonction 'run_finish' ne possède pas d'annotations de type.",
+                    "module": "python"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/anti_cheat_server.py",
+                    "severity": "warning",
+                    "message": "La fonction 'save_put'ligne 226 ne possède pas de docstring.",
+                    "module": "python"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/anti_cheat_server.py",
+                    "severity": "warning",
+                    "message": "La fonction 'save_put' ne possède pas d'annotations de type.",
+                    "module": "python"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/anti_cheat_server.py",
+                    "severity": "warning",
+                    "message": "La fonction 'save_get'ligne 249 ne possède pas de docstring.",
+                    "module": "python"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/anti_cheat_server.py",
+                    "severity": "warning",
+                    "message": "La fonction 'save_get' ne possède pas d'annotations de type.",
+                    "module": "python"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/anti_cheat_server.py",
+                    "severity": "warning",
+                    "message": "La classe 'Report' ne possède pas de docstring.",
+                    "module": "python"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/anti_cheat_server.py",
+                    "severity": "warning",
+                    "message": "La fonction 'report'ligne 263 ne possède pas de docstring.",
+                    "module": "python"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/anti_cheat_server.py",
+                    "severity": "warning",
+                    "message": "La fonction 'report' ne possède pas d'annotations de type.",
+                    "module": "python"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/anti_cheat_server.py",
+                    "severity": "warning",
+                    "message": "La fonction 'require_admin'ligne 275 ne possède pas de docstring.",
+                    "module": "python"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/anti_cheat_server.py",
+                    "severity": "warning",
+                    "message": "La fonction 'require_admin' ne possède pas d'annotations de type.",
+                    "module": "python"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/anti_cheat_server.py",
+                    "severity": "warning",
+                    "message": "La classe 'AdminTarget' ne possède pas de docstring.",
+                    "module": "python"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/anti_cheat_server.py",
+                    "severity": "warning",
+                    "message": "La fonction 'admin_ban'ligne 287 ne possède pas de docstring.",
+                    "module": "python"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/anti_cheat_server.py",
+                    "severity": "warning",
+                    "message": "La fonction 'admin_ban' ne possède pas d'annotations de type.",
+                    "module": "python"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/anti_cheat_server.py",
+                    "severity": "warning",
+                    "message": "La fonction 'admin_unban'ligne 293 ne possède pas de docstring.",
+                    "module": "python"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/anti_cheat_server.py",
+                    "severity": "warning",
+                    "message": "La fonction 'admin_unban' ne possède pas d'annotations de type.",
+                    "module": "python"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/anti_cheat_server.py",
+                    "severity": "warning",
+                    "message": "La fonction 'admin_flags'ligne 300 ne possède pas de docstring.",
+                    "module": "python"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/anti_cheat_server.py",
+                    "severity": "warning",
+                    "message": "La fonction 'admin_flags' ne possède pas d'annotations de type.",
+                    "module": "python"
+                },
+                {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/setup.py",
                     "severity": "warning",
                     "message": "Le module ne possède pas de docstring.",
+                    "module": "python"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/anti_cheat_client.py",
+                    "severity": "warning",
+                    "message": "La fonction 'exe_hash' ne possède pas d'annotations de type.",
+                    "module": "python"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/anti_cheat_client.py",
+                    "severity": "warning",
+                    "message": "La fonction 'scan' ne possède pas d'annotations de type.",
+                    "module": "python"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/anti_cheat_client.py",
+                    "severity": "warning",
+                    "message": "La classe 'AntiCheat' ne possède pas de docstring.",
+                    "module": "python"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/anti_cheat_client.py",
+                    "severity": "warning",
+                    "message": "La fonction 'start'ligne 125 ne possède pas de docstring.",
+                    "module": "python"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/anti_cheat_client.py",
+                    "severity": "warning",
+                    "message": "La fonction 'start' ne possède pas d'annotations de type.",
+                    "module": "python"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/anti_cheat_client.py",
+                    "severity": "warning",
+                    "message": "La fonction 'stop'ligne 132 ne possède pas de docstring.",
+                    "module": "python"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/anti_cheat_client.py",
+                    "severity": "warning",
+                    "message": "La fonction 'stop' ne possède pas d'annotations de type.",
+                    "module": "python"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/anti_cheat_client.py",
+                    "severity": "warning",
+                    "message": "La fonction 'start_run'ligne 148 ne possède pas de docstring.",
+                    "module": "python"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/anti_cheat_client.py",
+                    "severity": "warning",
+                    "message": "La fonction 'start_run' ne possède pas d'annotations de type.",
+                    "module": "python"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/anti_cheat_client.py",
+                    "severity": "warning",
+                    "message": "La fonction 'finish_run'ligne 152 ne possède pas de docstring.",
+                    "module": "python"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/anti_cheat_client.py",
+                    "severity": "warning",
+                    "message": "La fonction 'finish_run' ne possède pas d'annotations de type.",
+                    "module": "python"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/anti_cheat_client.py",
+                    "severity": "warning",
+                    "message": "La fonction 'save'ligne 158 ne possède pas de docstring.",
+                    "module": "python"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/anti_cheat_client.py",
+                    "severity": "warning",
+                    "message": "La fonction 'save' ne possède pas d'annotations de type.",
+                    "module": "python"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/anti_cheat_client.py",
+                    "severity": "warning",
+                    "message": "La fonction 'load'ligne 162 ne possède pas de docstring.",
+                    "module": "python"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/anti_cheat_client.py",
+                    "severity": "warning",
+                    "message": "La fonction 'load' ne possède pas d'annotations de type.",
+                    "module": "python"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/anti_vpn_client.py",
+                    "severity": "warning",
+                    "message": "La classe 'VpnGuard' ne possède pas de docstring.",
+                    "module": "python"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/anti_vpn_client.py",
+                    "severity": "warning",
+                    "message": "La fonction 'start'ligne 47 ne possède pas de docstring.",
+                    "module": "python"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/anti_vpn_client.py",
+                    "severity": "warning",
+                    "message": "La fonction 'start' ne possède pas d'annotations de type.",
+                    "module": "python"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/anti_vpn_client.py",
+                    "severity": "warning",
+                    "message": "La fonction 'stop'ligne 54 ne possède pas de docstring.",
+                    "module": "python"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/anti_vpn_client.py",
+                    "severity": "warning",
+                    "message": "La fonction 'stop' ne possède pas d'annotations de type.",
+                    "module": "python"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/anti_vpn_client.py",
+                    "severity": "warning",
+                    "message": "La fonction 'headers' ne possède pas d'annotations de type.",
+                    "module": "python"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/anti_vpn_client.py",
+                    "severity": "warning",
+                    "message": "La fonction 'token'ligne 62 ne possède pas de docstring.",
+                    "module": "python"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/anti_vpn_client.py",
+                    "severity": "warning",
+                    "message": "La fonction 'token' ne possède pas d'annotations de type.",
+                    "module": "python"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/anti_vpn_client.py",
+                    "severity": "warning",
+                    "message": "La fonction 'blocked'ligne 66 ne possède pas de docstring.",
+                    "module": "python"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/anti_vpn_client.py",
+                    "severity": "warning",
+                    "message": "La fonction 'blocked' ne possède pas d'annotations de type.",
+                    "module": "python"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/anti_vpn_client.py",
+                    "severity": "warning",
+                    "message": "La fonction 'wait_ready' ne possède pas d'annotations de type.",
+                    "module": "python"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/vpn_gate.py",
+                    "severity": "warning",
+                    "message": "La fonction 'client_ip'ligne 69 ne possède pas de docstring.",
+                    "module": "python"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/vpn_gate.py",
+                    "severity": "warning",
+                    "message": "La fonction 'rate_limited'ligne 86 ne possède pas de docstring.",
+                    "module": "python"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/vpn_gate.py",
+                    "severity": "warning",
+                    "message": "La fonction 'ip_is_blocked'ligne 148 ne possède pas de docstring.",
+                    "module": "python"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/vpn_gate.py",
+                    "severity": "warning",
+                    "message": "La fonction 'make_token'ligne 190 ne possède pas de docstring.",
+                    "module": "python"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/vpn_gate.py",
+                    "severity": "warning",
+                    "message": "La fonction 'verify_token'ligne 197 ne possède pas de docstring.",
+                    "module": "python"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/vpn_gate.py",
+                    "severity": "warning",
+                    "message": "La fonction 'require_clean'ligne 213 ne possède pas de docstring.",
+                    "module": "python"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/vpn_gate.py",
+                    "severity": "warning",
+                    "message": "La fonction 'require_clean' ne possède pas d'annotations de type.",
+                    "module": "python"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/vpn_gate.py",
+                    "severity": "warning",
+                    "message": "La fonction 'session' ne possède pas d'annotations de type.",
+                    "module": "python"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/vpn_gate.py",
+                    "severity": "warning",
+                    "message": "La fonction 'verify' ne possède pas d'annotations de type.",
+                    "module": "python"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/vpn_gate.py",
+                    "severity": "warning",
+                    "message": "La fonction 'health'ligne 241 ne possède pas de docstring.",
+                    "module": "python"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/vpn_gate.py",
+                    "severity": "warning",
+                    "message": "La fonction 'health' ne possède pas d'annotations de type.",
+                    "module": "python"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/vpn_gate.py",
+                    "severity": "warning",
+                    "message": "La fonction 'multi_join'ligne 247 ne possède pas de docstring.",
+                    "module": "python"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/vpn_gate.py",
+                    "severity": "warning",
+                    "message": "La fonction 'multi_join' ne possède pas d'annotations de type.",
                     "module": "python"
                 },
                 {
@@ -49646,13 +50054,13 @@
             "max_score": 30,
             "results": {
                 "files_checked": 38,
-                "total_elements": 480,
-                "elements_without_docs": 422
+                "total_elements": 500,
+                "elements_without_docs": 431
             },
             "problems": [
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/main.rs",
-                    "line": 23,
+                    "line": 27,
                     "severity": "warning",
                     "message": "Function 'main' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -49660,7 +50068,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/main.rs",
-                    "line": 51,
+                    "line": 56,
                     "severity": "warning",
                     "message": "Mod 'tests' sans documentation",
                     "suggestion": "Ajoutez /// avant cette mod",
@@ -49668,7 +50076,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/main.rs",
-                    "line": 56,
+                    "line": 61,
                     "severity": "warning",
                     "message": "Function 'test_tresor' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -49740,7 +50148,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/utils/special_account_creator.rs",
-                    "line": 3,
+                    "line": 4,
                     "severity": "warning",
                     "message": "Function 'create_account' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -51579,6 +51987,30 @@
                     "module": "rust"
                 },
                 {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/security/crypto.rs",
+                    "line": 1101,
+                    "severity": "warning",
+                    "message": "Function 'test_python_reference_vectors_all_22_packet_types' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette function",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/security/crypto.rs",
+                    "line": 1167,
+                    "severity": "warning",
+                    "message": "Function 'test_python_reference_vector_packet_type_1' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette function",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/security/crypto.rs",
+                    "line": 1184,
+                    "severity": "warning",
+                    "message": "Function 'test_encrypt_decrypt_round_trip_all_22_packet_types' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette function",
+                    "module": "rust"
+                },
+                {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/world/world.rs",
                     "line": 11,
                     "severity": "warning",
@@ -51732,7 +52164,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/wallet_manager.rs",
-                    "line": 3,
+                    "line": 5,
                     "severity": "warning",
                     "message": "Struct 'WalletManager' sans documentation",
                     "suggestion": "Ajoutez /// avant cette struct",
@@ -51740,7 +52172,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/wallet_manager.rs",
-                    "line": 8,
+                    "line": 10,
                     "severity": "warning",
                     "message": "Impl 'WalletManager ' sans documentation",
                     "suggestion": "Ajoutez /// avant cette impl",
@@ -51748,7 +52180,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/wallet_manager.rs",
-                    "line": 9,
+                    "line": 11,
                     "severity": "warning",
                     "message": "Function 'new' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -51756,7 +52188,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/wallet_manager.rs",
-                    "line": 16,
+                    "line": 18,
                     "severity": "warning",
                     "message": "Function 'account_id' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -51764,7 +52196,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/wallet_manager.rs",
-                    "line": 20,
+                    "line": 22,
                     "severity": "warning",
                     "message": "Function 'get_balance' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -51772,17 +52204,57 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/wallet_manager.rs",
-                    "line": 35,
+                    "line": 47,
                     "severity": "warning",
-                    "message": "Function 'crediter' sans documentation",
+                    "message": "Function 'debiter' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
                     "module": "rust"
                 },
                 {
-                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/wallet_manager.rs",
-                    "line": 65,
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/bank_manager.rs",
+                    "line": 23,
                     "severity": "warning",
-                    "message": "Function 'debiter' sans documentation",
+                    "message": "Function 'erreur' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette function",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/bank_manager.rs",
+                    "line": 27,
+                    "severity": "warning",
+                    "message": "Function 'parse_montant' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette function",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/bank_manager.rs",
+                    "line": 31,
+                    "severity": "warning",
+                    "message": "Struct 'BankManager' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette struct",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/bank_manager.rs",
+                    "line": 35,
+                    "severity": "warning",
+                    "message": "Impl 'BankManager ' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette impl",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/bank_manager.rs",
+                    "line": 36,
+                    "severity": "warning",
+                    "message": "Function 'new' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette function",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/bank_manager.rs",
+                    "line": 57,
+                    "severity": "warning",
+                    "message": "Function 'dette_tx' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
                     "module": "rust"
                 },
@@ -52183,6 +52655,14 @@
                     "line": 6,
                     "severity": "warning",
                     "message": "Mod 'market_manager' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette mod",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/mod.rs",
+                    "line": 7,
+                    "severity": "warning",
+                    "message": "Mod 'bank_manager' sans documentation",
                     "suggestion": "Ajoutez /// avant cette mod",
                     "module": "rust"
                 },
