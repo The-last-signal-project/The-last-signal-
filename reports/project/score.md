@@ -1,6 +1,6 @@
 Documentation Quality Report
 
-**Date :** 2026-11-11 10:03:01
+**Date :** 2026-11-11 10:25:13
 
 # 64/100
 
@@ -5965,7 +5965,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Enum 'ObjetInventaire' sans documentation
 
-- **line :** 30
+- **line :** 29
 
 - **suggestion :** Ajoutez /// avant cette enum
 
@@ -5975,7 +5975,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Impl 'ObjetInventaire ' sans documentation
 
-- **line :** 38
+- **line :** 37
 
 - **suggestion :** Ajoutez /// avant cette impl
 
@@ -5985,7 +5985,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'objet_mut' sans documentation
 
-- **line :** 50
+- **line :** 49
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -5994,19 +5994,19 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## ⚠️ Warning
 - **Module :** rust
 - **Message :** Impl 'NomAffiche for ObjetInventaire ' sans documentation
+
+- **line :** 70
+
+- **suggestion :** Ajoutez /// avant cette impl
+
+- **module :** rust
+
+## ⚠️ Warning
+- **Module :** rust
+- **Message :** Function 'nom_affiche' sans documentation
 
 - **line :** 71
 
-- **suggestion :** Ajoutez /// avant cette impl
-
-- **module :** rust
-
-## ⚠️ Warning
-- **Module :** rust
-- **Message :** Function 'nom_affiche' sans documentation
-
-- **line :** 72
-
 - **suggestion :** Ajoutez /// avant cette function
 
 - **module :** rust
@@ -6014,19 +6014,19 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## ⚠️ Warning
 - **Module :** rust
 - **Message :** Impl 'AjouterRetirer for ObjetInventaire ' sans documentation
+
+- **line :** 82
+
+- **suggestion :** Ajoutez /// avant cette impl
+
+- **module :** rust
+
+## ⚠️ Warning
+- **Module :** rust
+- **Message :** Function 'ajouter' sans documentation
 
 - **line :** 83
 
-- **suggestion :** Ajoutez /// avant cette impl
-
-- **module :** rust
-
-## ⚠️ Warning
-- **Module :** rust
-- **Message :** Function 'ajouter' sans documentation
-
-- **line :** 84
-
 - **suggestion :** Ajoutez /// avant cette function
 
 - **module :** rust
@@ -6035,7 +6035,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'retirer' sans documentation
 
-- **line :** 88
+- **line :** 87
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -6045,7 +6045,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Struct 'Marque' sans documentation
 
-- **line :** 102
+- **line :** 101
 
 - **suggestion :** Ajoutez /// avant cette struct
 
@@ -6054,19 +6054,19 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## ⚠️ Warning
 - **Module :** rust
 - **Message :** Impl 'Marque ' sans documentation
+
+- **line :** 106
+
+- **suggestion :** Ajoutez /// avant cette impl
+
+- **module :** rust
+
+## ⚠️ Warning
+- **Module :** rust
+- **Message :** Function 'depuis' sans documentation
 
 - **line :** 107
 
-- **suggestion :** Ajoutez /// avant cette impl
-
-- **module :** rust
-
-## ⚠️ Warning
-- **Module :** rust
-- **Message :** Function 'depuis' sans documentation
-
-- **line :** 108
-
 - **suggestion :** Ajoutez /// avant cette function
 
 - **module :** rust
@@ -6075,7 +6075,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Enum 'Ecriture' sans documentation
 
-- **line :** 138
+- **line :** 137
 
 - **suggestion :** Ajoutez /// avant cette enum
 
@@ -6085,7 +6085,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Struct 'Inventaire' sans documentation
 
-- **line :** 170
+- **line :** 169
 
 - **suggestion :** Ajoutez /// avant cette struct
 
@@ -6095,7 +6095,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Struct 'StuffRow' sans documentation
 
-- **line :** 181
+- **line :** 180
 
 - **suggestion :** Ajoutez /// avant cette struct
 
@@ -6105,7 +6105,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Struct 'EquipmentRow' sans documentation
 
-- **line :** 192
+- **line :** 191
 
 - **suggestion :** Ajoutez /// avant cette struct
 
@@ -6115,7 +6115,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Struct 'PotionRow' sans documentation
 
-- **line :** 201
+- **line :** 200
 
 - **suggestion :** Ajoutez /// avant cette struct
 
@@ -6125,7 +6125,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Struct 'BookRow' sans documentation
 
-- **line :** 207
+- **line :** 206
 
 - **suggestion :** Ajoutez /// avant cette struct
 
@@ -6135,7 +6135,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Struct 'EnchantRow' sans documentation
 
-- **line :** 214
+- **line :** 213
 
 - **suggestion :** Ajoutez /// avant cette struct
 
@@ -6145,7 +6145,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Struct 'GeneratedEnchant' sans documentation
 
-- **line :** 221
+- **line :** 220
 
 - **suggestion :** Ajoutez /// avant cette struct
 
@@ -6155,7 +6155,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Impl 'Inventaire ' sans documentation
 
-- **line :** 230
+- **line :** 229
 
 - **suggestion :** Ajoutez /// avant cette impl
 
@@ -6165,7 +6165,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'new' sans documentation
 
-- **line :** 235
+- **line :** 234
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -6175,7 +6175,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'migrer_schema' sans documentation
 
-- **line :** 256
+- **line :** 255
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -6185,7 +6185,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'charger_objets' sans documentation
 
-- **line :** 287
+- **line :** 286
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -6195,7 +6195,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'construire_objet' sans documentation
 
-- **line :** 414
+- **line :** 413
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -6205,7 +6205,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'ajouter_objet' sans documentation
 
-- **line :** 551
+- **line :** 550
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -6215,7 +6215,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'ajouter_artefact' sans documentation
 
-- **line :** 574
+- **line :** 573
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -6225,7 +6225,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'ajouter_resultat' sans documentation
 
-- **line :** 600
+- **line :** 599
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -6235,7 +6235,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'ouvrir_coffre' sans documentation
 
-- **line :** 643
+- **line :** 642
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -6245,7 +6245,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'ajouter_lot' sans documentation
 
-- **line :** 671
+- **line :** 670
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -6255,7 +6255,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'charger_catalogue' sans documentation
 
-- **line :** 708
+- **line :** 707
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -6265,7 +6265,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'preparer' sans documentation
 
-- **line :** 727
+- **line :** 726
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -6275,7 +6275,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'executer' sans documentation
 
-- **line :** 816
+- **line :** 815
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -6285,7 +6285,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'effet_potion' sans documentation
 
-- **line :** 1093
+- **line :** 1092
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -6295,7 +6295,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'preparer_livre' sans documentation
 
-- **line :** 1120
+- **line :** 1119
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -6305,7 +6305,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'niveau_livre' sans documentation
 
-- **line :** 1300
+- **line :** 1299
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -6315,7 +6315,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'retirer_objet' sans documentation
 
-- **line :** 1333
+- **line :** 1332
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -6325,7 +6325,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'retirer_tx' sans documentation
 
-- **line :** 1464
+- **line :** 1463
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -6335,7 +6335,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'ajouter_tx' sans documentation
 
-- **line :** 1541
+- **line :** 1540
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -6345,7 +6345,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'get_quantity' sans documentation
 
-- **line :** 1589
+- **line :** 1588
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -6355,7 +6355,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'quantite_sqlite' sans documentation
 
-- **line :** 1622
+- **line :** 1621
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -6365,7 +6365,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'objets' sans documentation
 
-- **line :** 1638
+- **line :** 1637
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -6375,7 +6375,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'objets_mut' sans documentation
 
-- **line :** 1642
+- **line :** 1641
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -6385,7 +6385,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'recharger' sans documentation
 
-- **line :** 1650
+- **line :** 1649
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -6395,447 +6395,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'account_id' sans documentation
 
-- **line :** 1664
-
-- **suggestion :** Ajoutez /// avant cette function
-
-- **module :** rust
-
-## ⚠️ Warning
-- **Module :** rust
-- **Message :** Enum 'ObjetInventaire' sans documentation
-
-- **line :** 1697
-
-- **suggestion :** Ajoutez /// avant cette enum
-
-- **module :** rust
-
-## ⚠️ Warning
-- **Module :** rust
-- **Message :** Impl 'ObjetInventaire ' sans documentation
-
-- **line :** 1705
-
-- **suggestion :** Ajoutez /// avant cette impl
-
-- **module :** rust
-
-## ⚠️ Warning
-- **Module :** rust
-- **Message :** Function 'objet_mut' sans documentation
-
-- **line :** 1717
-
-- **suggestion :** Ajoutez /// avant cette function
-
-- **module :** rust
-
-## ⚠️ Warning
-- **Module :** rust
-- **Message :** Impl 'NomAffiche for ObjetInventaire ' sans documentation
-
-- **line :** 1738
-
-- **suggestion :** Ajoutez /// avant cette impl
-
-- **module :** rust
-
-## ⚠️ Warning
-- **Module :** rust
-- **Message :** Function 'nom_affiche' sans documentation
-
-- **line :** 1739
-
-- **suggestion :** Ajoutez /// avant cette function
-
-- **module :** rust
-
-## ⚠️ Warning
-- **Module :** rust
-- **Message :** Impl 'AjouterRetirer for ObjetInventaire ' sans documentation
-
-- **line :** 1750
-
-- **suggestion :** Ajoutez /// avant cette impl
-
-- **module :** rust
-
-## ⚠️ Warning
-- **Module :** rust
-- **Message :** Function 'ajouter' sans documentation
-
-- **line :** 1751
-
-- **suggestion :** Ajoutez /// avant cette function
-
-- **module :** rust
-
-## ⚠️ Warning
-- **Module :** rust
-- **Message :** Function 'retirer' sans documentation
-
-- **line :** 1755
-
-- **suggestion :** Ajoutez /// avant cette function
-
-- **module :** rust
-
-## ⚠️ Warning
-- **Module :** rust
-- **Message :** Struct 'Marque' sans documentation
-
-- **line :** 1769
-
-- **suggestion :** Ajoutez /// avant cette struct
-
-- **module :** rust
-
-## ⚠️ Warning
-- **Module :** rust
-- **Message :** Impl 'Marque ' sans documentation
-
-- **line :** 1774
-
-- **suggestion :** Ajoutez /// avant cette impl
-
-- **module :** rust
-
-## ⚠️ Warning
-- **Module :** rust
-- **Message :** Function 'depuis' sans documentation
-
-- **line :** 1775
-
-- **suggestion :** Ajoutez /// avant cette function
-
-- **module :** rust
-
-## ⚠️ Warning
-- **Module :** rust
-- **Message :** Enum 'Ecriture' sans documentation
-
-- **line :** 1805
-
-- **suggestion :** Ajoutez /// avant cette enum
-
-- **module :** rust
-
-## ⚠️ Warning
-- **Module :** rust
-- **Message :** Struct 'Inventaire' sans documentation
-
-- **line :** 1837
-
-- **suggestion :** Ajoutez /// avant cette struct
-
-- **module :** rust
-
-## ⚠️ Warning
-- **Module :** rust
-- **Message :** Struct 'StuffRow' sans documentation
-
-- **line :** 1848
-
-- **suggestion :** Ajoutez /// avant cette struct
-
-- **module :** rust
-
-## ⚠️ Warning
-- **Module :** rust
-- **Message :** Struct 'EquipmentRow' sans documentation
-
-- **line :** 1859
-
-- **suggestion :** Ajoutez /// avant cette struct
-
-- **module :** rust
-
-## ⚠️ Warning
-- **Module :** rust
-- **Message :** Struct 'PotionRow' sans documentation
-
-- **line :** 1868
-
-- **suggestion :** Ajoutez /// avant cette struct
-
-- **module :** rust
-
-## ⚠️ Warning
-- **Module :** rust
-- **Message :** Struct 'BookRow' sans documentation
-
-- **line :** 1874
-
-- **suggestion :** Ajoutez /// avant cette struct
-
-- **module :** rust
-
-## ⚠️ Warning
-- **Module :** rust
-- **Message :** Struct 'EnchantRow' sans documentation
-
-- **line :** 1881
-
-- **suggestion :** Ajoutez /// avant cette struct
-
-- **module :** rust
-
-## ⚠️ Warning
-- **Module :** rust
-- **Message :** Struct 'GeneratedEnchant' sans documentation
-
-- **line :** 1888
-
-- **suggestion :** Ajoutez /// avant cette struct
-
-- **module :** rust
-
-## ⚠️ Warning
-- **Module :** rust
-- **Message :** Impl 'Inventaire ' sans documentation
-
-- **line :** 1897
-
-- **suggestion :** Ajoutez /// avant cette impl
-
-- **module :** rust
-
-## ⚠️ Warning
-- **Module :** rust
-- **Message :** Function 'new' sans documentation
-
-- **line :** 1902
-
-- **suggestion :** Ajoutez /// avant cette function
-
-- **module :** rust
-
-## ⚠️ Warning
-- **Module :** rust
-- **Message :** Function 'migrer_schema' sans documentation
-
-- **line :** 1923
-
-- **suggestion :** Ajoutez /// avant cette function
-
-- **module :** rust
-
-## ⚠️ Warning
-- **Module :** rust
-- **Message :** Function 'charger_objets' sans documentation
-
-- **line :** 1952
-
-- **suggestion :** Ajoutez /// avant cette function
-
-- **module :** rust
-
-## ⚠️ Warning
-- **Module :** rust
-- **Message :** Function 'construire_objet' sans documentation
-
-- **line :** 2079
-
-- **suggestion :** Ajoutez /// avant cette function
-
-- **module :** rust
-
-## ⚠️ Warning
-- **Module :** rust
-- **Message :** Function 'ajouter_objet' sans documentation
-
-- **line :** 2216
-
-- **suggestion :** Ajoutez /// avant cette function
-
-- **module :** rust
-
-## ⚠️ Warning
-- **Module :** rust
-- **Message :** Function 'ajouter_artefact' sans documentation
-
-- **line :** 2239
-
-- **suggestion :** Ajoutez /// avant cette function
-
-- **module :** rust
-
-## ⚠️ Warning
-- **Module :** rust
-- **Message :** Function 'ajouter_resultat' sans documentation
-
-- **line :** 2265
-
-- **suggestion :** Ajoutez /// avant cette function
-
-- **module :** rust
-
-## ⚠️ Warning
-- **Module :** rust
-- **Message :** Function 'ouvrir_coffre' sans documentation
-
-- **line :** 2308
-
-- **suggestion :** Ajoutez /// avant cette function
-
-- **module :** rust
-
-## ⚠️ Warning
-- **Module :** rust
-- **Message :** Function 'ajouter_lot' sans documentation
-
-- **line :** 2336
-
-- **suggestion :** Ajoutez /// avant cette function
-
-- **module :** rust
-
-## ⚠️ Warning
-- **Module :** rust
-- **Message :** Function 'charger_catalogue' sans documentation
-
-- **line :** 2373
-
-- **suggestion :** Ajoutez /// avant cette function
-
-- **module :** rust
-
-## ⚠️ Warning
-- **Module :** rust
-- **Message :** Function 'preparer' sans documentation
-
-- **line :** 2392
-
-- **suggestion :** Ajoutez /// avant cette function
-
-- **module :** rust
-
-## ⚠️ Warning
-- **Module :** rust
-- **Message :** Function 'executer' sans documentation
-
-- **line :** 2481
-
-- **suggestion :** Ajoutez /// avant cette function
-
-- **module :** rust
-
-## ⚠️ Warning
-- **Module :** rust
-- **Message :** Function 'effet_potion' sans documentation
-
-- **line :** 2758
-
-- **suggestion :** Ajoutez /// avant cette function
-
-- **module :** rust
-
-## ⚠️ Warning
-- **Module :** rust
-- **Message :** Function 'preparer_livre' sans documentation
-
-- **line :** 2785
-
-- **suggestion :** Ajoutez /// avant cette function
-
-- **module :** rust
-
-## ⚠️ Warning
-- **Module :** rust
-- **Message :** Function 'niveau_livre' sans documentation
-
-- **line :** 2965
-
-- **suggestion :** Ajoutez /// avant cette function
-
-- **module :** rust
-
-## ⚠️ Warning
-- **Module :** rust
-- **Message :** Function 'retirer_objet' sans documentation
-
-- **line :** 2998
-
-- **suggestion :** Ajoutez /// avant cette function
-
-- **module :** rust
-
-## ⚠️ Warning
-- **Module :** rust
-- **Message :** Function 'retirer_tx' sans documentation
-
-- **line :** 3129
-
-- **suggestion :** Ajoutez /// avant cette function
-
-- **module :** rust
-
-## ⚠️ Warning
-- **Module :** rust
-- **Message :** Function 'ajouter_tx' sans documentation
-
-- **line :** 3206
-
-- **suggestion :** Ajoutez /// avant cette function
-
-- **module :** rust
-
-## ⚠️ Warning
-- **Module :** rust
-- **Message :** Function 'get_quantity' sans documentation
-
-- **line :** 3254
-
-- **suggestion :** Ajoutez /// avant cette function
-
-- **module :** rust
-
-## ⚠️ Warning
-- **Module :** rust
-- **Message :** Function 'quantite_sqlite' sans documentation
-
-- **line :** 3287
-
-- **suggestion :** Ajoutez /// avant cette function
-
-- **module :** rust
-
-## ⚠️ Warning
-- **Module :** rust
-- **Message :** Function 'objets' sans documentation
-
-- **line :** 3303
-
-- **suggestion :** Ajoutez /// avant cette function
-
-- **module :** rust
-
-## ⚠️ Warning
-- **Module :** rust
-- **Message :** Function 'objets_mut' sans documentation
-
-- **line :** 3307
-
-- **suggestion :** Ajoutez /// avant cette function
-
-- **module :** rust
-
-## ⚠️ Warning
-- **Module :** rust
-- **Message :** Function 'recharger' sans documentation
-
-- **line :** 3315
-
-- **suggestion :** Ajoutez /// avant cette function
-
-- **module :** rust
-
-## ⚠️ Warning
-- **Module :** rust
-- **Message :** Function 'account_id' sans documentation
-
-- **line :** 3329
+- **line :** 1663
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -23539,37 +23099,37 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** markdown
-- **Message :** Ligne 44 > 120 caractères.
+- **Message :** Ligne 39 > 120 caractères.
 
 - **module :** markdown
 
 ## ⚠️ Warning
 - **Module :** markdown
-- **Message :** Ligne 73 > 120 caractères.
+- **Message :** Ligne 63 > 120 caractères.
+
+- **module :** markdown
+
+## ⚠️ Warning
+- **Module :** markdown
+- **Message :** Ligne 64 > 120 caractères.
+
+- **module :** markdown
+
+## ⚠️ Warning
+- **Module :** markdown
+- **Message :** Ligne 68 > 120 caractères.
+
+- **module :** markdown
+
+## ⚠️ Warning
+- **Module :** markdown
+- **Message :** Ligne 72 > 120 caractères.
 
 - **module :** markdown
 
 ## ⚠️ Warning
 - **Module :** markdown
 - **Message :** Ligne 74 > 120 caractères.
-
-- **module :** markdown
-
-## ⚠️ Warning
-- **Module :** markdown
-- **Message :** Ligne 78 > 120 caractères.
-
-- **module :** markdown
-
-## ⚠️ Warning
-- **Module :** markdown
-- **Message :** Ligne 84 > 120 caractères.
-
-- **module :** markdown
-
-## ⚠️ Warning
-- **Module :** markdown
-- **Message :** Ligne 88 > 120 caractères.
 
 - **module :** markdown
 
