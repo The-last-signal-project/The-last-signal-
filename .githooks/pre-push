@@ -1,0 +1,23 @@
+
+#!/bin/sh
+set -eu
+
+ROOT=$(git rev-parse --show-toplevel)
+cd "$ROOT"
+
+case "$(uname -s)" in
+    MINGW*|MSYS*|CYGWIN*)
+        PYTHON="$ROOT/../Windows/WPy64-313140/python/python.exe"
+        ;;
+    *)
+        PYTHON="$ROOT/../Linux/Raspberry_pi_4,5/python-full-3.13.9-linux-aarch64/bin/python"
+        ;;
+esac
+
+if [ ! -f "$PYTHON" ]; then
+    echo "ERREUR : Python portable introuvable."
+    echo "Push bloqué : vérifie la présence de Python sur la clé USB."
+    exit 1
+fi
+
+exec "$PYTHON" "$ROOT/.githooks/validate_commit.py" pre-push
