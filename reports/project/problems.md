@@ -1,14 +1,14 @@
 # Documentation Problems
 
-Generated: 2026-11-11 18:54:19
+Generated: 2026-11-11 19:17:15
 
 ## Summary
 
 |Type|Count|
 |---|---:|
 |Errors|472|
-|Warnings|8284|
-|**Total**|**8761**|
+|Warnings|8300|
+|**Total**|**8777**|
 
 ---
 
@@ -31,6 +31,90 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** organization
 - **Message :** La racine contient beaucoup de fichiers.
 - **suggestion :** Créer des dossiers pour mieux organiser le projet.
+
+---
+
+# /home/runner/work/The-last-signal-/The-last-signal-/.githooks/validate_commit.py
+
+## Warning
+
+- **Module :** python
+- **Message :** Le module ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'git'ligne 24 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'git' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'is_merge_commit'ligne 33 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'is_merge_commit' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'is_our_commit'ligne 38 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'is_our_commit' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'validate_subject'ligne 47 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'validate_subject' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'commit_msg'ligne 66 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'commit_msg' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'pre_push'ligne 102 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'pre_push' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'pre_push' dépasse 80 lignes.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'main'ligne 222 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'main' ne possède pas d'annotations de type.
 
 ---
 
