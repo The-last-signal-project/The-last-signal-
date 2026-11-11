@@ -1,9 +1,10 @@
 {
-  "last_bg": "background.jpg",
+  "last_bg": "background2.jpg",
   "bg_seen": [
     "background1.jpg",
     "background3.jpg",
-    "background.jpg"
+    "background.jpg",
+    "background2.jpg"
   ],
   "lang": "fr"
 }

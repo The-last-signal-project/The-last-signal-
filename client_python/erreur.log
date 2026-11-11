@@ -37,3 +37,45 @@ Traceback (most recent call last):
     
 KeyboardInterrupt
 
+[11/11/2026 10:44:34] Python 3.13.5 - linux
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/media/cyril/External2/The-last-signal-/client_python/main.py", line 14, in <module>
+    main()
+    ~~~~^^
+  File "/media/cyril/External2/The-last-signal-/client_python/main.py", line 10, in main
+    App().run()
+    ~~~~~~~~~^^
+  File "/media/cyril/External2/The-last-signal-/client_python/menu.py", line 2051, in run
+    self.vapp.process_events()
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/cyril/path/venv/lib/python3.13/site-packages/vispy/app/application.py", line 74, in process_events
+    return self._backend._vispy_process_events()
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/cyril/path/venv/lib/python3.13/site-packages/vispy/app/backends/_glfw.py", line 183, in _vispy_process_events
+    win._on_draw()
+    ~~~~~~~~~~~~^^
+  File "/home/cyril/path/venv/lib/python3.13/site-packages/vispy/app/backends/_glfw.py", line 407, in _on_draw
+    self._vispy_canvas.events.draw(region=None)  # (0, 0, w, h))
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/home/cyril/path/venv/lib/python3.13/site-packages/vispy/util/event.py", line 453, in __call__
+    self._invoke_callback(cb, event)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "/home/cyril/path/venv/lib/python3.13/site-packages/vispy/util/event.py", line 469, in _invoke_callback
+    cb(event)
+    ~~^^^^^^^
+  File "/home/cyril/path/venv/lib/python3.13/site-packages/vispy/app/canvas.py", line 432, in swap_buffers
+    self._backend._vispy_swap_buffers()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/cyril/path/venv/lib/python3.13/site-packages/vispy/app/backends/_glfw.py", line 318, in _vispy_swap_buffers
+    glfw.swap_buffers(self._id)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "/home/cyril/path/venv/lib/python3.13/site-packages/glfw/__init__.py", line 2380, in swap_buffers
+    _glfw.glfwSwapBuffers(window)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^
+  File "/home/cyril/path/venv/lib/python3.13/site-packages/glfw/__init__.py", line 687, in errcheck
+    def errcheck(result, *args):
+    
+KeyboardInterrupt
+
