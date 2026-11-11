@@ -1,6 +1,6 @@
 Documentation Quality Report
 
-**Date :** 2026-11-11 16:12:01
+**Date :** 2026-11-11 17:02:02
 
 # 64/100
 
@@ -426,6 +426,336 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## ⚠️ Warning
 - **Module :** python
 - **Message :** La fonction 'main' dépasse 80 lignes.
+
+- **module :** python
+
+# 📄 /home/runner/work/The-last-signal-/The-last-signal-/anti_cheat_client.py
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'exe_hash' ne possède pas d'annotations de type.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'scan' ne possède pas d'annotations de type.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La classe 'AntiCheat' ne possède pas de docstring.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'start'ligne 125 ne possède pas de docstring.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'start' ne possède pas d'annotations de type.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'stop'ligne 132 ne possède pas de docstring.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'stop' ne possède pas d'annotations de type.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'start_run'ligne 148 ne possède pas de docstring.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'start_run' ne possède pas d'annotations de type.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'finish_run'ligne 152 ne possède pas de docstring.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'finish_run' ne possède pas d'annotations de type.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'save'ligne 158 ne possède pas de docstring.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'save' ne possède pas d'annotations de type.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'load'ligne 162 ne possède pas de docstring.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'load' ne possède pas d'annotations de type.
+
+- **module :** python
+
+# 📄 /home/runner/work/The-last-signal-/The-last-signal-/anti_cheat_server.py
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'db' ne possède pas d'annotations de type.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'get_player'ligne 90 ne possède pas de docstring.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'require_player' ne possède pas d'annotations de type.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'ban'ligne 132 ne possède pas de docstring.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'ban' ne possède pas d'annotations de type.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'flag'ligne 137 ne possède pas de docstring.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'flag' ne possède pas d'annotations de type.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La classe 'RunFinish' ne possède pas de docstring.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'run_start'ligne 155 ne possède pas de docstring.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'run_start' ne possède pas d'annotations de type.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'run_finish'ligne 184 ne possède pas de docstring.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'run_finish' ne possède pas d'annotations de type.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'save_put'ligne 226 ne possède pas de docstring.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'save_put' ne possède pas d'annotations de type.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'save_get'ligne 249 ne possède pas de docstring.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'save_get' ne possède pas d'annotations de type.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La classe 'Report' ne possède pas de docstring.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'report'ligne 263 ne possède pas de docstring.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'report' ne possède pas d'annotations de type.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'require_admin'ligne 275 ne possède pas de docstring.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'require_admin' ne possède pas d'annotations de type.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La classe 'AdminTarget' ne possède pas de docstring.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'admin_ban'ligne 287 ne possède pas de docstring.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'admin_ban' ne possède pas d'annotations de type.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'admin_unban'ligne 293 ne possède pas de docstring.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'admin_unban' ne possède pas d'annotations de type.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'admin_flags'ligne 300 ne possède pas de docstring.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'admin_flags' ne possède pas d'annotations de type.
+
+- **module :** python
+
+# 📄 /home/runner/work/The-last-signal-/The-last-signal-/anti_vpn_client.py
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La classe 'VpnGuard' ne possède pas de docstring.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'start'ligne 47 ne possède pas de docstring.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'start' ne possède pas d'annotations de type.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'stop'ligne 54 ne possède pas de docstring.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'stop' ne possède pas d'annotations de type.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'headers' ne possède pas d'annotations de type.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'token'ligne 62 ne possède pas de docstring.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'token' ne possède pas d'annotations de type.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'blocked'ligne 66 ne possède pas de docstring.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'blocked' ne possède pas d'annotations de type.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'wait_ready' ne possède pas d'annotations de type.
 
 - **module :** python
 
@@ -5131,6 +5461,68 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 - **module :** rust
 
+# 📄 /home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/bank_manager.rs
+
+## ⚠️ Warning
+- **Module :** rust
+- **Message :** Function 'erreur' sans documentation
+
+- **line :** 23
+
+- **suggestion :** Ajoutez /// avant cette function
+
+- **module :** rust
+
+## ⚠️ Warning
+- **Module :** rust
+- **Message :** Function 'parse_montant' sans documentation
+
+- **line :** 27
+
+- **suggestion :** Ajoutez /// avant cette function
+
+- **module :** rust
+
+## ⚠️ Warning
+- **Module :** rust
+- **Message :** Struct 'BankManager' sans documentation
+
+- **line :** 31
+
+- **suggestion :** Ajoutez /// avant cette struct
+
+- **module :** rust
+
+## ⚠️ Warning
+- **Module :** rust
+- **Message :** Impl 'BankManager ' sans documentation
+
+- **line :** 35
+
+- **suggestion :** Ajoutez /// avant cette impl
+
+- **module :** rust
+
+## ⚠️ Warning
+- **Module :** rust
+- **Message :** Function 'new' sans documentation
+
+- **line :** 36
+
+- **suggestion :** Ajoutez /// avant cette function
+
+- **module :** rust
+
+## ⚠️ Warning
+- **Module :** rust
+- **Message :** Function 'dette_tx' sans documentation
+
+- **line :** 57
+
+- **suggestion :** Ajoutez /// avant cette function
+
+- **module :** rust
+
 # 📄 /home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/dice.rs
 
 ## ⚠️ Warning
@@ -5252,6 +5644,16 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Message :** Mod 'market_manager' sans documentation
 
 - **line :** 6
+
+- **suggestion :** Ajoutez /// avant cette mod
+
+- **module :** rust
+
+## ⚠️ Warning
+- **Module :** rust
+- **Message :** Mod 'bank_manager' sans documentation
+
+- **line :** 7
 
 - **suggestion :** Ajoutez /// avant cette mod
 
@@ -6569,7 +6971,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Struct 'WalletManager' sans documentation
 
-- **line :** 3
+- **line :** 5
 
 - **suggestion :** Ajoutez /// avant cette struct
 
@@ -6579,7 +6981,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Impl 'WalletManager ' sans documentation
 
-- **line :** 8
+- **line :** 10
 
 - **suggestion :** Ajoutez /// avant cette impl
 
@@ -6589,7 +6991,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'new' sans documentation
 
-- **line :** 9
+- **line :** 11
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -6599,7 +7001,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'account_id' sans documentation
 
-- **line :** 16
+- **line :** 18
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -6609,17 +7011,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'get_balance' sans documentation
 
-- **line :** 20
-
-- **suggestion :** Ajoutez /// avant cette function
-
-- **module :** rust
-
-## ⚠️ Warning
-- **Module :** rust
-- **Message :** Function 'crediter' sans documentation
-
-- **line :** 35
+- **line :** 22
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -6629,7 +7021,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'debiter' sans documentation
 
-- **line :** 65
+- **line :** 47
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -6723,7 +7115,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'main' sans documentation
 
-- **line :** 23
+- **line :** 27
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -6733,7 +7125,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Mod 'tests' sans documentation
 
-- **line :** 51
+- **line :** 56
 
 - **suggestion :** Ajoutez /// avant cette mod
 
@@ -6743,7 +7135,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'test_tresor' sans documentation
 
-- **line :** 56
+- **line :** 61
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -8585,6 +8977,36 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 - **module :** rust
 
+## ⚠️ Warning
+- **Module :** rust
+- **Message :** Function 'test_python_reference_vectors_all_22_packet_types' sans documentation
+
+- **line :** 1101
+
+- **suggestion :** Ajoutez /// avant cette function
+
+- **module :** rust
+
+## ⚠️ Warning
+- **Module :** rust
+- **Message :** Function 'test_python_reference_vector_packet_type_1' sans documentation
+
+- **line :** 1167
+
+- **suggestion :** Ajoutez /// avant cette function
+
+- **module :** rust
+
+## ⚠️ Warning
+- **Module :** rust
+- **Message :** Function 'test_encrypt_decrypt_round_trip_all_22_packet_types' sans documentation
+
+- **line :** 1184
+
+- **suggestion :** Ajoutez /// avant cette function
+
+- **module :** rust
+
 # 📄 /home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/security/mod.rs
 
 ## ⚠️ Warning
@@ -8933,7 +9355,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'create_account' sans documentation
 
-- **line :** 3
+- **line :** 4
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -11269,6 +11691,86 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 - **module :** python
 
+# 📄 /home/runner/work/The-last-signal-/The-last-signal-/vpn_gate.py
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'client_ip'ligne 69 ne possède pas de docstring.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'rate_limited'ligne 86 ne possède pas de docstring.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'ip_is_blocked'ligne 148 ne possède pas de docstring.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'make_token'ligne 190 ne possède pas de docstring.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'verify_token'ligne 197 ne possède pas de docstring.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'require_clean'ligne 213 ne possède pas de docstring.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'require_clean' ne possède pas d'annotations de type.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'session' ne possède pas d'annotations de type.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'verify' ne possède pas d'annotations de type.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'health'ligne 241 ne possède pas de docstring.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'health' ne possède pas d'annotations de type.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'multi_join'ligne 247 ne possède pas de docstring.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'multi_join' ne possède pas d'annotations de type.
+
+- **module :** python
+
 # 📄 CHANGELOG.md
 
 ## ⚠️ Warning
@@ -12102,6 +12604,14 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Message :** SECURITY.md:86 titre sans ligne vide avant.
 
 - **module :** titles
+
+# 📄 VERSIONING.md
+
+## ⚠️ Warning
+- **Module :** markdown
+- **Message :** Ligne 11 > 120 caractères.
+
+- **module :** markdown
 
 # 📄 docs/ARCHITECTURE.md
 
