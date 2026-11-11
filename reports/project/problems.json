@@ -51695,7 +51695,7 @@
     },
     {
         "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/wallet_manager.rs",
-        "line": 63,
+        "line": 65,
         "severity": "warning",
         "message": "Function 'debiter' sans documentation",
         "suggestion": "Ajoutez /// avant cette function",

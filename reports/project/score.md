@@ -1,6 +1,6 @@
 Documentation Quality Report
 
-**Date :** 2026-11-11 13:12:59
+**Date :** 2026-11-11 16:12:01
 
 # 64/100
 
@@ -6629,7 +6629,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'debiter' sans documentation
 
-- **line :** 63
+- **line :** 65
 
 - **suggestion :** Ajoutez /// avant cette function
 

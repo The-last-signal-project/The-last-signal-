@@ -1,6 +1,6 @@
 # Documentation Problems
 
-Generated: 2026-11-11 13:13:00
+Generated: 2026-11-11 16:12:02
 
 ## Summary
 
@@ -5438,7 +5438,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 - **Module :** rust
 - **Message :** Function 'debiter' sans documentation
-- **line :** 63
+- **line :** 65
 - **suggestion :** Ajoutez /// avant cette function
 
 ---
