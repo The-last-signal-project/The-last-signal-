@@ -1,5 +1,5 @@
 {
-    "generated": "2026-11-11T05:32:32.236637",
+    "generated": "2026-11-11T10:03:01.726320",
     "score": 64,
     "status": "Bon",
     "scores": {
@@ -11,7 +11,7 @@
         "rust": 0,
         "organization": 95
     },
-    "problem_count": 8684,
+    "problem_count": 8728,
     "details": {
         "markdown": {
             "score": 45,
@@ -49646,8 +49646,8 @@
             "max_score": 30,
             "results": {
                 "files_checked": 38,
-                "total_elements": 479,
-                "elements_without_docs": 422
+                "total_elements": 527,
+                "elements_without_docs": 466
             },
             "problems": [
                 {
@@ -51788,7 +51788,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
-                    "line": 29,
+                    "line": 30,
                     "severity": "warning",
                     "message": "Enum 'ObjetInventaire' sans documentation",
                     "suggestion": "Ajoutez /// avant cette enum",
@@ -51796,7 +51796,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
-                    "line": 37,
+                    "line": 38,
                     "severity": "warning",
                     "message": "Impl 'ObjetInventaire ' sans documentation",
                     "suggestion": "Ajoutez /// avant cette impl",
@@ -51804,7 +51804,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
-                    "line": 49,
+                    "line": 50,
                     "severity": "warning",
                     "message": "Function 'objet_mut' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -51812,7 +51812,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
-                    "line": 70,
+                    "line": 71,
                     "severity": "warning",
                     "message": "Impl 'NomAffiche for ObjetInventaire ' sans documentation",
                     "suggestion": "Ajoutez /// avant cette impl",
@@ -51820,7 +51820,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
-                    "line": 71,
+                    "line": 72,
                     "severity": "warning",
                     "message": "Function 'nom_affiche' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -51828,7 +51828,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
-                    "line": 82,
+                    "line": 83,
                     "severity": "warning",
                     "message": "Impl 'AjouterRetirer for ObjetInventaire ' sans documentation",
                     "suggestion": "Ajoutez /// avant cette impl",
@@ -51836,7 +51836,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
-                    "line": 83,
+                    "line": 84,
                     "severity": "warning",
                     "message": "Function 'ajouter' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -51844,7 +51844,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
-                    "line": 87,
+                    "line": 88,
                     "severity": "warning",
                     "message": "Function 'retirer' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -51852,7 +51852,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
-                    "line": 101,
+                    "line": 102,
                     "severity": "warning",
                     "message": "Struct 'Marque' sans documentation",
                     "suggestion": "Ajoutez /// avant cette struct",
@@ -51860,7 +51860,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
-                    "line": 106,
+                    "line": 107,
                     "severity": "warning",
                     "message": "Impl 'Marque ' sans documentation",
                     "suggestion": "Ajoutez /// avant cette impl",
@@ -51868,7 +51868,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
-                    "line": 107,
+                    "line": 108,
                     "severity": "warning",
                     "message": "Function 'depuis' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -51876,7 +51876,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
-                    "line": 137,
+                    "line": 138,
                     "severity": "warning",
                     "message": "Enum 'Ecriture' sans documentation",
                     "suggestion": "Ajoutez /// avant cette enum",
@@ -51884,7 +51884,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
-                    "line": 169,
+                    "line": 170,
                     "severity": "warning",
                     "message": "Struct 'Inventaire' sans documentation",
                     "suggestion": "Ajoutez /// avant cette struct",
@@ -51892,7 +51892,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
-                    "line": 180,
+                    "line": 181,
                     "severity": "warning",
                     "message": "Struct 'StuffRow' sans documentation",
                     "suggestion": "Ajoutez /// avant cette struct",
@@ -51900,7 +51900,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
-                    "line": 191,
+                    "line": 192,
                     "severity": "warning",
                     "message": "Struct 'EquipmentRow' sans documentation",
                     "suggestion": "Ajoutez /// avant cette struct",
@@ -51908,7 +51908,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
-                    "line": 200,
+                    "line": 201,
                     "severity": "warning",
                     "message": "Struct 'PotionRow' sans documentation",
                     "suggestion": "Ajoutez /// avant cette struct",
@@ -51916,7 +51916,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
-                    "line": 206,
+                    "line": 207,
                     "severity": "warning",
                     "message": "Struct 'BookRow' sans documentation",
                     "suggestion": "Ajoutez /// avant cette struct",
@@ -51924,7 +51924,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
-                    "line": 213,
+                    "line": 214,
                     "severity": "warning",
                     "message": "Struct 'EnchantRow' sans documentation",
                     "suggestion": "Ajoutez /// avant cette struct",
@@ -51932,7 +51932,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
-                    "line": 220,
+                    "line": 221,
                     "severity": "warning",
                     "message": "Struct 'GeneratedEnchant' sans documentation",
                     "suggestion": "Ajoutez /// avant cette struct",
@@ -51940,7 +51940,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
-                    "line": 229,
+                    "line": 230,
                     "severity": "warning",
                     "message": "Impl 'Inventaire ' sans documentation",
                     "suggestion": "Ajoutez /// avant cette impl",
@@ -51948,7 +51948,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
-                    "line": 234,
+                    "line": 235,
                     "severity": "warning",
                     "message": "Function 'new' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -51956,7 +51956,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
-                    "line": 255,
+                    "line": 256,
                     "severity": "warning",
                     "message": "Function 'migrer_schema' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -51964,7 +51964,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
-                    "line": 286,
+                    "line": 287,
                     "severity": "warning",
                     "message": "Function 'charger_objets' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -51972,7 +51972,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
-                    "line": 413,
+                    "line": 414,
                     "severity": "warning",
                     "message": "Function 'construire_objet' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -51980,7 +51980,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
-                    "line": 550,
+                    "line": 551,
                     "severity": "warning",
                     "message": "Function 'ajouter_objet' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -51988,7 +51988,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
-                    "line": 573,
+                    "line": 574,
                     "severity": "warning",
                     "message": "Function 'ajouter_artefact' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -51996,7 +51996,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
-                    "line": 599,
+                    "line": 600,
                     "severity": "warning",
                     "message": "Function 'ajouter_resultat' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -52004,7 +52004,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
-                    "line": 642,
+                    "line": 643,
                     "severity": "warning",
                     "message": "Function 'ouvrir_coffre' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -52012,7 +52012,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
-                    "line": 670,
+                    "line": 671,
                     "severity": "warning",
                     "message": "Function 'ajouter_lot' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -52020,7 +52020,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
-                    "line": 707,
+                    "line": 708,
                     "severity": "warning",
                     "message": "Function 'charger_catalogue' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -52028,7 +52028,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
-                    "line": 726,
+                    "line": 727,
                     "severity": "warning",
                     "message": "Function 'preparer' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -52036,7 +52036,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
-                    "line": 815,
+                    "line": 816,
                     "severity": "warning",
                     "message": "Function 'executer' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -52044,7 +52044,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
-                    "line": 1092,
+                    "line": 1093,
                     "severity": "warning",
                     "message": "Function 'effet_potion' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -52052,7 +52052,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
-                    "line": 1119,
+                    "line": 1120,
                     "severity": "warning",
                     "message": "Function 'preparer_livre' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -52060,7 +52060,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
-                    "line": 1299,
+                    "line": 1300,
                     "severity": "warning",
                     "message": "Function 'niveau_livre' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -52068,7 +52068,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
-                    "line": 1332,
+                    "line": 1333,
                     "severity": "warning",
                     "message": "Function 'retirer_objet' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -52076,7 +52076,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
-                    "line": 1463,
+                    "line": 1464,
                     "severity": "warning",
                     "message": "Function 'retirer_tx' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -52084,7 +52084,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
-                    "line": 1540,
+                    "line": 1541,
                     "severity": "warning",
                     "message": "Function 'ajouter_tx' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -52092,7 +52092,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
-                    "line": 1588,
+                    "line": 1589,
                     "severity": "warning",
                     "message": "Function 'get_quantity' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -52100,7 +52100,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
-                    "line": 1621,
+                    "line": 1622,
                     "severity": "warning",
                     "message": "Function 'quantite_sqlite' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -52108,7 +52108,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
-                    "line": 1637,
+                    "line": 1638,
                     "severity": "warning",
                     "message": "Function 'objets' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -52116,7 +52116,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
-                    "line": 1641,
+                    "line": 1642,
                     "severity": "warning",
                     "message": "Function 'objets_mut' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -52124,7 +52124,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
-                    "line": 1649,
+                    "line": 1650,
                     "severity": "warning",
                     "message": "Function 'recharger' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -52132,7 +52132,359 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
-                    "line": 1663,
+                    "line": 1664,
+                    "severity": "warning",
+                    "message": "Function 'account_id' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette function",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
+                    "line": 1697,
+                    "severity": "warning",
+                    "message": "Enum 'ObjetInventaire' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette enum",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
+                    "line": 1705,
+                    "severity": "warning",
+                    "message": "Impl 'ObjetInventaire ' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette impl",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
+                    "line": 1717,
+                    "severity": "warning",
+                    "message": "Function 'objet_mut' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette function",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
+                    "line": 1738,
+                    "severity": "warning",
+                    "message": "Impl 'NomAffiche for ObjetInventaire ' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette impl",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
+                    "line": 1739,
+                    "severity": "warning",
+                    "message": "Function 'nom_affiche' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette function",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
+                    "line": 1750,
+                    "severity": "warning",
+                    "message": "Impl 'AjouterRetirer for ObjetInventaire ' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette impl",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
+                    "line": 1751,
+                    "severity": "warning",
+                    "message": "Function 'ajouter' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette function",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
+                    "line": 1755,
+                    "severity": "warning",
+                    "message": "Function 'retirer' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette function",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
+                    "line": 1769,
+                    "severity": "warning",
+                    "message": "Struct 'Marque' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette struct",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
+                    "line": 1774,
+                    "severity": "warning",
+                    "message": "Impl 'Marque ' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette impl",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
+                    "line": 1775,
+                    "severity": "warning",
+                    "message": "Function 'depuis' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette function",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
+                    "line": 1805,
+                    "severity": "warning",
+                    "message": "Enum 'Ecriture' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette enum",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
+                    "line": 1837,
+                    "severity": "warning",
+                    "message": "Struct 'Inventaire' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette struct",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
+                    "line": 1848,
+                    "severity": "warning",
+                    "message": "Struct 'StuffRow' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette struct",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
+                    "line": 1859,
+                    "severity": "warning",
+                    "message": "Struct 'EquipmentRow' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette struct",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
+                    "line": 1868,
+                    "severity": "warning",
+                    "message": "Struct 'PotionRow' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette struct",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
+                    "line": 1874,
+                    "severity": "warning",
+                    "message": "Struct 'BookRow' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette struct",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
+                    "line": 1881,
+                    "severity": "warning",
+                    "message": "Struct 'EnchantRow' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette struct",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
+                    "line": 1888,
+                    "severity": "warning",
+                    "message": "Struct 'GeneratedEnchant' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette struct",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
+                    "line": 1897,
+                    "severity": "warning",
+                    "message": "Impl 'Inventaire ' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette impl",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
+                    "line": 1902,
+                    "severity": "warning",
+                    "message": "Function 'new' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette function",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
+                    "line": 1923,
+                    "severity": "warning",
+                    "message": "Function 'migrer_schema' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette function",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
+                    "line": 1952,
+                    "severity": "warning",
+                    "message": "Function 'charger_objets' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette function",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
+                    "line": 2079,
+                    "severity": "warning",
+                    "message": "Function 'construire_objet' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette function",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
+                    "line": 2216,
+                    "severity": "warning",
+                    "message": "Function 'ajouter_objet' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette function",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
+                    "line": 2239,
+                    "severity": "warning",
+                    "message": "Function 'ajouter_artefact' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette function",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
+                    "line": 2265,
+                    "severity": "warning",
+                    "message": "Function 'ajouter_resultat' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette function",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
+                    "line": 2308,
+                    "severity": "warning",
+                    "message": "Function 'ouvrir_coffre' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette function",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
+                    "line": 2336,
+                    "severity": "warning",
+                    "message": "Function 'ajouter_lot' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette function",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
+                    "line": 2373,
+                    "severity": "warning",
+                    "message": "Function 'charger_catalogue' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette function",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
+                    "line": 2392,
+                    "severity": "warning",
+                    "message": "Function 'preparer' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette function",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
+                    "line": 2481,
+                    "severity": "warning",
+                    "message": "Function 'executer' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette function",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
+                    "line": 2758,
+                    "severity": "warning",
+                    "message": "Function 'effet_potion' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette function",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
+                    "line": 2785,
+                    "severity": "warning",
+                    "message": "Function 'preparer_livre' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette function",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
+                    "line": 2965,
+                    "severity": "warning",
+                    "message": "Function 'niveau_livre' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette function",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
+                    "line": 2998,
+                    "severity": "warning",
+                    "message": "Function 'retirer_objet' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette function",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
+                    "line": 3129,
+                    "severity": "warning",
+                    "message": "Function 'retirer_tx' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette function",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
+                    "line": 3206,
+                    "severity": "warning",
+                    "message": "Function 'ajouter_tx' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette function",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
+                    "line": 3254,
+                    "severity": "warning",
+                    "message": "Function 'get_quantity' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette function",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
+                    "line": 3287,
+                    "severity": "warning",
+                    "message": "Function 'quantite_sqlite' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette function",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
+                    "line": 3303,
+                    "severity": "warning",
+                    "message": "Function 'objets' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette function",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
+                    "line": 3307,
+                    "severity": "warning",
+                    "message": "Function 'objets_mut' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette function",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
+                    "line": 3315,
+                    "severity": "warning",
+                    "message": "Function 'recharger' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette function",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
+                    "line": 3329,
                     "severity": "warning",
                     "message": "Function 'account_id' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
