@@ -255,8 +255,8 @@ PacketType::SignUp => {
             }
             Ok(false) => {
                 error!(
-                    "Utilisateur créé mais statut introuvable : {}",
-                    user.user_id
+                    "Utilisateur créé mais statut introuvable",
+                    
                 );
 
                 HandlerResult::Response(Packet::new(
