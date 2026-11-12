@@ -1,9 +1,9 @@
 # Security Report
 
-Run : 726
-Branch : 195/merge
-Commit : dbaf0090fcaede705278640748eec5c8601817b9
-Date : Wed Nov 11 14:02:34 UTC 2026
+Run : 712
+Branch : main
+Commit : d55a1614163aabc1945e9f97e63d8774f44c19b1
+Date : Thu Nov 12 03:14:22 UTC 2026
 
 Fuzzing
 
@@ -36,12 +36,12 @@ THE LAST SIGNAL - RED TEAM FILE INTEGRITY TEST V2
 
 === RED TEAM CLONE ===
 Repository : https://github.com/The-last-signal-project/The-last-signal-.git
-SHA        : dbaf0090fcaede705278640748eec5c8601817b9
-[CMD] git clone --no-tags --filter=blob:none https://github.com/The-last-signal-project/The-last-signal-.git /tmp/security_red_team_bgbasfjf/repository
-[CMD] git fetch --depth=1 origin dbaf0090fcaede705278640748eec5c8601817b9
-[CMD] git checkout --detach dbaf0090fcaede705278640748eec5c8601817b9
+SHA        : d55a1614163aabc1945e9f97e63d8774f44c19b1
+[CMD] git clone --no-tags --filter=blob:none https://github.com/The-last-signal-project/The-last-signal-.git /tmp/security_red_team_tn0ryvk4/repository
+[CMD] git fetch --depth=1 origin d55a1614163aabc1945e9f97e63d8774f44c19b1
+[CMD] git checkout --detach d55a1614163aabc1945e9f97e63d8774f44c19b1
 [CMD] git rev-parse HEAD
-[PASS] Exact commit verified: dbaf0090fcaede705278640748eec5c8601817b9
+[PASS] Exact commit verified: d55a1614163aabc1945e9f97e63d8774f44c19b1
 
 === CREATING SECURITY LAB ===
 [PASS] Laboratory created.
@@ -152,7 +152,7 @@ Git integrity: FAIL
 [WARN] World-executable script: server_rust/vendor/sqlx/tests/mssql/entrypoint.sh
 [WARN] World-executable script: server_rust/vendor/sqlx/tests/mssql/configure-db.sh
 
-Files/objects inspected: 10500
+Files/objects inspected: 10506
 [PASS] No dangerous filesystem permissions detected.
 
 ## Git Security Test
@@ -160,7 +160,7 @@ Files/objects inspected: 10500
 [INFO] Working tree contains changes.
 [FAIL] Sensitive file tracked by Git: server_rust/vendor/sqlx/tests/.env
 [INFO] core.filemode=true
-[INFO] HEAD=dbaf0090fcaede705278640748eec5c8601817b9
+[INFO] HEAD=d55a1614163aabc1945e9f97e63d8774f44c19b1
 [INFO] Scanning Git history for obvious secrets...
 [FAIL] Potential secret detected in Git history.
 [FAIL] 2 Git security issue(s) detected.
@@ -172,7 +172,7 @@ Files/objects inspected: 10500
 [FAIL] scripts/voir_database.py:44 - Potential dynamically constructed SQL query
 [FAIL] tests/security/test_sql_injection.py:456 - Potential dynamically constructed SQL query
 
-Python files inspected: 73
+Python files inspected: 77
 [FAIL] 4 Python security finding(s) detected.
 
 ## Rust Security Test
@@ -288,6 +288,14 @@ Python files inspected: 73
 [WARN] server_rust/src/security/crypto.rs:1074 - Potential unwrap
 [WARN] server_rust/src/security/crypto.rs:1093 - Potential unwrap
 [WARN] server_rust/src/security/crypto.rs:1094 - Potential unwrap
+[WARN] server_rust/src/security/crypto.rs:1118 - Potential expect
+[WARN] server_rust/src/security/crypto.rs:1122 - Potential expect
+[WARN] server_rust/src/security/crypto.rs:1146 - Potential unwrap
+[WARN] server_rust/src/security/crypto.rs:1153 - Potential unwrap
+[WARN] server_rust/src/security/crypto.rs:1176 - Potential unwrap
+[WARN] server_rust/src/security/crypto.rs:1179 - Potential unwrap
+[WARN] server_rust/src/security/crypto.rs:1193 - Potential unwrap
+[WARN] server_rust/src/security/crypto.rs:1202 - Potential unwrap
 [WARN] server_rust/src/gameplay/wallet_manager.rs:54 - Potential dynamic SQL
 [WARN] server_rust/src/gameplay/wallet_manager.rs:65 - Potential dynamic SQL
 [WARN] server_rust/src/gameplay/wallet_manager.rs:88 - Potential dynamic SQL
@@ -42167,7 +42175,7 @@ Python files inspected: 73
 [WARN] server_rust/vendor/parking/src/lib.rs:433 - Potential unwrap
 
 Rust files inspected: 5157
-[WARN] 41988 Rust security review point(s) detected.
+[WARN] 41996 Rust security review point(s) detected.
 
 ## Web Security Test
 === WEB SECURITY SCAN ===
@@ -42184,7 +42192,7 @@ Aucun log disponible.
 
 # Security report
 
-**Run:** 726
+**Run:** 712
 
 ## Tests
 
@@ -42208,7 +42216,7 @@ Aucun log disponible.
 [main]	INFO	cli exclude tests: None
 [main]	INFO	running on Python 3.14.10
 Working... ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:01
-Run started:2026-11-11 14:03:50.990507+00:00
+Run started:2026-11-12 03:15:39.763426+00:00
 
 Test results:
 >> Issue: [B404:blacklist] Consider possible security implications associated with the subprocess module.
@@ -42354,6 +42362,88 @@ Test results:
 280	                timeout=TIMEOUT,
 281	            ) as response:
 282	
+
+--------------------------------------------------
+>> Issue: [B404:blacklist] Consider possible security implications associated with the subprocess module.
+   Severity: Low   Confidence: High
+   CWE: CWE-78 (https://cwe.mitre.org/data/definitions/78.html)
+   More Info: https://bandit.readthedocs.io/en/1.9.4/blacklists/blacklist_imports.html#b404-import-subprocess
+   Location: ./anti_cheat_client.py:35:0
+34	import os
+35	import subprocess
+36	import sys
+
+--------------------------------------------------
+>> Issue: [B607:start_process_with_partial_path] Starting a process with a partial executable path
+   Severity: Low   Confidence: High
+   CWE: CWE-78 (https://cwe.mitre.org/data/definitions/78.html)
+   More Info: https://bandit.readthedocs.io/en/1.9.4/plugins/b607_start_process_with_partial_path.html
+   Location: ./anti_cheat_client.py:75:18
+74	        if os.name == "nt":
+75	            out = subprocess.run(
+76	                ["tasklist", "/FO", "CSV", "/NH"], capture_output=True, timeout=8,
+77	                encoding="utf-8", errors="ignore", creationflags=0x08000000,  # sans fenetre
+78	            ).stdout
+79	        else:
+
+--------------------------------------------------
+>> Issue: [B603:subprocess_without_shell_equals_true] subprocess call - check for execution of untrusted input.
+   Severity: Low   Confidence: High
+   CWE: CWE-78 (https://cwe.mitre.org/data/definitions/78.html)
+   More Info: https://bandit.readthedocs.io/en/1.9.4/plugins/b603_subprocess_without_shell_equals_true.html
+   Location: ./anti_cheat_client.py:75:18
+74	        if os.name == "nt":
+75	            out = subprocess.run(
+76	                ["tasklist", "/FO", "CSV", "/NH"], capture_output=True, timeout=8,
+77	                encoding="utf-8", errors="ignore", creationflags=0x08000000,  # sans fenetre
+78	            ).stdout
+79	        else:
+
+--------------------------------------------------
+>> Issue: [B607:start_process_with_partial_path] Starting a process with a partial executable path
+   Severity: Low   Confidence: High
+   CWE: CWE-78 (https://cwe.mitre.org/data/definitions/78.html)
+   More Info: https://bandit.readthedocs.io/en/1.9.4/plugins/b607_start_process_with_partial_path.html
+   Location: ./anti_cheat_client.py:80:18
+79	        else:
+80	            out = subprocess.run(
+81	                ["ps", "-A", "-o", "comm="], capture_output=True, timeout=8,
+82	                encoding="utf-8", errors="ignore",
+83	            ).stdout
+84	        return out.lower()
+
+--------------------------------------------------
+>> Issue: [B603:subprocess_without_shell_equals_true] subprocess call - check for execution of untrusted input.
+   Severity: Low   Confidence: High
+   CWE: CWE-78 (https://cwe.mitre.org/data/definitions/78.html)
+   More Info: https://bandit.readthedocs.io/en/1.9.4/plugins/b603_subprocess_without_shell_equals_true.html
+   Location: ./anti_cheat_client.py:80:18
+79	        else:
+80	            out = subprocess.run(
+81	                ["ps", "-A", "-o", "comm="], capture_output=True, timeout=8,
+82	                encoding="utf-8", errors="ignore",
+83	            ).stdout
+84	        return out.lower()
+
+--------------------------------------------------
+>> Issue: [B310:blacklist] Audit url open for permitted schemes. Allowing use of file:/ or custom schemes is often unexpected.
+   Severity: Medium   Confidence: High
+   CWE: CWE-22 (https://cwe.mitre.org/data/definitions/22.html)
+   More Info: https://bandit.readthedocs.io/en/1.9.4/blacklists/blacklist_calls.html#b310-urllib-urlopen
+   Location: ./anti_cheat_client.py:179:17
+178	        try:
+179	            with urllib.request.urlopen(req, timeout=TIMEOUT) as r:
+180	                return r.status, json.loads(r.read().decode() or "{}")
+
+--------------------------------------------------
+>> Issue: [B310:blacklist] Audit url open for permitted schemes. Allowing use of file:/ or custom schemes is often unexpected.
+   Severity: Medium   Confidence: High
+   CWE: CWE-22 (https://cwe.mitre.org/data/definitions/22.html)
+   More Info: https://bandit.readthedocs.io/en/1.9.4/blacklists/blacklist_calls.html#b310-urllib-urlopen
+   Location: ./anti_vpn_client.py:89:17
+88	        try:
+89	            with urllib.request.urlopen(req, timeout=TIMEOUT) as r:
+90	                data = json.loads(r.read().decode("utf-8"))
 
 --------------------------------------------------
 >> Issue: [B112:try_except_continue] Try, Except, Continue detected.
@@ -46021,21 +46111,21 @@ Test results:
 --------------------------------------------------
 
 Code scanned:
-	Total lines of code: 14530
+	Total lines of code: 15184
 	Total lines skipped (#nosec): 0
 	Total potential issues skipped due to specifically being disabled (e.g., #nosec BXXX): 0
 
 Run metrics:
 	Total issues (by severity):
 		Undefined: 0
-		Low: 337
-		Medium: 9
+		Low: 342
+		Medium: 11
 		High: 0
 	Total issues (by confidence):
 		Undefined: 0
 		Low: 1
 		Medium: 15
-		High: 330
+		High: 337
 Files skipped (0):
 
 ## pip-audit
@@ -46106,7 +46196,7 @@ It will be compatible before version 2.0.0.
 
   Using [1mopen-source vulnerability database[0m
 [1m  Found and scanned 145 packages[0m
-  Timestamp [1m2026-11-11 14:03:56[0m
+  Timestamp [1m2026-11-12 03:15:45[0m
 [1m  1[0m[1m vulnerability reported[0m
 [1m  0[0m[1m vulnerabilities ignored[0m
 
@@ -46282,9 +46372,9 @@ Ran 297 rules on 105 files: 8 findings.
     ○ ░
     ░    gitleaks
 
-[90m3:56PM[0m [32mINF[0m [1m5600 commits scanned.[0m
-[90m3:56PM[0m [32mINF[0m [1mscanned ~55463464103 bytes (55.46 GB) in 1h52m15s[0m
-[90m3:56PM[0m [32mINF[0m [1mno leaks found[0m
+[90m5:07AM[0m [32mINF[0m [1m5564 commits scanned.[0m
+[90m5:07AM[0m [32mINF[0m [1mscanned ~55385285268 bytes (55.39 GB) in 1h51m38s[0m
+[90m5:07AM[0m [32mINF[0m [1mno leaks found[0m
 
 ## Python Licenses
  Name                                      Version     License                                            
@@ -46431,7 +46521,7 @@ Ran 297 rules on 105 files: 8 findings.
  zipp                                      4.1.2       MIT                                                
 
 ## Cargo Deny
-2026-11-11 15:56:28 [[33mWARN[0m] unable to find a config path, falling back to default config[0m
+2026-11-12 05:07:39 [[33mWARN[0m] unable to find a config path, falling back to default config[0m
 [0m[1m[38;5;9merror[rejected][0m[1m: failed to satisfy license requirements[0m
    [0m[36m┌─[0m /home/runner/work/The-last-signal-/The-last-signal-/server_rust/vendor/adler2/Cargo.toml:38:12
    [0m[36m│[0m
@@ -52036,8 +52126,8 @@ wrapt                                    1.17.3  2.5.2  wheel
 | Level | Count |
 |-------|------:|
 | Critical | 0 |
-| High | 336 |
-| Medium | 24 |
-| Low | 667 |
+| High | 343 |
+| Medium | 26 |
+| Low | 676 |
 
 ## Score : 0/100
