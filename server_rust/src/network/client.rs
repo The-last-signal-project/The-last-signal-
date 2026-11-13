@@ -446,8 +446,8 @@ for (player_id, position) in snapshot {
 self.disconnect().await;
 
 info!(
-    "Fin de session : {}",
-    self.session_id
+    "Fin de session ",
+    
 );
 }
 
@@ -603,25 +603,22 @@ async fn mark_disconnected(&self) {
     match manager.set_status(&user_id, "DISCONNECTED").await {
         Ok(true) => {
             debug!(
-                "Utilisateur {} marqué comme DISCONNECTED [{}]",
-                user_id,
-                self.session_id
+                "Utilisateur  marqué comme DISCONNECTED ",
+                
             );
         }
 
         Ok(false) => {
             warn!(
-                "Utilisateur introuvable lors de la déconnexion : {} [{}]",
-                user_id,
-                self.session_id
+                "Utilisateur introuvable lors de la déconnexion : ",
+               
             );
         }
 
         Err(e) => {
             error!(
-                "Impossible de mettre le joueur {} en DISCONNECTED [{}] : {}",
-                user_id,
-                self.session_id,
+                "Impossible de mettre le joueur en DISCONNECTED  : {}",
+               
                 e
             );
         }
