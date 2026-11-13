@@ -1,6 +1,6 @@
 Documentation Quality Report
 
-**Date :** 2026-11-13 08:41:10
+**Date :** 2026-11-13 08:52:23
 
 # 64/100
 
@@ -7217,7 +7217,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'set_user_id' sans documentation
 
-- **line :** 636
+- **line :** 633
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -7227,7 +7227,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'user_id' sans documentation
 
-- **line :** 649
+- **line :** 646
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -7237,7 +7237,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'set_client_id' sans documentation
 
-- **line :** 662
+- **line :** 659
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -7247,7 +7247,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'client_id' sans documentation
 
-- **line :** 675
+- **line :** 672
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -7257,7 +7257,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'session_id' sans documentation
 
-- **line :** 681
+- **line :** 678
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -7267,7 +7267,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'set_account_id' sans documentation
 
-- **line :** 693
+- **line :** 690
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -7277,7 +7277,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'account_id' sans documentation
 
-- **line :** 706
+- **line :** 703
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -7287,7 +7287,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'is_spawned' sans documentation
 
-- **line :** 718
+- **line :** 715
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -7297,7 +7297,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'cleanup_session' sans documentation
 
-- **line :** 755
+- **line :** 752
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -7307,7 +7307,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'disconnect' sans documentation
 
-- **line :** 778
+- **line :** 775
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -23743,7 +23743,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/adler2/CHANGELOG.md:52 titre dupliqué (déjà présent dans server_rust/vendor/sqlx/CHANGELOG.md:2567).
+- **Message :** server_rust/vendor/adler2/CHANGELOG.md:52 titre dupliqué (déjà présent dans server_rust/vendor/num-bigint/RELEASES.md:98).
 
 - **module :** titles
 
@@ -23751,13 +23751,13 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/adler2/README.md:15 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/README.md:27).
+- **Message :** server_rust/vendor/adler2/README.md:15 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:19).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/adler2/README.md:23 titre dupliqué (déjà présent dans server_rust/vendor/futures-task/README.md:5).
+- **Message :** server_rust/vendor/adler2/README.md:23 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:10).
 
 - **module :** titles
 
@@ -23797,7 +23797,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/aho-corasick/README.md:22 titre dupliqué (déjà présent dans server_rust/vendor/futures-task/README.md:5).
+- **Message :** server_rust/vendor/aho-corasick/README.md:22 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:10).
 
 - **module :** titles
 
@@ -23851,13 +23851,13 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/allocator-api2/README.md:22 titre dupliqué (déjà présent dans server_rust/vendor/futures-task/README.md:5).
+- **Message :** server_rust/vendor/allocator-api2/README.md:22 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:10).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/allocator-api2/README.md:47 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:54).
+- **Message :** server_rust/vendor/allocator-api2/README.md:47 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:41).
 
 - **module :** titles
 
@@ -23883,7 +23883,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/android_system_properties/CONTRIBUTING.md:38 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:54).
+- **Message :** server_rust/vendor/android_system_properties/CONTRIBUTING.md:38 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:41).
 
 - **module :** titles
 
@@ -23897,7 +23897,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/android_system_properties/README.md:29 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:54).
+- **Message :** server_rust/vendor/android_system_properties/README.md:29 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:41).
 
 - **module :** titles
 
@@ -24279,13 +24279,13 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/argon2/README.md:26 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:54).
+- **Message :** server_rust/vendor/argon2/README.md:26 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:41).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/argon2/README.md:35 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:63).
+- **Message :** server_rust/vendor/argon2/README.md:35 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:50).
 
 - **module :** titles
 
@@ -24315,7 +24315,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/autocfg/README.md:14 titre dupliqué (déjà présent dans server_rust/vendor/futures-task/README.md:5).
+- **Message :** server_rust/vendor/autocfg/README.md:14 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:10).
 
 - **module :** titles
 
@@ -24327,7 +24327,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/autocfg/README.md:112 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:54).
+- **Message :** server_rust/vendor/autocfg/README.md:112 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:41).
 
 - **module :** titles
 
@@ -24353,7 +24353,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/base64/README.md:151 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:54).
+- **Message :** server_rust/vendor/base64/README.md:151 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:41).
 
 - **module :** titles
 
@@ -24367,19 +24367,19 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/base64/RELEASE-NOTES.md:44 titre dupliqué (déjà présent dans server_rust/vendor/sqlx/CHANGELOG.md:2567).
+- **Message :** server_rust/vendor/base64/RELEASE-NOTES.md:44 titre dupliqué (déjà présent dans server_rust/vendor/num-bigint/RELEASES.md:98).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/base64/RELEASE-NOTES.md:92 titre dupliqué (déjà présent dans server_rust/vendor/sqlx/CHANGELOG.md:2567).
+- **Message :** server_rust/vendor/base64/RELEASE-NOTES.md:92 titre dupliqué (déjà présent dans server_rust/vendor/num-bigint/RELEASES.md:98).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/base64/RELEASE-NOTES.md:99 titre dupliqué (déjà présent dans server_rust/vendor/sqlx/CHANGELOG.md:2567).
+- **Message :** server_rust/vendor/base64/RELEASE-NOTES.md:99 titre dupliqué (déjà présent dans server_rust/vendor/num-bigint/RELEASES.md:98).
 
 - **module :** titles
 
@@ -24391,13 +24391,13 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/base64/RELEASE-NOTES.md:122 titre dupliqué (déjà présent dans server_rust/vendor/sqlx/CHANGELOG.md:2567).
+- **Message :** server_rust/vendor/base64/RELEASE-NOTES.md:122 titre dupliqué (déjà présent dans server_rust/vendor/num-bigint/RELEASES.md:98).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/base64/RELEASE-NOTES.md:131 titre dupliqué (déjà présent dans server_rust/vendor/sqlx/CHANGELOG.md:2567).
+- **Message :** server_rust/vendor/base64/RELEASE-NOTES.md:131 titre dupliqué (déjà présent dans server_rust/vendor/num-bigint/RELEASES.md:98).
 
 - **module :** titles
 
@@ -24815,13 +24815,13 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/base64ct/README.md:52 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:54).
+- **Message :** server_rust/vendor/base64ct/README.md:52 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:41).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/base64ct/README.md:61 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:63).
+- **Message :** server_rust/vendor/base64ct/README.md:61 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:50).
 
 - **module :** titles
 
@@ -25355,7 +25355,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/bitflags/README.md:25 titre dupliqué (déjà présent dans server_rust/vendor/futures-task/README.md:5).
+- **Message :** server_rust/vendor/bitflags/README.md:25 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:10).
 
 - **module :** titles
 
@@ -25639,13 +25639,13 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/blake2/README.md:58 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:54).
+- **Message :** server_rust/vendor/blake2/README.md:58 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:41).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/blake2/README.md:67 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:63).
+- **Message :** server_rust/vendor/blake2/README.md:67 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:50).
 
 - **module :** titles
 
@@ -25751,13 +25751,13 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/block-buffer-0.10.4/README.md:12 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:54).
+- **Message :** server_rust/vendor/block-buffer-0.10.4/README.md:12 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:41).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/block-buffer-0.10.4/README.md:21 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:63).
+- **Message :** server_rust/vendor/block-buffer-0.10.4/README.md:21 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:50).
 
 - **module :** titles
 
@@ -25941,13 +25941,13 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/block-buffer/README.md:12 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:54).
+- **Message :** server_rust/vendor/block-buffer/README.md:12 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:41).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/block-buffer/README.md:21 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:63).
+- **Message :** server_rust/vendor/block-buffer/README.md:21 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:50).
 
 - **module :** titles
 
@@ -26451,6 +26451,12 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 - **module :** titles
 
+## ⚠️ Warning
+- **Module :** titles
+- **Message :** server_rust/vendor/byteorder/README.md:73 titre dupliqué (déjà présent dans server_rust/vendor/num-bigint/README.md:47).
+
+- **module :** titles
+
 # 📄 server_rust/vendor/bytes/CHANGELOG.md
 
 ## ❌ Error
@@ -26949,19 +26955,19 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/bytes/README.md:15 titre dupliqué (déjà présent dans server_rust/vendor/futures-task/README.md:5).
+- **Message :** server_rust/vendor/bytes/README.md:15 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:10).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/bytes/README.md:65 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:54).
+- **Message :** server_rust/vendor/bytes/README.md:65 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:41).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/bytes/README.md:69 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:63).
+- **Message :** server_rust/vendor/bytes/README.md:69 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:50).
 
 - **module :** titles
 
@@ -28733,13 +28739,13 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/cc/README.md:14 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:54).
+- **Message :** server_rust/vendor/cc/README.md:14 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:41).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/cc/README.md:25 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:63).
+- **Message :** server_rust/vendor/cc/README.md:25 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:50).
 
 - **module :** titles
 
@@ -28827,13 +28833,13 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/cfg-if/README.md:46 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:54).
+- **Message :** server_rust/vendor/cfg-if/README.md:46 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:41).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/cfg-if/README.md:57 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:63).
+- **Message :** server_rust/vendor/cfg-if/README.md:57 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:50).
 
 - **module :** titles
 
@@ -29287,13 +29293,13 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/chacha20/README.md:106 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:54).
+- **Message :** server_rust/vendor/chacha20/README.md:106 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:41).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/chacha20/README.md:115 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:63).
+- **Message :** server_rust/vendor/chacha20/README.md:115 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:50).
 
 - **module :** titles
 
@@ -29319,7 +29325,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/chrono/README.md:85 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:54).
+- **Message :** server_rust/vendor/chrono/README.md:85 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:41).
 
 - **module :** titles
 
@@ -29599,13 +29605,13 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/cmov/README.md:86 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:54).
+- **Message :** server_rust/vendor/cmov/README.md:86 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:41).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/cmov/README.md:95 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:63).
+- **Message :** server_rust/vendor/cmov/README.md:95 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:50).
 
 - **module :** titles
 
@@ -30101,13 +30107,13 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/const-oid/README.md:65 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:54).
+- **Message :** server_rust/vendor/const-oid/README.md:65 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:41).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/const-oid/README.md:74 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:63).
+- **Message :** server_rust/vendor/const-oid/README.md:74 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:50).
 
 - **module :** titles
 
@@ -30411,13 +30417,13 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/cpufeatures-0.2.17/README.md:94 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:54).
+- **Message :** server_rust/vendor/cpufeatures-0.2.17/README.md:94 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:41).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/cpufeatures-0.2.17/README.md:103 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:63).
+- **Message :** server_rust/vendor/cpufeatures-0.2.17/README.md:103 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:50).
 
 - **module :** titles
 
@@ -30937,13 +30943,13 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/cpufeatures/README.md:138 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:54).
+- **Message :** server_rust/vendor/cpufeatures/README.md:138 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:41).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/cpufeatures/README.md:147 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:63).
+- **Message :** server_rust/vendor/cpufeatures/README.md:147 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:50).
 
 - **module :** titles
 
@@ -30951,13 +30957,13 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/crc-catalog/README.md:13 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:54).
+- **Message :** server_rust/vendor/crc-catalog/README.md:13 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:41).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/crc-catalog/README.md:22 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:63).
+- **Message :** server_rust/vendor/crc-catalog/README.md:22 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:50).
 
 - **module :** titles
 
@@ -30971,7 +30977,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/crc/README.md:10 titre dupliqué (déjà présent dans server_rust/vendor/futures-task/README.md:5).
+- **Message :** server_rust/vendor/crc/README.md:10 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:10).
 
 - **module :** titles
 
@@ -30989,13 +30995,13 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/crc/README.md:76 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:54).
+- **Message :** server_rust/vendor/crc/README.md:76 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:41).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/crc/README.md:85 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:63).
+- **Message :** server_rust/vendor/crc/README.md:85 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:50).
 
 - **module :** titles
 
@@ -31009,7 +31015,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/crc32fast/README.md:12 titre dupliqué (déjà présent dans server_rust/vendor/futures-task/README.md:5).
+- **Message :** server_rust/vendor/crc32fast/README.md:12 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:10).
 
 - **module :** titles
 
@@ -31021,13 +31027,13 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/crc32fast/README.md:81 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:54).
+- **Message :** server_rust/vendor/crc32fast/README.md:81 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:41).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/crc32fast/README.md:92 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:63).
+- **Message :** server_rust/vendor/crc32fast/README.md:92 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:50).
 
 - **module :** titles
 
@@ -31091,25 +31097,25 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/crossbeam-queue/README.md:26 titre dupliqué (déjà présent dans server_rust/vendor/futures-task/README.md:5).
+- **Message :** server_rust/vendor/crossbeam-queue/README.md:26 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:10).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/crossbeam-queue/README.md:35 titre dupliqué (déjà présent dans server_rust/vendor/num-traits/README.md:41).
+- **Message :** server_rust/vendor/crossbeam-queue/README.md:35 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:37).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/crossbeam-queue/README.md:41 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:54).
+- **Message :** server_rust/vendor/crossbeam-queue/README.md:41 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:41).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/crossbeam-queue/README.md:50 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:63).
+- **Message :** server_rust/vendor/crossbeam-queue/README.md:50 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:50).
 
 - **module :** titles
 
@@ -31137,25 +31143,25 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/crossbeam-utils/README.md:45 titre dupliqué (déjà présent dans server_rust/vendor/futures-task/README.md:5).
+- **Message :** server_rust/vendor/crossbeam-utils/README.md:45 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:10).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/crossbeam-utils/README.md:54 titre dupliqué (déjà présent dans server_rust/vendor/num-traits/README.md:41).
+- **Message :** server_rust/vendor/crossbeam-utils/README.md:54 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:37).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/crossbeam-utils/README.md:60 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:54).
+- **Message :** server_rust/vendor/crossbeam-utils/README.md:60 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:41).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/crossbeam-utils/README.md:69 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:63).
+- **Message :** server_rust/vendor/crossbeam-utils/README.md:69 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:50).
 
 - **module :** titles
 
@@ -31303,13 +31309,13 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/crypto-common-0.1.6/README.md:27 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:54).
+- **Message :** server_rust/vendor/crypto-common-0.1.6/README.md:27 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:41).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/crypto-common-0.1.6/README.md:36 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:63).
+- **Message :** server_rust/vendor/crypto-common-0.1.6/README.md:36 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:50).
 
 - **module :** titles
 
@@ -31457,13 +31463,13 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/crypto-common/README.md:18 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:54).
+- **Message :** server_rust/vendor/crypto-common/README.md:18 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:41).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/crypto-common/README.md:27 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:63).
+- **Message :** server_rust/vendor/crypto-common/README.md:27 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:50).
 
 - **module :** titles
 
@@ -31773,13 +31779,13 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/ctutils/README.md:64 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:54).
+- **Message :** server_rust/vendor/ctutils/README.md:64 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:41).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/ctutils/README.md:73 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:63).
+- **Message :** server_rust/vendor/ctutils/README.md:73 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:50).
 
 - **module :** titles
 
@@ -32113,7 +32119,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/digest-0.10.7/README.md:29 titre dupliqué (déjà présent dans server_rust/vendor/futures-task/README.md:5).
+- **Message :** server_rust/vendor/digest-0.10.7/README.md:29 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:10).
 
 - **module :** titles
 
@@ -32125,13 +32131,13 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/digest-0.10.7/README.md:128 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:54).
+- **Message :** server_rust/vendor/digest-0.10.7/README.md:128 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:41).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/digest-0.10.7/README.md:137 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:63).
+- **Message :** server_rust/vendor/digest-0.10.7/README.md:137 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:50).
 
 - **module :** titles
 
@@ -32357,19 +32363,19 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/digest/README.md:15 titre dupliqué (déjà présent dans server_rust/vendor/futures-task/README.md:5).
+- **Message :** server_rust/vendor/digest/README.md:15 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:10).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/digest/README.md:99 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:54).
+- **Message :** server_rust/vendor/digest/README.md:99 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:41).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/digest/README.md:108 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:63).
+- **Message :** server_rust/vendor/digest/README.md:108 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:50).
 
 - **module :** titles
 
@@ -32535,7 +32541,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/displaydoc/README.md:102 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:54).
+- **Message :** server_rust/vendor/displaydoc/README.md:102 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:41).
 
 - **module :** titles
 
@@ -32543,7 +32549,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/dotenvy/README.md:21 titre dupliqué (déjà présent dans server_rust/vendor/futures-task/README.md:5).
+- **Message :** server_rust/vendor/dotenvy/README.md:21 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:10).
 
 - **module :** titles
 
@@ -32557,7 +32563,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/either/README.md:29 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:54).
+- **Message :** server_rust/vendor/either/README.md:29 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:41).
 
 - **module :** titles
 
@@ -32573,7 +32579,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/equivalent/README.md:20 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:54).
+- **Message :** server_rust/vendor/equivalent/README.md:20 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:41).
 
 - **module :** titles
 
@@ -32651,19 +32657,19 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/event-listener/README.md:73 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/README.md:27).
+- **Message :** server_rust/vendor/event-listener/README.md:73 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:19).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/event-listener/README.md:93 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:54).
+- **Message :** server_rust/vendor/event-listener/README.md:93 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:41).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/event-listener/README.md:102 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:63).
+- **Message :** server_rust/vendor/event-listener/README.md:102 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:50).
 
 - **module :** titles
 
@@ -32873,13 +32879,13 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/find-msvc-tools/README.md:14 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:54).
+- **Message :** server_rust/vendor/find-msvc-tools/README.md:14 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:41).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/find-msvc-tools/README.md:25 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:63).
+- **Message :** server_rust/vendor/find-msvc-tools/README.md:25 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:50).
 
 - **module :** titles
 
@@ -32957,13 +32963,13 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/flate2/README.md:125 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:54).
+- **Message :** server_rust/vendor/flate2/README.md:125 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:41).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/flate2/README.md:136 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:63).
+- **Message :** server_rust/vendor/flate2/README.md:136 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:50).
 
 - **module :** titles
 
@@ -32979,7 +32985,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/flexi_logger/README.md:13 titre dupliqué (déjà présent dans server_rust/vendor/futures-task/README.md:5).
+- **Message :** server_rust/vendor/flexi_logger/README.md:13 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:10).
 
 - **module :** titles
 
@@ -34011,13 +34017,13 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/flume/README.md:46 titre dupliqué (déjà présent dans server_rust/vendor/futures-task/README.md:5).
+- **Message :** server_rust/vendor/flume/README.md:46 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:10).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/flume/README.md:90 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:54).
+- **Message :** server_rust/vendor/flume/README.md:90 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:41).
 
 - **module :** titles
 
@@ -34033,13 +34039,13 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/foreign-types/README.md:9 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:54).
+- **Message :** server_rust/vendor/foreign-types/README.md:9 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:41).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/foreign-types/README.md:18 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:63).
+- **Message :** server_rust/vendor/foreign-types/README.md:18 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:50).
 
 - **module :** titles
 
@@ -34047,13 +34053,13 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/futures-channel/README.md:5 titre dupliqué (déjà présent dans server_rust/vendor/futures-task/README.md:5).
+- **Message :** server_rust/vendor/futures-channel/README.md:5 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:10).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/futures-channel/README.md:16 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:54).
+- **Message :** server_rust/vendor/futures-channel/README.md:16 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:41).
 
 - **module :** titles
 
@@ -34061,13 +34067,13 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/futures-core/README.md:5 titre dupliqué (déjà présent dans server_rust/vendor/futures-task/README.md:5).
+- **Message :** server_rust/vendor/futures-core/README.md:5 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:10).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/futures-core/README.md:16 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:54).
+- **Message :** server_rust/vendor/futures-core/README.md:16 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:41).
 
 - **module :** titles
 
@@ -34075,13 +34081,13 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/futures-executor/README.md:5 titre dupliqué (déjà présent dans server_rust/vendor/futures-task/README.md:5).
+- **Message :** server_rust/vendor/futures-executor/README.md:5 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:10).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/futures-executor/README.md:16 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:54).
+- **Message :** server_rust/vendor/futures-executor/README.md:16 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:41).
 
 - **module :** titles
 
@@ -34103,7 +34109,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/futures-intrusive/readme.md:21 titre dupliqué (déjà présent dans server_rust/vendor/futures-task/README.md:5).
+- **Message :** server_rust/vendor/futures-intrusive/readme.md:21 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:10).
 
 - **module :** titles
 
@@ -34115,7 +34121,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/futures-intrusive/readme.md:47 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:54).
+- **Message :** server_rust/vendor/futures-intrusive/readme.md:47 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:41).
 
 - **module :** titles
 
@@ -34123,13 +34129,13 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/futures-io/README.md:5 titre dupliqué (déjà présent dans server_rust/vendor/futures-task/README.md:5).
+- **Message :** server_rust/vendor/futures-io/README.md:5 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:10).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/futures-io/README.md:16 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:54).
+- **Message :** server_rust/vendor/futures-io/README.md:16 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:41).
 
 - **module :** titles
 
@@ -34137,13 +34143,13 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/futures-sink/README.md:5 titre dupliqué (déjà présent dans server_rust/vendor/futures-task/README.md:5).
+- **Message :** server_rust/vendor/futures-sink/README.md:5 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:10).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/futures-sink/README.md:16 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:54).
+- **Message :** server_rust/vendor/futures-sink/README.md:16 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:41).
 
 - **module :** titles
 
@@ -34151,7 +34157,13 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/futures-task/README.md:16 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:54).
+- **Message :** server_rust/vendor/futures-task/README.md:5 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:10).
+
+- **module :** titles
+
+## ⚠️ Warning
+- **Module :** titles
+- **Message :** server_rust/vendor/futures-task/README.md:16 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:41).
 
 - **module :** titles
 
@@ -34159,13 +34171,13 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/futures-util/README.md:5 titre dupliqué (déjà présent dans server_rust/vendor/futures-task/README.md:5).
+- **Message :** server_rust/vendor/futures-util/README.md:5 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:10).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/futures-util/README.md:16 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:54).
+- **Message :** server_rust/vendor/futures-util/README.md:16 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:41).
 
 - **module :** titles
 
@@ -34187,7 +34199,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/generic-array/README.md:11 titre dupliqué (déjà présent dans server_rust/vendor/futures-task/README.md:5).
+- **Message :** server_rust/vendor/generic-array/README.md:11 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:10).
 
 - **module :** titles
 
@@ -34531,7 +34543,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/getrandom-0.2.17/CHANGELOG.md:106 titre dupliqué (déjà présent dans server_rust/vendor/sqlx/CHANGELOG.md:2567).
+- **Message :** server_rust/vendor/getrandom-0.2.17/CHANGELOG.md:106 titre dupliqué (déjà présent dans server_rust/vendor/num-bigint/RELEASES.md:98).
 
 - **module :** titles
 
@@ -34717,7 +34729,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/getrandom-0.2.17/CHANGELOG.md:271 titre dupliqué (déjà présent dans server_rust/vendor/sqlx/CHANGELOG.md:2567).
+- **Message :** server_rust/vendor/getrandom-0.2.17/CHANGELOG.md:271 titre dupliqué (déjà présent dans server_rust/vendor/num-bigint/RELEASES.md:98).
 
 - **module :** titles
 
@@ -34977,7 +34989,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/getrandom-0.2.17/README.md:29 titre dupliqué (déjà présent dans server_rust/vendor/futures-task/README.md:5).
+- **Message :** server_rust/vendor/getrandom-0.2.17/README.md:29 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:10).
 
 - **module :** titles
 
@@ -34995,13 +35007,13 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/getrandom-0.2.17/README.md:65 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:54).
+- **Message :** server_rust/vendor/getrandom-0.2.17/README.md:65 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:41).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/getrandom-0.2.17/README.md:74 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:63).
+- **Message :** server_rust/vendor/getrandom-0.2.17/README.md:74 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:50).
 
 - **module :** titles
 
@@ -35323,7 +35335,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/getrandom/CHANGELOG.md:173 titre dupliqué (déjà présent dans server_rust/vendor/sqlx/CHANGELOG.md:2567).
+- **Message :** server_rust/vendor/getrandom/CHANGELOG.md:173 titre dupliqué (déjà présent dans server_rust/vendor/num-bigint/RELEASES.md:98).
 
 - **module :** titles
 
@@ -35449,7 +35461,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/getrandom/CHANGELOG.md:343 titre dupliqué (déjà présent dans server_rust/vendor/sqlx/CHANGELOG.md:2567).
+- **Message :** server_rust/vendor/getrandom/CHANGELOG.md:343 titre dupliqué (déjà présent dans server_rust/vendor/num-bigint/RELEASES.md:98).
 
 - **module :** titles
 
@@ -35575,7 +35587,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/getrandom/CHANGELOG.md:517 titre dupliqué (déjà présent dans server_rust/vendor/sqlx/CHANGELOG.md:2567).
+- **Message :** server_rust/vendor/getrandom/CHANGELOG.md:517 titre dupliqué (déjà présent dans server_rust/vendor/num-bigint/RELEASES.md:98).
 
 - **module :** titles
 
@@ -35793,13 +35805,13 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/getrandom/README.md:336 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:54).
+- **Message :** server_rust/vendor/getrandom/README.md:336 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:41).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/getrandom/README.md:345 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:63).
+- **Message :** server_rust/vendor/getrandom/README.md:345 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:50).
 
 - **module :** titles
 
@@ -36729,13 +36741,13 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/hashbrown-0.16.1/README.md:26 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/README.md:27).
+- **Message :** server_rust/vendor/hashbrown-0.16.1/README.md:26 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:19).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/hashbrown-0.16.1/README.md:37 titre dupliqué (déjà présent dans server_rust/vendor/futures-task/README.md:5).
+- **Message :** server_rust/vendor/hashbrown-0.16.1/README.md:37 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:10).
 
 - **module :** titles
 
@@ -36747,13 +36759,13 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/hashbrown-0.16.1/README.md:68 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:54).
+- **Message :** server_rust/vendor/hashbrown-0.16.1/README.md:68 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:41).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/hashbrown-0.16.1/README.md:77 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:63).
+- **Message :** server_rust/vendor/hashbrown-0.16.1/README.md:77 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:50).
 
 - **module :** titles
 
@@ -37351,19 +37363,25 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/hashbrown/README.md:41 titre dupliqué (déjà présent dans server_rust/vendor/futures-task/README.md:5).
+- **Message :** server_rust/vendor/hashbrown/README.md:27 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:19).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/hashbrown/README.md:76 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:54).
+- **Message :** server_rust/vendor/hashbrown/README.md:41 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:10).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/hashbrown/README.md:87 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:63).
+- **Message :** server_rust/vendor/hashbrown/README.md:76 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:41).
+
+- **module :** titles
+
+## ⚠️ Warning
+- **Module :** titles
+- **Message :** server_rust/vendor/hashbrown/README.md:87 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:50).
 
 - **module :** titles
 
@@ -37385,7 +37403,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/hashlink/README.md:57 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:54).
+- **Message :** server_rust/vendor/hashlink/README.md:57 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:41).
 
 - **module :** titles
 
@@ -37431,7 +37449,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/heck/README.md:48 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:54).
+- **Message :** server_rust/vendor/heck/README.md:48 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:41).
 
 - **module :** titles
 
@@ -37451,19 +37469,19 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/hex/README.md:47 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/README.md:27).
+- **Message :** server_rust/vendor/hex/README.md:47 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:19).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/hex/README.md:55 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:54).
+- **Message :** server_rust/vendor/hex/README.md:55 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:41).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/hex/README.md:64 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:63).
+- **Message :** server_rust/vendor/hex/README.md:64 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:50).
 
 - **module :** titles
 
@@ -37737,19 +37755,19 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/hkdf/README.md:12 titre dupliqué (déjà présent dans server_rust/vendor/futures-task/README.md:5).
+- **Message :** server_rust/vendor/hkdf/README.md:12 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:10).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/hkdf/README.md:88 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:54).
+- **Message :** server_rust/vendor/hkdf/README.md:88 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:41).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/hkdf/README.md:97 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:63).
+- **Message :** server_rust/vendor/hkdf/README.md:97 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:50).
 
 - **module :** titles
 
@@ -37915,13 +37933,13 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/hmac/README.md:97 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:54).
+- **Message :** server_rust/vendor/hmac/README.md:97 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:41).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/hmac/README.md:106 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:63).
+- **Message :** server_rust/vendor/hmac/README.md:106 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:50).
 
 - **module :** titles
 
@@ -38243,13 +38261,13 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/hybrid-array/README.md:34 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:54).
+- **Message :** server_rust/vendor/hybrid-array/README.md:34 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:41).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/hybrid-array/README.md:43 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:63).
+- **Message :** server_rust/vendor/hybrid-array/README.md:43 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:50).
 
 - **module :** titles
 
@@ -39075,7 +39093,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/iana-time-zone/README.md:38 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:54).
+- **Message :** server_rust/vendor/iana-time-zone/README.md:38 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:41).
 
 - **module :** titles
 
@@ -39225,7 +39243,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/idna/README.md:18 titre dupliqué (déjà présent dans server_rust/vendor/futures-task/README.md:5).
+- **Message :** server_rust/vendor/idna/README.md:18 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:10).
 
 - **module :** titles
 
@@ -39237,7 +39255,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/idna/README.md:44 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:54).
+- **Message :** server_rust/vendor/idna/README.md:44 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:41).
 
 - **module :** titles
 
@@ -39245,7 +39263,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/idna_adapter/README.md:39 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:54).
+- **Message :** server_rust/vendor/idna_adapter/README.md:39 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:41).
 
 - **module :** titles
 
@@ -39279,7 +39297,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/indexmap/RELEASES.md:1 titre dupliqué (déjà présent dans server_rust/vendor/num-traits/README.md:37).
+- **Message :** server_rust/vendor/indexmap/RELEASES.md:1 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:33).
 
 - **module :** titles
 
@@ -39311,7 +39329,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/itoa/README.md:52 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:54).
+- **Message :** server_rust/vendor/itoa/README.md:52 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:41).
 
 - **module :** titles
 
@@ -40269,13 +40287,13 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/README.md:35 titre dupliqué (déjà présent dans server_rust/vendor/futures-task/README.md:5).
+- **Message :** server_rust/vendor/libc/README.md:35 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:10).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/libc/README.md:67 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:54).
+- **Message :** server_rust/vendor/libc/README.md:67 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:41).
 
 - **module :** titles
 
@@ -40355,7 +40373,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/libsqlite3-sys/README.md:15 titre dupliqué (déjà présent dans server_rust/vendor/futures-task/README.md:5).
+- **Message :** server_rust/vendor/libsqlite3-sys/README.md:15 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:10).
 
 - **module :** titles
 
@@ -40373,7 +40391,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/libsqlite3-sys/README.md:243 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:54).
+- **Message :** server_rust/vendor/libsqlite3-sys/README.md:243 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:41).
 
 - **module :** titles
 
@@ -40653,7 +40671,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/log/CHANGELOG.md:395 titre dupliqué (déjà présent dans server_rust/vendor/num-traits/README.md:41).
+- **Message :** server_rust/vendor/log/CHANGELOG.md:395 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:37).
 
 - **module :** titles
 
@@ -40685,7 +40703,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/log/README.md:25 titre dupliqué (déjà présent dans server_rust/vendor/futures-task/README.md:5).
+- **Message :** server_rust/vendor/log/README.md:25 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:10).
 
 - **module :** titles
 
@@ -40845,13 +40863,13 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/md-5/README.md:40 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:54).
+- **Message :** server_rust/vendor/md-5/README.md:40 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:41).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/md-5/README.md:49 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:63).
+- **Message :** server_rust/vendor/md-5/README.md:49 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:50).
 
 - **module :** titles
 
@@ -40917,7 +40935,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/miniz_oxide/Readme.md:30 titre dupliqué (déjà présent dans server_rust/vendor/futures-task/README.md:5).
+- **Message :** server_rust/vendor/miniz_oxide/Readme.md:30 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:10).
 
 - **module :** titles
 
@@ -41395,13 +41413,13 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/mio/README.md:26 titre dupliqué (déjà présent dans server_rust/vendor/futures-task/README.md:5).
+- **Message :** server_rust/vendor/mio/README.md:26 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:10).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/mio/README.md:108 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/README.md:27).
+- **Message :** server_rust/vendor/mio/README.md:108 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:19).
 
 - **module :** titles
 
@@ -41439,7 +41457,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/nu-ansi-term/CHANGELOG.md:5 titre dupliqué (déjà présent dans server_rust/vendor/sqlx/CHANGELOG.md:2567).
+- **Message :** server_rust/vendor/nu-ansi-term/CHANGELOG.md:5 titre dupliqué (déjà présent dans server_rust/vendor/num-bigint/RELEASES.md:98).
 
 - **module :** titles
 
@@ -41448,6 +41466,102 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## ❌ Error
 - **Module :** titles
 - **Message :** server_rust/vendor/nu-ansi-term/README.md: contient 2 titres H1 (1 attendu).
+
+- **module :** titles
+
+# 📄 server_rust/vendor/num-bigint/README.md
+
+## ⚠️ Warning
+- **Module :** titles
+- **Message :** server_rust/vendor/num-bigint/README.md:10 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:10).
+
+- **module :** titles
+
+## ⚠️ Warning
+- **Module :** titles
+- **Message :** server_rust/vendor/num-bigint/README.md:19 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:19).
+
+- **module :** titles
+
+## ⚠️ Warning
+- **Module :** titles
+- **Message :** server_rust/vendor/num-bigint/README.md:39 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:33).
+
+- **module :** titles
+
+## ⚠️ Warning
+- **Module :** titles
+- **Message :** server_rust/vendor/num-bigint/README.md:43 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:37).
+
+- **module :** titles
+
+## ⚠️ Warning
+- **Module :** titles
+- **Message :** server_rust/vendor/num-bigint/README.md:71 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:41).
+
+- **module :** titles
+
+## ⚠️ Warning
+- **Module :** titles
+- **Message :** server_rust/vendor/num-bigint/README.md:80 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:50).
+
+- **module :** titles
+
+# 📄 server_rust/vendor/num-bigint/RELEASES.md
+
+## ❌ Error
+- **Module :** titles
+- **Message :** server_rust/vendor/num-bigint/RELEASES.md: contient 24 titres H1 (1 attendu).
+
+- **module :** titles
+
+## ⚠️ Warning
+- **Module :** titles
+- **Message :** server_rust/vendor/num-bigint/RELEASES.md:98 saut de niveau H1 → H3.
+
+- **module :** titles
+
+## ⚠️ Warning
+- **Module :** titles
+- **Message :** server_rust/vendor/num-bigint/RELEASES.md:163 saut de niveau H1 → H3.
+
+- **module :** titles
+
+## ⚠️ Warning
+- **Module :** titles
+- **Message :** server_rust/vendor/num-bigint/RELEASES.md:277 saut de niveau H1 → H3.
+
+- **module :** titles
+
+## ⚠️ Warning
+- **Module :** titles
+- **Message :** server_rust/vendor/num-bigint/RELEASES.md:178 titre dupliqué (déjà présent dans server_rust/vendor/num-bigint/RELEASES.md:98).
+
+- **module :** titles
+
+## ⚠️ Warning
+- **Module :** titles
+- **Message :** server_rust/vendor/num-bigint/RELEASES.md:277 titre dupliqué (déjà présent dans server_rust/vendor/num-bigint/RELEASES.md:163).
+
+- **module :** titles
+
+## ⚠️ Warning
+- **Module :** titles
+- **Message :** server_rust/vendor/num-bigint/RELEASES.md:292 titre dupliqué (déjà présent dans server_rust/vendor/num-bigint/RELEASES.md:98).
+
+- **module :** titles
+
+## ⚠️ Warning
+- **Module :** titles
+- **Message :** server_rust/vendor/num-bigint/RELEASES.md:361 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/RELEASES.md:130).
+
+- **module :** titles
+
+# 📄 server_rust/vendor/num-integer/RELEASES.md
+
+## ❌ Error
+- **Module :** titles
+- **Message :** server_rust/vendor/num-integer/RELEASES.md: contient 13 titres H1 (1 attendu).
 
 - **module :** titles
 
@@ -41473,25 +41587,37 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/num-traits/README.md:10 titre dupliqué (déjà présent dans server_rust/vendor/futures-task/README.md:5).
+- **Message :** server_rust/vendor/num-traits/README.md:10 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:10).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/num-traits/README.md:19 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/README.md:27).
+- **Message :** server_rust/vendor/num-traits/README.md:19 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:19).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/num-traits/README.md:45 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:54).
+- **Message :** server_rust/vendor/num-traits/README.md:37 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:33).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/num-traits/README.md:54 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:63).
+- **Message :** server_rust/vendor/num-traits/README.md:41 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:37).
+
+- **module :** titles
+
+## ⚠️ Warning
+- **Module :** titles
+- **Message :** server_rust/vendor/num-traits/README.md:45 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:41).
+
+- **module :** titles
+
+## ⚠️ Warning
+- **Module :** titles
+- **Message :** server_rust/vendor/num-traits/README.md:54 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:50).
 
 - **module :** titles
 
@@ -41500,6 +41626,12 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## ❌ Error
 - **Module :** titles
 - **Message :** server_rust/vendor/num-traits/RELEASES.md: contient 23 titres H1 (1 attendu).
+
+- **module :** titles
+
+## ⚠️ Warning
+- **Module :** titles
+- **Message :** server_rust/vendor/num-traits/RELEASES.md:304 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/RELEASES.md:130).
 
 - **module :** titles
 
@@ -42191,7 +42323,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl-sys/README.md:17 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:63).
+- **Message :** server_rust/vendor/openssl-sys/README.md:17 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:50).
 
 - **module :** titles
 
@@ -43105,7 +43237,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/CHANGELOG.md:1084 titre dupliqué (déjà présent dans server_rust/vendor/num-traits/README.md:41).
+- **Message :** server_rust/vendor/openssl/CHANGELOG.md:1084 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:37).
 
 - **module :** titles
 
@@ -43149,7 +43281,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/openssl/README.md:17 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:63).
+- **Message :** server_rust/vendor/openssl/README.md:17 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:50).
 
 - **module :** titles
 
@@ -43166,6 +43298,18 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## ⚠️ Warning
 - **Module :** titles
 - **Message :** server_rust/vendor/parking/README.md:63 saut de niveau H2 → H4.
+
+- **module :** titles
+
+## ⚠️ Warning
+- **Module :** titles
+- **Message :** server_rust/vendor/parking/README.md:54 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:41).
+
+- **module :** titles
+
+## ⚠️ Warning
+- **Module :** titles
+- **Message :** server_rust/vendor/parking/README.md:63 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:50).
 
 - **module :** titles
 
@@ -43229,25 +43373,25 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/parking_lot/README.md:25 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/README.md:27).
+- **Message :** server_rust/vendor/parking_lot/README.md:25 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:19).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/parking_lot/README.md:100 titre dupliqué (déjà présent dans server_rust/vendor/futures-task/README.md:5).
+- **Message :** server_rust/vendor/parking_lot/README.md:100 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:10).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/parking_lot/README.md:137 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:54).
+- **Message :** server_rust/vendor/parking_lot/README.md:137 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:41).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/parking_lot/README.md:146 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:63).
+- **Message :** server_rust/vendor/parking_lot/README.md:146 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:50).
 
 - **module :** titles
 
@@ -43539,13 +43683,13 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/password-hash/README.md:35 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:54).
+- **Message :** server_rust/vendor/password-hash/README.md:35 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:41).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/password-hash/README.md:44 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:63).
+- **Message :** server_rust/vendor/password-hash/README.md:44 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:50).
 
 - **module :** titles
 
@@ -43585,13 +43729,13 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/phc/README.md:26 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:54).
+- **Message :** server_rust/vendor/phc/README.md:26 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:41).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/phc/README.md:35 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:63).
+- **Message :** server_rust/vendor/phc/README.md:35 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:50).
 
 - **module :** titles
 
@@ -43613,7 +43757,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/pin-project-lite/README.md:13 titre dupliqué (déjà présent dans server_rust/vendor/futures-task/README.md:5).
+- **Message :** server_rust/vendor/pin-project-lite/README.md:13 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:10).
 
 - **module :** titles
 
@@ -43625,7 +43769,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/pin-project-lite/README.md:122 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:54).
+- **Message :** server_rust/vendor/pin-project-lite/README.md:122 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:41).
 
 - **module :** titles
 
@@ -43875,13 +44019,13 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/pkg-config/README.md:65 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:54).
+- **Message :** server_rust/vendor/pkg-config/README.md:65 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:41).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/pkg-config/README.md:76 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:63).
+- **Message :** server_rust/vendor/pkg-config/README.md:76 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:50).
 
 - **module :** titles
 
@@ -43909,13 +44053,13 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/proc-macro2/README.md:28 titre dupliqué (déjà présent dans server_rust/vendor/futures-task/README.md:5).
+- **Message :** server_rust/vendor/proc-macro2/README.md:28 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:10).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/proc-macro2/README.md:81 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:54).
+- **Message :** server_rust/vendor/proc-macro2/README.md:81 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:41).
 
 - **module :** titles
 
@@ -43941,7 +44085,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/quote/README.md:257 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:54).
+- **Message :** server_rust/vendor/quote/README.md:257 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:41).
 
 - **module :** titles
 
@@ -44227,7 +44371,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/rand/CHANGELOG.md:138 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/README.md:27).
+- **Message :** server_rust/vendor/rand/CHANGELOG.md:138 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:19).
 
 - **module :** titles
 
@@ -44805,7 +44949,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/rand/README.md:102 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:54).
+- **Message :** server_rust/vendor/rand/README.md:102 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:41).
 
 - **module :** titles
 
@@ -45017,7 +45161,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/rand_core/CHANGELOG.md:197 titre dupliqué (déjà présent dans server_rust/vendor/sqlx/CHANGELOG.md:2567).
+- **Message :** server_rust/vendor/rand_core/CHANGELOG.md:197 titre dupliqué (déjà présent dans server_rust/vendor/num-bigint/RELEASES.md:98).
 
 - **module :** titles
 
@@ -45085,7 +45229,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/rand_core/README.md:23 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:54).
+- **Message :** server_rust/vendor/rand_core/README.md:23 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:41).
 
 - **module :** titles
 
@@ -45207,13 +45351,13 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/regex/README.md:26 titre dupliqué (déjà présent dans server_rust/vendor/futures-task/README.md:5).
+- **Message :** server_rust/vendor/regex/README.md:26 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:10).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/regex/README.md:326 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:54).
+- **Message :** server_rust/vendor/regex/README.md:326 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:41).
 
 - **module :** titles
 
@@ -45265,7 +45409,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/rustversion/README.md:154 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:54).
+- **Message :** server_rust/vendor/rustversion/README.md:154 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:41).
 
 - **module :** titles
 
@@ -45341,7 +45485,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/serde/README.md:101 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:54).
+- **Message :** server_rust/vendor/serde/README.md:101 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:41).
 
 - **module :** titles
 
@@ -45479,7 +45623,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/serde_derive/README.md:101 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:54).
+- **Message :** server_rust/vendor/serde_derive/README.md:101 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:41).
 
 - **module :** titles
 
@@ -45545,7 +45689,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/serde_json/README.md:375 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:54).
+- **Message :** server_rust/vendor/serde_json/README.md:375 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:41).
 
 - **module :** titles
 
@@ -45717,13 +45861,13 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/sha1/README.md:50 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:54).
+- **Message :** server_rust/vendor/sha1/README.md:50 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:41).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/sha1/README.md:59 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:63).
+- **Message :** server_rust/vendor/sha1/README.md:59 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:50).
 
 - **module :** titles
 
@@ -46033,13 +46177,13 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/sha2-0.10.9/README.md:29 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:54).
+- **Message :** server_rust/vendor/sha2-0.10.9/README.md:29 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:41).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/sha2-0.10.9/README.md:38 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:63).
+- **Message :** server_rust/vendor/sha2-0.10.9/README.md:38 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:50).
 
 - **module :** titles
 
@@ -46601,13 +46745,13 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/sha2/README.md:115 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:54).
+- **Message :** server_rust/vendor/sha2/README.md:115 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:41).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/sha2/README.md:124 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:63).
+- **Message :** server_rust/vendor/sha2/README.md:124 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:50).
 
 - **module :** titles
 
@@ -46653,7 +46797,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/shlex/README.md:27 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:54).
+- **Message :** server_rust/vendor/shlex/README.md:27 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:41).
 
 - **module :** titles
 
@@ -46675,7 +46819,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/simd-adler32/CHANGELOG.md:5 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/README.md:27).
+- **Message :** server_rust/vendor/simd-adler32/CHANGELOG.md:5 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:19).
 
 - **module :** titles
 
@@ -46703,7 +46847,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/simd-adler32/README.md:16 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/README.md:27).
+- **Message :** server_rust/vendor/simd-adler32/README.md:16 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:19).
 
 - **module :** titles
 
@@ -46749,19 +46893,19 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/slab/README.md:15 titre dupliqué (déjà présent dans server_rust/vendor/futures-task/README.md:5).
+- **Message :** server_rust/vendor/slab/README.md:15 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:10).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/slab/README.md:43 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:54).
+- **Message :** server_rust/vendor/slab/README.md:43 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:41).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/slab/README.md:47 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:63).
+- **Message :** server_rust/vendor/slab/README.md:47 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:50).
 
 - **module :** titles
 
@@ -46809,13 +46953,13 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/socket2/README.md:70 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:54).
+- **Message :** server_rust/vendor/socket2/README.md:70 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:41).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/socket2/README.md:81 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:63).
+- **Message :** server_rust/vendor/socket2/README.md:81 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:50).
 
 - **module :** titles
 
@@ -47083,13 +47227,13 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/spin/README.md:19 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/README.md:27).
+- **Message :** server_rust/vendor/spin/README.md:19 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:19).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/spin/README.md:30 titre dupliqué (déjà présent dans server_rust/vendor/futures-task/README.md:5).
+- **Message :** server_rust/vendor/spin/README.md:30 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:10).
 
 - **module :** titles
 
@@ -47101,7 +47245,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/spin/README.md:141 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:54).
+- **Message :** server_rust/vendor/spin/README.md:141 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:41).
 
 - **module :** titles
 
@@ -47697,6 +47841,12 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
+- **Message :** server_rust/vendor/sqlx/CHANGELOG.md:2567 titre dupliqué (déjà présent dans server_rust/vendor/num-bigint/RELEASES.md:98).
+
+- **module :** titles
+
+## ⚠️ Warning
+- **Module :** titles
 - **Message :** server_rust/vendor/sqlx/CHANGELOG.md:2607 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
@@ -48019,19 +48169,19 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/sqlx/README.md:245 titre dupliqué (déjà présent dans server_rust/vendor/futures-task/README.md:5).
+- **Message :** server_rust/vendor/sqlx/README.md:245 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:10).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/sqlx/README.md:463 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:54).
+- **Message :** server_rust/vendor/sqlx/README.md:463 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:41).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/sqlx/README.md:474 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:63).
+- **Message :** server_rust/vendor/sqlx/README.md:474 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:50).
 
 - **module :** titles
 
@@ -48381,13 +48531,13 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/stringprep/README.md:9 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:54).
+- **Message :** server_rust/vendor/stringprep/README.md:9 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:41).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/stringprep/README.md:18 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:63).
+- **Message :** server_rust/vendor/stringprep/README.md:18 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:50).
 
 - **module :** titles
 
@@ -48485,7 +48635,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/syn-2.0.119/README.md:269 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:54).
+- **Message :** server_rust/vendor/syn-2.0.119/README.md:269 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:41).
 
 - **module :** titles
 
@@ -48529,7 +48679,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/syn/README.md:284 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:54).
+- **Message :** server_rust/vendor/syn/README.md:284 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:41).
 
 - **module :** titles
 
@@ -48641,7 +48791,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/thiserror/README.md:223 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:54).
+- **Message :** server_rust/vendor/thiserror/README.md:223 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:41).
 
 - **module :** titles
 
@@ -48953,13 +49103,13 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio-macros/README.md:5 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:54).
+- **Message :** server_rust/vendor/tokio-macros/README.md:5 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:41).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio-macros/README.md:9 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:63).
+- **Message :** server_rust/vendor/tokio-macros/README.md:9 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:50).
 
 - **module :** titles
 
@@ -49065,13 +49215,13 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio-stream/README.md:5 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:54).
+- **Message :** server_rust/vendor/tokio-stream/README.md:5 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:41).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio-stream/README.md:9 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:63).
+- **Message :** server_rust/vendor/tokio-stream/README.md:9 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:50).
 
 - **module :** titles
 
@@ -52165,13 +52315,13 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/README.md:251 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:54).
+- **Message :** server_rust/vendor/tokio/README.md:251 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:41).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/tokio/README.md:257 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:63).
+- **Message :** server_rust/vendor/tokio/README.md:257 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:50).
 
 - **module :** titles
 
@@ -52693,19 +52843,19 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/tracing-attributes/README.md:44 titre dupliqué (déjà présent dans server_rust/vendor/futures-task/README.md:5).
+- **Message :** server_rust/vendor/tracing-attributes/README.md:44 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:10).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/tracing-attributes/README.md:83 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:54).
+- **Message :** server_rust/vendor/tracing-attributes/README.md:83 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:41).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/tracing-attributes/README.md:87 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:63).
+- **Message :** server_rust/vendor/tracing-attributes/README.md:87 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:50).
 
 - **module :** titles
 
@@ -53327,7 +53477,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/tracing-core/README.md:60 titre dupliqué (déjà présent dans server_rust/vendor/futures-task/README.md:5).
+- **Message :** server_rust/vendor/tracing-core/README.md:60 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:10).
 
 - **module :** titles
 
@@ -53339,13 +53489,13 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/tracing-core/README.md:113 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:54).
+- **Message :** server_rust/vendor/tracing-core/README.md:113 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:41).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/tracing-core/README.md:117 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:63).
+- **Message :** server_rust/vendor/tracing-core/README.md:117 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:50).
 
 - **module :** titles
 
@@ -54267,7 +54417,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/tracing/README.md:54 titre dupliqué (déjà présent dans server_rust/vendor/futures-task/README.md:5).
+- **Message :** server_rust/vendor/tracing/README.md:54 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:10).
 
 - **module :** titles
 
@@ -54297,13 +54447,13 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/tracing/README.md:461 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:54).
+- **Message :** server_rust/vendor/tracing/README.md:461 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:41).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/tracing/README.md:465 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:63).
+- **Message :** server_rust/vendor/tracing/README.md:465 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:50).
 
 - **module :** titles
 
@@ -54343,13 +54493,13 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/typenum/README.md:52 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:54).
+- **Message :** server_rust/vendor/typenum/README.md:52 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:41).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/typenum/README.md:63 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:63).
+- **Message :** server_rust/vendor/typenum/README.md:63 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:50).
 
 - **module :** titles
 
@@ -54369,7 +54519,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/unicode-ident/README.md:262 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:54).
+- **Message :** server_rust/vendor/unicode-ident/README.md:262 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:41).
 
 - **module :** titles
 
@@ -54493,13 +54643,13 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/uuid/README.md:76 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:54).
+- **Message :** server_rust/vendor/uuid/README.md:76 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:41).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/uuid/README.md:85 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:63).
+- **Message :** server_rust/vendor/uuid/README.md:85 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:50).
 
 - **module :** titles
 
@@ -54629,7 +54779,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/vcpkg/README.md:20 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:54).
+- **Message :** server_rust/vendor/vcpkg/README.md:20 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:41).
 
 - **module :** titles
 
@@ -54645,7 +54795,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/version_check/README.md:13 titre dupliqué (déjà présent dans server_rust/vendor/futures-task/README.md:5).
+- **Message :** server_rust/vendor/version_check/README.md:13 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:10).
 
 - **module :** titles
 
@@ -54657,13 +54807,13 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/version_check/README.md:64 titre dupliqué (déjà présent dans server_rust/vendor/byteorder/README.md:73).
+- **Message :** server_rust/vendor/version_check/README.md:64 titre dupliqué (déjà présent dans server_rust/vendor/num-bigint/README.md:47).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/version_check/README.md:75 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:54).
+- **Message :** server_rust/vendor/version_check/README.md:75 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:41).
 
 - **module :** titles
 
@@ -54729,19 +54879,19 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/wasi/README.md:27 titre dupliqué (déjà présent dans server_rust/vendor/futures-task/README.md:5).
+- **Message :** server_rust/vendor/wasi/README.md:27 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:10).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/wasi/README.md:85 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:54).
+- **Message :** server_rust/vendor/wasi/README.md:85 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:41).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/wasi/README.md:90 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:63).
+- **Message :** server_rust/vendor/wasi/README.md:90 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:50).
 
 - **module :** titles
 
@@ -54795,19 +54945,19 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/wasm-bindgen/README.md:77 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/README.md:27).
+- **Message :** server_rust/vendor/wasm-bindgen/README.md:77 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:19).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/wasm-bindgen/README.md:126 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:54).
+- **Message :** server_rust/vendor/wasm-bindgen/README.md:126 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:41).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/wasm-bindgen/README.md:137 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:63).
+- **Message :** server_rust/vendor/wasm-bindgen/README.md:137 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:50).
 
 - **module :** titles
 
@@ -54821,7 +54971,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/whoami/README.md:18 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown/README.md:27).
+- **Message :** server_rust/vendor/whoami/README.md:18 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:19).
 
 - **module :** titles
 
@@ -54839,13 +54989,13 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/whoami/README.md:82 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:54).
+- **Message :** server_rust/vendor/whoami/README.md:82 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:41).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/whoami/README.md:95 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:63).
+- **Message :** server_rust/vendor/whoami/README.md:95 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:50).
 
 - **module :** titles
 
@@ -55329,13 +55479,13 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/zeroize/README.md:59 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:54).
+- **Message :** server_rust/vendor/zeroize/README.md:59 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:41).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/zeroize/README.md:68 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:63).
+- **Message :** server_rust/vendor/zeroize/README.md:68 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:50).
 
 - **module :** titles
 
@@ -55531,13 +55681,13 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/zeroize_derive/README.md:14 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:54).
+- **Message :** server_rust/vendor/zeroize_derive/README.md:14 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:41).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/zeroize_derive/README.md:23 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:63).
+- **Message :** server_rust/vendor/zeroize_derive/README.md:23 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:50).
 
 - **module :** titles
 
@@ -55697,7 +55847,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/zmij/README.md:40 titre dupliqué (déjà présent dans server_rust/vendor/parking/README.md:54).
+- **Message :** server_rust/vendor/zmij/README.md:40 titre dupliqué (déjà présent dans server_rust/vendor/num-integer/README.md:41).
 
 - **module :** titles
 
