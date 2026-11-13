@@ -49,8 +49,8 @@ reports/python/2026-11-10/*.html filter=lfs diff=lfs merge=lfs -text
 reports/python/2026-11-11/*.html filter=lfs diff=lfs merge=lfs -text
 reports/python/2026-11-12/*.html filter=lfs diff=lfs merge=lfs -text
 reports/python/2026-11-13/*.html filter=lfs diff=lfs merge=lfs -text
+reports/python/2026-11-13/*.md filter=lfs diff=lfs merge=lfs -text
+reports/rust/2026-11-13/*.md filter=lfs diff=lfs merge=lfs -text
 reports/build/build-ubuntu-latest/2026-11-13/*.md filter=lfs diff=lfs merge=lfs -text
 reports/build/build-windows-latest/2026-11-13/*.md filter=lfs diff=lfs merge=lfs -text
 reports/build/build-macos-latest/2026-11-13/*.md filter=lfs diff=lfs merge=lfs -text
-reports/python/2026-11-13/*.md filter=lfs diff=lfs merge=lfs -text
-reports/rust/2026-11-13/*.md filter=lfs diff=lfs merge=lfs -text
