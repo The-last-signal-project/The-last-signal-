@@ -6,7 +6,7 @@ edition = "2024"
 [profile.dev]
 opt-level = 0
 debug = 2
-incremental = true
+incremental = false
 [dependencies]
 fernet = "0.2"
 argon2 =  "0.6.0"
