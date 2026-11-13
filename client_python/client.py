@@ -31,14 +31,13 @@ class Client:
 
         self.connected = False
     
-    def connect(self):
+    def connect(self, timeout=90):
         """
-        Connexion du client
+        Connexion du client (réessaie jusqu'à `timeout` secondes)
         """
         if self.connected:
             print(self.connected)
             return
-        timeout = 90
         interval = 0.5
         start_time = time.monotonic()
         while True:

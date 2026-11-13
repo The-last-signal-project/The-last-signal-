@@ -33,6 +33,7 @@ pub enum PacketType {
     AccountCreate = 20,
     AccountSelect = 21,
     AccountResult = 22,
+    Spawn = 23,
 }
 #[derive(Debug, Clone, Copy)]
 pub enum BanType {
@@ -87,6 +88,7 @@ impl PacketType {
             20 => Some(PacketType::AccountCreate),
             21 => Some(PacketType::AccountSelect),
             22 => Some(PacketType::AccountResult),
+            23 => Some(PacketType::Spawn),
 
             _ => None,
         }
@@ -252,12 +254,13 @@ mod tests {
         assert_eq!(PacketType::from_u16(20),Some(PacketType::AccountCreate));
         assert_eq!(PacketType::from_u16(21), Some(PacketType::AccountSelect));
         assert_eq!(PacketType::from_u16(22), Some(PacketType::AccountResult));
+        assert_eq!(PacketType::from_u16(23), Some(PacketType::Spawn));
     }
 
     #[test]
     fn test_packet_type_from_u16_invalid_values() {
         assert_eq!(PacketType::from_u16(0), None);
-        assert_eq!(PacketType::from_u16(23), None);
+        assert_eq!(PacketType::from_u16(24), None);
         assert_eq!(PacketType::from_u16(100), None);
         assert_eq!(PacketType::from_u16(999), None);
         assert_eq!(PacketType::from_u16(u16::MAX), None);
@@ -505,6 +508,7 @@ mod tests {
             (20u16, PacketType::AccountCreate),
             (21u16, PacketType::AccountSelect),
             (22u16, PacketType::AccountResult),
+            (23u16, PacketType::Spawn),
 
 
         ];
@@ -526,7 +530,7 @@ mod tests {
 
     #[test]
 fn test_parse_body_unknown_type_boundary_cases() {
-    let unknown_ids = [0u16, 23u16, 999u16, u16::MAX];
+    let unknown_ids = [0u16, 24u16, 999u16, u16::MAX];
 
     for unknown_id in unknown_ids {
         let body = unknown_id.to_be_bytes();

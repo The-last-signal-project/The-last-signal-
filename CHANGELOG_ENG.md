@@ -146,8 +146,8 @@ All notable changes to the **The Last Signal Online** project are documented in 
 
 
 
-###Supression
--suppression of AI because of important consommation 
+### Supression
+- suppression of AI because of important consommation 
 ----
 
 ## [1.0.14] - 2026-10-16

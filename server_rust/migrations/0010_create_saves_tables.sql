@@ -62,9 +62,13 @@ CREATE TABLE IF NOT EXISTS stuff (
 
     account_id INTEGER NOT NULL,
     objet_id INTEGER NOT NULL,
+
     stack_key TEXT NOT NULL,
 
     quantity INTEGER NOT NULL DEFAULT 1,
+
+    rarete TEXT,
+    rang TEXT,
 
     FOREIGN KEY (account_id)
         REFERENCES accounts(account_id)
@@ -74,8 +78,11 @@ CREATE TABLE IF NOT EXISTS stuff (
         REFERENCES objets_dispo(objet_id)
         ON DELETE RESTRICT,
 
-    UNIQUE (account_id, objet_id,
-        stack_key),
+    UNIQUE (
+        account_id,
+        objet_id,
+        stack_key
+    ),
 
     CHECK (quantity > 0)
 );
@@ -128,7 +135,6 @@ CREATE TABLE IF NOT EXISTS potions (
     CHECK (potency >= 0),
     CHECK (duration >= 0)
 );
-
 
 -- ============================================================
 -- LIVRES ENCHANTÉS
@@ -243,3 +249,23 @@ BEGIN
         'Un livre ne peut pas avoir plus de 6 enchantements'
     );
 END;
+CREATE INDEX IF NOT EXISTS idx_stuff_account
+ON stuff(account_id);
+
+CREATE INDEX IF NOT EXISTS idx_stuff_objet
+ON stuff(objet_id);
+
+CREATE INDEX IF NOT EXISTS idx_equipment_stuff
+ON equipment(stuff_id);
+
+CREATE INDEX IF NOT EXISTS idx_potions_stuff
+ON potions(stuff_id);
+
+CREATE INDEX IF NOT EXISTS idx_books_stuff
+ON enchanted_books(stuff_id);
+
+CREATE INDEX IF NOT EXISTS idx_book_enchantments_book
+ON book_enchantments(book_id);
+
+CREATE INDEX IF NOT EXISTS idx_enchantment_types_equipment
+ON enchantment_types(equipment_type);

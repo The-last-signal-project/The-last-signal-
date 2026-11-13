@@ -5,6 +5,7 @@ use log::{
     error,
     debug,
 };
+use crate::auth::user_manager::UserManager;
 use crate::database::database_manager::DatabaseManager;
 use crate::network::client::Client;
 use crate::world::world::World;
@@ -23,7 +24,21 @@ impl Server {
         let listener = TcpListener::bind(address)
     .await
     .inspect_err(|e| error!("Impossible de démarrer le serveur : {}", e))?;
-         let world = World::new();
+        // Schéma (pseudo) puis remise à zéro des statuts : aucun client n'est encore connecté.
+        let pool = database.pool().clone();
+
+        
+
+        match UserManager::reset_connected_users(&pool).await {
+            Ok(0) => {}
+            Ok(count) => info!(
+                "{} compte(s) resté(s) CONNECTED remis à DISCONNECTED",
+                count
+            ),
+            Err(e) => error!("{}", e),
+        }
+
+        let world = World::new();
 
         Ok(Self {
         listener,

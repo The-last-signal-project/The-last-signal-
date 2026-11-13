@@ -147,8 +147,8 @@ l'espagnol et le japonais
 
 
 
-###Supression
--suppression de l'IA car trop consommatrice
+### Supression
+- suppression de l'IA car trop consommatrice
 ----
 
 ## [1.0.14] - 16/10/2026

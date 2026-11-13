@@ -13,9 +13,10 @@
 edition = "2024"
 rust-version = "1.85"
 name = "const-oid"
-version = "0.10.2"
+version = "0.10.3"
 authors = ["RustCrypto Developers"]
 build = false
+exclude = ["oiddbgen/"]
 autolib = false
 autobins = false
 autoexamples = false
@@ -24,7 +25,7 @@ autobenches = false
 description = """
 Const-friendly implementation of the ISO/IEC Object Identifier (OID) standard
 as defined in ITU X.660, with support for BER/DER encoding/decoding as well as
-heapless no_std (i.e. embedded) support
+no_std + no_alloc (i.e. embedded) support
 """
 homepage = "https://github.com/RustCrypto/formats/tree/master/const-oid"
 documentation = "https://docs.rs/const-oid"

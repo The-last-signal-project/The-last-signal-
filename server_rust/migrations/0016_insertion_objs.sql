@@ -19,12 +19,12 @@ VALUES
 
     ('potion de soin léger', 'potion', 'potion_de_soin_léger.png', 25),
     ('potion de soin modéré', 'potion', 'potion_de_soin_modéré.png', 35),
-    ('potion de délivrance', 'potion', 'potion_de_délivrance.png', 100),
+    ('potion de délivrance', 'potion', 'potion_de_délivrance.png', 200),
     ('potion de mana', 'potion', 'potion_de_mana.png', 75),
 
     ('gemmes', 'basic', 'gemmes.png', 100000),
     ('sac', 'material', 'sac.png', 10),
-    ('corde', 'material', 'corde.png', 7),
+    ('corde', 'material', 'corde.png', 10),
 
 
     ('torche', 'material', 'torche.png', 5),
@@ -44,6 +44,15 @@ VALUES
     ('Au', 'mineral', 'au.png',150),
     ('Diam', 'mineral', 'diam.png',400),
     ('Re', 'mineral', 'rhénium.png', 1200),
-
-    ('carreau pour arbalète', 'muni', 'carreau.png', 15);
+    ('ManaStone G','mineral','manastone.png',120000),
+    ('ManaStone F','mineral','manastone.png',150000),
+    ('ManaStone E','mineral','manastone.png',190000),
+    ('ManaStone D','mineral','manastone.png',230000),
+    ('ManaStone C','mineral','manastone.png',280000),
+    ('ManaStone B','mineral','manastone.png',500000),
+    ('ManaStone A','mineral','manastone.png',650000),
+    ('ManaStone S','mineral','manastone.png',800000),
+    ('ManaStone SS','mineral','manastone.png',950000),
+    ('ManaStone SSS','mineral','manastone.png',10500000),
+    ('carreau pour arbalète', 'muni', 'carreau.png', 50);
     

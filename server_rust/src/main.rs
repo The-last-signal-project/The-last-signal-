@@ -2,6 +2,10 @@ use the_last_signal_server::database::{
     database_manager::DatabaseManager,
     migrations,
 };
+use the_last_signal_server::gameplay::{
+    bank_manager::BankManager,
+    migrations,
+};
 use log::info;
 #[allow(dead_code)]
 use sqlx::Row;
@@ -15,7 +19,7 @@ use the_last_signal_server::utils::logger::logger::ServerLogger;
 #[allow(dead_code)]
 const NOMBRE_REPETITIONS: u32 = 100;
 #[allow(dead_code)]
-const NOMBRE_CONFIGURATIONS: u32 = 12 * 2 * 2; // niveaux × admin × militaire
+const NOMBRE_CONFIGURATIONS: u32 = 14 * 2 * 2; // niveaux × admin × militaire
 
 
 #[allow(dead_code)]
@@ -31,12 +35,13 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
             .await?;
 
     database.ping().await?;
+    let bank = Bankmanager::new(database.pool().clone());
     migrations::run(&database.pool()).await?;
 
     info!("Base SQLite prête.");
 
     ServerLogger::set_database(database.pool().clone());
-
+    
     let server =
         Server::new("127.0.0.1:5000", database)
             .await?;
@@ -175,20 +180,20 @@ mod tests {
              *
              * Une configuration =
              *
-             * niveau 1..=12
+             * niveau 1..=14
              * × admin false/true
              * × militaire false/true
              *
              * Soit :
              *
-             * 10 × 2 × 2 = 40 configurations.
+             * 14 × 2 × 2 = 56 configurations.
              */
             for _repetition in 0..NOMBRE_REPETITIONS {
-                for niveau in 1..=12 {
+                for niveau in 1..=14 {
                     for is_admin in [false, true] {
                         for is_militaire in [false, true] {
 
-                            let objets = tresor
+                            let resultat = tresor
                                 .ouvrir(
                                     database.pool(),
                                     account_id,
@@ -198,6 +203,13 @@ mod tests {
                                     Some(*coefficient),
                                 )
                                 .await?;
+
+                            for a in &resultat.artefacts {
+                                // ex. "épée de pierre x1 [Rare - rank B]"
+                                println!("{}", a);
+                            }
+
+                            let objets = resultat.en_hashmap();
 
                             /*
                              * On ajoute les livres dans l'inventaire.
