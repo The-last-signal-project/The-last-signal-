@@ -1,9 +1,9 @@
 # Security Report
 
-Run : 713
+Run : 714
 Branch : main
-Commit : fa99b46f707a2f400889a073a21c1dc4d441bd2a
-Date : Fri Nov 13 02:58:46 UTC 2026
+Commit : 3167f0464b8d53c2d9969637c202a3bf4e2bb67d
+Date : Sat Nov 14 02:30:20 UTC 2026
 
 Fuzzing
 
@@ -36,12 +36,12 @@ THE LAST SIGNAL - RED TEAM FILE INTEGRITY TEST V2
 
 === RED TEAM CLONE ===
 Repository : https://github.com/The-last-signal-project/The-last-signal-.git
-SHA        : fa99b46f707a2f400889a073a21c1dc4d441bd2a
-[CMD] git clone --no-tags --filter=blob:none https://github.com/The-last-signal-project/The-last-signal-.git /tmp/security_red_team_25gkewjh/repository
-[CMD] git fetch --depth=1 origin fa99b46f707a2f400889a073a21c1dc4d441bd2a
-[CMD] git checkout --detach fa99b46f707a2f400889a073a21c1dc4d441bd2a
+SHA        : 3167f0464b8d53c2d9969637c202a3bf4e2bb67d
+[CMD] git clone --no-tags --filter=blob:none https://github.com/The-last-signal-project/The-last-signal-.git /tmp/security_red_team_yye17hh5/repository
+[CMD] git fetch --depth=1 origin 3167f0464b8d53c2d9969637c202a3bf4e2bb67d
+[CMD] git checkout --detach 3167f0464b8d53c2d9969637c202a3bf4e2bb67d
 [CMD] git rev-parse HEAD
-[PASS] Exact commit verified: fa99b46f707a2f400889a073a21c1dc4d441bd2a
+[PASS] Exact commit verified: 3167f0464b8d53c2d9969637c202a3bf4e2bb67d
 
 === CREATING SECURITY LAB ===
 [PASS] Laboratory created.
@@ -152,7 +152,7 @@ Git integrity: FAIL
 [WARN] World-executable script: server_rust/vendor/sqlx/tests/mssql/entrypoint.sh
 [WARN] World-executable script: server_rust/vendor/unicode-normalization/scripts/unicode.py
 
-Files/objects inspected: 10506
+Files/objects inspected: 10589
 [PASS] No dangerous filesystem permissions detected.
 
 ## Git Security Test
@@ -160,7 +160,7 @@ Files/objects inspected: 10506
 [INFO] Working tree contains changes.
 [FAIL] Sensitive file tracked by Git: server_rust/vendor/sqlx/tests/.env
 [INFO] core.filemode=true
-[INFO] HEAD=fa99b46f707a2f400889a073a21c1dc4d441bd2a
+[INFO] HEAD=3167f0464b8d53c2d9969637c202a3bf4e2bb67d
 [INFO] Scanning Git history for obvious secrets...
 [FAIL] Potential secret detected in Git history.
 [FAIL] 2 Git security issue(s) detected.
@@ -7883,8 +7883,8 @@ Python files inspected: 77
 [WARN] server_rust/vendor/mio/src/net/uds/listener.rs:117 - unsafe block/function
 [WARN] server_rust/vendor/mio/src/net/uds/datagram.rs:239 - unsafe block/function
 [WARN] server_rust/vendor/mio/src/net/uds/datagram.rs:249 - unsafe block/function
-[WARN] server_rust/vendor/mio/src/net/uds/stream.rs:252 - unsafe block/function
-[WARN] server_rust/vendor/mio/src/net/uds/stream.rs:262 - unsafe block/function
+[WARN] server_rust/vendor/mio/src/net/uds/stream.rs:254 - unsafe block/function
+[WARN] server_rust/vendor/mio/src/net/uds/stream.rs:264 - unsafe block/function
 [WARN] server_rust/vendor/mio/src/sys/wasip1/mod.rs:67 - Potential unwrap
 [WARN] server_rust/vendor/mio/src/sys/wasip1/mod.rs:87 - unsafe block/function
 [WARN] server_rust/vendor/mio/src/sys/wasip1/mod.rs:93 - Potential unwrap
@@ -7893,70 +7893,63 @@ Python files inspected: 77
 [WARN] server_rust/vendor/mio/src/sys/wasip1/mod.rs:180 - Potential unwrap
 [WARN] server_rust/vendor/mio/src/sys/wasip1/mod.rs:186 - unsafe block/function
 [WARN] server_rust/vendor/mio/src/sys/wasip1/mod.rs:189 - unsafe block/function
-[WARN] server_rust/vendor/mio/src/sys/unix/pipe.rs:28 - unsafe block/function
-[WARN] server_rust/vendor/mio/src/sys/unix/pipe.rs:45 - unsafe block/function
-[WARN] server_rust/vendor/mio/src/sys/unix/pipe.rs:214 - unsafe block/function
+[WARN] server_rust/vendor/mio/src/sys/unix/pipe.rs:29 - unsafe block/function
+[WARN] server_rust/vendor/mio/src/sys/unix/pipe.rs:46 - unsafe block/function
 [WARN] server_rust/vendor/mio/src/sys/unix/pipe.rs:215 - unsafe block/function
-[WARN] server_rust/vendor/mio/src/sys/unix/pipe.rs:360 - unsafe block/function
-[WARN] server_rust/vendor/mio/src/sys/unix/pipe.rs:365 - unsafe block/function
-[WARN] server_rust/vendor/mio/src/sys/unix/pipe.rs:537 - unsafe block/function
-[WARN] server_rust/vendor/mio/src/sys/unix/pipe.rs:547 - unsafe block/function
-[WARN] server_rust/vendor/mio/src/sys/unix/pipe.rs:564 - unsafe block/function
-[WARN] server_rust/vendor/mio/src/sys/unix/pipe.rs:594 - unsafe block/function
-[WARN] server_rust/vendor/mio/src/sys/unix/pipe.rs:603 - unsafe block/function
-[WARN] server_rust/vendor/mio/src/sys/unix/pipe.rs:615 - unsafe block/function
-[WARN] server_rust/vendor/mio/src/sys/unix/net.rs:196 - unsafe block/function
+[WARN] server_rust/vendor/mio/src/sys/unix/pipe.rs:216 - unsafe block/function
+[WARN] server_rust/vendor/mio/src/sys/unix/pipe.rs:361 - unsafe block/function
+[WARN] server_rust/vendor/mio/src/sys/unix/pipe.rs:366 - unsafe block/function
+[WARN] server_rust/vendor/mio/src/sys/unix/pipe.rs:538 - unsafe block/function
+[WARN] server_rust/vendor/mio/src/sys/unix/pipe.rs:548 - unsafe block/function
+[WARN] server_rust/vendor/mio/src/sys/unix/pipe.rs:565 - unsafe block/function
+[WARN] server_rust/vendor/mio/src/sys/unix/pipe.rs:595 - unsafe block/function
+[WARN] server_rust/vendor/mio/src/sys/unix/pipe.rs:604 - unsafe block/function
+[WARN] server_rust/vendor/mio/src/sys/unix/pipe.rs:616 - unsafe block/function
+[WARN] server_rust/vendor/mio/src/sys/unix/net.rs:197 - unsafe block/function
 [WARN] server_rust/vendor/mio/src/sys/unix/tcp.rs:86 - unsafe block/function
-[WARN] server_rust/vendor/mio/src/sys/unix/tcp.rs:115 - unsafe block/function
-[WARN] server_rust/vendor/mio/src/sys/unix/tcp.rs:138 - unsafe block/function
+[WARN] server_rust/vendor/mio/src/sys/unix/tcp.rs:117 - unsafe block/function
+[WARN] server_rust/vendor/mio/src/sys/unix/tcp.rs:146 - unsafe block/function
 [WARN] server_rust/vendor/mio/src/sys/unix/udp.rs:15 - unsafe block/function
 [WARN] server_rust/vendor/mio/src/sys/unix/mod.rs:8 - unsafe block/function
-[WARN] server_rust/vendor/mio/src/sys/windows/named_pipe.rs:97 - unsafe block/function
-[WARN] server_rust/vendor/mio/src/sys/windows/named_pipe.rs:101 - unsafe block/function
-[WARN] server_rust/vendor/mio/src/sys/windows/named_pipe.rs:109 - unsafe block/function
-[WARN] server_rust/vendor/mio/src/sys/windows/named_pipe.rs:115 - unsafe block/function
-[WARN] server_rust/vendor/mio/src/sys/windows/named_pipe.rs:121 - unsafe block/function
-[WARN] server_rust/vendor/mio/src/sys/windows/named_pipe.rs:127 - unsafe block/function
-[WARN] server_rust/vendor/mio/src/sys/windows/named_pipe.rs:151 - unsafe block/function
-[WARN] server_rust/vendor/mio/src/sys/windows/named_pipe.rs:168 - unsafe block/function
-[WARN] server_rust/vendor/mio/src/sys/windows/named_pipe.rs:201 - unsafe block/function
-[WARN] server_rust/vendor/mio/src/sys/windows/named_pipe.rs:262 - unsafe block/function
-[WARN] server_rust/vendor/mio/src/sys/windows/named_pipe.rs:307 - unsafe block/function
+[WARN] server_rust/vendor/mio/src/sys/windows/named_pipe.rs:99 - unsafe block/function
+[WARN] server_rust/vendor/mio/src/sys/windows/named_pipe.rs:103 - unsafe block/function
+[WARN] server_rust/vendor/mio/src/sys/windows/named_pipe.rs:116 - unsafe block/function
+[WARN] server_rust/vendor/mio/src/sys/windows/named_pipe.rs:130 - unsafe block/function
+[WARN] server_rust/vendor/mio/src/sys/windows/named_pipe.rs:147 - unsafe block/function
+[WARN] server_rust/vendor/mio/src/sys/windows/named_pipe.rs:183 - unsafe block/function
+[WARN] server_rust/vendor/mio/src/sys/windows/named_pipe.rs:217 - unsafe block/function
+[WARN] server_rust/vendor/mio/src/sys/windows/named_pipe.rs:236 - unsafe block/function
 [WARN] server_rust/vendor/mio/src/sys/windows/named_pipe.rs:323 - unsafe block/function
-[WARN] server_rust/vendor/mio/src/sys/windows/named_pipe.rs:327 - unsafe block/function
-[WARN] server_rust/vendor/mio/src/sys/windows/named_pipe.rs:332 - unsafe block/function
-[WARN] server_rust/vendor/mio/src/sys/windows/named_pipe.rs:337 - unsafe block/function
-[WARN] server_rust/vendor/mio/src/sys/windows/named_pipe.rs:375 - unsafe block/function
-[WARN] server_rust/vendor/mio/src/sys/windows/named_pipe.rs:393 - unsafe block/function
-[WARN] server_rust/vendor/mio/src/sys/windows/named_pipe.rs:433 - unsafe block/function
-[WARN] server_rust/vendor/mio/src/sys/windows/named_pipe.rs:476 - Potential unwrap
-[WARN] server_rust/vendor/mio/src/sys/windows/named_pipe.rs:492 - unsafe block/function
-[WARN] server_rust/vendor/mio/src/sys/windows/named_pipe.rs:532 - Potential unwrap
-[WARN] server_rust/vendor/mio/src/sys/windows/named_pipe.rs:584 - Potential unwrap
-[WARN] server_rust/vendor/mio/src/sys/windows/named_pipe.rs:621 - Potential unwrap
-[WARN] server_rust/vendor/mio/src/sys/windows/named_pipe.rs:650 - Potential unwrap
-[WARN] server_rust/vendor/mio/src/sys/windows/named_pipe.rs:663 - Potential unwrap
-[WARN] server_rust/vendor/mio/src/sys/windows/named_pipe.rs:695 - unsafe block/function
-[WARN] server_rust/vendor/mio/src/sys/windows/named_pipe.rs:700 - Potential unwrap
-[WARN] server_rust/vendor/mio/src/sys/windows/named_pipe.rs:727 - unsafe block/function
-[WARN] server_rust/vendor/mio/src/sys/windows/named_pipe.rs:767 - unsafe block/function
-[WARN] server_rust/vendor/mio/src/sys/windows/named_pipe.rs:818 - Potential unwrap
-[WARN] server_rust/vendor/mio/src/sys/windows/named_pipe.rs:828 - Potential unwrap
-[WARN] server_rust/vendor/mio/src/sys/windows/named_pipe.rs:832 - Potential unwrap
-[WARN] server_rust/vendor/mio/src/sys/windows/named_pipe.rs:836 - unsafe block/function
-[WARN] server_rust/vendor/mio/src/sys/windows/named_pipe.rs:853 - unsafe block/function
-[WARN] server_rust/vendor/mio/src/sys/windows/named_pipe.rs:861 - unsafe block/function
-[WARN] server_rust/vendor/mio/src/sys/windows/named_pipe.rs:864 - Potential unwrap
-[WARN] server_rust/vendor/mio/src/sys/windows/named_pipe.rs:879 - unsafe block/function
-[WARN] server_rust/vendor/mio/src/sys/windows/named_pipe.rs:881 - Potential unwrap
-[WARN] server_rust/vendor/mio/src/sys/windows/named_pipe.rs:900 - unsafe block/function
-[WARN] server_rust/vendor/mio/src/sys/windows/named_pipe.rs:931 - unsafe block/function
-[WARN] server_rust/vendor/mio/src/sys/windows/named_pipe.rs:935 - Potential unwrap
-[WARN] server_rust/vendor/mio/src/sys/windows/named_pipe.rs:955 - unsafe block/function
-[WARN] server_rust/vendor/mio/src/sys/windows/named_pipe.rs:982 - unsafe block/function
-[WARN] server_rust/vendor/mio/src/sys/windows/named_pipe.rs:984 - Potential unwrap
-[WARN] server_rust/vendor/mio/src/sys/windows/named_pipe.rs:1057 - Potential unwrap
-[WARN] server_rust/vendor/mio/src/sys/windows/named_pipe.rs:1088 - unsafe block/function
+[WARN] server_rust/vendor/mio/src/sys/windows/named_pipe.rs:328 - Potential expect
+[WARN] server_rust/vendor/mio/src/sys/windows/named_pipe.rs:339 - unsafe block/function
+[WARN] server_rust/vendor/mio/src/sys/windows/named_pipe.rs:414 - unsafe block/function
+[WARN] server_rust/vendor/mio/src/sys/windows/named_pipe.rs:432 - unsafe block/function
+[WARN] server_rust/vendor/mio/src/sys/windows/named_pipe.rs:457 - Potential unwrap
+[WARN] server_rust/vendor/mio/src/sys/windows/named_pipe.rs:474 - unsafe block/function
+[WARN] server_rust/vendor/mio/src/sys/windows/named_pipe.rs:508 - Potential unwrap
+[WARN] server_rust/vendor/mio/src/sys/windows/named_pipe.rs:521 - Potential unwrap
+[WARN] server_rust/vendor/mio/src/sys/windows/named_pipe.rs:544 - unsafe block/function
+[WARN] server_rust/vendor/mio/src/sys/windows/named_pipe.rs:602 - Potential unwrap
+[WARN] server_rust/vendor/mio/src/sys/windows/named_pipe.rs:656 - Potential unwrap
+[WARN] server_rust/vendor/mio/src/sys/windows/named_pipe.rs:712 - Potential unwrap
+[WARN] server_rust/vendor/mio/src/sys/windows/named_pipe.rs:740 - Potential unwrap
+[WARN] server_rust/vendor/mio/src/sys/windows/named_pipe.rs:751 - Potential unwrap
+[WARN] server_rust/vendor/mio/src/sys/windows/named_pipe.rs:778 - Potential unwrap
+[WARN] server_rust/vendor/mio/src/sys/windows/named_pipe.rs:825 - unsafe block/function
+[WARN] server_rust/vendor/mio/src/sys/windows/named_pipe.rs:858 - unsafe block/function
+[WARN] server_rust/vendor/mio/src/sys/windows/named_pipe.rs:899 - unsafe block/function
+[WARN] server_rust/vendor/mio/src/sys/windows/named_pipe.rs:901 - Potential unwrap
+[WARN] server_rust/vendor/mio/src/sys/windows/named_pipe.rs:925 - unsafe block/function
+[WARN] server_rust/vendor/mio/src/sys/windows/named_pipe.rs:927 - Potential unwrap
+[WARN] server_rust/vendor/mio/src/sys/windows/named_pipe.rs:939 - unsafe block/function
+[WARN] server_rust/vendor/mio/src/sys/windows/named_pipe.rs:947 - unsafe block/function
+[WARN] server_rust/vendor/mio/src/sys/windows/named_pipe.rs:965 - unsafe block/function
+[WARN] server_rust/vendor/mio/src/sys/windows/named_pipe.rs:967 - Potential unwrap
+[WARN] server_rust/vendor/mio/src/sys/windows/named_pipe.rs:1016 - unsafe block/function
+[WARN] server_rust/vendor/mio/src/sys/windows/named_pipe.rs:1018 - Potential unwrap
+[WARN] server_rust/vendor/mio/src/sys/windows/named_pipe.rs:1074 - unsafe block/function
+[WARN] server_rust/vendor/mio/src/sys/windows/named_pipe.rs:1154 - Potential unwrap
+[WARN] server_rust/vendor/mio/src/sys/windows/named_pipe.rs:1156 - unsafe block/function
 [WARN] server_rust/vendor/mio/src/sys/windows/iocp.rs:26 - unsafe block/function
 [WARN] server_rust/vendor/mio/src/sys/windows/iocp.rs:30 - unsafe block/function
 [WARN] server_rust/vendor/mio/src/sys/windows/iocp.rs:47 - unsafe block/function
@@ -7964,13 +7957,13 @@ Python files inspected: 77
 [WARN] server_rust/vendor/mio/src/sys/windows/iocp.rs:57 - unsafe block/function
 [WARN] server_rust/vendor/mio/src/sys/windows/iocp.rs:78 - unsafe block/function
 [WARN] server_rust/vendor/mio/src/sys/windows/iocp.rs:109 - unsafe block/function
-[WARN] server_rust/vendor/mio/src/sys/windows/iocp.rs:133 - unsafe block/function
-[WARN] server_rust/vendor/mio/src/sys/windows/iocp.rs:157 - unsafe block/function
-[WARN] server_rust/vendor/mio/src/sys/windows/iocp.rs:195 - unsafe block/function
-[WARN] server_rust/vendor/mio/src/sys/windows/iocp.rs:262 - Potential unwrap
-[WARN] server_rust/vendor/mio/src/sys/windows/iocp.rs:264 - Potential unwrap
+[WARN] server_rust/vendor/mio/src/sys/windows/iocp.rs:134 - unsafe block/function
+[WARN] server_rust/vendor/mio/src/sys/windows/iocp.rs:158 - unsafe block/function
+[WARN] server_rust/vendor/mio/src/sys/windows/iocp.rs:196 - unsafe block/function
+[WARN] server_rust/vendor/mio/src/sys/windows/iocp.rs:263 - Potential unwrap
 [WARN] server_rust/vendor/mio/src/sys/windows/iocp.rs:265 - Potential unwrap
-[WARN] server_rust/vendor/mio/src/sys/windows/iocp.rs:269 - Potential unwrap
+[WARN] server_rust/vendor/mio/src/sys/windows/iocp.rs:266 - Potential unwrap
+[WARN] server_rust/vendor/mio/src/sys/windows/iocp.rs:270 - Potential unwrap
 [WARN] server_rust/vendor/mio/src/sys/windows/net.rs:44 - unsafe block/function
 [WARN] server_rust/vendor/mio/src/sys/windows/net.rs:72 - unsafe block/function
 [WARN] server_rust/vendor/mio/src/sys/windows/net.rs:89 - unsafe block/function
@@ -8011,8 +8004,8 @@ Python files inspected: 77
 [WARN] server_rust/vendor/mio/src/sys/windows/selector.rs:630 - unsafe block/function
 [WARN] server_rust/vendor/mio/src/sys/windows/selector.rs:700 - unsafe block/function
 [WARN] server_rust/vendor/mio/src/sys/windows/overlapped.rs:18 - unsafe block/function
-[WARN] server_rust/vendor/mio/src/sys/windows/overlapped.rs:34 - unsafe block/function
-[WARN] server_rust/vendor/mio/src/sys/windows/overlapped.rs:35 - unsafe block/function
+[WARN] server_rust/vendor/mio/src/sys/windows/overlapped.rs:30 - unsafe block/function
+[WARN] server_rust/vendor/mio/src/sys/windows/overlapped.rs:31 - unsafe block/function
 [WARN] server_rust/vendor/mio/src/sys/windows/mod.rs:25 - unsafe block/function
 [WARN] server_rust/vendor/mio/src/sys/windows/mod.rs:66 - Potential unwrap
 [WARN] server_rust/vendor/mio/src/sys/windows/mod.rs:144 - Potential unwrap
@@ -8022,15 +8015,15 @@ Python files inspected: 77
 [WARN] server_rust/vendor/mio/src/sys/unix/waker/eventfd.rs:39 - unsafe block/function
 [WARN] server_rust/vendor/mio/src/sys/unix/uds/listener.rs:14 - unsafe block/function
 [WARN] server_rust/vendor/mio/src/sys/unix/uds/listener.rs:61 - unsafe block/function
-[WARN] server_rust/vendor/mio/src/sys/unix/uds/listener.rs:91 - unsafe block/function
-[WARN] server_rust/vendor/mio/src/sys/unix/uds/listener.rs:118 - unsafe block/function
-[WARN] server_rust/vendor/mio/src/sys/unix/uds/listener.rs:145 - unsafe block/function
+[WARN] server_rust/vendor/mio/src/sys/unix/uds/listener.rs:92 - unsafe block/function
+[WARN] server_rust/vendor/mio/src/sys/unix/uds/listener.rs:121 - unsafe block/function
+[WARN] server_rust/vendor/mio/src/sys/unix/uds/listener.rs:149 - unsafe block/function
 [WARN] server_rust/vendor/mio/src/sys/unix/uds/datagram.rs:20 - unsafe block/function
-[WARN] server_rust/vendor/mio/src/sys/unix/uds/mod.rs:37 - unsafe block/function
-[WARN] server_rust/vendor/mio/src/sys/unix/uds/mod.rs:63 - unsafe block/function
-[WARN] server_rust/vendor/mio/src/sys/unix/uds/mod.rs:105 - unsafe block/function
-[WARN] server_rust/vendor/mio/src/sys/unix/uds/mod.rs:153 - Potential unwrap
-[WARN] server_rust/vendor/mio/src/sys/unix/uds/mod.rs:173 - Potential unwrap
+[WARN] server_rust/vendor/mio/src/sys/unix/uds/mod.rs:41 - unsafe block/function
+[WARN] server_rust/vendor/mio/src/sys/unix/uds/mod.rs:67 - unsafe block/function
+[WARN] server_rust/vendor/mio/src/sys/unix/uds/mod.rs:110 - unsafe block/function
+[WARN] server_rust/vendor/mio/src/sys/unix/uds/mod.rs:158 - Potential unwrap
+[WARN] server_rust/vendor/mio/src/sys/unix/uds/mod.rs:178 - Potential unwrap
 [WARN] server_rust/vendor/mio/src/sys/unix/uds/stream.rs:10 - unsafe block/function
 [WARN] server_rust/vendor/mio/src/sys/unix/selector/epoll.rs:29 - unsafe block/function
 [WARN] server_rust/vendor/mio/src/sys/unix/selector/epoll.rs:72 - unsafe block/function
@@ -8051,9 +8044,9 @@ Python files inspected: 77
 [WARN] server_rust/vendor/mio/src/sys/unix/selector/kqueue.rs:337 - unsafe block/function
 [WARN] server_rust/vendor/mio/src/sys/unix/selector/kqueue.rs:380 - unsafe block/function
 [WARN] server_rust/vendor/mio/src/sys/unix/selector/kqueue.rs:381 - unsafe block/function
-[WARN] server_rust/vendor/mio/src/sys/unix/selector/kqueue.rs:910 - unsafe block/function
-[WARN] server_rust/vendor/mio/src/sys/unix/selector/kqueue.rs:912 - Potential unwrap
+[WARN] server_rust/vendor/mio/src/sys/unix/selector/kqueue.rs:916 - unsafe block/function
 [WARN] server_rust/vendor/mio/src/sys/unix/selector/kqueue.rs:918 - Potential unwrap
+[WARN] server_rust/vendor/mio/src/sys/unix/selector/kqueue.rs:924 - Potential unwrap
 [WARN] server_rust/vendor/mio/src/sys/unix/selector/event_ports.rs:48 - unsafe block/function
 [WARN] server_rust/vendor/mio/src/sys/unix/selector/event_ports.rs:49 - unsafe block/function
 [WARN] server_rust/vendor/mio/src/sys/unix/selector/event_ports.rs:69 - unsafe block/function
@@ -8466,6 +8459,293 @@ Python files inspected: 77
 [WARN] server_rust/vendor/ctutils/src/traits/ct_lookup.rs:130 - Potential unwrap
 [WARN] server_rust/vendor/ctutils/src/traits/ct_lookup.rs:131 - Potential unwrap
 [WARN] server_rust/vendor/ctutils/src/traits/ct_lookup.rs:132 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/benches/bigint.rs:41 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/benches/bigint.rs:242 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/benches/bigint.rs:419 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/benches/bigint.rs:430 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/benches/shootout-pidigits.rs:64 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/benches/shootout-pidigits.rs:75 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/benches/shootout-pidigits.rs:133 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/benches/shootout-pidigits.rs:135 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/benches/shootout-pidigits.rs:137 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/src/bigint.rs:913 - unsafe block/function
+[WARN] server_rust/vendor/num-bigint/src/bigint.rs:1164 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/src/bigrand.rs:57 - Potential expect
+[WARN] server_rust/vendor/num-bigint/src/bigrand.rs:69 - Potential expect
+[WARN] server_rust/vendor/num-bigint/src/bigrand.rs:71 - Potential expect
+[WARN] server_rust/vendor/num-bigint/src/bigrand.rs:73 - unsafe block/function
+[WARN] server_rust/vendor/num-bigint/src/big_digit.rs:280 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/src/biguint.rs:424 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/src/biguint.rs:472 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/src/biguint.rs:513 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/src/biguint.rs:846 - unsafe block/function
+[WARN] server_rust/vendor/num-bigint/tests/bigint_bitwise.rs:110 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint_bitwise.rs:111 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint_bitwise.rs:126 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint_bitwise.rs:127 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint_bitwise.rs:135 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint_bitwise.rs:136 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint_bitwise.rs:137 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint_bitwise.rs:138 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint_bitwise.rs:139 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint_bitwise.rs:166 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint_bitwise.rs:168 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint_bitwise.rs:169 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint_bitwise.rs:170 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint_bitwise.rs:171 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint.rs:28 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint.rs:42 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint.rs:54 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint.rs:63 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint.rs:77 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint.rs:89 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint.rs:96 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint.rs:114 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint.rs:134 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint.rs:152 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint.rs:252 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint.rs:254 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint.rs:259 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint.rs:260 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint.rs:262 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint.rs:283 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint.rs:285 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint.rs:290 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint.rs:291 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint.rs:293 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint.rs:314 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint.rs:316 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint.rs:321 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint.rs:322 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint.rs:329 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint.rs:340 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint.rs:342 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint.rs:347 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint.rs:348 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint.rs:355 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint.rs:367 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint.rs:369 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint.rs:371 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint.rs:373 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint.rs:472 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint.rs:474 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint.rs:476 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint.rs:478 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint.rs:568 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint.rs:569 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint.rs:970 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint.rs:971 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint.rs:972 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint.rs:973 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint.rs:974 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint.rs:975 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint.rs:976 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint.rs:977 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint.rs:989 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint.rs:990 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint.rs:991 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint.rs:992 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint.rs:993 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint.rs:994 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint.rs:995 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint.rs:996 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint.rs:1008 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint.rs:1009 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint.rs:1011 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint.rs:1012 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint.rs:1022 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint.rs:1023 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint.rs:1035 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint.rs:1036 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint.rs:1037 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint.rs:1040 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint.rs:1041 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint.rs:1042 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint.rs:1053 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint.rs:1054 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint.rs:1055 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint.rs:1076 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint.rs:1077 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint.rs:1078 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint.rs:1192 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint.rs:1200 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint.rs:1222 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint.rs:1228 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint.rs:1229 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint.rs:1238 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint.rs:1239 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint.rs:1248 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint.rs:1249 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint.rs:1261 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint.rs:1262 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint.rs:1271 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint.rs:1272 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint.rs:1297 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint.rs:1299 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint.rs:1300 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint.rs:1301 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint.rs:1302 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint.rs:1303 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint.rs:1304 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint.rs:1305 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint.rs:1315 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint.rs:1316 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint.rs:1317 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint.rs:1318 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint.rs:1319 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint.rs:1321 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint.rs:1322 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint.rs:1323 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint.rs:1324 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint.rs:1325 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint.rs:1333 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint.rs:1343 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint.rs:1344 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint.rs:1345 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint.rs:1346 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/bigint.rs:1347 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/fuzzed.rs:82 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/fuzzed.rs:83 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/fuzzed.rs:84 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/fuzzed.rs:174 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/fuzzed.rs:175 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/fuzzed.rs:176 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/fuzzed.rs:177 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/fuzzed.rs:223 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/modpow.rs:97 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/modpow.rs:98 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/modpow.rs:99 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/modpow.rs:100 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/modpow.rs:174 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/modpow.rs:175 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/modpow.rs:176 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/modpow.rs:177 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/biguint.rs:27 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/biguint.rs:41 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/biguint.rs:53 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/biguint.rs:60 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/biguint.rs:74 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/biguint.rs:86 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/biguint.rs:219 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/biguint.rs:366 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/biguint.rs:509 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/biguint.rs:511 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/biguint.rs:516 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/biguint.rs:533 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/biguint.rs:535 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/biguint.rs:540 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/biguint.rs:558 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/biguint.rs:560 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/biguint.rs:565 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/biguint.rs:566 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/biguint.rs:581 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/biguint.rs:583 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/biguint.rs:588 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/biguint.rs:589 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/biguint.rs:605 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/biguint.rs:607 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/biguint.rs:693 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/biguint.rs:695 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/biguint.rs:775 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/biguint.rs:776 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/biguint.rs:1052 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/biguint.rs:1053 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/biguint.rs:1065 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/biguint.rs:1066 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/biguint.rs:1085 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/biguint.rs:1086 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/biguint.rs:1096 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/biguint.rs:1097 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/biguint.rs:1107 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/biguint.rs:1133 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/biguint.rs:1136 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/biguint.rs:1146 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/biguint.rs:1147 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/biguint.rs:1148 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/biguint.rs:1164 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/biguint.rs:1165 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/biguint.rs:1166 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/biguint.rs:1219 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/biguint.rs:1220 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/biguint.rs:1221 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/biguint.rs:1222 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/biguint.rs:1223 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/biguint.rs:1651 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/biguint.rs:1660 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/biguint.rs:1667 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/biguint.rs:1684 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/biguint.rs:1714 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/biguint.rs:1718 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/biguint.rs:1727 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/biguint.rs:1734 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/biguint.rs:1735 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/biguint.rs:1744 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/biguint.rs:1745 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/biguint.rs:1754 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/biguint.rs:1755 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/biguint.rs:1767 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/biguint.rs:1768 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/biguint.rs:1777 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/biguint.rs:1778 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/biguint.rs:1792 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/biguint.rs:1800 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/biguint.rs:1813 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/biguint.rs:1815 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/biguint.rs:1817 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/biguint.rs:1819 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/biguint.rs:1827 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/biguint.rs:1829 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/biguint.rs:1830 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/biguint.rs:1831 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/biguint.rs:1832 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/biguint.rs:1833 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/biguint.rs:1834 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/biguint.rs:1835 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/biguint.rs:1845 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/biguint.rs:1846 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/biguint.rs:1847 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/biguint.rs:1848 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/biguint.rs:1849 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/biguint.rs:1851 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/biguint.rs:1852 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/biguint.rs:1853 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/biguint.rs:1854 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/biguint.rs:1855 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/biguint.rs:1863 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/biguint.rs:1873 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/biguint.rs:1874 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/biguint.rs:1875 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/biguint.rs:1876 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/biguint.rs:1877 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/biguint.rs:1917 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/biguint.rs:1918 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/biguint.rs:1920 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/tests/roots.rs:105 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/src/biguint/addition.rs:24 - unsafe block/function
+[WARN] server_rust/vendor/num-bigint/src/biguint/addition.rs:35 - unsafe block/function
+[WARN] server_rust/vendor/num-bigint/src/biguint/division.rs:46 - unsafe block/function
+[WARN] server_rust/vendor/num-bigint/src/biguint/division.rs:202 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/src/biguint/division.rs:352 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/src/biguint/division.rs:386 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/src/biguint/division.rs:432 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/src/biguint/subtraction.rs:24 - unsafe block/function
+[WARN] server_rust/vendor/num-bigint/src/biguint/subtraction.rs:35 - unsafe block/function
+[WARN] server_rust/vendor/num-bigint/src/biguint/multiplication.rs:625 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/src/biguint/multiplication.rs:626 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/src/biguint/shift.rs:19 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/src/biguint/shift.rs:20 - Potential expect
+[WARN] server_rust/vendor/num-bigint/src/biguint/shift.rs:21 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/src/biguint/shift.rs:61 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/src/biguint/shift.rs:63 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/src/biguint/convert.rs:714 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/src/biguint/convert.rs:894 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/src/biguint/convert.rs:907 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/src/bigint/shift.rs:102 - Potential expect
+[WARN] server_rust/vendor/num-bigint/src/bigint/bits.rs:467 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/src/bigint/bits.rs:476 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/src/bigint/bits.rs:482 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/src/bigint/bits.rs:508 - Potential unwrap
+[WARN] server_rust/vendor/num-bigint/src/bigint/bits.rs:509 - Potential unwrap
 [WARN] server_rust/vendor/sqlx-core/src/query_as.rs:347 - Potential dynamic SQL
 [WARN] server_rust/vendor/sqlx-core/src/value.rs:33 - Potential unwrap
 [WARN] server_rust/vendor/sqlx-core/src/value.rs:51 - Potential unwrap
@@ -10088,82 +10368,83 @@ Python files inspected: 77
 [WARN] server_rust/vendor/bumpalo/src/lib.rs:497 - unsafe block/function
 [WARN] server_rust/vendor/bumpalo/src/lib.rs:509 - unsafe block/function
 [WARN] server_rust/vendor/bumpalo/src/lib.rs:533 - unsafe block/function
-[WARN] server_rust/vendor/bumpalo/src/lib.rs:559 - unsafe block/function
-[WARN] server_rust/vendor/bumpalo/src/lib.rs:829 - unsafe block/function
-[WARN] server_rust/vendor/bumpalo/src/lib.rs:981 - unsafe block/function
-[WARN] server_rust/vendor/bumpalo/src/lib.rs:1076 - unsafe block/function
-[WARN] server_rust/vendor/bumpalo/src/lib.rs:1178 - unsafe block/function
-[WARN] server_rust/vendor/bumpalo/src/lib.rs:1197 - unsafe block/function
-[WARN] server_rust/vendor/bumpalo/src/lib.rs:1230 - unsafe block/function
-[WARN] server_rust/vendor/bumpalo/src/lib.rs:1253 - unsafe block/function
-[WARN] server_rust/vendor/bumpalo/src/lib.rs:1351 - unsafe block/function
-[WARN] server_rust/vendor/bumpalo/src/lib.rs:1354 - unsafe block/function
-[WARN] server_rust/vendor/bumpalo/src/lib.rs:1355 - unsafe block/function
-[WARN] server_rust/vendor/bumpalo/src/lib.rs:1358 - unsafe block/function
-[WARN] server_rust/vendor/bumpalo/src/lib.rs:1360 - unsafe block/function
-[WARN] server_rust/vendor/bumpalo/src/lib.rs:1389 - unsafe block/function
-[WARN] server_rust/vendor/bumpalo/src/lib.rs:1417 - unsafe block/function
-[WARN] server_rust/vendor/bumpalo/src/lib.rs:1457 - unsafe block/function
-[WARN] server_rust/vendor/bumpalo/src/lib.rs:1475 - unsafe block/function
-[WARN] server_rust/vendor/bumpalo/src/lib.rs:1500 - unsafe block/function
-[WARN] server_rust/vendor/bumpalo/src/lib.rs:1524 - unsafe block/function
-[WARN] server_rust/vendor/bumpalo/src/lib.rs:1555 - unsafe block/function
-[WARN] server_rust/vendor/bumpalo/src/lib.rs:1603 - unsafe block/function
-[WARN] server_rust/vendor/bumpalo/src/lib.rs:1653 - unsafe block/function
-[WARN] server_rust/vendor/bumpalo/src/lib.rs:1757 - Potential expect
-[WARN] server_rust/vendor/bumpalo/src/lib.rs:1796 - Potential expect
-[WARN] server_rust/vendor/bumpalo/src/lib.rs:1821 - Potential expect
-[WARN] server_rust/vendor/bumpalo/src/lib.rs:1896 - unsafe block/function
-[WARN] server_rust/vendor/bumpalo/src/lib.rs:1999 - unsafe block/function
+[WARN] server_rust/vendor/bumpalo/src/lib.rs:555 - unsafe block/function
+[WARN] server_rust/vendor/bumpalo/src/lib.rs:567 - unsafe block/function
+[WARN] server_rust/vendor/bumpalo/src/lib.rs:837 - unsafe block/function
+[WARN] server_rust/vendor/bumpalo/src/lib.rs:989 - unsafe block/function
+[WARN] server_rust/vendor/bumpalo/src/lib.rs:1084 - unsafe block/function
+[WARN] server_rust/vendor/bumpalo/src/lib.rs:1186 - unsafe block/function
+[WARN] server_rust/vendor/bumpalo/src/lib.rs:1205 - unsafe block/function
+[WARN] server_rust/vendor/bumpalo/src/lib.rs:1238 - unsafe block/function
+[WARN] server_rust/vendor/bumpalo/src/lib.rs:1261 - unsafe block/function
+[WARN] server_rust/vendor/bumpalo/src/lib.rs:1359 - unsafe block/function
+[WARN] server_rust/vendor/bumpalo/src/lib.rs:1362 - unsafe block/function
+[WARN] server_rust/vendor/bumpalo/src/lib.rs:1363 - unsafe block/function
+[WARN] server_rust/vendor/bumpalo/src/lib.rs:1366 - unsafe block/function
+[WARN] server_rust/vendor/bumpalo/src/lib.rs:1368 - unsafe block/function
+[WARN] server_rust/vendor/bumpalo/src/lib.rs:1397 - unsafe block/function
+[WARN] server_rust/vendor/bumpalo/src/lib.rs:1425 - unsafe block/function
+[WARN] server_rust/vendor/bumpalo/src/lib.rs:1465 - unsafe block/function
+[WARN] server_rust/vendor/bumpalo/src/lib.rs:1483 - unsafe block/function
+[WARN] server_rust/vendor/bumpalo/src/lib.rs:1508 - unsafe block/function
+[WARN] server_rust/vendor/bumpalo/src/lib.rs:1532 - unsafe block/function
+[WARN] server_rust/vendor/bumpalo/src/lib.rs:1563 - unsafe block/function
+[WARN] server_rust/vendor/bumpalo/src/lib.rs:1611 - unsafe block/function
+[WARN] server_rust/vendor/bumpalo/src/lib.rs:1661 - unsafe block/function
+[WARN] server_rust/vendor/bumpalo/src/lib.rs:1765 - Potential expect
+[WARN] server_rust/vendor/bumpalo/src/lib.rs:1804 - Potential expect
+[WARN] server_rust/vendor/bumpalo/src/lib.rs:1829 - Potential expect
+[WARN] server_rust/vendor/bumpalo/src/lib.rs:1906 - unsafe block/function
 [WARN] server_rust/vendor/bumpalo/src/lib.rs:2009 - unsafe block/function
-[WARN] server_rust/vendor/bumpalo/src/lib.rs:2074 - unsafe block/function
-[WARN] server_rust/vendor/bumpalo/src/lib.rs:2076 - unsafe block/function
-[WARN] server_rust/vendor/bumpalo/src/lib.rs:2170 - unsafe block/function
-[WARN] server_rust/vendor/bumpalo/src/lib.rs:2194 - unsafe block/function
-[WARN] server_rust/vendor/bumpalo/src/lib.rs:2226 - unsafe block/function
-[WARN] server_rust/vendor/bumpalo/src/lib.rs:2235 - unsafe block/function
-[WARN] server_rust/vendor/bumpalo/src/lib.rs:2241 - unsafe block/function
-[WARN] server_rust/vendor/bumpalo/src/lib.rs:2249 - unsafe block/function
-[WARN] server_rust/vendor/bumpalo/src/lib.rs:2267 - unsafe block/function
-[WARN] server_rust/vendor/bumpalo/src/lib.rs:2363 - unsafe block/function
-[WARN] server_rust/vendor/bumpalo/src/lib.rs:2419 - unsafe block/function
-[WARN] server_rust/vendor/bumpalo/src/lib.rs:2449 - unsafe block/function
-[WARN] server_rust/vendor/bumpalo/src/lib.rs:2469 - unsafe block/function
-[WARN] server_rust/vendor/bumpalo/src/lib.rs:2471 - unsafe block/function
-[WARN] server_rust/vendor/bumpalo/src/lib.rs:2476 - unsafe block/function
-[WARN] server_rust/vendor/bumpalo/src/lib.rs:2481 - unsafe block/function
-[WARN] server_rust/vendor/bumpalo/src/lib.rs:2514 - unsafe block/function
-[WARN] server_rust/vendor/bumpalo/src/lib.rs:2518 - unsafe block/function
-[WARN] server_rust/vendor/bumpalo/src/lib.rs:2525 - unsafe block/function
-[WARN] server_rust/vendor/bumpalo/src/lib.rs:2530 - unsafe block/function
-[WARN] server_rust/vendor/bumpalo/src/lib.rs:2537 - unsafe block/function
-[WARN] server_rust/vendor/bumpalo/src/lib.rs:2544 - unsafe block/function
-[WARN] server_rust/vendor/bumpalo/src/lib.rs:2551 - unsafe block/function
-[WARN] server_rust/vendor/bumpalo/src/lib.rs:2558 - unsafe block/function
-[WARN] server_rust/vendor/bumpalo/src/lib.rs:2575 - unsafe block/function
-[WARN] server_rust/vendor/bumpalo/src/lib.rs:2622 - unsafe block/function
-[WARN] server_rust/vendor/bumpalo/src/lib.rs:2627 - Potential unwrap
-[WARN] server_rust/vendor/bumpalo/src/lib.rs:2629 - Potential unwrap
-[WARN] server_rust/vendor/bumpalo/src/lib.rs:2634 - Potential unwrap
-[WARN] server_rust/vendor/bumpalo/src/lib.rs:2636 - Potential unwrap
-[WARN] server_rust/vendor/bumpalo/src/lib.rs:2641 - Potential unwrap
-[WARN] server_rust/vendor/bumpalo/src/lib.rs:2643 - Potential unwrap
+[WARN] server_rust/vendor/bumpalo/src/lib.rs:2019 - unsafe block/function
+[WARN] server_rust/vendor/bumpalo/src/lib.rs:2084 - unsafe block/function
+[WARN] server_rust/vendor/bumpalo/src/lib.rs:2086 - unsafe block/function
+[WARN] server_rust/vendor/bumpalo/src/lib.rs:2180 - unsafe block/function
+[WARN] server_rust/vendor/bumpalo/src/lib.rs:2204 - unsafe block/function
+[WARN] server_rust/vendor/bumpalo/src/lib.rs:2236 - unsafe block/function
+[WARN] server_rust/vendor/bumpalo/src/lib.rs:2245 - unsafe block/function
+[WARN] server_rust/vendor/bumpalo/src/lib.rs:2251 - unsafe block/function
+[WARN] server_rust/vendor/bumpalo/src/lib.rs:2259 - unsafe block/function
+[WARN] server_rust/vendor/bumpalo/src/lib.rs:2277 - unsafe block/function
+[WARN] server_rust/vendor/bumpalo/src/lib.rs:2373 - unsafe block/function
+[WARN] server_rust/vendor/bumpalo/src/lib.rs:2432 - unsafe block/function
+[WARN] server_rust/vendor/bumpalo/src/lib.rs:2462 - unsafe block/function
+[WARN] server_rust/vendor/bumpalo/src/lib.rs:2482 - unsafe block/function
+[WARN] server_rust/vendor/bumpalo/src/lib.rs:2484 - unsafe block/function
+[WARN] server_rust/vendor/bumpalo/src/lib.rs:2489 - unsafe block/function
+[WARN] server_rust/vendor/bumpalo/src/lib.rs:2494 - unsafe block/function
+[WARN] server_rust/vendor/bumpalo/src/lib.rs:2527 - unsafe block/function
+[WARN] server_rust/vendor/bumpalo/src/lib.rs:2531 - unsafe block/function
+[WARN] server_rust/vendor/bumpalo/src/lib.rs:2538 - unsafe block/function
+[WARN] server_rust/vendor/bumpalo/src/lib.rs:2543 - unsafe block/function
+[WARN] server_rust/vendor/bumpalo/src/lib.rs:2550 - unsafe block/function
+[WARN] server_rust/vendor/bumpalo/src/lib.rs:2557 - unsafe block/function
+[WARN] server_rust/vendor/bumpalo/src/lib.rs:2564 - unsafe block/function
+[WARN] server_rust/vendor/bumpalo/src/lib.rs:2571 - unsafe block/function
+[WARN] server_rust/vendor/bumpalo/src/lib.rs:2588 - unsafe block/function
+[WARN] server_rust/vendor/bumpalo/src/lib.rs:2635 - unsafe block/function
+[WARN] server_rust/vendor/bumpalo/src/lib.rs:2640 - Potential unwrap
+[WARN] server_rust/vendor/bumpalo/src/lib.rs:2642 - Potential unwrap
+[WARN] server_rust/vendor/bumpalo/src/lib.rs:2647 - Potential unwrap
 [WARN] server_rust/vendor/bumpalo/src/lib.rs:2649 - Potential unwrap
-[WARN] server_rust/vendor/bumpalo/src/lib.rs:2651 - Potential unwrap
-[WARN] server_rust/vendor/bumpalo/src/lib.rs:2657 - Potential unwrap
-[WARN] server_rust/vendor/bumpalo/src/lib.rs:2660 - Potential unwrap
+[WARN] server_rust/vendor/bumpalo/src/lib.rs:2654 - Potential unwrap
+[WARN] server_rust/vendor/bumpalo/src/lib.rs:2656 - Potential unwrap
+[WARN] server_rust/vendor/bumpalo/src/lib.rs:2662 - Potential unwrap
+[WARN] server_rust/vendor/bumpalo/src/lib.rs:2664 - Potential unwrap
+[WARN] server_rust/vendor/bumpalo/src/lib.rs:2670 - Potential unwrap
 [WARN] server_rust/vendor/bumpalo/src/lib.rs:2673 - Potential unwrap
-[WARN] server_rust/vendor/bumpalo/src/lib.rs:2676 - unsafe block/function
-[WARN] server_rust/vendor/bumpalo/src/lib.rs:2676 - Potential unwrap
-[WARN] server_rust/vendor/bumpalo/src/lib.rs:2681 - unsafe block/function
-[WARN] server_rust/vendor/bumpalo/src/lib.rs:2698 - unsafe block/function
-[WARN] server_rust/vendor/bumpalo/src/lib.rs:2699 - Potential unwrap
-[WARN] server_rust/vendor/bumpalo/src/lib.rs:2700 - Potential unwrap
-[WARN] server_rust/vendor/bumpalo/src/lib.rs:2702 - Potential unwrap
-[WARN] server_rust/vendor/bumpalo/src/lib.rs:2703 - Potential unwrap
-[WARN] server_rust/vendor/bumpalo/src/lib.rs:2705 - Potential unwrap
-[WARN] server_rust/vendor/bumpalo/src/lib.rs:2706 - Potential unwrap
-[WARN] server_rust/vendor/bumpalo/src/lib.rs:2707 - Potential unwrap
+[WARN] server_rust/vendor/bumpalo/src/lib.rs:2686 - Potential unwrap
+[WARN] server_rust/vendor/bumpalo/src/lib.rs:2689 - unsafe block/function
+[WARN] server_rust/vendor/bumpalo/src/lib.rs:2689 - Potential unwrap
+[WARN] server_rust/vendor/bumpalo/src/lib.rs:2694 - unsafe block/function
+[WARN] server_rust/vendor/bumpalo/src/lib.rs:2711 - unsafe block/function
+[WARN] server_rust/vendor/bumpalo/src/lib.rs:2712 - Potential unwrap
+[WARN] server_rust/vendor/bumpalo/src/lib.rs:2713 - Potential unwrap
+[WARN] server_rust/vendor/bumpalo/src/lib.rs:2715 - Potential unwrap
+[WARN] server_rust/vendor/bumpalo/src/lib.rs:2716 - Potential unwrap
+[WARN] server_rust/vendor/bumpalo/src/lib.rs:2718 - Potential unwrap
+[WARN] server_rust/vendor/bumpalo/src/lib.rs:2719 - Potential unwrap
+[WARN] server_rust/vendor/bumpalo/src/lib.rs:2720 - Potential unwrap
 [WARN] server_rust/vendor/bumpalo/src/boxed.rs:190 - unsafe block/function
 [WARN] server_rust/vendor/bumpalo/src/boxed.rs:236 - unsafe block/function
 [WARN] server_rust/vendor/bumpalo/src/boxed.rs:239 - unsafe block/function
@@ -19194,296 +19475,298 @@ Python files inspected: 77
 [WARN] server_rust/vendor/cc/src/command_helpers.rs:849 - Potential unwrap
 [WARN] server_rust/vendor/cc/src/command_helpers.rs:864 - Potential unwrap
 [WARN] server_rust/vendor/cc/src/command_helpers.rs:865 - Potential unwrap
-[WARN] server_rust/vendor/cc/src/lib.rs:525 - Potential unwrap
-[WARN] server_rust/vendor/cc/src/lib.rs:2000 - Potential unwrap
-[WARN] server_rust/vendor/cc/src/lib.rs:2054 - Potential unwrap
-[WARN] server_rust/vendor/cc/src/lib.rs:2119 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:2120 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:2122 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:2139 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:2142 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:531 - Potential unwrap
+[WARN] server_rust/vendor/cc/src/lib.rs:2006 - Potential unwrap
+[WARN] server_rust/vendor/cc/src/lib.rs:2060 - Potential unwrap
+[WARN] server_rust/vendor/cc/src/lib.rs:2125 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:2126 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:2128 - Shell invocation
 [WARN] server_rust/vendor/cc/src/lib.rs:2145 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:2152 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:2148 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:2151 - Shell invocation
 [WARN] server_rust/vendor/cc/src/lib.rs:2158 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:2160 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:2161 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:2169 - Potential unwrap
-[WARN] server_rust/vendor/cc/src/lib.rs:2542 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:2544 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:2546 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:2558 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:2559 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:2598 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:2609 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:2632 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:2633 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:2634 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:2635 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:2164 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:2166 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:2167 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:2175 - Potential unwrap
+[WARN] server_rust/vendor/cc/src/lib.rs:2548 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:2550 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:2552 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:2564 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:2565 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:2604 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:2615 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:2638 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:2639 - Shell invocation
 [WARN] server_rust/vendor/cc/src/lib.rs:2640 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:2643 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:2641 - Shell invocation
 [WARN] server_rust/vendor/cc/src/lib.rs:2646 - Shell invocation
 [WARN] server_rust/vendor/cc/src/lib.rs:2649 - Shell invocation
 [WARN] server_rust/vendor/cc/src/lib.rs:2652 - Shell invocation
 [WARN] server_rust/vendor/cc/src/lib.rs:2655 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:2670 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:2685 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:2694 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:2696 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:2703 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:2704 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:2721 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:2736 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:2794 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:2795 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:2818 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:2819 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:2822 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:2829 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:2658 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:2661 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:2676 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:2691 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:2700 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:2702 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:2709 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:2710 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:2727 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:2742 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:2800 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:2801 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:2824 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:2825 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:2828 - Shell invocation
 [WARN] server_rust/vendor/cc/src/lib.rs:2835 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:2839 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:2842 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:2843 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:2846 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:2847 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:2857 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:2858 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:2861 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:2862 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:2866 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:2841 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:2845 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:2848 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:2849 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:2852 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:2853 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:2863 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:2864 - Shell invocation
 [WARN] server_rust/vendor/cc/src/lib.rs:2867 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:2868 - Shell invocation
 [WARN] server_rust/vendor/cc/src/lib.rs:2872 - Shell invocation
 [WARN] server_rust/vendor/cc/src/lib.rs:2873 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:2878 - Shell invocation
 [WARN] server_rust/vendor/cc/src/lib.rs:2879 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:2884 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:2888 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:2893 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:2897 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:2900 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:2885 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:2890 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:2894 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:2899 - Shell invocation
 [WARN] server_rust/vendor/cc/src/lib.rs:2903 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:2910 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:2912 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:2906 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:2909 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:2916 - Shell invocation
 [WARN] server_rust/vendor/cc/src/lib.rs:2918 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:2921 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:2941 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:2943 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:2976 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:2984 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:2986 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:3003 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:3007 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:2924 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:2927 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:2947 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:2949 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:2982 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:2990 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:2992 - Shell invocation
 [WARN] server_rust/vendor/cc/src/lib.rs:3009 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:3016 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:3017 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:3019 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:3013 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:3015 - Shell invocation
 [WARN] server_rust/vendor/cc/src/lib.rs:3022 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:3023 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:3025 - Shell invocation
 [WARN] server_rust/vendor/cc/src/lib.rs:3028 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:3036 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:3050 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:3034 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:3042 - Shell invocation
 [WARN] server_rust/vendor/cc/src/lib.rs:3056 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:3063 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:3070 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:3091 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:3099 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:3101 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:3103 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:3110 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:3112 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:3115 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:3062 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:3069 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:3076 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:3097 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:3105 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:3107 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:3109 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:3116 - Shell invocation
 [WARN] server_rust/vendor/cc/src/lib.rs:3118 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:3123 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:3125 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:3127 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:3121 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:3124 - Shell invocation
 [WARN] server_rust/vendor/cc/src/lib.rs:3129 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:3130 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:3132 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:3131 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:3133 - Shell invocation
 [WARN] server_rust/vendor/cc/src/lib.rs:3135 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:3140 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:3142 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:3144 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:3166 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:3176 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:3179 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:3136 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:3138 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:3141 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:3146 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:3148 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:3150 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:3172 - Shell invocation
 [WARN] server_rust/vendor/cc/src/lib.rs:3182 - Shell invocation
 [WARN] server_rust/vendor/cc/src/lib.rs:3185 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:3189 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:3192 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:3199 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:3201 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:3202 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:3210 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:3241 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:3248 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:3251 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:3269 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:3272 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:3274 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:3286 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:3291 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:3299 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:3308 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:3312 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:3188 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:3191 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:3195 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:3198 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:3205 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:3207 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:3208 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:3216 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:3247 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:3254 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:3257 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:3275 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:3278 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:3280 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:3292 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:3297 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:3305 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:3314 - Shell invocation
 [WARN] server_rust/vendor/cc/src/lib.rs:3318 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:3323 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:3325 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:3324 - Shell invocation
 [WARN] server_rust/vendor/cc/src/lib.rs:3329 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:3334 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:3336 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:3331 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:3335 - Shell invocation
 [WARN] server_rust/vendor/cc/src/lib.rs:3340 - Shell invocation
 [WARN] server_rust/vendor/cc/src/lib.rs:3342 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:3344 - Shell invocation
 [WARN] server_rust/vendor/cc/src/lib.rs:3346 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:3348 - Shell invocation
 [WARN] server_rust/vendor/cc/src/lib.rs:3350 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:3362 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:3371 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:3375 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:3379 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:3352 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:3356 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:3368 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:3377 - Shell invocation
 [WARN] server_rust/vendor/cc/src/lib.rs:3381 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:3395 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:3397 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:3398 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:3402 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:3385 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:3387 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:3401 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:3403 - Shell invocation
 [WARN] server_rust/vendor/cc/src/lib.rs:3404 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:3405 - Shell invocation
 [WARN] server_rust/vendor/cc/src/lib.rs:3408 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:3417 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:3435 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:3439 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:3443 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:3446 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:3450 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:3453 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:3410 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:3411 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:3414 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:3423 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:3441 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:3445 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:3449 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:3452 - Shell invocation
 [WARN] server_rust/vendor/cc/src/lib.rs:3456 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:3461 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:3477 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:3479 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:3459 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:3462 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:3467 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:3483 - Shell invocation
 [WARN] server_rust/vendor/cc/src/lib.rs:3485 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:3497 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:3491 - Shell invocation
 [WARN] server_rust/vendor/cc/src/lib.rs:3503 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:3511 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:3519 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:3524 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:3543 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:3550 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:3554 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:3559 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:3561 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:3565 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:3593 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:3599 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:3638 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:3640 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:3653 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:3669 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:3685 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:3692 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:3698 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:3716 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:3723 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:3738 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:3739 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:3743 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:3744 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:3746 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:3747 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:3507 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:3508 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:3515 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:3523 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:3531 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:3536 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:3555 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:3562 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:3566 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:3571 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:3573 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:3577 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:3605 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:3611 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:3650 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:3652 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:3665 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:3681 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:3697 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:3704 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:3710 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:3728 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:3735 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:3750 - Shell invocation
 [WARN] server_rust/vendor/cc/src/lib.rs:3751 - Shell invocation
 [WARN] server_rust/vendor/cc/src/lib.rs:3755 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:3756 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:3758 - Shell invocation
 [WARN] server_rust/vendor/cc/src/lib.rs:3759 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:3762 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:3764 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:3766 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:3769 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:3775 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:3780 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:3782 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:3788 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:3791 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:3956 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:3967 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:3969 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:3974 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:3990 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:3993 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:3994 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:3995 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:3999 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:4001 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:4025 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:4032 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:4035 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:4039 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:4045 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:4046 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:3763 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:3767 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:3771 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:3774 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:3776 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:3778 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:3781 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:3787 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:3792 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:3794 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:3800 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:3803 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:3968 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:3979 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:3981 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:3986 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:4002 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:4005 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:4006 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:4007 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:4011 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:4013 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:4037 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:4044 - Shell invocation
 [WARN] server_rust/vendor/cc/src/lib.rs:4047 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:4093 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:4094 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:4100 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:4103 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:4110 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:4051 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:4057 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:4058 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:4059 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:4105 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:4106 - Shell invocation
 [WARN] server_rust/vendor/cc/src/lib.rs:4112 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:4113 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:4115 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:4122 - Shell invocation
 [WARN] server_rust/vendor/cc/src/lib.rs:4124 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:4126 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:4131 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:4139 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:4140 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:4141 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:4150 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:4179 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:4180 - Command execution
-[WARN] server_rust/vendor/cc/src/lib.rs:4180 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:4181 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:4182 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:4277 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:4411 - Potential unwrap
-[WARN] server_rust/vendor/cc/src/lib.rs:4421 - Potential unwrap
-[WARN] server_rust/vendor/cc/src/lib.rs:4723 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:4727 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:4731 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:4733 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:4741 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:4773 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:4775 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:4777 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:4782 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:4801 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:4802 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:4803 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:4809 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:4811 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:4812 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:4125 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:4136 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:4138 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:4143 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:4151 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:4152 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:4153 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:4162 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:4191 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:4192 - Command execution
+[WARN] server_rust/vendor/cc/src/lib.rs:4192 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:4193 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:4194 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:4289 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:4423 - Potential unwrap
+[WARN] server_rust/vendor/cc/src/lib.rs:4433 - Potential unwrap
+[WARN] server_rust/vendor/cc/src/lib.rs:4735 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:4739 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:4743 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:4745 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:4753 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:4785 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:4787 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:4789 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:4794 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:4813 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:4814 - Shell invocation
 [WARN] server_rust/vendor/cc/src/lib.rs:4815 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:4821 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:4823 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:4824 - Shell invocation
 [WARN] server_rust/vendor/cc/src/lib.rs:4827 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:4845 - Command execution
-[WARN] server_rust/vendor/cc/src/lib.rs:4855 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:4865 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:4868 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:4870 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:4873 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:4875 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:4883 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:4886 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:4901 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:4916 - Command execution
-[WARN] server_rust/vendor/cc/src/lib.rs:4916 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:4917 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:4918 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:4839 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:4857 - Command execution
+[WARN] server_rust/vendor/cc/src/lib.rs:4867 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:4877 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:4880 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:4882 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:4885 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:4887 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:4895 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:4898 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:4913 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:4928 - Command execution
+[WARN] server_rust/vendor/cc/src/lib.rs:4928 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:4929 - Shell invocation
 [WARN] server_rust/vendor/cc/src/lib.rs:4930 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:4934 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:4939 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:5510 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:5516 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:5555 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:5578 - Potential expect
-[WARN] server_rust/vendor/cc/src/lib.rs:5588 - Potential expect
-[WARN] server_rust/vendor/cc/src/lib.rs:5599 - Potential expect
-[WARN] server_rust/vendor/cc/src/lib.rs:5608 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:5710 - Potential expect
-[WARN] server_rust/vendor/cc/src/lib.rs:5769 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:6054 - Command execution
-[WARN] server_rust/vendor/cc/src/lib.rs:6054 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:6055 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:6056 - Shell invocation
-[WARN] server_rust/vendor/cc/src/lib.rs:6092 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:4942 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:4946 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:4951 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:5522 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:5528 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:5567 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:5590 - Potential expect
+[WARN] server_rust/vendor/cc/src/lib.rs:5600 - Potential expect
+[WARN] server_rust/vendor/cc/src/lib.rs:5611 - Potential expect
+[WARN] server_rust/vendor/cc/src/lib.rs:5620 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:5722 - Potential expect
+[WARN] server_rust/vendor/cc/src/lib.rs:5781 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:6066 - Command execution
+[WARN] server_rust/vendor/cc/src/lib.rs:6066 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:6067 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:6068 - Shell invocation
+[WARN] server_rust/vendor/cc/src/lib.rs:6104 - Shell invocation
 [WARN] server_rust/vendor/cc/src/logger.rs:114 - Shell invocation
 [WARN] server_rust/vendor/cc/src/logger.rs:116 - Shell invocation
 [WARN] server_rust/vendor/cc/src/logger.rs:120 - Shell invocation
@@ -42174,8 +42457,8 @@ Python files inspected: 77
 [WARN] server_rust/vendor/core-foundation-sys/src/base.rs:117 - unsafe block/function
 [WARN] server_rust/vendor/core-foundation-sys/src/base.rs:127 - unsafe block/function
 
-Rust files inspected: 5157
-[WARN] 41996 Rust security review point(s) detected.
+Rust files inspected: 5209
+[WARN] 42279 Rust security review point(s) detected.
 
 ## Web Security Test
 === WEB SECURITY SCAN ===
@@ -42192,7 +42475,7 @@ Aucun log disponible.
 
 # Security report
 
-**Run:** 713
+**Run:** 714
 
 ## Tests
 
@@ -42216,7 +42499,7 @@ Aucun log disponible.
 [main]	INFO	cli exclude tests: None
 [main]	INFO	running on Python 3.14.10
 Working... ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:00
-Run started:2026-11-13 02:59:39.754917+00:00
+Run started:2026-11-14 02:31:16.033761+00:00
 
 Test results:
 >> Issue: [B404:blacklist] Consider possible security implications associated with the subprocess module.
@@ -46129,7 +46412,7 @@ Run metrics:
 Files skipped (0):
 
 ## pip-audit
-Found 18 known vulnerabilities in 3 packages
+Found 19 known vulnerabilities in 3 packages
 Name              Version ID              Fix Versions
 ----------------- ------- --------------- ------------
 filelock          3.32.7  CVE-2026-112940 4.2.1
@@ -46150,6 +46433,7 @@ mcp               1.29.0  CVE-2026-116685 1.30.0,2.2.0
 mcp               1.29.0  CVE-2026-116684 1.30.0,2.2.0
 mcp               1.29.0  CVE-2026-116686 1.30.0,2.2.0
 opentelemetry-api 1.37.0  CVE-2026-114603 1.45.1
+opentelemetry-api 1.37.0  CVE-2026-126360 1.45.2
 
 ## Safety
 /opt/hostedtoolcache/Python/3.14.10/x64/lib/python3.14/site-packages/safety/auth/main.py:5: AuthlibDeprecationWarning: authlib.jose module is deprecated, please use joserfc instead.
@@ -46196,7 +46480,7 @@ It will be compatible before version 2.0.0.
 
   Using [1mopen-source vulnerability database[0m
 [1m  Found and scanned 145 packages[0m
-  Timestamp [1m2026-11-13 02:59:46[0m
+  Timestamp [1m2026-11-14 02:31:26[0m
 [1m  1[0m[1m vulnerability reported[0m
 [1m  0[0m[1m vulnerabilities ignored[0m
 
@@ -46244,9 +46528,9 @@ It will be compatible before version 2.0.0.
 
 ## cargo-audit
 [0m[0m[1m[32m    Fetching[0m advisory database from `https://github.com/RustSec/advisory-db.git`
-[0m[0m[1m[32m      Loaded[0m 1490 security advisories (from /home/runner/.cargo/advisory-db)
+[0m[0m[1m[32m      Loaded[0m 1509 security advisories (from /home/runner/.cargo/advisory-db)
 [0m[0m[1m[32m    Updating[0m crates.io index
-[0m[0m[1m[32m    Scanning[0m Cargo.lock for vulnerabilities (190 crate dependencies)
+[0m[0m[1m[32m    Scanning[0m Cargo.lock for vulnerabilities (192 crate dependencies)
 [0m[0m[1m[31mCrate:    [0m libsqlite3-sys
 [0m[0m[1m[31mVersion:  [0m 0.37.0
 [0m[0m[1m[31mTitle:    [0m `libsqlite3-sys` via C SQLite CVE-2026-119375
@@ -46359,7 +46643,7 @@ It will be compatible before version 2.0.0.
  • Targets scanned: 105
  • Parsed lines: ~100.0%
  • Scan skipped: 
-   ◦ Files matching .semgrepignore patterns: 8230
+   ◦ Files matching .semgrepignore patterns: 8300
  • Scan was limited to files tracked by git
  • For a detailed list of skipped files and lines, run semgrep with the --verbose flag
 Ran 297 rules on 105 files: 8 findings.
@@ -46372,9 +46656,9 @@ Ran 297 rules on 105 files: 8 findings.
     ○ ░
     ░    gitleaks
 
-[90m4:00AM[0m [32mINF[0m [1m5622 commits scanned.[0m
-[90m4:00AM[0m [32mINF[0m [1mscanned ~55426301673 bytes (55.43 GB) in 1h0m36s[0m
-[90m4:00AM[0m [32mINF[0m [1mno leaks found[0m
+[90m3:32AM[0m [32mINF[0m [1m5661 commits scanned.[0m
+[90m3:32AM[0m [32mINF[0m [1mscanned ~55453938329 bytes (55.45 GB) in 1h0m55s[0m
+[90m3:32AM[0m [32mINF[0m [1mno leaks found[0m
 
 ## Python Licenses
  Name                                      Version     License                                            
@@ -46473,7 +46757,7 @@ Ran 297 rules on 105 files: 8 findings.
  pycodestyle                               2.15.0      MIT                                                
  pycparser                                 3.12        BSD-3-Clause                                       
  pydantic                                  2.14.3      MIT                                                
- pydantic-settings                         2.16.2      MIT                                                
+ pydantic-settings                         2.16.3      MIT                                                
  pydantic_core                             2.50.4      MIT                                                
  pyflakes                                  4.1.0       MIT License                                        
  pylint                                    4.1.3       GPL-2.0-or-later                                   
@@ -46521,7 +46805,7 @@ Ran 297 rules on 105 files: 8 findings.
  zipp                                      4.1.2       MIT                                                
 
 ## Cargo Deny
-2026-11-13 04:00:34 [[33mWARN[0m] unable to find a config path, falling back to default config[0m
+2026-11-14 03:32:32 [[33mWARN[0m] unable to find a config path, falling back to default config[0m
 [0m[1m[38;5;9merror[rejected][0m[1m: failed to satisfy license requirements[0m
    [0m[36m┌─[0m /home/runner/work/The-last-signal-/The-last-signal-/server_rust/vendor/adler2/Cargo.toml:38:12
    [0m[36m│[0m
@@ -46679,9 +46963,14 @@ Ran 297 rules on 105 files: 8 findings.
          │       └── sqlx-macros-core v0.9.0
          │           └── sqlx-macros v0.9.0
          │               └── sqlx v0.9.0 (*)
-         └── chrono v0.4.45
-             └── flexi_logger v0.31.10
-                 └── the-last-signal-server v1.0.15 (*)
+         ├── chrono v0.4.45
+         │   └── flexi_logger v0.31.10
+         │       └── the-last-signal-server v1.0.15 (*)
+         ├── num-bigint v0.4.8
+         │   └── the-last-signal-server v1.0.15 (*)
+         ├── num-integer v0.1.47
+         │   └── num-bigint v0.4.8 (*)
+         └── the-last-signal-server v1.0.15 (*)
 
 [0m[1m[38;5;9merror[rejected][0m[1m: failed to satisfy license requirements[0m
    [0m[36m┌─[0m /home/runner/work/The-last-signal-/The-last-signal-/server_rust/vendor/base64/Cargo.toml:29:12
@@ -46856,7 +47145,7 @@ Ran 297 rules on 105 files: 8 findings.
    [0m[36m├[0m Apache-2.0 - Apache License 2.0:
    [0m[36m├[0m   - OSI approved
    [0m[36m├[0m   - FSF Free/Libre
-   [0m[36m├[0m bumpalo v3.20.3
+   [0m[36m├[0m bumpalo v3.20.4
      └── wasm-bindgen-macro-support v0.2.130
          └── wasm-bindgen-macro v0.2.130
              └── wasm-bindgen v0.2.130
@@ -46930,7 +47219,7 @@ Ran 297 rules on 105 files: 8 findings.
    [0m[36m├[0m Apache-2.0 - Apache License 2.0:
    [0m[36m├[0m   - OSI approved
    [0m[36m├[0m   - FSF Free/Libre
-   [0m[36m├[0m cc v1.11.1
+   [0m[36m├[0m cc v1.11.2
      ├── (build) iana-time-zone-haiku v0.1.2
      │   └── iana-time-zone v0.1.65
      │       └── chrono v0.4.45
@@ -47620,7 +47909,7 @@ Ran 297 rules on 105 files: 8 findings.
    [0m[36m├[0m   - OSI approved
    [0m[36m├[0m   - FSF Free/Libre
    [0m[36m├[0m find-msvc-tools v0.1.15
-     └── cc v1.11.1
+     └── cc v1.11.2
          ├── (build) iana-time-zone-haiku v0.1.2
          │   └── iana-time-zone v0.1.65
          │       └── chrono v0.4.45
@@ -48740,7 +49029,7 @@ Ran 297 rules on 105 files: 8 findings.
      │       ├── sqlx-core v0.9.0 (*)
      │       ├── sqlx-sqlite v0.9.0 (*)
      │       └── the-last-signal-server v1.0.15 (*)
-     ├── mio v1.2.4
+     ├── mio v1.2.5
      │   └── tokio v1.54.1
      │       ├── sqlx-core v0.9.0 (*)
      │       ├── sqlx-macros-core v0.9.0 (*)
@@ -48965,7 +49254,7 @@ Ran 297 rules on 105 files: 8 findings.
    [0m[36m├[0m MIT - MIT License:
    [0m[36m├[0m   - OSI approved
    [0m[36m├[0m   - FSF Free/Libre
-   [0m[36m├[0m mio v1.2.4
+   [0m[36m├[0m mio v1.2.5
      └── tokio v1.54.1
          ├── sqlx-core v0.9.0
          │   ├── sqlx v0.9.0
@@ -48998,6 +49287,43 @@ Ran 297 rules on 105 files: 8 findings.
          └── the-last-signal-server v1.0.15
 
 [0m[1m[38;5;9merror[rejected][0m[1m: failed to satisfy license requirements[0m
+   [0m[36m┌─[0m /home/runner/work/The-last-signal-/The-last-signal-/server_rust/vendor/num-bigint/Cargo.toml:42:12
+   [0m[36m│[0m
+[0m[36m42[0m [0m[36m│[0m license = "[0m[31mMIT[0m OR [0m[31mApache-2.0[0m"
+   [0m[36m│[0m            [0m[31m━━━[0m[36m────[0m[31m━━━━━━━━━━[0m
+   [0m[36m│[0m            [0m[31m│[0m      [0m[31m│[0m
+   [0m[36m│[0m            [0m[31m│[0m      [0m[31mrejected: license is not explicitly allowed[0m
+   [0m[36m│[0m            [0m[31mrejected: license is not explicitly allowed[0m
+   [0m[36m│[0m
+   [0m[36m├[0m MIT - MIT License:
+   [0m[36m├[0m   - OSI approved
+   [0m[36m├[0m   - FSF Free/Libre
+   [0m[36m├[0m Apache-2.0 - Apache License 2.0:
+   [0m[36m├[0m   - OSI approved
+   [0m[36m├[0m   - FSF Free/Libre
+   [0m[36m├[0m num-bigint v0.4.8
+     └── the-last-signal-server v1.0.15
+
+[0m[1m[38;5;9merror[rejected][0m[1m: failed to satisfy license requirements[0m
+   [0m[36m┌─[0m /home/runner/work/The-last-signal-/The-last-signal-/server_rust/vendor/num-integer/Cargo.toml:41:12
+   [0m[36m│[0m
+[0m[36m41[0m [0m[36m│[0m license = "[0m[31mMIT[0m OR [0m[31mApache-2.0[0m"
+   [0m[36m│[0m            [0m[31m━━━[0m[36m────[0m[31m━━━━━━━━━━[0m
+   [0m[36m│[0m            [0m[31m│[0m      [0m[31m│[0m
+   [0m[36m│[0m            [0m[31m│[0m      [0m[31mrejected: license is not explicitly allowed[0m
+   [0m[36m│[0m            [0m[31mrejected: license is not explicitly allowed[0m
+   [0m[36m│[0m
+   [0m[36m├[0m MIT - MIT License:
+   [0m[36m├[0m   - OSI approved
+   [0m[36m├[0m   - FSF Free/Libre
+   [0m[36m├[0m Apache-2.0 - Apache License 2.0:
+   [0m[36m├[0m   - OSI approved
+   [0m[36m├[0m   - FSF Free/Libre
+   [0m[36m├[0m num-integer v0.1.47
+     └── num-bigint v0.4.8
+         └── the-last-signal-server v1.0.15
+
+[0m[1m[38;5;9merror[rejected][0m[1m: failed to satisfy license requirements[0m
    [0m[36m┌─[0m /home/runner/work/The-last-signal-/The-last-signal-/server_rust/vendor/num-traits/Cargo.toml:36:12
    [0m[36m│[0m
 [0m[36m36[0m [0m[36m│[0m license = "[0m[31mMIT[0m OR [0m[31mApache-2.0[0m"
@@ -49020,9 +49346,14 @@ Ran 297 rules on 105 files: 8 findings.
      │       └── sqlx-macros-core v0.9.0
      │           └── sqlx-macros v0.9.0
      │               └── sqlx v0.9.0 (*)
-     └── chrono v0.4.45
-         └── flexi_logger v0.31.10
-             └── the-last-signal-server v1.0.15 (*)
+     ├── chrono v0.4.45
+     │   └── flexi_logger v0.31.10
+     │       └── the-last-signal-server v1.0.15 (*)
+     ├── num-bigint v0.4.8
+     │   └── the-last-signal-server v1.0.15 (*)
+     ├── num-integer v0.1.47
+     │   └── num-bigint v0.4.8 (*)
+     └── the-last-signal-server v1.0.15 (*)
 
 [0m[1m[38;5;9merror[rejected][0m[1m: failed to satisfy license requirements[0m
    [0m[36m┌─[0m /home/runner/work/The-last-signal-/The-last-signal-/server_rust/vendor/once_cell/Cargo.toml:41:12
@@ -50123,7 +50454,7 @@ Ran 297 rules on 105 files: 8 findings.
    [0m[36m├[0m   - OSI approved
    [0m[36m├[0m   - FSF Free/Libre
    [0m[36m├[0m shlex v2.0.1
-     └── cc v1.11.1
+     └── cc v1.11.2
          ├── (build) iana-time-zone-haiku v0.1.2
          │   └── iana-time-zone v0.1.65
          │       └── chrono v0.4.45
@@ -51349,7 +51680,7 @@ Ran 297 rules on 105 files: 8 findings.
      ├── getrandom v0.2.17
      │   └── fernet v0.2.2
      │       └── the-last-signal-server v1.0.15
-     └── mio v1.2.4
+     └── mio v1.2.5
          └── tokio v1.54.1
              ├── sqlx-core v0.9.0
              │   ├── sqlx v0.9.0
@@ -51571,7 +51902,7 @@ Ran 297 rules on 105 files: 8 findings.
      ├── windows-strings v0.5.1
      │   └── windows-core v0.62.2 (*)
      └── windows-sys v0.61.2
-         ├── mio v1.2.4
+         ├── mio v1.2.5
          │   └── tokio v1.54.1
          │       ├── sqlx-core v0.9.0 (*)
          │       ├── sqlx-macros-core v0.9.0 (*)
@@ -51644,7 +51975,7 @@ Ran 297 rules on 105 files: 8 findings.
    [0m[36m├[0m   - OSI approved
    [0m[36m├[0m   - FSF Free/Libre
    [0m[36m├[0m windows-sys v0.61.2
-     ├── mio v1.2.4
+     ├── mio v1.2.5
      │   └── tokio v1.54.1
      │       ├── sqlx-core v0.9.0
      │       │   ├── sqlx v0.9.0
@@ -52128,6 +52459,6 @@ wrapt                                    1.17.3  2.5.2  wheel
 | Critical | 0 |
 | High | 343 |
 | Medium | 26 |
-| Low | 676 |
+| Low | 680 |
 
 ## Score : 0/100
