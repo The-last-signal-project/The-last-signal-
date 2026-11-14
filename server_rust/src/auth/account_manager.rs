@@ -59,7 +59,7 @@ impl AccountManager {
 
 
     /// Crée le compte joueur et son portefeuille dans une transaction unique.
-    fn is_locked(text: &str) -> bool {
+    pub fn is_locked(text: &str) -> bool {
     text.contains("database is locked") || text.contains("database table is locked")
 }
 
@@ -82,7 +82,7 @@ pub async fn create_account(
 
     match self.create_account_tx(user_id, name).await {
         Ok(summary) => Ok(summary),
-        Err(e) if is_locked(&e) => {
+        Err(e) if Self::is_locked(&e) => {
             // L'écriture a pu aboutir malgré le verrou : on vérifie avant de répondre.
             for _ in 0..5 {
                 tokio::time::sleep(std::time::Duration::from_millis(300)).await;
