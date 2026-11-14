@@ -55,84 +55,108 @@ impl AccountManager {
             })
             .collect())
     }
+    
+
 
     /// Crée le compte joueur et son portefeuille dans une transaction unique.
-    pub async fn create_account(
-        &self,
-        user_id: &str,
-        account_name: &str,
-    ) -> Result<AccountSummary, String> {
-        let name = account_name.trim();
+    fn is_locked(text: &str) -> bool {
+    text.contains("database is locked") || text.contains("database table is locked")
+}
 
-        if name.is_empty() {
-            return Err("Le nom du compte est obligatoire.".into());
-        }
+pub async fn create_account(
+    &self,
+    user_id: &str,
+    account_name: &str,
+) -> Result<AccountSummary, String> {
+    let name = account_name.trim();
 
-        if name.chars().count() > 32 {
-            return Err("Le nom du compte ne doit pas dépasser 32 caractères.".into());
-        }
+    if name.is_empty() {
+        return Err("Le nom du compte est obligatoire.".into());
+    }
+    if name.chars().count() > 32 {
+        return Err("Le nom du compte ne doit pas dépasser 32 caractères.".into());
+    }
+    if name.chars().any(char::is_control) {
+        return Err("Le nom contient des caractères interdits.".into());
+    }
 
-        if name.chars().any(char::is_control) {
-            return Err("Le nom contient des caractères interdits.".into());
-        }
-
-        let mut tx = self.pool.begin().await.map_err(|e| e.to_string())?;
-
-        // Le rôle est recherché en base : aucun identifiant numérique codé en dur.
-        let role_id: Option<i64> = sqlx::query_scalar(
-            "SELECT role_id FROM roles WHERE role_name = ?",
-        )
-        .bind(PLAYER_ROLE)
-        .fetch_optional(&mut *tx)
-        .await
-        .map_err(|e| e.to_string())?;
-
-        let role_id = role_id.ok_or_else(|| {
-            "Le rôle 'joueur' n'existe pas dans la base de données.".to_string()
-        })?;
-
-        let insert = sqlx::query(
-            r#"
-            INSERT INTO accounts (user_id, account_name, role_id)
-            VALUES (?, ?, ?)
-            "#,
-        )
-        .bind(user_id)
-        .bind(name)
-        .bind(role_id)
-        .execute(&mut *tx)
-        .await
-        .map_err(|e| {
-            if e.to_string().contains("UNIQUE constraint failed") {
-                "Ce nom de compte est déjà utilisé.".to_string()
-            } else {
-                format!("Impossible de créer le compte : {e}")
+    match self.create_account_tx(user_id, name).await {
+        Ok(summary) => Ok(summary),
+        Err(e) if is_locked(&e) => {
+            // L'écriture a pu aboutir malgré le verrou : on vérifie avant de répondre.
+            for _ in 0..5 {
+                tokio::time::sleep(std::time::Duration::from_millis(300)).await;
+                if let Ok(Some(summary)) = self.find_account(user_id, name).await {
+                    return Ok(summary);
+                }
             }
-        })?;
+            Err("Compte en cours de création, veuillez patienter puis réessayer.".into())
+        }
+        Err(e) => Err(e),
+    }
+}
 
-        let account_id = insert.last_insert_rowid();
+async fn create_account_tx(
+    &self,
+    user_id: &str,
+    name: &str,
+) -> Result<AccountSummary, String> {
+    let mut tx = self.pool.begin().await.map_err(|e| e.to_string())?;
 
-        // Le portefeuille est créé dans la même transaction que le compte.
-        sqlx::query(
-            "INSERT INTO wallets (account_id, balance) VALUES (?, ?)",
-        )
+    // Première instruction = écriture (pas de SELECT avant).
+    let insert = sqlx::query(
+        r#"
+        INSERT INTO accounts (user_id, account_name, role_id)
+        SELECT ?, ?, role_id FROM roles WHERE role_name = ?
+        "#,
+    )
+    .bind(user_id)
+    .bind(name)
+    .bind(PLAYER_ROLE)
+    .execute(&mut *tx)
+    .await
+    .map_err(|e| {
+        let text = e.to_string();
+        if text.contains("UNIQUE constraint failed") {
+            "Ce nom de compte est déjà utilisé.".to_string()
+        } else {
+            text
+        }
+    })?;
+
+    if insert.rows_affected() == 0 {
+        return Err("Le rôle 'joueur' n'existe pas dans la base de données.".into());
+    }
+    let account_id = insert.last_insert_rowid();
+
+    sqlx::query("INSERT INTO wallets (account_id, balance) VALUES (?, ?)")
         .bind(account_id)
         .bind(STARTING_BALANCE)
         .execute(&mut *tx)
         .await
-        .map_err(|e| format!("Impossible de créer le portefeuille : {e}"))?;
+        .map_err(|e| e.to_string())?;
 
-        tx.commit()
-            .await
-            .map_err(|e| format!("Impossible de valider la création : {e}"))?;
+    tx.commit().await.map_err(|e| e.to_string())?;
 
-        Ok(AccountSummary {
-            account_id,
-            account_name: name.to_string(),
-            role_name: PLAYER_ROLE.to_string(),
-            balance: Some(STARTING_BALANCE),
-        })
-    }
+    Ok(AccountSummary {
+        account_id,
+        account_name: name.to_string(),
+        role_name: PLAYER_ROLE.to_string(),
+        balance: Some(STARTING_BALANCE),
+    })
+}
+
+async fn find_account(
+    &self,
+    user_id: &str,
+    name: &str,
+) -> Result<Option<AccountSummary>, sqlx::Error> {
+    Ok(self
+        .list_accounts(user_id)
+        .await?
+        .into_iter()
+        .find(|a| a.account_name == name))
+}
 
     /// Vérifie l'appartenance avant d'autoriser la sélection.
     pub async fn account_belongs_to_user(
