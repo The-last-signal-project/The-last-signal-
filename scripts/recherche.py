@@ -1,92 +1,159 @@
+
 import argparse
 import csv
 import json
 import sqlite3
 from pathlib import Path
-import os
 
 
-conn = sqlite3.connect("database/client_logs.db")
-cursor = conn.cursor()
-
-cursor.execute("SELECT COUNT(*) FROM logs")
-print("Nombre de lignes :", cursor.fetchone()[0])
-
-cursor.execute("""
-SELECT id, timestamp, level, message
-FROM logs
-ORDER BY id DESC
-LIMIT 10
-""")
-
-for row in cursor.fetchall():
-    print(row)
-
-conn.close()
-
-print("Database utilisée :", os.path.abspath("database/client_logs.db"))
-
-DEFAULT_DATABASE = "database/client_logs.db"
+DEFAULT_DATABASE = "database/the_last_signal.db"
 DEFAULT_TABLE = None
-DEFAULT_SEARCH = ""
+DEFAULT_SEARCH = None
 
 
-def rechercher(database, recherche, table=None):
-    """Recherche un texte dans une ou plusieurs tables."""
+def identifier(nom):
+    """Protège un nom de table ou de colonne SQLite."""
+    return '"' + nom.replace('"', '""') + '"'
 
-    conn = sqlite3.connect(database)
-    cursor = conn.cursor()
 
-    # Si aucune table n'est précisée, on les récupère toutes
-    if table is None:
-        cursor.execute(
-            "SELECT name FROM sqlite_master "
-            "WHERE type='table' AND name NOT LIKE 'sqlite_%';"
-        )
-        tables = [t[0] for t in cursor.fetchall()]
-    else:
-        tables = [table]
+def rechercher(database, recherche=None, table=None):
+    """Affiche ou recherche dans une ou plusieurs tables."""
 
     resultats = []
 
-    for table in tables:
+    with sqlite3.connect(database) as conn:
+        cursor = conn.cursor()
 
-        cursor.execute(f"PRAGMA table_info({table})")
-        colonnes = [c[1] for c in cursor.fetchall()]
+        # Récupération des tables
+        if table is None:
+            cursor.execute("""
+                SELECT name
+                FROM sqlite_master
+                WHERE type = 'table'
+                  AND name NOT LIKE 'sqlite_%'
+                ORDER BY name COLLATE NOCASE
+            """)
+            tables = [t[0] for t in cursor.fetchall()]
+        else:
+            cursor.execute("""
+                SELECT name
+                FROM sqlite_master
+                WHERE type = 'table'
+                  AND name = ?
+            """, (table,))
 
-        for colonne in colonnes:
+            if cursor.fetchone() is None:
+                raise ValueError(f"Table inexistante : {table}")
 
-            try:
-                cursor.execute(
-                    f"""
-                    SELECT rowid, *
-                    FROM {table}
-                    WHERE CAST({colonne} AS TEXT) LIKE ?
-                    """,
-                    (f"%{recherche}%",)
-                )
+            tables = [table]
+
+        # Parcours des tables
+        for nom_table in tables:
+
+            table_sql = identifier(nom_table)
+
+            cursor.execute(
+                f"PRAGMA table_info({table_sql})"
+            )
+
+            infos = cursor.fetchall()
+            colonnes = [c[1] for c in infos]
+
+            # Récupération des clés primaires
+            cles_primaires = sorted(
+                [c for c in infos if c[5] > 0],
+                key=lambda c: c[5]
+            )
+
+            if not recherche:
+                # MODE AFFICHAGE COMPLET
+
+                print(f"\n{'=' * 70}")
+                print(f"TABLE : {nom_table}")
+                print("=" * 70)
+
+                print("Colonnes :", ", ".join(colonnes))
+
+                # Tri par clé primaire si disponible
+                if cles_primaires:
+                    ordre = ", ".join(
+                        identifier(c[1])
+                        for c in cles_primaires
+                    )
+                    requete = (
+                        f"SELECT * FROM {table_sql} "
+                        f"ORDER BY {ordre}"
+                    )
+                else:
+                    requete = (
+                        f"SELECT * FROM {table_sql} "
+                        f"ORDER BY rowid"
+                    )
+
+                try:
+                    cursor.execute(requete)
+                except sqlite3.OperationalError:
+                    # Cas d'une table sans rowid
+                    cursor.execute(
+                        f"SELECT * FROM {table_sql}"
+                    )
 
                 lignes = cursor.fetchall()
 
+                print(f"Nombre de lignes : {len(lignes)}")
+
                 for ligne in lignes:
                     resultat = {
-                        "table": table,
-                        "column": colonne,
+                        "table": nom_table,
+                        "column": "*",
                         "row": ligne,
                     }
 
                     resultats.append(resultat)
+                    print(ligne)
 
-                    print(
-                        f"[{table}] "
-                        f"[{colonne}] "
-                        f"{ligne}"
-                    )
+            else:
+                # MODE RECHERCHE
 
-            except sqlite3.Error:
-                pass
+                for colonne in colonnes:
 
-    conn.close()
+                    try:
+                        cursor.execute(
+                            f"""
+                            SELECT *
+                            FROM {table_sql}
+                            WHERE CAST(
+                                {identifier(colonne)} AS TEXT
+                            ) LIKE ?
+                            """,
+                            (f"%{recherche}%",)
+                        )
+
+                        lignes = cursor.fetchall()
+
+                        for ligne in lignes:
+                            resultats.append({
+                                "table": nom_table,
+                                "column": colonne,
+                                "row": ligne,
+                            })
+
+                    except sqlite3.Error as erreur:
+                        print(
+                            f"Erreur dans {nom_table}.{colonne} : "
+                            f"{erreur}"
+                        )
+
+    if recherche:
+        print(f"\nRecherche : {recherche}")
+        print(f"Résultats : {len(resultats)}")
+
+        for r in resultats:
+            print(
+                f"[{r['table']}] "
+                f"[{r['column']}] "
+                f"{r['row']}"
+            )
 
     return resultats
 
@@ -96,12 +163,7 @@ def ecrire_fichier(resultats, fichier, fmt):
     fichier = Path(fichier)
 
     if fmt == "txt":
-
         with fichier.open("w", encoding="utf-8") as f:
-
-            if not resultats:
-                f.write("Aucun résultat trouvé.\n")
-
             for r in resultats:
                 f.write(
                     f"[{r['table']}] "
@@ -110,16 +172,10 @@ def ecrire_fichier(resultats, fichier, fmt):
                 )
 
     elif fmt == "md":
-
         with fichier.open("w", encoding="utf-8") as f:
-
             f.write("# Rapport de recherche\n\n")
 
-            if not resultats:
-                f.write("Aucun résultat trouvé.\n")
-
             for r in resultats:
-
                 f.write(
                     f"## {r['table']}\n\n"
                     f"- **Colonne :** {r['column']}\n"
@@ -127,9 +183,7 @@ def ecrire_fichier(resultats, fichier, fmt):
                 )
 
     elif fmt == "json":
-
         with fichier.open("w", encoding="utf-8") as f:
-
             json.dump(
                 resultats,
                 f,
@@ -139,95 +193,64 @@ def ecrire_fichier(resultats, fichier, fmt):
             )
 
     elif fmt == "csv":
-
         with fichier.open(
             "w",
             newline="",
             encoding="utf-8"
         ) as f:
-
             writer = csv.writer(f)
 
-            writer.writerow(
-                [
-                    "table",
-                    "column",
-                    "row"
-                ]
-            )
+            writer.writerow(["table", "column", "row"])
 
             for r in resultats:
-
-                writer.writerow(
-                    [
-                        r["table"],
-                        r["column"],
-                        r["row"]
-                    ]
-                )
+                writer.writerow([
+                    r["table"],
+                    r["column"],
+                    r["row"]
+                ])
 
     print(f"\nRapport enregistré dans : {fichier}")
 
 
 def main():
 
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(
+        description="Explorateur et moteur de recherche SQLite"
+    )
 
-    parser.add_argument("-d", "--database")
-    parser.add_argument("-t", "--table")
-    parser.add_argument("-s", "--search")
-    parser.add_argument("-o", "--output")
     parser.add_argument(
-        "-f",
-        "--format",
+        "-d", "--database",
+        default=DEFAULT_DATABASE
+    )
+
+    parser.add_argument(
+        "-t", "--table"
+    )
+
+    parser.add_argument(
+        "-s", "--search"
+    )
+
+    parser.add_argument(
+        "-o", "--output"
+    )
+
+    parser.add_argument(
+        "-f", "--format",
         choices=["txt", "md", "json", "csv"],
-        default="txt",
+        default="txt"
     )
 
     args = parser.parse_args()
 
-    # Mode ligne de commande
-    if args.database or args.search or args.table:
+    database = args.database
+    table = args.table
+    recherche = args.search
 
-        database = args.database or DEFAULT_DATABASE
-        table = args.table or DEFAULT_TABLE
-        recherche = args.search
-        output = args.output
-        fmt = args.format
-        
+    print(f"Database utilisée : {Path(database).resolve()}")
 
-    # Mode interactif
-    else:
-
-        database = (
-            input(f"Database [{DEFAULT_DATABASE}] : ")
-            or DEFAULT_DATABASE
-        )
-
-        table = (
-            input("Table (Entrée = toutes) : ")
-            or DEFAULT_TABLE
-        )
-
-        recherche = (
-            input("Recherche : ")
-            or DEFAULT_SEARCH
-        )
-
-        output = input(
-            "Fichier de sortie (Entrée = aucun) : "
-        ).strip()
-
-        if output == "":
-            output = None
-            fmt = "txt"
-        else:
-            fmt = (
-                input(
-                    "Format (txt/md/json/csv) [txt] : "
-                ).strip().lower()
-                or "txt"
-            )
+    if not Path(database).is_file():
+        parser.error(f"Base de données introuvable : {database}")
 
     resultats = rechercher(
         database,
@@ -235,14 +258,12 @@ def main():
         table
     )
 
-    if output:
+    if args.output:
         ecrire_fichier(
             resultats,
-            output,
-            fmt
+            args.output,
+            args.format
         )
-    else:
-        print(resultats)
 
 
 if __name__ == "__main__":
