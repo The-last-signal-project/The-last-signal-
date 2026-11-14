@@ -34,7 +34,7 @@ pub async fn run(pool: &SqlitePool) -> Result<(), Box<dyn std::error::Error>> {
     // disponible : fichier local `src/security/master.key`, ou variable
     // d'environnement `VAULT_KEY` (utilisée par la CI, où le fichier
     // n'existe pas).
-    let master_key = Path::new(env!("CARGO_MANIFEST_DIR")).join("src/security/master.key");
+    let master_key = Path::new(env!("CARGO_MANIFEST_DIR")).join("../security/master.key");
 
     if master_key.exists() || std::env::var("VAULT_KEY").is_ok() {
         let vault = decrypt_vault()?;
@@ -54,6 +54,7 @@ pub async fn run(pool: &SqlitePool) -> Result<(), Box<dyn std::error::Error>> {
         create_account(
             pool,
             "Admin@gmail.com",
+            "Cyril",
             &password1_hash,
             "Cyril",
             "Dev",
@@ -64,6 +65,7 @@ pub async fn run(pool: &SqlitePool) -> Result<(), Box<dyn std::error::Error>> {
         create_account(
             pool,
             "thelastsignalfr@gmail.com",
+            "Morgan",
             &password2_hash,
             "Morgan",
             "SuperDev",
