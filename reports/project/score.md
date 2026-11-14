@@ -1,6 +1,6 @@
 Documentation Quality Report
 
-**Date :** 2026-11-14 20:32:50
+**Date :** 2026-11-14 21:41:28
 
 # 64/100
 
@@ -5300,6 +5300,36 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Message :** Function 'new' sans documentation
 
 - **line :** 21
+
+- **suggestion :** Ajoutez /// avant cette function
+
+- **module :** rust
+
+## ⚠️ Warning
+- **Module :** rust
+- **Message :** Function 'create_account' sans documentation
+
+- **line :** 66
+
+- **suggestion :** Ajoutez /// avant cette function
+
+- **module :** rust
+
+## ⚠️ Warning
+- **Module :** rust
+- **Message :** Function 'create_account_tx' sans documentation
+
+- **line :** 99
+
+- **suggestion :** Ajoutez /// avant cette function
+
+- **module :** rust
+
+## ⚠️ Warning
+- **Module :** rust
+- **Message :** Function 'find_account' sans documentation
+
+- **line :** 149
 
 - **suggestion :** Ajoutez /// avant cette function
 

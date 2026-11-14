@@ -50274,6 +50274,30 @@
         "module": "rust"
     },
     {
+        "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/auth/account_manager.rs",
+        "line": 66,
+        "severity": "warning",
+        "message": "Function 'create_account' sans documentation",
+        "suggestion": "Ajoutez /// avant cette function",
+        "module": "rust"
+    },
+    {
+        "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/auth/account_manager.rs",
+        "line": 99,
+        "severity": "warning",
+        "message": "Function 'create_account_tx' sans documentation",
+        "suggestion": "Ajoutez /// avant cette function",
+        "module": "rust"
+    },
+    {
+        "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/auth/account_manager.rs",
+        "line": 149,
+        "severity": "warning",
+        "message": "Function 'find_account' sans documentation",
+        "suggestion": "Ajoutez /// avant cette function",
+        "module": "rust"
+    },
+    {
         "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/auth/user_manager.rs",
         "line": 9,
         "severity": "warning",
