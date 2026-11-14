@@ -33,3 +33,6 @@ CREATE TABLE IF NOT EXISTS investments (
 
 CREATE INDEX IF NOT EXISTS idx_investments_account
     ON investments (account_id);
+CREATE UNIQUE INDEX idx_investments_un_seul_ouvert
+ON investments (account_id)
+WHERE closed_at IS NULL;

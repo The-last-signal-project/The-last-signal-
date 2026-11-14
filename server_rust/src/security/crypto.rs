@@ -658,7 +658,7 @@ pub fn decrypt(
     ciphertext: &[u8],
 ) -> Result<Vec<u8>, &'static str> {
     let rotors = generate_rotors(communication_key)?;
-    let inverse_rotors: [[u8; ROTOR_SIZE]; ROTOR_COUNT] =
+    let _inverse_rotors: [[u8; ROTOR_SIZE]; ROTOR_COUNT] =
         std::array::from_fn(|i| inverse_permutation(&rotors[i]));
 
     let mut state = RotorState::new(communication_key, packet_type)?;

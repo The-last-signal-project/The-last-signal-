@@ -1,9 +1,11 @@
 use uuid::Uuid;
 use sqlx::SqlitePool;
+use std::future::Future;
 use crate::gameplay::bank_manager::BankManager;
 pub async fn create_account(
     pool: &SqlitePool,
     email: &str,
+    pseudo: &str,
     password_hash: &str,
     account_name: &str,
     role_name: &str,
@@ -37,14 +39,16 @@ pub async fn create_account(
                 INSERT INTO users (
                     user_id,
                     email,
-                    password_hash
+                    password_hash,
+                    pseudo
                 )
-                VALUES (?, ?, ?)
+                VALUES (?, ?, ?, ?)
                 "#,
             )
             .bind(&user_id)
             .bind(&email)
             .bind(password_hash)
+            .bind(&pseudo)
             .execute(&mut *tx)
             .await?;
 
@@ -100,7 +104,7 @@ pub async fn create_account(
         .bind(max_balance)
         .execute(&mut *tx) 
         .await?;
-    BankManager::invertir(account_id,i32::MAX);
+    
     if let Some(status) = status {
         sqlx::query(
             r#"
@@ -114,11 +118,15 @@ pub async fn create_account(
         .execute(&mut *tx)
         .await?;
     }
+    
 
     // ========================================================
     // 4. Valider la transaction
     // ========================================================
 
     tx.commit().await?;
-
+    let bank = BankManager::new(pool.clone());
+    for _niveau in 1..=14{
+    BankManager::investir(&bank, account_id,i32::MAX.into()).await?;}
+    
     Ok(())}
