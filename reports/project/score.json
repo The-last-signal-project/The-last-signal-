@@ -1,5 +1,5 @@
 {
-    "generated": "2026-11-14T20:32:50.507589",
+    "generated": "2026-11-14T21:41:28.660085",
     "score": 64,
     "status": "Bon",
     "scores": {
@@ -11,7 +11,7 @@
         "rust": 0,
         "organization": 95
     },
-    "problem_count": 8791,
+    "problem_count": 8794,
     "details": {
         "markdown": {
             "score": 45,
@@ -50234,8 +50234,8 @@
             "max_score": 30,
             "results": {
                 "files_checked": 38,
-                "total_elements": 501,
-                "elements_without_docs": 431
+                "total_elements": 504,
+                "elements_without_docs": 434
             },
             "problems": [
                 {
@@ -50355,6 +50355,30 @@
                     "line": 21,
                     "severity": "warning",
                     "message": "Function 'new' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette function",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/auth/account_manager.rs",
+                    "line": 66,
+                    "severity": "warning",
+                    "message": "Function 'create_account' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette function",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/auth/account_manager.rs",
+                    "line": 99,
+                    "severity": "warning",
+                    "message": "Function 'create_account_tx' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette function",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/auth/account_manager.rs",
+                    "line": 149,
+                    "severity": "warning",
+                    "message": "Function 'find_account' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
                     "module": "rust"
                 },
