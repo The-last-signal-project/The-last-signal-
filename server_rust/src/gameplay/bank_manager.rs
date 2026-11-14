@@ -221,15 +221,57 @@ impl BankManager {
 
         WalletManager::debiter_tx(&mut tx, account_id, montant).await?;
 
-        let id = sqlx::query("INSERT INTO investments (account_id, principal) VALUES (?, ?)")
-            .bind(account_id)
-            .bind(montant.to_string())
-            .execute(&mut *tx)
-            .await?
-            .last_insert_rowid();
+        let id = Self::ajouter_a_investissement_tx(&mut tx, account_id, montant).await?;
 
         tx.commit().await?;
         Ok(id)
+    }
+
+    /// Ajoute `montant` à l'unique investissement ouvert du compte (le crée s'il n'existe pas).
+    /// Les intérêts déjà gagnés sont capitalisés avant l'ajout, puis le calcul repart de maintenant.
+    async fn ajouter_a_investissement_tx(
+        tx: &mut sqlx::Transaction<'_, sqlx::Sqlite>,
+        account_id: i64,
+        montant: i64,
+    ) -> Result<i64, sqlx::Error> {
+        let existant: Option<(i64, String, i64, i64)> = sqlx::query_as(
+            "SELECT id, principal, created_at, CAST(strftime('%s','now') AS INTEGER)
+             FROM investments
+             WHERE account_id = ? AND closed_at IS NULL",
+        )
+        .bind(account_id)
+        .fetch_optional(&mut **tx)
+        .await?;
+
+        match existant {
+            Some((id, principal, created_at, now)) => {
+                let valeur = Self::valeur_composee(&parse_montant(&principal)?, created_at, now);
+                let nouveau = valeur + BigUint::from(montant as u64);
+
+                sqlx::query(
+                    "UPDATE investments
+                     SET principal = ?, created_at = CAST(strftime('%s','now') AS INTEGER)
+                     WHERE id = ?",
+                )
+                .bind(nouveau.to_string())
+                .bind(id)
+                .execute(&mut **tx)
+                .await?;
+
+                Ok(id)
+            }
+            None => {
+                let id = sqlx::query(
+                    "INSERT INTO investments (account_id, principal) VALUES (?, ?)",
+                )
+                .bind(account_id)
+                .bind(montant.to_string())
+                .execute(&mut **tx)
+                .await?
+                .last_insert_rowid();
+                Ok(id)
+            }
+        }
     }
 
     /// Place `montant` en investissement dans une transaction existante, SANS vérifier
@@ -243,14 +285,7 @@ impl BankManager {
             return Err(erreur("Le montant à investir doit être supérieur à 0"));
         }
 
-        let id = sqlx::query("INSERT INTO investments (account_id, principal) VALUES (?, ?)")
-            .bind(account_id)
-            .bind(montant.to_string())
-            .execute(&mut **tx)
-            .await?
-            .last_insert_rowid();
-
-        Ok(id)
+        Self::ajouter_a_investissement_tx(tx, account_id, montant).await
     }
 
     /// Valeur = capital * (102/100)^périodes, en entiers exacts (arrondi inférieur).
