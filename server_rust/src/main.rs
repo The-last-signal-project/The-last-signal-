@@ -2,10 +2,7 @@ use the_last_signal_server::database::{
     database_manager::DatabaseManager,
     migrations,
 };
-use the_last_signal_server::gameplay::{
-    bank_manager::BankManager,
-    migrations,
-};
+
 use log::info;
 #[allow(dead_code)]
 use sqlx::Row;
@@ -35,7 +32,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
             .await?;
 
     database.ping().await?;
-    let bank = Bankmanager::new(database.pool().clone());
+    
     migrations::run(&database.pool()).await?;
 
     info!("Base SQLite prête.");
