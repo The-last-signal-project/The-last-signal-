@@ -8,6 +8,7 @@ use tokio::{
 use sqlx::SqlitePool;
 use uuid::Uuid;
 use crate::auth::user_manager::UserManager;
+use crate::auth::session_manager::SessionManager;
 use log::{
     debug,
     error,
@@ -146,6 +147,19 @@ for (player_id, position) in snapshot {
 }
 }
 
+// État courant de la clé et du trésor (le joueur le reçoit même avant de spawner).
+let zone_packet = self.world.zone_state_packet().await;
+if let Err(e) = send_packet(
+    &mut self.stream,
+    &zone_packet,
+).await {
+    error!(
+        "Impossible d'envoyer l'état de la zone : {}",
+        e
+    );
+    self.disconnect().await;
+    return;
+}
 // Le joueur n'apparaît dans le monde (et n'est diffusé aux autres)
 // qu'au paquet SPAWN, envoyé par le jeu une fois connecté et son compte choisi.
 
@@ -756,6 +770,17 @@ async fn mark_disconnected(&self) {
         }
 
         self.mark_disconnected().await;
+
+        if let Err(e) = SessionManager::new(self.pool.clone())
+            .close(&self.session_id.to_string(), "Fin de session")
+            .await
+        {
+            error!(
+                "Impossible de terminer la session [{}] : {}",
+                self.session_id,
+                e
+            );
+        }
 
         if let Err(e) = self.stream.shutdown().await {
             error!(

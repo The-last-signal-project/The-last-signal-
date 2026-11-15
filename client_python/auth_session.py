@@ -300,7 +300,7 @@ class Connection:
 def authenticate_client(client, email, password, account_id, retries=25, delay=0.4):
     """Envoie LOGIN puis ACCOUNT_SELECT avec `client` (déjà connecté, SESSION lu).
 
-    Retourne la liste des paquets PLAYER_STATE / PLAYER_REMOVE reçus pendant l'échange (le
+    Retourne la liste des paquets PLAYER_STATE / PLAYER_REMOVE / ZONE_STATE reçus pendant l'échange (le
     snapshot que le serveur envoie dès la connexion) : le jeu doit les traiter lui aussi."""
     skipped = []
 
@@ -314,7 +314,8 @@ def authenticate_client(client, email, password, account_id, retries=25, delay=0
                 raise AuthError("srv_lost")
             if packet.packet_type == reply_type:
                 return packet.payload
-            if packet.packet_type in (PacketType.PLAYER_STATE, PacketType.PLAYER_REMOVE):
+            if packet.packet_type in (PacketType.PLAYER_STATE, PacketType.PLAYER_REMOVE,
+                                      PacketType.ZONE_STATE):
                 skipped.append(packet)
 
     sock = client.socket

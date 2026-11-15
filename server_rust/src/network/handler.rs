@@ -9,6 +9,11 @@ use crate::network::{parser::{
 };
 
 use crate::world::world::{World,Position};
+use crate::gameplay::stuff_manager::Inventaire;
+use crate::gameplay::tresor::Tresor;
+use crate::gameplay::wallet_manager::WalletManager;
+use crate::gameplay::objets::NomAffiche;
+use crate::auth::session_manager::SessionManager;
 use crate::gameplay::market_manager::MarketManager;
 use crate::auth::user_manager::UserManager;
 use crate::auth::account_manager::AccountManager;
@@ -61,6 +66,218 @@ pub struct PacketHandler;
 // ============================================================
 #[allow(dead_code)]
 impl PacketHandler {
+
+    // =============================================================
+    // INVENTAIRE ET ARGENT
+    // =============================================================
+
+    /// Construit la réponse `InventoryResponse` (JSON) du joueur :
+    /// la session donne le compte et son rôle, `wallets` l'argent et
+    /// `stuff` l'inventaire.
+    ///
+    /// ```text
+    /// {"ok": true, "account_id": 3, "role": "Dev", "admin": true,
+    ///  "balance": 120,
+    ///  "items": [{"nom": "...", "quantite": 2, "rarete": "Rare", "rang": "B"}, ...]}
+    /// {"ok": false, "message": "..."}
+    /// ```
+    async fn inventory_packet(
+        client: &Client,
+        pool: &SqlitePool,
+    ) -> Packet {
+        let erreur = |message: &str| {
+            Packet::new(
+                PacketType::InventoryResponse,
+                serde_json::json!({
+                    "ok": false,
+                    "message": message,
+                })
+                .to_string()
+                .into_bytes(),
+            )
+        };
+
+        let session = match SessionManager::new(pool.clone())
+            .account_of(&client.session_id().to_string())
+            .await
+        {
+            Ok(Some(session)) => session,
+            Ok(None) => {
+                warn!(
+                    "Inventaire demandé sans session de compte [{}]",
+                    client.session_id()
+                );
+                return erreur("Session introuvable");
+            }
+            Err(e) => {
+                error!("Lecture de la session impossible : {}", e);
+                return erreur("Erreur serveur");
+            }
+        };
+
+        let balance = match WalletManager::new(pool.clone(), session.account_id)
+            .get_balance()
+            .await
+        {
+            Ok(balance) => Some(balance),
+            Err(e) => {
+                error!(
+                    "Portefeuille illisible (compte {}) : {}",
+                    session.account_id,
+                    e
+                );
+                None
+            }
+        };
+
+        let inventaire = match Inventaire::new(pool.clone(), session.account_id).await {
+            Ok(inventaire) => inventaire,
+            Err(e) => {
+                error!(
+                    "Inventaire illisible (compte {}) : {}",
+                    session.account_id,
+                    e
+                );
+                return erreur("Inventaire indisponible");
+            }
+        };
+
+        let mut items: Vec<serde_json::Value> = inventaire
+            .objets()
+            .values()
+            .map(|objet| {
+                serde_json::json!({
+                    "nom": objet.nom_affiche(),
+                    "quantite": objet.objet().quantite,
+                    "rarete": objet.rarete(),
+                    "rang": objet.rank(),
+                })
+            })
+            .collect();
+
+        items.sort_by(|a, b| a["nom"].as_str().cmp(&b["nom"].as_str()));
+
+        Packet::new(
+            PacketType::InventoryResponse,
+            serde_json::json!({
+                "ok": true,
+                "account_id": session.account_id,
+                "role": session.role_name,
+                "admin": session.is_admin(),
+                "balance": balance,
+                "items": items,
+            })
+            .to_string()
+            .into_bytes(),
+        )
+    }
+
+    // =============================================================
+    // TRÉSOR : OUVERTURE DU COFFRE
+    // =============================================================
+
+    /// Ouvre le coffre de niveau `niveau` (1 à 5, tiré par le serveur) pour
+    /// le compte du joueur, range le contenu dans son inventaire et renvoie
+    /// le paquet `TreasureReward` (JSON) à lui envoyer.
+    ///
+    /// `{"ok": true,  "niveau": 3, "items": ["Pièce d'or x30", ...]}`
+    /// `{"ok": false, "niveau": 3, "message": "..."}`
+    async fn open_treasure(
+        client: &Client,
+        pool: &SqlitePool,
+        niveau: u32,
+    ) -> Packet {
+        let echec = |message: &str| {
+            Packet::new(
+                PacketType::TreasureReward,
+                serde_json::json!({
+                    "ok": false,
+                    "niveau": niveau,
+                    "message": message,
+                })
+                .to_string()
+                .into_bytes(),
+            )
+        };
+
+        // Compte et rôle retrouvés par la session (table `sessions`).
+        // admin, Dev et SuperDev comptent comme admin (loot admin).
+        // Il n'existe pas de rôle « militaire » en base : `is_militaire` reste à false.
+        let session = match SessionManager::new(pool.clone())
+            .account_of(&client.session_id().to_string())
+            .await
+        {
+            Ok(Some(session)) => session,
+            Ok(None) => {
+                warn!("Trésor pris sans session de compte valide");
+                return echec("Session introuvable");
+            }
+            Err(e) => {
+                error!("Lecture de la session impossible : {}", e);
+                return echec("Erreur serveur");
+            }
+        };
+
+        let account_id = session.account_id;
+        let is_admin = session.is_admin();
+
+        let mut inventaire = match Inventaire::new(pool.clone(), account_id).await {
+            Ok(inventaire) => inventaire,
+            Err(e) => {
+                error!("Inventaire indisponible (compte {}) : {}", account_id, e);
+                return echec("Inventaire indisponible");
+            }
+        };
+
+        let mut tresor = Tresor::new();
+
+        match inventaire
+            .ouvrir_coffre(&mut tresor, niveau, is_admin, false, None)
+            .await
+        {
+            Ok(resultat) => {
+                let mut items: Vec<String> = resultat
+                    .objets
+                    .iter()
+                    .filter(|(_, quantite)| **quantite > 0)
+                    .map(|(nom, quantite)| format!("{} x{}", nom, quantite))
+                    .collect();
+
+                items.sort();
+
+                items.extend(
+                    resultat.artefacts.iter().map(|artefact| artefact.to_string()),
+                );
+
+                info!(
+                    "Trésor niveau {} ouvert (compte {}) : {}",
+                    niveau,
+                    account_id,
+                    items.join(", ")
+                );
+
+                Packet::new(
+                    PacketType::TreasureReward,
+                    serde_json::json!({
+                        "ok": true,
+                        "niveau": niveau,
+                        "items": items,
+                    })
+                    .to_string()
+                    .into_bytes(),
+                )
+            }
+
+            Err(e) => {
+                error!(
+                    "Ouverture du coffre niveau {} impossible (compte {}) : {}",
+                    niveau, account_id, e
+                );
+
+                echec("Erreur lors de l'ouverture du coffre")
+            }
+        }
+    }
     fn read_i64(
     payload: &[u8],
     start: usize,
@@ -1211,16 +1428,34 @@ if let Err(e) = manager.record_login(&login_data.user_id).await {
 
     let position = Position::new(x, y, z);
 
-    world
-        .set_position(player_id, position)
-        .await;
+    // Le serveur valide le déplacement (limites, murs, porte, clé).
+    // Refusé : on recale uniquement ce joueur sur sa dernière position valide.
+    match world.try_move(player_id, position).await {
+        // Trésor pris : on ouvre le coffre du niveau tiré (1 à 5) et on le
+        // range dans l'inventaire du compte. Le verrou de la zone est
+        // déjà relâché : la base de données ne bloque personne d'autre.
+        Ok(accepted) => match accepted.treasure_won {
+            Some(niveau) => HandlerResult::Response(
+                Self::open_treasure(client, &pool, niveau).await,
+            ),
+            None => HandlerResult::Nothing,
+        },
+        Err(authoritative) => {
+            warn!(
+                "Déplacement refusé [{}] : ({}, {}) -> retour en ({}, {})",
+                player_id,
+                x,
+                y,
+                authoritative.x,
+                authoritative.y
+            );
 
-    world.broadcast_player_state(
-        player_id,
-        position,
-    );
-
-    HandlerResult::Nothing
+            HandlerResult::Response(World::player_state_packet(
+                player_id,
+                authoritative,
+            ))
+        }
+    }
 }
             // =================================================
             // SPAWN : le joueur entre dans le monde
@@ -1527,6 +1762,23 @@ PacketType::MarketBuy => {
                     Ok(true) => {
                         client.set_account_id(Some(account_id));
 
+                        // Lie la session TCP au compte (table `sessions`) : c'est
+                        // là que l'inventaire, l'argent et le rôle seront retrouvés.
+                        if let Err(e) = SessionManager::new(pool.clone())
+                            .bind_account(
+                                &client.session_id().to_string(),
+                                &user_id,
+                                account_id,
+                            )
+                            .await
+                        {
+                            error!(
+                                "Impossible d'enregistrer la session [{}] : {}",
+                                client.session_id(),
+                                e
+                            );
+                        }
+
                         let payload = serde_json::json!({
                             "ok": true,
                             "message": "Compte sélectionné",
@@ -1553,6 +1805,15 @@ PacketType::MarketBuy => {
                         ))
                     }
                 }
+            }
+
+            // ================================================
+            // INVENTAIRE + ARGENT (touche I côté client)
+            // ================================================
+            PacketType::InventoryRequest => {
+                HandlerResult::Response(
+                    Self::inventory_packet(client, &pool).await,
+                )
             }
 
             PacketType::MarketSell => {
@@ -1910,6 +2171,9 @@ PacketType::MarketBuy => {
             | PacketType::SignUpResponse 
             | PacketType::PlayerState 
             | PacketType::PlayerRemove
+            | PacketType::ZoneState
+            | PacketType::TreasureReward
+            | PacketType::InventoryResponse
             | PacketType::Session
             | PacketType::AccountListResponse
             | PacketType::AccountResult => {

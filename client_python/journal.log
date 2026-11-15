@@ -1017,3 +1017,37 @@
 11/11 10:43:32  lecture : 03_chuchotements.wav
 11/11 10:44:33  lecture : 06_horizon_brise.wav
 11/11 10:44:34  pygame.mixer : error('mixer not initialized')
+15/11 17:01:24  playlist (10) : ['01_frequence_morte.wav', '02_battement.wav', '03_chuchotements.wav', '04_radio_fantome.wav', '05_sentier_de_cendres.wav', '06_horizon_brise.wav', '07_brouillard_noir.wav', '07_ville_au_crepuscule.wav', '08_le_phare_eteint.wav', '09_expedition_oubliee.wav']
+15/11 17:01:25  lecture : 07_ville_au_crepuscule.wav
+15/11 17:02:27  lecture : 04_radio_fantome.wav
+15/11 17:03:28  lecture : 06_horizon_brise.wav
+15/11 17:04:30  lecture : 08_le_phare_eteint.wav
+15/11 17:05:34  lecture : 05_sentier_de_cendres.wav
+15/11 17:05:55  pygame.mixer : error('mixer not initialized')
+15/11 17:06:04  playlist (10) : ['01_frequence_morte.wav', '02_battement.wav', '03_chuchotements.wav', '04_radio_fantome.wav', '05_sentier_de_cendres.wav', '06_horizon_brise.wav', '07_brouillard_noir.wav', '07_ville_au_crepuscule.wav', '08_le_phare_eteint.wav', '09_expedition_oubliee.wav']
+15/11 17:06:04  lecture : 01_frequence_morte.wav
+15/11 17:06:38  lecture : 07_brouillard_noir.wav
+15/11 17:07:09  playlist (10) : ['01_frequence_morte.wav', '02_battement.wav', '03_chuchotements.wav', '04_radio_fantome.wav', '05_sentier_de_cendres.wav', '06_horizon_brise.wav', '07_brouillard_noir.wav', '07_ville_au_crepuscule.wav', '08_le_phare_eteint.wav', '09_expedition_oubliee.wav']
+15/11 17:07:09  lecture : 07_ville_au_crepuscule.wav
+15/11 17:07:28  playlist (10) : ['01_frequence_morte.wav', '02_battement.wav', '03_chuchotements.wav', '04_radio_fantome.wav', '05_sentier_de_cendres.wav', '06_horizon_brise.wav', '07_brouillard_noir.wav', '07_ville_au_crepuscule.wav', '08_le_phare_eteint.wav', '09_expedition_oubliee.wav']
+15/11 17:07:28  lecture : 01_frequence_morte.wav
+15/11 17:08:02  playlist (10) : ['01_frequence_morte.wav', '02_battement.wav', '03_chuchotements.wav', '04_radio_fantome.wav', '05_sentier_de_cendres.wav', '06_horizon_brise.wav', '07_brouillard_noir.wav', '07_ville_au_crepuscule.wav', '08_le_phare_eteint.wav', '09_expedition_oubliee.wav']
+15/11 17:08:05  lecture : 08_le_phare_eteint.wav
+15/11 17:09:06  playlist (10) : ['01_frequence_morte.wav', '02_battement.wav', '03_chuchotements.wav', '04_radio_fantome.wav', '05_sentier_de_cendres.wav', '06_horizon_brise.wav', '07_brouillard_noir.wav', '07_ville_au_crepuscule.wav', '08_le_phare_eteint.wav', '09_expedition_oubliee.wav']
+15/11 17:09:07  lecture : 02_battement.wav
+15/11 17:09:25  playlist (10) : ['01_frequence_morte.wav', '02_battement.wav', '03_chuchotements.wav', '04_radio_fantome.wav', '05_sentier_de_cendres.wav', '06_horizon_brise.wav', '07_brouillard_noir.wav', '07_ville_au_crepuscule.wav', '08_le_phare_eteint.wav', '09_expedition_oubliee.wav']
+15/11 17:09:25  lecture : 04_radio_fantome.wav
+15/11 17:10:27  lecture : 02_battement.wav
+15/11 17:11:28  lecture : 05_sentier_de_cendres.wav
+15/11 17:12:30  lecture : 06_horizon_brise.wav
+15/11 17:46:33  playlist (10) : ['01_frequence_morte.wav', '02_battement.wav', '03_chuchotements.wav', '04_radio_fantome.wav', '05_sentier_de_cendres.wav', '06_horizon_brise.wav', '07_brouillard_noir.wav', '07_ville_au_crepuscule.wav', '08_le_phare_eteint.wav', '09_expedition_oubliee.wav']
+15/11 17:46:33  lecture : 03_chuchotements.wav
+15/11 17:47:35  lecture : 01_frequence_morte.wav
+15/11 17:47:44  lecture : 07_brouillard_noir.wav
+15/11 17:58:29  playlist (10) : ['01_frequence_morte.wav', '02_battement.wav', '03_chuchotements.wav', '04_radio_fantome.wav', '05_sentier_de_cendres.wav', '06_horizon_brise.wav', '07_brouillard_noir.wav', '07_ville_au_crepuscule.wav', '08_le_phare_eteint.wav', '09_expedition_oubliee.wav']
+15/11 17:58:30  lecture : 05_sentier_de_cendres.wav
+15/11 17:59:15  lecture : 07_ville_au_crepuscule.wav
+15/11 17:59:50  lecture : 08_le_phare_eteint.wav
+15/11 19:40:28  playlist (10) : ['01_frequence_morte.wav', '02_battement.wav', '03_chuchotements.wav', '04_radio_fantome.wav', '05_sentier_de_cendres.wav', '06_horizon_brise.wav', '07_brouillard_noir.wav', '07_ville_au_crepuscule.wav', '08_le_phare_eteint.wav', '09_expedition_oubliee.wav']
+15/11 19:40:28  lecture : 06_horizon_brise.wav
+15/11 19:41:25  lecture : 02_battement.wav

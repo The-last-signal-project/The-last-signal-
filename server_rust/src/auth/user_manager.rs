@@ -65,6 +65,11 @@ impl UserManager {
         .await
         .map_err(|e| format!("Impossible de réinitialiser les statuts : {e}"))?;
 
+        // Les sessions restées ouvertes après un arrêt brutal sont terminées.
+        crate::auth::session_manager::SessionManager::close_all_open(pool, "Arrêt du serveur")
+            .await
+            .map_err(|e| format!("Impossible de fermer les sessions : {e}"))?;
+
         Ok(result.rows_affected())
     }
 
