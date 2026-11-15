@@ -59,7 +59,9 @@ impl AccountManager {
 
 
     /// Crée le compte joueur et son portefeuille dans une transaction unique.
-    pub fn is_locked(text: &str) -> bool {
+
+   pub  fn is_locked(text: &str) -> bool {
+
     text.contains("database is locked") || text.contains("database table is locked")
 }
 
