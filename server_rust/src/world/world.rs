@@ -6,6 +6,7 @@ use tokio::sync::{broadcast, Mutex};
 use uuid::Uuid;
 
 use crate::network::packet::{Packet, PacketType};
+use crate::world::treasure_zone::{move_allowed, Rect, ZoneState};
 
 #[derive(Debug, Clone, Copy)]
 pub struct Position {
@@ -20,10 +21,20 @@ impl Position {
     }
 }
 
+/// Résultat d'un déplacement accepté par `World::try_move`.
+#[derive(Debug, Clone, Copy)]
+pub struct MoveAccepted {
+    pub position: Position,
+    /// Niveau (1 à 5) du coffre à ouvrir si le joueur vient de prendre le trésor.
+    pub treasure_won: Option<u32>,
+}
+
 #[derive(Clone)]
 pub struct World {
     pub positions: Arc<Mutex<HashMap<Uuid, Position>>>,
     pub tx: broadcast::Sender<Packet>,
+    /// Clé, porte et trésor (état partagé, autoritaire).
+    pub zone: Arc<Mutex<ZoneState>>,
 }
 
 impl World {
@@ -37,6 +48,7 @@ impl World {
         Self {
             positions: Arc::new(Mutex::new(HashMap::new())),
             tx,
+            zone: Arc::new(Mutex::new(ZoneState::new())),
         }
     }
 
@@ -82,13 +94,89 @@ impl World {
         &self,
         player_id: Uuid,
     ) {
-        let mut positions = self.positions.lock().await;
+        {
+            let mut positions = self.positions.lock().await;
 
-        if positions.remove(&player_id).is_some() {
-            info!(
-                "WORLD: joueur supprimé"
-            );
+            if positions.remove(&player_id).is_some() {
+                info!(
+                    "WORLD: joueur supprimé"
+                );
+            }
         }
+
+        // Si le joueur portait la clé (ou le trésor), la manche repart.
+        // Le verrou des positions est relâché avant de prendre celui de la zone.
+        let zone_packet = {
+            let mut zone = self.zone.lock().await;
+
+            if zone.on_player_left(player_id) {
+                Some(zone.packet())
+            } else {
+                None
+            }
+        };
+
+        if let Some(packet) = zone_packet {
+            let _ = self.tx.send(packet);
+        }
+    }
+
+    // =============================================================
+    // DÉPLACEMENT VALIDÉ + CLÉ / TRÉSOR
+    // =============================================================
+
+    /// Valide un MOVE (limites, murs, porte, pas de téléportation).
+    ///
+    /// - `Ok(MoveAccepted)` : accepté, enregistré et diffusé (ainsi que le
+    ///   nouvel état de la zone si une clé/un trésor a été pris).
+    ///   `treasure_won` contient le niveau du coffre à ouvrir pour ce joueur
+    ///   s'il vient de prendre le trésor (à traiter APRÈS, sans verrou).
+    /// - `Err(position)` : refusé ; c'est la dernière position valide,
+    ///   à renvoyer au seul joueur fautif pour qu'il se recale.
+    ///
+    /// Ordre des verrous : zone, puis positions (jamais l'inverse).
+    pub async fn try_move(
+        &self,
+        player_id: Uuid,
+        requested: Position,
+    ) -> Result<MoveAccepted, Position> {
+        let mut zone = self.zone.lock().await;
+
+        let previous = self.get_position(player_id).await;
+
+        if !move_allowed(&zone, player_id, previous, requested) {
+            return Err(previous.unwrap_or(Position::new(0, 0, 0)));
+        }
+
+        self.set_position(player_id, requested).await;
+
+        let rect = Rect::player(requested);
+
+        let effect = zone.apply_move(player_id, rect, requested);
+
+        let zone_packet = if effect.changed {
+            Some(zone.packet())
+        } else {
+            None
+        };
+
+        drop(zone);
+
+        self.broadcast_player_state(player_id, requested);
+
+        if let Some(packet) = zone_packet {
+            let _ = self.tx.send(packet);
+        }
+
+        Ok(MoveAccepted {
+            position: requested,
+            treasure_won: effect.treasure_won,
+        })
+    }
+
+    /// État courant de la zone (envoyé à un joueur qui se connecte).
+    pub async fn zone_state_packet(&self) -> Packet {
+        self.zone.lock().await.packet()
     }
 
     pub async fn get_position(

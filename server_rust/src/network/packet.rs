@@ -34,11 +34,22 @@ pub enum PacketType {
     AccountSelect = 21,
     AccountResult = 22,
     Spawn = 23,
+<<<<<<< HEAD
     InventoryResponse = 24,
     TreasureReward = 25,
     InventoryRequest = 26,
     ZoneState = 27,
 
+=======
+    /// État de la clé et du trésor (serveur -> clients).
+    ZoneState = 24,
+    /// Contenu du coffre gagné (serveur -> joueur concerné), JSON UTF-8.
+    TreasureReward = 25,
+    /// Demande de l'inventaire et de l'argent du joueur (client -> serveur, vide).
+    InventoryRequest = 26,
+    /// Inventaire et argent du joueur (serveur -> client), JSON UTF-8.
+    InventoryResponse = 27,
+>>>>>>> 8225de0a (feat(gameplay): add chest  in the 2d game)
 }
 #[derive(Debug, Clone, Copy)]
 pub enum BanType {
@@ -94,11 +105,18 @@ impl PacketType {
             21 => Some(PacketType::AccountSelect),
             22 => Some(PacketType::AccountResult),
             23 => Some(PacketType::Spawn),
+<<<<<<< HEAD
             24 => Some(PacketType::InventoryResponse),
             25 => Some(PacketType::TreasureReward),
             26 => Some(PacketType::InventoryRequest),
             27 => Some(PacketType::ZoneState),
 
+=======
+            24 => Some(PacketType::ZoneState),
+            25 => Some(PacketType::TreasureReward),
+            26 => Some(PacketType::InventoryRequest),
+            27 => Some(PacketType::InventoryResponse),
+>>>>>>> 8225de0a (feat(gameplay): add chest  in the 2d game)
 
             _ => None,
         }
@@ -265,12 +283,16 @@ mod tests {
         assert_eq!(PacketType::from_u16(21), Some(PacketType::AccountSelect));
         assert_eq!(PacketType::from_u16(22), Some(PacketType::AccountResult));
         assert_eq!(PacketType::from_u16(23), Some(PacketType::Spawn));
+        assert_eq!(PacketType::from_u16(24), Some(PacketType::ZoneState));
+        assert_eq!(PacketType::from_u16(25), Some(PacketType::TreasureReward));
+        assert_eq!(PacketType::from_u16(26), Some(PacketType::InventoryRequest));
+        assert_eq!(PacketType::from_u16(27), Some(PacketType::InventoryResponse));
     }
 
     #[test]
     fn test_packet_type_from_u16_invalid_values() {
         assert_eq!(PacketType::from_u16(0), None);
-        assert_eq!(PacketType::from_u16(24), None);
+        assert_eq!(PacketType::from_u16(28), None);
         assert_eq!(PacketType::from_u16(100), None);
         assert_eq!(PacketType::from_u16(999), None);
         assert_eq!(PacketType::from_u16(u16::MAX), None);
@@ -519,6 +541,10 @@ mod tests {
             (21u16, PacketType::AccountSelect),
             (22u16, PacketType::AccountResult),
             (23u16, PacketType::Spawn),
+            (24u16, PacketType::ZoneState),
+            (25u16, PacketType::TreasureReward),
+            (26u16, PacketType::InventoryRequest),
+            (27u16, PacketType::InventoryResponse),
 
 
         ];
@@ -540,7 +566,7 @@ mod tests {
 
     #[test]
 fn test_parse_body_unknown_type_boundary_cases() {
-    let unknown_ids = [0u16, 24u16, 999u16, u16::MAX];
+    let unknown_ids = [0u16, 28u16, 999u16, u16::MAX];
 
     for unknown_id in unknown_ids {
         let body = unknown_id.to_be_bytes();

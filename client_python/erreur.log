@@ -1,0 +1,148 @@
+[22/10/2026 14:32:43] Python 3.13.9 - linux2
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/media/cyril/External2/The-last-signal-/client_python/main.py", line 14, in <module>
+    main()
+    ~~~~^^
+  File "/media/cyril/External2/The-last-signal-/client_python/main.py", line 10, in main
+    App().run()
+    ~~~~~~~~~^^
+  File "/media/cyril/External2/The-last-signal-/client_python/menu.py", line 2051, in run
+    self.vapp.process_events()
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/media/cyril/External2/Linux/Raspberry_pi_4,5/python-full-3.13.9-linux-aarch64/lib/python3.13/site-packages/vispy/app/application.py", line 74, in process_events
+    return self._backend._vispy_process_events()
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/media/cyril/External2/Linux/Raspberry_pi_4,5/python-full-3.13.9-linux-aarch64/lib/python3.13/site-packages/vispy/app/backends/_glfw.py", line 183, in _vispy_process_events
+    win._on_draw()
+    ~~~~~~~~~~~~^^
+  File "/media/cyril/External2/Linux/Raspberry_pi_4,5/python-full-3.13.9-linux-aarch64/lib/python3.13/site-packages/vispy/app/backends/_glfw.py", line 407, in _on_draw
+    self._vispy_canvas.events.draw(region=None)  # (0, 0, w, h))
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/media/cyril/External2/Linux/Raspberry_pi_4,5/python-full-3.13.9-linux-aarch64/lib/python3.13/site-packages/vispy/util/event.py", line 453, in __call__
+    self._invoke_callback(cb, event)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "/media/cyril/External2/Linux/Raspberry_pi_4,5/python-full-3.13.9-linux-aarch64/lib/python3.13/site-packages/vispy/util/event.py", line 469, in _invoke_callback
+    cb(event)
+    ~~^^^^^^^
+  File "/media/cyril/External2/The-last-signal-/client_python/menu.py", line 2132, in on_draw
+    self.r.draw(sp, self.W, self.H)
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/media/cyril/External2/The-last-signal-/client_python/menu.py", line 1114, in draw
+    p["u_alpha"] = float(sp.alpha)
+    ~^^^^^^^^^^^
+  File "/media/cyril/External2/Linux/Raspberry_pi_4,5/python-full-3.13.9-linux-aarch64/lib/python3.13/site-packages/vispy/gloo/program.py", line 305, in __setitem__
+    def __setitem__(self, name, data):
+    
+KeyboardInterrupt
+
+[11/11/2026 10:44:34] Python 3.13.5 - linux
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/media/cyril/External2/The-last-signal-/client_python/main.py", line 14, in <module>
+    main()
+    ~~~~^^
+  File "/media/cyril/External2/The-last-signal-/client_python/main.py", line 10, in main
+    App().run()
+    ~~~~~~~~~^^
+  File "/media/cyril/External2/The-last-signal-/client_python/menu.py", line 2051, in run
+    self.vapp.process_events()
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/cyril/path/venv/lib/python3.13/site-packages/vispy/app/application.py", line 74, in process_events
+    return self._backend._vispy_process_events()
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/cyril/path/venv/lib/python3.13/site-packages/vispy/app/backends/_glfw.py", line 183, in _vispy_process_events
+    win._on_draw()
+    ~~~~~~~~~~~~^^
+  File "/home/cyril/path/venv/lib/python3.13/site-packages/vispy/app/backends/_glfw.py", line 407, in _on_draw
+    self._vispy_canvas.events.draw(region=None)  # (0, 0, w, h))
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/home/cyril/path/venv/lib/python3.13/site-packages/vispy/util/event.py", line 453, in __call__
+    self._invoke_callback(cb, event)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "/home/cyril/path/venv/lib/python3.13/site-packages/vispy/util/event.py", line 469, in _invoke_callback
+    cb(event)
+    ~~^^^^^^^
+  File "/home/cyril/path/venv/lib/python3.13/site-packages/vispy/app/canvas.py", line 432, in swap_buffers
+    self._backend._vispy_swap_buffers()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/cyril/path/venv/lib/python3.13/site-packages/vispy/app/backends/_glfw.py", line 318, in _vispy_swap_buffers
+    glfw.swap_buffers(self._id)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "/home/cyril/path/venv/lib/python3.13/site-packages/glfw/__init__.py", line 2380, in swap_buffers
+    _glfw.glfwSwapBuffers(window)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^
+  File "/home/cyril/path/venv/lib/python3.13/site-packages/glfw/__init__.py", line 687, in errcheck
+    def errcheck(result, *args):
+    
+KeyboardInterrupt
+
+[15/11/2026 17:05:54] Python 3.13.9 - linux2
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/media/cyril/External2/The-last-signal-/client_python/main.py", line 14, in <module>
+    main()
+    ~~~~^^
+  File "/media/cyril/External2/The-last-signal-/client_python/main.py", line 10, in main
+    App().run()
+    ~~~~~~~~~^^
+  File "/media/cyril/External2/The-last-signal-/client_python/menu.py", line 2049, in run
+    self.tick()
+    ~~~~~~~~~^^
+  File "/media/cyril/External2/The-last-signal-/client_python/menu.py", line 2111, in tick
+    self.panel.set_image(self.panel_ui.render(self.ps, now))
+                         ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/media/cyril/External2/The-last-signal-/client_python/menu.py", line 1633, in render
+    getattr(self, "_draw_" + e["kind"])(im, d, e, ps, now)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "/media/cyril/External2/The-last-signal-/client_python/menu.py", line 1648, in _draw_label
+    self.sk.draw_text(d, e["x"] + e["w"] / 2, e["y"] + i * lh, line, e["spec"], self.s,
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                      self.color(e["color"]), "c")
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/media/cyril/External2/The-last-signal-/client_python/menu.py", line 1300, in draw_text
+    d.text((cx, base), s, font=f, fill=fill, anchor="ls")
+    ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/media/cyril/External2/Linux/Raspberry_pi_4,5/python-full-3.13.9-linux-aarch64/lib/python3.13/site-packages/PIL/ImageDraw.py", line 661, in text
+    draw_text(ink)
+    ~~~~~~~~~^^^^^
+  File "/media/cyril/External2/Linux/Raspberry_pi_4,5/python-full-3.13.9-linux-aarch64/lib/python3.13/site-packages/PIL/ImageDraw.py", line 605, in draw_text
+    mask, offset = image_text.font.getmask2(  # type: ignore[union-attr,misc]
+                   ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        line,
+        ^^^^^
+    ...<10 lines>...
+        **kwargs,
+        ^^^^^^^^^
+    )
+    ^
+  File "/media/cyril/External2/Linux/Raspberry_pi_4,5/python-full-3.13.9-linux-aarch64/lib/python3.13/site-packages/PIL/ImageFont.py", line 625, in getmask2
+    return self.font.render(
+           ~~~~~~~~~~~~~~~~^
+        text,
+        ^^^^^
+    ...<9 lines>...
+        start,
+        ^^^^^^
+    )
+    ^
+  File "/media/cyril/External2/Linux/Raspberry_pi_4,5/python-full-3.13.9-linux-aarch64/lib/python3.13/site-packages/PIL/ImageFont.py", line 620, in fill
+    def fill(width: int, height: int) -> Image.core.ImagingCore:
+    
+KeyboardInterrupt
+
+[15/11/2026 17:49:43] Python 3.13.9 - linux2
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/media/cyril/External2/The-last-signal-/client_python/game_launcher.py", line 74, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "/media/cyril/External2/The-last-signal-/client_python/game_launcher.py", line 61, in main
+    print("Le jeu s'arrête....")
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 5] Input/output error
+

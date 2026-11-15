@@ -1,16 +1,17 @@
 from __future__ import annotations
 
+import json
 import queue
 import struct
 import threading
 import uuid
 
 from PySide6.QtCore import QRectF, Qt, QTimer
-from PySide6.QtGui import QBrush, QKeyEvent, QPainter, QPen
+from PySide6.QtGui import QBrush, QColor, QKeyEvent, QPainter, QPen
 from PySide6.QtWidgets import QApplication, QMainWindow
 
 from .client import Client
-from .packet import PacketType
+from .packet import Packet, PacketType
 from .packets.move import MovePacket
 
 
@@ -63,6 +64,10 @@ class Game(QMainWindow):
 
     WORLD_WIDTH = 1000
     WORLD_HEIGHT = 700
+
+    # --- Zone du trésor (géométrie identique au serveur) ------
+    KEY_SIZE = 20
+    TREASURE_SIZE = 30
 
     GAME_TIMER_INTERVAL = 16
     NETWORK_TIMER_INTERVAL = 16
@@ -132,12 +137,9 @@ class Game(QMainWindow):
         # =========================================================
 
         self.walls = [
-            QRectF(
-                250,
-                150,
-                500,
-                30,
-            ),
+            # Mur du haut, interrompu par la porte (x 470 -> 530)
+            QRectF(250, 150, 220, 30),
+            QRectF(530, 150, 220, 30),
             QRectF(
                 250,
                 520,
@@ -161,6 +163,29 @@ class Game(QMainWindow):
         # =========================================================
         # ÉTAT DU JEU
         # =========================================================
+
+        # =========================================================
+        # TRÉSOR, CLÉ ET PORTE
+        # =========================================================
+
+        # Porte dans le mur du haut : bloquante sauf pour le porteur de la clé
+        self.door = QRectF(470, 150, 60, 30)
+
+        # Trésor au centre de l'enceinte (500, 350)
+        self.treasure = QRectF(485, 335, 30, 30)
+
+        # État de la clé et du trésor : décidé par le serveur (ZONE_STATE)
+        self.key_pos: tuple[int, int] | None = None   # clé au sol
+        self.key_holder: uuid.UUID | None = None
+        self.treasure_taker: uuid.UUID | None = None
+        self.treasure_level = 0   # niveau du trésor (1 à 5)
+
+        # Inventaire (touche I) : réponse du serveur, ou None tant qu'elle n'est pas arrivée
+        self.inventory_open = False
+        self.inventory_data: dict | None = None
+
+        self.message = ""
+        self.message_frames = 0
 
         self.running = True
 
@@ -310,6 +335,36 @@ class Game(QMainWindow):
         """
 
         packet_type = packet.packet_type
+
+        # ---------------------------------------------------------
+        # ZONE_STATE : clé / trésor (autorité serveur)
+        # ---------------------------------------------------------
+
+        if packet_type == PacketType.ZONE_STATE:
+
+            self.handle_zone_state(packet)
+
+            return
+
+        # ---------------------------------------------------------
+        # TREASURE_REWARD : contenu du coffre gagné (JSON)
+        # ---------------------------------------------------------
+
+        if packet_type == PacketType.TREASURE_REWARD:
+
+            self.handle_treasure_reward(packet.payload)
+
+            return
+
+        # ---------------------------------------------------------
+        # INVENTORY_RESPONSE : inventaire + argent (JSON)
+        # ---------------------------------------------------------
+
+        if packet_type == PacketType.INVENTORY_RESPONSE:
+
+            self.handle_inventory(packet.payload)
+
+            return
 
         # ---------------------------------------------------------
         # PLAYER_STATE
@@ -596,6 +651,13 @@ class Game(QMainWindow):
             )
 
         # ---------------------------------------------------------
+        # MESSAGE À L'ÉCRAN
+        # ---------------------------------------------------------
+
+        if self.message_frames > 0:
+            self.message_frames -= 1
+
+        # ---------------------------------------------------------
         # ENVOI AU SERVEUR
         # ---------------------------------------------------------
 
@@ -667,12 +729,276 @@ class Game(QMainWindow):
 
                 return
 
+        # La porte reste fermée tant qu'on n'a pas la clé
+        if not self.can_pass() and player_rect.intersects(self.door):
+
+            return
+
         # ---------------------------------------------------------
         # VALIDATION DU DÉPLACEMENT
         # ---------------------------------------------------------
 
         self.player_x = new_x
         self.player_y = new_y
+
+    # =============================================================
+    # TRÉSOR, CLÉ ET PORTE
+    # =============================================================
+
+    def can_pass(self) -> bool:
+        """
+        Vrai si le joueur local peut franchir la porte : il porte la clé,
+        ou il vient de prendre le trésor (il doit pouvoir ressortir).
+        Prédiction locale : le serveur reste l'autorité.
+        """
+
+        local_id = self.get_local_player_id()
+
+        if local_id is None:
+            return False
+
+        return (
+            self.key_holder == local_id
+            or self.treasure_taker == local_id
+        )
+
+    def show_message(self, text: str, seconds: float = 3.0) -> None:
+
+        self.message = text
+        self.message_frames = int(
+            seconds * 1000 / self.GAME_TIMER_INTERVAL
+        )
+
+    def handle_zone_state(self, packet) -> None:
+        """
+        Applique un ZONE_STATE reçu du serveur (thread Qt uniquement).
+        """
+
+        local_id = self.get_local_player_id()
+
+        previous_holder = self.key_holder
+        previous_taker = self.treasure_taker
+
+        if packet.key_state == packet.KEY_ON_GROUND:
+            self.key_pos = (packet.key_x, packet.key_y)
+        else:
+            self.key_pos = None
+
+        self.key_holder = packet.key_holder
+        self.treasure_taker = packet.treasure_taker
+        self.treasure_level = packet.treasure_level
+
+        if local_id is not None:
+
+            if (
+                self.key_holder == local_id
+                and previous_holder != local_id
+            ):
+                self.show_message(
+                    "Clé récupérée ! La porte est ouverte."
+                )
+
+            elif (
+                self.treasure_taker == local_id
+                and previous_taker != local_id
+            ):
+                self.show_message("Trésor récupéré !", 5.0)
+
+            elif (
+                self.treasure_taker is not None
+                and self.treasure_taker != local_id
+                and previous_taker is None
+            ):
+                self.show_message(
+                    "Un autre joueur a récupéré le trésor.", 4.0
+                )
+
+        self.update()
+
+    # =============================================================
+    # INVENTAIRE (touche I)
+    # =============================================================
+
+    MAX_INVENTORY_LINES = 22
+
+    def toggle_inventory(self) -> None:
+        """Ouvre ou ferme l'inventaire ; à l'ouverture, demande les données au serveur."""
+
+        self.inventory_open = not self.inventory_open
+
+        if self.inventory_open:
+
+            self.inventory_data = None   # « Chargement... » jusqu'à la réponse
+
+            try:
+                self.client.send_packet(
+                    Packet(PacketType.INVENTORY_REQUEST)
+                )
+            except Exception as exc:
+                print("[GAME] Erreur demande inventaire :", repr(exc))
+
+        self.update()
+
+    def handle_inventory(self, payload: bytes) -> None:
+        """Reçoit l'inventaire et l'argent envoyés par le serveur."""
+
+        try:
+            data = json.loads(payload.decode("utf-8"))
+        except (ValueError, UnicodeDecodeError):
+            data = {"ok": False, "message": "Réponse illisible"}
+
+        self.inventory_data = data
+
+        self.update()
+
+    def draw_inventory(self, painter: QPainter) -> None:
+        """Panneau d'inventaire : argent puis objets."""
+
+        if not self.inventory_open:
+            return
+
+        x, y, w, h = 620, 60, 360, 540
+
+        painter.setBrush(QBrush(QColor(0, 0, 0, 215)))
+        painter.setPen(QPen(Qt.white, 2))
+        painter.drawRect(x, y, w, h)
+
+        lines: list[str] = ["Inventaire  (I pour fermer)", ""]
+
+        data = self.inventory_data
+
+        if data is None:
+
+            lines.append("Chargement...")
+
+        elif not data.get("ok"):
+
+            lines.append(data.get("message", "Erreur"))
+
+        else:
+
+            balance = data.get("balance")
+
+            lines.append(
+                "Argent : "
+                + (str(balance) if balance is not None else "indisponible")
+            )
+
+            lines.append("")
+
+            items = data.get("items") or []
+
+            if not items:
+                lines.append("(inventaire vide)")
+
+            for item in items[: self.MAX_INVENTORY_LINES]:
+
+                line = f"{item.get('nom', '?')} x{item.get('quantite', 1)}"
+
+                rarete = item.get("rarete")
+                rang = item.get("rang")
+
+                if rarete:
+                    line += f"  [{rarete}" + (f" - {rang}" if rang else "") + "]"
+
+                lines.append(line)
+
+            hidden = len(items) - self.MAX_INVENTORY_LINES
+
+            if hidden > 0:
+                lines.append(f"... et {hidden} autre(s)")
+
+        painter.setPen(QPen(Qt.white))
+
+        for index, line in enumerate(lines):
+            painter.drawText(x + 12, y + 26 + 20 * index, line)
+
+    def handle_treasure_reward(self, payload: bytes) -> None:
+        """Affiche le contenu du coffre gagné (envoyé par le serveur)."""
+
+        try:
+            data = json.loads(payload.decode("utf-8"))
+        except (ValueError, UnicodeDecodeError):
+            return
+
+        level = data.get("niveau", "?")
+
+        if data.get("ok"):
+
+            items = data.get("items") or []
+
+            lines = [f"Coffre niveau {level} :"]
+            lines += [f"  {item}" for item in items] or ["  (vide)"]
+
+            self.show_message("\n".join(lines), 8.0)
+
+        else:
+
+            self.show_message(
+                f"Coffre niveau {level} : "
+                f"{data.get('message', 'erreur')}",
+                6.0,
+            )
+
+        self.update()
+
+    def draw_treasure_zone(self, painter: QPainter) -> None:
+        """Dessine la porte, la clé, le trésor et les messages."""
+
+        has_access = self.can_pass()
+
+        # Porte
+        if has_access:
+            painter.setBrush(QBrush(Qt.darkGreen))
+        else:
+            painter.setBrush(QBrush(Qt.darkRed))
+
+        painter.setPen(QPen(Qt.gray, 2))
+        painter.drawRect(self.door)
+
+        # Trésor (disparaît quand quelqu'un l'a pris)
+        if self.treasure_taker is None:
+            painter.setBrush(QBrush(Qt.yellow))
+            painter.setPen(QPen(Qt.white, 2))
+            painter.drawRect(self.treasure)
+
+            if self.treasure_level:
+                painter.drawText(
+                    int(self.treasure.x()),
+                    int(self.treasure.y()) - 6,
+                    f"Trésor niv. {self.treasure_level}",
+                )
+
+        # Clé au sol
+        if self.key_pos is not None:
+            painter.setBrush(QBrush(Qt.cyan))
+            painter.setPen(QPen(Qt.white, 2))
+            painter.drawEllipse(
+                QRectF(
+                    self.key_pos[0],
+                    self.key_pos[1],
+                    self.KEY_SIZE,
+                    self.KEY_SIZE,
+                )
+            )
+
+        # Infos
+        local_id = self.get_local_player_id()
+
+        painter.setPen(QPen(Qt.white))
+        painter.drawText(
+            10,
+            100,
+            f"Clé : {'oui' if self.key_holder == local_id and local_id else 'non'}",
+        )
+
+        if self.message_frames > 0:
+            for index, line in enumerate(self.message.split("\n")):
+                painter.drawText(
+                    self.WORLD_WIDTH // 2 - 120,
+                    40 + 18 * index,
+                    line,
+                )
 
     # =============================================================
     # ENVOI MOVE
@@ -718,6 +1044,15 @@ class Game(QMainWindow):
         """
 
         if event.isAutoRepeat():
+            return
+
+        # I : ouvre / ferme l'inventaire (Échap le ferme aussi)
+        if event.key() == Qt.Key_I:
+            self.toggle_inventory()
+            return
+
+        if event.key() == Qt.Key_Escape and self.inventory_open:
+            self.toggle_inventory()
             return
 
         self.keys.add(
@@ -811,6 +1146,14 @@ class Game(QMainWindow):
         # JOUEUR LOCAL
         # ---------------------------------------------------------
 
+        self.draw_treasure_zone(
+            painter
+        )
+
+        self.draw_inventory(
+            painter
+        )
+
         self.draw_local_player(
             painter
         )
@@ -887,7 +1230,7 @@ class Game(QMainWindow):
             80,
             (
                 "Contrôles : "
-                "ZQSD / WASD"
+                "ZQSD / WASD, I = inventaire"
             ),
         )
 
