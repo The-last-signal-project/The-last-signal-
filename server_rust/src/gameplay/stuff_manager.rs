@@ -16,6 +16,12 @@ use crate::gameplay::objets::{
     TypeObjet,
 };
 use crate::gameplay::tresor::{ArtefactTire, ResultatOuverture, Tresor};
+use crate::gameplay::wallet_manager::WalletManager;
+
+/// Nom exact de l'objet "argent" (celui des trésors / objets_dispo).
+/// L'argent ne va JAMAIS dans la table `stuff`, mais dans `wallets`.
+/// Si le portefeuille déborde (i64::MAX), le surplus part en investissement.
+const NOM_ARGENT: &str = "argent"; // <- à adapter
 
 // ============================================================
 // ENUM UNIFIÉ POUR LE HASHMAP D'INVENTAIRE
@@ -159,6 +165,10 @@ enum Ecriture {
         stack_key: String,
         enchants: Vec<(i64, i64)>,
         marque: Marque,
+    },
+    /// Argent : crédité sur le portefeuille (pas dans `stuff`).
+    Argent {
+        montant: u64,
     },
 }
 
@@ -730,6 +740,11 @@ impl Inventaire {
         marque: &Marque,
         catalogue: &HashMap<String, (i64, String)>,
     ) -> Result<Vec<Ecriture>, sqlx::Error> {
+        // L'argent va dans le portefeuille, pas dans l'inventaire.
+        if nom == NOM_ARGENT {
+            return Ok(vec![Ecriture::Argent { montant: quantite }]);
+        }
+
         let (objet_id, type_objet) = catalogue
             .get(nom)
             .cloned()
@@ -818,6 +833,24 @@ impl Inventaire {
         ecriture: &Ecriture,
     ) -> Result<(), sqlx::Error> {
         match ecriture {
+            // ------------------------------------------------
+            // ARGENT -> portefeuille (+ débordement en investissement)
+            // ------------------------------------------------
+            Ecriture::Argent { montant } => {
+                // `montant` est un u64 alors que le portefeuille est en i64 :
+                // on crédite par tranches de i64::MAX au maximum.
+                // Chaque appel remplit le portefeuille puis place l'excédent
+                // en investissement (BankManager::investir_exces_tx).
+                let mut reste = *montant;
+
+                while reste > 0 {
+                    let part = reste.min(i64::MAX as u64);
+                    WalletManager::crediter_tx(tx, account_id, part as i64)
+                        .await?;
+                    reste -= part;
+                }
+            }
+
             // ------------------------------------------------
             Ecriture::Base {
                 objet_id,
