@@ -22,7 +22,7 @@ keywords = [
 license = "Apache-2.0 OR MIT"
 name = "uuid"
 repository = "https://github.com/uuid-rs/uuid"
-version = "1.29.2"
+version = "1.29.3"
 rust-version = "1.89.0"
 
 [package.metadata.docs.rs]
@@ -52,11 +52,11 @@ std = ["wasm-bindgen?/std", "js-sys?/std"]
 
 # NOTE: When adding new features, check the `ci.yml` workflow
 # and include them where necessary (you can follow along with existing features)
-v1 = ["atomic"]
+v1 = []
 v3 = ["md5"]
 v4 = ["rng"]
 v5 = ["sha1"]
-v6 = ["atomic"]
+v6 = []
 v7 = ["rng"]
 v8 = []
 
@@ -71,7 +71,6 @@ fast-rng = ["rng", "dep:rand"]
 
 sha1 = ["dep:sha1_smol"]
 md5 = ["dep:md-5"]
-atomic = ["dep:atomic"]
 
 # Deprecated; now a no-op
 macro-diagnostics = []
@@ -134,7 +133,7 @@ optional = true
 [target.'cfg(all(target_family = "wasm", any(target_os = "unknown", target_os = "none")))'.dependencies.uuid-rng-internal-lib]
 # Work-around lack of support for both `dep:x` and `x/` in MSRV
 package = "uuid-rng-internal"
-version = "1.29.2"
+version = "1.29.3"
 path = "rng"
 optional = true
 
@@ -154,12 +153,6 @@ version = "0.10"
 default-features = false
 optional = true
 version = "1"
-
-# Private
-[dependencies.atomic]
-default-features = false
-optional = true
-version = "0.6"
 
 # Private
 [target.'cfg(all(target_family = "wasm", any(target_os = "unknown", target_os = "none")))'.dependencies.wasm-bindgen]
