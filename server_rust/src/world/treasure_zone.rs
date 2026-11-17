@@ -79,7 +79,7 @@ pub const TREASURE: Rect = Rect::new(485, 335, 30, 30);
 
 /// Niveau du trésor (= niveau de coffre de `Tresor::ouvrir`), tiré à chaque manche.
 pub const TREASURE_LEVEL_MIN: u32 = 1;
-pub const TREASURE_LEVEL_MAX: u32 = 5;
+pub const TREASURE_LEVEL_MAX: u32 = 14;
 
 // =============================================================
 // ÉTAT
