@@ -1,6 +1,6 @@
 Documentation Quality Report
 
-**Date :** 2026-11-17 19:19:40
+**Date :** 2026-11-17 19:30:41
 
 # 64/100
 
@@ -55213,109 +55213,115 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/zeroize/CHANGELOG.md:26 titre sans ligne vide avant.
+- **Message :** server_rust/vendor/zeroize/CHANGELOG.md:23 titre sans ligne vide avant.
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/zeroize/CHANGELOG.md:48 titre sans ligne vide avant.
+- **Message :** server_rust/vendor/zeroize/CHANGELOG.md:41 titre sans ligne vide avant.
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/zeroize/CHANGELOG.md:54 titre sans ligne vide avant.
+- **Message :** server_rust/vendor/zeroize/CHANGELOG.md:63 titre sans ligne vide avant.
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/zeroize/CHANGELOG.md:81 titre sans ligne vide avant.
+- **Message :** server_rust/vendor/zeroize/CHANGELOG.md:69 titre sans ligne vide avant.
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/zeroize/CHANGELOG.md:98 titre sans ligne vide avant.
+- **Message :** server_rust/vendor/zeroize/CHANGELOG.md:96 titre sans ligne vide avant.
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/zeroize/CHANGELOG.md:110 titre sans ligne vide avant.
+- **Message :** server_rust/vendor/zeroize/CHANGELOG.md:113 titre sans ligne vide avant.
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/zeroize/CHANGELOG.md:116 titre sans ligne vide avant.
+- **Message :** server_rust/vendor/zeroize/CHANGELOG.md:125 titre sans ligne vide avant.
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/zeroize/CHANGELOG.md:128 titre sans ligne vide avant.
+- **Message :** server_rust/vendor/zeroize/CHANGELOG.md:131 titre sans ligne vide avant.
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/zeroize/CHANGELOG.md:136 titre sans ligne vide avant.
+- **Message :** server_rust/vendor/zeroize/CHANGELOG.md:143 titre sans ligne vide avant.
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/zeroize/CHANGELOG.md:142 titre sans ligne vide avant.
+- **Message :** server_rust/vendor/zeroize/CHANGELOG.md:151 titre sans ligne vide avant.
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/zeroize/CHANGELOG.md:148 titre sans ligne vide avant.
+- **Message :** server_rust/vendor/zeroize/CHANGELOG.md:157 titre sans ligne vide avant.
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/zeroize/CHANGELOG.md:154 titre sans ligne vide avant.
+- **Message :** server_rust/vendor/zeroize/CHANGELOG.md:163 titre sans ligne vide avant.
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/zeroize/CHANGELOG.md:160 titre sans ligne vide avant.
+- **Message :** server_rust/vendor/zeroize/CHANGELOG.md:169 titre sans ligne vide avant.
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/zeroize/CHANGELOG.md:172 titre sans ligne vide avant.
+- **Message :** server_rust/vendor/zeroize/CHANGELOG.md:175 titre sans ligne vide avant.
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/zeroize/CHANGELOG.md:179 titre sans ligne vide avant.
+- **Message :** server_rust/vendor/zeroize/CHANGELOG.md:187 titre sans ligne vide avant.
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/zeroize/CHANGELOG.md:183 titre sans ligne vide avant.
+- **Message :** server_rust/vendor/zeroize/CHANGELOG.md:194 titre sans ligne vide avant.
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/zeroize/CHANGELOG.md:195 titre sans ligne vide avant.
+- **Message :** server_rust/vendor/zeroize/CHANGELOG.md:198 titre sans ligne vide avant.
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/zeroize/CHANGELOG.md:204 titre sans ligne vide avant.
+- **Message :** server_rust/vendor/zeroize/CHANGELOG.md:210 titre sans ligne vide avant.
+
+- **module :** titles
+
+## ⚠️ Warning
+- **Module :** titles
+- **Message :** server_rust/vendor/zeroize/CHANGELOG.md:219 titre sans ligne vide avant.
 
 - **module :** titles
 
@@ -55327,205 +55333,217 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/zeroize/CHANGELOG.md:8 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown-0.16.1/CHANGELOG.md:17).
+- **Message :** server_rust/vendor/zeroize/CHANGELOG.md:8 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/zeroize/CHANGELOG.md:11 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown-0.16.1/CHANGELOG.md:115).
+- **Message :** server_rust/vendor/zeroize/CHANGELOG.md:11 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown-0.16.1/CHANGELOG.md:17).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/zeroize/CHANGELOG.md:14 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown-0.16.1/CHANGELOG.md:111).
+- **Message :** server_rust/vendor/zeroize/CHANGELOG.md:23 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown-0.16.1/CHANGELOG.md:17).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/zeroize/CHANGELOG.md:26 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/zeroize/CHANGELOG.md:26 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown-0.16.1/CHANGELOG.md:115).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/zeroize/CHANGELOG.md:32 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown-0.16.1/CHANGELOG.md:17).
+- **Message :** server_rust/vendor/zeroize/CHANGELOG.md:29 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown-0.16.1/CHANGELOG.md:111).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/zeroize/CHANGELOG.md:48 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown-0.16.1/CHANGELOG.md:17).
+- **Message :** server_rust/vendor/zeroize/CHANGELOG.md:41 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/zeroize/CHANGELOG.md:54 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown-0.16.1/CHANGELOG.md:17).
+- **Message :** server_rust/vendor/zeroize/CHANGELOG.md:47 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown-0.16.1/CHANGELOG.md:17).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/zeroize/CHANGELOG.md:63 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/zeroize/CHANGELOG.md:63 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown-0.16.1/CHANGELOG.md:17).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/zeroize/CHANGELOG.md:67 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown-0.16.1/CHANGELOG.md:17).
+- **Message :** server_rust/vendor/zeroize/CHANGELOG.md:69 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown-0.16.1/CHANGELOG.md:17).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/zeroize/CHANGELOG.md:71 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown-0.16.1/CHANGELOG.md:111).
+- **Message :** server_rust/vendor/zeroize/CHANGELOG.md:78 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/zeroize/CHANGELOG.md:81 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown-0.16.1/CHANGELOG.md:17).
+- **Message :** server_rust/vendor/zeroize/CHANGELOG.md:82 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown-0.16.1/CHANGELOG.md:17).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/zeroize/CHANGELOG.md:88 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/zeroize/CHANGELOG.md:86 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown-0.16.1/CHANGELOG.md:111).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/zeroize/CHANGELOG.md:91 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown-0.16.1/CHANGELOG.md:115).
+- **Message :** server_rust/vendor/zeroize/CHANGELOG.md:96 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown-0.16.1/CHANGELOG.md:17).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/zeroize/CHANGELOG.md:98 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/zeroize/CHANGELOG.md:103 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/zeroize/CHANGELOG.md:102 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown-0.16.1/CHANGELOG.md:17).
+- **Message :** server_rust/vendor/zeroize/CHANGELOG.md:106 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown-0.16.1/CHANGELOG.md:115).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/zeroize/CHANGELOG.md:110 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/zeroize/CHANGELOG.md:113 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/zeroize/CHANGELOG.md:116 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/zeroize/CHANGELOG.md:117 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown-0.16.1/CHANGELOG.md:17).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/zeroize/CHANGELOG.md:120 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown-0.16.1/CHANGELOG.md:17).
+- **Message :** server_rust/vendor/zeroize/CHANGELOG.md:125 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/zeroize/CHANGELOG.md:128 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/zeroize/CHANGELOG.md:131 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/zeroize/CHANGELOG.md:136 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/zeroize/CHANGELOG.md:135 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown-0.16.1/CHANGELOG.md:17).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/zeroize/CHANGELOG.md:142 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown-0.16.1/CHANGELOG.md:111).
+- **Message :** server_rust/vendor/zeroize/CHANGELOG.md:143 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/zeroize/CHANGELOG.md:148 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown-0.16.1/CHANGELOG.md:111).
+- **Message :** server_rust/vendor/zeroize/CHANGELOG.md:151 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/zeroize/CHANGELOG.md:154 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown-0.16.1/CHANGELOG.md:111).
+- **Message :** server_rust/vendor/zeroize/CHANGELOG.md:157 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown-0.16.1/CHANGELOG.md:111).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/zeroize/CHANGELOG.md:160 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/zeroize/CHANGELOG.md:163 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown-0.16.1/CHANGELOG.md:111).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/zeroize/CHANGELOG.md:172 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/zeroize/CHANGELOG.md:169 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown-0.16.1/CHANGELOG.md:111).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/zeroize/CHANGELOG.md:175 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown-0.16.1/CHANGELOG.md:17).
+- **Message :** server_rust/vendor/zeroize/CHANGELOG.md:175 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/zeroize/CHANGELOG.md:179 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/zeroize/CHANGELOG.md:187 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/zeroize/CHANGELOG.md:183 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/zeroize/CHANGELOG.md:190 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown-0.16.1/CHANGELOG.md:17).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/zeroize/CHANGELOG.md:190 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/zeroize/CHANGELOG.md:194 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/zeroize/CHANGELOG.md:195 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/zeroize/CHANGELOG.md:198 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/zeroize/CHANGELOG.md:199 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown-0.16.1/CHANGELOG.md:17).
+- **Message :** server_rust/vendor/zeroize/CHANGELOG.md:205 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/zeroize/CHANGELOG.md:204 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/zeroize/CHANGELOG.md:210 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/zeroize/CHANGELOG.md:207 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown-0.16.1/CHANGELOG.md:17).
+- **Message :** server_rust/vendor/zeroize/CHANGELOG.md:214 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown-0.16.1/CHANGELOG.md:17).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/zeroize/CHANGELOG.md:221 titre dupliqué (déjà présent dans server_rust/vendor/zeroize_derive/CHANGELOG.md:96).
+- **Message :** server_rust/vendor/zeroize/CHANGELOG.md:219 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+
+- **module :** titles
+
+## ⚠️ Warning
+- **Module :** titles
+- **Message :** server_rust/vendor/zeroize/CHANGELOG.md:222 titre dupliqué (déjà présent dans server_rust/vendor/hashbrown-0.16.1/CHANGELOG.md:17).
+
+- **module :** titles
+
+## ⚠️ Warning
+- **Module :** titles
+- **Message :** server_rust/vendor/zeroize/CHANGELOG.md:236 titre dupliqué (déjà présent dans server_rust/vendor/zeroize_derive/CHANGELOG.md:96).
 
 - **module :** titles
 
@@ -55539,25 +55557,25 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/zeroize/README.md:38 titre dupliqué (déjà présent dans server_rust/vendor/getrandom/README.md:325).
+- **Message :** server_rust/vendor/zeroize/README.md:39 titre dupliqué (déjà présent dans server_rust/vendor/getrandom/README.md:325).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/zeroize/README.md:45 titre dupliqué (déjà présent dans server_rust/vendor/displaydoc/README.md:21).
+- **Message :** server_rust/vendor/zeroize/README.md:46 titre dupliqué (déjà présent dans server_rust/vendor/displaydoc/README.md:21).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/zeroize/README.md:59 titre dupliqué (déjà présent dans server_rust/vendor/parking_lot/README.md:137).
+- **Message :** server_rust/vendor/zeroize/README.md:60 titre dupliqué (déjà présent dans server_rust/vendor/parking_lot/README.md:137).
 
 - **module :** titles
 
 ## ⚠️ Warning
 - **Module :** titles
-- **Message :** server_rust/vendor/zeroize/README.md:68 titre dupliqué (déjà présent dans server_rust/vendor/parking_lot/README.md:146).
+- **Message :** server_rust/vendor/zeroize/README.md:69 titre dupliqué (déjà présent dans server_rust/vendor/parking_lot/README.md:146).
 
 - **module :** titles
 
