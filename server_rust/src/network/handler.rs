@@ -9,7 +9,7 @@ use crate::network::{parser::{
 };
 
 use crate::world::world::{World,Position};
-use crate::gameplay::stuff_manager::Inventaire;
+use crate::gameplay::stuff_manager::{Inventaire, ObjetInventaire};
 use crate::gameplay::tresor::Tresor;
 use crate::gameplay::wallet_manager::WalletManager;
 use crate::gameplay::objets::NomAffiche;
@@ -78,7 +78,11 @@ impl PacketHandler {
     /// ```text
     /// {"ok": true, "account_id": 3, "role": "Dev", "admin": true,
     ///  "balance": 120,
-    ///  "items": [{"nom": "...", "quantite": 2, "rarete": "Rare", "rang": "B"}, ...]}
+    ///  "items": [{"nom": "...", "quantite": 2, "rarete": "Rare", "rang": "B"},
+    ///            {"nom": "Livre ...", "rarete": null, "rang": null, "niveau": 3,
+    ///             "enchantements": ["Poison III", "Foudre II"]}, ...]}
+    /// `enchantements` : toujours présent pour un livre, présent pour un
+    /// équipement/une arme seulement s'il en possède.
     /// {"ok": false, "message": "..."}
     /// ```
     async fn inventory_packet(
@@ -146,12 +150,44 @@ impl PacketHandler {
             .objets()
             .values()
             .map(|objet| {
-                serde_json::json!({
+                let mut item = serde_json::json!({
                     "nom": objet.nom_affiche(),
                     "quantite": objet.objet().quantite,
                     "rarete": objet.rarete(),
                     "rang": objet.rank(),
-                })
+                });
+
+                match objet {
+                    // Un livre enchanté n'a ni rareté ni rank (même si la base
+                    // en contenait) : niveau du livre + liste de ses
+                    // enchantements (« Poison III », « Foudre II »...).
+                    ObjetInventaire::Livre(livre) => {
+                        item["rarete"] = serde_json::Value::Null;
+                        item["rang"] = serde_json::Value::Null;
+                        item["niveau"] = serde_json::json!(livre.niv);
+                        item["enchantements"] = serde_json::json!(
+                            livre.enchantements.clone().unwrap_or_default()
+                        );
+                    }
+
+                    // Équipement / arme : enchantements seulement s'il y en a.
+                    ObjetInventaire::Equipement(equipement) => {
+                        if !equipement.enchantements.is_empty() {
+                            item["enchantements"] =
+                                serde_json::json!(equipement.enchantements);
+                        }
+                    }
+                    ObjetInventaire::Arme(arme) => {
+                        if !arme.equipement.enchantements.is_empty() {
+                            item["enchantements"] =
+                                serde_json::json!(arme.equipement.enchantements);
+                        }
+                    }
+
+                    _ => {}
+                }
+
+                item
             })
             .collect();
 
@@ -250,9 +286,12 @@ impl PacketHandler {
                 );
 
                 info!(
-                    "Trésor niveau {} ouvert (compte {}) : {}",
+                    "Trésor niveau {} ouvert (compte {}, rôle {:?}, admin={}) : {}",
                     niveau,
                     account_id,
+                    
+                    session.role_name,
+                    is_admin,
                     items.join(", ")
                 );
 
@@ -261,6 +300,8 @@ impl PacketHandler {
                     serde_json::json!({
                         "ok": true,
                         "niveau": niveau,
+                        "role": session.role_name,
+                        "admin": is_admin,
                         "items": items,
                     })
                     .to_string()
@@ -1435,9 +1476,16 @@ if let Err(e) = manager.record_login(&login_data.user_id).await {
         // range dans l'inventaire du compte. Le verrou de la zone est
         // déjà relâché : la base de données ne bloque personne d'autre.
         Ok(accepted) => match accepted.treasure_won {
-            Some(niveau) => HandlerResult::Response(
-                Self::open_treasure(client, &pool, niveau).await,
-            ),
+            Some(niveau) => {
+                info!(
+                    "Trésor pris par [{}] : ouverture du coffre niveau {}",
+                    player_id, niveau
+                );
+
+                HandlerResult::Response(
+                    Self::open_treasure(client, &pool, niveau).await,
+                )
+            }
             None => HandlerResult::Nothing,
         },
         Err(authoritative) => {

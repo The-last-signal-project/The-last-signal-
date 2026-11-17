@@ -183,6 +183,7 @@ class Game(QMainWindow):
         # Inventaire (touche I) : réponse du serveur, ou None tant qu'elle n'est pas arrivée
         self.inventory_open = False
         self.inventory_data: dict | None = None
+        self.inventory_scroll = 0
 
         self.message = ""
         self.message_frames = 0
@@ -819,7 +820,8 @@ class Game(QMainWindow):
     # INVENTAIRE (touche I)
     # =============================================================
 
-    MAX_INVENTORY_LINES = 22
+    # Lignes d'objets visibles dans le panneau (le reste défile)
+    INVENTORY_VISIBLE_LINES = 20
 
     def toggle_inventory(self) -> None:
         """Ouvre ou ferme l'inventaire ; à l'ouverture, demande les données au serveur."""
@@ -829,6 +831,7 @@ class Game(QMainWindow):
         if self.inventory_open:
 
             self.inventory_data = None   # « Chargement... » jusqu'à la réponse
+            self.inventory_scroll = 0
 
             try:
                 self.client.send_packet(
@@ -848,11 +851,88 @@ class Game(QMainWindow):
             data = {"ok": False, "message": "Réponse illisible"}
 
         self.inventory_data = data
+        self.inventory_scroll = 0
 
         self.update()
 
+    def inventory_body_lines(self) -> list[str]:
+        """
+        Lignes de la liste d'objets. Un livre enchanté est suivi d'une
+        ligne par enchantement.
+        """
+
+        data = self.inventory_data
+
+        if data is None:
+            return ["Chargement..."]
+
+        if not data.get("ok"):
+            return [data.get("message", "Erreur")]
+
+        items = data.get("items") or []
+
+        if not items:
+            return ["(inventaire vide)"]
+
+        lines: list[str] = []
+
+        for item in items:
+
+            line = f"{item.get('nom', '?')} x{item.get('quantite', 1)}"
+
+            rarete = item.get("rarete")
+            rang = item.get("rang")
+
+            if rarete:
+                line += f"  [{rarete}" + (f" - {rang}" if rang else "") + "]"
+
+            enchantements = item.get("enchantements") or []
+
+            # Seuls les livres ont un « niveau » dans la réponse du serveur
+            est_livre = "niveau" in item
+
+            if est_livre:
+                line += f"  (livre niv. {item.get('niveau', '?')})"
+
+            lines.append(line)
+
+            if est_livre and not enchantements:
+                lines.append("      aucun enchantement")
+
+            for enchantement in enchantements:
+                lines.append(f"      - {enchantement}")
+
+        return lines
+
+    def scroll_inventory(self, step: int) -> None:
+        """Fait défiler la liste d'objets de `step` lignes (borné)."""
+
+        max_scroll = max(
+            0,
+            len(self.inventory_body_lines()) - self.INVENTORY_VISIBLE_LINES,
+        )
+
+        self.inventory_scroll = min(
+            max(0, self.inventory_scroll + step),
+            max_scroll,
+        )
+
+        self.update()
+
+    def wheelEvent(self, event) -> None:
+
+        if self.inventory_open:
+
+            self.scroll_inventory(-3 if event.angleDelta().y() > 0 else 3)
+
+            event.accept()
+
+            return
+
+        super().wheelEvent(event)
+
     def draw_inventory(self, painter: QPainter) -> None:
-        """Panneau d'inventaire : argent puis objets."""
+        """Panneau d'inventaire : argent puis objets (avec défilement)."""
 
         if not self.inventory_open:
             return
@@ -863,55 +943,43 @@ class Game(QMainWindow):
         painter.setPen(QPen(Qt.white, 2))
         painter.drawRect(x, y, w, h)
 
-        lines: list[str] = ["Inventaire  (I pour fermer)", ""]
-
         data = self.inventory_data
 
-        if data is None:
+        header = ["Inventaire  (I pour fermer)", ""]
 
-            lines.append("Chargement...")
-
-        elif not data.get("ok"):
-
-            lines.append(data.get("message", "Erreur"))
-
-        else:
+        if data is not None and data.get("ok"):
 
             balance = data.get("balance")
 
-            lines.append(
+            header.append(
                 "Argent : "
                 + (str(balance) if balance is not None else "indisponible")
             )
 
-            lines.append("")
+        header.append("")
 
-            items = data.get("items") or []
+        body = self.inventory_body_lines()
 
-            if not items:
-                lines.append("(inventaire vide)")
+        max_scroll = max(0, len(body) - self.INVENTORY_VISIBLE_LINES)
+        self.inventory_scroll = min(self.inventory_scroll, max_scroll)
 
-            for item in items[: self.MAX_INVENTORY_LINES]:
-
-                line = f"{item.get('nom', '?')} x{item.get('quantite', 1)}"
-
-                rarete = item.get("rarete")
-                rang = item.get("rang")
-
-                if rarete:
-                    line += f"  [{rarete}" + (f" - {rang}" if rang else "") + "]"
-
-                lines.append(line)
-
-            hidden = len(items) - self.MAX_INVENTORY_LINES
-
-            if hidden > 0:
-                lines.append(f"... et {hidden} autre(s)")
+        start = self.inventory_scroll
+        visible = body[start : start + self.INVENTORY_VISIBLE_LINES]
 
         painter.setPen(QPen(Qt.white))
 
-        for index, line in enumerate(lines):
+        for index, line in enumerate(header + visible):
             painter.drawText(x + 12, y + 26 + 20 * index, line)
+
+        if max_scroll > 0:
+
+            shown_to = start + len(visible)
+
+            painter.drawText(
+                x + 12,
+                y + h - 12,
+                f"Flèches / molette : défiler   ({start + 1}-{shown_to} / {len(body)})",
+            )
 
     def handle_treasure_reward(self, payload: bytes) -> None:
         """Affiche le contenu du coffre gagné (envoyé par le serveur)."""
@@ -927,7 +995,14 @@ class Game(QMainWindow):
 
             items = data.get("items") or []
 
-            lines = [f"Coffre niveau {level} :"]
+            header = f"Coffre niveau {level}"
+
+            role = data.get("role")
+
+            if role:
+                header += f" (rôle {role}{', admin' if data.get('admin') else ''})"
+
+            lines = [header + " :"]
             lines += [f"  {item}" for item in items] or ["  (vide)"]
 
             self.show_message("\n".join(lines), 8.0)
@@ -1042,6 +1117,21 @@ class Game(QMainWindow):
         """
         Enregistre une touche enfoncée.
         """
+
+        # Inventaire ouvert : flèches / PageUp / PageDown font défiler la liste
+        if self.inventory_open and event.key() in (
+            Qt.Key_Up, Qt.Key_Down, Qt.Key_PageUp, Qt.Key_PageDown,
+        ):
+            step = {
+                Qt.Key_Up: -1,
+                Qt.Key_Down: 1,
+                Qt.Key_PageUp: -self.INVENTORY_VISIBLE_LINES,
+                Qt.Key_PageDown: self.INVENTORY_VISIBLE_LINES,
+            }[event.key()]
+
+            self.scroll_inventory(step)
+
+            return
 
         if event.isAutoRepeat():
             return
