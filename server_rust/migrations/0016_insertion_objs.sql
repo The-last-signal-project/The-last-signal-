@@ -6,7 +6,7 @@ INSERT INTO objets_dispo (
 )
 VALUES
     ('épée de bois', 'armes', 'epee_bois.png', 30),
-
+    ('épée de pierre', 'armes', 'epee_bois.png', 60),
     ('livre enchant niv 1', 'enchanted_book', 'livre enchant.png', 100000),
     ('livre enchant niv 2', 'enchanted_book', 'livre enchant.png', 200000),
     ('livre enchant niv 3', 'enchanted_book', 'livre enchant.png', 300000),
