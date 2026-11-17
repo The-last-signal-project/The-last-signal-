@@ -408,8 +408,11 @@ impl Bytes {
     ///
     /// # Panics
     ///
-    /// Requires that the given `sub` slice is in fact contained within the
-    /// `Bytes` buffer; otherwise this function will panic.
+    /// Panics if the given `subset` slice is not in fact contained within the
+    /// `Bytes` buffer.
+    ///
+    /// An empty `subset` is exempt: it is accepted even when it does not point
+    /// into `self`, and returns an empty `Bytes`.
     pub fn slice_ref(&self, subset: &[u8]) -> Self {
         // Empty slice and empty Bytes may have their pointers reset
         // so explicitly allow empty slice to be a subslice of any slice.
@@ -567,7 +570,9 @@ impl Bytes {
     /// ```
     #[inline]
     pub fn truncate(&mut self, len: usize) {
-        if len < self.len {
+        if len == 0 {
+            drop(mem::replace(self, Bytes::new_empty_with_ptr(self.ptr)));
+        } else if len < self.len {
             // The Vec "promotable" vtables do not store the capacity,
             // so we cannot truncate while using this repr. We *have* to
             // promote using `split_off` so the capacity can be stored.
@@ -1348,7 +1353,12 @@ impl Drop for Shared {
 // This is a necessary invariant since we depend on allocating `Shared` a
 // shared object to implicitly carry the `KIND_ARC` flag in its pointer.
 // This flag is set when the LSB is 0.
-const _: [(); 0 - mem::align_of::<Shared>() % 2] = []; // Assert that the alignment of `Shared` is divisible by 2.
+const _: () = {
+    assert!(
+        mem::align_of::<Shared>() % 2 == 0,
+        "Shared alignment must be divisible by 2 for pointer tagging"
+    );
+};
 
 static SHARED_VTABLE: Vtable = Vtable {
     clone: shared_clone,
