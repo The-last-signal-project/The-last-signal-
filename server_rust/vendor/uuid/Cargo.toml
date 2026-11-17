@@ -13,7 +13,7 @@
 edition = "2021"
 rust-version = "1.89.0"
 name = "uuid"
-version = "1.29.2"
+version = "1.29.3"
 build = false
 include = [
     "src",
@@ -89,7 +89,6 @@ repository = "uuid-rs/uuid"
 status = "actively-developed"
 
 [features]
-atomic = ["dep:atomic"]
 borsh = [
     "dep:borsh",
     "dep:borsh-derive",
@@ -124,11 +123,11 @@ std = [
     "wasm-bindgen?/std",
     "js-sys?/std",
 ]
-v1 = ["atomic"]
+v1 = []
 v3 = ["md5"]
 v4 = ["rng"]
 v5 = ["sha1"]
-v6 = ["atomic"]
+v6 = []
 v7 = ["rng"]
 v8 = []
 
@@ -139,11 +138,6 @@ path = "src/lib.rs"
 [dependencies.arbitrary]
 version = "1.1.3"
 optional = true
-
-[dependencies.atomic]
-version = "0.6"
-optional = true
-default-features = false
 
 [dependencies.borsh]
 version = "1"
@@ -198,7 +192,7 @@ version = "1.0.56"
 version = "1.0.52"
 
 [target.'cfg(all(target_family = "wasm", any(target_os = "unknown", target_os = "none")))'.dependencies.uuid-rng-internal-lib]
-version = "1.29.2"
+version = "1.29.3"
 optional = true
 package = "uuid-rng-internal"
 
