@@ -1,3 +1,4 @@
+
 use crate::auth::account_manager::AccountManager;
 use crate::auth::password::verify_password;
 use crate::auth::user_manager::UserManager;
@@ -61,6 +62,7 @@ impl PacketHandler {
     // =============================================================
     // INVENTAIRE ET ARGENT
     // =============================================================
+
 
     async fn inventory_packet(
         client: &Client,
@@ -143,6 +145,12 @@ impl PacketHandler {
                 });
 
                 match objet {
+
+
+                    // Un livre enchanté n'a ni rareté ni rank (même si la base
+                    // en contenait) : niveau du livre + liste de ses
+                    // enchantements (« Poison III », « Foudre II »...).
+
                     ObjetInventaire::Livre(livre) => {
                         item["rarete"] = serde_json::Value::Null;
                         item["rang"] = serde_json::Value::Null;
@@ -151,6 +159,9 @@ impl PacketHandler {
                             livre.enchantements.clone().unwrap_or_default()
                         );
                     }
+
+
+                    // Équipement / arme : enchantements seulement s'il y en a.
 
                     ObjetInventaire::Equipement(equipement) => {
                         if !equipement.enchantements.is_empty() {
@@ -166,10 +177,12 @@ impl PacketHandler {
                         }
                     }
 
+
                     ObjetInventaire::Base(_) => {
                         item["rarete"] = serde_json::Value::Null;
                         item["rang"] = serde_json::Value::Null;
                     }
+
 
                     _ => {}
                 }
@@ -285,6 +298,7 @@ impl PacketHandler {
                     "Trésor niveau {} ouvert (compte {}, rôle {:?}, admin={}) : {}",
                     niveau,
                     account_id,
+
                     session.role_name,
                     is_admin,
                     items.join(", ")
@@ -1089,26 +1103,36 @@ impl PacketHandler {
                             Self::open_treasure(client, &pool, niveau).await,
                         ),
 
-                        None => HandlerResult::Nothing,
-                    },
 
-                    Err(authoritative) => {
-                        warn!(
-                            "Déplacement refusé [{}] : ({}, {}) -> retour en ({}, {})",
-                            player_id,
-                            x,
-                            y,
-                            authoritative.x,
-                            authoritative.y
-                        );
+    // Le serveur valide le déplacement (limites, murs, porte, clé).
+    // Refusé : on recale uniquement ce joueur sur sa dernière position valide.
+    match world.try_move(player_id, position).await {
+        // Trésor pris : on ouvre le coffre du niveau tiré (1 à 5) et on le
+        // range dans l'inventaire du compte. Le verrou de la zone est
+        // déjà relâché : la base de données ne bloque personne d'autre.
+        Ok(accepted) => match accepted.treasure_won {
+            Some(niveau) => {
+                info!(
+                    "Trésor pris par [{}] : ouverture du coffre niveau {}",
+                    player_id, niveau
+                );
 
-                        HandlerResult::Response(World::player_state_packet(
-                            player_id,
-                            authoritative,
-                        ))
-                    }
-                }
+                HandlerResult::Response(
+                    Self::open_treasure(client, &pool, niveau).await,
+                )
             }
+            None => HandlerResult::Nothing,
+        },
+        Err(authoritative) => {
+            warn!(
+                "Déplacement refusé [{}] : ({}, {}) -> retour en ({}, {})",
+                player_id,
+                x,
+                y,
+                authoritative.x,
+                authoritative.y
+            );
+
 
             // =================================================
             // SPAWN
