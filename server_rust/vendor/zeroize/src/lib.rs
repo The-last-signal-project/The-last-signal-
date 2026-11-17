@@ -9,6 +9,10 @@
 
 //! ## Usage
 //!
+//! To securely zero a byte slice, use [`zeroize_bytes`]. It uses an optimized fill followed by an
+//! assembly optimization barrier on supported targets, and portable bulk volatile writes
+//! elsewhere.
+//!
 //! ### Traits
 //!
 //! The [`Zeroize`] trait is the core API of this crate. It's intended to be impl'd on values that
@@ -143,8 +147,9 @@
 //!
 //! ## What guarantees does this crate provide?
 //!
-//! This crate guarantees the zeroing operation can't be "optimized away" by the compiler, as
-//! ensured by LLVM's volatile semantics.
+//! The zeroing implementations in this crate prevent the compiler from eliminating writes
+//! using volatile operations or, on supported targets, assembly optimization barriers.
+//! The barriers allow optimized bulk fills, with volatile writes as a portable fallback.
 //!
 //! Previously there were worries that the approach used by this crate (mixing volatile and
 //! non-volatile accesses) was undefined behavior due to language contained
@@ -221,12 +226,15 @@ mod x86;
 mod barrier;
 pub use barrier::optimization_barrier;
 
+mod bulk;
+use bulk::zeroize_byte_ptr;
+
 mod stack;
 pub use stack::zeroize_stack;
 
 use core::{
     marker::{PhantomData, PhantomPinned},
-    mem::{MaybeUninit, size_of},
+    mem::{MaybeUninit, size_of, size_of_val},
     num::{
         self, NonZeroI8, NonZeroI16, NonZeroI32, NonZeroI64, NonZeroI128, NonZeroIsize, NonZeroU8,
         NonZeroU16, NonZeroU32, NonZeroU64, NonZeroU128, NonZeroUsize,
@@ -383,11 +391,7 @@ where
         // The memory pointed to by `self` is valid for `size_of::<Self>()` bytes.
         // It is also properly aligned, because `u8` has an alignment of `1`.
         unsafe {
-            volatile_set(
-                ptr::from_mut::<Self>(self).cast::<u8>(),
-                0,
-                size_of::<Self>(),
-            );
+            zeroize_byte_ptr(ptr::from_mut::<Self>(self).cast::<u8>(), size_of::<Self>());
         }
 
         // Ensures self is overwritten with the `None` bit pattern. volatile_write can't be
@@ -427,25 +431,15 @@ impl<Z> Zeroize for MaybeUninit<Z> {
 /// [`MaybeUninit`] removes all invariants.
 impl<Z> Zeroize for [MaybeUninit<Z>] {
     fn zeroize(&mut self) {
-        let ptr = self.as_mut_ptr().cast::<MaybeUninit<u8>>();
-        let size = self.len().checked_mul(size_of::<Z>()).expect("overflow");
-        assert!(isize::try_from(size).is_ok());
+        let size = size_of_val(self);
 
-        // Safety:
-        //
-        // This is safe, because every valid pointer is well aligned for u8
-        // and it is backed by a single allocated object for at least `self.len() * size_pf::<Z>()` bytes.
-        // and 0 is a valid value for `MaybeUninit<Z>`
-        // The memory of the slice should not wrap around the address space.
-        unsafe { volatile_set(ptr, MaybeUninit::zeroed(), size) }
+        // SAFETY: the slice provides exclusive access to `size` bytes, and
+        // `MaybeUninit<Z>` permits all-zero bytes, including in padding.
+        unsafe { zeroize_byte_ptr(self.as_mut_ptr().cast::<u8>(), size) }
     }
 }
 
 /// Impl [`Zeroize`] on slices of types that can be zeroized with [`Default`].
-///
-/// This impl can eventually be optimized using an memset intrinsic,
-/// such as [`core::intrinsics::volatile_set_memory`]. For that reason the
-/// blanket impl on slices is bounded by [`DefaultIsZeroes`].
 ///
 /// To zeroize a mut slice of `Z: Zeroize` which does not impl
 /// [`DefaultIsZeroes`], call `iter_mut().zeroize()`.
@@ -454,22 +448,13 @@ where
     Z: DefaultIsZeroes,
 {
     fn zeroize(&mut self) {
-        assert!(isize::try_from(self.len()).is_ok());
-
-        // Safety:
-        //
-        // This is safe, because the slice is well aligned and is backed by a single allocated
-        // object for at least `self.len()` elements of type `Z`.
-        // `self.len()` is also not larger than an `isize`, because of the assertion above.
-        // The memory of the slice should not wrap around the address space.
-        unsafe { volatile_set(self.as_mut_ptr(), Z::default(), self.len()) };
+        bulk::fill_slice(self, Z::default());
     }
 }
 
 impl Zeroize for str {
     fn zeroize(&mut self) {
-        // Safety:
-        // A zeroized byte slice is a valid UTF-8 string.
+        // SAFETY: a zeroized byte slice is a valid UTF-8 string.
         unsafe { self.as_bytes_mut().zeroize() }
     }
 }
@@ -731,44 +716,30 @@ where
     }
 }
 
-/// Perform a volatile write to the destination
-#[inline(always)]
-fn volatile_write<T: Copy + Sized>(dst: &mut T, src: T) {
-    unsafe { ptr::write_volatile(dst, src) }
-}
-
-/// Perform a volatile `memset` operation which fills a slice with a value
+/// Securely zero a byte slice, preventing the compiler from eliminating the writes.
 ///
-/// # Safety
-/// The memory pointed to by `dst` must be a single allocated object that is valid for `count`
-/// contiguous elements of `T`.
-/// `count` must not be larger than an `isize`.
-/// `dst` being offset by `size_of::<T> * count` bytes must not wrap around the address space.
-/// Also `dst` must be properly aligned.
-#[inline(always)]
-unsafe fn volatile_set<T: Copy + Sized>(dst: *mut T, src: T, count: usize) {
-    // TODO(tarcieri): use `volatile_set_memory` when stabilized
-    for i in 0..count {
-        // Safety:
-        //
-        // This is safe because there is room for at least `count` objects of type `T` in the
-        // allocation pointed to by `dst`, because `count <= isize::MAX` and because
-        // `dst.add(count)` must not wrap around the address space.
-        let ptr = unsafe { dst.add(i) };
-
-        // Safety:
-        //
-        // This is safe, because the pointer is valid and because `dst` is well aligned for `T` and
-        // `ptr` is an offset of `dst` by a multiple of `size_of::<T>()` bytes.
-        unsafe { ptr::write_volatile(ptr, src) };
-    }
+/// # Examples
+/// ```
+/// let mut secret = [42u8; 32];
+/// zeroize::zeroize_bytes(&mut secret);
+/// assert_eq!(secret, [0u8; 32]);
+/// ```
+#[inline]
+pub fn zeroize_bytes(bytes: &mut [u8]) {
+    // SAFETY: the slice provides exclusive access to its bytes, and zero is a valid u8.
+    unsafe { zeroize_byte_ptr(bytes.as_mut_ptr(), bytes.len()) }
 }
 
 /// Zeroizes a flat type/struct. Only zeroizes the values that it owns, and it does not work on
 /// dynamically sized values or trait objects. It would be inefficient to use this function on a
 /// type that already implements `ZeroizeOnDrop`.
 ///
+/// Uses the same backend as [`zeroize_bytes`], including for padding and
+/// uninitialized bytes.
+///
 /// # Safety
+/// - For nonzero-sized `F`, `data` must be non-null and provide exclusive access to
+///   `size_of::<F>()` writable bytes within a single allocation.
 /// - The type must not contain references to outside data or dynamically sized data, such as
 ///   `Vec<T>` or `String`.
 /// - Values stored in the type must not have `Drop` impls.
@@ -813,14 +784,20 @@ unsafe fn volatile_set<T: Copy + Sized>(dst: *mut T, src: T, count: usize) {
 /// ```
 #[inline(always)]
 pub unsafe fn zeroize_flat_type<F: Sized>(data: *mut F) {
-    let size = size_of::<F>();
-    // Safety:
-    //
-    // This is safe because `size_of<T>()` returns the exact size of the object in memory, and
-    // `data_ptr` points directly to the first byte of the data.
-    unsafe {
-        volatile_set(data.cast::<u8>(), 0, size);
+    // `zeroize_byte_ptr` requires a non-NULL pointer, but we allow passing NULL pointers for ZSTs
+    if size_of::<F>() == 0 {
+        return;
     }
+
+    // SAFETY: the caller provides exclusive access to the object's bytes and
+    // guarantees that zeroes are valid. The backend permits uninitialized padding.
+    unsafe { zeroize_byte_ptr(data.cast::<u8>(), size_of::<F>()) }
+}
+
+/// Perform a volatile write to the destination
+#[inline(always)]
+fn volatile_write<T: Copy + Sized>(dst: &mut T, src: T) {
+    unsafe { ptr::write_volatile(dst, src) }
 }
 
 /// Internal module used as support for `AssertZeroizeOnDrop`.
