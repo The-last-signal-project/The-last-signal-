@@ -13,20 +13,16 @@ VALUES
     ('livre enchant niv 4', 'enchanted_book', 'livre enchant.png', 400000),
     ('livre enchant niv 5', 'enchanted_book', 'livre enchant.png', 500000),
     ('livre enchant niv 6', 'enchanted_book', 'livre enchant.png', 600000),
-
-    ('viande', 'consumable', 'viande.png', 7),
     ('pain', 'consumable', 'pain.png', 5),
-
+    ('sushi', 'consumable', 'sushi.png', 60),
+    ('burger', 'consumable', 'burger.png', 60),
     ('potion de soin léger', 'potion', 'potion_de_soin_léger.png', 25),
     ('potion de soin modéré', 'potion', 'potion_de_soin_modéré.png', 35),
     ('potion de délivrance', 'potion', 'potion_de_délivrance.png', 200),
     ('potion de mana', 'potion', 'potion_de_mana.png', 75),
-
     ('gemmes', 'basic', 'gemmes.png', 100000),
     ('sac', 'material', 'sac.png', 10),
     ('corde', 'material', 'corde.png', 10),
-
-
     ('torche', 'material', 'torche.png', 5),
     ('chargeur', 'muni', 'chargeur.png', 120),
     ('balles',  'muni',	'balles.png',20),
