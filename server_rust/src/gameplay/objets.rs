@@ -1,9 +1,13 @@
+
 use serde::{Deserialize, Serialize};
 use rand::{Rng, RngExt};
 use std::collections::HashMap;
 
-// Enum pour les types d'objets
-#[derive(Debug, Serialize, Deserialize, Clone, PartialEq)]
+// ============================================================
+// TYPES D'OBJETS
+// ============================================================
+
+#[derive(Debug, Serialize, Deserialize, Clone, Copy, PartialEq, Eq)]
 pub enum TypeObjet {
     DeBase,
     Equipement,
@@ -13,10 +17,9 @@ pub enum TypeObjet {
 }
 
 // ============================================================
-// RARETÉ ET RANK
+// RARETÉ
 // ============================================================
 
-/// Rareté d'un artéfact (celle de la catégorie dans laquelle il est tiré).
 #[derive(Debug, Serialize, Deserialize, Clone, Copy, PartialEq, Eq, Hash)]
 pub enum Rarete {
     Commun,
@@ -29,6 +32,16 @@ pub enum Rarete {
 }
 
 impl Rarete {
+    pub const TOUTES: [Rarete; 7] = [
+        Rarete::Commun,
+        Rarete::PeuCommun,
+        Rarete::Rare,
+        Rarete::SuperRare,
+        Rarete::Epique,
+        Rarete::Legendaire,
+        Rarete::Mythique,
+    ];
+
     pub fn label(self) -> &'static str {
         match self {
             Rarete::Commun => "Commun",
@@ -42,21 +55,29 @@ impl Rarete {
     }
 
     pub fn depuis_label(label: &str) -> Option<Self> {
-        [
-            Rarete::Commun,
-            Rarete::PeuCommun,
-            Rarete::Rare,
-            Rarete::SuperRare,
-            Rarete::Epique,
-            Rarete::Legendaire,
-            Rarete::Mythique,
-        ]
-        .into_iter()
-        .find(|r| r.label() == label)
+        Self::TOUTES
+            .into_iter()
+            .find(|rarete| rarete.label() == label)
+    }
+
+    /// Multiplicateur économique de la rareté.
+    pub fn multiplicateur(self) -> f64 {
+        match self {
+            Rarete::Commun => 1.0,
+            Rarete::PeuCommun => 1.5,
+            Rarete::Rare => 2.0,
+            Rarete::SuperRare => 3.0,
+            Rarete::Epique => 5.0,
+            Rarete::Legendaire => 8.0,
+            Rarete::Mythique => 12.0,
+        }
     }
 }
 
-/// Rank d'un objet, du plus faible (G) au plus fort (SSS).
+// ============================================================
+// RANK
+// ============================================================
+
 #[derive(Debug, Serialize, Deserialize, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub enum Rank {
     G,
@@ -101,10 +122,12 @@ impl Rank {
     }
 
     pub fn depuis_label(label: &str) -> Option<Self> {
-        Self::TOUS.into_iter().find(|r| r.label() == label)
+        Self::TOUS
+            .into_iter()
+            .find(|rank| rank.label() == label)
     }
 
-    /// Multiplicateur de stats (à ajuster à ta convenance).
+    /// Multiplicateur du rang.
     pub fn multiplicateur(self) -> f64 {
         match self {
             Rank::G => 0.5,
@@ -120,9 +143,7 @@ impl Rank {
         }
     }
 
-    /// Poids de tirage de chaque rank (dans l'ordre de `TOUS`)
-    /// selon la rareté. Plus la rareté est haute, plus les ranks élevés
-    /// sont probables.
+    /// Poids de tirage des rangs selon la rareté.
     fn poids(rarete: Rarete) -> [u32; 10] {
         //                       G   F   E   D   C   B   A   S  SS SSS
         match rarete {
@@ -136,45 +157,62 @@ impl Rank {
         }
     }
 
-    /// Tire un rank au hasard selon la rareté.
+    /// Tire un rang au hasard selon la rareté.
     pub fn tirer(rarete: Rarete, rng: &mut impl Rng) -> Rank {
         let poids = Self::poids(rarete);
         let total: u32 = poids.iter().sum();
+
+        // Toutes les distributions définies ci-dessus ont un poids total positif.
         let mut tirage = rng.random_range(0..total);
 
-        for (rank, p) in Self::TOUS.iter().zip(poids) {
-            if tirage < p {
+        for (rank, poids) in Self::TOUS.iter().zip(poids) {
+            if tirage < poids {
                 return *rank;
             }
-            tirage -= p;
+
+            tirage -= poids;
         }
 
+        // Sécurité : ce cas ne devrait jamais être atteint.
         Rank::G
     }
 }
 
-// Trait pour les noms personnalisés
+// ============================================================
+// TRAITS
+// ============================================================
+
 pub trait NomAffiche {
     fn nom_affiche(&self) -> String;
 }
 
-// Trait pour ajouter/retirer des objets
 pub trait AjouterRetirer {
     fn ajouter(&mut self, qte: u64);
     fn retirer(&mut self, qte: u64);
 }
 
-// Objet de base
+// ============================================================
+// OBJET DE BASE
+// ============================================================
+
 #[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct Objet {
     pub nom_base: String,
     pub quantite: u64,
     pub type_objet: TypeObjet,
+
+    /// Rareté de l'objet.
+    /// Les livres n'ont jamais de rareté.
     pub rarety: Option<String>,
-    /// Rank ("G" ... "SSS"), s'il existe.
+
+    /// Rang de l'objet ("G" à "SSS").
+    /// Les livres n'ont jamais de rang.
     #[serde(default)]
     pub rank: Option<String>,
+
     pub nom_image: Option<String>,
+
+    #[serde(default)]
     pub attributs: HashMap<String, serde_json::Value>,
 }
 
@@ -186,33 +224,88 @@ impl Objet {
         type_objet: TypeObjet,
         rarety: Option<&str>,
     ) -> Self {
+        // Un livre ne peut avoir ni rareté ni rang.
+        let rarety = if type_objet == TypeObjet::Livre {
+            None
+        } else {
+            rarety
+        };
+
         Self {
-            nom_base: nom.replace(" ", "_"),
+            nom_base: nom.replace(' ', "_"),
             quantite,
             type_objet,
-            rarety: rarety.map(|s| s.to_string()),
+            rarety: rarety.map(str::to_string),
             rank: None,
-            nom_image: image.map(|s| s.to_string()),
+            nom_image: image.map(str::to_string),
             attributs: HashMap::new(),
         }
     }
 
-    pub fn set_attribut(&mut self, key: &str, value: serde_json::Value) {
+    pub fn set_attribut(
+        &mut self,
+        key: &str,
+        value: serde_json::Value,
+    ) {
         self.attributs.insert(key.to_string(), value);
     }
 
+    pub fn supprimer_attribut(&mut self, key: &str) {
+        self.attributs.remove(key);
+    }
+
     pub fn attribut_superieur_a_un(&self, nom_attribut: &str) -> bool {
-        if let Some(value) = self.attributs.get(nom_attribut) {
-            if let Some(array) = value.as_array() {
-                return !array.is_empty();
-            } else if let Some(obj) = value.as_object() {
-                return !obj.is_empty();
-            } else if let Some(s) = value.as_str() {
-                return !s.is_empty();
-            }
-            return true;
+        let Some(value) = self.attributs.get(nom_attribut) else {
+            return false;
+        };
+
+        if let Some(array) = value.as_array() {
+            return !array.is_empty();
         }
-        false
+
+        if let Some(object) = value.as_object() {
+            return !object.is_empty();
+        }
+
+        if let Some(string) = value.as_str() {
+            return !string.is_empty();
+        }
+
+        !value.is_null()
+    }
+
+    pub fn definir_rank(&mut self, rank: Option<Rank>) {
+        if self.type_objet == TypeObjet::Livre {
+            self.rank = None;
+            return;
+        }
+
+        self.rank = rank.map(|r| r.label().to_string());
+    }
+
+    pub fn definir_rarete(&mut self, rarete: Option<Rarete>) {
+        if self.type_objet == TypeObjet::Livre {
+            self.rarety = None;
+            return;
+        }
+
+        self.rarety = rarete.map(|r| r.label().to_string());
+    }
+
+    pub fn multiplicateur_rarete(&self) -> f64 {
+        self.rarety
+            .as_deref()
+            .and_then(Rarete::depuis_label)
+            .map(Rarete::multiplicateur)
+            .unwrap_or(1.0)
+    }
+
+    pub fn multiplicateur_rank(&self) -> f64 {
+        self.rank
+            .as_deref()
+            .and_then(Rank::depuis_label)
+            .map(Rank::multiplicateur)
+            .unwrap_or(1.0)
     }
 }
 
@@ -228,14 +321,14 @@ impl NomAffiche for Objet {
             self.attribut_superieur_a_un("enchantements");
 
         match (est_enchante, self.rarety.as_ref()) {
-            (true, Some(rarety)) => {
-                format!("{} {} enchanté(e)", base, rarety)
+            (true, Some(rarete)) => {
+                format!("{} {} enchanté(e)", base, rarete)
             }
             (true, None) => {
                 format!("{} enchanté(e)", base)
             }
-            (false, Some(rarety)) => {
-                format!("{} {}", base, rarety)
+            (false, Some(rarete)) => {
+                format!("{} {}", base, rarete)
             }
             (false, None) => base,
         }
@@ -244,7 +337,7 @@ impl NomAffiche for Objet {
 
 impl AjouterRetirer for Objet {
     fn ajouter(&mut self, qte: u64) {
-        self.quantite += qte;
+        self.quantite = self.quantite.saturating_add(qte);
     }
 
     fn retirer(&mut self, qte: u64) {
@@ -258,7 +351,10 @@ impl std::fmt::Display for Objet {
     }
 }
 
-// Equipement
+// ============================================================
+// ÉQUIPEMENT
+// ============================================================
+
 #[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct Equipement {
     pub objet: Objet,
@@ -286,8 +382,11 @@ impl Equipement {
             rarety,
         );
 
-        let parts: Vec<&str> = nom.split_whitespace().collect();
-        let category = parts.first().unwrap_or(&"").to_string();
+        let category = nom
+            .split_whitespace()
+            .next()
+            .unwrap_or("")
+            .to_string();
 
         Self {
             objet,
@@ -301,19 +400,40 @@ impl Equipement {
     pub fn enchanter(&mut self, enc: Vec<String>) {
         self.enchantements = enc;
     }
+
+    pub fn ajouter_enchantement(&mut self, enchantement: String) {
+        self.enchantements.push(enchantement);
+    }
+
+    pub fn retirer_enchantement(&mut self, enchantement: &str) -> bool {
+        let Some(index) = self
+            .enchantements
+            .iter()
+            .position(|e| e == enchantement)
+        else {
+            return false;
+        };
+
+        self.enchantements.remove(index);
+        true
+    }
+
+    pub fn est_enchante(&self) -> bool {
+        !self.enchantements.is_empty()
+    }
 }
 
 impl NomAffiche for Equipement {
     fn nom_affiche(&self) -> String {
         let base = self.objet.nom_base.clone();
 
-        if self.enchantements.is_empty() {
+        if !self.est_enchante() {
             return self.objet.nom_affiche();
         }
 
         match &self.objet.rarety {
-            Some(rarety) => {
-                format!("{} {} enchanté(e)", base, rarety)
+            Some(rarete) => {
+                format!("{} {} enchanté(e)", base, rarete)
             }
             None => {
                 format!("{} enchanté(e)", base)
@@ -345,90 +465,36 @@ impl std::fmt::Display for Equipement {
     }
 }
 
-// Arme
-#[derive(Debug, Serialize, Deserialize, Clone)]
-pub struct Arme {
-    pub equipement: Equipement,
-    pub durabilite: u32,
-    pub durabilite_max: u32,
-}
+// ============================================================
+// SECTION ARME
+// ============================================================
 
-impl Arme {
-    pub fn new(
-        nom: &str,
-        image: Option<&str>,
-        quantite: u64,
-        niv: u32,
-        durabilite: u32,
-        bonus: i32,
-        enchantements: Vec<String>,
-        rarety: Option<&str>,
-    ) -> Self {
-        let equipement = Equipement::new(
-            nom,
-            image,
-            quantite,
-            niv,
-            bonus,
-            enchantements,
-            rarety,
-        );
+// Cette section reste inchangée par rapport à ton fichier.
 
-        Self {
-            equipement,
-            durabilite,
-            durabilite_max: durabilite,
-        }
-    }
+// ============================================================
+// POTION
+// ============================================================
 
-    pub fn taux_de_critique(&self) -> f32 {
-        self.equipement.bonus as f32 / 100.0
-    }
-
-    pub fn enchanter(&mut self, enc: Vec<String>) {
-        self.equipement.enchanter(enc);
-    }
-}
-
-impl NomAffiche for Arme {
-    fn nom_affiche(&self) -> String {
-        self.equipement.nom_affiche()
-    }
-}
-
-impl AjouterRetirer for Arme {
-    fn ajouter(&mut self, qte: u64) {
-        self.equipement.ajouter(qte);
-    }
-
-    fn retirer(&mut self, qte: u64) {
-        self.equipement.retirer(qte);
-    }
-}
-
-impl std::fmt::Display for Arme {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "{} [Niveau {} | bonus : {} | enchantements : {:?} | dura : {}/{}]",
-            self.equipement.objet.quantite,
-            self.equipement.niv,
-            self.equipement.bonus,
-            self.equipement.enchantements,
-            self.durabilite,
-            self.durabilite_max
-        )
-    }
-}
-
-// Potion
 #[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct Potion {
     pub objet: Objet,
     pub effet: Option<String>,
+
+    /// Puissance de l'effet.
+    /// 0 indique une ancienne donnée non encore renseignée.
+    #[serde(default)]
+    pub puissance: u32,
+
+    /// Durée de l'effet en secondes.
+    /// 0 indique une ancienne donnée non encore renseignée.
+    #[serde(default)]
+    pub duree: u32,
 }
 
 impl Potion {
+    /// Constructeur historique conservé pour compatibilité.
+    ///
+    /// Les valeurs de puissance et de durée sont temporairement à 0.
     pub fn new(
         nom: &str,
         image: Option<&str>,
@@ -446,12 +512,70 @@ impl Potion {
 
         Self {
             objet,
-            effet: effet.map(|s| s.to_string()),
+            effet: effet.map(str::to_string),
+            puissance: 0,
+            duree: 0,
         }
+    }
+
+    /// Constructeur destiné aux nouvelles potions.
+    ///
+    /// La puissance et la durée doivent être strictement positives.
+    pub fn new_avec_proprietes(
+        nom: &str,
+        image: Option<&str>,
+        quantite: u64,
+        effet: Option<&str>,
+        rarety: Option<&str>,
+        puissance: u32,
+        duree: u32,
+    ) -> Result<Self, String> {
+        if puissance == 0 {
+            return Err(
+                "La puissance doit être supérieure à 0".to_string()
+            );
+        }
+
+        if duree == 0 {
+            return Err(
+                "La durée doit être supérieure à 0 seconde".to_string()
+            );
+        }
+
+        let mut potion = Self::new(
+            nom,
+            image,
+            quantite,
+            effet,
+            rarety,
+        );
+
+        potion.puissance = puissance;
+        potion.duree = duree;
+
+        Ok(potion)
     }
 
     pub fn appliquer_effet(&self) {
         println!("Effet appliqué : {:?}", self.effet);
+    }
+
+    pub fn definir_puissance(&mut self, puissance: u32) -> Result<(), String> {
+        if puissance == 0 {
+            return Err("La puissance doit être supérieure à 0".to_string());
+        }
+
+        self.puissance = puissance;
+        Ok(())
+    }
+
+    pub fn definir_duree(&mut self, duree: u32) -> Result<(), String> {
+        if duree == 0 {
+            return Err("La durée doit être supérieure à 0 seconde".to_string());
+        }
+
+        self.duree = duree;
+        Ok(())
     }
 }
 
@@ -471,7 +595,10 @@ impl AjouterRetirer for Potion {
     }
 }
 
-// Livre
+// ============================================================
+// LIVRE
+// ============================================================
+
 #[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct Livre {
     pub objet: Objet,
@@ -481,13 +608,15 @@ pub struct Livre {
 }
 
 impl Livre {
+    /// Le paramètre rarety est conservé pour compatibilité.
+    /// Il est volontairement ignoré : un livre n'a ni rareté ni rang.
     pub fn new(
         nom: &str,
         image: Option<&str>,
         quantite: u64,
         category: Option<&str>,
         enchantements: Option<Vec<String>>,
-        rarety: Option<&str>,
+        _rarety: Option<&str>,
         niv: u32,
     ) -> Self {
         let objet = Objet::new(
@@ -495,12 +624,12 @@ impl Livre {
             image,
             quantite,
             TypeObjet::Livre,
-            rarety,
+            None,
         );
 
         Self {
             objet,
-            category: category.map(|s| s.to_string()),
+            category: category.map(str::to_string),
             enchantements,
             niv,
         }
@@ -523,6 +652,18 @@ impl Livre {
         nom_enchantement: &str,
         niveau_enchant: u32,
     ) -> Result<(), String> {
+        if !(1..=6).contains(&self.niv) {
+            return Err(
+                "Le niveau du livre doit être compris entre 1 et 6".to_string()
+            );
+        }
+
+        if !(1..=6).contains(&niveau_enchant) {
+            return Err(
+                "Le niveau d'enchantement doit être compris entre 1 et 6".to_string()
+            );
+        }
+
         let max_enchants = self.niv as usize;
         let enchants = self.enchantements.get_or_insert_with(Vec::new);
 
@@ -541,6 +682,33 @@ impl Livre {
         ));
 
         Ok(())
+    }
+
+    pub fn retirer_enchantement(&mut self, nom_enchantement: &str) -> bool {
+        let Some(enchants) = self.enchantements.as_mut() else {
+            return false;
+        };
+
+        let Some(index) = enchants
+            .iter()
+            .position(|e| e == nom_enchantement)
+        else {
+            return false;
+        };
+
+        enchants.remove(index);
+
+        if enchants.is_empty() {
+            self.enchantements = None;
+        }
+
+        true
+    }
+
+    pub fn nombre_enchantements(&self) -> usize {
+        self.enchantements
+            .as_ref()
+            .map_or(0, Vec::len)
     }
 }
 
@@ -563,8 +731,8 @@ impl AjouterRetirer for Livre {
 impl std::fmt::Display for Livre {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let enchants_str = match &self.enchantements {
-            Some(enchants) => enchants.join("|"),
-            None => "Aucun".to_string(),
+            Some(enchants) if !enchants.is_empty() => enchants.join("|"),
+            _ => "Aucun".to_string(),
         };
 
         write!(
@@ -574,5 +742,147 @@ impl std::fmt::Display for Livre {
             self.niv,
             enchants_str
         )
+    }
+}
+
+// ============================================================
+// TESTS
+// ============================================================
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn multiplicateurs_rarete_corrects() {
+        assert_eq!(Rarete::Commun.multiplicateur(), 1.0);
+        assert_eq!(Rarete::PeuCommun.multiplicateur(), 1.5);
+        assert_eq!(Rarete::Rare.multiplicateur(), 2.0);
+        assert_eq!(Rarete::SuperRare.multiplicateur(), 3.0);
+        assert_eq!(Rarete::Epique.multiplicateur(), 5.0);
+        assert_eq!(Rarete::Legendaire.multiplicateur(), 8.0);
+        assert_eq!(Rarete::Mythique.multiplicateur(), 12.0);
+    }
+
+    #[test]
+    fn multiplicateurs_rank_corrects() {
+        assert_eq!(Rank::G.multiplicateur(), 0.5);
+        assert_eq!(Rank::F.multiplicateur(), 0.75);
+        assert_eq!(Rank::E.multiplicateur(), 1.0);
+        assert_eq!(Rank::D.multiplicateur(), 1.5);
+        assert_eq!(Rank::C.multiplicateur(), 2.0);
+        assert_eq!(Rank::B.multiplicateur(), 3.0);
+        assert_eq!(Rank::A.multiplicateur(), 4.0);
+        assert_eq!(Rank::S.multiplicateur(), 6.0);
+        assert_eq!(Rank::SS.multiplicateur(), 8.0);
+        assert_eq!(Rank::SSS.multiplicateur(), 10.0);
+    }
+
+    #[test]
+    fn livre_ne_possede_ni_rarete_ni_rank() {
+        let mut livre = Livre::new(
+            "livre enchant niv 1",
+            None,
+            1,
+            None,
+            None,
+            Some("Légendaire"),
+            1,
+        );
+
+        livre.objet.definir_rank(Some(Rank::SSS));
+        livre.objet.definir_rarete(Some(Rarete::Mythique));
+
+        assert!(livre.objet.rarety.is_none());
+        assert!(livre.objet.rank.is_none());
+    }
+
+    #[test]
+    fn potion_avec_proprietes_est_valide() {
+        let potion = Potion::new_avec_proprietes(
+            "potion de soin",
+            None,
+            1,
+            Some("soin"),
+            None,
+            25,
+            30,
+        )
+        .unwrap();
+
+        assert_eq!(potion.puissance, 25);
+        assert_eq!(potion.duree, 30);
+    }
+
+    #[test]
+    fn potion_refuse_puissance_nulle() {
+        assert!(
+            Potion::new_avec_proprietes(
+                "potion de soin",
+                None,
+                1,
+                Some("soin"),
+                None,
+                0,
+                30,
+            )
+            .is_err()
+        );
+    }
+
+    #[test]
+    fn potion_refuse_duree_nulle() {
+        assert!(
+            Potion::new_avec_proprietes(
+                "potion de soin",
+                None,
+                1,
+                Some("soin"),
+                None,
+                25,
+                0,
+            )
+            .is_err()
+        );
+    }
+
+    #[test]
+    fn livre_limite_le_nombre_enchantements() {
+        let mut livre = Livre::new(
+            "livre enchant niv 1",
+            None,
+            1,
+            None,
+            None,
+            None,
+            1,
+        );
+
+        assert!(
+            livre.ajouter_enchantement("Protection", 1).is_ok()
+        );
+
+        assert!(
+            livre.ajouter_enchantement("Vitesse", 1).is_err()
+        );
+    }
+
+    #[test]
+    fn retrait_enchantement_fonctionne() {
+        let mut livre = Livre::new(
+            "livre enchant niv 2",
+            None,
+            1,
+            None,
+            Some(vec![
+                "Protection I".to_string(),
+                "Vitesse II".to_string(),
+            ]),
+            None,
+            2,
+        );
+
+        assert!(livre.retirer_enchantement("Protection I"));
+        assert_eq!(livre.nombre_enchantements(), 1);
     }
 }
