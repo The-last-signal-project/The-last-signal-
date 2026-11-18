@@ -12,15 +12,15 @@
 [package]
 edition = "2018"
 name = "smallvec"
-version = "1.16.5"
+version = "1.16.6"
 authors = ["The Servo Project Developers"]
 build = false
-include = [
-    "Cargo.toml",
-    "LICENSE-MIT",
-    "LICENSE-APACHE",
-    "README.md",
-    "src/**/*.rs",
+exclude = [
+    "rustfmt.toml",
+    "benches/",
+    ".github/",
+    "tests/",
+    "justfile",
 ]
 autolib = false
 autobins = false
@@ -28,6 +28,7 @@ autoexamples = false
 autotests = false
 autobenches = false
 description = "'Small vector' optimization: store up to a small number of items on the stack"
+homepage = "https://smallvec.rs"
 documentation = "https://docs.rs/smallvec/"
 readme = "README.md"
 keywords = [
@@ -39,7 +40,7 @@ keywords = [
 ]
 categories = ["data-structures"]
 license = "MIT OR Apache-2.0"
-repository = "https://github.com/servo/rust-smallvec"
+repository = "https://github.com/smallvec/smallvec"
 
 [package.metadata.docs.rs]
 all-features = true
