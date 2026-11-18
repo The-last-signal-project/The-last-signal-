@@ -13,7 +13,7 @@
 edition = "2021"
 rust-version = "1.94.0"
 name = "sqlx"
-version = "0.9.0"
+version = "0.9.1"
 authors = [
     "Ryan Leckey <leckey.ryan@gmail.com>",
     "Austin Bonander <austin.bonander@gmail.com>",
@@ -223,6 +223,10 @@ tls-rustls-aws-lc-rs = [
     "sqlx-core/_tls-rustls-aws-lc-rs",
     "sqlx-macros?/_tls-rustls-aws-lc-rs",
 ]
+tls-rustls-aws-lc-rs-native-roots = [
+    "sqlx-core/_tls-rustls-aws-lc-rs-native-roots",
+    "sqlx-macros?/_tls-rustls-aws-lc-rs-native-roots",
+]
 tls-rustls-ring = ["tls-rustls-ring-webpki"]
 tls-rustls-ring-native-roots = [
     "sqlx-core/_tls-rustls-ring-native-roots",
@@ -266,6 +270,14 @@ required-features = [
 name = "mysql"
 path = "tests/mysql/mysql.rs"
 required-features = ["mysql"]
+
+[[test]]
+name = "mysql-any"
+path = "tests/mysql/any.rs"
+required-features = [
+    "mysql",
+    "any",
+]
 
 [[test]]
 name = "mysql-derives"
@@ -325,6 +337,14 @@ required-features = ["mysql"]
 name = "postgres"
 path = "tests/postgres/postgres.rs"
 required-features = ["postgres"]
+
+[[test]]
+name = "postgres-any"
+path = "tests/postgres/any.rs"
+required-features = [
+    "postgres",
+    "any",
+]
 
 [[test]]
 name = "postgres-derives"
@@ -397,7 +417,10 @@ required-features = ["sqlite"]
 [[test]]
 name = "sqlite-any"
 path = "tests/sqlite/any.rs"
-required-features = ["sqlite"]
+required-features = [
+    "sqlite",
+    "any",
+]
 
 [[test]]
 name = "sqlite-derives"
@@ -469,24 +492,24 @@ harness = false
 required-features = ["sqlite"]
 
 [dependencies.sqlx-core]
-version = "=0.9.0"
+version = "=0.9.1"
 features = ["migrate"]
 
 [dependencies.sqlx-macros]
-version = "=0.9.0"
+version = "=0.9.1"
 optional = true
 
 [dependencies.sqlx-mysql]
-version = "=0.9.0"
+version = "=0.9.1"
 optional = true
 default-features = false
 
 [dependencies.sqlx-postgres]
-version = "=0.9.0"
+version = "=0.9.1"
 optional = true
 
 [dependencies.sqlx-sqlite]
-version = "=0.9.0"
+version = "=0.9.1"
 optional = true
 
 [dev-dependencies.anyhow]
