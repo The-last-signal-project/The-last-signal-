@@ -511,26 +511,41 @@ impl PacketHandler {
         return HandlerResult::Nothing;
     }
 
-    let x = i32::from_be_bytes([
-        packet.payload,
-        packet.payload[3],
-        packet.payload[4],
-        packet.payload[5],
-    ]);
+    let x = i32::from_be_bytes(\[
 
-    let y = i32::from_be_bytes([
-        packet.payload[6],
-        packet.payload[7],
-        packet.payload[8],
-        packet.payload[9],
-    ]);
+    packet.payload\[0\],
 
-    let z = i32::from_be_bytes([
-        packet.payload[1],
-        packet.payload[10],
-        packet.payload[11],
-        packet.payload[12],
-    ]);
+    packet.payload\[1\],
+
+    packet.payload\[2\],
+
+    packet.payload\[3\],
+
+\]);
+
+let y = i32::from_be_bytes(\[
+
+    packet.payload\[4\],
+
+    packet.payload\[5\],
+
+    packet.payload\[6\],
+
+    packet.payload\[7\],
+
+\]);
+
+let z = i32::from_be_bytes(\[
+
+    packet.payload\[8\],
+
+    packet.payload\[9\],
+
+    packet.payload\[10\],
+
+    packet.payload\[11\],
+
+\]);
 
     let player_id = client.session_id();
     let position = Position::new(x, y, z);
