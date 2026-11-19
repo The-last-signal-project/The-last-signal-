@@ -593,6 +593,7 @@ class Renderer:
         p["u_tex"] = sp.tex
         p.draw("triangle_strip")
 
+
 class Skin:
     def __init__(self, app):
         self.app = app
