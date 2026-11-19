@@ -13,7 +13,7 @@
 edition = "2018"
 rust-version = "1.37"
 name = "pin-project-lite"
-version = "0.2.17"
+version = "0.2.18"
 build = false
 exclude = [
     "/.*",
@@ -89,6 +89,10 @@ trailing_empty_array = "warn"
 transmute_undefined_repr = "warn"
 undocumented_unsafe_blocks = "warn"
 unused_trait_names = "warn"
+
+[lints.clippy.assert_is_empty]
+level = "allow"
+priority = 1
 
 [lints.clippy.bool_assert_comparison]
 level = "allow"
