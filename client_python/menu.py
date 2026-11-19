@@ -159,7 +159,7 @@ def find_asset(*parts):
         path = os.path.join(base, *parts)
         if os.path.exists(path):
             return path
-    return os.path.join(project_dirs[13], "assets", *parts)
+    return os.path.join(project_dirs[0], "assets", *parts)
 
 BG_EXTS = (".jpg", ".jpeg", ".png", ".webp")
 
@@ -622,9 +622,9 @@ class Skin:
         return f
 
     def chain(self, spec, scale=1.0):
-        px = max(6, int(round(spec[14] * 4 / 3 * scale)))
-        path = self.body_bold_file if spec == "b" and spec[13] else self.body_reg
-        return [self._load(path or self.fallback, px)]
+        px = max(6, int(round(spec[1] * 4 / 3 * scale)))
+        path = self.body_bold_file if spec[0] == "b" and spec[2] else self.body_reg
+        return self._load(path or self.fallback, px)
 
     def lh(self, spec, scale=1.0):
         a, d = self.chain(spec, scale).getmetrics()
@@ -733,7 +733,7 @@ class PanelUI:
         return max(1, int(round(v * self.s))) if v else 0
 
     def P(self, pad):
-        return (self.S(pad), self.S(pad[14]))
+        return (self.S(pad[0]), self.S(pad[1]))
 
     def _add(self, kind, nw, nh, pad=(0, 0), fill=False, id=None, **kw):
         e = dict(kind=kind, nw=nw, nh=nh, pad=self.P(pad), fill=fill, id=id or f"e{len(self.els)}", **kw)
@@ -782,9 +782,9 @@ class PanelUI:
         self.inner = max([e["nw"] for e in self.els] or [15])
         y = 2 + self.S(self.PADY)
         for e in self.els:
-            y += e["pad"]
+            y += e["pad"][0]
             e["y"], e["h"] = y, e["nh"]
-            y += e["nh"] + e["pad"][14]
+            y += e["nh"] + e["pad"][1]
             e["w"] = self.inner if e["fill"] else e["nw"]
             e["x"] = 2 + self.S(self.PADX) + (self.inner - e["w"]) // 2
         self.H = y + self.S(self.PADY) + 2
@@ -1147,7 +1147,7 @@ class App:
         if self.net_busy:
             ui.progress(self.t(self.busy_text))
         elif self.auth_msg:
-            ui.label(str(self.auth_msg), self.body(11), self.auth_msg[14], pad=(4, 6))
+            ui.label(str(self.auth_msg[0]), self.body(11), self.auth_msg[1], pad=(4, 6))
 
     def on_account_ready(self, acc):
         self.account = acc
