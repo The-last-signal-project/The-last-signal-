@@ -563,7 +563,7 @@ class Renderer:
         self.prog = gloo.Program(VERT, FRAG)
         # Quad de rendu 2D : , [3]
         self.prog["a_pos"] = gloo.VertexBuffer(
-            np.array([, [3]], dtype=np.float32)
+            np.array([[0, 0], [1, 0], [0, 1], [1, 1]], dtype=np.float32)
         )
         gloo.set_state(
             blend=True,
@@ -597,7 +597,7 @@ class PostFX:
     def __init__(self):
         self.prog = gloo.Program(POST_VERT, POST_FRAG)
         self.prog["a_pos"] = gloo.VertexBuffer(
-            np.array([, [3]], dtype=np.float32)
+            np.array([[0, 0], [1, 0], [0, 1], [1, 1]], dtype=np.float32)
         )
         self.size = None
         self.tex = self.fbo = None
