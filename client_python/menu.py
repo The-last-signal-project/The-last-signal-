@@ -561,8 +561,16 @@ class Sprite:
 class Renderer:
     def __init__(self):
         self.prog = gloo.Program(VERT, FRAG)
-        self.prog["a_pos"] = gloo.VertexBuffer(np.array([, [14]], np.float32))
-        gloo.set_state(blend=True, blend_func=("one", "one_minus_src_alpha"), depth_test=False, cull_face=False)
+        # Quad de rendu 2D : , [3]
+        self.prog["a_pos"] = gloo.VertexBuffer(
+            np.array([, [3]], dtype=np.float32)
+        )
+        gloo.set_state(
+            blend=True,
+            blend_func=("one", "one_minus_src_alpha"),
+            depth_test=False,
+            cull_face=False
+        )
 
     def draw(self, sp, vw, vh):
         if not sp.visible or sp.tex is None or sp.alpha <= 0.002:
