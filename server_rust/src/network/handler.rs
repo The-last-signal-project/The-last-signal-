@@ -499,26 +499,48 @@ impl PacketHandler {
             // MOVE
             // =================================================
             PacketType::Move => {
-                if !client.is_spawned() {
-                    return HandlerResult::Nothing;
-                }
-                if packet.payload.len() != 12 {
-                    warn!("Paquet Move invalide : {} octets", packet.payload.len());
-                    return HandlerResult::Nothing;
-                }
+    // Un joueur qui n'est pas entré dans le monde ne peut pas s'y déplacer.
+    if !client.is_spawned() {
+        return HandlerResult::Nothing;
+    }
+    if packet.payload.len() != 12 {
+        warn!(
+            "Paquet Move invalide : {} octets",
+            packet.payload.len()
+        );
+        return HandlerResult::Nothing;
+    }
 
-                let x = i32::from_be_bytes([packet.payload, packet.payload[10], packet.payload[11], packet.payload[12]]);
-                let y = i32::from_be_bytes([packet.payload[13], packet.payload[14], packet.payload[15], packet.payload[16]]);
-                let z = i32::from_be_bytes([packet.payload[17], packet.payload[18], packet.payload[19], packet.payload[20]]);
+    let x = i32::from_be_bytes([
+        packet.payload,
+        packet.payload[3],
+        packet.payload[4],
+        packet.payload[5],
+    ]);
 
-                let player_id = client.session_id();
-                let position = Position::new(x, y, z);
+    let y = i32::from_be_bytes([
+        packet.payload[6],
+        packet.payload[7],
+        packet.payload[8],
+        packet.payload[9],
+    ]);
 
-                world.set_position(player_id, position).await;
-                world.broadcast_player_state(player_id, position);
+    let z = i32::from_be_bytes([
+        packet.payload[1],
+        packet.payload[10],
+        packet.payload[11],
+        packet.payload[12],
+    ]);
 
-                HandlerResult::Nothing
-            }
+    let player_id = client.session_id();
+    let position = Position::new(x, y, z);
+
+    world.set_position(player_id, position).await;
+    world.broadcast_player_state(player_id, position);
+
+    HandlerResult::Nothing
+}
+
 
             // =================================================
             // SPAWN
