@@ -1,14 +1,21 @@
-
 use serde::Serialize;
 use sqlx::{Row, SqlitePool};
 
 const STARTING_BALANCE: i64 = 100;
 const PLAYER_ROLE: &str = "joueur";
 
+/// Liste des 13 classes définies pour le jeu
+pub const AVAILABLE_CLASSES: [&str; 13] = [
+    "Mage", "Nécromancien", "Épéiste", "Chevalier lourd", "Chevalier",
+    "Soldat d'infanterie", "Soldat de cavalerie", "Gendarme",
+    "Force spéciale d'intervention", "Voleur", "Assassin", "Sorcier", "Archer"
+];
+
 #[derive(Debug, Clone, Serialize)]
 pub struct AccountSummary {
     pub account_id: i64,
     pub account_name: String,
+    pub class_name: String,
     pub role_name: String,
     pub balance: Option<i64>,
 }
@@ -22,7 +29,7 @@ impl AccountManager {
         Self { pool }
     }
 
-    /// Liste exclusivement les comptes appartenant à l'utilisateur.
+    /// Liste exclusivement les comptes appartenant à l'utilisateur, en incluant leur classe.
     pub async fn list_accounts(
         &self,
         user_id: &str,
@@ -32,6 +39,7 @@ impl AccountManager {
             SELECT
                 a.account_id,
                 a.account_name,
+                a.class_name,
                 r.role_name,
                 w.balance
             FROM accounts AS a
@@ -50,113 +58,121 @@ impl AccountManager {
             .map(|row| AccountSummary {
                 account_id: row.get("account_id"),
                 account_name: row.get("account_name"),
+                class_name: row.get("class_name"),
                 role_name: row.get("role_name"),
                 balance: row.get("balance"),
             })
             .collect())
     }
-    
 
-
-    /// Crée le compte joueur et son portefeuille dans une transaction unique.
-   pub  fn is_locked(text: &str) -> bool {
-    text.contains("database is locked") || text.contains("database table is locked")
-}
-
-pub async fn create_account(
-    &self,
-    user_id: &str,
-    account_name: &str,
-) -> Result<AccountSummary, String> {
-    let name = account_name.trim();
-
-    if name.is_empty() {
-        return Err("Le nom du compte est obligatoire.".into());
-    }
-    if name.chars().count() > 32 {
-        return Err("Le nom du compte ne doit pas dépasser 32 caractères.".into());
-    }
-    if name.chars().any(char::is_control) {
-        return Err("Le nom contient des caractères interdits.".into());
+    pub fn is_locked(text: &str) -> bool {
+        text.contains("database is locked") || text.contains("database table is locked")
     }
 
-    match self.create_account_tx(user_id, name).await {
-        Ok(summary) => Ok(summary),
-        Err(e) if Self::is_locked(&e) => {
-            // L'écriture a pu aboutir malgré le verrou : on vérifie avant de répondre.
-            for _ in 0..5 {
-                tokio::time::sleep(std::time::Duration::from_millis(300)).await;
-                if let Ok(Some(summary)) = self.find_account(user_id, name).await {
-                    return Ok(summary);
+    /// Crée le compte joueur et son portefeuille dans une transaction unique avec la classe choisie.
+    pub async fn create_account(
+        &self,
+        user_id: &str,
+        account_name: &str,
+        class_name: &str,
+    ) -> Result<AccountSummary, String> {
+        let name = account_name.trim();
+        let selected_class = class_name.trim();
+
+        if name.is_empty() {
+            return Err("Le nom du compte est obligatoire.".into());
+        }
+        if name.chars().count() > 32 {
+            return Err("Le nom du compte ne doit pas dépasser 32 caractères.".into());
+        }
+        if name.chars().any(char::is_control) {
+            return Err("Le nom contient des caractères interdits.".into());
+        }
+        if !AVAILABLE_CLASSES.contains(&selected_class) {
+            return Err("La classe sélectionnée est invalide.".into());
+        }
+
+        match self.create_account_tx(user_id, name, selected_class).await {
+            Ok(summary) => Ok(summary),
+            Err(e) if Self::is_locked(&e) => {
+                // L'écriture a pu aboutir malgré le verrou : on vérifie avant de répondre.
+                for _ in 0..5 {
+                    tokio::time::sleep(std::time::Duration::from_millis(300)).await;
+                    if let Ok(Some(summary)) = self.find_account(user_id, name).await {
+                        return Ok(summary);
+                    }
                 }
+                Err("Compte en cours de création, veuillez patienter puis réessayer.".into())
             }
-            Err("Compte en cours de création, veuillez patienter puis réessayer.".into())
+            Err(e) => Err(e),
         }
-        Err(e) => Err(e),
     }
-}
 
-async fn create_account_tx(
-    &self,
-    user_id: &str,
-    name: &str,
-) -> Result<AccountSummary, String> {
-    let mut tx = self.pool.begin().await.map_err(|e| e.to_string())?;
+    async fn create_account_tx(
+        &self,
+        user_id: &str,
+        name: &str,
+        class_name: &str,
+    ) -> Result<AccountSummary, String> {
+        let mut tx = self.pool.begin().await.map_err(|e| e.to_string())?;
 
-    // Première instruction = écriture (pas de SELECT avant).
-    let insert = sqlx::query(
-        r#"
-        INSERT INTO accounts (user_id, account_name, role_id)
-        SELECT ?, ?, role_id FROM roles WHERE role_name = ?
-        "#,
-    )
-    .bind(user_id)
-    .bind(name)
-    .bind(PLAYER_ROLE)
-    .execute(&mut *tx)
-    .await
-    .map_err(|e| {
-        let text = e.to_string();
-        if text.contains("UNIQUE constraint failed") {
-            "Ce nom de compte est déjà utilisé.".to_string()
-        } else {
-            text
-        }
-    })?;
-
-    if insert.rows_affected() == 0 {
-        return Err("Le rôle 'joueur' n'existe pas dans la base de données.".into());
-    }
-    let account_id = insert.last_insert_rowid();
-
-    sqlx::query("INSERT INTO wallets (account_id, balance) VALUES (?, ?)")
-        .bind(account_id)
-        .bind(STARTING_BALANCE)
+        // Première instruction = écriture incluant class_name et la récupération de role_id pour 'joueur'
+        let insert = sqlx::query(
+            r#"
+            INSERT INTO accounts (user_id, account_name, class_name, role_id)
+            SELECT ?, ?, ?, role_id FROM roles WHERE role_name = ?
+            "#,
+        )
+        .bind(user_id)
+        .bind(name)
+        .bind(class_name)
+        .bind(PLAYER_ROLE)
         .execute(&mut *tx)
         .await
-        .map_err(|e| e.to_string())?;
+        .map_err(|e| {
+            let text = e.to_string();
+            if text.contains("UNIQUE constraint failed") {
+                "Ce nom de compte est déjà utilisé.".to_string()
+            } else {
+                text
+            }
+        })?;
 
-    tx.commit().await.map_err(|e| e.to_string())?;
+        if insert.rows_affected() == 0 {
+            return Err("Le rôle 'joueur' n'existe pas dans la base de données.".into());
+        }
 
-    Ok(AccountSummary {
-        account_id,
-        account_name: name.to_string(),
-        role_name: PLAYER_ROLE.to_string(),
-        balance: Some(STARTING_BALANCE),
-    })
-}
+        let account_id = insert.last_insert_rowid();
 
-async fn find_account(
-    &self,
-    user_id: &str,
-    name: &str,
-) -> Result<Option<AccountSummary>, sqlx::Error> {
-    Ok(self
-        .list_accounts(user_id)
-        .await?
-        .into_iter()
-        .find(|a| a.account_name == name))
-}
+        sqlx::query("INSERT INTO wallets (account_id, balance) VALUES (?, ?)")
+            .bind(account_id)
+            .bind(STARTING_BALANCE)
+            .execute(&mut *tx)
+            .await
+            .map_err(|e| e.to_string())?;
+
+        tx.commit().await.map_err(|e| e.to_string())?;
+
+        Ok(AccountSummary {
+            account_id,
+            account_name: name.to_string(),
+            class_name: class_name.to_string(),
+            role_name: PLAYER_ROLE.to_string(),
+            balance: Some(STARTING_BALANCE),
+        })
+    }
+
+    async fn find_account(
+        &self,
+        user_id: &str,
+        name: &str,
+    ) -> Result<Option<AccountSummary>, sqlx::Error> {
+        Ok(self
+            .list_accounts(user_id)
+            .await?
+            .into_iter()
+            .find(|a| a.account_name == name))
+    }
 
     /// Vérifie l'appartenance avant d'autoriser la sélection.
     pub async fn account_belongs_to_user(
