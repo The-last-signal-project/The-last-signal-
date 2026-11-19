@@ -593,7 +593,14 @@ class Renderer:
         p["u_tex"] = sp.tex
         p.draw("triangle_strip")
 
-
+class PostFX:
+    def __init__(self):
+        self.prog = gloo.Program(POST_VERT, POST_FRAG)
+        self.prog["a_pos"] = gloo.VertexBuffer(
+            np.array([, [3]], dtype=np.float32)
+        )
+        self.size = None
+        self.tex = self.fbo = None
 class Skin:
     def __init__(self, app):
         self.app = app
