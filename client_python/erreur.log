@@ -111,3 +111,29 @@ Traceback (most recent call last):
                           ~~~~^^^^
 IndexError: tuple index out of range
 
+[19/11/2026 23:14:18] Python ['3.13.9', '(main,', 'Oct', '20', '2025,', '04:44:21)', '[Clang', '19.1.7', '(https://github.com/ziglang/zig-bootstrap', '1c3c59435891bc9caf8cd1d3'] - linux2
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/media/cyril/External2/The-last-signal-/client_python/main.py", line 14, in <module>
+    main()
+    ~~~~^^
+  File "/media/cyril/External2/The-last-signal-/client_python/main.py", line 10, in main
+    App().run()
+    ~~~^^
+  File "/media/cyril/External2/The-last-signal-/client_python/menu.py", line 894, in __init__
+    self.show_menu("main")
+    ~~~~~~~~~~~~~~^^^^^^^^
+  File "/media/cyril/External2/The-last-signal-/client_python/menu.py", line 1038, in show_menu
+    btn = Btn(self, text=label, command=cmd, spec=self.font(14))
+  File "/media/cyril/External2/The-last-signal-/client_python/menu.py", line 673, in __init__
+    self.imgs = {st: sk.button_image(text, spec, width, app.pal, st, 1.0, pady) for st in ("n", "h", "p")}
+                     ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/media/cyril/External2/The-last-signal-/client_python/menu.py", line 664, in button_image
+    self.draw_text(d, w / 2, (h - lh) / 2 + dy, (text or "").upper(), spec, scale, mix(pal["text"], pal["panel"], kk), "c")
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/media/cyril/External2/The-last-signal-/client_python/menu.py", line 644, in draw_text
+    base = y + f.getmetrics()
+           ~~^~~~~~~~~~~~~~~~
+TypeError: unsupported operand type(s) for +: 'float' and 'tuple'
+

@@ -641,7 +641,7 @@ class Skin:
         f = self.chain(spec, scale)
         total = f.getlength(text)
         cx = x - total / 2 if align == "c" else (x - total if align == "r" else x)
-        base = y + f.getmetrics()
+        base = y + f.getmetrics()[0]
         d.text((cx, base), text, font=f, fill=fill, anchor="ls")
         return total
 
