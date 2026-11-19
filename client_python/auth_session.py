@@ -1,11 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-Authentification de The Last Signal (côté client Python), construite sur le Client réseau
-et les paquets du projet (LoginPacket, SingupPacket, ...).
-
-Le menu ouvre la connexion au moment où l'on appuie sur « Se connecter » / « S'enregistrer »
-puis envoie Login ou SignUp au serveur. Le lanceur de jeu rejoue ensuite login + choix du
-compte sur sa propre connexion (le serveur lie le compte à la connexion TCP).
+Module d'authentification réseau du client Python pour The Last Signal.
+Gère les communications réseau pour l'inscription, la connexion, la liste
+et la création de comptes avec sélection de classe.
 """
 import json
 import queue
@@ -24,11 +21,16 @@ HOST = "127.0.0.1"
 PORT = 5000
 CONNECT_TIMEOUT = 4.0
 REPLY_TIMEOUT = 10.0
-CREATE_TIMEOUT = 40.0          # inscription / création de compte : hachage Argon2 + base de données
+CREATE_TIMEOUT = 40.0          # Inscription / création : hachage Argon2 + base SQLite
 MAX_FRAME = 10 * 1024 * 1024
 
-# Seuls ces paquets sont des réponses à une requête du menu ; le reste (snapshot des joueurs,
-# positions...) est lu puis ignoré pour ne jamais encombrer la socket.
+# Liste des 13 classes disponibles dans The Last Signal
+AVAILABLE_CLASSES = [
+    "Mage", "Nécromancien", "Épéiste", "Chevalier lourd", "Chevalier",
+    "Soldat d'infanterie", "Soldat de cavalerie", "Gendarme",
+    "Force spéciale d'intervention", "Voleur", "Assassin", "Sorcier", "Archer"
+]
+
 _REPLY_TYPES = {
     PacketType.LoginResponse,
     PacketType.SignUpResponse,
@@ -37,7 +39,6 @@ _REPLY_TYPES = {
     PacketType.BAN,
 }
 
-# Messages renvoyés par le serveur -> clés de traduction du menu.
 _LOGIN_ERRORS = {
     "Identifiants invalides": "err_creds",
     "Compte banni definitivement": "err_banned_perm",
@@ -45,6 +46,7 @@ _LOGIN_ERRORS = {
     "Trop de tentatives. Compte bloque temporairement.": "err_locked",
     "Ce compte est deja connecte": "err_already",
 }
+
 _SIGNUP_ERRORS = {
     "Pseudo deja utilise": "err_pseudo_used",
     "Pseudo invalide": "err_pseudo",
@@ -53,57 +55,40 @@ _SIGNUP_ERRORS = {
     "Email invalide": "err_email",
 }
 
-
 class AuthError(Exception):
-    """`key` est une clé de traduction du menu, ou un message déjà rédigé par le serveur
-    (le menu affiche tel quel un texte qui n'est pas une clé)."""
-
+    """Clé de traduction du menu ou message directement rédigé par le serveur."""
     def __init__(self, key):
         super().__init__(key)
         self.key = key
 
-
-# --------------------------------------------------------------------------- #
-#  Lecture des trames : [taille u32][type u16][charge utile]
-# --------------------------------------------------------------------------- #
 def _recv_exact(sock, size):
     buf = bytearray()
     while len(buf) < size:
         chunk = sock.recv(size - len(buf))
         if not chunk:
-            raise ConnectionError("connexion fermée")
+            raise ConnectionError("Connexion fermée")
         buf.extend(chunk)
     return bytes(buf)
 
-
 def read_body(sock):
-    """Lit une trame complète -> octets [type u16][charge utile] (entrée de Packet.decode)."""
-    size = struct.unpack(">I", _recv_exact(sock, 4))[0]
+    """Lit une trame complète -> octets [type u16][charge utile]."""
+    size = struct.unpack(">I", _recv_exact(sock, 4))
     if size < 2 or size > MAX_FRAME:
-        raise ConnectionError("trame invalide")
+        raise ConnectionError("Trame invalide")
     return _recv_exact(sock, size)
 
-
-# --------------------------------------------------------------------------- #
-#  Réponses du serveur
-# --------------------------------------------------------------------------- #
 def _text(payload):
     return payload.decode("utf-8", "replace")
 
-
 def _ban_key(ban):
-    # BanPacket : ban_type 2 = définitif, 1 = temporaire.
     return "err_banned_perm" if getattr(ban, "ban_type", 0) == 2 else "err_banned_temp"
 
-
 def check_login_reply(payload):
-    """Retourne le nom à afficher (pseudo, ou e-mail pour un ancien compte) ou lève AuthError."""
     text = _text(payload)
     prefix, suffix = "Utilisateur ", " authentifié"
     if text.startswith(prefix) and text.endswith(suffix) and len(text) > len(prefix) + len(suffix):
         return text[len(prefix):-len(suffix)]
     raise AuthError(_LOGIN_ERRORS.get(text, "srv_error"))
-
 
 def check_signup_reply(payload):
     text = _text(payload)
@@ -111,46 +96,41 @@ def check_signup_reply(payload):
         return
     raise AuthError(_SIGNUP_ERRORS.get(text, "srv_error"))
 
-
 def parse_account_list(payload):
-    """-> liste de dict {account_id, account_name, role_name, balance}."""
+    """Lit la réponse JSON -> liste de dict {account_id, account_name, class_name, role_name, balance}."""
     try:
         accounts = json.loads(payload)
     except ValueError:
         accounts = None
+
     if isinstance(accounts, list):
         return accounts
     raise AuthError("srv_lost" if _text(payload) == "Utilisateur non authentifie" else "srv_error")
 
-
 def check_account_result(payload):
-    """AccountResult : JSON {"ok": bool, "message": str, ...}. Retourne le dict si ok."""
+    """Vérifie le paquet AccountResult JSON {"ok": bool, "message": str, ...}."""
     try:
         data = json.loads(payload)
     except ValueError:
         raise AuthError("srv_error")
+
     if not isinstance(data, dict):
         raise AuthError("srv_error")
+
     if data.get("ok"):
         return data
+
     message = str(data.get("message") or "srv_error")
     raise AuthError("srv_lost" if message == "Utilisateur non authentifie" else message)
-
 
 def _credentials_packet(cls, email, password):
     try:
         return cls(email, password)
-    except struct.error:                       # champ de plus de 65535 octets
+    except struct.error:
         raise AuthError("err_fill")
 
-
-# --------------------------------------------------------------------------- #
-#  Connexion du menu : un Client + un thread de lecture
-# --------------------------------------------------------------------------- #
 class Connection:
-    """Session du menu auprès du serveur. Les méthodes sont bloquantes : à appeler depuis
-    un thread (jamais depuis la boucle d'affichage). Elles lèvent AuthError."""
-
+    """Session du menu auprès du serveur réseau."""
     def __init__(self, host=HOST, port=PORT):
         self.client = Client(host, port)
         self.alive = False
@@ -163,11 +143,11 @@ class Connection:
         return self.client.socket
 
     def open(self):
-        """Connecte le client au serveur (réessaie quelques secondes si besoin)."""
         try:
             self.client.connect(timeout=CONNECT_TIMEOUT)
-        except (SystemExit, Exception):        # SystemExit : délai dépassé
+        except (SystemExit, Exception):
             raise AuthError("srv_unreachable")
+
         self.alive = True
         self._reader = threading.Thread(target=self._read_loop, args=(self.client.socket,), daemon=True)
         self._reader.start()
@@ -180,8 +160,9 @@ class Connection:
                     packet = Packet.decode(read_body(sock))
                 except (ConnectionError, OSError):
                     raise
-                except Exception:              # paquet inconnu ou mal formé : on l'ignore
+                except Exception:
                     continue
+
                 if packet.packet_type in _REPLY_TYPES:
                     self._replies.put(packet)
         except Exception:
@@ -191,7 +172,6 @@ class Connection:
             self._replies.put(None)
 
     def _drain(self):
-        """Jette les anciennes réponses ; un BAN reçu entre-temps est signalé."""
         try:
             while True:
                 item = self._replies.get_nowait()
@@ -201,7 +181,6 @@ class Connection:
             pass
 
     def request(self, packet, reply_type, timeout=REPLY_TIMEOUT):
-        """Envoie `packet` avec le Client, attend la réponse `reply_type` -> sa charge utile."""
         with self._lock:
             self._drain()
             if not self.alive or not self.client.connected:
@@ -211,6 +190,7 @@ class Connection:
             except Exception:
                 self.alive = False
                 raise AuthError("srv_lost")
+
             deadline = time.monotonic() + timeout
             while True:
                 left = deadline - time.monotonic()
@@ -220,6 +200,7 @@ class Connection:
                     item = self._replies.get(timeout=left)
                 except queue.Empty:
                     raise AuthError("srv_timeout")
+
                 if item is None:
                     raise AuthError("srv_lost")
                 if item.packet_type == PacketType.BAN:
@@ -227,10 +208,7 @@ class Connection:
                 if item.packet_type == reply_type:
                     return item.payload
 
-    # ----- requêtes -------------------------------------------------------- #
     def login(self, email, password, retries=0, delay=0.4):
-        """Envoie LOGIN et retourne le nom à afficher. `retries` : nouvelles tentatives si le serveur
-        répond « déjà connecté » (il n'a pas encore nettoyé la session précédente du même compte)."""
         packet = _credentials_packet(LoginPacket, email, password)
         for attempt in range(retries + 1):
             reply = self.request(packet, PacketType.LoginResponse)
@@ -242,8 +220,6 @@ class Connection:
                 time.sleep(delay)
 
     def signup(self, email, password, pseudo):
-        """Envoie SIGNUP (e-mail, mot de passe, pseudo). Le serveur connecte automatiquement le
-        nouvel utilisateur."""
         try:
             packet = SingupPacket(email, password, pseudo)
         except struct.error:
@@ -254,8 +230,14 @@ class Connection:
         return parse_account_list(
             self.request(Packet(PacketType.ACCOUNT_LIST), PacketType.ACCOUNT_LIST_RESPONSE))
 
-    def create_account(self, name):
-        packet = Packet(PacketType.ACCOUNT_CREATE, name.encode("utf-8"))
+    def create_account(self, name, class_name):
+        """Transmet au serveur Rust une charge utile JSON contenant account_name et class_name."""
+        payload = json.dumps({
+            "account_name": name,
+            "class_name": class_name
+        }).encode("utf-8")
+        
+        packet = Packet(PacketType.ACCOUNT_CREATE, payload)
         data = check_account_result(self.request(packet, PacketType.ACCOUNT_RESULT, timeout=CREATE_TIMEOUT))
         account = data.get("account")
         if not isinstance(account, dict) or "account_id" not in account:
@@ -267,13 +249,11 @@ class Connection:
         check_account_result(self.request(packet, PacketType.ACCOUNT_RESULT))
 
     def close(self, wait=3.0):
-        """Ferme la session. Avec `wait`, envoie DECO puis attend que le serveur ait nettoyé la
-        session (il repasse le compte en DISCONNECTED avant de fermer la socket) : indispensable
-        avant de relancer une connexion avec le même compte."""
         client = self.client
         sock = client.socket
         if sock is None:
             return
+
         if wait and self.alive:
             try:
                 client.send_packet(decoPacket("Fermeture du menu"))
@@ -281,7 +261,8 @@ class Connection:
                 pass
             if self._reader is not None:
                 self._reader.join(wait)
-        client.connected = False               # avant la fermeture : Client ne tente plus d'envoyer
+
+        client.connected = False
         self.alive = False
         client.socket = None
         try:
@@ -293,22 +274,13 @@ class Connection:
         except OSError:
             pass
 
-
-# --------------------------------------------------------------------------- #
-#  Lanceur de jeu : rejoue login + sélection du compte avec le Client du jeu
-# --------------------------------------------------------------------------- #
 def authenticate_client(client, email, password, account_id, retries=25, delay=0.4):
-    """Envoie LOGIN puis ACCOUNT_SELECT avec `client` (déjà connecté, SESSION lu).
-
-    Retourne la liste des paquets PLAYER_STATE / PLAYER_REMOVE reçus pendant l'échange (le
-    snapshot que le serveur envoie dès la connexion) : le jeu doit les traiter lui aussi."""
     skipped = []
-
     def wait(reply_type):
         while True:
             try:
                 packet = client.receive_packet()
-            except SystemExit:                 # Client quitte sur un paquet BAN
+            except SystemExit:
                 raise AuthError("err_banned_temp")
             if packet is None:
                 raise AuthError("srv_lost")
@@ -331,6 +303,7 @@ def authenticate_client(client, email, password, account_id, retries=25, delay=0
                 if e.key != "err_already" or attempt == retries:
                     raise
                 time.sleep(delay)
+
         client.send_packet(Packet(PacketType.ACCOUNT_SELECT, struct.pack("!q", int(account_id))))
         check_account_result(wait(PacketType.ACCOUNT_RESULT))
     finally:
@@ -340,8 +313,5 @@ def authenticate_client(client, email, password, account_id, retries=25, delay=0
             pass
     return skipped
 
-
 def spawn(client):
-    """Demande au serveur de faire entrer le joueur dans le monde (il n'apparaît pour les autres
-    joueurs qu'à ce moment-là, pas dès la connexion)."""
     client.send_packet(Packet(PacketType.SPAWN))
