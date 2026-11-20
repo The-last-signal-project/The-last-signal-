@@ -1,9 +1,11 @@
+
 CREATE TABLE IF NOT EXISTS accounts (
     account_id INTEGER PRIMARY KEY AUTOINCREMENT,
 
     user_id TEXT NOT NULL,
 
     account_name TEXT NOT NULL UNIQUE,
+    class_name TEXT NOT NULL,
 
     role_id INTEGER NOT NULL,
     
