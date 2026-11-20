@@ -65,3 +65,4 @@ VALUES
 ('potion de délivrance', 'potion', 'potion_de_délivrance.png', 200,0),
 ('trousse','basic','trousse.png',35,0)
 ('potion de mana', 'potion', 'potion_de_mana.png', 75,0);
+
