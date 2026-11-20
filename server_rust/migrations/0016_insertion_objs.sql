@@ -59,6 +59,7 @@ VALUES
 )
 VALUES
 ('épée de bois', 'armes', 'epee_bois.png', 30,0),
+
 ('épée de pierre', 'armes', 'epee_bois.png', 60,0),
 ('potion de soin léger', 'potion', 'potion_de_soin_léger.png', 25,0),
 ('potion de soin modéré', 'potion', 'potion_de_soin_modéré.png', 35,0),
