@@ -27,7 +27,7 @@ In your Cargo.toml:
 # That said, it's not ideal for all scenarios and in particular, generic
 # libraries built around `rusqlite` should probably not enable it, which
 # is why it is not a default feature -- it could become hard to disable.
-rusqlite = { version = "0.39.0", features = ["bundled"] }
+rusqlite = { version = "0.42.0", features = ["bundled"] }
 ```
 
 Simple example usage:
@@ -81,7 +81,7 @@ fn main() -> Result<()> {
 
 ### Supported SQLite Versions
 
-The base `rusqlite` package supports SQLite version 3.34.1 or newer. If you need
+The base `rusqlite` package supports SQLite version 3.45.3 or newer. If you need
 support for older versions, please file an issue. Some cargo features require a
 newer SQLite version; see details below.
 
@@ -121,12 +121,12 @@ features](https://doc.rust-lang.org/cargo/reference/manifest.html#the-features-s
   `Url` type from the [`url` crate](https://crates.io/crates/url).
 * `bundled` uses a bundled version of SQLite.  This is a good option for cases where linking to SQLite is complicated, such as Windows.
 * `sqlcipher` looks for the SQLCipher library to link against instead of SQLite. This feature overrides `bundled`.
-* `bundled-sqlcipher` uses a bundled version of SQLCipher. This searches for and links against a system-installed crypto library to provide the crypto implementation.
+* `bundled-sqlcipher` uses a bundled version of SQLCipher and links against a system-installed crypto library on native targets. On `wasm32-unknown-unknown` with `ffi-sqlite-wasm-rs`, it uses `sqlite-wasm-rs` with bundled LibTomCrypt.
 * `bundled-sqlcipher-vendored-openssl` allows using bundled-sqlcipher with a vendored version of OpenSSL (via the `openssl-sys` crate) as the crypto provider.
   - As the name implies this depends on the `bundled-sqlcipher` feature, and automatically turns it on.
   - If turned on, this uses the [`openssl-sys`](https://crates.io/crates/openssl-sys) crate, with the `vendored` feature enabled in order to build and bundle the OpenSSL crypto library.
 * `hooks` for [Commit, Rollback](http://sqlite.org/c3ref/commit_hook.html) and [Data Change](http://sqlite.org/c3ref/update_hook.html) notification callbacks.
-* `preupdate_hook` for [preupdate](https://sqlite.org/c3ref/preupdate_count.html) notification callbacks. (Implies `hooks`.)
+* `preupdate_hook` for [preupdate](https://sqlite.org/c3ref/preupdate_blobwrite.html) notification callbacks. (Implies `hooks`.)
 * `unlock_notify` for [Unlock](https://sqlite.org/unlock_notify.html) notification.
 * `vtab` for [virtual table](https://sqlite.org/vtab.html) support (allows you to write virtual table implementations in Rust). Currently, only read-only virtual tables are supported.
 * `series` exposes [`generate_series(...)`](https://www.sqlite.org/series.html) Table-Valued Function. (Implies `vtab`.)
@@ -143,6 +143,9 @@ features](https://doc.rust-lang.org/cargo/reference/manifest.html#the-features-s
 * `rusqlite-macros` enables the use of the [`prepare_and_bind`](https://docs.rs/rusqlite/~0/rusqlite/macro.prepare_and_bind.html)
   and [`prepare_cached_and_bind`](https://docs.rs/rusqlite/~0/rusqlite/macro.prepare_cached_and_bind.html)
   procedural macros, which allow capturing identifiers in SQL statements.
+* `ffi-sqlite-wasm-rs` switches to using the `sqlite-wasm-rs` crate (instead of
+  `libsqlite3-sys`) on `wasm32-unknown-unknown` builds. This is enabled by
+  default and can be opted out by setting `default-features = false`.
 
 
 ## Notes on building rusqlite and libsqlite3-sys
@@ -156,11 +159,11 @@ You can adjust this behavior in a number of ways:
 * If you use the `bundled`, `bundled-sqlcipher`, or `bundled-sqlcipher-vendored-openssl` features, `libsqlite3-sys` will use the
   [cc](https://crates.io/crates/cc) crate to compile SQLite or SQLCipher from source and
   link against that. This source is embedded in the `libsqlite3-sys` crate and
-  is currently SQLite 3.51.3 (as of `rusqlite` 0.39.0 / `libsqlite3-sys`
-  0.37.0).  This is probably the simplest solution to any build problems. You can enable this by adding the following in your `Cargo.toml` file:
+  is currently SQLite 3.54.1 (as of `rusqlite` 0.42.0 / `libsqlite3-sys`
+  0.40.0).  This is probably the simplest solution to any build problems. You can enable this by adding the following in your `Cargo.toml` file:
   ```toml
   [dependencies.rusqlite]
-  version = "0.39.0"
+  version = "0.42.0"
   features = ["bundled"]
   ```
 * When using any of the `bundled` features, the build script will honor `SQLITE_MAX_VARIABLE_NUMBER` and `SQLITE_MAX_EXPR_DEPTH` variables. It will also honor a `LIBSQLITE3_FLAGS` variable, which can have a format like `"-USQLITE_ALPHA -DSQLITE_BETA SQLITE_GAMMA ..."`. That would disable the `SQLITE_ALPHA` flag, and set the `SQLITE_BETA` and `SQLITE_GAMMA` flags. (The initial `-D` can be omitted, as on the last one.)
@@ -198,7 +201,7 @@ minimum SQLite version that supports your chosen features. If you are using
 `libsqlite3-sys` directly, you can use the same features to choose which
 pregenerated bindings are chosen:
 
-* `min_sqlite_version_3_34_1` - SQLite 3.34.1 bindings (this is the default)
+* `min_sqlite_version_3_45_3` - SQLite 3.45.3 bindings (this is the default)
 
 If you use any of the `bundled` features, you will get pregenerated bindings for the
 bundled version of SQLite/SQLCipher. If you need other specific pregenerated binding
@@ -248,7 +251,7 @@ Rusqlite and libsqlite3-sys are available under the MIT license. See the LICENSE
 
 Depending on the set of enabled cargo `features`, rusqlite and libsqlite3-sys will also bundle other libraries, which have their own licensing terms:
 
-- If `--features=bundled-sqlcipher` is enabled, the vendored source of [SQLcipher](https://github.com/sqlcipher/sqlcipher) will be compiled and statically linked in. SQLcipher is distributed under a BSD-style license, as described [here](libsqlite3-sys/sqlcipher/LICENSE).
+- If `--features=bundled-sqlcipher` is enabled, the source of [SQLcipher](https://github.com/sqlcipher/sqlcipher) shipped by the [`sqlcipher-src`](https://crates.io/crates/sqlcipher-src) crate will be compiled and statically linked in. SQLcipher is distributed under a BSD-style license, as described [here](https://github.com/sqlcipher/sqlcipher/blob/master/LICENSE.md).
 
 - If `--features=bundled` is enabled, the vendored source of SQLite will be compiled and linked in. SQLite is in the public domain, as described [here](https://www.sqlite.org/copyright.html).
 
