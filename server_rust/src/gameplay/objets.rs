@@ -266,6 +266,8 @@ pub struct Equipement {
     pub bonus: i32,
     pub category: String,
     pub enchantements: Vec<String>,
+    pub durabilite: u32,
+    pub durabilite_max: u32,
 }
 
 impl Equipement {
@@ -277,6 +279,28 @@ impl Equipement {
         bonus: i32,
         enchantements: Vec<String>,
         rarety: Option<&str>,
+    ) -> Self {
+        Self::new_avec_durabilite(
+            nom,
+            image,
+            quantite,
+            niv,
+            bonus,
+            enchantements,
+            rarety,
+            100,
+        )
+    }
+
+    pub fn new_avec_durabilite(
+        nom: &str,
+        image: Option<&str>,
+        quantite: u64,
+        niv: u32,
+        bonus: i32,
+        enchantements: Vec<String>,
+        rarety: Option<&str>,
+        durabilite_max: u32,
     ) -> Self {
         let objet = Objet::new(
             nom,
@@ -295,6 +319,8 @@ impl Equipement {
             bonus,
             category,
             enchantements,
+            durabilite: durabilite_max,
+            durabilite_max,
         }
     }
 
