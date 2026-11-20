@@ -1,9 +1,20 @@
 #![allow(deprecated)]
 
 use {
-    crate::{smallvec, SmallVec},
-    alloc::{borrow::ToOwned, boxed::Box, rc::Rc, vec, vec::Vec},
-    std::{iter::FromIterator, usize},
+    crate::{
+        SmallVec,
+        smallvec
+    },
+    alloc::{
+        borrow::ToOwned,
+        boxed::Box,
+        rc::Rc,
+        vec::Vec
+    },
+    std::{
+        iter::FromIterator,
+        usize
+    }
 };
 
 #[test]
@@ -88,9 +99,7 @@ pub fn test_double_spill() {
 
 // https://github.com/servo/rust-smallvec/issues/4
 #[test]
-fn issue_4() {
-    SmallVec::<[Box<u32>; 2]>::new();
-}
+fn issue_4() { SmallVec::<[Box<u32>; 2]>::new(); }
 
 // https://github.com/servo/rust-smallvec/issues/5
 #[test]
@@ -189,9 +198,7 @@ fn into_iter_drop() {
     struct DropCounter<'a>(&'a Cell<i32>);
 
     impl<'a> Drop for DropCounter<'a> {
-        fn drop(&mut self) {
-            self.0.set(self.0.get() + 1);
-        }
+        fn drop(&mut self) { self.0.set(self.0.get() + 1); }
     }
 
     {
@@ -289,16 +296,14 @@ fn test_insert_many() {
 
 struct MockHintIter<T: Iterator> {
     x: T,
-    hint: usize,
+    hint: usize
 }
 impl<T: Iterator> Iterator for MockHintIter<T> {
     type Item = T::Item;
-    fn next(&mut self) -> Option<Self::Item> {
-        self.x.next()
-    }
-    fn size_hint(&self) -> (usize, Option<usize>) {
-        (self.hint, None)
-    }
+
+    fn next(&mut self) -> Option<Self::Item> { self.x.next() }
+
+    fn size_hint(&self) -> (usize, Option<usize>) { (self.hint, None) }
 }
 
 #[test]
@@ -312,8 +317,8 @@ fn test_insert_many_short_hint() {
         1,
         MockHintIter {
             x: [5, 6].iter().cloned(),
-            hint: 5,
-        },
+            hint: 5
+        }
     );
     assert_eq!(
         &v.iter().map(|v| *v).collect::<Vec<_>>(),
@@ -332,8 +337,8 @@ fn test_insert_many_long_hint() {
         1,
         MockHintIter {
             x: [5, 6].iter().cloned(),
-            hint: 1,
-        },
+            hint: 1
+        }
     );
     assert_eq!(
         &v.iter().map(|v| *v).collect::<Vec<_>>(),
@@ -344,18 +349,21 @@ fn test_insert_many_long_hint() {
 // https://github.com/servo/rust-smallvec/issues/96
 mod insert_many_panic {
     use {
-        crate::{smallvec, SmallVec},
-        alloc::boxed::Box,
+        crate::{
+            SmallVec,
+            smallvec
+        },
+        alloc::boxed::Box
     };
 
     struct PanicOnDoubleDrop {
-        dropped: Box<bool>,
+        dropped: Box<bool>
     }
 
     impl PanicOnDoubleDrop {
         fn new() -> Self {
             Self {
-                dropped: Box::new(false),
+                dropped: Box::new(false)
             }
         }
     }
@@ -370,14 +378,14 @@ mod insert_many_panic {
     /// Claims to yield `hint` items, but actually yields `count`, then panics.
     struct BadIter {
         hint: usize,
-        count: usize,
+        count: usize
     }
 
     impl Iterator for BadIter {
         type Item = PanicOnDoubleDrop;
-        fn size_hint(&self) -> (usize, Option<usize>) {
-            (self.hint, None)
-        }
+
+        fn size_hint(&self) -> (usize, Option<usize>) { (self.hint, None) }
+
         fn next(&mut self) -> Option<Self::Item> {
             if self.count == 0 {
                 panic!()
@@ -392,7 +400,13 @@ mod insert_many_panic {
         let mut vec: SmallVec<[PanicOnDoubleDrop; 0]> =
             smallvec![PanicOnDoubleDrop::new(), PanicOnDoubleDrop::new(),];
         let result = ::std::panic::catch_unwind(move || {
-            vec.insert_many(0, BadIter { hint: 1, count: 0 });
+            vec.insert_many(
+                0,
+                BadIter {
+                    hint: 1,
+                    count: 0
+                }
+            );
         });
         assert!(result.is_err());
     }
@@ -402,7 +416,13 @@ mod insert_many_panic {
         let mut vec: SmallVec<[PanicOnDoubleDrop; 0]> =
             smallvec![PanicOnDoubleDrop::new(), PanicOnDoubleDrop::new(),];
         let result = ::std::panic::catch_unwind(move || {
-            vec.insert_many(1, BadIter { hint: 4, count: 2 });
+            vec.insert_many(
+                1,
+                BadIter {
+                    hint: 4,
+                    count: 2
+                }
+            );
         });
         assert!(result.is_err());
     }
@@ -412,7 +432,13 @@ mod insert_many_panic {
         let mut vec: SmallVec<[PanicOnDoubleDrop; 0]> =
             smallvec![PanicOnDoubleDrop::new(), PanicOnDoubleDrop::new(),];
         let result = ::std::panic::catch_unwind(move || {
-            vec.insert_many(2, BadIter { hint: 3, count: 1 });
+            vec.insert_many(
+                2,
+                BadIter {
+                    hint: 3,
+                    count: 1
+                }
+            );
         });
         assert!(result.is_err());
     }
@@ -422,7 +448,13 @@ mod insert_many_panic {
         let mut vec: SmallVec<[PanicOnDoubleDrop; 0]> =
             smallvec![PanicOnDoubleDrop::new(), PanicOnDoubleDrop::new(),];
         let result = ::std::panic::catch_unwind(move || {
-            vec.insert_many(0, BadIter { hint: 3, count: 5 });
+            vec.insert_many(
+                0,
+                BadIter {
+                    hint: 3,
+                    count: 5
+                }
+            );
         });
         assert!(result.is_err());
     }
@@ -432,7 +464,13 @@ mod insert_many_panic {
         let mut vec: SmallVec<[PanicOnDoubleDrop; 0]> =
             smallvec![PanicOnDoubleDrop::new(), PanicOnDoubleDrop::new(),];
         let result = ::std::panic::catch_unwind(move || {
-            vec.insert_many(2, BadIter { hint: 3, count: 5 });
+            vec.insert_many(
+                2,
+                BadIter {
+                    hint: 3,
+                    count: 5
+                }
+            );
         });
         assert!(result.is_err());
     }
@@ -542,7 +580,10 @@ fn test_ord() {
 
 #[test]
 fn test_hash() {
-    use std::{collections::hash_map::DefaultHasher, hash::Hash};
+    use std::{
+        collections::hash_map::DefaultHasher,
+        hash::Hash
+    };
 
     {
         let mut a: SmallVec<[u32; 2]> = SmallVec::new();
@@ -617,17 +658,17 @@ fn test_from() {
     assert_eq!(&SmallVec::<[u32; 2]>::from(&[1][..])[..], [1]);
     assert_eq!(&SmallVec::<[u32; 2]>::from(&[1, 2, 3][..])[..], [1, 2, 3]);
 
-    let vec = vec![];
+    let vec = alloc::vec![];
     let small_vec: SmallVec<[u8; 3]> = SmallVec::from(vec);
     assert_eq!(&*small_vec, &[]);
     drop(small_vec);
 
-    let vec = vec![1, 2, 3, 4, 5];
+    let vec = alloc::vec![1, 2, 3, 4, 5];
     let small_vec: SmallVec<[u8; 3]> = SmallVec::from(vec);
     assert_eq!(&*small_vec, &[1, 2, 3, 4, 5]);
     drop(small_vec);
 
-    let vec = vec![1, 2, 3, 4, 5];
+    let vec = alloc::vec![1, 2, 3, 4, 5];
     let small_vec: SmallVec<[u8; 1]> = SmallVec::from(vec);
     assert_eq!(&*small_vec, &[1, 2, 3, 4, 5]);
     drop(small_vec);
@@ -639,7 +680,7 @@ fn test_from() {
 
     let array = [99; 128];
     let small_vec: SmallVec<[u8; 128]> = SmallVec::from(array);
-    assert_eq!(&*small_vec, vec![99u8; 128].as_slice());
+    assert_eq!(&*small_vec, alloc::vec![99u8; 128].as_slice());
     drop(small_vec);
 }
 
@@ -718,10 +759,10 @@ fn shrink_to_fit_unspill() {
 #[test]
 fn test_into_vec() {
     let vec = SmallVec::<[u8; 2]>::from_iter(0..2);
-    assert_eq!(vec.into_vec(), vec![0, 1]);
+    assert_eq!(vec.into_vec(), alloc::vec![0, 1]);
 
     let vec = SmallVec::<[u8; 2]>::from_iter(0..3);
-    assert_eq!(vec.into_vec(), vec![0, 1, 2]);
+    assert_eq!(vec.into_vec(), alloc::vec![0, 1, 2]);
 }
 
 #[test]
@@ -738,32 +779,32 @@ fn test_into_inner() {
 
 #[test]
 fn test_from_vec() {
-    let vec = vec![];
+    let vec = alloc::vec![];
     let small_vec: SmallVec<[u8; 3]> = SmallVec::from_vec(vec);
     assert_eq!(&*small_vec, &[]);
     drop(small_vec);
 
-    let vec = vec![];
+    let vec = alloc::vec![];
     let small_vec: SmallVec<[u8; 1]> = SmallVec::from_vec(vec);
     assert_eq!(&*small_vec, &[]);
     drop(small_vec);
 
-    let vec = vec![1];
+    let vec = alloc::vec![1];
     let small_vec: SmallVec<[u8; 3]> = SmallVec::from_vec(vec);
     assert_eq!(&*small_vec, &[1]);
     drop(small_vec);
 
-    let vec = vec![1, 2, 3];
+    let vec = alloc::vec![1, 2, 3];
     let small_vec: SmallVec<[u8; 3]> = SmallVec::from_vec(vec);
     assert_eq!(&*small_vec, &[1, 2, 3]);
     drop(small_vec);
 
-    let vec = vec![1, 2, 3, 4, 5];
+    let vec = alloc::vec![1, 2, 3, 4, 5];
     let small_vec: SmallVec<[u8; 3]> = SmallVec::from_vec(vec);
     assert_eq!(&*small_vec, &[1, 2, 3, 4, 5]);
     drop(small_vec);
 
-    let vec = vec![1, 2, 3, 4, 5];
+    let vec = alloc::vec![1, 2, 3, 4, 5];
     let small_vec: SmallVec<[u8; 1]> = SmallVec::from_vec(vec);
     assert_eq!(&*small_vec, &[1, 2, 3, 4, 5]);
     drop(small_vec);
@@ -808,13 +849,16 @@ fn test_retain() {
 fn test_retain_panic_preserves_unprocessed_tail() {
     use std::{
         cell::Cell,
-        panic::{catch_unwind, AssertUnwindSafe},
+        panic::{
+            AssertUnwindSafe,
+            catch_unwind
+        }
     };
 
     struct Tracked {
         id: usize,
         drops: Rc<Vec<Cell<usize>>>,
-        panic_at: Option<usize>,
+        panic_at: Option<usize>
     }
     impl Drop for Tracked {
         fn drop(&mut self) {
@@ -828,14 +872,12 @@ fn test_retain_panic_preserves_unprocessed_tail() {
             .map(|id| Tracked {
                 id,
                 drops: drops.clone(),
-                panic_at,
+                panic_at
             })
             .collect();
         (values, drops)
     }
-    fn ids(values: &[Tracked]) -> Vec<usize> {
-        values.iter().map(|v| v.id).collect()
-    }
+    fn ids(values: &[Tracked]) -> Vec<usize> { values.iter().map(|v| v.id).collect() }
 
     for len in [8, 32].iter().copied() {
         for panic_at in 0..len {
@@ -846,13 +888,15 @@ fn test_retain_panic_preserves_unprocessed_tail() {
                 let destructor = if drop_panics { Some(panic_at) } else { None };
                 let (input, drops) = tracked(len, destructor);
                 let mut actual: SmallVec<[_; 16]> = input.into_iter().collect();
-                assert!(catch_unwind(AssertUnwindSafe(|| actual.retain(|x| {
-                    if !drop_panics {
-                        assert_ne!(x.id, panic_at);
-                    }
-                    x.id % 2 == 0
-                })))
-                .is_err());
+                assert!(
+                    catch_unwind(AssertUnwindSafe(|| actual.retain(|x| {
+                        if !drop_panics {
+                            assert_ne!(x.id, panic_at);
+                        }
+                        x.id % 2 == 0
+                    })))
+                    .is_err()
+                );
                 let read = panic_at + if drop_panics { 1 } else { 0 };
                 let expected: Vec<_> = (0..panic_at).step_by(2).chain(read..len).collect();
                 assert_eq!(ids(&actual), expected);
@@ -865,14 +909,15 @@ fn test_retain_panic_preserves_unprocessed_tail() {
 
 #[test]
 fn test_retain_patterns_and_zst() {
-    use std::{cell::Cell, thread_local};
+    use std::{
+        cell::Cell,
+        thread_local
+    };
 
     thread_local! { static ZST_DROPS: Cell<usize> = Cell::new(0); }
     struct Zst;
     impl Drop for Zst {
-        fn drop(&mut self) {
-            ZST_DROPS.with(|x| x.set(x.get() + 1));
-        }
+        fn drop(&mut self) { ZST_DROPS.with(|x| x.set(x.get() + 1)); }
     }
 
     for len in [0, 1, 15, 16, 17, 64].iter().copied() {
@@ -953,7 +998,10 @@ fn test_write() {
 #[test]
 fn test_serde() {
     #[allow(deprecated)]
-    use bincode1::{config, deserialize};
+    use bincode1::{
+        config,
+        deserialize
+    };
     let mut small_vec: SmallVec<[i32; 2]> = SmallVec::new();
     small_vec.push(1);
     #[allow(deprecated)]
@@ -1023,9 +1071,7 @@ fn grow_spilled_same_size() {
 
 #[cfg(feature = "const_generics")]
 #[test]
-fn const_generics() {
-    let _v = SmallVec::<[i32; 987]>::default();
-}
+fn const_generics() { let _v = SmallVec::<[i32; 987]>::default(); }
 
 #[cfg(feature = "const_new")]
 #[test]
@@ -1050,31 +1096,21 @@ fn const_new() {
     assert_eq!(v[2], 7);
 }
 #[cfg(feature = "const_new")]
-const fn const_new_inner() -> SmallVec<[i32; 4]> {
-    SmallVec::<[i32; 4]>::new_const()
-}
+const fn const_new_inner() -> SmallVec<[i32; 4]> { SmallVec::<[i32; 4]>::new_const() }
 #[cfg(feature = "const_new")]
-const fn const_new_inline_sized() -> SmallVec<[i32; 4]> {
-    crate::smallvec_inline![1; 4]
-}
+const fn const_new_inline_sized() -> SmallVec<[i32; 4]> { crate::smallvec_inline![1; 4] }
 #[cfg(feature = "const_new")]
-const fn const_new_inline_args() -> SmallVec<[i32; 2]> {
-    crate::smallvec_inline![1, 4]
-}
+const fn const_new_inline_args() -> SmallVec<[i32; 2]> { crate::smallvec_inline![1, 4] }
 #[cfg(feature = "const_new")]
 const fn const_new_with_len() -> SmallVec<[i32; 4]> {
     unsafe { SmallVec::<[i32; 4]>::from_const_with_len_unchecked([2, 5, 7, 0], 3) }
 }
 
 #[test]
-fn empty_macro() {
-    let _v: SmallVec<[u8; 1]> = smallvec![];
-}
+fn empty_macro() { let _v: SmallVec<[u8; 1]> = smallvec![]; }
 
 #[test]
-fn zero_size_items() {
-    SmallVec::<[(); 0]>::new().push(());
-}
+fn zero_size_items() { SmallVec::<[(); 0]>::new().push(()); }
 
 #[test]
 fn test_insert_many_overflow() {
@@ -1156,7 +1192,7 @@ fn drain_keep_rest_zero_inline_capacity() {
     df.keep_rest();
 
     let values: Vec<u8> = a.iter().map(|b| **b).collect();
-    assert_eq!(values, vec![1, 3, 5, 6, 7, 8]);
+    assert_eq!(values, alloc::vec![1, 3, 5, 6, 7, 8]);
 }
 
 /// This assortment of tests, in combination with miri, verifies we handle UB on

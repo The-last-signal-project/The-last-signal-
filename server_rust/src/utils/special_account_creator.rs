@@ -2,15 +2,32 @@ use uuid::Uuid;
 use sqlx::SqlitePool;
 use std::future::Future;
 use crate::gameplay::bank_manager::BankManager;
+
+/// Constante répertoriant les 13 classes définies dans le projet
+pub const AVAILABLE_CLASSES: [&str; 13] = [
+    "Mage", "Nécromancien", "Épéiste", "Chevalier lourd", "Chevalier",
+    "Soldat d'infanterie", "Soldat de cavalerie", "Gendarme",
+    "Force spéciale d'intervention", "Voleur", "Assassin", "Sorcier", "Archer"
+];
+
 pub async fn create_account(
     pool: &SqlitePool,
     email: &str,
     pseudo: &str,
     password_hash: &str,
     account_name: &str,
+    class_name: &str, // Nouveau paramètre requis pour la classe du joueur
     role_name: &str,
     status: Option<&str>,
 ) -> Result<(), sqlx::Error> {
+    // Verification que la classe passée en paramètre fait partie des classes du jeu
+    if !AVAILABLE_CLASSES.contains(&class_name) {
+        return Err(sqlx::Error::Protocol(format!(
+            "La classe '{}' n'est pas une classe valide.",
+            class_name
+        )));
+    }
+
     let mut tx = pool.begin().await?;
 
     // ========================================================
@@ -46,9 +63,9 @@ pub async fn create_account(
                 "#,
             )
             .bind(&user_id)
-            .bind(&email)
+            .bind(email)
             .bind(password_hash)
-            .bind(&pseudo)
+            .bind(pseudo)
             .execute(&mut *tx)
             .await?;
 
@@ -73,7 +90,7 @@ pub async fn create_account(
     .ok_or(sqlx::Error::RowNotFound)?;
 
     // ========================================================
-    // 3. Créer le compte
+    // 3. Créer le compte avec la classe sélectionnée
     // ========================================================
 
     let account_id: i64 = sqlx::query_scalar(
@@ -81,29 +98,34 @@ pub async fn create_account(
         INSERT INTO accounts (
             user_id,
             account_name,
+            class_name,
             role_id
         )
-        VALUES (?, ?, ?)
+        VALUES (?, ?, ?, ?)
         RETURNING account_id
         "#,
     )
     .bind(&user_id)
     .bind(account_name)
+    .bind(class_name)
     .bind(role_id)
     .fetch_one(&mut *tx) 
     .await?;
+
     let max_balance = i64::MAX;
     sqlx::query( 
-        r#" INSERT INTO wallets ( 
-        account_id,
-        balance
+        r#" 
+        INSERT INTO wallets ( 
+            account_id,
+            balance
         ) 
-        VALUES (?,?) 
-        "#, ) 
-        .bind(account_id)
-        .bind(max_balance)
-        .execute(&mut *tx) 
-        .await?;
+        VALUES (?, ?) 
+        "#, 
+    ) 
+    .bind(account_id)
+    .bind(max_balance)
+    .execute(&mut *tx) 
+    .await?;
     
     if let Some(status) = status {
         sqlx::query(
@@ -114,19 +136,21 @@ pub async fn create_account(
             "#,
         )
         .bind(status)
-        .bind(&email)
+        .bind(email)
         .execute(&mut *tx)
         .await?;
     }
-    
 
     // ========================================================
     // 4. Valider la transaction
     // ========================================================
 
     tx.commit().await?;
+
     let bank = BankManager::new(pool.clone());
-    for _niveau in 1..=14{
-    BankManager::investir(&bank, account_id,i32::MAX.into()).await?;}
+    for _niveau in 1..=14 {
+        BankManager::investir(&bank, account_id, i32::MAX.into()).await?;
+    }
     
-    Ok(())}
+    Ok(())
+}

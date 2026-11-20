@@ -13,7 +13,7 @@
 edition = "2021"
 rust-version = "1.65"
 name = "regex"
-version = "1.13.1"
+version = "1.13.2"
 authors = [
     "The Rust Project Developers",
     "Andrew Gallant <jamslam@gmail.com>",
@@ -28,7 +28,7 @@ include = [
     "/UNICODE.md",
     "bench/README.md",
     "src/**/*.rs",
-    "testdata/**.toml",
+    "testdata/**/*.toml",
     "tests/**/*.rs",
     "bench/**/*.rs",
     "benches/**/*.rs",
@@ -161,7 +161,7 @@ optional = true
 default-features = false
 
 [dependencies.regex-automata]
-version = "0.4.16"
+version = "0.4.19"
 features = [
     "alloc",
     "syntax",
@@ -171,7 +171,7 @@ features = [
 default-features = false
 
 [dependencies.regex-syntax]
-version = "0.8.11"
+version = "0.8.12"
 default-features = false
 
 [dev-dependencies.anyhow]

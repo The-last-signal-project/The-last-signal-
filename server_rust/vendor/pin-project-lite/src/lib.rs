@@ -600,6 +600,8 @@ macro_rules! __pin_project_constant {
             // Note:
             // - Lint-based tricks aren't perfect, but they're much better than nothing:
             //   https://github.com/taiki-e/pin-project-lite/issues/26
+            //   Since Rust 1.69, unaligned_references is a hard error, so this issue only
+            //   affects projects that using only very old compilers.
             //
             // - Enable both unaligned_references and safe_packed_borrows lints
             //   because unaligned_references lint does not exist in older compilers:
@@ -1333,7 +1335,7 @@ macro_rules! __pin_project_make_drop_impl {
             $(#[$drop_fn_attrs])*
             fn drop(&mut self) {
                 // Implementing `__DropInner::__drop_inner` is safe, but calling it is not safe.
-                // This is because destructors can be called multiple times in safe code and
+                // This is because if calling it is safe destructors can be called multiple times in safe code and
                 // [double dropping is unsound](https://github.com/rust-lang/rust/pull/62360).
                 //
                 // `__drop_inner` is defined as a safe method, but this is fine since
@@ -1390,7 +1392,7 @@ macro_rules! __pin_project_make_drop_impl {
         // This will result in a compilation error, which is exactly what we want.
         trait MustNotImplDrop {}
         #[allow(clippy::drop_bounds, drop_bounds)]
-        impl<T: $crate::__private::Drop> MustNotImplDrop for T {}
+        impl<T: ?$crate::__private::Sized + $crate::__private::Drop> MustNotImplDrop for T {}
         impl<$($impl_generics)*> MustNotImplDrop for $ident <$($ty_generics)*>
         $(where
             $($where_clause)*)?
@@ -1698,7 +1700,7 @@ pub mod __private {
     use core::mem::ManuallyDrop;
     #[doc(hidden)]
     pub use core::{
-        marker::{PhantomData, PhantomPinned, Unpin},
+        marker::{PhantomData, PhantomPinned, Sized, Unpin},
         ops::Drop,
         pin::Pin,
         ptr,

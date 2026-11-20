@@ -81,6 +81,10 @@
 //!   `CC` can also include flags, for example `gcc -m32`, which are passed
 //!   before all other flags.
 //! * `AR` - the `ar` (archiver) executable to use to build the static library.
+//!   On MSVC targets it gets `lib.exe` style arguments like `-out:<lib>` and
+//!   `-nologo`, even when it is named `ar`. So set it to a tool that takes
+//!   them, such as `lib.exe` or `llvm-lib`. Only an archiver whose file name
+//!   contains `llvm-ar` gets `ar` style arguments there.
 //! * `ARFLAGS` - a series of space separated flags passed to the archiver,
 //!   before those from [`Build::ar_flag`].
 //! * `RANLIB` and `RANLIBFLAGS` - the `ranlib` executable and its flags that
@@ -1563,6 +1567,12 @@ impl Build {
     /// This option is automatically determined from the target platform or a
     /// number of environment variables, so it's not required to call this
     /// function.
+    ///
+    /// On MSVC targets the archiver gets `lib.exe` style arguments like
+    /// `-out:<lib>` and `-nologo`, even when it is named `ar`. So it has to be
+    /// a tool that takes them, such as `lib.exe` or `llvm-lib`. Only an
+    /// archiver whose file name contains `llvm-ar` gets `ar` style arguments
+    /// there.
     pub fn archiver<P: AsRef<Path>>(&mut self, archiver: P) -> &mut Build {
         self.archiver = Some(archiver.as_ref().into());
         self
@@ -4709,6 +4719,10 @@ impl Build {
     /// environment variables (a number of which are inspected here), and then
     /// falling back to the default configuration.
     ///
+    /// Like [`Tool::to_command`], the command gets the whole environment, which
+    /// its `Debug` output lists on Unix. To log the command, print its program
+    /// and arguments instead.
+    ///
     /// # Panics
     ///
     /// Panics if an error occurred while determining the architecture.
@@ -4766,6 +4780,10 @@ impl Build {
     /// conventions for this path, e.g. looking at the explicitly set compiler,
     /// environment variables (a number of which are inspected here), and then
     /// falling back to the default configuration.
+    ///
+    /// Like [`Tool::to_command`], the command gets the whole environment, which
+    /// its `Debug` output lists on Unix. To log the command, print its program
+    /// and arguments instead.
     ///
     /// # Panics
     ///

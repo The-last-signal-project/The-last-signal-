@@ -574,6 +574,68 @@ EXTRA_TR = {
 }
 
 # --------------------------------------------------------------------------- #
+#  Classes de personnage (choisies a la creation d'un compte de jeu)
+#  (cle de traduction, nom envoye au serveur). Pour en ajouter une : une ligne ici + ses traductions ci-dessous.
+# --------------------------------------------------------------------------- #
+CHARACTER_CLASSES = (
+    ("mage", "Mage"),
+    ("necromancer", "Nécromancien"),
+    ("swordsman", "Épéiste"),
+    ("heavy_knight", "Chevalier lourd"),
+    ("knight", "Chevalier"),
+    ("infantry", "Soldat d'infanterie"),
+    ("cavalry", "Soldat de cavalerie"),
+    ("gendarme", "Gendarme"),
+    ("special_forces", "Force spéciale d'intervention"),
+    ("thief", "Voleur"),
+    ("assassin", "Assassin"),
+    ("sorcerer", "Sorcier"),
+    ("archer", "Archer"),
+)
+
+CLASS_TR = {
+    "fr": {
+        "class_label": "Classe", "choose_class": "Choisir une classe", "err_class": "Choisis une classe.",
+        "class_mage": "Mage", "class_necromancer": "Nécromancien", "class_swordsman": "Épéiste",
+        "class_heavy_knight": "Chevalier lourd", "class_knight": "Chevalier",
+        "class_infantry": "Soldat d'infanterie", "class_cavalry": "Soldat de cavalerie",
+        "class_gendarme": "Gendarme", "class_special_forces": "Force spéciale d'intervention",
+        "class_thief": "Voleur", "class_assassin": "Assassin", "class_sorcerer": "Sorcier",
+        "class_archer": "Archer",
+    },
+    "en": {
+        "class_label": "Class", "choose_class": "Choose a class", "err_class": "Please choose a class.",
+        "class_mage": "Mage", "class_necromancer": "Necromancer", "class_swordsman": "Swordsman",
+        "class_heavy_knight": "Heavy knight", "class_knight": "Knight",
+        "class_infantry": "Infantry soldier", "class_cavalry": "Cavalry soldier",
+        "class_gendarme": "Gendarme", "class_special_forces": "Special intervention force",
+        "class_thief": "Thief", "class_assassin": "Assassin", "class_sorcerer": "Sorcerer",
+        "class_archer": "Archer",
+    },
+    "ja": {
+        "class_label": "クラス", "choose_class": "クラスを選択", "err_class": "クラスを選んでください。",
+        "class_mage": "メイジ", "class_necromancer": "ネクロマンサー", "class_swordsman": "剣士",
+        "class_heavy_knight": "重装騎士", "class_knight": "騎士",
+        "class_infantry": "歩兵", "class_cavalry": "騎兵",
+        "class_gendarme": "ジャンダルム", "class_special_forces": "特殊介入部隊",
+        "class_thief": "盗賊", "class_assassin": "暗殺者", "class_sorcerer": "ソーサラー",
+        "class_archer": "弓兵",
+    },
+    "es": {
+        "class_label": "Clase", "choose_class": "Elegir una clase", "err_class": "Elige una clase.",
+        "class_mage": "Mago", "class_necromancer": "Nigromante", "class_swordsman": "Espadachín",
+        "class_heavy_knight": "Caballero pesado", "class_knight": "Caballero",
+        "class_infantry": "Soldado de infantería", "class_cavalry": "Soldado de caballería",
+        "class_gendarme": "Gendarme", "class_special_forces": "Fuerza especial de intervención",
+        "class_thief": "Ladrón", "class_assassin": "Asesino", "class_sorcerer": "Hechicero",
+        "class_archer": "Arquero",
+    },
+}
+for _lang, _tr in CLASS_TR.items():
+    EXTRA_TR[_lang].update(_tr)
+
+
+# --------------------------------------------------------------------------- #
 #  Controles par defaut (clavier = touches physiques glfw, manette = noms Xbox)
 # --------------------------------------------------------------------------- #
 ACTIONS = ("up", "down", "left", "right", "sprint", "jump", "interact", "attack", "aim", "reload",
@@ -1865,6 +1927,7 @@ class App:
         self.menu_buttons = []
         self.auth_mode = "login"
         self.auth_msg = None
+        self.new_class = None      # classe choisie dans le formulaire « Créer un nouveau compte »
 
         self.bg_mode = "full"
         self.banner_landed = False
@@ -3961,6 +4024,7 @@ class App:
 
     def open_new_account(self):
         self.auth_msg = None
+        self.new_class = None
         self.show_panel(self.build_new_account, side=True)
 
     def build_new_account(self, ui):
@@ -3968,11 +4032,21 @@ class App:
         ui.title(t("new_account"))
         ui.label(t("account_name"), self.body(11), "muted", align="w", pad=(6, 2))
         ui.entry("e_acc", on_submit=self.submit_new_account)
+        ui.label(t("class_label"), self.body(11), "muted", align="w", pad=(12, 2))
+        ui.combo([t("class_" + k) for k, _ in CHARACTER_CLASSES],
+                 t("class_" + self.new_class) if self.new_class else t("choose_class"),
+                 self.pick_class, width=26, size=13, pad=(0, 6), id="c_class")
         if self.ps.focus is None:
             self.ps.focus = "e_acc"
         self.auth_msg_label(ui)
         ui.button(t("create_short"), self.submit_new_account, self.font(13), width=30)
         ui.button(t("back"), self.cancel_panel, self.font(13), width=30, pad=(0, 0))
+
+    def pick_class(self, label):
+        """Callback du menu déroulant : retrouve la classe à partir du texte affiché (dans la langue courante)."""
+        self.new_class = next((k for k, _ in CHARACTER_CLASSES if self.t("class_" + k) == label), None)
+        self.auth_msg = None
+        self.after_idle(self.refresh_panel)
 
     def submit_new_account(self):
         if self.ps is None or self.panel_builder != self.build_new_account:
@@ -3980,10 +4054,13 @@ class App:
         name = self.ps.text.get("e_acc", "").strip()
         if not name:
             return self.set_auth_msg("err_fill")
+        if not self.new_class:
+            return self.set_auth_msg("err_class")
+        char_class = dict(CHARACTER_CLASSES)[self.new_class]     # nom envoyé au serveur
 
         def work():
             net = self._net()
-            acc = net.create_account(name)
+            acc = net.create_account(name, char_class)
             net.select_account(acc["account_id"])       # le compte cree devient le compte actif
             return acc
 
@@ -4297,7 +4374,3 @@ def run_setup(report, tr):
                 except Exception:
                     pass
     report(100, tr("setup_ready"))
-
-
-
-

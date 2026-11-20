@@ -1,21 +1,16 @@
 [package]
 name = "smallvec"
-version = "1.16.5"
+version = "1.16.6"
 edition = "2018"
 authors = ["The Servo Project Developers"]
 license = "MIT OR Apache-2.0"
-repository = "https://github.com/servo/rust-smallvec"
+repository = "https://github.com/smallvec/smallvec"
 description = "'Small vector' optimization: store up to a small number of items on the stack"
 keywords = ["small", "vec", "vector", "stack", "no_std"]
 categories = ["data-structures"]
 documentation = "https://docs.rs/smallvec/"
-include = [
-  "Cargo.toml",
-  "LICENSE-MIT",
-  "LICENSE-APACHE",
-  "README.md",
-  "src/**/*.rs",
-]
+homepage = "https://smallvec.rs"
+exclude = ["rustfmt.toml", "benches/", ".github/", "tests/", "justfile"]
 
 [features]
 const_generics = []
@@ -41,6 +36,3 @@ bincode1 = { package = "bincode", version = "1.0.1" }
 [package.metadata.docs.rs]
 all-features = true
 rustdoc-args = ["--cfg", "docsrs", "--generate-link-to-definition"]
-
-[workspace]
-members = [".", "fuzz"]

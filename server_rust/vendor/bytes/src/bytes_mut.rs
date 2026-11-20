@@ -92,7 +92,12 @@ impl Shared {
 // This is a necessary invariant since we depend on allocating `Shared` a
 // shared object to implicitly carry the `KIND_ARC` flag in its pointer.
 // This flag is set when the LSB is 0.
-const _: [(); 0 - mem::align_of::<Shared>() % 2] = []; // Assert that the alignment of `Shared` is divisible by 2.
+const _: () = {
+    assert!(
+        mem::align_of::<Shared>() % 2 == 0,
+        "Shared alignment must be divisible by 2 for pointer tagging"
+    );
+};
 
 // Buffer storage strategy flags.
 const KIND_ARC: usize = 0b0;
@@ -897,7 +902,8 @@ impl BytesMut {
         }
 
         unsafe {
-            self.advance_mut(cnt);
+            // Reserved above
+            self.set_len(self.len() + cnt);
         }
     }
 
@@ -1211,6 +1217,27 @@ impl BytesMut {
             slice::from_raw_parts_mut(ptr.cast(), len)
         }
     }
+
+    /// Appends bytes from `iter` into the spare capacity, without growing.
+    ///
+    /// Goes through `Vec::extend`, which carries std's `TrustedLen`
+    /// specialization (slice-like iterators become a memcpy).
+    ///
+    /// # SAFETY
+    ///
+    /// The caller must ensure that `self.kind()` is `KIND_VEC`.
+    #[inline(always)]
+    unsafe fn extend_vec<I: Iterator<Item = u8>>(&mut self, iter: I) -> bool {
+        debug_assert_eq!(self.kind(), KIND_VEC);
+
+        let off = self.get_vec_pos();
+        let spare = self.cap - self.len;
+        let mut vec = ManuallyDrop::new(rebuild_vec(self.ptr.as_ptr(), self.len, self.cap, off));
+        vec.extend(iter.take(spare));
+        self.len = vec.len() - off;
+        debug_assert_eq!(vec.capacity(), self.cap + off);
+        self.len == self.cap
+    }
 }
 
 impl Drop for BytesMut {
@@ -1292,6 +1319,7 @@ unsafe impl BufMut for BytesMut {
     // Specialize these methods so they can skip checking `remaining_mut`
     // and `advance_mut`.
 
+    #[inline]
     fn put<T: Buf>(&mut self, mut src: T)
     where
         Self: Sized,
@@ -1300,16 +1328,23 @@ unsafe impl BufMut for BytesMut {
             // prevent calling `copy_to_bytes`->`put`->`copy_to_bytes` infintely when src is empty
             return;
         } else if self.capacity() == 0 {
-            // When capacity is zero, try reusing allocation of `src`.
-            let src_copy = src.copy_to_bytes(src.remaining());
-            drop(src);
-            match src_copy.try_into_mut() {
-                Ok(bytes_mut) => *self = bytes_mut,
-                Err(bytes) => self.extend_from_slice(&bytes),
+            #[cold]
+            fn put_reuse_allocation<U: Buf>(dst: &mut BytesMut, mut src: U) {
+                // When capacity is zero, try reusing allocation of `src`.
+                let src_copy = src.copy_to_bytes(src.remaining());
+                drop(src);
+                match src_copy.try_into_mut() {
+                    Ok(bytes_mut) => *dst = bytes_mut,
+                    Err(bytes) => dst.extend_from_slice(&bytes),
+                }
             }
+
+            put_reuse_allocation(self, src);
         } else {
             // In case the src isn't contiguous, reserve upfront.
-            self.reserve(src.remaining());
+            if src.chunk().len() < src.remaining() {
+                self.reserve(src.remaining());
+            }
 
             while src.has_remaining() {
                 let s = src.chunk();
@@ -1320,10 +1355,30 @@ unsafe impl BufMut for BytesMut {
         }
     }
 
+    #[inline]
     fn put_slice(&mut self, src: &[u8]) {
         self.extend_from_slice(src);
     }
 
+    #[inline]
+    fn put_u8(&mut self, n: u8) {
+        // Same shape as `Vec::push`, avoiding the default's 1-byte `put_slice`.
+        self.reserve(1);
+        let len = self.len();
+        // SAFETY: `reserve(1)` guarantees `len < capacity`, so `ptr + len` is
+        // in bounds; the byte is initialized before `len` is bumped over it.
+        unsafe {
+            self.ptr.as_ptr().add(len).write(n);
+            self.set_len(len + 1);
+        }
+    }
+
+    #[inline]
+    fn put_i8(&mut self, n: i8) {
+        self.put_u8(n as u8);
+    }
+
+    #[inline]
     fn put_bytes(&mut self, val: u8, cnt: usize) {
         self.reserve(cnt);
         unsafe {
@@ -1333,7 +1388,8 @@ unsafe impl BufMut for BytesMut {
 
             ptr::write_bytes(dst.as_mut_ptr(), val, cnt);
 
-            self.advance_mut(cnt);
+            // Reserved above
+            self.set_len(self.len() + cnt);
         }
     }
 }
@@ -1481,13 +1537,19 @@ impl Extend<u8> for BytesMut {
     where
         T: IntoIterator<Item = u8>,
     {
-        let iter = iter.into_iter();
+        let mut iter = iter.into_iter();
 
         let (lower, _) = iter.size_hint();
         self.reserve(lower);
 
-        // TODO: optimize
-        // 1. If self.kind() == KIND_VEC, use Vec::extend
+        // Stop if the iterator ran dry; it may not be fused.
+        if self.kind() == KIND_VEC {
+            let may_have_more = unsafe { self.extend_vec(&mut iter) };
+            if !may_have_more {
+                return;
+            }
+        }
+
         for b in iter {
             self.put_u8(b);
         }

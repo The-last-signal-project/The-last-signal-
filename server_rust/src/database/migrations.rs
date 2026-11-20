@@ -59,6 +59,7 @@ pub async fn run(pool: &SqlitePool) -> Result<(), Box<dyn std::error::Error>> {
 
             &password1_hash,
             "Cyril",
+            "Force spéciale d'intervention",
             "Dev",
             Some("DISCONNECTED"),
         )
@@ -70,6 +71,7 @@ pub async fn run(pool: &SqlitePool) -> Result<(), Box<dyn std::error::Error>> {
             "Morgan",
             &password2_hash,
             "Morgan",
+            "Force spéciale d'intervention",
             "SuperDev",
             Some("DISCONNECTED"),
         )
