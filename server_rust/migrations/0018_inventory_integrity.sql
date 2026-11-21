@@ -6,8 +6,6 @@
 -- Durabilité des équipements
 -- ------------------------------------------------------------
 
-
-
 CREATE TRIGGER IF NOT EXISTS check_equipment_durability_insert
 BEFORE INSERT ON equipment
 FOR EACH ROW
