@@ -64,5 +64,5 @@ VALUES
 ('potion de soin léger', 'potion', 'potion_de_soin_léger.png', 25,0),
 ('potion de soin modéré', 'potion', 'potion_de_soin_modéré.png', 35,0),
 ('potion de délivrance', 'potion', 'potion_de_délivrance.png', 200,0),
-('trousse','basic','trousse.png',35,0)
+('trousse','basic','trousse.png',35,0),
 ('potion de mana', 'potion', 'potion_de_mana.png', 75,0);
