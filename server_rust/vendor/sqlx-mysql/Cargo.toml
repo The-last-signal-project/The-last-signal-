@@ -13,7 +13,7 @@
 edition = "2021"
 rust-version = "1.94.0"
 name = "sqlx-mysql"
-version = "0.9.0"
+version = "0.9.1"
 authors = [
     "Ryan Leckey <leckey.ryan@gmail.com>",
     "Austin Bonander <austin.bonander@gmail.com>",
@@ -171,7 +171,7 @@ version = "0.11.0"
 default-features = false
 
 [dependencies.sqlx-core]
-version = "=0.9.0"
+version = "=0.9.1"
 
 [dependencies.thiserror]
 version = "2.0.18"
@@ -179,7 +179,7 @@ features = ["std"]
 default-features = false
 
 [dependencies.time]
-version = "0.3.47"
+version = "0.3.48"
 features = [
     "formatting",
     "parsing",

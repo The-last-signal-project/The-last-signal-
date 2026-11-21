@@ -13,7 +13,7 @@
 edition = "2021"
 rust-version = "1.94.0"
 name = "sqlx-sqlite"
-version = "0.9.0"
+version = "0.9.1"
 authors = [
     "Ryan Leckey <leckey.ryan@gmail.com>",
     "Austin Bonander <austin.bonander@gmail.com>",
@@ -139,7 +139,7 @@ features = [
 default-features = false
 
 [dependencies.libsqlite3-sys]
-version = ">=0.30.1, <0.38.0"
+version = ">=0.30.1, <0.41.0"
 features = [
     "pkg-config",
     "vcpkg",
@@ -162,7 +162,7 @@ features = ["derive"]
 optional = true
 
 [dependencies.sqlx-core]
-version = "=0.9.0"
+version = "=0.9.1"
 
 [dependencies.thiserror]
 version = "2.0.18"
@@ -170,7 +170,7 @@ features = ["std"]
 default-features = false
 
 [dependencies.time]
-version = "0.3.47"
+version = "0.3.48"
 features = [
     "formatting",
     "parsing",

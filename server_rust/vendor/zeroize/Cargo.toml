@@ -13,7 +13,7 @@
 edition = "2024"
 rust-version = "1.85"
 name = "zeroize"
-version = "1.9.1"
+version = "1.9.2"
 authors = ["The RustCrypto Project Developers"]
 build = false
 autolib = false
@@ -26,7 +26,7 @@ Securely clear secrets from memory with a simple trait built on
 stable Rust primitives which guarantee memory is zeroed using an
 operation will not be 'optimized away' by the compiler.
 Uses a portable pure Rust implementation that works everywhere,
-even WASM!
+even WASM, with `asm!` optimizations on select platforms
 """
 documentation = "https://docs.rs/zeroize"
 readme = "README.md"
@@ -73,6 +73,11 @@ path = "tests/zeroize.rs"
 name = "zeroize_derive"
 path = "tests/zeroize_derive.rs"
 
+[[bench]]
+name = "zeroize"
+path = "benches/zeroize.rs"
+harness = false
+
 [dependencies.serde]
 version = "1"
 optional = true
@@ -81,6 +86,9 @@ default-features = false
 [dependencies.zeroize_derive]
 version = "1.5"
 optional = true
+
+[target."cfg(any(unix, windows))".dev-dependencies.criterion]
+version = "0.7"
 
 [lints.clippy]
 borrow_as_ptr = "warn"

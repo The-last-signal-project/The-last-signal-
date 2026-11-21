@@ -13,7 +13,7 @@
 edition = "2021"
 rust-version = "1.94.0"
 name = "sqlx-postgres"
-version = "0.9.0"
+version = "0.9.1"
 authors = [
     "Ryan Leckey <leckey.ryan@gmail.com>",
     "Austin Bonander <austin.bonander@gmail.com>",
@@ -224,7 +224,7 @@ default-features = false
 version = "1.13.1"
 
 [dependencies.sqlx-core]
-version = "=0.9.0"
+version = "=0.9.1"
 
 [dependencies.stringprep]
 version = "0.1.2"
@@ -235,7 +235,7 @@ features = ["std"]
 default-features = false
 
 [dependencies.time]
-version = "0.3.47"
+version = "0.3.48"
 features = [
     "formatting",
     "parsing",
@@ -253,6 +253,7 @@ optional = true
 
 [dependencies.whoami]
 version = "2.0.2"
+features = ["std"]
 default-features = false
 
 [dev-dependencies]

@@ -19,6 +19,7 @@ _rt-tokio = ["tokio", "sqlx-core/_rt-tokio"]
 
 _tls-native-tls = ["sqlx-core/_tls-native-tls"]
 _tls-rustls-aws-lc-rs = ["sqlx-core/_tls-rustls-aws-lc-rs"]
+_tls-rustls-aws-lc-rs-native-roots = ["sqlx-core/_tls-rustls-aws-lc-rs-native-roots"]
 _tls-rustls-ring-webpki = ["sqlx-core/_tls-rustls-ring-webpki"]
 _tls-rustls-ring-native-roots = ["sqlx-core/_tls-rustls-ring-native-roots"]
 
@@ -75,7 +76,7 @@ either = "1.6.1"
 proc-macro2 = { version = "1.0.83", default-features = false }
 serde = { version = "1.0.219", features = ["derive"] }
 serde_json = { version = "1.0.142" }
-sha2 = { version = "0.10.0" }
+sha2 = { workspace = true }
 syn = { version = "2.0.87", default-features = false, features = ["full", "derive", "parsing", "printing", "clone-impls"] }
 quote = { version = "1.0.35", default-features = false }
 url = { version = "2.2.2" }
