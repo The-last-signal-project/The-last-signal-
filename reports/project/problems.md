@@ -1,14 +1,14 @@
 # Documentation Problems
 
-Generated: 2026-11-21 17:49:33
+Generated: 2026-11-21 17:58:33
 
 ## Summary
 
 |Type|Count|
 |---|---:|
 |Errors|473|
-|Warnings|8076|
-|**Total**|**8554**|
+|Warnings|8077|
+|**Total**|**8555**|
 
 ---
 
@@ -6070,63 +6070,70 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 - **Module :** rust
 - **Message :** Struct 'User' sans documentation
-- **line :** 20
+- **line :** 29
 - **suggestion :** Ajoutez /// avant cette struct
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Struct 'LoginData' sans documentation
-- **line :** 26
+- **line :** 35
 - **suggestion :** Ajoutez /// avant cette struct
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Struct 'AccountCreatePayload' sans documentation
-- **line :** 36
+- **line :** 45
 - **suggestion :** Ajoutez /// avant cette struct
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Enum 'HandlerResult' sans documentation
-- **line :** 42
+- **line :** 51
 - **suggestion :** Ajoutez /// avant cette enum
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Struct 'PacketHandler' sans documentation
-- **line :** 48
+- **line :** 57
 - **suggestion :** Ajoutez /// avant cette struct
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Impl 'PacketHandler ' sans documentation
-- **line :** 54
+- **line :** 63
 - **suggestion :** Ajoutez /// avant cette impl
 
 ## Warning
 
 - **Module :** rust
+- **Message :** Function 'inventory_packet' sans documentation
+- **line :** 64
+- **suggestion :** Ajoutez /// avant cette function
+
+## Warning
+
+- **Module :** rust
 - **Message :** Function 'read_i64' sans documentation
-- **line :** 56
+- **line :** 307
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'read_u64' sans documentation
-- **line :** 62
+- **line :** 313
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'handle' sans documentation
-- **line :** 68
+- **line :** 319
 - **suggestion :** Ajoutez /// avant cette function
 
 ---

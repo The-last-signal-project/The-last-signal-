@@ -49625,7 +49625,7 @@
     },
     {
         "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/network/handler.rs",
-        "line": 20,
+        "line": 29,
         "severity": "warning",
         "message": "Struct 'User' sans documentation",
         "suggestion": "Ajoutez /// avant cette struct",
@@ -49633,7 +49633,7 @@
     },
     {
         "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/network/handler.rs",
-        "line": 26,
+        "line": 35,
         "severity": "warning",
         "message": "Struct 'LoginData' sans documentation",
         "suggestion": "Ajoutez /// avant cette struct",
@@ -49641,7 +49641,7 @@
     },
     {
         "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/network/handler.rs",
-        "line": 36,
+        "line": 45,
         "severity": "warning",
         "message": "Struct 'AccountCreatePayload' sans documentation",
         "suggestion": "Ajoutez /// avant cette struct",
@@ -49649,7 +49649,7 @@
     },
     {
         "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/network/handler.rs",
-        "line": 42,
+        "line": 51,
         "severity": "warning",
         "message": "Enum 'HandlerResult' sans documentation",
         "suggestion": "Ajoutez /// avant cette enum",
@@ -49657,7 +49657,7 @@
     },
     {
         "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/network/handler.rs",
-        "line": 48,
+        "line": 57,
         "severity": "warning",
         "message": "Struct 'PacketHandler' sans documentation",
         "suggestion": "Ajoutez /// avant cette struct",
@@ -49665,7 +49665,7 @@
     },
     {
         "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/network/handler.rs",
-        "line": 54,
+        "line": 63,
         "severity": "warning",
         "message": "Impl 'PacketHandler ' sans documentation",
         "suggestion": "Ajoutez /// avant cette impl",
@@ -49673,7 +49673,15 @@
     },
     {
         "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/network/handler.rs",
-        "line": 56,
+        "line": 64,
+        "severity": "warning",
+        "message": "Function 'inventory_packet' sans documentation",
+        "suggestion": "Ajoutez /// avant cette function",
+        "module": "rust"
+    },
+    {
+        "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/network/handler.rs",
+        "line": 307,
         "severity": "warning",
         "message": "Function 'read_i64' sans documentation",
         "suggestion": "Ajoutez /// avant cette function",
@@ -49681,7 +49689,7 @@
     },
     {
         "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/network/handler.rs",
-        "line": 62,
+        "line": 313,
         "severity": "warning",
         "message": "Function 'read_u64' sans documentation",
         "suggestion": "Ajoutez /// avant cette function",
@@ -49689,7 +49697,7 @@
     },
     {
         "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/network/handler.rs",
-        "line": 68,
+        "line": 319,
         "severity": "warning",
         "message": "Function 'handle' sans documentation",
         "suggestion": "Ajoutez /// avant cette function",
