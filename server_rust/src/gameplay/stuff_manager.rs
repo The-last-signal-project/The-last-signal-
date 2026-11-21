@@ -164,7 +164,6 @@ enum Ecriture {
         niveau: u32,
         stack_key: String,
         enchants: Vec<(i64, i64)>,
-        marque: Marque,
     },
     /// Argent : crédité sur le portefeuille (pas dans `stuff`).
     Argent {
@@ -200,10 +199,19 @@ struct StuffRow {
 #[derive(sqlx::FromRow)]
 struct EquipmentRow {
     stuff_id: i64,
+    equipment_id: i64,
     equipment_type: String,
     attack: i64,
     defense: i64,
     durability: i64,
+    durability_max: i64,
+}
+
+#[derive(sqlx::FromRow)]
+struct EquipmentEnchantRow {
+    equipment_id: i64,
+    enchantment_name: String,
+    enchantment_level: i64,
 }
 
 #[derive(sqlx::FromRow)]
@@ -245,8 +253,8 @@ impl Inventaire {
         pool: SqlitePool,
         account_id: i64,
     ) -> Result<Self, sqlx::Error> {
-        Self::migrer_schema(&pool).await?;
-
+        // Le schéma est exclusivement géré par les migrations SQL.
+        // Aucune modification de structure n'est exécutée à l'ouverture.
         let objets = Self::charger_objets(&pool, account_id).await?;
 
         Ok(Self {
@@ -254,36 +262,6 @@ impl Inventaire {
             account_id,
             objets,
         })
-    }
-
-    // ========================================================
-    // MIGRATION : COLONNES RARETÉ / RANK DE LA TABLE stuff
-    // ========================================================
-    //
-    // Idempotente : ne fait rien si les colonnes existent déjà.
-
-    pub async fn migrer_schema(
-        pool: &SqlitePool,
-    ) -> Result<(), sqlx::Error> {
-        let colonnes: Vec<String> = sqlx::query_scalar(
-            "SELECT name FROM pragma_table_info('stuff')",
-        )
-        .fetch_all(pool)
-        .await?;
-
-        if !colonnes.iter().any(|c| c == "rarete") {
-            sqlx::query("ALTER TABLE stuff ADD COLUMN rarete TEXT")
-                .execute(pool)
-                .await?;
-        }
-
-        if !colonnes.iter().any(|c| c == "rang") {
-            sqlx::query("ALTER TABLE stuff ADD COLUMN rang TEXT")
-                .execute(pool)
-                .await?;
-        }
-
-        Ok(())
     }
 
     // ========================================================
@@ -323,10 +301,12 @@ impl Inventaire {
                 r#"
                 SELECT
                     eq.stuff_id,
+                    eq.equipment_id,
                     eq.equipment_type,
                     eq.attack,
                     eq.defense,
-                    eq.durability
+                    eq.durability,
+                    eq.durability_max
                 FROM equipment eq
                 JOIN stuff s ON s.stuff_id = eq.stuff_id
                 WHERE s.account_id = ?
@@ -338,6 +318,34 @@ impl Inventaire {
             .into_iter()
             .map(|e| (e.stuff_id, e))
             .collect();
+
+        // Enchantements des équipements non liés aux armes.
+        let equipment_enchant_rows = sqlx::query_as::<_, EquipmentEnchantRow>(
+            r#"
+            SELECT
+                eq.equipment_id,
+                en.enchantment_name,
+                ee.enchantment_level
+            FROM equipment_enchantments ee
+            JOIN equipment eq ON eq.equipment_id = ee.equipment_id
+            JOIN stuff s ON s.stuff_id = eq.stuff_id
+            JOIN enchantments en ON en.enchantment_id = ee.enchantment_id
+            WHERE s.account_id = ?
+              AND eq.equipment_type <> 'weapon'
+            ORDER BY en.enchantment_name
+            "#,
+        )
+        .bind(account_id)
+        .fetch_all(pool)
+        .await?;
+
+        let mut equipment_enchants: HashMap<i64, Vec<EquipmentEnchantRow>> = HashMap::new();
+        for enchant in equipment_enchant_rows {
+            equipment_enchants
+                .entry(enchant.equipment_id)
+                .or_default()
+                .push(enchant);
+        }
 
         let potions: HashMap<i64, PotionRow> =
             sqlx::query_as::<_, PotionRow>(
@@ -405,6 +413,7 @@ impl Inventaire {
             let objet = Self::construire_objet(
                 row,
                 &equipements,
+                &equipment_enchants,
                 &potions,
                 &livres,
                 &enchants,
@@ -423,6 +432,7 @@ impl Inventaire {
     fn construire_objet(
         row: &StuffRow,
         equipements: &HashMap<i64, EquipmentRow>,
+        equipment_enchants: &HashMap<i64, Vec<EquipmentEnchantRow>>,
         potions: &HashMap<i64, PotionRow>,
         livres: &HashMap<i64, BookRow>,
         enchants: &HashMap<i64, Vec<EnchantRow>>,
@@ -468,15 +478,42 @@ impl Inventaire {
                         rarete,
                     ))
                 } else {
-                    ObjetInventaire::Equipement(Equipement::new(
+                    let enchantements = equipment_enchants
+                        .get(&eq.equipment_id)
+                        .map(|liste| {
+                            liste.iter().map(|e| {
+                                format!(
+                                    "{} {}",
+                                    e.enchantment_name,
+                                    Livre::niv_to_roman(
+                                        u32::try_from(e.enchantment_level).unwrap_or(0)
+                                    )
+                                )
+                            }).collect()
+                        })
+                        .unwrap_or_default();
+
+                    let durability_max = u32::try_from(eq.durability_max)
+                        .map_err(|_| sqlx::Error::Protocol(
+                            format!("Durabilité maximale invalide pour stuff_id={}", row.stuff_id).into()
+                        ))?;
+                    let durability = u32::try_from(eq.durability)
+                        .map_err(|_| sqlx::Error::Protocol(
+                            format!("Durabilité invalide pour stuff_id={}", row.stuff_id).into()
+                        ))?;
+
+                    let mut equipement = Equipement::new_avec_durabilite(
                         &row.nom,
                         image,
                         quantite,
                         1,
                         i32::try_from(eq.defense).unwrap_or(0),
-                        Vec::new(),
+                        enchantements,
                         rarete,
-                    ))
+                        durability_max,
+                    );
+                    equipement.durabilite = durability;
+                    ObjetInventaire::Equipement(equipement)
                 }
             }
 
@@ -530,7 +567,7 @@ impl Inventaire {
                     quantite,
                     None,
                     Some(enchantements),
-                    rarete,
+                    None,
                     u32::try_from(book.book_level).unwrap_or(0),
                 ))
             }
@@ -547,8 +584,10 @@ impl Inventaire {
             )),
         };
 
-        // Le rank n'est pas un paramètre des constructeurs.
-        result.objet_mut().rank = row.rang.clone();
+        // Les livres ne possèdent ni rareté ni rang.
+        if row.type_objet != "enchanted_book" {
+            result.objet_mut().rank = row.rang.clone();
+        }
 
         Ok(result)
     }
@@ -765,7 +804,8 @@ impl Inventaire {
                 let equipment_type = if type_objet == "armes" {
                     "weapon"
                 } else {
-                    "armor"
+                    // Valeur utilisée par enchantment_types dans les migrations.
+                    "armure"
                 };
 
                 Ok((0..quantite)
@@ -782,15 +822,19 @@ impl Inventaire {
             // ------------------------------------------------
             "potion" => {
                 let effet = Self::effet_potion(nom)?;
-                let stack_key = format!("potion:{effet}{suffixe}");
+                let mut ecritures = Vec::with_capacity(usize::try_from(quantite).unwrap_or(0));
 
-                Ok(vec![Ecriture::Potion {
-                    objet_id,
-                    quantite: Self::quantite_sqlite(quantite)?,
-                    effet,
-                    stack_key,
-                    marque: marque.clone(),
-                }])
+                for _ in 0..quantite {
+                    ecritures.push(Ecriture::Potion {
+                        objet_id,
+                        quantite: 1,
+                        effet: effet.clone(),
+                        stack_key: format!("potion:{}", Uuid::new_v4()),
+                        marque: marque.clone(),
+                    });
+                }
+
+                Ok(ecritures)
             }
 
             // ------------------------------------------------
@@ -798,12 +842,16 @@ impl Inventaire {
             // ------------------------------------------------
             "enchanted_book" => {
                 let niveau = Self::niveau_livre(nom)?;
-                let mut ecritures =
-                    Vec::with_capacity(quantite as usize);
+                let capacite = usize::try_from(quantite).map_err(|_| {
+                    sqlx::Error::Protocol(
+                        format!("Quantité trop importante pour générer les livres : {quantite}").into(),
+                    )
+                })?;
+                let mut ecritures = Vec::with_capacity(capacite);
 
                 for _ in 0..quantite {
                     ecritures.push(
-                        self.preparer_livre(objet_id, niveau, marque)
+                        self.preparer_livre(objet_id, niveau)
                             .await?,
                     );
                 }
@@ -910,15 +958,6 @@ impl Inventaire {
                     )
                     VALUES (?, ?, ?, ?, ?, ?)
 
-                    ON CONFLICT (
-                        account_id,
-                        objet_id,
-                        stack_key
-                    )
-                    DO UPDATE SET
-                        quantity =
-                            quantity + excluded.quantity
-
                     RETURNING stuff_id
                     "#,
                 )
@@ -926,8 +965,8 @@ impl Inventaire {
                 .bind(objet_id)
                 .bind(quantite)
                 .bind(stack_key)
-                .bind(marque.rarete.as_deref())
-                .bind(marque.rang.as_deref())
+                .bind(Option::<&str>::None)
+                .bind(Option::<&str>::None)
                 .fetch_one(&mut **tx)
                 .await?;
 
@@ -1009,15 +1048,17 @@ impl Inventaire {
                         equipment_type,
                         attack,
                         defense,
-                        durability
+                        durability,
+                        durability_max
                     )
-                    VALUES (?, ?, ?, ?, ?)
+                    VALUES (?, ?, ?, ?, ?, ?)
                     "#,
                 )
                 .bind(stuff_id)
                 .bind(equipment_type)
                 .bind(attack)
                 .bind(defense)
+                .bind(durability)
                 .bind(durability)
                 .execute(&mut **tx)
                 .await?;
@@ -1029,7 +1070,6 @@ impl Inventaire {
                 niveau,
                 stack_key,
                 enchants,
-                marque,
             } => {
                 let stuff_id: i64 = sqlx::query_scalar(
                     r#"
@@ -1058,8 +1098,8 @@ impl Inventaire {
                 .bind(account_id)
                 .bind(objet_id)
                 .bind(stack_key)
-                .bind(marque.rarete.as_deref())
-                .bind(marque.rang.as_deref())
+                .bind(Option::<&str>::None)
+                .bind(Option::<&str>::None)
                 .fetch_one(&mut **tx)
                 .await?;
 
@@ -1153,7 +1193,6 @@ impl Inventaire {
         &self,
         objet_id: i64,
         niveau: u32,
-        marque: &Marque,
     ) -> Result<Ecriture, sqlx::Error> {
         // ----------------------------------------------------
         // 1. Catégories disponibles
@@ -1311,17 +1350,13 @@ impl Inventaire {
             .collect::<Vec<_>>()
             .join("|");
 
-        let stack_key = format!(
-            "book:{niveau}:{contenu}{}",
-            marque.suffixe()
-        );
+        let stack_key = format!("book:{niveau}:{contenu}");
 
         Ok(Ecriture::Livre {
             objet_id,
             niveau,
             stack_key,
             enchants: enchantement_data,
-            marque: marque.clone(),
         })
     }
 
@@ -1356,6 +1391,124 @@ impl Inventaire {
         }
 
         Ok(niveau)
+    }
+
+    // ========================================================
+    // ENCHANTEMENTS D'UN ÉQUIPEMENT NON LIÉ AUX ARMES
+    // ========================================================
+    // Remplace atomiquement les enchantements d'un équipement appartenant
+    // au joueur. La capacité correspond au nombre d'enchantements compatibles
+    // déclaré dans enchantment_types pour son equipment_type.
+
+    pub async fn definir_enchantements_equipement(
+        &mut self,
+        stuff_id: i64,
+        enchantements: &[(i64, i64)],
+    ) -> Result<(), sqlx::Error> {
+        use std::collections::HashSet;
+
+        let mut ids = HashSet::with_capacity(enchantements.len());
+        for (enchantment_id, level) in enchantements {
+            if *level < 1 || *level > 6 {
+                return Err(sqlx::Error::Protocol(
+                    format!("Niveau d'enchantement invalide : {level}").into(),
+                ));
+            }
+            if !ids.insert(*enchantment_id) {
+                return Err(sqlx::Error::Protocol(
+                    format!("Enchantement dupliqué : {enchantment_id}").into(),
+                ));
+            }
+        }
+
+        let mut tx = self.pool.begin().await?;
+
+        let equipement: Option<(i64, String)> = sqlx::query_as(
+            r#"
+            SELECT eq.equipment_id, eq.equipment_type
+            FROM equipment eq
+            JOIN stuff s ON s.stuff_id = eq.stuff_id
+            WHERE eq.stuff_id = ?
+              AND s.account_id = ?
+              AND eq.equipment_type <> 'weapon'
+            "#,
+        )
+        .bind(stuff_id)
+        .bind(self.account_id)
+        .fetch_optional(&mut *tx)
+        .await?;
+
+        let (equipment_id, equipment_type) = equipement
+            .ok_or(sqlx::Error::RowNotFound)?;
+
+        let capacite: i64 = sqlx::query_scalar(
+            "SELECT COUNT(DISTINCT enchantment_id) FROM enchantment_types WHERE equipment_type = ?",
+        )
+        .bind(&equipment_type)
+        .fetch_one(&mut *tx)
+        .await?;
+
+        if i64::try_from(enchantements.len()).unwrap_or(i64::MAX) > capacite {
+            return Err(sqlx::Error::Protocol(
+                format!(
+                    "Cet équipement accepte au maximum {capacite} enchantement(s) compatible(s)"
+                )
+                .into(),
+            ));
+        }
+
+        for (enchantment_id, _) in enchantements {
+            let compatible: i64 = sqlx::query_scalar(
+                r#"
+                SELECT COUNT(*)
+                FROM enchantment_types
+                WHERE enchantment_id = ?
+                  AND equipment_type = ?
+                "#,
+            )
+            .bind(enchantment_id)
+            .bind(&equipment_type)
+            .fetch_one(&mut *tx)
+            .await?;
+
+            if compatible == 0 {
+                return Err(sqlx::Error::Protocol(
+                    format!(
+                        "L'enchantement {enchantment_id} est incompatible avec {equipment_type}"
+                    )
+                    .into(),
+                ));
+            }
+        }
+
+        sqlx::query(
+            "DELETE FROM equipment_enchantments WHERE equipment_id = ?",
+        )
+        .bind(equipment_id)
+        .execute(&mut *tx)
+        .await?;
+
+        for (enchantment_id, level) in enchantements {
+            sqlx::query(
+                r#"
+                INSERT INTO equipment_enchantments (
+                    equipment_id,
+                    enchantment_id,
+                    enchantment_level
+                )
+                VALUES (?, ?, ?)
+                "#,
+            )
+            .bind(equipment_id)
+            .bind(enchantment_id)
+            .bind(level)
+            .execute(&mut *tx)
+            .await?;
+        }
+
+        tx.commit().await?;
+        self.recharger().await?;
+        Ok(())
     }
 
     // ========================================================
