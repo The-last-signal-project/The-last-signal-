@@ -5,11 +5,6 @@
 -- ------------------------------------------------------------
 -- Durabilité des équipements
 -- ------------------------------------------------------------
-
-ALTER TABLE equipment
-ADD COLUMN durability_max INTEGER NOT NULL DEFAULT 100
-CHECK (durability_max >= durability);
-
 CREATE TRIGGER IF NOT EXISTS check_equipment_durability_insert
 BEFORE INSERT ON equipment
 FOR EACH ROW
