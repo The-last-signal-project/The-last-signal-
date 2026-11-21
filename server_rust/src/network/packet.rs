@@ -34,6 +34,11 @@ pub enum PacketType {
     AccountSelect = 21,
     AccountResult = 22,
     Spawn = 23,
+    InventoryResponse = 24,
+    TreasureReward = 25,
+    InventoryRequest = 26,
+    ZoneState = 27,
+
 }
 #[derive(Debug, Clone, Copy)]
 pub enum BanType {
@@ -89,6 +94,11 @@ impl PacketType {
             21 => Some(PacketType::AccountSelect),
             22 => Some(PacketType::AccountResult),
             23 => Some(PacketType::Spawn),
+            24 => Some(PacketType::InventoryResponse),
+            25 => Some(PacketType::TreasureReward),
+            26 => Some(PacketType::InventoryRequest),
+            27 => Some(PacketType::ZoneState),
+
 
             _ => None,
         }
