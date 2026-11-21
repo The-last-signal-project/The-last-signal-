@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 
 use serde::{Deserialize, Serialize};
 use rand::{Rng, RngExt};
@@ -919,6 +919,8 @@ mod tests {
 
 
 =======
+=======
+>>>>>>> gameplay
 use serde::{Deserialize, Serialize};
 use rand::{Rng, RngExt};
 use std::collections::HashMap;
@@ -1523,4 +1525,4 @@ impl std::fmt::Display for Livre {
         )
     }
 }
->>>>>>> e9ba6fc9e (fix(branches): fix branches)
+

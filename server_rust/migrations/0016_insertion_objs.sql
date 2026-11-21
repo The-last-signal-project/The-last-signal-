@@ -66,3 +66,4 @@ VALUES
 ('trousse','basic','trousse.png',35,0)
 ('potion de mana', 'potion', 'potion_de_mana.png', 75,0);
 
+
