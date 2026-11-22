@@ -1,5 +1,5 @@
 {
-    "generated": "2026-11-22T08:01:35.552282",
+    "generated": "2026-11-22T10:57:53.251513",
     "score": 64,
     "status": "Bon",
     "scores": {
@@ -11,7 +11,7 @@
         "rust": 0,
         "organization": 95
     },
-    "problem_count": 8570,
+    "problem_count": 8631,
     "details": {
         "markdown": {
             "score": 45,
@@ -41528,15 +41528,15 @@
             "score": 0,
             "max_score": 30,
             "results": {
-                "modules": 73,
-                "classes": 52,
-                "functions": 684,
-                "documented_modules": 16,
-                "documented_classes": 29,
-                "documented_functions": 160,
+                "modules": 74,
+                "classes": 51,
+                "functions": 680,
+                "documented_modules": 15,
+                "documented_classes": 28,
+                "documented_functions": 165,
                 "typed_functions": 105,
                 "todo": 4,
-                "long_functions": 22
+                "long_functions": 23
             },
             "problems": [
                 {
@@ -43888,6 +43888,84 @@
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/client_python/game.py",
                     "severity": "warning",
+                    "message": "La fonction 'can_pass' ne possède pas d'annotations de type.",
+                    "module": "python"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/client_python/game.py",
+                    "severity": "warning",
+                    "message": "La fonction 'show_message'ligne 766 ne possède pas de docstring.",
+                    "module": "python"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/client_python/game.py",
+                    "severity": "warning",
+                    "message": "La fonction 'show_message' ne possède pas d'annotations de type.",
+                    "module": "python"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/client_python/game.py",
+                    "severity": "warning",
+                    "message": "La fonction 'handle_zone_state' ne possède pas d'annotations de type.",
+                    "module": "python"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/client_python/game.py",
+                    "severity": "warning",
+                    "message": "La fonction 'toggle_inventory' ne possède pas d'annotations de type.",
+                    "module": "python"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/client_python/game.py",
+                    "severity": "warning",
+                    "message": "La fonction 'handle_inventory' ne possède pas d'annotations de type.",
+                    "module": "python"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/client_python/game.py",
+                    "severity": "warning",
+                    "message": "La fonction 'inventory_body_lines' ne possède pas d'annotations de type.",
+                    "module": "python"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/client_python/game.py",
+                    "severity": "warning",
+                    "message": "La fonction 'scroll_inventory' ne possède pas d'annotations de type.",
+                    "module": "python"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/client_python/game.py",
+                    "severity": "warning",
+                    "message": "La fonction 'wheelEvent'ligne 922 ne possède pas de docstring.",
+                    "module": "python"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/client_python/game.py",
+                    "severity": "warning",
+                    "message": "La fonction 'wheelEvent' ne possède pas d'annotations de type.",
+                    "module": "python"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/client_python/game.py",
+                    "severity": "warning",
+                    "message": "La fonction 'draw_inventory' ne possède pas d'annotations de type.",
+                    "module": "python"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/client_python/game.py",
+                    "severity": "warning",
+                    "message": "La fonction 'handle_treasure_reward' ne possède pas d'annotations de type.",
+                    "module": "python"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/client_python/game.py",
+                    "severity": "warning",
+                    "message": "La fonction 'draw_treasure_zone' ne possède pas d'annotations de type.",
+                    "module": "python"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/client_python/game.py",
+                    "severity": "warning",
                     "message": "La fonction 'send_position_to_server' ne possède pas d'annotations de type.",
                     "module": "python"
                 },
@@ -43907,6 +43985,12 @@
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/client_python/game.py",
                     "severity": "warning",
                     "message": "La fonction 'paintEvent' ne possède pas d'annotations de type.",
+                    "module": "python"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/client_python/game.py",
+                    "severity": "warning",
+                    "message": "La fonction 'paintEvent' dépasse 80 lignes.",
                     "module": "python"
                 },
                 {
@@ -44235,182 +44319,8 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/client_python/auth_session.py",
-                    "severity": "warning",
-                    "message": "La fonction 'read_body' ne possède pas d'annotations de type.",
-                    "module": "python"
-                },
-                {
-                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/client_python/auth_session.py",
-                    "severity": "warning",
-                    "message": "La fonction 'check_login_reply'ligne 87 ne possède pas de docstring.",
-                    "module": "python"
-                },
-                {
-                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/client_python/auth_session.py",
-                    "severity": "warning",
-                    "message": "La fonction 'check_login_reply' ne possède pas d'annotations de type.",
-                    "module": "python"
-                },
-                {
-                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/client_python/auth_session.py",
-                    "severity": "warning",
-                    "message": "La fonction 'check_signup_reply'ligne 94 ne possède pas de docstring.",
-                    "module": "python"
-                },
-                {
-                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/client_python/auth_session.py",
-                    "severity": "warning",
-                    "message": "La fonction 'check_signup_reply' ne possède pas d'annotations de type.",
-                    "module": "python"
-                },
-                {
-                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/client_python/auth_session.py",
-                    "severity": "warning",
-                    "message": "La fonction 'parse_account_list' ne possède pas d'annotations de type.",
-                    "module": "python"
-                },
-                {
-                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/client_python/auth_session.py",
-                    "severity": "warning",
-                    "message": "La fonction 'check_account_result' ne possède pas d'annotations de type.",
-                    "module": "python"
-                },
-                {
-                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/client_python/auth_session.py",
-                    "severity": "warning",
-                    "message": "La fonction 'authenticate_client'ligne 278 ne possède pas de docstring.",
-                    "module": "python"
-                },
-                {
-                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/client_python/auth_session.py",
-                    "severity": "warning",
-                    "message": "La fonction 'authenticate_client' ne possède pas d'annotations de type.",
-                    "module": "python"
-                },
-                {
-                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/client_python/auth_session.py",
-                    "severity": "warning",
-                    "message": "La fonction 'spawn'ligne 318 ne possède pas de docstring.",
-                    "module": "python"
-                },
-                {
-                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/client_python/auth_session.py",
-                    "severity": "warning",
-                    "message": "La fonction 'spawn' ne possède pas d'annotations de type.",
-                    "module": "python"
-                },
-                {
-                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/client_python/auth_session.py",
-                    "severity": "warning",
-                    "message": "La fonction 'sock'ligne 143 ne possède pas de docstring.",
-                    "module": "python"
-                },
-                {
-                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/client_python/auth_session.py",
-                    "severity": "warning",
-                    "message": "La fonction 'sock' ne possède pas d'annotations de type.",
-                    "module": "python"
-                },
-                {
-                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/client_python/auth_session.py",
-                    "severity": "warning",
-                    "message": "La fonction 'open'ligne 146 ne possède pas de docstring.",
-                    "module": "python"
-                },
-                {
-                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/client_python/auth_session.py",
-                    "severity": "warning",
-                    "message": "La fonction 'open' ne possède pas d'annotations de type.",
-                    "module": "python"
-                },
-                {
-                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/client_python/auth_session.py",
-                    "severity": "warning",
-                    "message": "La fonction 'request'ligne 184 ne possède pas de docstring.",
-                    "module": "python"
-                },
-                {
-                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/client_python/auth_session.py",
-                    "severity": "warning",
-                    "message": "La fonction 'request' ne possède pas d'annotations de type.",
-                    "module": "python"
-                },
-                {
-                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/client_python/auth_session.py",
-                    "severity": "warning",
-                    "message": "La fonction 'login'ligne 212 ne possède pas de docstring.",
-                    "module": "python"
-                },
-                {
-                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/client_python/auth_session.py",
-                    "severity": "warning",
-                    "message": "La fonction 'login' ne possède pas d'annotations de type.",
-                    "module": "python"
-                },
-                {
-                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/client_python/auth_session.py",
-                    "severity": "warning",
-                    "message": "La fonction 'signup'ligne 223 ne possède pas de docstring.",
-                    "module": "python"
-                },
-                {
-                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/client_python/auth_session.py",
-                    "severity": "warning",
-                    "message": "La fonction 'signup' ne possède pas d'annotations de type.",
-                    "module": "python"
-                },
-                {
-                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/client_python/auth_session.py",
-                    "severity": "warning",
-                    "message": "La fonction 'list_accounts'ligne 230 ne possède pas de docstring.",
-                    "module": "python"
-                },
-                {
-                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/client_python/auth_session.py",
-                    "severity": "warning",
-                    "message": "La fonction 'list_accounts' ne possède pas d'annotations de type.",
-                    "module": "python"
-                },
-                {
-                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/client_python/auth_session.py",
-                    "severity": "warning",
-                    "message": "La fonction 'create_account' ne possède pas d'annotations de type.",
-                    "module": "python"
-                },
-                {
-                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/client_python/auth_session.py",
-                    "severity": "warning",
-                    "message": "La fonction 'select_account'ligne 248 ne possède pas de docstring.",
-                    "module": "python"
-                },
-                {
-                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/client_python/auth_session.py",
-                    "severity": "warning",
-                    "message": "La fonction 'select_account' ne possède pas d'annotations de type.",
-                    "module": "python"
-                },
-                {
-                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/client_python/auth_session.py",
-                    "severity": "warning",
-                    "message": "La fonction 'close'ligne 252 ne possède pas de docstring.",
-                    "module": "python"
-                },
-                {
-                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/client_python/auth_session.py",
-                    "severity": "warning",
-                    "message": "La fonction 'close' ne possède pas d'annotations de type.",
-                    "module": "python"
-                },
-                {
-                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/client_python/auth_session.py",
-                    "severity": "warning",
-                    "message": "La fonction 'wait'ligne 280 ne possède pas de docstring.",
-                    "module": "python"
-                },
-                {
-                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/client_python/auth_session.py",
-                    "severity": "warning",
-                    "message": "La fonction 'wait' ne possède pas d'annotations de type.",
+                    "severity": "error",
+                    "message": "Impossible d'analyser le fichier : invalid decimal literal (<unknown>, line 671)",
                     "module": "python"
                 },
                 {
@@ -44434,7 +44344,7 @@
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/client_python/packet.py",
                     "severity": "warning",
-                    "message": "La fonction 'encode'ligne 44 ne possède pas de docstring.",
+                    "message": "La fonction 'encode'ligne 48 ne possède pas de docstring.",
                     "module": "python"
                 },
                 {
@@ -44446,7 +44356,7 @@
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/client_python/packet.py",
                     "severity": "warning",
-                    "message": "La fonction 'decode'ligne 66 ne possède pas de docstring.",
+                    "message": "La fonction 'decode'ligne 70 ne possède pas de docstring.",
                     "module": "python"
                 },
                 {
@@ -48620,6 +48530,36 @@
                     "module": "python"
                 },
                 {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/client_python/packets/zone_state.py",
+                    "severity": "warning",
+                    "message": "Le module ne possède pas de docstring.",
+                    "module": "python"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/client_python/packets/zone_state.py",
+                    "severity": "warning",
+                    "message": "La fonction 'encode_payload'ligne 55 ne possède pas de docstring.",
+                    "module": "python"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/client_python/packets/zone_state.py",
+                    "severity": "warning",
+                    "message": "La fonction 'encode_payload' ne possède pas d'annotations de type.",
+                    "module": "python"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/client_python/packets/zone_state.py",
+                    "severity": "warning",
+                    "message": "La fonction 'from_payload'ligne 68 ne possède pas de docstring.",
+                    "module": "python"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/client_python/packets/zone_state.py",
+                    "severity": "warning",
+                    "message": "La fonction 'from_payload' ne possède pas d'annotations de type.",
+                    "module": "python"
+                },
+                {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/client_python/packets/session.py",
                     "severity": "warning",
                     "message": "Le module ne possède pas de docstring.",
@@ -48799,9 +48739,9 @@
             "score": 0,
             "max_score": 30,
             "results": {
-                "files_checked": 39,
-                "total_elements": 525,
-                "elements_without_docs": 449
+                "files_checked": 41,
+                "total_elements": 634,
+                "elements_without_docs": 520
             },
             "problems": [
                 {
@@ -49070,7 +49010,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/network/handler.rs",
-                    "line": 29,
+                    "line": 27,
                     "severity": "warning",
                     "message": "Struct 'User' sans documentation",
                     "suggestion": "Ajoutez /// avant cette struct",
@@ -49078,7 +49018,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/network/handler.rs",
-                    "line": 35,
+                    "line": 33,
                     "severity": "warning",
                     "message": "Struct 'LoginData' sans documentation",
                     "suggestion": "Ajoutez /// avant cette struct",
@@ -49086,7 +49026,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/network/handler.rs",
-                    "line": 45,
+                    "line": 43,
                     "severity": "warning",
                     "message": "Struct 'AccountCreatePayload' sans documentation",
                     "suggestion": "Ajoutez /// avant cette struct",
@@ -49094,7 +49034,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/network/handler.rs",
-                    "line": 51,
+                    "line": 49,
                     "severity": "warning",
                     "message": "Enum 'HandlerResult' sans documentation",
                     "suggestion": "Ajoutez /// avant cette enum",
@@ -49102,7 +49042,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/network/handler.rs",
-                    "line": 57,
+                    "line": 55,
                     "severity": "warning",
                     "message": "Struct 'PacketHandler' sans documentation",
                     "suggestion": "Ajoutez /// avant cette struct",
@@ -49110,7 +49050,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/network/handler.rs",
-                    "line": 63,
+                    "line": 61,
                     "severity": "warning",
                     "message": "Impl 'PacketHandler ' sans documentation",
                     "suggestion": "Ajoutez /// avant cette impl",
@@ -49118,7 +49058,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/network/handler.rs",
-                    "line": 64,
+                    "line": 67,
                     "severity": "warning",
                     "message": "Function 'inventory_packet' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -49126,7 +49066,15 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/network/handler.rs",
-                    "line": 307,
+                    "line": 220,
+                    "severity": "warning",
+                    "message": "Function 'open_treasure' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette function",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/network/handler.rs",
+                    "line": 338,
                     "severity": "warning",
                     "message": "Function 'read_i64' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -49134,7 +49082,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/network/handler.rs",
-                    "line": 313,
+                    "line": 344,
                     "severity": "warning",
                     "message": "Function 'read_u64' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -49142,7 +49090,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/network/handler.rs",
-                    "line": 319,
+                    "line": 354,
                     "severity": "warning",
                     "message": "Function 'handle' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -49486,7 +49434,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/network/packet.rs",
-                    "line": 44,
+                    "line": 55,
                     "severity": "warning",
                     "message": "Enum 'BanType' sans documentation",
                     "suggestion": "Ajoutez /// avant cette enum",
@@ -49494,7 +49442,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/network/packet.rs",
-                    "line": 48,
+                    "line": 59,
                     "severity": "warning",
                     "message": "Struct 'BanInfo' sans documentation",
                     "suggestion": "Ajoutez /// avant cette struct",
@@ -49502,7 +49450,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/network/packet.rs",
-                    "line": 55,
+                    "line": 66,
                     "severity": "warning",
                     "message": "Enum 'LogLevel' sans documentation",
                     "suggestion": "Ajoutez /// avant cette enum",
@@ -49510,7 +49458,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/network/packet.rs",
-                    "line": 64,
+                    "line": 75,
                     "severity": "warning",
                     "message": "Struct 'ClientLog' sans documentation",
                     "suggestion": "Ajoutez /// avant cette struct",
@@ -49518,7 +49466,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/network/packet.rs",
-                    "line": 71,
+                    "line": 82,
                     "severity": "warning",
                     "message": "Impl 'PacketType ' sans documentation",
                     "suggestion": "Ajoutez /// avant cette impl",
@@ -49526,7 +49474,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/network/packet.rs",
-                    "line": 72,
+                    "line": 83,
                     "severity": "warning",
                     "message": "Function 'from_u16' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -49534,7 +49482,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/network/packet.rs",
-                    "line": 110,
+                    "line": 128,
                     "severity": "warning",
                     "message": "Struct 'Packet' sans documentation",
                     "suggestion": "Ajoutez /// avant cette struct",
@@ -49542,7 +49490,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/network/packet.rs",
-                    "line": 115,
+                    "line": 133,
                     "severity": "warning",
                     "message": "Impl 'Packet ' sans documentation",
                     "suggestion": "Ajoutez /// avant cette impl",
@@ -49550,7 +49498,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/network/packet.rs",
-                    "line": 116,
+                    "line": 134,
                     "severity": "warning",
                     "message": "Function 'new' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -49558,7 +49506,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/network/packet.rs",
-                    "line": 147,
+                    "line": 165,
                     "severity": "warning",
                     "message": "Function 'encode_ban' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -49566,7 +49514,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/network/packet.rs",
-                    "line": 221,
+                    "line": 239,
                     "severity": "warning",
                     "message": "Mod 'tests' sans documentation",
                     "suggestion": "Ajoutez /// avant cette mod",
@@ -49574,7 +49522,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/network/packet.rs",
-                    "line": 227,
+                    "line": 245,
                     "severity": "warning",
                     "message": "Function 'create_tcp_pair' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -49582,7 +49530,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/network/packet.rs",
-                    "line": 244,
+                    "line": 262,
                     "severity": "warning",
                     "message": "Function 'test_packet_type_from_u16_all_valid' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -49590,7 +49538,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/network/packet.rs",
-                    "line": 271,
+                    "line": 293,
                     "severity": "warning",
                     "message": "Function 'test_packet_type_from_u16_invalid_values' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -49598,7 +49546,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/network/packet.rs",
-                    "line": 280,
+                    "line": 302,
                     "severity": "warning",
                     "message": "Function 'test_encode_ban_temporary' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -49606,7 +49554,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/network/packet.rs",
-                    "line": 290,
+                    "line": 312,
                     "severity": "warning",
                     "message": "Function 'test_encode_ban_permanent' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -49614,7 +49562,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/network/packet.rs",
-                    "line": 296,
+                    "line": 318,
                     "severity": "warning",
                     "message": "Function 'test_receive_packet_size_zero_fails' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -49622,7 +49570,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/network/packet.rs",
-                    "line": 312,
+                    "line": 334,
                     "severity": "warning",
                     "message": "Function 'test_receive_packet_size_one_fails' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -49630,7 +49578,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/network/packet.rs",
-                    "line": 328,
+                    "line": 350,
                     "severity": "warning",
                     "message": "Function 'test_receive_packet_exceeds_max_size' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -49638,7 +49586,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/network/packet.rs",
-                    "line": 344,
+                    "line": 366,
                     "severity": "warning",
                     "message": "Function 'test_receive_packet_unknown_packet_type' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -49646,7 +49594,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/network/packet.rs",
-                    "line": 362,
+                    "line": 384,
                     "severity": "warning",
                     "message": "Function 'test_receive_packet_truncated_header' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -49654,7 +49602,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/network/packet.rs",
-                    "line": 378,
+                    "line": 400,
                     "severity": "warning",
                     "message": "Function 'test_receive_packet_truncated_payload' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -49662,7 +49610,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/network/packet.rs",
-                    "line": 398,
+                    "line": 420,
                     "severity": "warning",
                     "message": "Function 'test_send_packet_exceeds_max_size' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -49670,7 +49618,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/network/packet.rs",
-                    "line": 412,
+                    "line": 434,
                     "severity": "warning",
                     "message": "Function 'test_send_and_receive_roundtrip' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -49678,7 +49626,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/network/packet.rs",
-                    "line": 431,
+                    "line": 453,
                     "severity": "warning",
                     "message": "Function 'test_packet_parse_body_too_short' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -49686,7 +49634,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/network/packet.rs",
-                    "line": 442,
+                    "line": 464,
                     "severity": "warning",
                     "message": "Function 'test_packet_parse_body_unknown_type' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -49694,7 +49642,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/network/packet.rs",
-                    "line": 449,
+                    "line": 471,
                     "severity": "warning",
                     "message": "Function 'test_packet_parse_body_empty_payload' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -49702,7 +49650,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/network/packet.rs",
-                    "line": 458,
+                    "line": 480,
                     "severity": "warning",
                     "message": "Function 'test_packet_parse_body_with_payload' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -49710,7 +49658,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/network/packet.rs",
-                    "line": 467,
+                    "line": 489,
                     "severity": "warning",
                     "message": "Function 'test_packet_new_empty_payload' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -49718,7 +49666,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/network/packet.rs",
-                    "line": 477,
+                    "line": 499,
                     "severity": "warning",
                     "message": "Function 'test_packet_new_non_empty_payload' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -49726,7 +49674,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/network/packet.rs",
-                    "line": 485,
+                    "line": 507,
                     "severity": "warning",
                     "message": "Function 'test_packet_clone' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -49734,7 +49682,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/network/packet.rs",
-                    "line": 497,
+                    "line": 519,
                     "severity": "warning",
                     "message": "Function 'test_parse_body_all_supported_packet_types_protocol_lock' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -49742,7 +49690,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/network/packet.rs",
-                    "line": 542,
+                    "line": 568,
                     "severity": "warning",
                     "message": "Function 'test_parse_body_unknown_type_boundary_cases' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -49750,7 +49698,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/network/packet.rs",
-                    "line": 559,
+                    "line": 585,
                     "severity": "warning",
                     "message": "Function 'test_parse_body_realistic_move_payload' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -49758,7 +49706,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/network/packet.rs",
-                    "line": 577,
+                    "line": 603,
                     "severity": "warning",
                     "message": "Function 'test_parse_body_realistic_session_payload' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -49766,7 +49714,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/network/packet.rs",
-                    "line": 589,
+                    "line": 615,
                     "severity": "warning",
                     "message": "Function 'test_parse_body_realistic_player_state_payload' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -49774,7 +49722,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/network/packet.rs",
-                    "line": 605,
+                    "line": 631,
                     "severity": "warning",
                     "message": "Function 'test_send_packet_wire_format_inspection' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -49782,7 +49730,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/network/packet.rs",
-                    "line": 651,
+                    "line": 677,
                     "severity": "warning",
                     "message": "Function 'test_send_and_receive_empty_payload_roundtrip' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -49790,7 +49738,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/network/packet.rs",
-                    "line": 669,
+                    "line": 695,
                     "severity": "warning",
                     "message": "Function 'test_send_and_receive_exact_max_allowed_boundary' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -49798,7 +49746,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/network/packet.rs",
-                    "line": 700,
+                    "line": 726,
                     "severity": "warning",
                     "message": "Function 'test_receive_packet_oversized_header_rejected_without_waiting' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -49806,7 +49754,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/network/packet.rs",
-                    "line": 722,
+                    "line": 748,
                     "severity": "warning",
                     "message": "Function 'test_encode_ban_none_vs_empty_expiration' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -49814,7 +49762,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/network/packet.rs",
-                    "line": 733,
+                    "line": 759,
                     "severity": "warning",
                     "message": "Function 'test_encode_ban_empty_reason' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -49822,7 +49770,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/network/packet.rs",
-                    "line": 739,
+                    "line": 765,
                     "severity": "warning",
                     "message": "Function 'test_encode_ban_multibyte_utf8' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -49830,7 +49778,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/network/packet.rs",
-                    "line": 746,
+                    "line": 772,
                     "severity": "warning",
                     "message": "Function 'test_encode_ban_reason_with_nul_documents_delimiter_collision' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -49838,7 +49786,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/network/client.rs",
-                    "line": 30,
+                    "line": 31,
                     "severity": "warning",
                     "message": "Struct 'Client' sans documentation",
                     "suggestion": "Ajoutez /// avant cette struct",
@@ -49846,7 +49794,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/network/client.rs",
-                    "line": 50,
+                    "line": 51,
                     "severity": "warning",
                     "message": "Impl 'Client ' sans documentation",
                     "suggestion": "Ajoutez /// avant cette impl",
@@ -49854,7 +49802,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/network/client.rs",
-                    "line": 56,
+                    "line": 57,
                     "severity": "warning",
                     "message": "Function 'new' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -49862,7 +49810,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/network/client.rs",
-                    "line": 84,
+                    "line": 85,
                     "severity": "warning",
                     "message": "Function 'run' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -49870,7 +49818,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/network/client.rs",
-                    "line": 462,
+                    "line": 476,
                     "severity": "warning",
                     "message": "Function 'get_ban_info' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -49878,7 +49826,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/network/client.rs",
-                    "line": 569,
+                    "line": 583,
                     "severity": "warning",
                     "message": "Function 'encode_ban_payload' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -49886,7 +49834,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/network/client.rs",
-                    "line": 595,
+                    "line": 609,
                     "severity": "warning",
                     "message": "Function 'mark_disconnected' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -49894,7 +49842,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/network/client.rs",
-                    "line": 633,
+                    "line": 647,
                     "severity": "warning",
                     "message": "Function 'set_user_id' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -49902,7 +49850,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/network/client.rs",
-                    "line": 646,
+                    "line": 660,
                     "severity": "warning",
                     "message": "Function 'user_id' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -49910,7 +49858,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/network/client.rs",
-                    "line": 659,
+                    "line": 673,
                     "severity": "warning",
                     "message": "Function 'set_client_id' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -49918,7 +49866,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/network/client.rs",
-                    "line": 672,
+                    "line": 686,
                     "severity": "warning",
                     "message": "Function 'client_id' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -49926,7 +49874,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/network/client.rs",
-                    "line": 678,
+                    "line": 692,
                     "severity": "warning",
                     "message": "Function 'session_id' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -49934,7 +49882,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/network/client.rs",
-                    "line": 690,
+                    "line": 704,
                     "severity": "warning",
                     "message": "Function 'set_account_id' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -49942,7 +49890,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/network/client.rs",
-                    "line": 703,
+                    "line": 717,
                     "severity": "warning",
                     "message": "Function 'account_id' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -49950,7 +49898,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/network/client.rs",
-                    "line": 715,
+                    "line": 729,
                     "severity": "warning",
                     "message": "Function 'is_spawned' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -49958,7 +49906,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/network/client.rs",
-                    "line": 752,
+                    "line": 766,
                     "severity": "warning",
                     "message": "Function 'cleanup_session' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -49966,7 +49914,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/network/client.rs",
-                    "line": 775,
+                    "line": 800,
                     "severity": "warning",
                     "message": "Function 'disconnect' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -50982,7 +50930,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/auth/user_manager.rs",
-                    "line": 92,
+                    "line": 97,
                     "severity": "warning",
                     "message": "Function 'create_user_inner' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -50997,8 +50945,16 @@
                     "module": "rust"
                 },
                 {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/world/mod.rs",
+                    "line": 2,
+                    "severity": "warning",
+                    "message": "Mod 'treasure_zone' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette mod",
+                    "module": "rust"
+                },
+                {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/world/world.rs",
-                    "line": 11,
+                    "line": 12,
                     "severity": "warning",
                     "message": "Struct 'Position' sans documentation",
                     "suggestion": "Ajoutez /// avant cette struct",
@@ -51006,7 +50962,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/world/world.rs",
-                    "line": 17,
+                    "line": 18,
                     "severity": "warning",
                     "message": "Impl 'Position ' sans documentation",
                     "suggestion": "Ajoutez /// avant cette impl",
@@ -51014,7 +50970,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/world/world.rs",
-                    "line": 18,
+                    "line": 19,
                     "severity": "warning",
                     "message": "Function 'new' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -51022,7 +50978,15 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/world/world.rs",
-                    "line": 24,
+                    "line": 26,
+                    "severity": "warning",
+                    "message": "Struct 'MoveAccepted' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette struct",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/world/world.rs",
+                    "line": 33,
                     "severity": "warning",
                     "message": "Struct 'World' sans documentation",
                     "suggestion": "Ajoutez /// avant cette struct",
@@ -51030,7 +50994,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/world/world.rs",
-                    "line": 29,
+                    "line": 40,
                     "severity": "warning",
                     "message": "Impl 'World ' sans documentation",
                     "suggestion": "Ajoutez /// avant cette impl",
@@ -51038,7 +51002,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/world/world.rs",
-                    "line": 34,
+                    "line": 45,
                     "severity": "warning",
                     "message": "Function 'new' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -51046,7 +51010,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/world/world.rs",
-                    "line": 47,
+                    "line": 59,
                     "severity": "warning",
                     "message": "Function 'subscribe' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -51054,7 +51018,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/world/world.rs",
-                    "line": 51,
+                    "line": 63,
                     "severity": "warning",
                     "message": "Function 'sender' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -51062,7 +51026,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/world/world.rs",
-                    "line": 59,
+                    "line": 71,
                     "severity": "warning",
                     "message": "Function 'set_position' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -51070,7 +51034,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/world/world.rs",
-                    "line": 81,
+                    "line": 93,
                     "severity": "warning",
                     "message": "Function 'remove_player' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -51078,7 +51042,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/world/world.rs",
-                    "line": 94,
+                    "line": 182,
                     "severity": "warning",
                     "message": "Function 'get_position' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -51086,7 +51050,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/world/world.rs",
-                    "line": 105,
+                    "line": 193,
                     "severity": "warning",
                     "message": "Function 'snapshot' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -51094,7 +51058,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/world/world.rs",
-                    "line": 122,
+                    "line": 210,
                     "severity": "warning",
                     "message": "Function 'player_state_packet' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -51102,7 +51066,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/world/world.rs",
-                    "line": 163,
+                    "line": 251,
                     "severity": "warning",
                     "message": "Function 'broadcast_player_state' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -51110,7 +51074,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/world/world.rs",
-                    "line": 202,
+                    "line": 290,
                     "severity": "warning",
                     "message": "Function 'player_remove_packet' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -51118,7 +51082,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/world/world.rs",
-                    "line": 215,
+                    "line": 303,
                     "severity": "warning",
                     "message": "Function 'broadcast_player_remove' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -51126,7 +51090,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/world/world.rs",
-                    "line": 243,
+                    "line": 331,
                     "severity": "warning",
                     "message": "Impl 'Default for World ' sans documentation",
                     "suggestion": "Ajoutez /// avant cette impl",
@@ -51134,9 +51098,241 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/world/world.rs",
-                    "line": 244,
+                    "line": 332,
                     "severity": "warning",
                     "message": "Function 'default' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette function",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/world/treasure_zone.rs",
+                    "line": 36,
+                    "severity": "warning",
+                    "message": "Struct 'Rect' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette struct",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/world/treasure_zone.rs",
+                    "line": 43,
+                    "severity": "warning",
+                    "message": "Impl 'Rect ' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette impl",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/world/treasure_zone.rs",
+                    "line": 57,
+                    "severity": "warning",
+                    "message": "Function 'player' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette function",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/world/treasure_zone.rs",
+                    "line": 90,
+                    "severity": "warning",
+                    "message": "Enum 'KeyState' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette enum",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/world/treasure_zone.rs",
+                    "line": 100,
+                    "severity": "warning",
+                    "message": "Struct 'ZoneState' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette struct",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/world/treasure_zone.rs",
+                    "line": 110,
+                    "severity": "warning",
+                    "message": "Struct 'MoveEffect' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette struct",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/world/treasure_zone.rs",
+                    "line": 117,
+                    "severity": "warning",
+                    "message": "Impl 'ZoneState ' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette impl",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/world/treasure_zone.rs",
+                    "line": 118,
+                    "severity": "warning",
+                    "message": "Function 'new' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette function",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/world/treasure_zone.rs",
+                    "line": 218,
+                    "severity": "warning",
+                    "message": "Function 'packet' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette function",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/world/treasure_zone.rs",
+                    "line": 223,
+                    "severity": "warning",
+                    "message": "Impl 'Default for ZoneState ' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette impl",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/world/treasure_zone.rs",
+                    "line": 224,
+                    "severity": "warning",
+                    "message": "Function 'default' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette function",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/world/treasure_zone.rs",
+                    "line": 277,
+                    "severity": "warning",
+                    "message": "Function 'random_treasure_level' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette function",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/world/treasure_zone.rs",
+                    "line": 318,
+                    "severity": "warning",
+                    "message": "Mod 'tests' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette mod",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/world/treasure_zone.rs",
+                    "line": 321,
+                    "severity": "warning",
+                    "message": "Function 'pos' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette function",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/world/treasure_zone.rs",
+                    "line": 325,
+                    "severity": "warning",
+                    "message": "Function 'zone_with_key_on_ground' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette function",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/world/treasure_zone.rs",
+                    "line": 334,
+                    "severity": "warning",
+                    "message": "Function 'random_key_never_in_enclosure_nor_close_to_player' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette function",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/world/treasure_zone.rs",
+                    "line": 347,
+                    "severity": "warning",
+                    "message": "Function 'server_spawn_area_is_outside_enclosure' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette function",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/world/treasure_zone.rs",
+                    "line": 353,
+                    "severity": "warning",
+                    "message": "Function 'player_without_key_cannot_enter_door_or_interior' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette function",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/world/treasure_zone.rs",
+                    "line": 365,
+                    "severity": "warning",
+                    "message": "Function 'player_with_key_can_pass_the_door_but_not_walls' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette function",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/world/treasure_zone.rs",
+                    "line": 380,
+                    "severity": "warning",
+                    "message": "Function 'walls_block_everyone_and_teleport_is_refused' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette function",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/world/treasure_zone.rs",
+                    "line": 393,
+                    "severity": "warning",
+                    "message": "Function 'world_bounds_are_enforced' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette function",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/world/treasure_zone.rs",
+                    "line": 402,
+                    "severity": "warning",
+                    "message": "Function 'key_pickup_then_treasure_then_new_round' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette function",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/world/treasure_zone.rs",
+                    "line": 430,
+                    "severity": "warning",
+                    "message": "Function 'treasure_requires_the_key' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette function",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/world/treasure_zone.rs",
+                    "line": 442,
+                    "severity": "warning",
+                    "message": "Function 'first_player_to_touch_the_key_gets_it' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette function",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/world/treasure_zone.rs",
+                    "line": 454,
+                    "severity": "warning",
+                    "message": "Function 'key_holder_leaving_resets_the_round' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette function",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/world/treasure_zone.rs",
+                    "line": 468,
+                    "severity": "warning",
+                    "message": "Function 'encoded_state_is_43_bytes' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette function",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/world/treasure_zone.rs",
+                    "line": 473,
+                    "severity": "warning",
+                    "message": "Function 'treasure_level_is_always_between_1_and_5' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette function",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/world/treasure_zone.rs",
+                    "line": 487,
+                    "severity": "warning",
+                    "message": "Function 'encoded_level_is_the_last_byte' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette function",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/world/treasure_zone.rs",
+                    "line": 498,
+                    "severity": "warning",
+                    "message": "Function 'new_round_draws_a_new_valid_level' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
                     "module": "rust"
                 },
@@ -51301,8 +51497,144 @@
                     "module": "rust"
                 },
                 {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/mod.rs",
+                    "line": 8,
+                    "severity": "warning",
+                    "message": "Mod 'variantes' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette mod",
+                    "module": "rust"
+                },
+                {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/market_manager.rs",
-                    "line": 6,
+                    "line": 209,
+                    "severity": "warning",
+                    "message": "Struct 'CriterePotion' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette struct",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/market_manager.rs",
+                    "line": 217,
+                    "severity": "warning",
+                    "message": "Impl 'CriterePotion ' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette impl",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/market_manager.rs",
+                    "line": 218,
+                    "severity": "warning",
+                    "message": "Function 'est_vide' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette function",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/market_manager.rs",
+                    "line": 234,
+                    "severity": "warning",
+                    "message": "Struct 'LigneAchatDemande' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette struct",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/market_manager.rs",
+                    "line": 244,
+                    "severity": "warning",
+                    "message": "Impl 'LigneAchatDemande ' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette impl",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/market_manager.rs",
+                    "line": 353,
+                    "severity": "warning",
+                    "message": "Struct 'LigneVenteDemande' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette struct",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/market_manager.rs",
+                    "line": 359,
+                    "severity": "warning",
+                    "message": "Impl 'LigneVenteDemande ' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette impl",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/market_manager.rs",
+                    "line": 360,
+                    "severity": "warning",
+                    "message": "Function 'verifier' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette function",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/market_manager.rs",
+                    "line": 377,
+                    "severity": "warning",
+                    "message": "Struct 'OrdreCree' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette struct",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/market_manager.rs",
+                    "line": 387,
+                    "severity": "warning",
+                    "message": "Struct 'VarianteMarche' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette struct",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/market_manager.rs",
+                    "line": 398,
+                    "severity": "warning",
+                    "message": "Struct 'VarianteDetail' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette struct",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/market_manager.rs",
+                    "line": 407,
+                    "severity": "warning",
+                    "message": "Function 'erreur' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette function",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/market_manager.rs",
+                    "line": 411,
+                    "severity": "warning",
+                    "message": "Function 'quantite_i64' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette function",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/market_manager.rs",
+                    "line": 417,
+                    "severity": "warning",
+                    "message": "Function 'verifier_nombre_lignes' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette function",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/market_manager.rs",
+                    "line": 451,
+                    "severity": "warning",
+                    "message": "Struct 'PaireCompatible' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette struct",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/market_manager.rs",
+                    "line": 465,
+                    "severity": "warning",
+                    "message": "Struct 'StuffADeposer' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette struct",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/market_manager.rs",
+                    "line": 479,
                     "severity": "warning",
                     "message": "Struct 'MarketManager' sans documentation",
                     "suggestion": "Ajoutez /// avant cette struct",
@@ -51310,7 +51642,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/market_manager.rs",
-                    "line": 10,
+                    "line": 483,
                     "severity": "warning",
                     "message": "Impl 'MarketManager ' sans documentation",
                     "suggestion": "Ajoutez /// avant cette impl",
@@ -51318,7 +51650,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/market_manager.rs",
-                    "line": 11,
+                    "line": 484,
                     "severity": "warning",
                     "message": "Function 'new' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -51326,23 +51658,143 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/market_manager.rs",
-                    "line": 361,
+                    "line": 1001,
                     "severity": "warning",
-                    "message": "Function 'matcher_ordre' sans documentation",
+                    "message": "Function 'annuler_lignes_achat' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
                     "module": "rust"
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/market_manager.rs",
-                    "line": 661,
+                    "line": 1114,
                     "severity": "warning",
-                    "message": "Function 'matcher_tous' sans documentation",
+                    "message": "Function 'annuler_lignes_vente' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette function",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/market_manager.rs",
+                    "line": 1488,
+                    "severity": "warning",
+                    "message": "Function 'creer_ordre_achat' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette function",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/market_manager.rs",
+                    "line": 1535,
+                    "severity": "warning",
+                    "message": "Function 'creer_ordre_vente' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette function",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/market_manager.rs",
+                    "line": 1615,
+                    "severity": "warning",
+                    "message": "Function 'type_objet' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette function",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/market_manager.rs",
+                    "line": 1628,
+                    "severity": "warning",
+                    "message": "Mod 'tests' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette mod",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/market_manager.rs",
+                    "line": 1632,
+                    "severity": "warning",
+                    "message": "Function 'la_moyenne_est_arrondie_a_l_entier_le_plus_proche' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette function",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/market_manager.rs",
+                    "line": 1640,
+                    "severity": "warning",
+                    "message": "Function 'une_ligne_d_achat_invalide_est_refusee' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette function",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/market_manager.rs",
+                    "line": 1665,
+                    "severity": "warning",
+                    "message": "Function 'le_montant_reserve_est_prix_fois_quantite' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette function",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/variantes.rs",
+                    "line": 20,
+                    "severity": "warning",
+                    "message": "Function 'erreur' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette function",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/variantes.rs",
+                    "line": 43,
+                    "severity": "warning",
+                    "message": "Struct 'VarianteSpec' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette struct",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/variantes.rs",
+                    "line": 53,
+                    "severity": "warning",
+                    "message": "Impl 'VarianteSpec ' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette impl",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/variantes.rs",
+                    "line": 90,
+                    "severity": "warning",
+                    "message": "Function 'enchantements_tries' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette function",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/variantes.rs",
+                    "line": 312,
+                    "severity": "warning",
+                    "message": "Mod 'tests' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette mod",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/variantes.rs",
+                    "line": 316,
+                    "severity": "warning",
+                    "message": "Function 'la_signature_ignore_l_ordre_des_enchantements' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette function",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/variantes.rs",
+                    "line": 325,
+                    "severity": "warning",
+                    "message": "Function 'la_signature_distingue_rarete_rang_et_niveau' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette function",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/variantes.rs",
+                    "line": 340,
+                    "severity": "warning",
+                    "message": "Function 'les_types_exclus_ou_sans_variante' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
                     "module": "rust"
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
-                    "line": 35,
+                    "line": 36,
                     "severity": "warning",
                     "message": "Enum 'ObjetInventaire' sans documentation",
                     "suggestion": "Ajoutez /// avant cette enum",
@@ -51350,7 +51802,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
-                    "line": 43,
+                    "line": 44,
                     "severity": "warning",
                     "message": "Impl 'ObjetInventaire ' sans documentation",
                     "suggestion": "Ajoutez /// avant cette impl",
@@ -51358,7 +51810,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
-                    "line": 55,
+                    "line": 56,
                     "severity": "warning",
                     "message": "Function 'objet_mut' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -51366,7 +51818,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
-                    "line": 76,
+                    "line": 77,
                     "severity": "warning",
                     "message": "Impl 'NomAffiche for ObjetInventaire ' sans documentation",
                     "suggestion": "Ajoutez /// avant cette impl",
@@ -51374,7 +51826,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
-                    "line": 77,
+                    "line": 78,
                     "severity": "warning",
                     "message": "Function 'nom_affiche' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -51382,7 +51834,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
-                    "line": 88,
+                    "line": 89,
                     "severity": "warning",
                     "message": "Impl 'AjouterRetirer for ObjetInventaire ' sans documentation",
                     "suggestion": "Ajoutez /// avant cette impl",
@@ -51390,7 +51842,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
-                    "line": 89,
+                    "line": 90,
                     "severity": "warning",
                     "message": "Function 'ajouter' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -51398,7 +51850,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
-                    "line": 93,
+                    "line": 94,
                     "severity": "warning",
                     "message": "Function 'retirer' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -51406,7 +51858,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
-                    "line": 107,
+                    "line": 108,
                     "severity": "warning",
                     "message": "Struct 'Marque' sans documentation",
                     "suggestion": "Ajoutez /// avant cette struct",
@@ -51414,7 +51866,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
-                    "line": 112,
+                    "line": 113,
                     "severity": "warning",
                     "message": "Impl 'Marque ' sans documentation",
                     "suggestion": "Ajoutez /// avant cette impl",
@@ -51422,7 +51874,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
-                    "line": 113,
+                    "line": 114,
                     "severity": "warning",
                     "message": "Function 'depuis' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -51430,7 +51882,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
-                    "line": 143,
+                    "line": 144,
                     "severity": "warning",
                     "message": "Enum 'Ecriture' sans documentation",
                     "suggestion": "Ajoutez /// avant cette enum",
@@ -51438,15 +51890,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
-                    "line": 178,
-                    "severity": "warning",
-                    "message": "Struct 'Inventaire' sans documentation",
-                    "suggestion": "Ajoutez /// avant cette struct",
-                    "module": "rust"
-                },
-                {
-                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
-                    "line": 189,
+                    "line": 197,
                     "severity": "warning",
                     "message": "Struct 'StuffRow' sans documentation",
                     "suggestion": "Ajoutez /// avant cette struct",
@@ -51454,7 +51898,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
-                    "line": 200,
+                    "line": 208,
                     "severity": "warning",
                     "message": "Struct 'EquipmentRow' sans documentation",
                     "suggestion": "Ajoutez /// avant cette struct",
@@ -51462,7 +51906,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
-                    "line": 211,
+                    "line": 219,
                     "severity": "warning",
                     "message": "Struct 'EquipmentEnchantRow' sans documentation",
                     "suggestion": "Ajoutez /// avant cette struct",
@@ -51470,7 +51914,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
-                    "line": 218,
+                    "line": 226,
                     "severity": "warning",
                     "message": "Struct 'PotionRow' sans documentation",
                     "suggestion": "Ajoutez /// avant cette struct",
@@ -51478,7 +51922,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
-                    "line": 224,
+                    "line": 232,
                     "severity": "warning",
                     "message": "Struct 'BookRow' sans documentation",
                     "suggestion": "Ajoutez /// avant cette struct",
@@ -51486,7 +51930,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
-                    "line": 231,
+                    "line": 239,
                     "severity": "warning",
                     "message": "Struct 'EnchantRow' sans documentation",
                     "suggestion": "Ajoutez /// avant cette struct",
@@ -51494,7 +51938,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
-                    "line": 238,
+                    "line": 246,
                     "severity": "warning",
                     "message": "Struct 'GeneratedEnchant' sans documentation",
                     "suggestion": "Ajoutez /// avant cette struct",
@@ -51502,7 +51946,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
-                    "line": 247,
+                    "line": 255,
                     "severity": "warning",
                     "message": "Impl 'Inventaire ' sans documentation",
                     "suggestion": "Ajoutez /// avant cette impl",
@@ -51510,7 +51954,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
-                    "line": 252,
+                    "line": 260,
                     "severity": "warning",
                     "message": "Function 'new' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -51518,7 +51962,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
-                    "line": 274,
+                    "line": 282,
                     "severity": "warning",
                     "message": "Function 'charger_objets' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -51526,7 +51970,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
-                    "line": 432,
+                    "line": 446,
                     "severity": "warning",
                     "message": "Function 'construire_objet' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -51534,7 +51978,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
-                    "line": 599,
+                    "line": 613,
                     "severity": "warning",
                     "message": "Function 'ajouter_objet' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -51542,7 +51986,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
-                    "line": 622,
+                    "line": 636,
                     "severity": "warning",
                     "message": "Function 'ajouter_artefact' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -51550,7 +51994,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
-                    "line": 648,
+                    "line": 662,
                     "severity": "warning",
                     "message": "Function 'ajouter_resultat' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -51558,7 +52002,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
-                    "line": 691,
+                    "line": 705,
                     "severity": "warning",
                     "message": "Function 'ouvrir_coffre' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -51566,7 +52010,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
-                    "line": 719,
+                    "line": 733,
                     "severity": "warning",
                     "message": "Function 'ajouter_lot' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -51574,7 +52018,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
-                    "line": 756,
+                    "line": 770,
                     "severity": "warning",
                     "message": "Function 'charger_catalogue' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -51582,7 +52026,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
-                    "line": 775,
+                    "line": 789,
                     "severity": "warning",
                     "message": "Function 'preparer' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -51590,7 +52034,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
-                    "line": 878,
+                    "line": 896,
                     "severity": "warning",
                     "message": "Function 'executer' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -51598,7 +52042,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
-                    "line": 1165,
+                    "line": 1280,
                     "severity": "warning",
                     "message": "Function 'effet_potion' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -51606,7 +52050,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
-                    "line": 1192,
+                    "line": 1307,
                     "severity": "warning",
                     "message": "Function 'preparer_livre' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -51614,7 +52058,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
-                    "line": 1367,
+                    "line": 1482,
                     "severity": "warning",
                     "message": "Function 'niveau_livre' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -51622,7 +52066,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
-                    "line": 1403,
+                    "line": 1518,
                     "severity": "warning",
                     "message": "Function 'definir_enchantements_equipement' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -51630,7 +52074,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
-                    "line": 1518,
+                    "line": 1637,
                     "severity": "warning",
                     "message": "Function 'retirer_objet' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -51638,7 +52082,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
-                    "line": 1649,
+                    "line": 1771,
                     "severity": "warning",
                     "message": "Function 'retirer_tx' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -51646,7 +52090,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
-                    "line": 1726,
+                    "line": 1851,
                     "severity": "warning",
                     "message": "Function 'ajouter_tx' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -51654,7 +52098,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
-                    "line": 1774,
+                    "line": 1921,
                     "severity": "warning",
                     "message": "Function 'get_quantity' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -51662,7 +52106,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
-                    "line": 1807,
+                    "line": 1955,
                     "severity": "warning",
                     "message": "Function 'quantite_sqlite' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -51670,7 +52114,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
-                    "line": 1823,
+                    "line": 1971,
                     "severity": "warning",
                     "message": "Function 'objets' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -51678,7 +52122,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
-                    "line": 1827,
+                    "line": 1975,
                     "severity": "warning",
                     "message": "Function 'objets_mut' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -51686,7 +52130,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
-                    "line": 1835,
+                    "line": 1983,
                     "severity": "warning",
                     "message": "Function 'recharger' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -51694,7 +52138,7 @@
                 },
                 {
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/stuff_manager.rs",
-                    "line": 1849,
+                    "line": 1997,
                     "severity": "warning",
                     "message": "Function 'account_id' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
@@ -52393,6 +52837,70 @@
                     "line": 262,
                     "severity": "warning",
                     "message": "Function 'new' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette function",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/tresor.rs",
+                    "line": 1452,
+                    "severity": "warning",
+                    "message": "Mod 'tests' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette mod",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/tresor.rs",
+                    "line": 1457,
+                    "severity": "warning",
+                    "message": "Function 'index' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette function",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/tresor.rs",
+                    "line": 1461,
+                    "severity": "warning",
+                    "message": "Function 'moyenne' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette function",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/tresor.rs",
+                    "line": 1471,
+                    "severity": "warning",
+                    "message": "Function 'part' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette function",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/tresor.rs",
+                    "line": 1482,
+                    "severity": "warning",
+                    "message": "Function 'rarity_goes_up_with_the_chest_level' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette function",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/tresor.rs",
+                    "line": 1498,
+                    "severity": "warning",
+                    "message": "Function 'low_levels_are_mostly_common_and_high_levels_mostly_mythic' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette function",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/tresor.rs",
+                    "line": 1505,
+                    "severity": "warning",
+                    "message": "Function 'every_rarity_stays_possible_at_a_mid_level' sans documentation",
+                    "suggestion": "Ajoutez /// avant cette function",
+                    "module": "rust"
+                },
+                {
+                    "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/tresor.rs",
+                    "line": 1517,
+                    "severity": "warning",
+                    "message": "Function 'out_of_range_levels_do_not_panic' sans documentation",
                     "suggestion": "Ajoutez /// avant cette function",
                     "module": "rust"
                 }

@@ -1,14 +1,14 @@
 # Documentation Problems
 
-Generated: 2026-11-22 08:01:36
+Generated: 2026-11-22 10:57:54
 
 ## Summary
 
 |Type|Count|
 |---|---:|
-|Errors|473|
-|Warnings|8092|
-|**Total**|**8570**|
+|Errors|474|
+|Warnings|8152|
+|**Total**|**8631**|
 
 ---
 
@@ -659,155 +659,10 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 # /home/runner/work/The-last-signal-/The-last-signal-/client_python/auth_session.py
 
-## Warning
+## Error
 
 - **Module :** python
-- **Message :** La fonction 'read_body' ne possède pas d'annotations de type.
-
-## Warning
-
-- **Module :** python
-- **Message :** La fonction 'check_login_reply'ligne 87 ne possède pas de docstring.
-
-## Warning
-
-- **Module :** python
-- **Message :** La fonction 'check_login_reply' ne possède pas d'annotations de type.
-
-## Warning
-
-- **Module :** python
-- **Message :** La fonction 'check_signup_reply'ligne 94 ne possède pas de docstring.
-
-## Warning
-
-- **Module :** python
-- **Message :** La fonction 'check_signup_reply' ne possède pas d'annotations de type.
-
-## Warning
-
-- **Module :** python
-- **Message :** La fonction 'parse_account_list' ne possède pas d'annotations de type.
-
-## Warning
-
-- **Module :** python
-- **Message :** La fonction 'check_account_result' ne possède pas d'annotations de type.
-
-## Warning
-
-- **Module :** python
-- **Message :** La fonction 'authenticate_client'ligne 278 ne possède pas de docstring.
-
-## Warning
-
-- **Module :** python
-- **Message :** La fonction 'authenticate_client' ne possède pas d'annotations de type.
-
-## Warning
-
-- **Module :** python
-- **Message :** La fonction 'spawn'ligne 318 ne possède pas de docstring.
-
-## Warning
-
-- **Module :** python
-- **Message :** La fonction 'spawn' ne possède pas d'annotations de type.
-
-## Warning
-
-- **Module :** python
-- **Message :** La fonction 'sock'ligne 143 ne possède pas de docstring.
-
-## Warning
-
-- **Module :** python
-- **Message :** La fonction 'sock' ne possède pas d'annotations de type.
-
-## Warning
-
-- **Module :** python
-- **Message :** La fonction 'open'ligne 146 ne possède pas de docstring.
-
-## Warning
-
-- **Module :** python
-- **Message :** La fonction 'open' ne possède pas d'annotations de type.
-
-## Warning
-
-- **Module :** python
-- **Message :** La fonction 'request'ligne 184 ne possède pas de docstring.
-
-## Warning
-
-- **Module :** python
-- **Message :** La fonction 'request' ne possède pas d'annotations de type.
-
-## Warning
-
-- **Module :** python
-- **Message :** La fonction 'login'ligne 212 ne possède pas de docstring.
-
-## Warning
-
-- **Module :** python
-- **Message :** La fonction 'login' ne possède pas d'annotations de type.
-
-## Warning
-
-- **Module :** python
-- **Message :** La fonction 'signup'ligne 223 ne possède pas de docstring.
-
-## Warning
-
-- **Module :** python
-- **Message :** La fonction 'signup' ne possède pas d'annotations de type.
-
-## Warning
-
-- **Module :** python
-- **Message :** La fonction 'list_accounts'ligne 230 ne possède pas de docstring.
-
-## Warning
-
-- **Module :** python
-- **Message :** La fonction 'list_accounts' ne possède pas d'annotations de type.
-
-## Warning
-
-- **Module :** python
-- **Message :** La fonction 'create_account' ne possède pas d'annotations de type.
-
-## Warning
-
-- **Module :** python
-- **Message :** La fonction 'select_account'ligne 248 ne possède pas de docstring.
-
-## Warning
-
-- **Module :** python
-- **Message :** La fonction 'select_account' ne possède pas d'annotations de type.
-
-## Warning
-
-- **Module :** python
-- **Message :** La fonction 'close'ligne 252 ne possède pas de docstring.
-
-## Warning
-
-- **Module :** python
-- **Message :** La fonction 'close' ne possède pas d'annotations de type.
-
-## Warning
-
-- **Module :** python
-- **Message :** La fonction 'wait'ligne 280 ne possède pas de docstring.
-
-## Warning
-
-- **Module :** python
-- **Message :** La fonction 'wait' ne possède pas d'annotations de type.
+- **Message :** Impossible d'analyser le fichier : invalid decimal literal (<unknown>, line 671)
 
 ---
 
@@ -1094,6 +949,71 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## Warning
 
 - **Module :** python
+- **Message :** La fonction 'can_pass' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'show_message'ligne 766 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'show_message' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'handle_zone_state' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'toggle_inventory' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'handle_inventory' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'inventory_body_lines' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'scroll_inventory' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'wheelEvent'ligne 922 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'wheelEvent' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'draw_inventory' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'handle_treasure_reward' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'draw_treasure_zone' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
 - **Message :** La fonction 'send_position_to_server' ne possède pas d'annotations de type.
 
 ## Warning
@@ -1110,6 +1030,11 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 - **Module :** python
 - **Message :** La fonction 'paintEvent' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'paintEvent' dépasse 80 lignes.
 
 ## Warning
 
@@ -3433,7 +3358,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## Warning
 
 - **Module :** python
-- **Message :** La fonction 'encode'ligne 44 ne possède pas de docstring.
+- **Message :** La fonction 'encode'ligne 48 ne possède pas de docstring.
 
 ## Warning
 
@@ -3443,7 +3368,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## Warning
 
 - **Module :** python
-- **Message :** La fonction 'decode'ligne 66 ne possède pas de docstring.
+- **Message :** La fonction 'decode'ligne 70 ne possède pas de docstring.
 
 ## Warning
 
@@ -3717,6 +3642,35 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 - **Module :** python
 - **Message :** La fonction 'from_payload'ligne 33 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'from_payload' ne possède pas d'annotations de type.
+
+---
+
+# /home/runner/work/The-last-signal-/The-last-signal-/client_python/packets/zone_state.py
+
+## Warning
+
+- **Module :** python
+- **Message :** Le module ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'encode_payload'ligne 55 ne possède pas de docstring.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'encode_payload' ne possède pas d'annotations de type.
+
+## Warning
+
+- **Module :** python
+- **Message :** La fonction 'from_payload'ligne 68 ne possède pas de docstring.
 
 ## Warning
 
@@ -4744,7 +4698,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 - **Module :** rust
 - **Message :** Function 'create_user_inner' sans documentation
-- **line :** 92
+- **line :** 97
 - **suggestion :** Ajoutez /// avant cette function
 
 ---
@@ -4868,36 +4822,197 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## Warning
 
 - **Module :** rust
+- **Message :** Struct 'CriterePotion' sans documentation
+- **line :** 209
+- **suggestion :** Ajoutez /// avant cette struct
+
+## Warning
+
+- **Module :** rust
+- **Message :** Impl 'CriterePotion ' sans documentation
+- **line :** 217
+- **suggestion :** Ajoutez /// avant cette impl
+
+## Warning
+
+- **Module :** rust
+- **Message :** Function 'est_vide' sans documentation
+- **line :** 218
+- **suggestion :** Ajoutez /// avant cette function
+
+## Warning
+
+- **Module :** rust
+- **Message :** Struct 'LigneAchatDemande' sans documentation
+- **line :** 234
+- **suggestion :** Ajoutez /// avant cette struct
+
+## Warning
+
+- **Module :** rust
+- **Message :** Impl 'LigneAchatDemande ' sans documentation
+- **line :** 244
+- **suggestion :** Ajoutez /// avant cette impl
+
+## Warning
+
+- **Module :** rust
+- **Message :** Struct 'LigneVenteDemande' sans documentation
+- **line :** 353
+- **suggestion :** Ajoutez /// avant cette struct
+
+## Warning
+
+- **Module :** rust
+- **Message :** Impl 'LigneVenteDemande ' sans documentation
+- **line :** 359
+- **suggestion :** Ajoutez /// avant cette impl
+
+## Warning
+
+- **Module :** rust
+- **Message :** Function 'verifier' sans documentation
+- **line :** 360
+- **suggestion :** Ajoutez /// avant cette function
+
+## Warning
+
+- **Module :** rust
+- **Message :** Struct 'OrdreCree' sans documentation
+- **line :** 377
+- **suggestion :** Ajoutez /// avant cette struct
+
+## Warning
+
+- **Module :** rust
+- **Message :** Struct 'VarianteMarche' sans documentation
+- **line :** 387
+- **suggestion :** Ajoutez /// avant cette struct
+
+## Warning
+
+- **Module :** rust
+- **Message :** Struct 'VarianteDetail' sans documentation
+- **line :** 398
+- **suggestion :** Ajoutez /// avant cette struct
+
+## Warning
+
+- **Module :** rust
+- **Message :** Function 'erreur' sans documentation
+- **line :** 407
+- **suggestion :** Ajoutez /// avant cette function
+
+## Warning
+
+- **Module :** rust
+- **Message :** Function 'quantite_i64' sans documentation
+- **line :** 411
+- **suggestion :** Ajoutez /// avant cette function
+
+## Warning
+
+- **Module :** rust
+- **Message :** Function 'verifier_nombre_lignes' sans documentation
+- **line :** 417
+- **suggestion :** Ajoutez /// avant cette function
+
+## Warning
+
+- **Module :** rust
+- **Message :** Struct 'PaireCompatible' sans documentation
+- **line :** 451
+- **suggestion :** Ajoutez /// avant cette struct
+
+## Warning
+
+- **Module :** rust
+- **Message :** Struct 'StuffADeposer' sans documentation
+- **line :** 465
+- **suggestion :** Ajoutez /// avant cette struct
+
+## Warning
+
+- **Module :** rust
 - **Message :** Struct 'MarketManager' sans documentation
-- **line :** 6
+- **line :** 479
 - **suggestion :** Ajoutez /// avant cette struct
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Impl 'MarketManager ' sans documentation
-- **line :** 10
+- **line :** 483
 - **suggestion :** Ajoutez /// avant cette impl
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'new' sans documentation
-- **line :** 11
+- **line :** 484
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
-- **Message :** Function 'matcher_ordre' sans documentation
-- **line :** 361
+- **Message :** Function 'annuler_lignes_achat' sans documentation
+- **line :** 1001
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
-- **Message :** Function 'matcher_tous' sans documentation
-- **line :** 661
+- **Message :** Function 'annuler_lignes_vente' sans documentation
+- **line :** 1114
+- **suggestion :** Ajoutez /// avant cette function
+
+## Warning
+
+- **Module :** rust
+- **Message :** Function 'creer_ordre_achat' sans documentation
+- **line :** 1488
+- **suggestion :** Ajoutez /// avant cette function
+
+## Warning
+
+- **Module :** rust
+- **Message :** Function 'creer_ordre_vente' sans documentation
+- **line :** 1535
+- **suggestion :** Ajoutez /// avant cette function
+
+## Warning
+
+- **Module :** rust
+- **Message :** Function 'type_objet' sans documentation
+- **line :** 1615
+- **suggestion :** Ajoutez /// avant cette function
+
+## Warning
+
+- **Module :** rust
+- **Message :** Mod 'tests' sans documentation
+- **line :** 1628
+- **suggestion :** Ajoutez /// avant cette mod
+
+## Warning
+
+- **Module :** rust
+- **Message :** Function 'la_moyenne_est_arrondie_a_l_entier_le_plus_proche' sans documentation
+- **line :** 1632
+- **suggestion :** Ajoutez /// avant cette function
+
+## Warning
+
+- **Module :** rust
+- **Message :** Function 'une_ligne_d_achat_invalide_est_refusee' sans documentation
+- **line :** 1640
+- **suggestion :** Ajoutez /// avant cette function
+
+## Warning
+
+- **Module :** rust
+- **Message :** Function 'le_montant_reserve_est_prix_fois_quantite' sans documentation
+- **line :** 1665
 - **suggestion :** Ajoutez /// avant cette function
 
 ---
@@ -4951,6 +5066,13 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Mod 'bank_manager' sans documentation
 - **line :** 7
+- **suggestion :** Ajoutez /// avant cette mod
+
+## Warning
+
+- **Module :** rust
+- **Message :** Mod 'variantes' sans documentation
+- **line :** 8
 - **suggestion :** Ajoutez /// avant cette mod
 
 ---
@@ -5462,315 +5584,308 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 - **Module :** rust
 - **Message :** Enum 'ObjetInventaire' sans documentation
-- **line :** 35
+- **line :** 36
 - **suggestion :** Ajoutez /// avant cette enum
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Impl 'ObjetInventaire ' sans documentation
-- **line :** 43
+- **line :** 44
 - **suggestion :** Ajoutez /// avant cette impl
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'objet_mut' sans documentation
-- **line :** 55
+- **line :** 56
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Impl 'NomAffiche for ObjetInventaire ' sans documentation
-- **line :** 76
+- **line :** 77
 - **suggestion :** Ajoutez /// avant cette impl
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'nom_affiche' sans documentation
-- **line :** 77
+- **line :** 78
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Impl 'AjouterRetirer for ObjetInventaire ' sans documentation
-- **line :** 88
+- **line :** 89
 - **suggestion :** Ajoutez /// avant cette impl
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'ajouter' sans documentation
-- **line :** 89
+- **line :** 90
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'retirer' sans documentation
-- **line :** 93
+- **line :** 94
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Struct 'Marque' sans documentation
-- **line :** 107
+- **line :** 108
 - **suggestion :** Ajoutez /// avant cette struct
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Impl 'Marque ' sans documentation
-- **line :** 112
+- **line :** 113
 - **suggestion :** Ajoutez /// avant cette impl
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'depuis' sans documentation
-- **line :** 113
+- **line :** 114
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Enum 'Ecriture' sans documentation
-- **line :** 143
+- **line :** 144
 - **suggestion :** Ajoutez /// avant cette enum
 
 ## Warning
 
 - **Module :** rust
-- **Message :** Struct 'Inventaire' sans documentation
-- **line :** 178
-- **suggestion :** Ajoutez /// avant cette struct
-
-## Warning
-
-- **Module :** rust
 - **Message :** Struct 'StuffRow' sans documentation
-- **line :** 189
+- **line :** 197
 - **suggestion :** Ajoutez /// avant cette struct
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Struct 'EquipmentRow' sans documentation
-- **line :** 200
+- **line :** 208
 - **suggestion :** Ajoutez /// avant cette struct
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Struct 'EquipmentEnchantRow' sans documentation
-- **line :** 211
+- **line :** 219
 - **suggestion :** Ajoutez /// avant cette struct
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Struct 'PotionRow' sans documentation
-- **line :** 218
+- **line :** 226
 - **suggestion :** Ajoutez /// avant cette struct
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Struct 'BookRow' sans documentation
-- **line :** 224
+- **line :** 232
 - **suggestion :** Ajoutez /// avant cette struct
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Struct 'EnchantRow' sans documentation
-- **line :** 231
+- **line :** 239
 - **suggestion :** Ajoutez /// avant cette struct
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Struct 'GeneratedEnchant' sans documentation
-- **line :** 238
+- **line :** 246
 - **suggestion :** Ajoutez /// avant cette struct
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Impl 'Inventaire ' sans documentation
-- **line :** 247
+- **line :** 255
 - **suggestion :** Ajoutez /// avant cette impl
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'new' sans documentation
-- **line :** 252
+- **line :** 260
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'charger_objets' sans documentation
-- **line :** 274
+- **line :** 282
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'construire_objet' sans documentation
-- **line :** 432
+- **line :** 446
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'ajouter_objet' sans documentation
-- **line :** 599
+- **line :** 613
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'ajouter_artefact' sans documentation
-- **line :** 622
+- **line :** 636
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'ajouter_resultat' sans documentation
-- **line :** 648
+- **line :** 662
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'ouvrir_coffre' sans documentation
-- **line :** 691
+- **line :** 705
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'ajouter_lot' sans documentation
-- **line :** 719
+- **line :** 733
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'charger_catalogue' sans documentation
-- **line :** 756
+- **line :** 770
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'preparer' sans documentation
-- **line :** 775
+- **line :** 789
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'executer' sans documentation
-- **line :** 878
+- **line :** 896
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'effet_potion' sans documentation
-- **line :** 1165
+- **line :** 1280
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'preparer_livre' sans documentation
-- **line :** 1192
+- **line :** 1307
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'niveau_livre' sans documentation
-- **line :** 1367
+- **line :** 1482
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'definir_enchantements_equipement' sans documentation
-- **line :** 1403
-- **suggestion :** Ajoutez /// avant cette function
-
-## Warning
-
-- **Module :** rust
-- **Message :** Function 'retirer_objet' sans documentation
 - **line :** 1518
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
+- **Message :** Function 'retirer_objet' sans documentation
+- **line :** 1637
+- **suggestion :** Ajoutez /// avant cette function
+
+## Warning
+
+- **Module :** rust
 - **Message :** Function 'retirer_tx' sans documentation
-- **line :** 1649
+- **line :** 1771
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'ajouter_tx' sans documentation
-- **line :** 1726
+- **line :** 1851
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'get_quantity' sans documentation
-- **line :** 1774
+- **line :** 1921
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'quantite_sqlite' sans documentation
-- **line :** 1807
+- **line :** 1955
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'objets' sans documentation
-- **line :** 1823
+- **line :** 1971
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'objets_mut' sans documentation
-- **line :** 1827
+- **line :** 1975
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'recharger' sans documentation
-- **line :** 1835
+- **line :** 1983
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'account_id' sans documentation
-- **line :** 1849
+- **line :** 1997
 - **suggestion :** Ajoutez /// avant cette function
 
 ---
@@ -5887,6 +6002,122 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'new' sans documentation
 - **line :** 262
+- **suggestion :** Ajoutez /// avant cette function
+
+## Warning
+
+- **Module :** rust
+- **Message :** Mod 'tests' sans documentation
+- **line :** 1452
+- **suggestion :** Ajoutez /// avant cette mod
+
+## Warning
+
+- **Module :** rust
+- **Message :** Function 'index' sans documentation
+- **line :** 1457
+- **suggestion :** Ajoutez /// avant cette function
+
+## Warning
+
+- **Module :** rust
+- **Message :** Function 'moyenne' sans documentation
+- **line :** 1461
+- **suggestion :** Ajoutez /// avant cette function
+
+## Warning
+
+- **Module :** rust
+- **Message :** Function 'part' sans documentation
+- **line :** 1471
+- **suggestion :** Ajoutez /// avant cette function
+
+## Warning
+
+- **Module :** rust
+- **Message :** Function 'rarity_goes_up_with_the_chest_level' sans documentation
+- **line :** 1482
+- **suggestion :** Ajoutez /// avant cette function
+
+## Warning
+
+- **Module :** rust
+- **Message :** Function 'low_levels_are_mostly_common_and_high_levels_mostly_mythic' sans documentation
+- **line :** 1498
+- **suggestion :** Ajoutez /// avant cette function
+
+## Warning
+
+- **Module :** rust
+- **Message :** Function 'every_rarity_stays_possible_at_a_mid_level' sans documentation
+- **line :** 1505
+- **suggestion :** Ajoutez /// avant cette function
+
+## Warning
+
+- **Module :** rust
+- **Message :** Function 'out_of_range_levels_do_not_panic' sans documentation
+- **line :** 1517
+- **suggestion :** Ajoutez /// avant cette function
+
+---
+
+# /home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/variantes.rs
+
+## Warning
+
+- **Module :** rust
+- **Message :** Function 'erreur' sans documentation
+- **line :** 20
+- **suggestion :** Ajoutez /// avant cette function
+
+## Warning
+
+- **Module :** rust
+- **Message :** Struct 'VarianteSpec' sans documentation
+- **line :** 43
+- **suggestion :** Ajoutez /// avant cette struct
+
+## Warning
+
+- **Module :** rust
+- **Message :** Impl 'VarianteSpec ' sans documentation
+- **line :** 53
+- **suggestion :** Ajoutez /// avant cette impl
+
+## Warning
+
+- **Module :** rust
+- **Message :** Function 'enchantements_tries' sans documentation
+- **line :** 90
+- **suggestion :** Ajoutez /// avant cette function
+
+## Warning
+
+- **Module :** rust
+- **Message :** Mod 'tests' sans documentation
+- **line :** 312
+- **suggestion :** Ajoutez /// avant cette mod
+
+## Warning
+
+- **Module :** rust
+- **Message :** Function 'la_signature_ignore_l_ordre_des_enchantements' sans documentation
+- **line :** 316
+- **suggestion :** Ajoutez /// avant cette function
+
+## Warning
+
+- **Module :** rust
+- **Message :** Function 'la_signature_distingue_rarete_rang_et_niveau' sans documentation
+- **line :** 325
+- **suggestion :** Ajoutez /// avant cette function
+
+## Warning
+
+- **Module :** rust
+- **Message :** Function 'les_types_exclus_ou_sans_variante' sans documentation
+- **line :** 340
 - **suggestion :** Ajoutez /// avant cette function
 
 ---
@@ -6028,119 +6259,119 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 - **Module :** rust
 - **Message :** Struct 'Client' sans documentation
-- **line :** 30
+- **line :** 31
 - **suggestion :** Ajoutez /// avant cette struct
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Impl 'Client ' sans documentation
-- **line :** 50
+- **line :** 51
 - **suggestion :** Ajoutez /// avant cette impl
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'new' sans documentation
-- **line :** 56
+- **line :** 57
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'run' sans documentation
-- **line :** 84
+- **line :** 85
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'get_ban_info' sans documentation
-- **line :** 462
+- **line :** 476
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'encode_ban_payload' sans documentation
-- **line :** 569
+- **line :** 583
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'mark_disconnected' sans documentation
-- **line :** 595
+- **line :** 609
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'set_user_id' sans documentation
-- **line :** 633
+- **line :** 647
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'user_id' sans documentation
-- **line :** 646
+- **line :** 660
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'set_client_id' sans documentation
-- **line :** 659
+- **line :** 673
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'client_id' sans documentation
-- **line :** 672
+- **line :** 686
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'session_id' sans documentation
-- **line :** 678
+- **line :** 692
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'set_account_id' sans documentation
-- **line :** 690
+- **line :** 704
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'account_id' sans documentation
-- **line :** 703
+- **line :** 717
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'is_spawned' sans documentation
-- **line :** 715
+- **line :** 729
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'cleanup_session' sans documentation
-- **line :** 752
+- **line :** 766
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'disconnect' sans documentation
-- **line :** 775
+- **line :** 800
 - **suggestion :** Ajoutez /// avant cette function
 
 ---
@@ -6151,70 +6382,77 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 - **Module :** rust
 - **Message :** Struct 'User' sans documentation
-- **line :** 29
+- **line :** 27
 - **suggestion :** Ajoutez /// avant cette struct
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Struct 'LoginData' sans documentation
-- **line :** 35
+- **line :** 33
 - **suggestion :** Ajoutez /// avant cette struct
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Struct 'AccountCreatePayload' sans documentation
-- **line :** 45
+- **line :** 43
 - **suggestion :** Ajoutez /// avant cette struct
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Enum 'HandlerResult' sans documentation
-- **line :** 51
+- **line :** 49
 - **suggestion :** Ajoutez /// avant cette enum
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Struct 'PacketHandler' sans documentation
-- **line :** 57
+- **line :** 55
 - **suggestion :** Ajoutez /// avant cette struct
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Impl 'PacketHandler ' sans documentation
-- **line :** 63
+- **line :** 61
 - **suggestion :** Ajoutez /// avant cette impl
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'inventory_packet' sans documentation
-- **line :** 64
+- **line :** 67
+- **suggestion :** Ajoutez /// avant cette function
+
+## Warning
+
+- **Module :** rust
+- **Message :** Function 'open_treasure' sans documentation
+- **line :** 220
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'read_i64' sans documentation
-- **line :** 307
+- **line :** 338
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'read_u64' sans documentation
-- **line :** 313
+- **line :** 344
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'handle' sans documentation
-- **line :** 319
+- **line :** 354
 - **suggestion :** Ajoutez /// avant cette function
 
 ---
@@ -6271,308 +6509,308 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 - **Module :** rust
 - **Message :** Enum 'BanType' sans documentation
-- **line :** 44
-- **suggestion :** Ajoutez /// avant cette enum
-
-## Warning
-
-- **Module :** rust
-- **Message :** Struct 'BanInfo' sans documentation
-- **line :** 48
-- **suggestion :** Ajoutez /// avant cette struct
-
-## Warning
-
-- **Module :** rust
-- **Message :** Enum 'LogLevel' sans documentation
 - **line :** 55
 - **suggestion :** Ajoutez /// avant cette enum
 
 ## Warning
 
 - **Module :** rust
+- **Message :** Struct 'BanInfo' sans documentation
+- **line :** 59
+- **suggestion :** Ajoutez /// avant cette struct
+
+## Warning
+
+- **Module :** rust
+- **Message :** Enum 'LogLevel' sans documentation
+- **line :** 66
+- **suggestion :** Ajoutez /// avant cette enum
+
+## Warning
+
+- **Module :** rust
 - **Message :** Struct 'ClientLog' sans documentation
-- **line :** 64
+- **line :** 75
 - **suggestion :** Ajoutez /// avant cette struct
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Impl 'PacketType ' sans documentation
-- **line :** 71
+- **line :** 82
 - **suggestion :** Ajoutez /// avant cette impl
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'from_u16' sans documentation
-- **line :** 72
+- **line :** 83
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Struct 'Packet' sans documentation
-- **line :** 110
+- **line :** 128
 - **suggestion :** Ajoutez /// avant cette struct
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Impl 'Packet ' sans documentation
-- **line :** 115
+- **line :** 133
 - **suggestion :** Ajoutez /// avant cette impl
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'new' sans documentation
-- **line :** 116
+- **line :** 134
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'encode_ban' sans documentation
-- **line :** 147
+- **line :** 165
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Mod 'tests' sans documentation
-- **line :** 221
+- **line :** 239
 - **suggestion :** Ajoutez /// avant cette mod
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'create_tcp_pair' sans documentation
-- **line :** 227
+- **line :** 245
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'test_packet_type_from_u16_all_valid' sans documentation
-- **line :** 244
+- **line :** 262
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'test_packet_type_from_u16_invalid_values' sans documentation
-- **line :** 271
+- **line :** 293
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'test_encode_ban_temporary' sans documentation
-- **line :** 280
+- **line :** 302
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'test_encode_ban_permanent' sans documentation
-- **line :** 290
-- **suggestion :** Ajoutez /// avant cette function
-
-## Warning
-
-- **Module :** rust
-- **Message :** Function 'test_receive_packet_size_zero_fails' sans documentation
-- **line :** 296
-- **suggestion :** Ajoutez /// avant cette function
-
-## Warning
-
-- **Module :** rust
-- **Message :** Function 'test_receive_packet_size_one_fails' sans documentation
 - **line :** 312
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
+- **Message :** Function 'test_receive_packet_size_zero_fails' sans documentation
+- **line :** 318
+- **suggestion :** Ajoutez /// avant cette function
+
+## Warning
+
+- **Module :** rust
+- **Message :** Function 'test_receive_packet_size_one_fails' sans documentation
+- **line :** 334
+- **suggestion :** Ajoutez /// avant cette function
+
+## Warning
+
+- **Module :** rust
 - **Message :** Function 'test_receive_packet_exceeds_max_size' sans documentation
-- **line :** 328
+- **line :** 350
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'test_receive_packet_unknown_packet_type' sans documentation
-- **line :** 344
+- **line :** 366
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'test_receive_packet_truncated_header' sans documentation
-- **line :** 362
+- **line :** 384
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'test_receive_packet_truncated_payload' sans documentation
-- **line :** 378
+- **line :** 400
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'test_send_packet_exceeds_max_size' sans documentation
-- **line :** 398
+- **line :** 420
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'test_send_and_receive_roundtrip' sans documentation
-- **line :** 412
+- **line :** 434
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'test_packet_parse_body_too_short' sans documentation
-- **line :** 431
+- **line :** 453
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'test_packet_parse_body_unknown_type' sans documentation
-- **line :** 442
+- **line :** 464
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'test_packet_parse_body_empty_payload' sans documentation
-- **line :** 449
+- **line :** 471
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'test_packet_parse_body_with_payload' sans documentation
-- **line :** 458
+- **line :** 480
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'test_packet_new_empty_payload' sans documentation
-- **line :** 467
+- **line :** 489
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'test_packet_new_non_empty_payload' sans documentation
-- **line :** 477
+- **line :** 499
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'test_packet_clone' sans documentation
-- **line :** 485
+- **line :** 507
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'test_parse_body_all_supported_packet_types_protocol_lock' sans documentation
-- **line :** 497
+- **line :** 519
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'test_parse_body_unknown_type_boundary_cases' sans documentation
-- **line :** 542
+- **line :** 568
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'test_parse_body_realistic_move_payload' sans documentation
-- **line :** 559
+- **line :** 585
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'test_parse_body_realistic_session_payload' sans documentation
-- **line :** 577
+- **line :** 603
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'test_parse_body_realistic_player_state_payload' sans documentation
-- **line :** 589
+- **line :** 615
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'test_send_packet_wire_format_inspection' sans documentation
-- **line :** 605
+- **line :** 631
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'test_send_and_receive_empty_payload_roundtrip' sans documentation
-- **line :** 651
+- **line :** 677
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'test_send_and_receive_exact_max_allowed_boundary' sans documentation
-- **line :** 669
+- **line :** 695
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'test_receive_packet_oversized_header_rejected_without_waiting' sans documentation
-- **line :** 700
+- **line :** 726
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'test_encode_ban_none_vs_empty_expiration' sans documentation
-- **line :** 722
+- **line :** 748
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'test_encode_ban_empty_reason' sans documentation
-- **line :** 733
+- **line :** 759
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'test_encode_ban_multibyte_utf8' sans documentation
-- **line :** 739
+- **line :** 765
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'test_encode_ban_reason_with_nul_documents_delimiter_collision' sans documentation
-- **line :** 746
+- **line :** 772
 - **suggestion :** Ajoutez /// avant cette function
 
 ---
@@ -7649,6 +7887,220 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **line :** 1
 - **suggestion :** Ajoutez /// avant cette mod
 
+## Warning
+
+- **Module :** rust
+- **Message :** Mod 'treasure_zone' sans documentation
+- **line :** 2
+- **suggestion :** Ajoutez /// avant cette mod
+
+---
+
+# /home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/world/treasure_zone.rs
+
+## Warning
+
+- **Module :** rust
+- **Message :** Struct 'Rect' sans documentation
+- **line :** 36
+- **suggestion :** Ajoutez /// avant cette struct
+
+## Warning
+
+- **Module :** rust
+- **Message :** Impl 'Rect ' sans documentation
+- **line :** 43
+- **suggestion :** Ajoutez /// avant cette impl
+
+## Warning
+
+- **Module :** rust
+- **Message :** Function 'player' sans documentation
+- **line :** 57
+- **suggestion :** Ajoutez /// avant cette function
+
+## Warning
+
+- **Module :** rust
+- **Message :** Enum 'KeyState' sans documentation
+- **line :** 90
+- **suggestion :** Ajoutez /// avant cette enum
+
+## Warning
+
+- **Module :** rust
+- **Message :** Struct 'ZoneState' sans documentation
+- **line :** 100
+- **suggestion :** Ajoutez /// avant cette struct
+
+## Warning
+
+- **Module :** rust
+- **Message :** Struct 'MoveEffect' sans documentation
+- **line :** 110
+- **suggestion :** Ajoutez /// avant cette struct
+
+## Warning
+
+- **Module :** rust
+- **Message :** Impl 'ZoneState ' sans documentation
+- **line :** 117
+- **suggestion :** Ajoutez /// avant cette impl
+
+## Warning
+
+- **Module :** rust
+- **Message :** Function 'new' sans documentation
+- **line :** 118
+- **suggestion :** Ajoutez /// avant cette function
+
+## Warning
+
+- **Module :** rust
+- **Message :** Function 'packet' sans documentation
+- **line :** 218
+- **suggestion :** Ajoutez /// avant cette function
+
+## Warning
+
+- **Module :** rust
+- **Message :** Impl 'Default for ZoneState ' sans documentation
+- **line :** 223
+- **suggestion :** Ajoutez /// avant cette impl
+
+## Warning
+
+- **Module :** rust
+- **Message :** Function 'default' sans documentation
+- **line :** 224
+- **suggestion :** Ajoutez /// avant cette function
+
+## Warning
+
+- **Module :** rust
+- **Message :** Function 'random_treasure_level' sans documentation
+- **line :** 277
+- **suggestion :** Ajoutez /// avant cette function
+
+## Warning
+
+- **Module :** rust
+- **Message :** Mod 'tests' sans documentation
+- **line :** 318
+- **suggestion :** Ajoutez /// avant cette mod
+
+## Warning
+
+- **Module :** rust
+- **Message :** Function 'pos' sans documentation
+- **line :** 321
+- **suggestion :** Ajoutez /// avant cette function
+
+## Warning
+
+- **Module :** rust
+- **Message :** Function 'zone_with_key_on_ground' sans documentation
+- **line :** 325
+- **suggestion :** Ajoutez /// avant cette function
+
+## Warning
+
+- **Module :** rust
+- **Message :** Function 'random_key_never_in_enclosure_nor_close_to_player' sans documentation
+- **line :** 334
+- **suggestion :** Ajoutez /// avant cette function
+
+## Warning
+
+- **Module :** rust
+- **Message :** Function 'server_spawn_area_is_outside_enclosure' sans documentation
+- **line :** 347
+- **suggestion :** Ajoutez /// avant cette function
+
+## Warning
+
+- **Module :** rust
+- **Message :** Function 'player_without_key_cannot_enter_door_or_interior' sans documentation
+- **line :** 353
+- **suggestion :** Ajoutez /// avant cette function
+
+## Warning
+
+- **Module :** rust
+- **Message :** Function 'player_with_key_can_pass_the_door_but_not_walls' sans documentation
+- **line :** 365
+- **suggestion :** Ajoutez /// avant cette function
+
+## Warning
+
+- **Module :** rust
+- **Message :** Function 'walls_block_everyone_and_teleport_is_refused' sans documentation
+- **line :** 380
+- **suggestion :** Ajoutez /// avant cette function
+
+## Warning
+
+- **Module :** rust
+- **Message :** Function 'world_bounds_are_enforced' sans documentation
+- **line :** 393
+- **suggestion :** Ajoutez /// avant cette function
+
+## Warning
+
+- **Module :** rust
+- **Message :** Function 'key_pickup_then_treasure_then_new_round' sans documentation
+- **line :** 402
+- **suggestion :** Ajoutez /// avant cette function
+
+## Warning
+
+- **Module :** rust
+- **Message :** Function 'treasure_requires_the_key' sans documentation
+- **line :** 430
+- **suggestion :** Ajoutez /// avant cette function
+
+## Warning
+
+- **Module :** rust
+- **Message :** Function 'first_player_to_touch_the_key_gets_it' sans documentation
+- **line :** 442
+- **suggestion :** Ajoutez /// avant cette function
+
+## Warning
+
+- **Module :** rust
+- **Message :** Function 'key_holder_leaving_resets_the_round' sans documentation
+- **line :** 454
+- **suggestion :** Ajoutez /// avant cette function
+
+## Warning
+
+- **Module :** rust
+- **Message :** Function 'encoded_state_is_43_bytes' sans documentation
+- **line :** 468
+- **suggestion :** Ajoutez /// avant cette function
+
+## Warning
+
+- **Module :** rust
+- **Message :** Function 'treasure_level_is_always_between_1_and_5' sans documentation
+- **line :** 473
+- **suggestion :** Ajoutez /// avant cette function
+
+## Warning
+
+- **Module :** rust
+- **Message :** Function 'encoded_level_is_the_last_byte' sans documentation
+- **line :** 487
+- **suggestion :** Ajoutez /// avant cette function
+
+## Warning
+
+- **Module :** rust
+- **Message :** Function 'new_round_draws_a_new_valid_level' sans documentation
+- **line :** 498
+- **suggestion :** Ajoutez /// avant cette function
+
 ---
 
 # /home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/world/world.rs
@@ -7657,126 +8109,133 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 - **Module :** rust
 - **Message :** Struct 'Position' sans documentation
-- **line :** 11
+- **line :** 12
 - **suggestion :** Ajoutez /// avant cette struct
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Impl 'Position ' sans documentation
-- **line :** 17
+- **line :** 18
 - **suggestion :** Ajoutez /// avant cette impl
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'new' sans documentation
-- **line :** 18
+- **line :** 19
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
+- **Message :** Struct 'MoveAccepted' sans documentation
+- **line :** 26
+- **suggestion :** Ajoutez /// avant cette struct
+
+## Warning
+
+- **Module :** rust
 - **Message :** Struct 'World' sans documentation
-- **line :** 24
+- **line :** 33
 - **suggestion :** Ajoutez /// avant cette struct
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Impl 'World ' sans documentation
-- **line :** 29
+- **line :** 40
 - **suggestion :** Ajoutez /// avant cette impl
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'new' sans documentation
-- **line :** 34
+- **line :** 45
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'subscribe' sans documentation
-- **line :** 47
-- **suggestion :** Ajoutez /// avant cette function
-
-## Warning
-
-- **Module :** rust
-- **Message :** Function 'sender' sans documentation
-- **line :** 51
-- **suggestion :** Ajoutez /// avant cette function
-
-## Warning
-
-- **Module :** rust
-- **Message :** Function 'set_position' sans documentation
 - **line :** 59
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
+- **Message :** Function 'sender' sans documentation
+- **line :** 63
+- **suggestion :** Ajoutez /// avant cette function
+
+## Warning
+
+- **Module :** rust
+- **Message :** Function 'set_position' sans documentation
+- **line :** 71
+- **suggestion :** Ajoutez /// avant cette function
+
+## Warning
+
+- **Module :** rust
 - **Message :** Function 'remove_player' sans documentation
-- **line :** 81
+- **line :** 93
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'get_position' sans documentation
-- **line :** 94
+- **line :** 182
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'snapshot' sans documentation
-- **line :** 105
+- **line :** 193
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'player_state_packet' sans documentation
-- **line :** 122
+- **line :** 210
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'broadcast_player_state' sans documentation
-- **line :** 163
+- **line :** 251
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'player_remove_packet' sans documentation
-- **line :** 202
+- **line :** 290
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'broadcast_player_remove' sans documentation
-- **line :** 215
+- **line :** 303
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Impl 'Default for World ' sans documentation
-- **line :** 243
+- **line :** 331
 - **suggestion :** Ajoutez /// avant cette impl
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'default' sans documentation
-- **line :** 244
+- **line :** 332
 - **suggestion :** Ajoutez /// avant cette function
 
 ---
