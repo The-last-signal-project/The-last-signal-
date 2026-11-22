@@ -1,6 +1,6 @@
 Documentation Quality Report
 
-**Date :** 2026-11-22 11:25:43
+**Date :** 2026-11-22 11:41:23
 
 # 64/100
 
@@ -8049,7 +8049,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Enum 'BanType' sans documentation
 
-- **line :** 55
+- **line :** 49
 
 - **suggestion :** Ajoutez /// avant cette enum
 
@@ -8059,7 +8059,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Struct 'BanInfo' sans documentation
 
-- **line :** 59
+- **line :** 53
 
 - **suggestion :** Ajoutez /// avant cette struct
 
@@ -8069,7 +8069,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Enum 'LogLevel' sans documentation
 
-- **line :** 66
+- **line :** 60
 
 - **suggestion :** Ajoutez /// avant cette enum
 
@@ -8079,7 +8079,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Struct 'ClientLog' sans documentation
 
-- **line :** 75
+- **line :** 69
 
 - **suggestion :** Ajoutez /// avant cette struct
 
@@ -8089,7 +8089,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Impl 'PacketType ' sans documentation
 
-- **line :** 82
+- **line :** 76
 
 - **suggestion :** Ajoutez /// avant cette impl
 
@@ -8099,7 +8099,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'from_u16' sans documentation
 
-- **line :** 83
+- **line :** 77
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -8109,7 +8109,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Struct 'Packet' sans documentation
 
-- **line :** 128
+- **line :** 115
 
 - **suggestion :** Ajoutez /// avant cette struct
 
@@ -8119,7 +8119,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Impl 'Packet ' sans documentation
 
-- **line :** 133
+- **line :** 120
 
 - **suggestion :** Ajoutez /// avant cette impl
 
@@ -8129,7 +8129,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'new' sans documentation
 
-- **line :** 134
+- **line :** 121
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -8139,7 +8139,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'encode_ban' sans documentation
 
-- **line :** 165
+- **line :** 152
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -8149,7 +8149,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Mod 'tests' sans documentation
 
-- **line :** 239
+- **line :** 226
 
 - **suggestion :** Ajoutez /// avant cette mod
 
@@ -8159,7 +8159,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'create_tcp_pair' sans documentation
 
-- **line :** 245
+- **line :** 232
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -8169,7 +8169,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'test_packet_type_from_u16_all_valid' sans documentation
 
-- **line :** 262
+- **line :** 249
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -8179,7 +8179,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'test_packet_type_from_u16_invalid_values' sans documentation
 
-- **line :** 293
+- **line :** 280
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -8189,7 +8189,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'test_encode_ban_temporary' sans documentation
 
-- **line :** 302
+- **line :** 289
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -8199,7 +8199,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'test_encode_ban_permanent' sans documentation
 
-- **line :** 312
+- **line :** 299
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -8209,7 +8209,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'test_receive_packet_size_zero_fails' sans documentation
 
-- **line :** 318
+- **line :** 305
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -8219,7 +8219,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'test_receive_packet_size_one_fails' sans documentation
 
-- **line :** 334
+- **line :** 321
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -8229,7 +8229,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'test_receive_packet_exceeds_max_size' sans documentation
 
-- **line :** 350
+- **line :** 337
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -8239,7 +8239,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'test_receive_packet_unknown_packet_type' sans documentation
 
-- **line :** 366
+- **line :** 353
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -8249,7 +8249,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'test_receive_packet_truncated_header' sans documentation
 
-- **line :** 384
+- **line :** 371
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -8259,7 +8259,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'test_receive_packet_truncated_payload' sans documentation
 
-- **line :** 400
+- **line :** 387
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -8269,7 +8269,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'test_send_packet_exceeds_max_size' sans documentation
 
-- **line :** 420
+- **line :** 407
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -8279,7 +8279,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'test_send_and_receive_roundtrip' sans documentation
 
-- **line :** 434
+- **line :** 421
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -8289,7 +8289,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'test_packet_parse_body_too_short' sans documentation
 
-- **line :** 453
+- **line :** 440
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -8299,7 +8299,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'test_packet_parse_body_unknown_type' sans documentation
 
-- **line :** 464
+- **line :** 451
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -8309,7 +8309,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'test_packet_parse_body_empty_payload' sans documentation
 
-- **line :** 471
+- **line :** 458
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -8319,7 +8319,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'test_packet_parse_body_with_payload' sans documentation
 
-- **line :** 480
+- **line :** 467
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -8329,7 +8329,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'test_packet_new_empty_payload' sans documentation
 
-- **line :** 489
+- **line :** 476
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -8339,7 +8339,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'test_packet_new_non_empty_payload' sans documentation
 
-- **line :** 499
+- **line :** 486
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -8349,7 +8349,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'test_packet_clone' sans documentation
 
-- **line :** 507
+- **line :** 494
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -8359,7 +8359,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'test_parse_body_all_supported_packet_types_protocol_lock' sans documentation
 
-- **line :** 519
+- **line :** 506
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -8369,7 +8369,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'test_parse_body_unknown_type_boundary_cases' sans documentation
 
-- **line :** 568
+- **line :** 555
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -8379,7 +8379,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'test_parse_body_realistic_move_payload' sans documentation
 
-- **line :** 585
+- **line :** 572
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -8389,7 +8389,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'test_parse_body_realistic_session_payload' sans documentation
 
-- **line :** 603
+- **line :** 590
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -8399,7 +8399,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'test_parse_body_realistic_player_state_payload' sans documentation
 
-- **line :** 615
+- **line :** 602
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -8409,7 +8409,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'test_send_packet_wire_format_inspection' sans documentation
 
-- **line :** 631
+- **line :** 618
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -8419,7 +8419,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'test_send_and_receive_empty_payload_roundtrip' sans documentation
 
-- **line :** 677
+- **line :** 664
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -8429,7 +8429,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'test_send_and_receive_exact_max_allowed_boundary' sans documentation
 
-- **line :** 695
+- **line :** 682
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -8439,7 +8439,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'test_receive_packet_oversized_header_rejected_without_waiting' sans documentation
 
-- **line :** 726
+- **line :** 713
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -8449,7 +8449,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'test_encode_ban_none_vs_empty_expiration' sans documentation
 
-- **line :** 748
+- **line :** 735
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -8459,7 +8459,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'test_encode_ban_empty_reason' sans documentation
 
-- **line :** 759
+- **line :** 746
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -8469,7 +8469,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'test_encode_ban_multibyte_utf8' sans documentation
 
-- **line :** 765
+- **line :** 752
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -8479,7 +8479,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'test_encode_ban_reason_with_nul_documents_delimiter_collision' sans documentation
 
-- **line :** 772
+- **line :** 759
 
 - **suggestion :** Ajoutez /// avant cette function
 
