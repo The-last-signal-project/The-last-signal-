@@ -471,7 +471,7 @@ mod tests {
 
     #[test]
     fn treasure_level_is_always_between_1_and_5() {
-        let mut seen = [false; 6];
+        let mut seen = [false; 15];
 
         for _ in 0..2000 {
             let level = ZoneState::new().treasure_level;
@@ -480,7 +480,7 @@ mod tests {
         }
 
         // sur 2000 tirages, les 5 niveaux sortent (proba d'échec ~ 1e-193)
-        assert!(seen[1..=5].iter().all(|&v| v));
+        assert!(seen[1..=15].iter().all(|&v| v));
     }
 
     #[test]
