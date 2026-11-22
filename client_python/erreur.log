@@ -160,3 +160,17 @@ Traceback (most recent call last):
                ^
 SyntaxError: invalid decimal literal
 
+[22/11/2026 15:12:29] Python 3.13.9 - linux2
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/media/cyril/External3/The-last-signal-/client_python/main.py", line 1, in <module>
+    from .menu import App,SAVES_DIR
+  File "/media/cyril/External3/The-last-signal-/client_python/menu.py", line 141, in <module>
+    from . import auth_session as net_proto      # connexion / comptes via le Client et les paquets du projet
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/media/cyril/External3/The-last-signal-/client_python/auth_session.py", line 1
+    <<<<<<< HEAD
+    ^^
+SyntaxError: invalid syntax
+

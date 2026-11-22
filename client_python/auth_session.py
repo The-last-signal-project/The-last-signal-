@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-
 # -*- coding: utf-8 -*-
 """
 Module d'authentification réseau du client Python pour The Last Signal.
