@@ -34,13 +34,7 @@ pub enum PacketType {
     AccountSelect = 21,
     AccountResult = 22,
     Spawn = 23,
-<<<<<<< HEAD
-    InventoryResponse = 24,
-    TreasureReward = 25,
-    InventoryRequest = 26,
-    ZoneState = 27,
 
-=======
     /// État de la clé et du trésor (serveur -> clients).
     ZoneState = 24,
     /// Contenu du coffre gagné (serveur -> joueur concerné), JSON UTF-8.
@@ -49,7 +43,7 @@ pub enum PacketType {
     InventoryRequest = 26,
     /// Inventaire et argent du joueur (serveur -> client), JSON UTF-8.
     InventoryResponse = 27,
->>>>>>> 8225de0a (feat(gameplay): add chest  in the 2d game)
+
 }
 #[derive(Debug, Clone, Copy)]
 pub enum BanType {
@@ -105,18 +99,11 @@ impl PacketType {
             21 => Some(PacketType::AccountSelect),
             22 => Some(PacketType::AccountResult),
             23 => Some(PacketType::Spawn),
-<<<<<<< HEAD
-            24 => Some(PacketType::InventoryResponse),
-            25 => Some(PacketType::TreasureReward),
-            26 => Some(PacketType::InventoryRequest),
-            27 => Some(PacketType::ZoneState),
-
-=======
             24 => Some(PacketType::ZoneState),
             25 => Some(PacketType::TreasureReward),
             26 => Some(PacketType::InventoryRequest),
             27 => Some(PacketType::InventoryResponse),
->>>>>>> 8225de0a (feat(gameplay): add chest  in the 2d game)
+
 
             _ => None,
         }
