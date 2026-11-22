@@ -881,11 +881,11 @@ impl Inventaire {
             // OBJET DE BASE
             // ------------------------------------------------
             _ => Ok(vec![Ecriture::Base {
-                objet_id,
-                quantite: Self::quantite_sqlite(quantite)?,
-                stack_key: format!("base{suffixe}"),
-                marque: marque.clone(),
-            }]),
+    objet_id,
+    quantite: Self::quantite_sqlite(quantite)?,
+    stack_key: "base".to_string(),
+    marque: Marque::default(),
+}]),
         }
     }
 
@@ -1997,4 +1997,4 @@ impl Inventaire {
     pub fn account_id(&self) -> i64 {
         self.account_id
     }
-}
+}

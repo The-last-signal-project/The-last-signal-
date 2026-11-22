@@ -11,6 +11,7 @@ from PySide6.QtGui import QBrush, QColor, QKeyEvent, QPainter, QPen
 from PySide6.QtWidgets import QApplication, QMainWindow
 
 from .client import Client
+from .market_window import MarketDialog
 from .packet import Packet, PacketType
 from .packets.move import MovePacket
 
@@ -184,6 +185,9 @@ class Game(QMainWindow):
         self.inventory_open = False
         self.inventory_data: dict | None = None
         self.inventory_scroll = 0
+
+        # Marché (touche S) : fenêtre ouverte, ou None
+        self.market_dialog: MarketDialog | None = None
 
         self.message = ""
         self.message_frames = 0
@@ -364,6 +368,16 @@ class Game(QMainWindow):
         if packet_type == PacketType.INVENTORY_RESPONSE:
 
             self.handle_inventory(packet.payload)
+
+            return
+
+        # ---------------------------------------------------------
+        # MARKET_RESPONSE : réponse du marché (JSON)
+        # ---------------------------------------------------------
+
+        if packet_type == PacketType.MARKET_RESPONSE:
+
+            self.handle_market_response(packet.payload)
 
             return
 
@@ -607,8 +621,8 @@ class Game(QMainWindow):
         # ---------------------------------------------------------
 
         if (
-            Qt.Key_Z in self.keys
-            or Qt.Key_W in self.keys
+            Qt.Key.Key_Z in self.keys
+            or Qt.Key.Key_W in self.keys
         ):
 
             dy -= self.PLAYER_SPEED
@@ -617,7 +631,8 @@ class Game(QMainWindow):
         # BAS
         # ---------------------------------------------------------
 
-        if Qt.Key_S in self.keys:
+        
+        if Qt.Key.Key_S in self.keys:
 
             dy += self.PLAYER_SPEED
 
@@ -626,8 +641,8 @@ class Game(QMainWindow):
         # ---------------------------------------------------------
 
         if (
-            Qt.Key_Q in self.keys
-            or Qt.Key_A in self.keys
+            Qt.Key.Key_Q in self.keys
+            or Qt.Key.Key_A in self.keys
         ):
 
             dx -= self.PLAYER_SPEED
@@ -636,7 +651,7 @@ class Game(QMainWindow):
         # DROITE
         # ---------------------------------------------------------
 
-        if Qt.Key_D in self.keys:
+        if Qt.Key.Key_D in self.keys:
 
             dx += self.PLAYER_SPEED
 
@@ -1076,6 +1091,67 @@ class Game(QMainWindow):
                 )
 
     # =============================================================
+    # MARCHÉ (touche S)
+    # =============================================================
+
+    def open_market(self) -> None:
+        """Ouvre la fenêtre du marché (onglets Acheter / Vendre)."""
+
+        if self.market_dialog is not None:
+            return
+
+        # Évite deux panneaux superposés
+        if self.inventory_open:
+            self.toggle_inventory()
+
+        # La fenêtre prend le clavier : les touches de déplacement
+        # relâchées pendant ce temps ne doivent pas rester « enfoncées ».
+        self.keys.clear()
+
+        dialog = MarketDialog(self.send_market_request, self)
+
+        dialog.finished.connect(self.on_market_closed)
+
+        self.market_dialog = dialog
+
+        dialog.show()
+        dialog.demander_donnees_initiales()
+
+    def on_market_closed(self, _result: int = 0) -> None:
+
+        self.market_dialog = None
+
+        self.keys.clear()
+
+        self.setFocus()
+
+    def send_market_request(self, request: dict) -> None:
+        """Envoie une requête de marché (JSON) au serveur."""
+
+        self.client.send_packet(
+            Packet(
+                PacketType.MARKET_REQUEST,
+                json.dumps(request).encode("utf-8"),
+            )
+        )
+
+    def handle_market_response(self, payload: bytes) -> None:
+        """Remet la réponse du serveur à la fenêtre du marché."""
+
+        if self.market_dialog is None:
+            return
+
+        try:
+            data = json.loads(payload.decode("utf-8"))
+        except (ValueError, UnicodeDecodeError):
+            data = {"ok": False, "message": "Réponse illisible"}
+
+        if not isinstance(data, dict):
+            data = {"ok": False, "message": "Réponse illisible"}
+
+        self.market_dialog.handle_response(data)
+
+    # =============================================================
     # ENVOI MOVE
     # =============================================================
 
@@ -1120,13 +1196,13 @@ class Game(QMainWindow):
 
         # Inventaire ouvert : flèches / PageUp / PageDown font défiler la liste
         if self.inventory_open and event.key() in (
-            Qt.Key_Up, Qt.Key_Down, Qt.Key_PageUp, Qt.Key_PageDown,
+            Qt.Key.Key_Up, Qt.Key.Key_Down, Qt.Key.Key_PageUp, Qt.Key.Key_PageDown,
         ):
             step = {
-                Qt.Key_Up: -1,
-                Qt.Key_Down: 1,
-                Qt.Key_PageUp: -self.INVENTORY_VISIBLE_LINES,
-                Qt.Key_PageDown: self.INVENTORY_VISIBLE_LINES,
+                Qt.Key.Key_Up: -1,
+                Qt.Key.Key_Down: 1,
+                Qt.Key.Key_PageUp: -self.INVENTORY_VISIBLE_LINES,
+                Qt.Key.Key_PageDown: self.INVENTORY_VISIBLE_LINES,
             }[event.key()]
 
             self.scroll_inventory(step)
@@ -1136,12 +1212,17 @@ class Game(QMainWindow):
         if event.isAutoRepeat():
             return
 
+        # O : ouvre le marché
+        if event.key() == Qt.Key.Key_O:
+            self.open_market()
+            return
+
         # I : ouvre / ferme l'inventaire (Échap le ferme aussi)
-        if event.key() == Qt.Key_I:
+        if event.key() == Qt.Key.Key_I:
             self.toggle_inventory()
             return
 
-        if event.key() == Qt.Key_Escape and self.inventory_open:
+        if event.key() == Qt.Key.Key_Escape and self.inventory_open:
             self.toggle_inventory()
             return
 
@@ -1468,6 +1549,9 @@ class Game(QMainWindow):
         """
 
         self.running = False
+
+        if self.market_dialog is not None:
+            self.market_dialog.close()
 
         # ---------------------------------------------------------
         # ARRÊT DES TIMERS

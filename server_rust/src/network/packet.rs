@@ -44,6 +44,12 @@ pub enum PacketType {
     /// Inventaire et argent du joueur (serveur -> client), JSON UTF-8.
     InventoryResponse = 27,
 
+    /// Requête du marché (client -> serveur), JSON UTF-8.
+    /// Voir `network/market_api.rs` pour les actions.
+    MarketRequest = 28,
+    /// Réponse du marché (serveur -> client), JSON UTF-8.
+    MarketResponse = 29,
+
 }
 #[derive(Debug, Clone, Copy)]
 pub enum BanType {
@@ -103,6 +109,8 @@ impl PacketType {
             25 => Some(PacketType::TreasureReward),
             26 => Some(PacketType::InventoryRequest),
             27 => Some(PacketType::InventoryResponse),
+            28 => Some(PacketType::MarketRequest),
+            29 => Some(PacketType::MarketResponse),
 
 
             _ => None,
@@ -274,12 +282,14 @@ mod tests {
         assert_eq!(PacketType::from_u16(25), Some(PacketType::TreasureReward));
         assert_eq!(PacketType::from_u16(26), Some(PacketType::InventoryRequest));
         assert_eq!(PacketType::from_u16(27), Some(PacketType::InventoryResponse));
+        assert_eq!(PacketType::from_u16(28), Some(PacketType::MarketRequest));
+        assert_eq!(PacketType::from_u16(29), Some(PacketType::MarketResponse));
     }
 
     #[test]
     fn test_packet_type_from_u16_invalid_values() {
         assert_eq!(PacketType::from_u16(0), None);
-        assert_eq!(PacketType::from_u16(28), None);
+        assert_eq!(PacketType::from_u16(30), None);
         assert_eq!(PacketType::from_u16(100), None);
         assert_eq!(PacketType::from_u16(999), None);
         assert_eq!(PacketType::from_u16(u16::MAX), None);
@@ -532,6 +542,8 @@ mod tests {
             (25u16, PacketType::TreasureReward),
             (26u16, PacketType::InventoryRequest),
             (27u16, PacketType::InventoryResponse),
+            (28u16, PacketType::MarketRequest),
+            (29u16, PacketType::MarketResponse),
 
 
         ];
@@ -553,7 +565,7 @@ mod tests {
 
     #[test]
 fn test_parse_body_unknown_type_boundary_cases() {
-    let unknown_ids = [0u16, 28u16, 999u16, u16::MAX];
+    let unknown_ids = [0u16, 30u16, 999u16, u16::MAX];
 
     for unknown_id in unknown_ids {
         let body = unknown_id.to_be_bytes();

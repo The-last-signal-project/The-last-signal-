@@ -1058,6 +1058,35 @@ impl PacketHandler {
             }
 
             // =================================================
+            // MARCHÉ (interface client, JSON)
+            // =================================================
+
+            PacketType::MarketRequest => {
+                let account_id = match client.account_id() {
+                    Some(id) => id,
+
+                    None => {
+                        return HandlerResult::Response(Packet::new(
+                            PacketType::MarketResponse,
+                            br#"{"ok":false,"message":"Compte non selectionne"}"#.to_vec(),
+                        ));
+                    }
+                };
+
+                let reponse = crate::network::market_api::traiter(
+                    pool.clone(),
+                    account_id,
+                    &packet.payload,
+                )
+                .await;
+
+                HandlerResult::Response(Packet::new(
+                    PacketType::MarketResponse,
+                    reponse,
+                ))
+            }
+
+            // =================================================
             // DÉPLACEMENT
             // =================================================
 
@@ -1709,6 +1738,7 @@ impl PacketHandler {
             | PacketType::ZoneState
             | PacketType::TreasureReward
             | PacketType::InventoryResponse
+            | PacketType::MarketResponse
             | PacketType::Session
             | PacketType::AccountListResponse
             | PacketType::AccountResult => {

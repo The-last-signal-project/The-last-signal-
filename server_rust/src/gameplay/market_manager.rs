@@ -34,6 +34,7 @@
 
 use std::collections::{BTreeSet, HashMap};
 
+use serde::{Deserialize, Serialize};
 use sqlx::{Sqlite, SqlitePool, Transaction};
 use uuid::Uuid;
 
@@ -1621,6 +1622,545 @@ impl MarketManager {
         .await?;
 
         type_objet.ok_or_else(|| erreur("Objet inexistant"))
+    }
+}
+
+// ============================================================
+// RECHERCHE, INVENTAIRE VENDABLE ET ACHAT IMMÉDIAT
+// (interface client : voir `network/market_api.rs`)
+// ============================================================
+
+const LIMITE_RECHERCHE_DEFAUT: i64 = 200;
+const LIMITE_RECHERCHE_MAX: i64 = 500;
+
+/// Lignes de vente actives, avec tout ce qu'il faut pour les afficher.
+///
+/// ?1 compte demandeur, ?2 mode (0 = marché : on exclut ses propres
+/// ventes ; 1 = « mes ventes »), ?3.. filtres (NULL = pas de filtre).
+/// L'ORDER BY et la LIMIT (?15) sont ajoutés par `lister_ventes`.
+const SQL_VENTES: &str = r#"
+SELECT
+    lv.ligne_vente_id    AS ligne_vente_id,
+    lv.ordre_vente_id    AS ordre_vente_id,
+    lv.objet_id          AS objet_id,
+    o.nom                AS nom,
+    o.type               AS type_objet,
+    lv.variante_id       AS variante_id,
+    lv.quantite_restante AS quantite,
+    lv.prix_unitaire     AS prix_unitaire,
+    vm.rarete            AS rarete,
+    vm.rang              AS rang,
+    vm.book_level        AS niveau_livre,
+    e.durability         AS durabilite,
+    e.durability_max     AS durabilite_max,
+    p.effect             AS effet,
+    p.potency            AS puissance,
+    p.duration           AS duree,
+    a.account_name       AS vendeur
+FROM lignes_vente lv
+JOIN ordres_vente ov ON ov.ordre_vente_id = lv.ordre_vente_id
+JOIN stock_marche sm ON sm.stock_id = lv.stock_id
+JOIN stuff s         ON s.stuff_id = sm.stuff_id
+JOIN objets_dispo o  ON o.objet_id = lv.objet_id
+JOIN accounts a      ON a.account_id = ov.account_id
+LEFT JOIN variantes_marche vm ON vm.variante_id = lv.variante_id
+LEFT JOIN equipment e ON e.stuff_id = s.stuff_id
+LEFT JOIN potions p   ON p.stuff_id = s.stuff_id
+WHERE lv.statut IN ('actif', 'partiel')
+  AND ov.statut IN ('actif', 'partiel')
+  AND sm.statut IN ('disponible', 'partiel')
+  AND lv.quantite_restante > 0
+  AND ((?2 = 0 AND ov.account_id <> ?1) OR (?2 = 1 AND ov.account_id = ?1))
+  AND (?3  IS NULL OR instr(lower(o.nom), lower(?3)) > 0)
+  AND (?4  IS NULL OR o.type = ?4)
+  AND (?5  IS NULL OR vm.rarete = ?5)
+  AND (?6  IS NULL OR vm.rang = ?6)
+  AND (?7  IS NULL OR lv.prix_unitaire >= ?7)
+  AND (?8  IS NULL OR lv.prix_unitaire <= ?8)
+  AND (?9  IS NULL OR e.durability >= ?9)
+  AND (?10 IS NULL OR e.durability <= ?10)
+  AND (?11 IS NULL OR EXISTS (
+        SELECT 1
+        FROM variante_enchantements ve
+        JOIN enchantments en ON en.enchantment_id = ve.enchantment_id
+        WHERE ve.variante_id = lv.variante_id
+          AND instr(lower(en.enchantment_name), lower(?11)) > 0))
+  AND (?12 IS NULL OR instr(lower(p.effect), lower(?12)) > 0)
+  AND (?13 IS NULL OR p.potency >= ?13)
+  AND (?14 IS NULL OR p.duration >= ?14)
+"#;
+
+/// Enchantements des variantes listées (?1 = tableau JSON d'ids).
+const SQL_ENCHANTEMENTS_VARIANTES: &str = r#"
+SELECT ve.variante_id, en.enchantment_name, ve.enchantment_level
+FROM variante_enchantements ve
+JOIN enchantments en ON en.enchantment_id = ve.enchantment_id
+WHERE ve.variante_id IN (SELECT value FROM json_each(?1))
+ORDER BY ve.variante_id, en.enchantment_name
+"#;
+
+/// Inventaire vendable : uniquement les objets VISIBLES du compte (?1).
+const SQL_INVENTAIRE_VENDABLE: &str = r#"
+SELECT
+    s.stuff_id       AS stuff_id,
+    s.objet_id       AS objet_id,
+    o.nom            AS nom,
+    o.type           AS type_objet,
+    s.quantity       AS quantite,
+    s.rarete         AS rarete,
+    s.rang           AS rang,
+    eb.book_level    AS niveau_livre,
+    eq.durability    AS durabilite,
+    eq.durability_max AS durabilite_max,
+    p.effect         AS effet,
+    p.potency        AS puissance,
+    p.duration       AS duree,
+    o.prix_base      AS prix_base
+FROM stuff s
+JOIN objets_dispo o ON o.objet_id = s.objet_id
+LEFT JOIN equipment eq       ON eq.stuff_id = s.stuff_id
+LEFT JOIN potions p          ON p.stuff_id = s.stuff_id
+LEFT JOIN enchanted_books eb ON eb.stuff_id = s.stuff_id
+WHERE s.account_id = ?1
+  AND s.visible = 1
+ORDER BY o.nom, s.stuff_id
+"#;
+
+/// Enchantements des livres et équipements visibles du compte (?1).
+const SQL_ENCHANTEMENTS_INVENTAIRE: &str = r#"
+SELECT s.stuff_id, en.enchantment_name, be.enchantment_level
+FROM stuff s
+JOIN enchanted_books eb      ON eb.stuff_id = s.stuff_id
+JOIN book_enchantments be    ON be.book_id = eb.book_id
+JOIN enchantments en         ON en.enchantment_id = be.enchantment_id
+WHERE s.account_id = ?1 AND s.visible = 1
+UNION ALL
+SELECT s.stuff_id, en.enchantment_name, ee.enchantment_level
+FROM stuff s
+JOIN equipment eq            ON eq.stuff_id = s.stuff_id
+JOIN equipment_enchantments ee ON ee.equipment_id = eq.equipment_id
+JOIN enchantments en         ON en.enchantment_id = ee.enchantment_id
+WHERE s.account_id = ?1 AND s.visible = 1
+ORDER BY 1, 2
+"#;
+
+/// Une vente encore active, avec ses caractéristiques (?1 = ligne_vente_id).
+const SQL_LIGNE_A_ACHETER: &str = r#"
+SELECT
+    lv.objet_id          AS objet_id,
+    lv.variante_id       AS variante_id,
+    lv.prix_unitaire     AS prix_unitaire,
+    lv.quantite_restante AS quantite_restante,
+    ov.account_id        AS vendeur_id,
+    o.type               AS type_objet,
+    e.durability         AS durabilite,
+    p.effect             AS effet,
+    p.potency            AS puissance,
+    p.duration           AS duree
+FROM lignes_vente lv
+JOIN ordres_vente ov ON ov.ordre_vente_id = lv.ordre_vente_id
+JOIN stock_marche sm ON sm.stock_id = lv.stock_id
+JOIN stuff s         ON s.stuff_id = sm.stuff_id
+JOIN objets_dispo o  ON o.objet_id = lv.objet_id
+LEFT JOIN equipment e ON e.stuff_id = s.stuff_id
+LEFT JOIN potions p   ON p.stuff_id = s.stuff_id
+WHERE lv.ligne_vente_id = ?1
+  AND lv.statut IN ('actif', 'partiel')
+  AND ov.statut IN ('actif', 'partiel')
+  AND sm.statut IN ('disponible', 'partiel')
+  AND lv.quantite_restante > 0
+"#;
+
+/// Critères de recherche du marché (tous facultatifs).
+#[derive(Debug, Clone, Default, Deserialize)]
+#[serde(default)]
+pub struct FiltreRecherche {
+    /// Morceau du nom, sans tenir compte de la casse.
+    pub nom: Option<String>,
+    #[serde(rename = "type")]
+    pub type_objet: Option<String>,
+    pub rarete: Option<String>,
+    pub rang: Option<String>,
+    pub prix_min: Option<i64>,
+    pub prix_max: Option<i64>,
+    /// Armes et équipements uniquement.
+    pub durabilite_min: Option<i64>,
+    pub durabilite_max: Option<i64>,
+    /// Morceau du nom d'un enchantement.
+    pub enchantement: Option<String>,
+    pub effet: Option<String>,
+    pub puissance_min: Option<i64>,
+    pub duree_min: Option<i64>,
+    /// "prix_asc" (défaut), "prix_desc", "nom", "durabilite_desc".
+    pub tri: Option<String>,
+    pub limite: Option<i64>,
+}
+
+fn vide_en_none(texte: Option<String>) -> Option<String> {
+    texte
+        .map(|t| t.trim().to_string())
+        .filter(|t| !t.is_empty())
+}
+
+impl FiltreRecherche {
+    /// Les champs texte vides (formulaire non rempli) valent « pas de filtre ».
+    fn normaliser(mut self) -> Self {
+        self.nom = vide_en_none(self.nom);
+        self.type_objet = vide_en_none(self.type_objet);
+        self.rarete = vide_en_none(self.rarete);
+        self.rang = vide_en_none(self.rang);
+        self.enchantement = vide_en_none(self.enchantement);
+        self.effet = vide_en_none(self.effet);
+        self
+    }
+
+    /// Clause ORDER BY choisie dans une liste fermée (jamais du texte client).
+    fn ordre_sql(&self) -> &'static str {
+        match self.tri.as_deref() {
+            Some("prix_desc") => "lv.prix_unitaire DESC, lv.ligne_vente_id ASC",
+            Some("nom") => {
+                "o.nom ASC, lv.prix_unitaire ASC, lv.ligne_vente_id ASC"
+            }
+            Some("durabilite_desc") => {
+                "e.durability DESC, lv.prix_unitaire ASC, lv.ligne_vente_id ASC"
+            }
+            _ => "lv.prix_unitaire ASC, lv.ligne_vente_id ASC",
+        }
+    }
+}
+
+/// Une vente affichée dans l'onglet « Acheter » (ou « Mes ventes »).
+#[derive(Debug, Clone, Serialize, sqlx::FromRow)]
+pub struct VenteListee {
+    pub ligne_vente_id: i64,
+    pub ordre_vente_id: i64,
+    pub objet_id: i64,
+    pub nom: String,
+    #[serde(rename = "type")]
+    pub type_objet: String,
+    pub variante_id: Option<i64>,
+    pub quantite: i64,
+    pub prix_unitaire: i64,
+    pub rarete: Option<String>,
+    pub rang: Option<String>,
+    pub niveau_livre: Option<i64>,
+    pub durabilite: Option<i64>,
+    pub durabilite_max: Option<i64>,
+    pub effet: Option<String>,
+    pub puissance: Option<i64>,
+    pub duree: Option<i64>,
+    pub vendeur: String,
+    /// Ex. « Tranchant 3 ».
+    #[sqlx(skip)]
+    pub enchantements: Vec<String>,
+}
+
+/// Un exemplaire de l'inventaire proposé dans l'onglet « Vendre ».
+#[derive(Debug, Clone, Serialize, sqlx::FromRow)]
+pub struct ObjetVendable {
+    pub stuff_id: i64,
+    pub objet_id: i64,
+    pub nom: String,
+    #[serde(rename = "type")]
+    pub type_objet: String,
+    pub quantite: i64,
+    pub rarete: Option<String>,
+    pub rang: Option<String>,
+    pub niveau_livre: Option<i64>,
+    pub durabilite: Option<i64>,
+    pub durabilite_max: Option<i64>,
+    pub effet: Option<String>,
+    pub puissance: Option<i64>,
+    pub duree: Option<i64>,
+    /// Prix du catalogue, proposé comme prix de départ.
+    pub prix_base: i64,
+    #[sqlx(skip)]
+    pub enchantements: Vec<String>,
+}
+
+#[derive(Debug, Clone, Serialize)]
+pub struct ResultatAchat {
+    pub ordre_id: i64,
+    pub quantite_demandee: i64,
+    pub quantite_achetee: i64,
+    pub depense_totale: i64,
+}
+
+#[derive(sqlx::FromRow)]
+struct LigneAAcheter {
+    objet_id: i64,
+    variante_id: Option<i64>,
+    prix_unitaire: i64,
+    quantite_restante: i64,
+    vendeur_id: i64,
+    type_objet: String,
+    durabilite: Option<i64>,
+    effet: Option<String>,
+    puissance: Option<i64>,
+    duree: Option<i64>,
+}
+
+fn grouper_enchantements(
+    lignes: Vec<(i64, String, i64)>,
+) -> HashMap<i64, Vec<String>> {
+    let mut par_cle: HashMap<i64, Vec<String>> = HashMap::new();
+
+    for (cle, nom, niveau) in lignes {
+        par_cle
+            .entry(cle)
+            .or_default()
+            .push(format!("{nom} {niveau}"));
+    }
+
+    par_cle
+}
+
+impl MarketManager {
+    /// Ventes des autres joueurs correspondant aux critères.
+    pub async fn rechercher_ventes(
+        &self,
+        account_id: i64,
+        filtre: FiltreRecherche,
+    ) -> Result<Vec<VenteListee>, sqlx::Error> {
+        self.lister_ventes(account_id, 0, filtre).await
+    }
+
+    /// Ventes en cours du joueur (annulables).
+    pub async fn mes_ventes(
+        &self,
+        account_id: i64,
+    ) -> Result<Vec<VenteListee>, sqlx::Error> {
+        self.lister_ventes(account_id, 1, FiltreRecherche::default())
+            .await
+    }
+
+    async fn lister_ventes(
+        &self,
+        account_id: i64,
+        mode: i64,
+        filtre: FiltreRecherche,
+    ) -> Result<Vec<VenteListee>, sqlx::Error> {
+        let filtre = filtre.normaliser();
+
+        let limite = filtre
+            .limite
+            .unwrap_or(LIMITE_RECHERCHE_DEFAUT)
+            .clamp(1, LIMITE_RECHERCHE_MAX);
+
+        let sql = format!(
+            "{SQL_VENTES}\nORDER BY {}\nLIMIT ?15",
+            filtre.ordre_sql()
+        );
+
+        let mut ventes: Vec<VenteListee> = sqlx::query_as::<_, VenteListee>(sqlx::AssertSqlSafe(sql))
+            .bind(account_id)
+            .bind(mode)
+            .bind(filtre.nom.as_deref())
+            .bind(filtre.type_objet.as_deref())
+            .bind(filtre.rarete.as_deref())
+            .bind(filtre.rang.as_deref())
+            .bind(filtre.prix_min)
+            .bind(filtre.prix_max)
+            .bind(filtre.durabilite_min)
+            .bind(filtre.durabilite_max)
+            .bind(filtre.enchantement.as_deref())
+            .bind(filtre.effet.as_deref())
+            .bind(filtre.puissance_min)
+            .bind(filtre.duree_min)
+            .bind(limite)
+            .fetch_all(&self.pool)
+            .await?;
+
+        let variantes: BTreeSet<i64> =
+            ventes.iter().filter_map(|v| v.variante_id).collect();
+
+        if !variantes.is_empty() {
+            let ids = serde_json::to_string(
+                &variantes.into_iter().collect::<Vec<_>>(),
+            )
+            .map_err(|e| erreur(e.to_string()))?;
+
+            let lignes: Vec<(i64, String, i64)> =
+                sqlx::query_as(SQL_ENCHANTEMENTS_VARIANTES)
+                    .bind(ids)
+                    .fetch_all(&self.pool)
+                    .await?;
+
+            let par_variante = grouper_enchantements(lignes);
+
+            for vente in &mut ventes {
+                if let Some(liste) = vente
+                    .variante_id
+                    .and_then(|id| par_variante.get(&id))
+                {
+                    vente.enchantements = liste.clone();
+                }
+            }
+        }
+
+        Ok(ventes)
+    }
+
+    /// Objets du joueur que l'on peut mettre en vente : seulement les
+    /// objets visibles (un objet masqué est inutilisable, donc invendable).
+    pub async fn inventaire_vendable(
+        &self,
+        account_id: i64,
+    ) -> Result<Vec<ObjetVendable>, sqlx::Error> {
+        let mut objets: Vec<ObjetVendable> =
+            sqlx::query_as(SQL_INVENTAIRE_VENDABLE)
+                .bind(account_id)
+                .fetch_all(&self.pool)
+                .await?;
+
+        let lignes: Vec<(i64, String, i64)> =
+            sqlx::query_as(SQL_ENCHANTEMENTS_INVENTAIRE)
+                .bind(account_id)
+                .fetch_all(&self.pool)
+                .await?;
+
+        let par_stuff = grouper_enchantements(lignes);
+
+        for objet in &mut objets {
+            if let Some(liste) = par_stuff.get(&objet.stuff_id) {
+                objet.enchantements = liste.clone();
+            }
+        }
+
+        Ok(objets)
+    }
+
+    /// Achète tout de suite `quantite` unités d'une vente affichée.
+    ///
+    /// Crée un ordre d'achat dont le prix plafond est le prix affiché et
+    /// dont les critères reprennent ceux de la vente (variante, durabilité
+    /// exacte, caractéristiques exactes de la potion). Ce qui n'a pas pu être
+    /// acheté est annulé et remboursé : aucun ordre ne reste ouvert.
+    pub async fn acheter_ligne(
+        &self,
+        account_id: i64,
+        ligne_vente_id: i64,
+        quantite: u64,
+    ) -> Result<ResultatAchat, sqlx::Error> {
+        if quantite == 0 {
+            return Err(erreur("La quantité doit être supérieure à 0"));
+        }
+
+        let demandee = quantite_i64(quantite)?;
+
+        let vente: LigneAAcheter = sqlx::query_as(SQL_LIGNE_A_ACHETER)
+            .bind(ligne_vente_id)
+            .fetch_optional(&self.pool)
+            .await?
+            .ok_or_else(|| erreur("Cette vente n'est plus disponible"))?;
+
+        if vente.vendeur_id == account_id {
+            return Err(erreur(
+                "Vous ne pouvez pas acheter vos propres objets",
+            ));
+        }
+
+        if demandee > vente.quantite_restante {
+            return Err(erreur(format!(
+                "Quantité disponible : {}",
+                vente.quantite_restante
+            )));
+        }
+
+        let mut ligne = if variantes::type_a_variante(&vente.type_objet) {
+            let variante_id = vente.variante_id.ok_or_else(|| {
+                erreur("Vente sans variante : impossible d'acheter")
+            })?;
+
+            LigneAchatDemande::variante(
+                vente.objet_id,
+                variante_id,
+                quantite,
+                vente.prix_unitaire,
+            )
+        } else {
+            LigneAchatDemande::base(
+                vente.objet_id,
+                quantite,
+                vente.prix_unitaire,
+            )
+        };
+
+        if variantes::type_a_fiche_equipement(&vente.type_objet) {
+            ligne.durabilite_min = vente.durabilite;
+            ligne.durabilite_max = vente.durabilite;
+        }
+
+        if vente.type_objet == "potion" {
+            ligne.potion = CriterePotion {
+                effet: vente.effet.clone(),
+                puissance_exacte: vente.puissance,
+                puissance_min: None,
+                duree_exacte: vente.duree,
+                duree_min: None,
+            };
+        }
+
+        let ordre = self
+            .creer_ordre_achat_lignes(account_id, vec![ligne])
+            .await?;
+
+        let ligne_achat_id = ordre.lignes[0];
+
+        let (initiale, restante): (i64, i64) = sqlx::query_as(
+            r#"
+            SELECT quantite_initiale, quantite_restante
+            FROM lignes_achat
+            WHERE ligne_achat_id = ?
+            "#,
+        )
+        .bind(ligne_achat_id)
+        .fetch_one(&self.pool)
+        .await?;
+
+        let depense_totale: i64 = sqlx::query_scalar(
+            r#"
+            SELECT COALESCE(SUM(prix_total), 0)
+            FROM transactions_marche
+            WHERE ligne_achat_id = ?
+            "#,
+        )
+        .bind(ligne_achat_id)
+        .fetch_one(&self.pool)
+        .await?;
+
+        // Achat immédiat : le reste (vente prise entre-temps) est annulé
+        // et les fonds réservés sont rendus.
+        if restante > 0 {
+            self.annuler_ordre_achat(account_id, ordre.ordre_id).await?;
+        }
+
+        Ok(ResultatAchat {
+            ordre_id: ordre.ordre_id,
+            quantite_demandee: demandee,
+            quantite_achetee: initiale - restante,
+            depense_totale,
+        })
+    }
+
+    /// Annule une vente à partir de sa ligne (l'ordre est retrouvé ici).
+    pub async fn annuler_vente_par_ligne(
+        &self,
+        account_id: i64,
+        ligne_vente_id: i64,
+    ) -> Result<(), sqlx::Error> {
+        let ordre_id: Option<i64> = sqlx::query_scalar(
+            "SELECT ordre_vente_id FROM lignes_vente WHERE ligne_vente_id = ?",
+        )
+        .bind(ligne_vente_id)
+        .fetch_optional(&self.pool)
+        .await?;
+
+        let ordre_id =
+            ordre_id.ok_or_else(|| erreur("Vente inexistante"))?;
+
+        self.annuler_ligne_vente(account_id, ordre_id, ligne_vente_id)
+            .await
     }
 }
 

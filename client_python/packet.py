@@ -31,6 +31,8 @@ class PacketType(IntEnum):
     TREASURE_REWARD = 25
     INVENTORY_REQUEST = 26
     INVENTORY_RESPONSE = 27
+    MARKET_REQUEST = 28
+    MARKET_RESPONSE = 29
 
 
 class Packet:

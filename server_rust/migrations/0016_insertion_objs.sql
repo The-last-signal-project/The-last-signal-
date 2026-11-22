@@ -33,7 +33,7 @@ VALUES
 ('fugu', 'consumable', 'fugu.png', 50),
 ('poisson globe', 'consumable', 'poisson_globe.png', 40),
 ('sashimi', 'consumable', 'sashimi.png', 25),
-
+('minerais', 'basic', 'minerais.png', 100),
 ('matos', 'military_equipment', 'matos.png', 500),
 ('parachute', 'military_equipment', 'parachute.png', 1200),
 ('ogive', 'military_equipment', 'ogive.png', 5000),
