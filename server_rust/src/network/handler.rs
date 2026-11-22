@@ -1380,10 +1380,10 @@ impl PacketHandler {
                 {
                     Ok(account) => {
                         info!(
-                            "Compte '{}' (Classe : '{}') créé avec succès pour user_id={}",
+                            "Compte '{}' (Classe : '{}') créé avec succès",
                             account.account_name,
                             account.class_name,
-                            user_id
+                            
                         );
 
                         let payload = serde_json::json!({
@@ -1468,8 +1468,8 @@ impl PacketHandler {
                             .await
                         {
                             error!(
-                                "Impossible d'enregistrer la session [{}] : {}",
-                                client.session_id(),
+                                "Impossible d'enregistrer la session  : {}",
+                                
                                 e
                             );
                         }
