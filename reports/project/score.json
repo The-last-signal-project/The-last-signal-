@@ -1,5 +1,5 @@
 {
-    "generated": "2026-11-21T23:04:29.001314",
+    "generated": "2026-11-22T02:24:22.805313",
     "score": 64,
     "status": "Bon",
     "scores": {
@@ -50776,7 +50776,7 @@
                     "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/auth/mod.rs",
                     "line": 4,
                     "severity": "warning",
-                    "message": "Mod 'user_manager' sans documentation",
+                    "message": "Mod 'session_manager' sans documentation",
                     "suggestion": "Ajoutez /// avant cette mod",
                     "module": "rust"
                 },

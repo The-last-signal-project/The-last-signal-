@@ -1,6 +1,6 @@
 Documentation Quality Report
 
-**Date :** 2026-11-21 23:04:29
+**Date :** 2026-11-22 02:24:22
 
 # 64/100
 
@@ -5417,7 +5417,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** rust
-- **Message :** Mod 'user_manager' sans documentation
+- **Message :** Mod 'session_manager' sans documentation
 
 - **line :** 4
 
