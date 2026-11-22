@@ -34,10 +34,10 @@ VALUES
 ('poisson globe', 'consumable', 'poisson_globe.png', 40),
 ('sashimi', 'consumable', 'sashimi.png', 25),
 
-('matos', 'military', 'matos.png', 500),
-('parachute', 'military', 'parachute.png', 1200),
-('ogive', 'military', 'ogive.png', 5000),
-('combinaison anti g', 'military', 'combinaison_anti_g.png', 3000),
+('matos', 'military_equipment', 'matos.png', 500),
+('parachute', 'military_equipment', 'parachute.png', 1200),
+('ogive', 'military_equipment', 'ogive.png', 5000),
+('combinaison anti g', 'military_equipment', 'combinaison_anti_g.png', 3000),
 
 
 

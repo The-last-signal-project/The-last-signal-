@@ -41,7 +41,8 @@ CREATE TABLE IF NOT EXISTS objets_dispo (
                 'armes',
                 'basic',
                 'muni',
-                'mineral'
+                'mineral',
+                'military_equipment'
             )
         ),
     image_path TEXT,
@@ -51,6 +52,7 @@ CREATE TABLE IF NOT EXISTS objets_dispo (
         CHECK (prix_marche >= 0),
     est_empilable INTEGER NOT NULL DEFAULT 1
         CHECK (est_empilable IN (0, 1))
+   
 );
 CREATE TABLE IF NOT EXISTS variantes_marche (
     variante_id       INTEGER PRIMARY KEY AUTOINCREMENT,
