@@ -16,6 +16,7 @@ use crate::gameplay::objets::{
     TypeObjet,
 };
 use crate::gameplay::tresor::{ArtefactTire, ResultatOuverture, Tresor};
+use crate::gameplay::variantes::{self, VarianteSpec};
 use crate::gameplay::wallet_manager::WalletManager;
 
 /// Nom exact de l'objet "argent" (celui des trésors / objets_dispo).
@@ -158,6 +159,8 @@ enum Ecriture {
         objet_id: i64,
         equipment_type: &'static str,
         marque: Marque,
+        /// Crée la variante de marché à l'obtention (armes et équipements).
+        variante: bool,
     },
     Livre {
         objet_id: i64,
@@ -175,6 +178,11 @@ enum Ecriture {
 // STRUCT INVENTAIRE
 // ============================================================
 
+/// Inventaire d'un compte.
+///
+/// Seuls les objets `visible = 1` existent pour l'inventaire : un objet
+/// masqué (par exemple en séquestre sur le marché) n'est ni chargé, ni
+/// retirable, ni modifiable, ni compté, et aucune obtention ne s'y fusionne.
 pub struct Inventaire {
     pool: SqlitePool,
     account_id: i64,
@@ -289,6 +297,7 @@ impl Inventaire {
             JOIN objets_dispo o
                 ON s.objet_id = o.objet_id
             WHERE s.account_id = ?
+              AND s.visible = 1
             ORDER BY s.stuff_id
             "#,
         )
@@ -310,6 +319,7 @@ impl Inventaire {
                 FROM equipment eq
                 JOIN stuff s ON s.stuff_id = eq.stuff_id
                 WHERE s.account_id = ?
+                  AND s.visible = 1
                 "#,
             )
             .bind(account_id)
@@ -331,6 +341,7 @@ impl Inventaire {
             JOIN stuff s ON s.stuff_id = eq.stuff_id
             JOIN enchantments en ON en.enchantment_id = ee.enchantment_id
             WHERE s.account_id = ?
+              AND s.visible = 1
               AND eq.equipment_type <> 'weapon'
             ORDER BY en.enchantment_name
             "#,
@@ -354,6 +365,7 @@ impl Inventaire {
                 FROM potions p
                 JOIN stuff s ON s.stuff_id = p.stuff_id
                 WHERE s.account_id = ?
+                  AND s.visible = 1
                 "#,
             )
             .bind(account_id)
@@ -370,6 +382,7 @@ impl Inventaire {
                 FROM enchanted_books b
                 JOIN stuff s ON s.stuff_id = b.stuff_id
                 WHERE s.account_id = ?
+                  AND s.visible = 1
                 "#,
             )
             .bind(account_id)
@@ -396,6 +409,7 @@ impl Inventaire {
             JOIN stuff s
                 ON s.stuff_id = b.stuff_id
             WHERE s.account_id = ?
+              AND s.visible = 1
             ORDER BY e.enchantment_name
             "#,
         )
@@ -808,11 +822,15 @@ impl Inventaire {
                     "armure"
                 };
 
+                // Armes et équipements ont une variante (rareté + rang).
+                let variante = variantes::type_a_variante(&type_objet);
+
                 Ok((0..quantite)
                     .map(|_| Ecriture::Unique {
                         objet_id,
                         equipment_type,
                         marque: marque.clone(),
+                        variante,
                     })
                     .collect())
             }
@@ -906,7 +924,11 @@ impl Inventaire {
                 stack_key,
                 marque,
             } => {
-                sqlx::query(
+                // Objet de base : pas de variante de marché.
+                // On ne fusionne que dans une pile VISIBLE : un objet masqué
+                // (visible = 0, par exemple en séquestre) n'est jamais
+                // alimenté. Dans ce cas la requête ne touche aucune ligne.
+                let result = sqlx::query(
                     r#"
                     INSERT INTO stuff (
                         account_id,
@@ -926,6 +948,7 @@ impl Inventaire {
                     DO UPDATE SET
                         quantity =
                             quantity + excluded.quantity
+                    WHERE stuff.visible = 1
                     "#,
                 )
                 .bind(account_id)
@@ -936,6 +959,31 @@ impl Inventaire {
                 .bind(marque.rang.as_deref())
                 .execute(&mut **tx)
                 .await?;
+
+                if result.rows_affected() == 0 {
+                    // La pile existante est masquée : nouvelle pile à part.
+                    sqlx::query(
+                        r#"
+                        INSERT INTO stuff (
+                            account_id,
+                            objet_id,
+                            quantity,
+                            stack_key,
+                            rarete,
+                            rang
+                        )
+                        VALUES (?, ?, ?, ?, ?, ?)
+                        "#,
+                    )
+                    .bind(account_id)
+                    .bind(objet_id)
+                    .bind(quantite)
+                    .bind(format!("{stack_key}:v{}", Uuid::new_v4()))
+                    .bind(marque.rarete.as_deref())
+                    .bind(marque.rang.as_deref())
+                    .execute(&mut **tx)
+                    .await?;
+                }
             }
 
             // ------------------------------------------------
@@ -985,6 +1033,14 @@ impl Inventaire {
                 .bind(effet)
                 .execute(&mut **tx)
                 .await?;
+
+                // Variante de marché créée à l'obtention. Les potions ne
+                // portent ni rareté ni rang : une variante par potion.
+                variantes::assurer_variante_tx(
+                    tx,
+                    &VarianteSpec::simple(*objet_id, None, None),
+                )
+                .await?;
             }
 
             // ------------------------------------------------
@@ -992,6 +1048,7 @@ impl Inventaire {
                 objet_id,
                 equipment_type,
                 marque,
+                variante,
             } => {
                 let stack_key = format!("unique:{}", Uuid::new_v4());
 
@@ -1062,6 +1119,20 @@ impl Inventaire {
                 .bind(durability)
                 .execute(&mut **tx)
                 .await?;
+
+                // Variante de marché créée à l'obtention (arme ou équipement
+                // non enchanté : rareté + rang).
+                if *variante {
+                    variantes::assurer_variante_tx(
+                        tx,
+                        &VarianteSpec::simple(
+                            *objet_id,
+                            marque.rarete.as_deref(),
+                            marque.rang.as_deref(),
+                        ),
+                    )
+                    .await?;
+                }
             }
 
             // ------------------------------------------------
@@ -1071,7 +1142,21 @@ impl Inventaire {
                 stack_key,
                 enchants,
             } => {
-                let stuff_id: i64 = sqlx::query_scalar(
+                // Variante de marché créée à l'obtention. L'appel est
+                // idempotent : si ce même livre est obtenu de nouveau, il
+                // couvre aussi les exemplaires antérieurs aux variantes.
+                variantes::assurer_variante_tx(
+                    tx,
+                    &VarianteSpec::livre(
+                        *objet_id,
+                        i64::from(*niveau),
+                        enchants,
+                    ),
+                )
+                .await?;
+
+                // On ne fusionne que dans une pile VISIBLE (voir Base).
+                let pile_existante: Option<i64> = sqlx::query_scalar(
                     r#"
                     INSERT INTO stuff (
                         account_id,
@@ -1091,6 +1176,7 @@ impl Inventaire {
                     DO UPDATE SET
                         quantity =
                             quantity + 1
+                    WHERE stuff.visible = 1
 
                     RETURNING stuff_id
                     "#,
@@ -1100,8 +1186,37 @@ impl Inventaire {
                 .bind(stack_key)
                 .bind(Option::<&str>::None)
                 .bind(Option::<&str>::None)
-                .fetch_one(&mut **tx)
+                .fetch_optional(&mut **tx)
                 .await?;
+
+                let stuff_id: i64 = match pile_existante {
+                    Some(id) => id,
+
+                    // La pile existante est masquée : nouveau livre à part.
+                    None => {
+                        sqlx::query_scalar(
+                            r#"
+                            INSERT INTO stuff (
+                                account_id,
+                                objet_id,
+                                quantity,
+                                stack_key,
+                                rarete,
+                                rang
+                            )
+                            VALUES (?, ?, 1, ?, ?, ?)
+                            RETURNING stuff_id
+                            "#,
+                        )
+                        .bind(account_id)
+                        .bind(objet_id)
+                        .bind(format!("{stack_key}:v{}", Uuid::new_v4()))
+                        .bind(Option::<&str>::None)
+                        .bind(Option::<&str>::None)
+                        .fetch_one(&mut **tx)
+                        .await?
+                    }
+                };
 
                 // Le livre existe déjà ? Alors l'UPSERT a seulement
                 // augmenté la quantité : rien d'autre à créer.
@@ -1430,6 +1545,7 @@ impl Inventaire {
             JOIN stuff s ON s.stuff_id = eq.stuff_id
             WHERE eq.stuff_id = ?
               AND s.account_id = ?
+              AND s.visible = 1
               AND eq.equipment_type <> 'weapon'
             "#,
         )
@@ -1506,6 +1622,9 @@ impl Inventaire {
             .await?;
         }
 
+        // L'équipement enchanté est une nouvelle variante de marché.
+        variantes::assurer_variante_pour_stuff_tx(&mut tx, stuff_id).await?;
+
         tx.commit().await?;
         self.recharger().await?;
         Ok(())
@@ -1549,6 +1668,7 @@ impl Inventaire {
             FROM stuff
             WHERE stuff_id = ?
               AND account_id = ?
+              AND visible = 1
             "#,
         )
         .bind(stuff_id)
@@ -1590,6 +1710,7 @@ impl Inventaire {
                 DELETE FROM stuff
                 WHERE stuff_id = ?
                   AND account_id = ?
+                  AND visible = 1
                 "#,
             )
             .bind(stuff_id)
@@ -1609,6 +1730,7 @@ impl Inventaire {
                 SET quantity = quantity - ?
                 WHERE stuff_id = ?
                   AND account_id = ?
+                  AND visible = 1
                   AND quantity >= ?
                 "#,
             )
@@ -1643,7 +1765,7 @@ impl Inventaire {
 
     // ========================================================
     // RETRAIT DANS UNE TRANSACTION EXISTANTE
-    // (objets de base sans rareté ni rank uniquement)
+    // (pile 'base' visible, sans rareté ni rank, uniquement)
     // ========================================================
 
     pub async fn retirer_tx(
@@ -1668,6 +1790,7 @@ impl Inventaire {
             WHERE account_id = ?
               AND objet_id = ?
               AND stack_key = 'base'
+              AND visible = 1
             "#,
         )
         .bind(account_id)
@@ -1690,6 +1813,7 @@ impl Inventaire {
                 WHERE account_id = ?
                   AND objet_id = ?
                   AND stack_key = 'base'
+              AND visible = 1
                 "#,
             )
             .bind(account_id)
@@ -1704,6 +1828,7 @@ impl Inventaire {
                 WHERE account_id = ?
                   AND objet_id = ?
                   AND stack_key = 'base'
+              AND visible = 1
                   AND quantity >= ?
                 "#,
             )
@@ -1738,7 +1863,8 @@ impl Inventaire {
 
         let quantite_i64 = Self::quantite_sqlite(quantite)?;
 
-        sqlx::query(
+        // Fusion uniquement dans une pile VISIBLE (voir `executer`).
+        let result = sqlx::query(
             r#"
             INSERT INTO stuff (
                 account_id,
@@ -1756,6 +1882,7 @@ impl Inventaire {
             DO UPDATE SET
                 quantity =
                     quantity + excluded.quantity
+            WHERE stuff.visible = 1
             "#,
         )
         .bind(account_id)
@@ -1763,6 +1890,26 @@ impl Inventaire {
         .bind(quantite_i64)
         .execute(&mut **tx)
         .await?;
+
+        if result.rows_affected() == 0 {
+            sqlx::query(
+                r#"
+                INSERT INTO stuff (
+                    account_id,
+                    objet_id,
+                    quantity,
+                    stack_key
+                )
+                VALUES (?, ?, ?, ?)
+                "#,
+            )
+            .bind(account_id)
+            .bind(objet_id)
+            .bind(quantite_i64)
+            .bind(format!("base:v{}", Uuid::new_v4()))
+            .execute(&mut **tx)
+            .await?;
+        }
 
         Ok(())
     }
@@ -1785,6 +1932,7 @@ impl Inventaire {
             JOIN objets_dispo o
                 ON s.objet_id = o.objet_id
             WHERE s.account_id = ?
+              AND s.visible = 1
               AND o.nom = ?
             "#,
         )
@@ -1849,4 +1997,4 @@ impl Inventaire {
     pub fn account_id(&self) -> i64 {
         self.account_id
     }
-}
+}

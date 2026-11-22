@@ -1,7 +1,480 @@
-use sqlx::SqlitePool;
+//! Marché : ordres multi-lignes, variantes, dépôt en séquestre.
+//!
+//! Correspond au schéma de `0012_Market.sql` :
+//!
+//! - `ordres_achat` / `ordres_vente` : en-têtes, une ligne par objet ;
+//! - `lignes_achat` : prix plafond + critères propres (variante, ou critères
+//!   de potion, filtres de durabilité) + fonds réservés ;
+//! - `stock_marche` + `lignes_vente` : un dépôt précis, un prix propre ;
+//! - `transactions_marche` : relie une ligne d'achat à une ligne de vente.
+//!
+//! # Ce que font les triggers SQL
+//!
+//! L'insertion d'une transaction est validée par `verifier_transaction_marche`,
+//! puis `maj_marche_apres_transaction` met à jour les quantités et statuts des
+//! lignes, du stock et des en-têtes, et transfère la propriété du `stuff`.
+//!
+//! # Ce que fait ce module (les triggers ne le font pas)
+//!
+//! - **Fonds** : débit du portefeuille à la création d'un ordre d'achat
+//!   (montant maximal réservé), crédit du vendeur et remboursement de la
+//!   différence à l'acheteur à chaque transaction, remboursement à l'annulation.
+//! - **Visibilité** (`stuff.visible`) : un objet déposé passe à `visible = 0`,
+//!   donc inutilisable par son propriétaire. Il repasse à `1` à l'annulation
+//!   ou chez l'acheteur après la vente.
+//! - **Variantes** : créées à l'obtention (voir `variantes`) pour les armes,
+//!   équipements, livres et potions ; le dépôt vérifie qu'elles existent
+//!   (filet de sécurité pour les objets plus anciens). Les objets de base
+//!   n'ont pas de variante : leurs lignes s'apparient sur l'objet seul.
+//! - **Appariement** : meilleur prix de vente d'abord, puis meilleur plafond
+//!   d'achat, puis ancienneté. Prix d'exécution = prix de la ligne de vente.
+//!
+//! Chaque opération s'exécute dans une transaction qui commence par une
+//! écriture (voir `prendre_verrou_ecriture`) afin d'éviter SQLITE_BUSY_SNAPSHOT.
 
-use crate::gameplay::stuff_manager::Inventaire;
+use std::collections::{BTreeSet, HashMap};
+
+use sqlx::{Sqlite, SqlitePool, Transaction};
+use uuid::Uuid;
+
+use crate::gameplay::variantes::{self, VarianteSpec};
 use crate::gameplay::wallet_manager::WalletManager;
+
+type Tx<'c> = Transaction<'c, Sqlite>;
+
+/// Nombre maximal de lignes dans un même ordre.
+const MAX_LIGNES_PAR_ORDRE: usize = 100;
+
+/// Nombre de transactions récentes utilisées pour le prix indicatif.
+const FENETRE_PRIX_INDICATIF: i64 = 20;
+
+// ============================================================
+// REQUÊTES
+// ============================================================
+
+/// Meilleure paire (ligne d'achat, ligne de vente) compatible pour un objet.
+///
+/// Reproduit les conditions de `verifier_transaction_marche` : une paire
+/// retournée ici est donc toujours acceptée par le trigger.
+const SQL_MEILLEURE_PAIRE: &str = r#"
+SELECT
+    la.ligne_achat_id    AS ligne_achat_id,
+    la.prix_unitaire_max AS prix_achat_max,
+    la.quantite_restante AS achat_restante,
+    oa.account_id        AS acheteur_id,
+    lv.ligne_vente_id    AS ligne_vente_id,
+    lv.prix_unitaire     AS prix_vente,
+    lv.quantite_restante AS vente_restante,
+    lv.variante_id       AS variante_id,
+    ov.account_id        AS vendeur_id,
+    sm.stuff_id          AS stuff_id
+FROM lignes_achat la
+JOIN ordres_achat oa ON oa.ordre_achat_id = la.ordre_achat_id
+JOIN lignes_vente lv ON lv.objet_id = la.objet_id
+JOIN ordres_vente ov ON ov.ordre_vente_id = lv.ordre_vente_id
+JOIN stock_marche sm ON sm.stock_id = lv.stock_id
+JOIN stuff s         ON s.stuff_id = sm.stuff_id
+JOIN objets_dispo o  ON o.objet_id = s.objet_id
+LEFT JOIN potions p   ON p.stuff_id = s.stuff_id
+LEFT JOIN equipment e ON e.stuff_id = s.stuff_id
+WHERE la.objet_id = ?
+  AND la.statut IN ('actif', 'partiel')
+  AND oa.statut IN ('actif', 'partiel')
+  AND lv.statut IN ('actif', 'partiel')
+  AND ov.statut IN ('actif', 'partiel')
+  AND sm.statut IN ('disponible', 'partiel')
+  AND la.quantite_restante > 0
+  AND lv.quantite_restante > 0
+  AND oa.account_id <> ov.account_id
+  AND la.prix_unitaire_max >= lv.prix_unitaire
+  AND (
+        -- Objet de base : aucune variante, appariement sur l'objet.
+        (o.type NOT IN ('armes', 'equipment', 'enchanted_book', 'potion')
+         AND la.variante_id IS NULL
+         AND lv.variante_id IS NULL)
+     OR -- Armes, équipements, livres, potions : même variante + filtres.
+        (o.type IN ('armes', 'equipment', 'enchanted_book', 'potion')
+         AND la.variante_id IS NOT NULL
+         AND la.variante_id = lv.variante_id
+         AND (o.type <> 'potion' OR (
+                 p.potion_id IS NOT NULL
+             AND (la.potion_effect  IS NULL OR la.potion_effect  = p.effect)
+             AND (la.potency_exact  IS NULL OR la.potency_exact  = p.potency)
+             AND (la.potency_min    IS NULL OR p.potency  >= la.potency_min)
+             AND (la.duration_exact IS NULL OR la.duration_exact = p.duration)
+             AND (la.duration_min   IS NULL OR p.duration >= la.duration_min)))
+         AND (o.type NOT IN ('armes', 'equipment') OR (
+                 e.equipment_id IS NOT NULL
+             AND (la.durability_min IS NULL OR e.durability >= la.durability_min)
+             AND (la.durability_max IS NULL OR e.durability <= la.durability_max))))
+      )
+ORDER BY
+    lv.prix_unitaire ASC,
+    la.prix_unitaire_max DESC,
+    lv.creee_le ASC,
+    lv.ligne_vente_id ASC,
+    la.creee_le ASC,
+    la.ligne_achat_id ASC
+LIMIT 1
+"#;
+
+/// Recalcule le statut d'un en-tête d'achat après annulation de lignes.
+const SQL_STATUT_ORDRE_ACHAT: &str = r#"
+UPDATE ordres_achat
+SET statut = CASE
+        WHEN EXISTS (
+            SELECT 1 FROM lignes_achat la
+            WHERE la.ordre_achat_id = ordres_achat.ordre_achat_id
+              AND la.statut IN ('actif', 'partiel')
+        ) THEN CASE
+            WHEN EXISTS (
+                SELECT 1 FROM lignes_achat la
+                WHERE la.ordre_achat_id = ordres_achat.ordre_achat_id
+                  AND la.quantite_restante < la.quantite_initiale
+            ) THEN 'partiel'
+            ELSE 'actif'
+        END
+        WHEN EXISTS (
+            SELECT 1 FROM lignes_achat la
+            WHERE la.ordre_achat_id = ordres_achat.ordre_achat_id
+              AND la.quantite_restante < la.quantite_initiale
+        ) THEN 'execute'
+        ELSE 'annule'
+    END,
+    modifie_le = CURRENT_TIMESTAMP
+WHERE ordre_achat_id = ?
+"#;
+
+/// Recalcule le statut d'un en-tête de vente après annulation de lignes.
+const SQL_STATUT_ORDRE_VENTE: &str = r#"
+UPDATE ordres_vente
+SET statut = CASE
+        WHEN EXISTS (
+            SELECT 1 FROM lignes_vente lv
+            WHERE lv.ordre_vente_id = ordres_vente.ordre_vente_id
+              AND lv.statut IN ('actif', 'partiel')
+        ) THEN CASE
+            WHEN EXISTS (
+                SELECT 1 FROM lignes_vente lv
+                WHERE lv.ordre_vente_id = ordres_vente.ordre_vente_id
+                  AND lv.quantite_restante < lv.quantite_initiale
+            ) THEN 'partiel'
+            ELSE 'actif'
+        END
+        WHEN EXISTS (
+            SELECT 1 FROM lignes_vente lv
+            WHERE lv.ordre_vente_id = ordres_vente.ordre_vente_id
+              AND lv.quantite_restante < lv.quantite_initiale
+        ) THEN 'execute'
+        ELSE 'annule'
+    END,
+    modifie_le = CURRENT_TIMESTAMP
+WHERE ordre_vente_id = ?
+"#;
+
+/// Copie une unité (quantité 1) d'un exemplaire, déjà masquée (`visible = 0`).
+const SQL_CLONER_UNITE: &str = r#"
+INSERT INTO stuff (
+    account_id, objet_id, stack_key, quantity, rarete, rang, visible
+)
+SELECT account_id, objet_id, ?, 1, rarete, rang, 0
+FROM stuff
+WHERE stuff_id = ?
+RETURNING stuff_id
+"#;
+
+/// Copie la fiche d'un livre enchanté vers un autre exemplaire.
+const SQL_CLONER_LIVRE: &str = r#"
+INSERT INTO enchanted_books (stuff_id, book_level)
+SELECT ?, book_level
+FROM enchanted_books
+WHERE stuff_id = ?
+RETURNING book_id
+"#;
+
+/// Copie les enchantements d'un livre vers le livre cloné.
+const SQL_CLONER_ENCHANTEMENTS_LIVRE: &str = r#"
+INSERT INTO book_enchantments (book_id, enchantment_id, enchantment_level)
+SELECT ?, enchantment_id, enchantment_level
+FROM book_enchantments
+WHERE book_id = (SELECT book_id FROM enchanted_books WHERE stuff_id = ?)
+"#;
+
+// ============================================================
+// TYPES PUBLICS
+// ============================================================
+
+/// Critères facultatifs d'achat d'une potion.
+#[derive(Debug, Clone, Default)]
+pub struct CriterePotion {
+    pub effet: Option<String>,
+    pub puissance_exacte: Option<i64>,
+    pub puissance_min: Option<i64>,
+    pub duree_exacte: Option<i64>,
+    pub duree_min: Option<i64>,
+}
+
+impl CriterePotion {
+    fn est_vide(&self) -> bool {
+        self.effet.is_none()
+            && self.puissance_exacte.is_none()
+            && self.puissance_min.is_none()
+            && self.duree_exacte.is_none()
+            && self.duree_min.is_none()
+    }
+}
+
+/// Une ligne d'un ordre d'achat.
+///
+/// - Armes, équipements, livres, potions : `variante_id` obligatoire.
+/// - Objets de base : `variante_id` à `None`.
+/// - `potion` : filtres supplémentaires, potions uniquement.
+/// - `durabilite_*` : armes et équipements uniquement.
+#[derive(Debug, Clone)]
+pub struct LigneAchatDemande {
+    pub objet_id: i64,
+    pub variante_id: Option<i64>,
+    pub quantite: u64,
+    pub prix_unitaire_max: i64,
+    pub potion: CriterePotion,
+    pub durabilite_min: Option<i64>,
+    pub durabilite_max: Option<i64>,
+}
+
+impl LigneAchatDemande {
+    /// Achat d'un objet de base (sans variante).
+    pub fn base(objet_id: i64, quantite: u64, prix_unitaire_max: i64) -> Self {
+        Self {
+            objet_id,
+            variante_id: None,
+            quantite,
+            prix_unitaire_max,
+            potion: CriterePotion::default(),
+            durabilite_min: None,
+            durabilite_max: None,
+        }
+    }
+
+    /// Achat d'une variante précise (arme, équipement, livre).
+    pub fn variante(
+        objet_id: i64,
+        variante_id: i64,
+        quantite: u64,
+        prix_unitaire_max: i64,
+    ) -> Self {
+        Self {
+            objet_id,
+            variante_id: Some(variante_id),
+            quantite,
+            prix_unitaire_max,
+            potion: CriterePotion::default(),
+            durabilite_min: None,
+            durabilite_max: None,
+        }
+    }
+
+    /// Achat d'une potion : sa variante, plus des critères facultatifs.
+    pub fn potion(
+        objet_id: i64,
+        variante_id: i64,
+        quantite: u64,
+        prix_unitaire_max: i64,
+        criteres: CriterePotion,
+    ) -> Self {
+        Self {
+            objet_id,
+            variante_id: Some(variante_id),
+            quantite,
+            prix_unitaire_max,
+            potion: criteres,
+            durabilite_min: None,
+            durabilite_max: None,
+        }
+    }
+
+    /// Validation sans accès base. Retourne le montant à réserver.
+    fn verifier(&self) -> Result<i64, sqlx::Error> {
+        if self.quantite == 0 {
+            return Err(erreur("La quantité doit être supérieure à 0"));
+        }
+
+        if self.prix_unitaire_max <= 0 {
+            return Err(erreur("Le prix unitaire doit être supérieur à 0"));
+        }
+
+        let quantite = quantite_i64(self.quantite)?;
+
+        let montant = self
+            .prix_unitaire_max
+            .checked_mul(quantite)
+            .ok_or_else(|| erreur("Le montant total dépasse la capacité i64"))?;
+
+        let valeurs = [
+            self.potion.puissance_exacte,
+            self.potion.puissance_min,
+            self.potion.duree_exacte,
+            self.potion.duree_min,
+            self.durabilite_min,
+            self.durabilite_max,
+        ];
+
+        if valeurs.iter().flatten().any(|v| *v < 0) {
+            return Err(erreur("Les critères ne peuvent pas être négatifs"));
+        }
+
+        if self.potion.puissance_exacte.is_some()
+            && self.potion.puissance_min.is_some()
+        {
+            return Err(erreur(
+                "Puissance exacte et puissance minimale sont exclusives",
+            ));
+        }
+
+        if self.potion.duree_exacte.is_some() && self.potion.duree_min.is_some()
+        {
+            return Err(erreur("Durée exacte et durée minimale sont exclusives"));
+        }
+
+        if let (Some(min), Some(max)) = (self.durabilite_min, self.durabilite_max)
+        {
+            if min > max {
+                return Err(erreur(
+                    "La durabilité minimale dépasse la durabilité maximale",
+                ));
+            }
+        }
+
+        Ok(montant)
+    }
+}
+
+/// Une ligne d'un ordre de vente : dépôt de `quantite` unités du `stuff_id`.
+#[derive(Debug, Clone)]
+pub struct LigneVenteDemande {
+    pub stuff_id: i64,
+    pub quantite: u64,
+    pub prix_unitaire: i64,
+}
+
+impl LigneVenteDemande {
+    fn verifier(&self) -> Result<(), sqlx::Error> {
+        if self.quantite == 0 {
+            return Err(erreur("La quantité doit être supérieure à 0"));
+        }
+
+        if self.prix_unitaire <= 0 {
+            return Err(erreur("Le prix unitaire doit être supérieur à 0"));
+        }
+
+        quantite_i64(self.quantite)?;
+
+        Ok(())
+    }
+}
+
+/// Résultat de la création d'un ordre.
+#[derive(Debug, Clone)]
+pub struct OrdreCree {
+    pub ordre_id: i64,
+    /// Ids des lignes créées (`ligne_achat_id` ou `ligne_vente_id`).
+    /// Une ligne de vente est créée par exemplaire non empilable déposé.
+    pub lignes: Vec<i64>,
+    /// Transactions exécutées immédiatement après la création.
+    pub transactions: u64,
+}
+
+#[derive(Debug, Clone, sqlx::FromRow)]
+pub struct VarianteMarche {
+    pub variante_id: i64,
+    pub objet_id: i64,
+    pub rarete: Option<String>,
+    pub rang: Option<String>,
+    pub book_level: Option<i64>,
+    pub signature: String,
+}
+
+/// Variante avec ses enchantements (nom, niveau), pour l'affichage.
+#[derive(Debug, Clone)]
+pub struct VarianteDetail {
+    pub variante: VarianteMarche,
+    pub enchantements: Vec<(String, i64)>,
+}
+
+// ============================================================
+// OUTILS INTERNES
+// ============================================================
+
+fn erreur(message: impl Into<String>) -> sqlx::Error {
+    sqlx::Error::Protocol(message.into())
+}
+
+fn quantite_i64(quantite: u64) -> Result<i64, sqlx::Error> {
+    i64::try_from(quantite).map_err(|_| {
+        erreur("La quantité dépasse la capacité SQLite INTEGER")
+    })
+}
+
+fn verifier_nombre_lignes(nombre: usize) -> Result<(), sqlx::Error> {
+    if nombre == 0 {
+        return Err(erreur("Un ordre doit contenir au moins une ligne"));
+    }
+
+    if nombre > MAX_LIGNES_PAR_ORDRE {
+        return Err(erreur(format!(
+            "Un ordre ne peut pas dépasser {MAX_LIGNES_PAR_ORDRE} lignes"
+        )));
+    }
+
+    Ok(())
+}
+
+/// Prend le verrou d'écriture SQLite dès le début de la transaction.
+///
+/// L'UPDATE ne modifie aucune ligne, mais une instruction d'écriture acquiert
+/// le verrou avant toute lecture : une lecture suivie d'une écriture dans une
+/// transaction différée échoue avec SQLITE_BUSY_SNAPSHOT si un autre
+/// écrivain a validé entre-temps.
+async fn prendre_verrou_ecriture(tx: &mut Tx<'_>) -> Result<(), sqlx::Error> {
+    sqlx::query("UPDATE ordres_achat SET statut = statut WHERE 0")
+        .execute(&mut **tx)
+        .await?;
+
+    Ok(())
+}
+
+/// Moyenne pondérée arrondie à l'entier le plus proche (floor(x + 0.5)).
+fn moyenne_arrondie(total: i128, quantite: i128) -> i128 {
+    (2 * total + quantite) / (2 * quantite)
+}
+
+#[derive(sqlx::FromRow)]
+struct PaireCompatible {
+    ligne_achat_id: i64,
+    prix_achat_max: i64,
+    achat_restante: i64,
+    acheteur_id: i64,
+    ligne_vente_id: i64,
+    prix_vente: i64,
+    vente_restante: i64,
+    variante_id: Option<i64>,
+    vendeur_id: i64,
+    stuff_id: i64,
+}
+
+#[derive(sqlx::FromRow)]
+struct StuffADeposer {
+    objet_id: i64,
+    quantity: i64,
+    rarete: Option<String>,
+    rang: Option<String>,
+    visible: i64,
+    type_objet: String,
+    est_empilable: i64,
+}
+
+// ============================================================
+// MARKET MANAGER
+// ============================================================
 
 pub struct MarketManager {
     pool: SqlitePool,
@@ -12,10 +485,1006 @@ impl MarketManager {
         Self { pool }
     }
 
-    /// Crée un ordre d'achat.
+    // ========================================================
+    // ORDRE D'ACHAT
+    // ========================================================
+
+    /// Crée un ordre d'achat de plusieurs lignes.
     ///
-    /// Les fonds correspondant au montant maximal de l'ordre
-    /// sont immédiatement réservés.
+    /// Le montant maximal de toutes les lignes (`prix_max × quantité`) est
+    /// débité immédiatement ; la différence avec le prix d'exécution est
+    /// remboursée à chaque transaction.
+    pub async fn creer_ordre_achat_lignes(
+        &self,
+        account_id: i64,
+        lignes: Vec<LigneAchatDemande>,
+    ) -> Result<OrdreCree, sqlx::Error> {
+        verifier_nombre_lignes(lignes.len())?;
+
+        let mut montants = Vec::with_capacity(lignes.len());
+        let mut total: i64 = 0;
+
+        for ligne in &lignes {
+            let montant = ligne.verifier()?;
+
+            total = total.checked_add(montant).ok_or_else(|| {
+                erreur("Le montant total de l'ordre dépasse la capacité i64")
+            })?;
+
+            montants.push(montant);
+        }
+
+        let mut tx = self.pool.begin().await?;
+        prendre_verrou_ecriture(&mut tx).await?;
+
+        for ligne in &lignes {
+            Self::valider_ligne_achat(&mut tx, ligne).await?;
+        }
+
+        // Réserve les fonds de tout l'ordre.
+        WalletManager::debiter_tx(&mut tx, account_id, total).await?;
+
+        let ordre_id: i64 = sqlx::query_scalar(
+            r#"
+            INSERT INTO ordres_achat (account_id)
+            VALUES (?)
+            RETURNING ordre_achat_id
+            "#,
+        )
+        .bind(account_id)
+        .fetch_one(&mut *tx)
+        .await?;
+
+        let mut ids = Vec::with_capacity(lignes.len());
+
+        for (ligne, montant) in lignes.iter().zip(&montants) {
+            let quantite = quantite_i64(ligne.quantite)?;
+
+            let ligne_id: i64 = sqlx::query_scalar(
+                r#"
+                INSERT INTO lignes_achat (
+                    ordre_achat_id,
+                    objet_id,
+                    variante_id,
+                    quantite_initiale,
+                    quantite_restante,
+                    prix_unitaire_max,
+                    montant_reserve_initial,
+                    montant_reserve_restant,
+                    potion_effect,
+                    potency_exact,
+                    potency_min,
+                    duration_exact,
+                    duration_min,
+                    durability_min,
+                    durability_max
+                )
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                RETURNING ligne_achat_id
+                "#,
+            )
+            .bind(ordre_id)
+            .bind(ligne.objet_id)
+            .bind(ligne.variante_id)
+            .bind(quantite)
+            .bind(quantite)
+            .bind(ligne.prix_unitaire_max)
+            .bind(*montant)
+            .bind(*montant)
+            .bind(ligne.potion.effet.as_deref())
+            .bind(ligne.potion.puissance_exacte)
+            .bind(ligne.potion.puissance_min)
+            .bind(ligne.potion.duree_exacte)
+            .bind(ligne.potion.duree_min)
+            .bind(ligne.durabilite_min)
+            .bind(ligne.durabilite_max)
+            .fetch_one(&mut *tx)
+            .await?;
+
+            ids.push(ligne_id);
+        }
+
+        tx.commit().await?;
+
+        let transactions = self
+            .matcher_objets(lignes.iter().map(|l| l.objet_id))
+            .await;
+
+        Ok(OrdreCree {
+            ordre_id,
+            lignes: ids,
+            transactions,
+        })
+    }
+
+    /// Vérifie en base qu'une ligne d'achat est cohérente.
+    async fn valider_ligne_achat(
+        tx: &mut Tx<'_>,
+        ligne: &LigneAchatDemande,
+    ) -> Result<(), sqlx::Error> {
+        let type_objet: Option<String> = sqlx::query_scalar(
+            "SELECT type FROM objets_dispo WHERE objet_id = ?",
+        )
+        .bind(ligne.objet_id)
+        .fetch_optional(&mut **tx)
+        .await?;
+
+        let type_objet =
+            type_objet.ok_or_else(|| erreur("Objet inexistant"))?;
+
+        if variantes::type_a_variante(&type_objet) {
+            let variante_id = ligne.variante_id.ok_or_else(|| {
+                erreur("Une variante est requise pour cet objet")
+            })?;
+
+            let existe: Option<i64> = sqlx::query_scalar(
+                r#"
+                SELECT variante_id
+                FROM variantes_marche
+                WHERE variante_id = ?
+                  AND objet_id = ?
+                "#,
+            )
+            .bind(variante_id)
+            .bind(ligne.objet_id)
+            .fetch_optional(&mut **tx)
+            .await?;
+
+            if existe.is_none() {
+                return Err(erreur("Variante inconnue pour cet objet"));
+            }
+        } else if ligne.variante_id.is_some() {
+            return Err(erreur("Les objets de base n'ont pas de variante"));
+        }
+
+        if type_objet != "potion" && !ligne.potion.est_vide() {
+            return Err(erreur(
+                "Les critères de potion sont réservés aux potions",
+            ));
+        }
+
+        if !variantes::type_a_fiche_equipement(&type_objet)
+            && (ligne.durabilite_min.is_some() || ligne.durabilite_max.is_some())
+        {
+            return Err(erreur(
+                "Les filtres de durabilité sont réservés aux armes et équipements",
+            ));
+        }
+
+        Ok(())
+    }
+
+    // ========================================================
+    // ORDRE DE VENTE
+    // ========================================================
+
+    /// Crée un ordre de vente de plusieurs lignes.
+    ///
+    /// Chaque ligne dépose `quantite` unités d'un exemplaire de l'inventaire.
+    /// Les objets déposés passent à `visible = 0` : le joueur ne peut plus
+    /// les utiliser tant qu'ils sont en vente.
+    pub async fn creer_ordre_vente_lignes(
+        &self,
+        account_id: i64,
+        lignes: Vec<LigneVenteDemande>,
+    ) -> Result<OrdreCree, sqlx::Error> {
+        verifier_nombre_lignes(lignes.len())?;
+
+        for ligne in &lignes {
+            ligne.verifier()?;
+        }
+
+        let mut tx = self.pool.begin().await?;
+        prendre_verrou_ecriture(&mut tx).await?;
+
+        let ordre_id: i64 = sqlx::query_scalar(
+            r#"
+            INSERT INTO ordres_vente (account_id)
+            VALUES (?)
+            RETURNING ordre_vente_id
+            "#,
+        )
+        .bind(account_id)
+        .fetch_one(&mut *tx)
+        .await?;
+
+        let mut ids = Vec::new();
+        let mut objets = BTreeSet::new();
+
+        for ligne in &lignes {
+            let (mut nouvelles, objet_id) =
+                Self::deposer(&mut tx, account_id, ordre_id, ligne).await?;
+
+            ids.append(&mut nouvelles);
+            objets.insert(objet_id);
+        }
+
+        tx.commit().await?;
+
+        let transactions = self.matcher_objets(objets).await;
+
+        Ok(OrdreCree {
+            ordre_id,
+            lignes: ids,
+            transactions,
+        })
+    }
+
+    /// Dépose une ligne : met l'objet en séquestre et crée stock + ligne.
+    /// Retourne les ids de lignes de vente créées et l'objet concerné.
+    async fn deposer(
+        tx: &mut Tx<'_>,
+        account_id: i64,
+        ordre_id: i64,
+        ligne: &LigneVenteDemande,
+    ) -> Result<(Vec<i64>, i64), sqlx::Error> {
+        let source: Option<StuffADeposer> = sqlx::query_as(
+            r#"
+            SELECT
+                s.objet_id,
+                s.quantity,
+                s.rarete,
+                s.rang,
+                s.visible,
+                o.type AS type_objet,
+                o.est_empilable
+            FROM stuff s
+            JOIN objets_dispo o ON o.objet_id = s.objet_id
+            WHERE s.stuff_id = ?
+              AND s.account_id = ?
+            "#,
+        )
+        .bind(ligne.stuff_id)
+        .bind(account_id)
+        .fetch_optional(&mut **tx)
+        .await?;
+
+        let source =
+            source.ok_or_else(|| erreur("Objet absent de l'inventaire"))?;
+
+        // Un objet masqué est inutilisable, donc aussi invendable.
+        if source.visible != 1 {
+            return Err(erreur(
+                "Objet indisponible : il n'est pas visible dans l'inventaire",
+            ));
+        }
+
+        let quantite = quantite_i64(ligne.quantite)?;
+
+        if quantite > source.quantity {
+            return Err(erreur(format!(
+                "Quantité insuffisante : possède {}, demande {}",
+                source.quantity, quantite
+            )));
+        }
+
+        // Armes, équipements, potions et livres portent des données propres à
+        // l'exemplaire : un dépôt = un exemplaire. Idem pour tout objet non
+        // empilable. Seules les piles d'objets simples se déposent en bloc.
+        let unitaire = source.est_empilable == 0
+            || matches!(
+                source.type_objet.as_str(),
+                "enchanted_book" | "equipment" | "armes" | "potion"
+            );
+
+        // (stuff_id en séquestre, quantité déposée)
+        let mut depots: Vec<(i64, i64)> = Vec::new();
+
+        if unitaire {
+            let mut restant = source.quantity;
+
+            for _ in 0..quantite {
+                if restant == 1 {
+                    // Dernier exemplaire de la ligne : on met la ligne
+                    // d'inventaire elle-même en séquestre.
+                    Self::mettre_en_sequestre(tx, ligne.stuff_id).await?;
+                    depots.push((ligne.stuff_id, 1));
+                } else {
+                    let clone_id = Self::cloner_unite(
+                        tx,
+                        ligne.stuff_id,
+                        &source.type_objet,
+                    )
+                    .await?;
+
+                    sqlx::query(
+                        r#"
+                        UPDATE stuff
+                        SET quantity = quantity - 1
+                        WHERE stuff_id = ?
+                          AND quantity > 1
+                        "#,
+                    )
+                    .bind(ligne.stuff_id)
+                    .execute(&mut **tx)
+                    .await?;
+
+                    restant -= 1;
+                    depots.push((clone_id, 1));
+                }
+            }
+        } else if quantite == source.quantity {
+            Self::mettre_en_sequestre(tx, ligne.stuff_id).await?;
+            depots.push((ligne.stuff_id, quantite));
+        } else {
+            // Pile partielle : on scinde. Le séquestre reçoit une nouvelle
+            // ligne dont la quantité est exactement celle déposée.
+            let result = sqlx::query(
+                r#"
+                UPDATE stuff
+                SET quantity = quantity - ?
+                WHERE stuff_id = ?
+                  AND quantity > ?
+                "#,
+            )
+            .bind(quantite)
+            .bind(ligne.stuff_id)
+            .bind(quantite)
+            .execute(&mut **tx)
+            .await?;
+
+            if result.rows_affected() != 1 {
+                return Err(erreur("Impossible de scinder la pile"));
+            }
+
+            let nouveau_id: i64 = sqlx::query_scalar(
+                r#"
+                INSERT INTO stuff (
+                    account_id, objet_id, stack_key,
+                    quantity, rarete, rang, visible
+                )
+                VALUES (?, ?, ?, ?, ?, ?, 0)
+                RETURNING stuff_id
+                "#,
+            )
+            .bind(account_id)
+            .bind(source.objet_id)
+            .bind(format!("market-dep-{}", Uuid::new_v4()))
+            .bind(quantite)
+            .bind(source.rarete.as_deref())
+            .bind(source.rang.as_deref())
+            .fetch_one(&mut **tx)
+            .await?;
+
+            depots.push((nouveau_id, quantite));
+        }
+
+        let mut lignes_creees = Vec::with_capacity(depots.len());
+
+        for (stuff_id, quantite_depot) in depots {
+            // Variante normalement créée à l'obtention ; ceci ne fait que
+            // couvrir les exemplaires obtenus avant l'existence des variantes.
+            let variante_id =
+                variantes::assurer_variante_pour_stuff_tx(tx, stuff_id).await?;
+
+            let stock_id: i64 = sqlx::query_scalar(
+                r#"
+                INSERT INTO stock_marche (
+                    stuff_id,
+                    vendeur_id,
+                    quantite_deposee,
+                    quantite_restante
+                )
+                VALUES (?, ?, ?, ?)
+                RETURNING stock_id
+                "#,
+            )
+            .bind(stuff_id)
+            .bind(account_id)
+            .bind(quantite_depot)
+            .bind(quantite_depot)
+            .fetch_one(&mut **tx)
+            .await?;
+
+            let ligne_id: i64 = sqlx::query_scalar(
+                r#"
+                INSERT INTO lignes_vente (
+                    ordre_vente_id,
+                    stock_id,
+                    objet_id,
+                    variante_id,
+                    quantite_initiale,
+                    quantite_restante,
+                    prix_unitaire
+                )
+                VALUES (?, ?, ?, ?, ?, ?, ?)
+                RETURNING ligne_vente_id
+                "#,
+            )
+            .bind(ordre_id)
+            .bind(stock_id)
+            .bind(source.objet_id)
+            .bind(variante_id)
+            .bind(quantite_depot)
+            .bind(quantite_depot)
+            .bind(ligne.prix_unitaire)
+            .fetch_one(&mut **tx)
+            .await?;
+
+            lignes_creees.push(ligne_id);
+        }
+
+        Ok((lignes_creees, source.objet_id))
+    }
+
+    /// Masque la ligne d'inventaire et libère sa `stack_key`.
+    ///
+    /// La clé est remplacée par une clé unique : une nouvelle obtention du
+    /// même objet recrée normalement sa pile, sans jamais toucher au séquestre.
+    async fn mettre_en_sequestre(
+        tx: &mut Tx<'_>,
+        stuff_id: i64,
+    ) -> Result<(), sqlx::Error> {
+        let result = sqlx::query(
+            r#"
+            UPDATE stuff
+            SET visible = 0,
+                stack_key = ?
+            WHERE stuff_id = ?
+              AND visible = 1
+            "#,
+        )
+        .bind(format!("market-dep-{}", Uuid::new_v4()))
+        .bind(stuff_id)
+        .execute(&mut **tx)
+        .await?;
+
+        if result.rows_affected() != 1 {
+            return Err(erreur("Impossible de mettre l'objet en séquestre"));
+        }
+
+        Ok(())
+    }
+
+    /// Crée une unité masquée à partir d'une pile (livres compris : la fiche
+    /// et les enchantements sont copiés, sinon l'acheteur recevrait un livre
+    /// sans contenu).
+    async fn cloner_unite(
+        tx: &mut Tx<'_>,
+        source_id: i64,
+        type_objet: &str,
+    ) -> Result<i64, sqlx::Error> {
+        if matches!(type_objet, "equipment" | "armes" | "potion") {
+            return Err(erreur(
+                "Exemplaire unique attendu : quantité incohérente",
+            ));
+        }
+
+        let clone_id: i64 = sqlx::query_scalar(SQL_CLONER_UNITE)
+            .bind(format!("market-dep-{}", Uuid::new_v4()))
+            .bind(source_id)
+            .fetch_one(&mut **tx)
+            .await?;
+
+        if type_objet == "enchanted_book" {
+            let book_id: i64 = sqlx::query_scalar(SQL_CLONER_LIVRE)
+                .bind(clone_id)
+                .bind(source_id)
+                .fetch_one(&mut **tx)
+                .await?;
+
+            sqlx::query(SQL_CLONER_ENCHANTEMENTS_LIVRE)
+                .bind(book_id)
+                .bind(source_id)
+                .execute(&mut **tx)
+                .await?;
+        }
+
+        Ok(clone_id)
+    }
+
+    // ========================================================
+    // ANNULATIONS
+    // ========================================================
+
+    /// Annule toutes les lignes encore actives d'un ordre d'achat et rend les
+    /// fonds réservés restants.
+    pub async fn annuler_ordre_achat(
+        &self,
+        account_id: i64,
+        ordre_id: i64,
+    ) -> Result<(), sqlx::Error> {
+        self.annuler_lignes_achat(account_id, ordre_id, None).await
+    }
+
+    /// Annule une seule ligne d'un ordre d'achat.
+    pub async fn annuler_ligne_achat(
+        &self,
+        account_id: i64,
+        ordre_id: i64,
+        ligne_achat_id: i64,
+    ) -> Result<(), sqlx::Error> {
+        self.annuler_lignes_achat(account_id, ordre_id, Some(ligne_achat_id))
+            .await
+    }
+
+    async fn annuler_lignes_achat(
+        &self,
+        account_id: i64,
+        ordre_id: i64,
+        ligne_id: Option<i64>,
+    ) -> Result<(), sqlx::Error> {
+        let mut tx = self.pool.begin().await?;
+        prendre_verrou_ecriture(&mut tx).await?;
+
+        let lignes: Vec<(i64, i64)> = sqlx::query_as(
+            r#"
+            SELECT la.ligne_achat_id, la.montant_reserve_restant
+            FROM lignes_achat la
+            JOIN ordres_achat oa
+                ON oa.ordre_achat_id = la.ordre_achat_id
+            WHERE oa.ordre_achat_id = ?
+              AND oa.account_id = ?
+              AND la.statut IN ('actif', 'partiel')
+              AND (? IS NULL OR la.ligne_achat_id = ?)
+            "#,
+        )
+        .bind(ordre_id)
+        .bind(account_id)
+        .bind(ligne_id)
+        .bind(ligne_id)
+        .fetch_all(&mut *tx)
+        .await?;
+
+        if lignes.is_empty() {
+            return Err(erreur(if ligne_id.is_some() {
+                "Ligne d'achat inexistante ou plus active"
+            } else {
+                "Ordre d'achat inexistant ou plus actif"
+            }));
+        }
+
+        let mut remboursement: i64 = 0;
+
+        for (ligne_achat_id, montant) in &lignes {
+            remboursement =
+                remboursement.checked_add(*montant).ok_or_else(|| {
+                    erreur("Le remboursement dépasse la capacité i64")
+                })?;
+
+            let result = sqlx::query(
+                r#"
+                UPDATE lignes_achat
+                SET statut = 'annule',
+                    montant_reserve_restant = 0
+                WHERE ligne_achat_id = ?
+                  AND statut IN ('actif', 'partiel')
+                "#,
+            )
+            .bind(ligne_achat_id)
+            .execute(&mut *tx)
+            .await?;
+
+            if result.rows_affected() != 1 {
+                return Err(erreur("Impossible d'annuler la ligne d'achat"));
+            }
+        }
+
+        if ligne_id.is_none() {
+            // Annulation de l'ordre entier.
+            sqlx::query(
+                r#"
+                UPDATE ordres_achat
+                SET statut = 'annule',
+                    modifie_le = CURRENT_TIMESTAMP
+                WHERE ordre_achat_id = ?
+                "#,
+            )
+            .bind(ordre_id)
+            .execute(&mut *tx)
+            .await?;
+        } else {
+            sqlx::query(SQL_STATUT_ORDRE_ACHAT)
+                .bind(ordre_id)
+                .execute(&mut *tx)
+                .await?;
+        }
+
+        if remboursement > 0 {
+            WalletManager::crediter_tx(&mut tx, account_id, remboursement)
+                .await?;
+        }
+
+        tx.commit().await?;
+
+        Ok(())
+    }
+
+    /// Annule toutes les lignes encore actives d'un ordre de vente et rend
+    /// les objets restants (ils redeviennent visibles).
+    pub async fn annuler_ordre_vente(
+        &self,
+        account_id: i64,
+        ordre_id: i64,
+    ) -> Result<(), sqlx::Error> {
+        self.annuler_lignes_vente(account_id, ordre_id, None).await
+    }
+
+    /// Annule une seule ligne d'un ordre de vente.
+    pub async fn annuler_ligne_vente(
+        &self,
+        account_id: i64,
+        ordre_id: i64,
+        ligne_vente_id: i64,
+    ) -> Result<(), sqlx::Error> {
+        self.annuler_lignes_vente(account_id, ordre_id, Some(ligne_vente_id))
+            .await
+    }
+
+    async fn annuler_lignes_vente(
+        &self,
+        account_id: i64,
+        ordre_id: i64,
+        ligne_id: Option<i64>,
+    ) -> Result<(), sqlx::Error> {
+        let mut tx = self.pool.begin().await?;
+        prendre_verrou_ecriture(&mut tx).await?;
+
+        // (ligne_vente_id, stock_id, stuff_id du séquestre)
+        let lignes: Vec<(i64, i64, i64)> = sqlx::query_as(
+            r#"
+            SELECT lv.ligne_vente_id, lv.stock_id, sm.stuff_id
+            FROM lignes_vente lv
+            JOIN stock_marche sm ON sm.stock_id = lv.stock_id
+            JOIN ordres_vente ov ON ov.ordre_vente_id = lv.ordre_vente_id
+            WHERE ov.ordre_vente_id = ?
+              AND ov.account_id = ?
+              AND lv.statut IN ('actif', 'partiel')
+              AND sm.statut IN ('disponible', 'partiel')
+              AND (? IS NULL OR lv.ligne_vente_id = ?)
+            "#,
+        )
+        .bind(ordre_id)
+        .bind(account_id)
+        .bind(ligne_id)
+        .bind(ligne_id)
+        .fetch_all(&mut *tx)
+        .await?;
+
+        if lignes.is_empty() {
+            return Err(erreur(if ligne_id.is_some() {
+                "Ligne de vente inexistante ou plus active"
+            } else {
+                "Ordre de vente inexistant ou plus actif"
+            }));
+        }
+
+        for (ligne_vente_id, stock_id, stuff_id) in &lignes {
+            sqlx::query(
+                r#"
+                UPDATE lignes_vente
+                SET statut = 'annule'
+                WHERE ligne_vente_id = ?
+                "#,
+            )
+            .bind(ligne_vente_id)
+            .execute(&mut *tx)
+            .await?;
+
+            sqlx::query(
+                r#"
+                UPDATE stock_marche
+                SET statut = 'annule',
+                    modifie_le = CURRENT_TIMESTAMP
+                WHERE stock_id = ?
+                "#,
+            )
+            .bind(stock_id)
+            .execute(&mut *tx)
+            .await?;
+
+            // La quantité du stuff a déjà été réduite par le trigger lors des
+            // ventes partielles : il ne reste qu'à le rendre visible.
+            let result = sqlx::query(
+                r#"
+                UPDATE stuff
+                SET visible = 1
+                WHERE stuff_id = ?
+                  AND account_id = ?
+                "#,
+            )
+            .bind(stuff_id)
+            .bind(account_id)
+            .execute(&mut *tx)
+            .await?;
+
+            if result.rows_affected() != 1 {
+                return Err(erreur("Impossible de restituer l'objet"));
+            }
+        }
+
+        if ligne_id.is_none() {
+            sqlx::query(
+                r#"
+                UPDATE ordres_vente
+                SET statut = 'annule',
+                    modifie_le = CURRENT_TIMESTAMP
+                WHERE ordre_vente_id = ?
+                "#,
+            )
+            .bind(ordre_id)
+            .execute(&mut *tx)
+            .await?;
+        } else {
+            sqlx::query(SQL_STATUT_ORDRE_VENTE)
+                .bind(ordre_id)
+                .execute(&mut *tx)
+                .await?;
+        }
+
+        tx.commit().await?;
+
+        Ok(())
+    }
+
+    // ========================================================
+    // APPARIEMENT
+    // ========================================================
+
+    /// Exécute au plus une transaction pour l'objet.
+    /// Retourne l'id de la transaction, ou `None` s'il n'y a plus de paire.
+    pub async fn matcher_ordre(
+        &self,
+        objet_id: i64,
+    ) -> Result<Option<i64>, sqlx::Error> {
+        let mut tx = self.pool.begin().await?;
+        prendre_verrou_ecriture(&mut tx).await?;
+
+        let paire: Option<PaireCompatible> =
+            sqlx::query_as(SQL_MEILLEURE_PAIRE)
+                .bind(objet_id)
+                .fetch_optional(&mut *tx)
+                .await?;
+
+        let paire = match paire {
+            Some(paire) => paire,
+            None => {
+                tx.rollback().await?;
+                return Ok(None);
+            }
+        };
+
+        let quantite = paire.achat_restante.min(paire.vente_restante);
+
+        // Prix d'exécution : celui de la ligne de vente.
+        let prix_execution = paire.prix_vente;
+
+        let montant_total =
+            prix_execution.checked_mul(quantite).ok_or_else(|| {
+                erreur("Le montant de la transaction dépasse la capacité i64")
+            })?;
+
+        // L'acheteur avait réservé prix_max × quantité : la différence
+        // avec le prix réellement payé lui revient tout de suite.
+        let remboursement = (paire.prix_achat_max - prix_execution)
+            .checked_mul(quantite)
+            .ok_or_else(|| {
+                erreur("Le remboursement dépasse la capacité i64")
+            })?;
+
+        // Les triggers valident la paire, mettent à jour lignes, stock et
+        // en-têtes, et transfèrent le stuff à l'acheteur.
+        let transaction_id: i64 = sqlx::query_scalar(
+            r#"
+            INSERT INTO transactions_marche (
+                ligne_achat_id,
+                ligne_vente_id,
+                stuff_id,
+                acheteur_id,
+                vendeur_id,
+                objet_id,
+                variante_id,
+                quantite,
+                prix_unitaire,
+                prix_total
+            )
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            RETURNING transaction_id
+            "#,
+        )
+        .bind(paire.ligne_achat_id)
+        .bind(paire.ligne_vente_id)
+        .bind(paire.stuff_id)
+        .bind(paire.acheteur_id)
+        .bind(paire.vendeur_id)
+        .bind(objet_id)
+        .bind(paire.variante_id)
+        .bind(quantite)
+        .bind(prix_execution)
+        .bind(montant_total)
+        .fetch_one(&mut *tx)
+        .await?;
+
+        WalletManager::crediter_tx(&mut tx, paire.vendeur_id, montant_total)
+            .await?;
+
+        if remboursement > 0 {
+            WalletManager::crediter_tx(
+                &mut tx,
+                paire.acheteur_id,
+                remboursement,
+            )
+            .await?;
+        }
+
+        // Le trigger range le stuff de l'acheteur sous la clé
+        // 'market-tx-<id>'. Un exemplaire transféré en entier garde son
+        // `visible = 0` de séquestre : on le rend visible à l'acheteur.
+        sqlx::query(
+            r#"
+            UPDATE stuff
+            SET visible = 1
+            WHERE account_id = ?
+              AND stack_key = ?
+            "#,
+        )
+        .bind(paire.acheteur_id)
+        .bind(format!("market-tx-{transaction_id}"))
+        .execute(&mut *tx)
+        .await?;
+
+        tx.commit().await?;
+
+        Ok(Some(transaction_id))
+    }
+
+    /// Exécute toutes les transactions possibles pour un objet.
+    pub async fn matcher_tous(
+        &self,
+        objet_id: i64,
+    ) -> Result<u64, sqlx::Error> {
+        let mut nombre_transactions = 0u64;
+
+        while self.matcher_ordre(objet_id).await?.is_some() {
+            nombre_transactions += 1;
+        }
+
+        Ok(nombre_transactions)
+    }
+
+    /// Apparie plusieurs objets après la création d'un ordre.
+    ///
+    /// L'ordre est déjà validé : une erreur d'appariement n'annule donc pas
+    /// sa création, elle est simplement journalisée.
+    async fn matcher_objets(
+        &self,
+        objets: impl IntoIterator<Item = i64>,
+    ) -> u64 {
+        let objets: BTreeSet<i64> = objets.into_iter().collect();
+        let mut total = 0u64;
+
+        for objet_id in objets {
+            match self.matcher_tous(objet_id).await {
+                Ok(nombre) => total += nombre,
+                Err(e) => log::warn!(
+                    "Appariement du marché interrompu pour objet_id={} : {}",
+                    objet_id,
+                    e
+                ),
+            }
+        }
+
+        total
+    }
+
+    // ========================================================
+    // CONSULTATION
+    // ========================================================
+
+    /// Variantes existantes d'un objet, avec leurs enchantements.
+    pub async fn variantes_objet(
+        &self,
+        objet_id: i64,
+    ) -> Result<Vec<VarianteDetail>, sqlx::Error> {
+        let variantes: Vec<VarianteMarche> = sqlx::query_as(
+            r#"
+            SELECT variante_id, objet_id, rarete, rang, book_level, signature
+            FROM variantes_marche
+            WHERE objet_id = ?
+            ORDER BY variante_id
+            "#,
+        )
+        .bind(objet_id)
+        .fetch_all(&self.pool)
+        .await?;
+
+        let enchantements: Vec<(i64, String, i64)> = sqlx::query_as(
+            r#"
+            SELECT ve.variante_id, e.enchantment_name, ve.enchantment_level
+            FROM variante_enchantements ve
+            JOIN variantes_marche vm ON vm.variante_id = ve.variante_id
+            JOIN enchantments e ON e.enchantment_id = ve.enchantment_id
+            WHERE vm.objet_id = ?
+            ORDER BY ve.variante_id, e.enchantment_name
+            "#,
+        )
+        .bind(objet_id)
+        .fetch_all(&self.pool)
+        .await?;
+
+        let mut par_variante: HashMap<i64, Vec<(String, i64)>> = HashMap::new();
+
+        for (variante_id, nom, niveau) in enchantements {
+            par_variante
+                .entry(variante_id)
+                .or_default()
+                .push((nom, niveau));
+        }
+
+        Ok(variantes
+            .into_iter()
+            .map(|variante| {
+                let enchantements = par_variante
+                    .remove(&variante.variante_id)
+                    .unwrap_or_default();
+
+                VarianteDetail {
+                    variante,
+                    enchantements,
+                }
+            })
+            .collect())
+    }
+
+    /// Prix indicatif : moyenne pondérée par la quantité des dernières
+    /// transactions (arrondie à l'entier le plus proche). Sans vente, valeur
+    /// de base du catalogue.
+    pub async fn prix_indicatif(
+        &self,
+        objet_id: i64,
+        variante_id: Option<i64>,
+    ) -> Result<i64, sqlx::Error> {
+        let recentes: Vec<(i64, i64)> = sqlx::query_as(
+            r#"
+            SELECT prix_total, quantite
+            FROM transactions_marche
+            WHERE objet_id = ?
+              AND (? IS NULL OR variante_id = ?)
+            ORDER BY transaction_id DESC
+            LIMIT ?
+            "#,
+        )
+        .bind(objet_id)
+        .bind(variante_id)
+        .bind(variante_id)
+        .bind(FENETRE_PRIX_INDICATIF)
+        .fetch_all(&self.pool)
+        .await?;
+
+        if !recentes.is_empty() {
+            let total: i128 = recentes.iter().map(|(p, _)| i128::from(*p)).sum();
+            let quantite: i128 =
+                recentes.iter().map(|(_, q)| i128::from(*q)).sum();
+
+            return i64::try_from(moyenne_arrondie(total, quantite))
+                .map_err(|_| erreur("Le prix indicatif dépasse la capacité i64"));
+        }
+
+        let prix_base: Option<i64> = sqlx::query_scalar(
+            "SELECT prix_base FROM objets_dispo WHERE objet_id = ?",
+        )
+        .bind(objet_id)
+        .fetch_optional(&self.pool)
+        .await?;
+
+        prix_base.ok_or_else(|| erreur("Objet inexistant"))
+    }
+
+    // ========================================================
+    // COMPATIBILITÉ AVEC LE PROTOCOLE ACTUEL (objet, quantité, prix)
+    // ========================================================
+    //
+    // Les paquets MARKET_BUY / MARKET_SELL de `handler.rs` ne transportent ni
+    // variante ni stuff_id. Ces méthodes les couvrent pour les objets
+    // « standard » (sans rareté, rang ni enchantement) :
+    //
+    // - achat : objet de base, ou variante standard (potions, armes,
+    //   équipements) ;
+    // - vente : pile 'base' visible, ou premières potions visibles.
+    //
+    // Pour le reste (livres, équipements, rareté, rang…), utiliser
+    // `creer_ordre_achat_lignes` / `creer_ordre_vente_lignes`.
+
     pub async fn creer_ordre_achat(
         &self,
         account_id: i64,
@@ -23,94 +1492,46 @@ impl MarketManager {
         quantity: u64,
         prix_unitaire_max: i64,
     ) -> Result<i64, sqlx::Error> {
-        if quantity == 0 {
-            return Err(sqlx::Error::Protocol(
-                "La quantité doit être supérieure à 0".into(),
-            ));
-        }
+        let type_objet = self.type_objet(objet_id).await?;
 
-        if prix_unitaire_max <= 0 {
-            return Err(sqlx::Error::Protocol(
-                "Le prix unitaire doit être supérieur à 0".into(),
-            ));
-        }
+        let ligne = if variantes::type_a_variante(&type_objet) {
+            let spec = VarianteSpec::simple(objet_id, None, None);
 
-        let quantity_i64 = i64::try_from(quantity).map_err(|_| {
-            sqlx::Error::Protocol(
-                "La quantité dépasse la capacité SQLite INTEGER".into(),
-            )
-        })?;
+            let variante_id = variantes::variante_id(&self.pool, &spec)
+                .await?
+                .ok_or_else(|| {
+                    erreur(
+                        "Aucune variante standard pour cet objet : \
+                         précisez une variante",
+                    )
+                })?;
 
-        let montant_total = prix_unitaire_max
-            .checked_mul(quantity_i64)
-            .ok_or_else(|| {
-                sqlx::Error::Protocol(
-                    "Le montant total dépasse la capacité i64".into(),
+            if type_objet == "potion" {
+                LigneAchatDemande::potion(
+                    objet_id,
+                    variante_id,
+                    quantity,
+                    prix_unitaire_max,
+                    CriterePotion::default(),
                 )
-            })?;
+            } else {
+                LigneAchatDemande::variante(
+                    objet_id,
+                    variante_id,
+                    quantity,
+                    prix_unitaire_max,
+                )
+            }
+        } else {
+            LigneAchatDemande::base(objet_id, quantity, prix_unitaire_max)
+        };
 
-        let mut tx = self.pool.begin().await?;
-
-        // Vérifie que l'objet existe.
-        let existe: Option<i64> = sqlx::query_scalar(
-            r#"
-            SELECT objet_id
-            FROM objets_dispo
-            WHERE objet_id = ?
-            "#,
-        )
-        .bind(objet_id)
-        .fetch_optional(&mut *tx)
-        .await?;
-
-        if existe.is_none() {
-            return Err(sqlx::Error::Protocol(
-                "Objet inexistant".into(),
-            ));
-        }
-
-        // Réserve l'argent.
-        WalletManager::debiter_tx(
-            &mut tx,
-            account_id,
-            montant_total,
-        )
-        .await?;
-
-        // Crée l'ordre.
-        let result = sqlx::query(
-            r#"
-            INSERT INTO ordres_achat (
-                account_id,
-                objet_id,
-                quantity,
-                quantity_remaining,
-                prix_unitaire_max,
-                statut
-            )
-            VALUES (?, ?, ?, ?, ?, 'actif')
-            "#,
-        )
-        .bind(account_id)
-        .bind(objet_id)
-        .bind(quantity_i64)
-        .bind(quantity_i64)
-        .bind(prix_unitaire_max)
-        .execute(&mut *tx)
-        .await?;
-
-        let ordre_id = result.last_insert_rowid();
-
-        tx.commit().await?;
-        self.matcher_tous(objet_id).await?;
-
-        Ok(ordre_id)
+        Ok(self
+            .creer_ordre_achat_lignes(account_id, vec![ligne])
+            .await?
+            .ordre_id)
     }
 
-    /// Crée un ordre de vente.
-    ///
-    /// Les objets vendus sont immédiatement retirés de l'inventaire
-    /// afin qu'ils ne puissent pas être utilisés dans plusieurs ordres.
     pub async fn creer_ordre_vente(
         &self,
         account_id: i64,
@@ -119,562 +1540,130 @@ impl MarketManager {
         prix_unitaire: i64,
     ) -> Result<i64, sqlx::Error> {
         if quantity == 0 {
-            return Err(sqlx::Error::Protocol(
-                "La quantité doit être supérieure à 0".into(),
-            ));
+            return Err(erreur("La quantité doit être supérieure à 0"));
         }
 
-        if prix_unitaire <= 0 {
-            return Err(sqlx::Error::Protocol(
-                "Le prix unitaire doit être supérieur à 0".into(),
-            ));
-        }
+        let type_objet = self.type_objet(objet_id).await?;
 
-        let quantity_i64 = i64::try_from(quantity).map_err(|_| {
-            sqlx::Error::Protocol(
-                "La quantité dépasse la capacité SQLite INTEGER".into(),
+        let lignes = if type_objet == "potion" {
+            let limite = quantite_i64(quantity)?;
+
+            let ids: Vec<i64> = sqlx::query_scalar(
+                r#"
+                SELECT stuff_id
+                FROM stuff
+                WHERE account_id = ?
+                  AND objet_id = ?
+                  AND visible = 1
+                ORDER BY stuff_id
+                LIMIT ?
+                "#,
             )
-        })?;
+            .bind(account_id)
+            .bind(objet_id)
+            .bind(limite)
+            .fetch_all(&self.pool)
+            .await?;
 
-        let mut tx = self.pool.begin().await?;
+            if (ids.len() as u64) < quantity {
+                return Err(erreur("Quantité insuffisante"));
+            }
 
-        // Vérifie que l'objet existe.
-        let existe: Option<i64> = sqlx::query_scalar(
-            r#"
-            SELECT objet_id
-            FROM objets_dispo
-            WHERE objet_id = ?
-            "#,
-        )
-        .bind(objet_id)
-        .fetch_optional(&mut *tx)
-        .await?;
+            ids.into_iter()
+                .map(|stuff_id| LigneVenteDemande {
+                    stuff_id,
+                    quantite: 1,
+                    prix_unitaire,
+                })
+                .collect()
+        } else {
+            let stuff_id: Option<i64> = sqlx::query_scalar(
+                r#"
+                SELECT stuff_id
+                FROM stuff
+                WHERE account_id = ?
+                  AND objet_id = ?
+                  AND stack_key = 'base'
+                  AND visible = 1
+                "#,
+            )
+            .bind(account_id)
+            .bind(objet_id)
+            .fetch_optional(&self.pool)
+            .await?;
 
-        if existe.is_none() {
-            return Err(sqlx::Error::Protocol(
-                "Objet inexistant".into(),
-            ));
-        }
+            let stuff_id = stuff_id.ok_or_else(|| {
+                erreur(
+                    "Aucun exemplaire standard disponible : \
+                     indiquez le stuff_id à vendre",
+                )
+            })?;
 
-        // Réserve les objets.
-        Inventaire::retirer_tx(
-            &mut tx,
-            account_id,
-            objet_id,
-            quantity,
-        )
-        .await?;
-
-        // Crée l'ordre.
-        let result = sqlx::query(
-            r#"
-            INSERT INTO ordres_vente (
-                account_id,
-                objet_id,
-                quantity,
-                quantity_remaining,
+            vec![LigneVenteDemande {
+                stuff_id,
+                quantite: quantity,
                 prix_unitaire,
-                statut
-            )
-            VALUES (?, ?, ?, ?, ?, 'actif')
-            "#,
+            }]
+        };
+
+        Ok(self
+            .creer_ordre_vente_lignes(account_id, lignes)
+            .await?
+            .ordre_id)
+    }
+
+    async fn type_objet(&self, objet_id: i64) -> Result<String, sqlx::Error> {
+        let type_objet: Option<String> = sqlx::query_scalar(
+            "SELECT type FROM objets_dispo WHERE objet_id = ?",
         )
-        .bind(account_id)
         .bind(objet_id)
-        .bind(quantity_i64)
-        .bind(quantity_i64)
-        .bind(prix_unitaire)
-        .execute(&mut *tx)
+        .fetch_optional(&self.pool)
         .await?;
 
-        let ordre_id = result.last_insert_rowid();
-
-        tx.commit().await?;
-        self.matcher_tous(objet_id).await?;
-
-        Ok(ordre_id)
+        type_objet.ok_or_else(|| erreur("Objet inexistant"))
     }
-    /// Annule un ordre d'achat et restitue les fonds correspondant
-/// à la quantité restante.
-pub async fn annuler_ordre_achat(
-    &self,
-    account_id: i64,
-    ordre_id: i64,
-) -> Result<(), sqlx::Error> {
-    let mut tx = self.pool.begin().await?;
-
-    let ordre: Option<(i64, i64, i64, String)> = sqlx::query_as(
-        r#"
-        SELECT
-            objet_id,
-            quantity_remaining,
-            prix_unitaire_max,
-            statut
-        FROM ordres_achat
-        WHERE ordre_id = ?
-          AND account_id = ?
-        "#,
-    )
-    .bind(ordre_id)
-    .bind(account_id)
-    .fetch_optional(&mut *tx)
-    .await?;
-
-    let (objet_id, quantity_remaining, prix_unitaire_max, statut) =
-        ordre.ok_or_else(|| {
-            sqlx::Error::Protocol(
-                "Ordre d'achat inexistant".into(),
-            )
-        })?;
-
-    if statut != "actif" {
-        return Err(sqlx::Error::Protocol(
-            "L'ordre d'achat n'est plus actif".into(),
-        ));
-    }
-
-    let montant_a_rembourser = prix_unitaire_max
-        .checked_mul(quantity_remaining)
-        .ok_or_else(|| {
-            sqlx::Error::Protocol(
-                "Le montant du remboursement dépasse la capacité i64".into(),
-            )
-        })?;
-
-    // Marque l'ordre comme annulé.
-    let result = sqlx::query(
-        r#"
-        UPDATE ordres_achat
-        SET statut = 'annule'
-        WHERE ordre_id = ?
-          AND account_id = ?
-          AND statut = 'actif'
-        "#,
-    )
-    .bind(ordre_id)
-    .bind(account_id)
-    .execute(&mut *tx)
-    .await?;
-
-    if result.rows_affected() != 1 {
-        return Err(sqlx::Error::Protocol(
-            "Impossible d'annuler l'ordre d'achat".into(),
-        ));
-    }
-
-    // Restitue les fonds réservés.
-    if montant_a_rembourser > 0 {
-        WalletManager::crediter_tx(
-            &mut tx,
-            account_id,
-            montant_a_rembourser,
-        )
-        .await?;
-    }
-
-    tx.commit().await?;
-
-    let _ = objet_id;
-
-    Ok(())
 }
-    /// Annule un ordre de vente et restitue les objets restants
-/// dans l'inventaire du vendeur.
-pub async fn annuler_ordre_vente(
-    &self,
-    account_id: i64,
-    ordre_id: i64,
-) -> Result<(), sqlx::Error> {
-    let mut tx = self.pool.begin().await?;
 
-    let ordre: Option<(i64, i64, String)> = sqlx::query_as(
-        r#"
-        SELECT
-            objet_id,
-            quantity_remaining,
-            statut
-        FROM ordres_vente
-        WHERE ordre_id = ?
-          AND account_id = ?
-        "#,
-    )
-    .bind(ordre_id)
-    .bind(account_id)
-    .fetch_optional(&mut *tx)
-    .await?;
+#[cfg(test)]
+mod tests {
+    use super::*;
 
-    let (objet_id, quantity_remaining, statut) =
-        ordre.ok_or_else(|| {
-            sqlx::Error::Protocol(
-                "Ordre de vente inexistant".into(),
-            )
-        })?;
-
-    if statut != "actif" {
-        return Err(sqlx::Error::Protocol(
-            "L'ordre de vente n'est plus actif".into(),
-        ));
+    #[test]
+    fn la_moyenne_est_arrondie_a_l_entier_le_plus_proche() {
+        assert_eq!(moyenne_arrondie(10, 4), 3); // 2,5 -> 3
+        assert_eq!(moyenne_arrondie(9, 4), 2); // 2,25 -> 2
+        assert_eq!(moyenne_arrondie(11, 4), 3); // 2,75 -> 3
+        assert_eq!(moyenne_arrondie(100, 1), 100);
     }
 
-    let quantity_u64 = u64::try_from(quantity_remaining).map_err(|_| {
-        sqlx::Error::Protocol(
-            "Quantité invalide".into(),
-        )
-    })?;
+    #[test]
+    fn une_ligne_d_achat_invalide_est_refusee() {
+        let ligne = LigneAchatDemande::variante(1, 1, 0, 10);
+        assert!(ligne.verifier().is_err());
 
-    // Restitue les objets réservés.
-    if quantity_u64 > 0 {
-        Inventaire::ajouter_tx(
-            &mut tx,
-            account_id,
-            objet_id,
-            quantity_u64,
-        )
-        .await?;
+        let ligne = LigneAchatDemande::base(1, 2, 10);
+        assert_eq!(ligne.verifier().unwrap(), 20);
+
+        let ligne = LigneAchatDemande::variante(1, 1, 1, 0);
+        assert!(ligne.verifier().is_err());
+
+        let ligne = LigneAchatDemande::variante(1, 1, u64::MAX, 10);
+        assert!(ligne.verifier().is_err());
+
+        let mut ligne = LigneAchatDemande::variante(1, 1, 2, 10);
+        ligne.durabilite_min = Some(50);
+        ligne.durabilite_max = Some(10);
+        assert!(ligne.verifier().is_err());
+
+        let mut ligne = LigneAchatDemande::variante(1, 1, 2, 10);
+        ligne.potion.puissance_exacte = Some(3);
+        ligne.potion.puissance_min = Some(2);
+        assert!(ligne.verifier().is_err());
     }
 
-    // Marque l'ordre comme annulé.
-    let result = sqlx::query(
-        r#"
-        UPDATE ordres_vente
-        SET statut = 'annule'
-        WHERE ordre_id = ?
-          AND account_id = ?
-          AND statut = 'actif'
-        "#,
-    )
-    .bind(ordre_id)
-    .bind(account_id)
-    .execute(&mut *tx)
-    .await?;
-
-    if result.rows_affected() != 1 {
-        return Err(sqlx::Error::Protocol(
-            "Impossible d'annuler l'ordre de vente".into(),
-        ));
+    #[test]
+    fn le_montant_reserve_est_prix_fois_quantite() {
+        let ligne = LigneAchatDemande::variante(1, 1, 3, 25);
+        assert_eq!(ligne.verifier().unwrap(), 75);
     }
-
-    tx.commit().await?;
-
-    Ok(())
-                       }
-    pub async fn matcher_ordre(
-    &self,
-    objet_id: i64,
-) -> Result<Option<i64>, sqlx::Error> {
-    let mut tx = self.pool.begin().await?;
-
-    // --------------------------------------------------------
-    // Meilleur ordre d'achat
-    // --------------------------------------------------------
-
-    let achat: Option<(i64, i64, i64, i64, i64)> = sqlx::query_as(
-        r#"
-        SELECT
-            ordre_id,
-            account_id,
-            quantity_remaining,
-            prix_unitaire_max,
-            CAST(strftime('%s', date_creation) AS INTEGER)
-        FROM ordres_achat
-        WHERE objet_id = ?
-          AND statut = 'actif'
-          AND quantity_remaining > 0
-        ORDER BY
-            prix_unitaire_max DESC,
-            date_creation ASC,
-            ordre_id ASC
-        LIMIT 1
-        "#,
-    )
-    .bind(objet_id)
-    .fetch_optional(&mut *tx)
-    .await?;
-
-    let achat = match achat {
-        Some(achat) => achat,
-        None => {
-            tx.rollback().await?;
-            return Ok(None);
-        }
-    };
-        let acheteur_id = achat.1;
-        
-
-    // --------------------------------------------------------
-    // Meilleur ordre de vente
-    // --------------------------------------------------------
-
-   let vente: Option<(i64, i64, i64, i64, i64)> = sqlx::query_as(
-    r#"
-    SELECT
-        ordre_id,
-        account_id,
-        quantity_remaining,
-        prix_unitaire,
-        CAST(strftime('%s', date_creation) AS INTEGER)
-    FROM ordres_vente
-    WHERE objet_id = ?
-      AND statut = 'actif'
-      AND quantity_remaining > 0
-      AND account_id != ?
-    ORDER BY
-        prix_unitaire ASC,
-        date_creation ASC,
-        ordre_id ASC
-    LIMIT 1
-    "#,
-)
-.bind(objet_id)
-.bind(acheteur_id)
-.fetch_optional(&mut *tx)
-.await?;
-
-    let vente = match vente {
-        Some(vente) => vente,
-        None => {
-            tx.rollback().await?;
-            return Ok(None);
-        }
-    };
-
-    let (
-        ordre_achat_id,
-        acheteur_id,
-        achat_remaining,
-        prix_achat,
-        _achat_timestamp,
-    ) = achat;
-
-    let (
-        ordre_vente_id,
-        vendeur_id,
-        vente_remaining,
-        prix_vente,
-        _vente_timestamp,
-    ) = vente;
-
-    // --------------------------------------------------------
-    // Vérification de compatibilité
-    // --------------------------------------------------------
-
-    if prix_achat < prix_vente {
-        tx.rollback().await?;
-        return Ok(None);
-    }
-
-    // --------------------------------------------------------
-    // Quantité exécutée
-    // --------------------------------------------------------
-
-    let quantity = achat_remaining.min(vente_remaining);
-
-    // --------------------------------------------------------
-    // Prix de transaction
-    // --------------------------------------------------------
-    //
-    // Le prix de vente est utilisé comme prix d'exécution.
-    //
-    let prix_execution = prix_vente;
-
-    let montant_total = prix_execution
-        .checked_mul(quantity)
-        .ok_or_else(|| {
-            sqlx::Error::Protocol(
-                "Le montant de la transaction dépasse la capacité i64".into(),
-            )
-        })?;
-    // --------------------------------------------------------
-// Mise à jour du prix du marché
-// --------------------------------------------------------
-
-sqlx::query(
-    r#"
-    UPDATE objets_dispo
-    SET prix_marche = ?
-    WHERE objet_id = ?
-    "#,
-)
-.bind(prix_execution)
-.bind(objet_id)
-.execute(&mut *tx)
-.await?;
-
-
-    // --------------------------------------------------------
-    // Remboursement de la différence pour l'acheteur
-    // --------------------------------------------------------
-    //
-    // L'acheteur avait réservé :
-    //
-    //     prix_achat × quantity
-    //
-    // mais paie réellement :
-    //
-    //     prix_execution × quantity
-    //
-    // La différence lui revient immédiatement.
-    //
-
-    let difference_unitaire = prix_achat - prix_execution;
-
-    let remboursement = difference_unitaire
-        .checked_mul(quantity)
-        .ok_or_else(|| {
-            sqlx::Error::Protocol(
-                "Le remboursement dépasse la capacité i64".into(),
-            )
-        })?;
-
-    // --------------------------------------------------------
-    // Crédit du vendeur
-    // --------------------------------------------------------
-
-    WalletManager::crediter_tx(
-        &mut tx,
-        vendeur_id,
-        montant_total,
-    )
-    .await?;
-
-    // --------------------------------------------------------
-    // Remboursement de l'acheteur
-    // --------------------------------------------------------
-
-    if remboursement > 0 {
-        WalletManager::crediter_tx(
-            &mut tx,
-            acheteur_id,
-            remboursement,
-        )
-        .await?;
-    }
-
-    // --------------------------------------------------------
-    // Transfert des objets
-    // --------------------------------------------------------
-
-    Inventaire::ajouter_tx(
-        &mut tx,
-        acheteur_id,
-        objet_id,
-        u64::try_from(quantity).map_err(|_| {
-            sqlx::Error::Protocol(
-                "Quantité invalide".into(),
-            )
-        })?,
-    )
-    .await?;
-
-    // --------------------------------------------------------
-    // Mise à jour de l'ordre d'achat
-    // --------------------------------------------------------
-
-    let nouveau_remaining_achat = achat_remaining - quantity;
-
-    let statut_achat = if nouveau_remaining_achat == 0 {
-        "execute"
-    } else {
-        "actif"
-    };
-
-    sqlx::query(
-        r#"
-        UPDATE ordres_achat
-        SET
-            quantity_remaining = ?,
-            statut = ?
-        WHERE ordre_id = ?
-          AND statut = 'actif'
-        "#,
-    )
-    .bind(nouveau_remaining_achat)
-    .bind(statut_achat)
-    .bind(ordre_achat_id)
-    .execute(&mut *tx)
-    .await?;
-
-    // --------------------------------------------------------
-    // Mise à jour de l'ordre de vente
-    // --------------------------------------------------------
-
-    let nouveau_remaining_vente = vente_remaining - quantity;
-
-    let statut_vente = if nouveau_remaining_vente == 0 {
-        "execute"
-    } else {
-        "actif"
-    };
-
-    sqlx::query(
-        r#"
-        UPDATE ordres_vente
-        SET
-            quantity_remaining = ?,
-            statut = ?
-        WHERE ordre_id = ?
-          AND statut = 'actif'
-        "#,
-    )
-    .bind(nouveau_remaining_vente)
-    .bind(statut_vente)
-    .bind(ordre_vente_id)
-    .execute(&mut *tx)
-    .await?;
-
-    // --------------------------------------------------------
-    // Historique
-    // --------------------------------------------------------
-
-    let result = sqlx::query(
-        r#"
-        INSERT INTO transactions_marche (
-            objet_id,
-            ordre_achat_id,
-            ordre_vente_id,
-            acheteur_id,
-            vendeur_id,
-            quantity,
-            prix_unitaire,
-            montant_total
-        )
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-        "#,
-    )
-    .bind(objet_id)
-    .bind(ordre_achat_id)
-    .bind(ordre_vente_id)
-    .bind(acheteur_id)
-    .bind(vendeur_id)
-    .bind(quantity)
-    .bind(prix_execution)
-    .bind(montant_total)
-    .execute(&mut *tx)
-    .await?;
-
-    let transaction_id = result.last_insert_rowid();
-
-    tx.commit().await?;
-
-    Ok(Some(transaction_id))
-}
-    pub async fn matcher_tous(
-    &self,
-    objet_id: i64,
-) -> Result<u64, sqlx::Error> {
-    let mut nombre_transactions = 0u64;
-
-    loop {
-        match self.matcher_ordre(objet_id).await? {
-            Some(_) => {
-                nombre_transactions += 1;
-            }
-            None => {
-                break;
-            }
-        }
-    }
-
-    Ok(nombre_transactions)
-}
 }
