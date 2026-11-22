@@ -13,7 +13,7 @@
 edition = "2024"
 rust-version = "1.85.0"
 name = "hashbrown"
-version = "0.17.1"
+version = "0.17.2"
 build = false
 exclude = [
     ".github",
@@ -175,6 +175,9 @@ version = "0.2.155"
 [lints.clippy]
 borrow_as_ptr = "warn"
 doc_markdown = "allow"
+elidable_lifetime_names = "warn"
+manual_assert = "warn"
+manual_assert_eq = "warn"
 manual_let_else = "warn"
 manual_map = "allow"
 missing_errors_doc = "allow"

@@ -2608,7 +2608,7 @@ pub struct IterMut<'a, T> {
     inner: RawIter<T>,
     marker: PhantomData<&'a mut T>,
 }
-impl<'a, T> IterMut<'a, T> {
+impl<T> IterMut<'_, T> {
     /// Returns a iterator of references over the remaining items.
     #[cfg_attr(feature = "inline-more", inline)]
     pub fn iter(&self) -> Iter<'_, T> {
@@ -2725,7 +2725,7 @@ pub struct UnsafeIter<'a, T> {
     inner: RawIter<T>,
     marker: PhantomData<&'a ()>,
 }
-impl<'a, T> UnsafeIter<'a, T> {
+impl<T> UnsafeIter<'_, T> {
     /// Returns a iterator of references over the remaining items.
     #[cfg_attr(feature = "inline-more", inline)]
     pub fn iter(&self) -> Iter<'_, T> {
@@ -2745,7 +2745,7 @@ impl<T> Default for UnsafeIter<'_, T> {
         }
     }
 }
-impl<'a, T> Iterator for UnsafeIter<'a, T> {
+impl<T> Iterator for UnsafeIter<'_, T> {
     type Item = NonNull<T>;
 
     fn next(&mut self) -> Option<Self::Item> {
@@ -3110,7 +3110,7 @@ where
 pub struct Drain<'a, T, A: Allocator = Global> {
     inner: RawDrain<'a, T, A>,
 }
-impl<'a, T, A: Allocator> Drain<'a, T, A> {
+impl<T, A: Allocator> Drain<'_, T, A> {
     /// Returns a iterator of references over the remaining items.
     #[cfg_attr(feature = "inline-more", inline)]
     pub fn iter(&self) -> Iter<'_, T> {
@@ -3192,6 +3192,6 @@ mod tests {
     fn test_allocation_info() {
         assert_eq!(HashTable::<()>::new().allocation_size(), 0);
         assert_eq!(HashTable::<u32>::new().allocation_size(), 0);
-        assert!(HashTable::<u32>::with_capacity(1).allocation_size() > core::mem::size_of::<u32>());
+        assert!(HashTable::<u32>::with_capacity(1).allocation_size() > size_of::<u32>());
     }
 }

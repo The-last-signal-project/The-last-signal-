@@ -1,4 +1,3 @@
-
 # -*- coding: utf-8 -*-
 """
 Module d'authentification réseau du client Python pour The Last Signal.
@@ -318,3 +317,4 @@ def authenticate_client(client, email, password, account_id, retries=25, delay=0
 def spawn(client):
     client.send_packet(Packet(PacketType.SPAWN))
  
+

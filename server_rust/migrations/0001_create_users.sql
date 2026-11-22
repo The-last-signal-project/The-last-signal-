@@ -3,7 +3,7 @@ CREATE TABLE IF NOT EXISTS users (
     email TEXT UNIQUE NOT NULL,
     password_hash TEXT NOT NULL,
     status TEXT NOT NULL DEFAULT 'CONNECTED',
-    pseudo TEXT 
+    pseudo TEXT, 
     created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
     last_login TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
 );

@@ -6,6 +6,43 @@ INSERT INTO objets_dispo (
 )
 VALUES
     
+('fruit et légumes', 'consumable', 'fruit_et_legumes.png', 10),
+('herbes et racines', 'consumable', 'herbes_et_racines.png', 10),
+('tacos', 'consumable', 'tacos.png', 15),
+('burger', 'consumable', 'burger.png', 15),
+('sushi', 'consumable', 'sushi.png', 20),
+('boulette de riz', 'consumable', 'boulette_de_riz.png', 8),
+('sucrerie', 'consumable', 'sucrerie.png', 5),
+
+
+('mouton', 'consumable', 'mouton.png', 8),
+('cerf', 'consumable', 'cerf.png', 12),
+('sanglier', 'consumable', 'sanglier.png', 15),
+('pigeon', 'consumable', 'pigeon.png', 5),
+('poulet', 'consumable', 'poulet.png', 7),
+('porc', 'consumable', 'porc.png', 8),
+('boeuf', 'consumable', 'boeuf.png', 10),
+('agneau', 'consumable', 'agneau.png', 10),
+('veau', 'consumable', 'veau.png', 10),
+('karage', 'consumable', 'karage.png', 12),
+('calamar', 'consumable', 'calamar.png', 12),
+('morue', 'consumable', 'morue.png', 10),
+('crabe', 'consumable', 'crabe.png', 15),
+('saumon', 'consumable', 'saumon.png', 15),
+('thon', 'consumable', 'thon.png', 15),
+('fugu', 'consumable', 'fugu.png', 50),
+('poisson globe', 'consumable', 'poisson_globe.png', 40),
+('sashimi', 'consumable', 'sashimi.png', 25),
+('minerais', 'basic', 'minerais.png', 100),
+('matos', 'military_equipment', 'matos.png', 500),
+('parachute', 'military_equipment', 'parachute.png', 1200),
+('ogive', 'military_equipment', 'ogive.png', 5000),
+('combinaison anti g', 'military_equipment', 'combinaison_anti_g.png', 3000),
+
+
+
+
+    
     ('livre enchant niv 1', 'enchanted_book', 'livre enchant.png', 100000),
     ('livre enchant niv 2', 'enchanted_book', 'livre enchant.png', 200000),
     ('livre enchant niv 3', 'enchanted_book', 'livre enchant.png', 300000),
