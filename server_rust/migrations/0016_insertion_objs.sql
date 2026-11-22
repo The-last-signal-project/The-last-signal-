@@ -12,7 +12,7 @@ VALUES
 ('burger', 'consumable', 'burger.png', 15),
 ('sushi', 'consumable', 'sushi.png', 20),
 ('boulette de riz', 'consumable', 'boulette_de_riz.png', 8),
-('sucrerie', 'consumable', 'sucrerie.png', 5)
+('sucrerie', 'consumable', 'sucrerie.png', 5),
 
 
 ('mouton', 'consumable', 'mouton.png', 8),
@@ -32,12 +32,12 @@ VALUES
 ('thon', 'consumable', 'thon.png', 15),
 ('fugu', 'consumable', 'fugu.png', 50),
 ('poisson globe', 'consumable', 'poisson_globe.png', 40),
-('sashimi', 'consumable', 'sashimi.png', 25);
+('sashimi', 'consumable', 'sashimi.png', 25),
 
 ('matos', 'military', 'matos.png', 500),
 ('parachute', 'military', 'parachute.png', 1200),
 ('ogive', 'military', 'ogive.png', 5000),
-('combinaison anti g', 'military', 'combinaison_anti_g.png', 3000);
+('combinaison anti g', 'military', 'combinaison_anti_g.png', 3000),
 
 
 
