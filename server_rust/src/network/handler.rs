@@ -1130,6 +1130,7 @@ impl PacketHandler {
                 authoritative.x,
                 authoritative.y
             );
+             HandlerResult::Nothing
             }
             }
              }
