@@ -57,7 +57,7 @@ CREATE TABLE IF NOT EXISTS stuff (
     rarete TEXT,
     rang TEXT,
     visible TEXT NOT NULL DEFAULT 1,
-        CHECK(visible IN (0,1))
+        CHECK(visible IN (0,1)),
 
     FOREIGN KEY (account_id)
         REFERENCES accounts(account_id)
