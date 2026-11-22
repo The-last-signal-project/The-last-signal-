@@ -1000,6 +1000,7 @@ impl PacketHandler {
                         ));
                     }
                 }
+                
 
                 if let Err(e) = manager.record_login(&login_data.user_id).await {
                     error!("Impossible d'enregistrer la dernière connexion : {}", e);
@@ -1028,6 +1029,7 @@ impl PacketHandler {
                     format!("Utilisateur {} authentifié", display_name).into_bytes(),
                 ))
             }
+            
 
             // =================================================
             // CHAT
@@ -1097,11 +1099,7 @@ impl PacketHandler {
                 let player_id = client.session_id();
                 let position = Position::new(x, y, z);
 
-                match world.try_move(player_id, position).await {
-                    Ok(accepted) => match accepted.treasure_won {
-                        Some(niveau) => HandlerResult::Response(
-                            Self::open_treasure(client, &pool, niveau).await,
-                        ),
+                
 
 
     // Le serveur valide le déplacement (limites, murs, porte, clé).
@@ -1132,6 +1130,8 @@ impl PacketHandler {
                 authoritative.x,
                 authoritative.y
             );
+            }
+            }
 
 
             // =================================================
