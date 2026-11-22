@@ -1,6 +1,6 @@
 # Documentation Problems
 
-Generated: 2026-11-22 13:30:01
+Generated: 2026-11-22 14:18:59
 
 ## Summary
 
@@ -662,7 +662,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## Error
 
 - **Module :** python
-- **Message :** Impossible d'analyser le fichier : invalid decimal literal (<unknown>, line 671)
+- **Message :** Impossible d'analyser le fichier : invalid syntax (<unknown>, line 1)
 
 ---
 

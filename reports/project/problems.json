@@ -44246,7 +44246,7 @@
     {
         "file": "/home/runner/work/The-last-signal-/The-last-signal-/client_python/auth_session.py",
         "severity": "error",
-        "message": "Impossible d'analyser le fichier : invalid decimal literal (<unknown>, line 671)",
+        "message": "Impossible d'analyser le fichier : invalid syntax (<unknown>, line 1)",
         "module": "python"
     },
     {
