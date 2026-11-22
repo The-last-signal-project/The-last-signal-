@@ -27,7 +27,31 @@
 --   La signature doit être générée côté Rust avec les enchantements triés par
 --   enchantment_id et leur niveau. L'ordre d'affichage n'a aucune importance.
 -- ============================================================================
-
+CREATE TABLE IF NOT EXISTS objets_dispo (
+    objet_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    nom TEXT NOT NULL UNIQUE,
+    type TEXT NOT NULL
+        CHECK (
+            type IN (
+                'equipment',
+                'potion',
+                'enchanted_book',
+                'consumable',
+                'material',
+                'armes',
+                'basic',
+                'muni',
+                'mineral'
+            )
+        ),
+    image_path TEXT,
+    prix_base INTEGER NOT NULL DEFAULT 10
+        CHECK (prix_base >= 0),
+    prix_marche INTEGER NOT NULL DEFAULT 0
+        CHECK (prix_marche >= 0),
+    est_empilable INTEGER NOT NULL DEFAULT 1
+        CHECK (est_empilable IN (0, 1))
+);
 CREATE TABLE IF NOT EXISTS variantes_marche (
     variante_id       INTEGER PRIMARY KEY AUTOINCREMENT,
     objet_id          INTEGER NOT NULL,
