@@ -1,14 +1,14 @@
 # Documentation Problems
 
-Generated: 2026-11-22 23:02:38
+Generated: 2026-11-22 23:14:00
 
 ## Summary
 
 |Type|Count|
 |---|---:|
 |Errors|473|
-|Warnings|8236|
-|**Total**|**8714**|
+|Warnings|8235|
+|**Total**|**8713**|
 
 ---
 
@@ -8544,22 +8544,15 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## Warning
 
 - **Module :** rust
-- **Message :** Function 'treasure_level_is_always_between_1_and_5' sans documentation
-- **line :** 473
-- **suggestion :** Ajoutez /// avant cette function
-
-## Warning
-
-- **Module :** rust
 - **Message :** Function 'encoded_level_is_the_last_byte' sans documentation
-- **line :** 487
+- **line :** 475
 - **suggestion :** Ajoutez /// avant cette function
 
 ## Warning
 
 - **Module :** rust
 - **Message :** Function 'new_round_draws_a_new_valid_level' sans documentation
-- **line :** 498
+- **line :** 486
 - **suggestion :** Ajoutez /// avant cette function
 
 ---

@@ -51685,15 +51685,7 @@
     },
     {
         "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/world/treasure_zone.rs",
-        "line": 473,
-        "severity": "warning",
-        "message": "Function 'treasure_level_is_always_between_1_and_5' sans documentation",
-        "suggestion": "Ajoutez /// avant cette function",
-        "module": "rust"
-    },
-    {
-        "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/world/treasure_zone.rs",
-        "line": 487,
+        "line": 475,
         "severity": "warning",
         "message": "Function 'encoded_level_is_the_last_byte' sans documentation",
         "suggestion": "Ajoutez /// avant cette function",
@@ -51701,7 +51693,7 @@
     },
     {
         "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/world/treasure_zone.rs",
-        "line": 498,
+        "line": 486,
         "severity": "warning",
         "message": "Function 'new_round_draws_a_new_valid_level' sans documentation",
         "suggestion": "Ajoutez /// avant cette function",
