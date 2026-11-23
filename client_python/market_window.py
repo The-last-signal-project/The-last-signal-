@@ -107,6 +107,20 @@ def texte_ou_none(texte: str) -> str | None:
     return texte or None
 
 
+def prix_conseille(objet: dict) -> int:
+    """Prix du marché si le serveur le connaît, sinon prix du catalogue."""
+
+    valeur = objet.get("prix_conseille")
+
+    if valeur is None:
+        valeur = objet.get("prix_base", 0)
+
+    try:
+        return int(valeur)
+    except (TypeError, ValueError):
+        return 0
+
+
 def durabilite_texte(objet: dict) -> str:
 
     courante = objet.get("durabilite")
@@ -430,7 +444,7 @@ class MarketDialog(QDialog):
 
         self.table_inv = _table(
             ["", "Objet", "Détails", "Durabilité", "Quantité",
-             "Prix conseillé"]
+             "Prix du marché"]
         )
         v_inv.addWidget(self.table_inv)
 
@@ -765,7 +779,7 @@ class MarketDialog(QDialog):
                 _cellule(details_objet(objet)),
                 _cellule(durabilite_texte(objet), droite=True),
                 _cellule(format_nombre(objet.get("quantite", 1)), droite=True),
-                _cellule(format_nombre(objet.get("prix_base", 0)), droite=True),
+                _cellule(format_nombre(prix_conseille(objet)), droite=True),
             ]
 
             for colonne, cellule in enumerate(cellules, start=1):
@@ -812,7 +826,7 @@ class MarketDialog(QDialog):
         self.table_sel.setCellWidget(ligne, 1, quantite)
 
         prix = _champ_entier("prix", largeur=140)
-        prix.setText(str(int(objet.get("prix_base", 0)) or ""))
+        prix.setText(str(prix_conseille(objet) or ""))
         prix.textChanged.connect(self._maj_total_vente)
         self.table_sel.setCellWidget(ligne, 2, prix)
 
