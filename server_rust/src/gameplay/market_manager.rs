@@ -38,6 +38,7 @@ use serde::{Deserialize, Serialize};
 use sqlx::{Sqlite, SqlitePool, Transaction};
 use uuid::Uuid;
 
+use crate::gameplay::prix;
 use crate::gameplay::variantes::{self, VarianteSpec};
 use crate::gameplay::wallet_manager::WalletManager;
 
@@ -443,10 +444,6 @@ async fn prendre_verrou_ecriture(tx: &mut Tx<'_>) -> Result<(), sqlx::Error> {
     Ok(())
 }
 
-/// Moyenne pondérée arrondie à l'entier le plus proche (floor(x + 0.5)).
-fn moyenne_arrondie(total: i128, quantite: i128) -> i128 {
-    (2 * total + quantite) / (2 * quantite)
-}
 
 #[derive(sqlx::FromRow)]
 struct PaireCompatible {
@@ -1266,6 +1263,12 @@ impl MarketManager {
                 erreur("Le remboursement dépasse la capacité i64")
             })?;
 
+        // Qualité de l'exemplaire vendu (rareté, rang, durabilité à cet
+        // instant) : elle permet de ramener ce prix à celui d'un exemplaire
+        // standard pour calculer le prix du marché.
+        let facteur_prix =
+            Self::facteur_exemplaire(&mut tx, paire.stuff_id).await?;
+
         // Les triggers valident la paire, mettent à jour lignes, stock et
         // en-têtes, et transfèrent le stuff à l'acheteur.
         let transaction_id: i64 = sqlx::query_scalar(
@@ -1280,9 +1283,10 @@ impl MarketManager {
                 variante_id,
                 quantite,
                 prix_unitaire,
-                prix_total
+                prix_total,
+                facteur_prix
             )
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             RETURNING transaction_id
             "#,
         )
@@ -1296,6 +1300,7 @@ impl MarketManager {
         .bind(quantite)
         .bind(prix_execution)
         .bind(montant_total)
+        .bind(facteur_prix)
         .fetch_one(&mut *tx)
         .await?;
 
@@ -1341,16 +1346,50 @@ impl MarketManager {
         Ok(Some(transaction_id))
     }
 
-    /// Met à jour `objets_dispo.prix_marche` : moyenne pondérée par la
-    /// quantité des dernières transactions de l'objet (toutes variantes),
-    /// arrondie à l'entier le plus proche.
+    /// Facteur de qualité d'un exemplaire (rareté x rang x durabilité).
+    async fn facteur_exemplaire(
+        tx: &mut Tx<'_>,
+        stuff_id: i64,
+    ) -> Result<f64, sqlx::Error> {
+        let ligne: Option<(String, Option<String>, Option<String>, Option<i64>, Option<i64>)> =
+            sqlx::query_as(
+                r#"
+                SELECT o.type, s.rarete, s.rang, e.durability, e.durability_max
+                FROM stuff s
+                JOIN objets_dispo o ON o.objet_id = s.objet_id
+                LEFT JOIN equipment e ON e.stuff_id = s.stuff_id
+                WHERE s.stuff_id = ?
+                "#,
+            )
+            .bind(stuff_id)
+            .fetch_optional(&mut **tx)
+            .await?;
+
+        let (type_objet, rarete, rang, durabilite, durabilite_max) =
+            ligne.ok_or_else(|| erreur("Exemplaire introuvable"))?;
+
+        Ok(prix::facteur_qualite(
+            &type_objet,
+            rarete.as_deref(),
+            rang.as_deref(),
+            durabilite,
+            durabilite_max,
+        ))
+    }
+
+    /// Met à jour `objets_dispo.prix_marche` : le prix de référence de
+    /// l'objet, c'est-à-dire le prix d'un exemplaire standard.
+    ///
+    /// Moyenne pondérée par la quantité des dernières transactions, chacune
+    /// ramenée au facteur 1 (prix / facteur de qualité) : une épée rang S
+    /// neuve et une épée rang G usée ne se mélangent donc pas telles quelles.
     async fn mettre_a_jour_prix_marche(
         tx: &mut Tx<'_>,
         objet_id: i64,
     ) -> Result<(), sqlx::Error> {
-        let recentes: Vec<(i64, i64)> = sqlx::query_as(
+        let recentes: Vec<(i64, i64, f64)> = sqlx::query_as(
             r#"
-            SELECT prix_total, quantite
+            SELECT prix_total, quantite, facteur_prix
             FROM transactions_marche
             WHERE objet_id = ?
             ORDER BY transaction_id DESC
@@ -1362,15 +1401,9 @@ impl MarketManager {
         .fetch_all(&mut **tx)
         .await?;
 
-        if recentes.is_empty() {
+        let Some(prix) = prix::prix_reference_moyen(&recentes) else {
             return Ok(());
-        }
-
-        let total: i128 = recentes.iter().map(|(p, _)| i128::from(*p)).sum();
-        let quantite: i128 = recentes.iter().map(|(_, q)| i128::from(*q)).sum();
-
-        let prix = i64::try_from(moyenne_arrondie(total, quantite))
-            .map_err(|_| erreur("Le prix du marché dépasse la capacité i64"))?;
+        };
 
         sqlx::query("UPDATE objets_dispo SET prix_marche = ? WHERE objet_id = ?")
             .bind(prix)
@@ -1580,48 +1613,54 @@ impl MarketManager {
             .collect())
     }
 
-    /// Prix indicatif : moyenne pondérée par la quantité des dernières
-    /// transactions (arrondie à l'entier le plus proche). Sans vente, valeur
-    /// de base du catalogue.
+    /// Prix indicatif d'un exemplaire NEUF de l'objet (ou de la variante) :
+    /// prix de référence (marché, sinon catalogue) x rareté x rang.
     pub async fn prix_indicatif(
         &self,
         objet_id: i64,
         variante_id: Option<i64>,
     ) -> Result<i64, sqlx::Error> {
-        let recentes: Vec<(i64, i64)> = sqlx::query_as(
-            r#"
-            SELECT prix_total, quantite
-            FROM transactions_marche
-            WHERE objet_id = ?
-              AND (? IS NULL OR variante_id = ?)
-            ORDER BY transaction_id DESC
-            LIMIT ?
-            "#,
-        )
-        .bind(objet_id)
-        .bind(variante_id)
-        .bind(variante_id)
-        .bind(FENETRE_PRIX_INDICATIF)
-        .fetch_all(&self.pool)
-        .await?;
-
-        if !recentes.is_empty() {
-            let total: i128 = recentes.iter().map(|(p, _)| i128::from(*p)).sum();
-            let quantite: i128 =
-                recentes.iter().map(|(_, q)| i128::from(*q)).sum();
-
-            return i64::try_from(moyenne_arrondie(total, quantite))
-                .map_err(|_| erreur("Le prix indicatif dépasse la capacité i64"));
-        }
-
-        let prix_base: Option<i64> = sqlx::query_scalar(
-            "SELECT prix_base FROM objets_dispo WHERE objet_id = ?",
+        let objet: Option<(String, i64, i64)> = sqlx::query_as(
+            "SELECT type, prix_base, prix_marche FROM objets_dispo WHERE objet_id = ?",
         )
         .bind(objet_id)
         .fetch_optional(&self.pool)
         .await?;
 
-        prix_base.ok_or_else(|| erreur("Objet inexistant"))
+        let (type_objet, prix_base, prix_marche) =
+            objet.ok_or_else(|| erreur("Objet inexistant"))?;
+
+        let (rarete, rang) = match variante_id {
+            Some(id) => {
+                let variante: Option<(Option<String>, Option<String>)> =
+                    sqlx::query_as(
+                        r#"
+                        SELECT rarete, rang
+                        FROM variantes_marche
+                        WHERE variante_id = ?
+                          AND objet_id = ?
+                        "#,
+                    )
+                    .bind(id)
+                    .bind(objet_id)
+                    .fetch_optional(&self.pool)
+                    .await?;
+
+                variante.ok_or_else(|| erreur("Variante inconnue pour cet objet"))?
+            }
+            None => (None, None),
+        };
+
+        // Exemplaire neuf : aucune durabilité perdue.
+        Ok(prix::prix_exemplaire(
+            &type_objet,
+            rarete.as_deref(),
+            rang.as_deref(),
+            None,
+            None,
+            prix_base,
+            prix_marche,
+        ))
     }
 
     // ========================================================
@@ -1809,7 +1848,9 @@ SELECT
     p.effect             AS effet,
     p.potency            AS puissance,
     p.duration           AS duree,
-    a.account_name       AS vendeur
+    a.account_name       AS vendeur,
+    o.prix_base          AS prix_base,
+    o.prix_marche        AS prix_marche
 FROM lignes_vente lv
 JOIN ordres_vente ov ON ov.ordre_vente_id = lv.ordre_vente_id
 JOIN stock_marche sm ON sm.stock_id = lv.stock_id
@@ -1869,8 +1910,7 @@ SELECT
     p.potency        AS puissance,
     p.duration       AS duree,
     o.prix_base      AS prix_base,
-    CASE WHEN o.prix_marche > 0 THEN o.prix_marche ELSE o.prix_base END
-                     AS prix_conseille
+    o.prix_marche    AS prix_marche
 FROM stuff s
 JOIN objets_dispo o ON o.objet_id = s.objet_id
 LEFT JOIN equipment eq       ON eq.stuff_id = s.stuff_id
@@ -2005,6 +2045,14 @@ pub struct VenteListee {
     pub puissance: Option<i64>,
     pub duree: Option<i64>,
     pub vendeur: String,
+    #[serde(skip)]
+    pub prix_base: i64,
+    #[serde(skip)]
+    pub prix_marche: i64,
+    /// Prix du marché de CET exemplaire : prix de référence de l'objet x
+    /// rareté x rang x durabilité restante.
+    #[sqlx(skip)]
+    pub valeur_estimee: i64,
     /// Ex. « Tranchant 3 ».
     #[sqlx(skip)]
     pub enchantements: Vec<String>,
@@ -2029,8 +2077,12 @@ pub struct ObjetVendable {
     pub duree: Option<i64>,
     /// Prix du catalogue.
     pub prix_base: i64,
-    /// Prix du marché s'il existe, sinon prix du catalogue : prix de départ
+    /// Prix de référence du marché (0 tant qu'aucune vente n'a eu lieu).
+    pub prix_marche: i64,
+    /// Prix du marché de CET exemplaire : prix de référence (marché, sinon
+    /// catalogue) x rareté x rang x durabilité restante. Prix de départ
     /// proposé à la vente.
+    #[sqlx(skip)]
     pub prix_conseille: i64,
     #[sqlx(skip)]
     pub enchantements: Vec<String>,
@@ -2156,6 +2208,18 @@ impl MarketManager {
             }
         }
 
+        for vente in &mut ventes {
+            vente.valeur_estimee = prix::prix_exemplaire(
+                &vente.type_objet,
+                vente.rarete.as_deref(),
+                vente.rang.as_deref(),
+                vente.durabilite,
+                vente.durabilite_max,
+                vente.prix_base,
+                vente.prix_marche,
+            );
+        }
+
         Ok(ventes)
     }
 
@@ -2183,6 +2247,16 @@ impl MarketManager {
             if let Some(liste) = par_stuff.get(&objet.stuff_id) {
                 objet.enchantements = liste.clone();
             }
+
+            objet.prix_conseille = prix::prix_exemplaire(
+                &objet.type_objet,
+                objet.rarete.as_deref(),
+                objet.rang.as_deref(),
+                objet.durabilite,
+                objet.durabilite_max,
+                objet.prix_base,
+                objet.prix_marche,
+            );
         }
 
         Ok(objets)
@@ -2325,14 +2399,6 @@ impl MarketManager {
 #[cfg(test)]
 mod tests {
     use super::*;
-
-    #[test]
-    fn la_moyenne_est_arrondie_a_l_entier_le_plus_proche() {
-        assert_eq!(moyenne_arrondie(10, 4), 3); // 2,5 -> 3
-        assert_eq!(moyenne_arrondie(9, 4), 2); // 2,25 -> 2
-        assert_eq!(moyenne_arrondie(11, 4), 3); // 2,75 -> 3
-        assert_eq!(moyenne_arrondie(100, 1), 100);
-    }
 
     #[test]
     fn une_ligne_d_achat_invalide_est_refusee() {

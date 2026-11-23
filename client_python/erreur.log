@@ -321,3 +321,15 @@ Traceback (most recent call last):
                       ^^^^^^^^^^^^
 AttributeError: type object 'Key' has no attribute 'Key_o'. Did you mean: 'Key_O'?
 
+[23/11/2026 21:52:26] Python 3.13.9 - linux2
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/media/cyril/External3/The-last-signal-/client_python/game_launcher.py", line 74, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "/media/cyril/External3/The-last-signal-/client_python/game_launcher.py", line 61, in main
+    print("Le jeu s'arrête....")
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 5] Input/output error
+

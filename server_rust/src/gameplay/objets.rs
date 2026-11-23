@@ -123,34 +123,37 @@ impl Rank {
     /// Poids de tirage de chaque rank (dans l'ordre de `TOUS`)
     /// selon la rareté. Plus la rareté est haute, plus les ranks élevés
     /// sont probables.
-    fn poids(rarete: Rarete) -> [u32; 10] {
+    fn poids(rarete: Rarete) -> [f32; 10] {
         //                       G   F   E   D   C   B   A   S  SS SSS
         match rarete {
-            Rarete::Commun     => [50, 30, 15, 4, 0.9, 0.09, 0.009, 0.0009, 0.00009, 0.00001],
-            Rarete::PeuCommun  => [45, 25, 14, 7, 5.8, 3.18, 0.018, 0.0018, 0.00018, 0.00002],
-            Rarete::Rare       => [35, 20, 13, 11, 10.8, 5.18, 4.018, 1.0018, 0.00018, 0.00002],
-            Rarete::SuperRare  => [25, 10, 7, 9, 19.6, 13.36, 10.036, 6.0036, 0.00036, 0.00004],
-            Rarete::Epique     => [20, 10, 7, 8, 17.5, 12.45, 12.045, 7.0045, 4.00045, 2.00005],
-            Rarete::Legendaire => [15, 8, 7, 6, 15.5, 12.45, 14.045, 10.0045, 8.00045, 4.00005],
-            Rarete::Mythique   => [5, 6, 4, 6, 15.5, 12.45, 15.045, 20.0045, 9.00045, 8.00005],
+            Rarete::Commun     => [50.0, 30.0, 15.0, 4.0, 0.9, 0.09, 0.009, 0.0009, 0.00009, 0.00001],
+            Rarete::PeuCommun  => [45.0, 25.0, 14.0, 7.0, 5.8, 3.18, 0.018, 0.0018, 0.00018, 0.00002],
+            Rarete::Rare       => [35.0, 20.0, 13.0, 11.0, 10.8, 5.18, 4.018, 1.0018, 0.00018, 0.00002],
+            Rarete::SuperRare  => [25.0, 10.0, 7.0, 9.0, 19.6, 13.36, 10.036, 6.0036, 0.00036, 0.00004],
+            Rarete::Epique     => [20.0, 10.0, 7.0, 8.0, 17.5, 12.45, 12.045, 7.0045, 4.00045, 2.00005],
+            Rarete::Legendaire => [15.0, 8.0, 7.0, 6.0, 15.5, 12.45, 14.045, 10.0045, 8.00045, 4.00005],
+            Rarete::Mythique   => [5.0, 6.0, 4.0, 6.0, 15.5, 12.45, 15.045, 20.0045, 9.00045, 8.00005],
         }
     }
 
     /// Tire un rank au hasard selon la rareté.
     pub fn tirer(rarete: Rarete, rng: &mut impl Rng) -> Rank {
-        let poids = Self::poids(rarete);
-        let total: u32 = poids.iter().sum();
-        let mut tirage = rng.random_range(0..total);
+    let poids = Self::poids(rarete);
 
-        for (rank, p) in Self::TOUS.iter().zip(poids) {
-            if tirage < p {
-                return *rank;
-            }
-            tirage -= p;
+    let total: f32 = poids.iter().sum();
+
+    let mut tirage = rng.random_range(0.0..total);
+
+    for (rank, p) in Self::TOUS.iter().zip(poids) {
+        if tirage < p {
+            return *rank;
         }
 
-        Rank::G
+        tirage -= p;
     }
+
+    Rank::G
+}
 }
 
 // Trait pour les noms personnalisés

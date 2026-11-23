@@ -220,6 +220,13 @@ CREATE TABLE IF NOT EXISTS transactions_marche (
     quantite       INTEGER NOT NULL,
     prix_unitaire  INTEGER NOT NULL,
     prix_total     INTEGER NOT NULL,
+
+    -- Qualité de l'exemplaire vendu (rareté x rang x durabilité restante),
+    -- calculée par Rust au moment de la vente. prix_unitaire / facteur_prix
+    -- donne le prix qu'aurait eu un exemplaire standard : c'est ce prix
+    -- ramené au facteur 1 qui alimente objets_dispo.prix_marche.
+    facteur_prix   REAL NOT NULL DEFAULT 1.0,
+
     effectuee_le   TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     FOREIGN KEY (ligne_achat_id) REFERENCES lignes_achat(ligne_achat_id) ON DELETE RESTRICT,
@@ -233,7 +240,8 @@ CREATE TABLE IF NOT EXISTS transactions_marche (
 
     CHECK (quantite > 0),
     CHECK (prix_unitaire > 0),
-    CHECK (prix_total = quantite * prix_unitaire)
+    CHECK (prix_total = quantite * prix_unitaire),
+    CHECK (facteur_prix > 0)
 );
 
 -- ============================================================================
@@ -744,7 +752,11 @@ CREATE INDEX IF NOT EXISTS idx_transactions_marche_objet_date
 CREATE INDEX IF NOT EXISTS idx_transactions_marche_lignes
     ON transactions_marche(ligne_achat_id, ligne_vente_id);
 
--- Note pour Rust : le prix indicatif pourra être calculé à partir des
--- transactions récentes (moyenne pondérée par quantite). En l'absence de ventes,
--- utiliser la valeur théorique du catalogue. L'arrondi mathématique doit être
--- appliqué côté Rust : floor(moyenne + 0.5) pour des montants positifs.
+-- Note pour Rust : prix d'un exemplaire = prix de référence de l'objet x facteur
+-- de qualité de l'exemplaire (voir gameplay/prix.rs).
+--   - facteur de qualité (armes et équipements) = multiplicateur de rareté
+--     x multiplicateur de rang x durabilité / durabilité max ; 1 pour les autres ;
+--   - prix de référence = objets_dispo.prix_marche, moyenne pondérée par la
+--     quantité des dernières transactions ramenées au facteur 1
+--     (prix_total / facteur_prix) ; en l'absence de ventes, prix_base du
+--     catalogue. L'arrondi mathématique est appliqué côté Rust.

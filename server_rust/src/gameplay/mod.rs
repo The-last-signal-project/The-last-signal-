@@ -6,3 +6,5 @@ pub mod wallet_manager;
 pub mod market_manager;
 pub mod bank_manager;
 pub mod variantes;
+pub mod prix;
+

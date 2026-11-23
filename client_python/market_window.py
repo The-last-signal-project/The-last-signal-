@@ -389,7 +389,7 @@ class MarketDialog(QDialog):
 
         self.table_ventes = _table(
             ["Objet", "Détails", "Durabilité", "Quantité",
-             "Prix unitaire", "Vendeur"]
+             "Prix unitaire", "Prix du marché", "Vendeur"]
         )
         self.table_ventes.itemSelectionChanged.connect(
             self._vente_selectionnee_change
@@ -653,6 +653,13 @@ class MarketDialog(QDialog):
                 _cellule(format_nombre(vente.get("quantite", 0)), droite=True),
                 _cellule(
                     format_nombre(vente.get("prix_unitaire", 0)), droite=True
+                ),
+                # Prix du marché de CET exemplaire (rareté, rang, durabilité)
+                _cellule(
+                    format_nombre(vente["valeur_estimee"])
+                    if vente.get("valeur_estimee") is not None
+                    else "",
+                    droite=True,
                 ),
                 _cellule(str(vente.get("vendeur", ""))),
             ]
