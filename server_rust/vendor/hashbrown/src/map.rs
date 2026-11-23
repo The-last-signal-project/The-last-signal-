@@ -2608,7 +2608,12 @@ where
     }
 }
 
-impl<K, V, F> FusedIterator for ExtractIf<'_, K, V, F> where F: FnMut(&K, &mut V) -> bool {}
+impl<K, V, F, A> FusedIterator for ExtractIf<'_, K, V, F, A>
+where
+    F: FnMut(&K, &mut V) -> bool,
+    A: Allocator,
+{
+}
 
 /// A mutable iterator over the values of a `HashMap` in arbitrary order.
 /// The iterator element type is `&'a mut V`.
@@ -4266,7 +4271,7 @@ impl<'a, K, V, S, A: Allocator> VacantEntry<'a, K, V, S, A> {
     }
 }
 
-impl<'a, 'b, K, Q: ?Sized, V, S, A: Allocator> EntryRef<'a, 'b, K, Q, V, S, A> {
+impl<'a, K, Q: ?Sized, V, S, A: Allocator> EntryRef<'a, '_, K, Q, V, S, A> {
     /// Sets the value of the entry, and returns an `OccupiedEntry`.
     ///
     /// # Examples
@@ -4460,7 +4465,7 @@ impl<'a, 'b, K, Q: ?Sized, V, S, A: Allocator> EntryRef<'a, 'b, K, Q, V, S, A> {
     }
 }
 
-impl<'a, 'b, K, Q: ?Sized, V: Default, S, A: Allocator> EntryRef<'a, 'b, K, Q, V, S, A> {
+impl<'a, K, Q: ?Sized, V: Default, S, A: Allocator> EntryRef<'a, '_, K, Q, V, S, A> {
     /// Ensures a value is in the entry by inserting the default value if empty,
     /// and returns a mutable reference to the value in the entry.
     ///
@@ -5026,10 +5031,14 @@ where
 
 #[expect(dead_code)]
 fn assert_covariance() {
-    fn map_key<'new>(v: HashMap<&'static str, u8>) -> HashMap<&'new str, u8> {
+    fn map_key<'new, S: BuildHasher, A: Allocator>(
+        v: HashMap<&'static str, u8, S, A>,
+    ) -> HashMap<&'new str, u8, S, A> {
         v
     }
-    fn map_val<'new>(v: HashMap<u8, &'static str>) -> HashMap<u8, &'new str> {
+    fn map_val<'new, S: BuildHasher, A: Allocator>(
+        v: HashMap<u8, &'static str, S, A>,
+    ) -> HashMap<u8, &'new str, S, A> {
         v
     }
     fn iter_key<'a, 'new>(v: Iter<'a, &'static str, u8>) -> Iter<'a, &'new str, u8> {
@@ -5060,9 +5069,9 @@ fn assert_covariance() {
     fn values_val<'a, 'new>(v: Values<'a, u8, &'static str>) -> Values<'a, u8, &'new str> {
         v
     }
-    fn drain<'new>(
-        d: Drain<'static, &'static str, &'static str>,
-    ) -> Drain<'new, &'new str, &'new str> {
+    fn drain<'new, A: Allocator>(
+        d: Drain<'static, &'static str, &'static str, A>,
+    ) -> Drain<'new, &'new str, &'new str, A> {
         d
     }
 }
@@ -5615,7 +5624,7 @@ mod test_map {
         m2.insert(1, 2);
         m2.insert(2, 3);
 
-        assert!(m1 != m2);
+        assert_ne!(m1, m2);
 
         m2.insert(3, 4);
 
@@ -6418,9 +6427,7 @@ mod test_map {
                     self.dropped = true;
                     panic!("panic in drop");
                 }
-                if self.dropped {
-                    panic!("double drop");
-                }
+                assert!(!self.dropped, "double drop");
                 self.dropped = true;
             }
         }
@@ -6459,9 +6466,7 @@ mod test_map {
         }
         impl Clone for CheckedClone {
             fn clone(&self) -> Self {
-                if self.panic_in_clone {
-                    panic!("panic in clone")
-                }
+                assert!(!self.panic_in_clone, "panic in clone");
                 Self {
                     panic_in_clone: self.panic_in_clone,
                     need_drop: self.need_drop.clone(),
@@ -6518,7 +6523,7 @@ mod test_map {
     }
 
     unsafe impl Allocator for MyAlloc {
-        fn allocate(&self, layout: Layout) -> std::result::Result<NonNull<[u8]>, AllocError> {
+        fn allocate(&self, layout: Layout) -> Result<NonNull<[u8]>, AllocError> {
             let g = Global;
             g.allocate(layout)
         }
@@ -6550,6 +6555,23 @@ mod test_map {
         assert_eq!(dropped.load(Ordering::SeqCst), 0);
     }
 
+    #[test]
+    fn test_hashmap_into_iter_unallocated_drops_allocator() {
+        let dropped: Arc<AtomicI8> = Arc::new(AtomicI8::new(1));
+
+        {
+            let map: HashMap<i32, i32, _, _> = HashMap::with_hasher_in(
+                DefaultHashBuilder::default(),
+                MyAlloc::new(dropped.clone()),
+            );
+
+            for _ in map {}
+        }
+
+        // The table never allocated, but the allocator must still be dropped.
+        assert_eq!(dropped.load(Ordering::SeqCst), 0);
+    }
+
     #[derive(Debug)]
     struct CheckedCloneDrop<T> {
         panic_in_clone: bool,
@@ -6571,9 +6593,7 @@ mod test_map {
 
     impl<T: Clone> Clone for CheckedCloneDrop<T> {
         fn clone(&self) -> Self {
-            if self.panic_in_clone {
-                panic!("panic in clone")
-            }
+            assert!(!self.panic_in_clone, "panic in clone");
             Self {
                 panic_in_clone: self.panic_in_clone,
                 panic_in_drop: self.panic_in_drop,
@@ -6589,9 +6609,7 @@ mod test_map {
                 self.dropped = true;
                 panic!("panic in drop");
             }
-            if self.dropped {
-                panic!("double drop");
-            }
+            assert!(!self.dropped, "double drop");
             self.dropped = true;
         }
     }
@@ -6895,9 +6913,7 @@ mod test_map {
     fn test_allocation_info() {
         assert_eq!(HashMap::<(), ()>::new().allocation_size(), 0);
         assert_eq!(HashMap::<u32, u32>::new().allocation_size(), 0);
-        assert!(
-            HashMap::<u32, u32>::with_capacity(1).allocation_size() > core::mem::size_of::<u32>()
-        );
+        assert!(HashMap::<u32, u32>::with_capacity(1).allocation_size() > size_of::<u32>());
     }
 }
 
@@ -6995,11 +7011,11 @@ mod test_map_with_mmap_allocations {
         let mut map: HashMap<usize, (), _, _> = HashMap::with_capacity_in(1, alloc);
 
         // Size of an element plus its control byte.
-        let rough_bucket_size = core::mem::size_of::<(usize, ())>() + 1;
+        let rough_bucket_size = size_of::<(usize, ())>() + 1;
 
         // Accounting for some misc. padding that's likely in the allocation
         // due to rounding to group width, etc.
-        let overhead = 3 * core::mem::size_of::<usize>();
+        let overhead = 3 * size_of::<usize>();
         let num_buckets = (alloc.page_size - overhead) / rough_bucket_size;
         // Buckets are always powers of 2.
         let min_elems = prev_pow2(num_buckets);

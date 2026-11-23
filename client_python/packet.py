@@ -27,6 +27,12 @@ class PacketType(IntEnum):
     ACCOUNT_SELECT = 21
     ACCOUNT_RESULT = 22
     SPAWN = 23
+    ZONE_STATE = 24
+    TREASURE_REWARD = 25
+    INVENTORY_REQUEST = 26
+    INVENTORY_RESPONSE = 27
+    MARKET_REQUEST = 28
+    MARKET_RESPONSE = 29
 
 
 class Packet:
@@ -116,6 +122,9 @@ class Packet:
             packet_type,
             payload
         )
+        if packet_type == PacketType.ZONE_STATE:
+            from .packets.zone_state import ZoneStatePacket
+            return ZoneStatePacket.from_payload(payload)
         if packet_type == PacketType.DECO:
             from .packets.Deco import decoPacket
             return decoPacket.from_payload(payload)
