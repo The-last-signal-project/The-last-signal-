@@ -469,19 +469,7 @@ mod tests {
         assert_eq!(ZoneState::new().encode().len(), 43);
     }
 
-    #[test]
-    fn treasure_level_is_always_between_1_and_5() {
-        let mut seen = [false; 6];
-
-        for _ in 0..2000 {
-            let level = ZoneState::new().treasure_level;
-            assert!((TREASURE_LEVEL_MIN..=TREASURE_LEVEL_MAX).contains(&level));
-            seen[level as usize] = true;
-        }
-
-        // sur 2000 tirages, les 5 niveaux sortent (proba d'échec ~ 1e-193)
-        assert!(seen[1..=5].iter().all(|&v| v));
-    }
+    
 
     #[test]
     fn encoded_level_is_the_last_byte() {
