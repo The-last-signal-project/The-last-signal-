@@ -1,6 +1,6 @@
 Documentation Quality Report
 
-**Date :** 2026-11-23 09:17:57
+**Date :** 2026-11-23 18:45:18
 
 # 64/100
 
@@ -1543,13 +1543,13 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'durabilite_texte'ligne 110 ne possède pas de docstring.
+- **Message :** La fonction 'durabilite_texte'ligne 124 ne possède pas de docstring.
 
 - **module :** python
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'confirmer'ligne 242 ne possède pas de docstring.
+- **Message :** La fonction 'confirmer'ligne 256 ne possède pas de docstring.
 
 - **module :** python
 
@@ -1561,7 +1561,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'informer'ligne 254 ne possède pas de docstring.
+- **Message :** La fonction 'informer'ligne 268 ne possède pas de docstring.
 
 - **module :** python
 
@@ -1573,7 +1573,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'avertir'ligne 258 ne possède pas de docstring.
+- **Message :** La fonction 'avertir'ligne 272 ne possède pas de docstring.
 
 - **module :** python
 
@@ -1591,7 +1591,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'handle_response'ligne 518 ne possède pas de docstring.
+- **Message :** La fonction 'handle_response'ligne 532 ne possède pas de docstring.
 
 - **module :** python
 
@@ -1609,7 +1609,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'rechercher'ligne 606 ne possède pas de docstring.
+- **Message :** La fonction 'rechercher'ligne 620 ne possède pas de docstring.
 
 - **module :** python
 
@@ -1621,7 +1621,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'reinitialiser_filtres'ligne 612 ne possède pas de docstring.
+- **Message :** La fonction 'reinitialiser_filtres'ligne 626 ne possède pas de docstring.
 
 - **module :** python
 
@@ -1633,7 +1633,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'vente_selectionnee'ligne 654 ne possède pas de docstring.
+- **Message :** La fonction 'vente_selectionnee'ligne 668 ne possède pas de docstring.
 
 - **module :** python
 
@@ -1645,7 +1645,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'acheter'ligne 691 ne possède pas de docstring.
+- **Message :** La fonction 'acheter'ligne 705 ne possède pas de docstring.
 
 - **module :** python
 
@@ -1663,7 +1663,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'valider_vente'ligne 929 ne possède pas de docstring.
+- **Message :** La fonction 'valider_vente'ligne 943 ne possède pas de docstring.
 
 - **module :** python
 
@@ -1675,7 +1675,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'vente_en_cours_selectionnee'ligne 1001 ne possède pas de docstring.
+- **Message :** La fonction 'vente_en_cours_selectionnee'ligne 1015 ne possède pas de docstring.
 
 - **module :** python
 
@@ -1687,7 +1687,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'annuler_vente'ligne 1010 ne possède pas de docstring.
+- **Message :** La fonction 'annuler_vente'ligne 1024 ne possède pas de docstring.
 
 - **module :** python
 
@@ -1699,7 +1699,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** python
-- **Message :** La fonction 'closeEvent'ligne 1051 ne possède pas de docstring.
+- **Message :** La fonction 'closeEvent'ligne 1065 ne possède pas de docstring.
 
 - **module :** python
 
@@ -4715,6 +4715,38 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 - **module :** python
 
+# 📄 /home/runner/work/The-last-signal-/The-last-signal-/client_python/scenarios_fix.py
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** Le module ne possède pas de docstring.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'inventaire'ligne 6 ne possède pas de docstring.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'inventaire' ne possède pas d'annotations de type.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'piles'ligne 9 ne possède pas de docstring.
+
+- **module :** python
+
+## ⚠️ Warning
+- **Module :** python
+- **Message :** La fonction 'piles' ne possède pas d'annotations de type.
+
+- **module :** python
+
 # 📄 /home/runner/work/The-last-signal-/The-last-signal-/scripts/docs_score.py
 
 ## ⚠️ Warning
@@ -6281,7 +6313,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'creer_ordre_achat' sans documentation
 
-- **line :** 1489
+- **line :** 1642
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -6291,7 +6323,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'creer_ordre_vente' sans documentation
 
-- **line :** 1536
+- **line :** 1689
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -6301,7 +6333,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'type_objet' sans documentation
 
-- **line :** 1616
+- **line :** 1769
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -6311,7 +6343,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Struct 'FiltreRecherche' sans documentation
 
-- **line :** 1777
+- **line :** 1932
 
 - **suggestion :** Ajoutez /// avant cette struct
 
@@ -6321,7 +6353,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'vide_en_none' sans documentation
 
-- **line :** 1799
+- **line :** 1954
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -6331,7 +6363,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Impl 'FiltreRecherche ' sans documentation
 
-- **line :** 1805
+- **line :** 1960
 
 - **suggestion :** Ajoutez /// avant cette impl
 
@@ -6341,7 +6373,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Struct 'VenteListee' sans documentation
 
-- **line :** 1834
+- **line :** 1989
 
 - **suggestion :** Ajoutez /// avant cette struct
 
@@ -6351,7 +6383,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Struct 'ObjetVendable' sans documentation
 
-- **line :** 1860
+- **line :** 2015
 
 - **suggestion :** Ajoutez /// avant cette struct
 
@@ -6361,7 +6393,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Struct 'ResultatAchat' sans documentation
 
-- **line :** 1882
+- **line :** 2040
 
 - **suggestion :** Ajoutez /// avant cette struct
 
@@ -6371,7 +6403,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Struct 'LigneAAcheter' sans documentation
 
-- **line :** 1890
+- **line :** 2048
 
 - **suggestion :** Ajoutez /// avant cette struct
 
@@ -6381,7 +6413,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'grouper_enchantements' sans documentation
 
-- **line :** 1903
+- **line :** 2061
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -6391,7 +6423,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Impl 'MarketManager ' sans documentation
 
-- **line :** 1918
+- **line :** 2076
 
 - **suggestion :** Ajoutez /// avant cette impl
 
@@ -6401,7 +6433,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'lister_ventes' sans documentation
 
-- **line :** 1937
+- **line :** 2095
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -6411,7 +6443,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Mod 'tests' sans documentation
 
-- **line :** 2168
+- **line :** 2326
 
 - **suggestion :** Ajoutez /// avant cette mod
 
@@ -6421,7 +6453,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'la_moyenne_est_arrondie_a_l_entier_le_plus_proche' sans documentation
 
-- **line :** 2172
+- **line :** 2330
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -6431,7 +6463,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'une_ligne_d_achat_invalide_est_refusee' sans documentation
 
-- **line :** 2180
+- **line :** 2338
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -6441,7 +6473,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'le_montant_reserve_est_prix_fois_quantite' sans documentation
 
-- **line :** 2205
+- **line :** 2363
 
 - **suggestion :** Ajoutez /// avant cette function
 
