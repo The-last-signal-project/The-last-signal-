@@ -789,18 +789,18 @@ impl Tresor {
     "Artefact mythique".to_string(),
     HashMap::from([
         ("potion".to_string(), 2.0),
-        ("équi".to_string(), 78.0),
-        ("livre enchant".to_string(), 20.0),
+        ("équi".to_string(), 65.0),
+        ("livre enchant".to_string(), 30.0),
     ]),
 );
         sous_loot.insert(
     "Artefact militaire".to_string(),
     HashMap::from([
-        ("matos".to_string(), 5.0),
-        ("parachute".to_string(), 5.0),
-        ("equi".to_string(), 5.0),
-        ("ogive".to_string(), 5.0),
-        ("combinaison anti g".to_string(), 5.0),
+        ("matos".to_string(), 20.0),
+        ("parachute".to_string(), 20.0),
+        ("equi".to_string(), 20.0),
+        ("ogive".to_string(), 20.0),
+        ("combinaison anti g".to_string(), 20.0),
         
         
     ]),
@@ -1257,7 +1257,7 @@ let sous_loot_livre_admin = HashMap::from([
             // CALCUL DES POIDS AVEC PITY
             //
             // Le pity s'applique uniquement aux résultats ayant une
-            // probabilité originale < 3 %. Chaque échec ajoute +7,5 %
+            // probabilité originale < 7 %. Chaque échec ajoute +7,5 %
             // du poids original. Le coefficient de loot est appliqué.
             // ======================================
 
@@ -1278,7 +1278,7 @@ let sous_loot_livre_admin = HashMap::from([
                     }
                 };
 
-                let poids_ajuste = if probabilite < 0.03 {
+                let poids_ajuste = if probabilite < 0.07 {
                     *poids * self.coeff_loot * (1.0 + 0.075 * echecs as f64)
                 } else {
                     *poids * self.coeff_loot
@@ -1301,8 +1301,8 @@ let sous_loot_livre_admin = HashMap::from([
             // ======================================
 
             for (nom, poids) in table {
-                // Pas de pity pour les probabilités >= 3 %.
-                if poids / total >= 0.03 {
+                // Pas de pity pour les probabilités >= 7 %.
+                if poids / total >= 0.07 {
                     continue;
                 }
 
@@ -1385,7 +1385,7 @@ let sous_loot_livre_admin = HashMap::from([
                 }
             };
 
-            let poids_ajuste = if probabilite < 0.03 {
+            let poids_ajuste = if probabilite < 0.07 {
                 *poids * self.coeff_loot * (1.0 + 0.075 * echecs as f64)
             } else {
                 *poids * self.coeff_loot
@@ -1397,7 +1397,7 @@ let sous_loot_livre_admin = HashMap::from([
         let resultat: String = Self::tirer_pondere_slice(&poids_ajustes, rng).to_string();
 
         for (objet, poids) in table {
-            if poids / total >= 0.03 {
+            if poids / total >= 0.07 {
                 continue;
             }
 

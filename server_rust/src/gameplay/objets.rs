@@ -107,16 +107,16 @@ impl Rank {
     /// Multiplicateur de stats (à ajuster à ta convenance).
     pub fn multiplicateur(self) -> f64 {
         match self {
-            Rank::G => 0.5,
-            Rank::F => 0.75,
+            Rank::G => 0.6,
+            Rank::F => 0.8,
             Rank::E => 1.0,
             Rank::D => 1.5,
             Rank::C => 2.0,
             Rank::B => 3.0,
             Rank::A => 4.0,
-            Rank::S => 6.0,
-            Rank::SS => 8.0,
-            Rank::SSS => 10.0,
+            Rank::S => 10.0,
+            Rank::SS => 15.0,
+            Rank::SSS => 20.0,
         }
     }
 
@@ -126,13 +126,13 @@ impl Rank {
     fn poids(rarete: Rarete) -> [u32; 10] {
         //                       G   F   E   D   C   B   A   S  SS SSS
         match rarete {
-            Rarete::Commun     => [50, 30, 15, 5, 0, 0, 0, 0, 0, 0],
-            Rarete::PeuCommun  => [0, 30, 35, 25, 10, 0, 0, 0, 0, 0],
-            Rarete::Rare       => [0, 0, 25, 35, 25, 15, 0, 0, 0, 0],
-            Rarete::SuperRare  => [0, 0, 0, 20, 35, 30, 15, 0, 0, 0],
-            Rarete::Epique     => [0, 0, 0, 0, 20, 40, 30, 10, 0, 0],
-            Rarete::Legendaire => [0, 0, 0, 0, 0, 15, 40, 35, 10, 0],
-            Rarete::Mythique   => [0, 0, 0, 0, 0, 0, 20, 40, 30, 10],
+            Rarete::Commun     => [50, 30, 15, 4, 0.9, 0.09, 0.009, 0.0009, 0.00009, 0.00001],
+            Rarete::PeuCommun  => [45, 25, 14, 7, 5.8, 3.18, 0.018, 0.0018, 0.00018, 0.00002],
+            Rarete::Rare       => [35, 20, 13, 11, 10.8, 5.18, 4.018, 1.0018, 0.00018, 0.00002],
+            Rarete::SuperRare  => [25, 10, 7, 9, 19.6, 13.36, 10.036, 6.0036, 0.00036, 0.00004],
+            Rarete::Epique     => [20, 10, 7, 8, 17.5, 12.45, 12.045, 7.0045, 4.00045, 2.00005],
+            Rarete::Legendaire => [15, 8, 7, 6, 15.5, 12.45, 14.045, 10.0045, 8.00045, 4.00005],
+            Rarete::Mythique   => [5, 6, 4, 6, 15.5, 12.45, 15.045, 20.0045, 9.00045, 8.00005],
         }
     }
 
