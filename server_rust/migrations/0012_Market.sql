@@ -157,9 +157,13 @@ CREATE TABLE IF NOT EXISTS lignes_achat (
 
 -- Stock déposé : chaque exemplaire non empilable possède sa propre ligne.
 -- Pour un objet empilable, stuff.quantity représente la quantité encore en stock.
+-- stuff_id peut être NULL : une fois l'exemplaire supprimé ou fusionné dans une
+-- pile, la ligne reste dans l'historique. Un même exemplaire peut être déposé
+-- plusieurs fois au fil du temps (après une vente ou une annulation), mais pas
+-- deux fois en même temps (voir idx_stock_marche_stuff_actif).
 CREATE TABLE IF NOT EXISTS stock_marche (
     stock_id          INTEGER PRIMARY KEY AUTOINCREMENT,
-    stuff_id          INTEGER NOT NULL UNIQUE,
+    stuff_id          INTEGER,
     vendeur_id        INTEGER NOT NULL,
     quantite_deposee  INTEGER NOT NULL,
     quantite_restante INTEGER NOT NULL,
@@ -167,7 +171,7 @@ CREATE TABLE IF NOT EXISTS stock_marche (
     depose_le         TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
     modifie_le        TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
-    FOREIGN KEY (stuff_id) REFERENCES stuff(stuff_id) ON DELETE RESTRICT,
+    FOREIGN KEY (stuff_id) REFERENCES stuff(stuff_id) ON DELETE SET NULL,
     FOREIGN KEY (vendeur_id) REFERENCES accounts(account_id) ON DELETE RESTRICT,
     CHECK (quantite_deposee > 0),
     CHECK (quantite_restante BETWEEN 0 AND quantite_deposee),
@@ -725,6 +729,11 @@ CREATE INDEX IF NOT EXISTS idx_lignes_vente_recherche
 
 CREATE INDEX IF NOT EXISTS idx_stock_marche_vendeur_statut
     ON stock_marche(vendeur_id, statut);
+
+-- Un exemplaire ne peut être en vente qu'une seule fois à la fois.
+CREATE UNIQUE INDEX IF NOT EXISTS idx_stock_marche_stuff_actif
+    ON stock_marche(stuff_id)
+    WHERE statut IN ('disponible', 'partiel');
 
 CREATE INDEX IF NOT EXISTS idx_transactions_marche_date
     ON transactions_marche(effectuee_le DESC);

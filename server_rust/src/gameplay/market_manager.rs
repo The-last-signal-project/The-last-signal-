@@ -1192,6 +1192,9 @@ impl MarketManager {
             if result.rows_affected() != 1 {
                 return Err(erreur("Impossible de restituer l'objet"));
             }
+
+            // Objet de base : il retourne dans sa pile d'origine.
+            Self::fusionner_dans_pile_base(&mut tx, *stuff_id).await?;
         }
 
         if ligne_id.is_none() {
@@ -1311,22 +1314,172 @@ impl MarketManager {
         // Le trigger range le stuff de l'acheteur sous la clé
         // 'market-tx-<id>'. Un exemplaire transféré en entier garde son
         // `visible = 0` de séquestre : on le rend visible à l'acheteur.
-        sqlx::query(
+        let recu: Option<i64> = sqlx::query_scalar(
             r#"
             UPDATE stuff
             SET visible = 1
             WHERE account_id = ?
               AND stack_key = ?
+            RETURNING stuff_id
             "#,
         )
         .bind(paire.acheteur_id)
         .bind(format!("market-tx-{transaction_id}"))
-        .execute(&mut *tx)
+        .fetch_optional(&mut *tx)
         .await?;
+
+        // Objet de base : il rejoint la pile de l'acheteur au lieu de rester
+        // une ligne 'market-tx-<id>' à part.
+        if let Some(stuff_id) = recu {
+            Self::fusionner_dans_pile_base(&mut tx, stuff_id).await?;
+        }
+
+        Self::mettre_a_jour_prix_marche(&mut tx, objet_id).await?;
 
         tx.commit().await?;
 
         Ok(Some(transaction_id))
+    }
+
+    /// Met à jour `objets_dispo.prix_marche` : moyenne pondérée par la
+    /// quantité des dernières transactions de l'objet (toutes variantes),
+    /// arrondie à l'entier le plus proche.
+    async fn mettre_a_jour_prix_marche(
+        tx: &mut Tx<'_>,
+        objet_id: i64,
+    ) -> Result<(), sqlx::Error> {
+        let recentes: Vec<(i64, i64)> = sqlx::query_as(
+            r#"
+            SELECT prix_total, quantite
+            FROM transactions_marche
+            WHERE objet_id = ?
+            ORDER BY transaction_id DESC
+            LIMIT ?
+            "#,
+        )
+        .bind(objet_id)
+        .bind(FENETRE_PRIX_INDICATIF)
+        .fetch_all(&mut **tx)
+        .await?;
+
+        if recentes.is_empty() {
+            return Ok(());
+        }
+
+        let total: i128 = recentes.iter().map(|(p, _)| i128::from(*p)).sum();
+        let quantite: i128 = recentes.iter().map(|(_, q)| i128::from(*q)).sum();
+
+        let prix = i64::try_from(moyenne_arrondie(total, quantite))
+            .map_err(|_| erreur("Le prix du marché dépasse la capacité i64"))?;
+
+        sqlx::query("UPDATE objets_dispo SET prix_marche = ? WHERE objet_id = ?")
+            .bind(prix)
+            .bind(objet_id)
+            .execute(&mut **tx)
+            .await?;
+
+        Ok(())
+    }
+
+    /// Range un objet de base dans la pile de son propriétaire.
+    ///
+    /// Les exemplaires qui sortent du marché (achetés, ou rendus après une
+    /// annulation) arrivent sous une clé unique ('market-tx-…', 'market-dep-…').
+    /// Pour un objet de base on les fusionne dans la pile habituelle
+    /// ('base'), comme à l'obtention. Les autres objets (armes, équipements,
+    /// livres, potions) gardent leur ligne : ils ont chacun leur identité.
+    ///
+    /// Une pile masquée (visible = 0) n'est jamais alimentée : dans ce cas
+    /// l'exemplaire reste tel quel.
+    async fn fusionner_dans_pile_base(
+        tx: &mut Tx<'_>,
+        stuff_id: i64,
+    ) -> Result<(), sqlx::Error> {
+        let ligne: Option<(i64, i64, i64, Option<String>, Option<String>, i64, String)> =
+            sqlx::query_as(
+                r#"
+                SELECT s.account_id, s.objet_id, s.quantity,
+                       s.rarete, s.rang, s.visible, o.type
+                FROM stuff s
+                JOIN objets_dispo o ON o.objet_id = s.objet_id
+                WHERE s.stuff_id = ?
+                "#,
+            )
+            .bind(stuff_id)
+            .fetch_optional(&mut **tx)
+            .await?;
+
+        let Some((account_id, objet_id, quantite, rarete, rang, visible, type_objet)) =
+            ligne
+        else {
+            return Ok(());
+        };
+
+        if visible != 1 || variantes::type_a_variante(&type_objet) {
+            return Ok(());
+        }
+
+        // Même clé que `stuff_manager` : "base", ou "base:<rareté>:<rang>"
+        // pour les anciens exemplaires qui portent encore une marque.
+        let cle = if rarete.is_none() && rang.is_none() {
+            "base".to_string()
+        } else {
+            format!(
+                "base:{}:{}",
+                rarete.as_deref().unwrap_or("-"),
+                rang.as_deref().unwrap_or("-")
+            )
+        };
+
+        let pile: Option<(i64, i64)> = sqlx::query_as(
+            r#"
+            SELECT stuff_id, visible
+            FROM stuff
+            WHERE account_id = ?
+              AND objet_id = ?
+              AND stack_key = ?
+            "#,
+        )
+        .bind(account_id)
+        .bind(objet_id)
+        .bind(&cle)
+        .fetch_optional(&mut **tx)
+        .await?;
+
+        match pile {
+            // Déjà dans la pile.
+            Some((id, _)) if id == stuff_id => {}
+
+            // Pile visible : on y verse la quantité, puis on retire la ligne.
+            Some((id, 1)) => {
+                sqlx::query(
+                    "UPDATE stuff SET quantity = quantity + ? WHERE stuff_id = ?",
+                )
+                .bind(quantite)
+                .bind(id)
+                .execute(&mut **tx)
+                .await?;
+
+                sqlx::query("DELETE FROM stuff WHERE stuff_id = ?")
+                    .bind(stuff_id)
+                    .execute(&mut **tx)
+                    .await?;
+            }
+
+            // Pile masquée : on n'y touche pas.
+            Some(_) => {}
+
+            // Pas encore de pile : la ligne devient la pile.
+            None => {
+                sqlx::query("UPDATE stuff SET stack_key = ? WHERE stuff_id = ?")
+                    .bind(&cle)
+                    .bind(stuff_id)
+                    .execute(&mut **tx)
+                    .await?;
+            }
+        }
+
+        Ok(())
     }
 
     /// Exécute toutes les transactions possibles pour un objet.
@@ -1715,7 +1868,9 @@ SELECT
     p.effect         AS effet,
     p.potency        AS puissance,
     p.duration       AS duree,
-    o.prix_base      AS prix_base
+    o.prix_base      AS prix_base,
+    CASE WHEN o.prix_marche > 0 THEN o.prix_marche ELSE o.prix_base END
+                     AS prix_conseille
 FROM stuff s
 JOIN objets_dispo o ON o.objet_id = s.objet_id
 LEFT JOIN equipment eq       ON eq.stuff_id = s.stuff_id
@@ -1872,8 +2027,11 @@ pub struct ObjetVendable {
     pub effet: Option<String>,
     pub puissance: Option<i64>,
     pub duree: Option<i64>,
-    /// Prix du catalogue, proposé comme prix de départ.
+    /// Prix du catalogue.
     pub prix_base: i64,
+    /// Prix du marché s'il existe, sinon prix du catalogue : prix de départ
+    /// proposé à la vente.
+    pub prix_conseille: i64,
     #[sqlx(skip)]
     pub enchantements: Vec<String>,
 }
