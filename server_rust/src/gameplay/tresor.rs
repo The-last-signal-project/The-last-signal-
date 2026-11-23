@@ -789,18 +789,18 @@ impl Tresor {
     "Artefact mythique".to_string(),
     HashMap::from([
         ("potion".to_string(), 2.0),
-        ("équi".to_string(), 78.0),
-        ("livre enchant".to_string(), 20.0),
+        ("équi".to_string(), 65.0),
+        ("livre enchant".to_string(), 30.0),
     ]),
 );
         sous_loot.insert(
     "Artefact militaire".to_string(),
     HashMap::from([
-        ("matos".to_string(), 5.0),
-        ("parachute".to_string(), 5.0),
-        ("equi".to_string(), 5.0),
-        ("ogive".to_string(), 5.0),
-        ("combinaison anti g".to_string(), 5.0),
+        ("matos".to_string(), 20.0),
+        ("parachute".to_string(), 20.0),
+        ("equi".to_string(), 20.0),
+        ("ogive".to_string(), 20.0),
+        ("combinaison anti g".to_string(), 20.0),
         
         
     ]),
@@ -968,6 +968,50 @@ let sous_loot_livre_admin = HashMap::from([
         }
 
         // ==========================================
+        // ARMES / ÉQUIPEMENTS GARANTIS
+        //
+        // Contrairement à l'argent ou aux torches, une arme garantie
+        // (« épée de bois »...) reçoit une rareté et un rank tirés au
+        // hasard, un par exemplaire. La rareté monte avec le niveau du
+        // coffre (voir `rarete_garantie`).
+        // Ils quittent `objets` pour rejoindre `artefacts` : c'est là que
+        // l'inventaire lit la rareté et le rank à enregistrer.
+        // ==========================================
+
+        if !resultat.objets.is_empty() {
+            let noms_equipements = Self::noms_equipements(pool).await?;
+
+            let a_marquer: Vec<(String, u32)> = resultat
+                .objets
+                .iter()
+                .filter(|(nom, quantite)| {
+                    **quantite > 0 && noms_equipements.contains(nom.as_str())
+                })
+                .map(|(nom, quantite)| (nom.clone(), *quantite))
+                .collect();
+
+            if !a_marquer.is_empty() {
+                let mut rng = rand::rng();
+
+                for (nom, quantite) in a_marquer {
+                    resultat.objets.remove(&nom);
+
+                    for _ in 0..quantite {
+                        let rarete = Self::rarete_garantie(niveau, &mut rng);
+                        let rank = Rank::tirer(rarete, &mut rng);
+
+                        resultat.artefacts.push(ArtefactTire {
+                            nom: nom.clone(),
+                            quantite: 1,
+                            rarete: Some(rarete),
+                            rank: Some(rank),
+                        });
+                    }
+                }
+            }
+        }
+
+        // ==========================================
         // PHASE 1 : JETS DE DÉS (aucun accès base)
         //
         // On détermine d'abord combien de tirages réussissent, pour ne
@@ -1030,7 +1074,7 @@ let sous_loot_livre_admin = HashMap::from([
                 }
             }
 
-            if is_admin || is_militaire {
+            if is_militaire  {
                 for _ in 0..loot.militaire {
                     tirages.push(("Artefact militaire", None));
                 }
@@ -1079,6 +1123,66 @@ let sous_loot_livre_admin = HashMap::from([
         cache.sauvegarder(pool, account_id).await?;
 
         Ok(resultat)
+    }
+
+    /// Les 7 raretés, de la plus commune à la plus rare.
+    const RARETES: [Rarete; 7] = [
+        Rarete::Commun,
+        Rarete::PeuCommun,
+        Rarete::Rare,
+        Rarete::SuperRare,
+        Rarete::Epique,
+        Rarete::Legendaire,
+        Rarete::Mythique,
+    ];
+
+    /// Niveau de coffre le plus élevé (voir `loot_par_niveau`).
+    const NIVEAU_MAX: u32 = 14;
+
+    /// Rareté tirée pour une arme ou un équipement garanti d'un coffre
+    /// de ce niveau : plus le niveau monte, plus la rareté est élevée.
+    ///
+    /// Tirage pondéré par une courbe en cloche dont le centre glisse de
+    /// « Commun » (niveau 1) à « Mythique » (niveau 14). Toutes les raretés
+    /// restent possibles, avec des chances qui décroissent en s'éloignant
+    /// du centre : niveau 1 = surtout Commun / Peu commun, niveau 5 =
+    /// surtout Peu commun / Rare, niveau 14 = surtout Légendaire / Mythique.
+    pub fn rarete_garantie(niveau: u32, rng: &mut impl Rng) -> Rarete {
+        let dernier = (Self::RARETES.len() - 1) as f64;
+
+        let niveau = niveau.clamp(1, Self::NIVEAU_MAX);
+        let centre = f64::from(niveau - 1) / f64::from(Self::NIVEAU_MAX - 1) * dernier;
+
+        let poids: Vec<f64> = (0..Self::RARETES.len())
+            .map(|i| {
+                let ecart = i as f64 - centre;
+                (-(ecart * ecart) / 2.0).exp()
+            })
+            .collect();
+
+        let total: f64 = poids.iter().sum();
+        let mut tirage = rng.random_range(0.0..total);
+
+        for (rarete, p) in Self::RARETES.iter().zip(&poids) {
+            if tirage < *p {
+                return *rarete;
+            }
+            tirage -= *p;
+        }
+
+        // Filet de sécurité contre les erreurs d'arrondi flottant.
+        Self::RARETES[centre.round() as usize]
+    }
+
+    /// Noms (`objets_dispo.nom`) des armes et équipements.
+    async fn noms_equipements(pool: &SqlitePool) -> Result<HashSet<String>, sqlx::Error> {
+        let noms: Vec<String> = sqlx::query_scalar(
+            "SELECT nom FROM objets_dispo WHERE type IN ('equipment', 'armes')",
+        )
+        .fetch_all(pool)
+        .await?;
+
+        Ok(noms.into_iter().collect())
     }
 
     /// Tirage pondéré sur un slice (sans allocation de HashMap).
@@ -1153,7 +1257,7 @@ let sous_loot_livre_admin = HashMap::from([
             // CALCUL DES POIDS AVEC PITY
             //
             // Le pity s'applique uniquement aux résultats ayant une
-            // probabilité originale < 3 %. Chaque échec ajoute +7,5 %
+            // probabilité originale < 7 %. Chaque échec ajoute +7,5 %
             // du poids original. Le coefficient de loot est appliqué.
             // ======================================
 
@@ -1174,7 +1278,7 @@ let sous_loot_livre_admin = HashMap::from([
                     }
                 };
 
-                let poids_ajuste = if probabilite < 0.03 {
+                let poids_ajuste = if probabilite < 0.07 {
                     *poids * self.coeff_loot * (1.0 + 0.075 * echecs as f64)
                 } else {
                     *poids * self.coeff_loot
@@ -1197,8 +1301,8 @@ let sous_loot_livre_admin = HashMap::from([
             // ======================================
 
             for (nom, poids) in table {
-                // Pas de pity pour les probabilités >= 3 %.
-                if poids / total >= 0.03 {
+                // Pas de pity pour les probabilités >= 7 %.
+                if poids / total >= 0.07 {
                     continue;
                 }
 
@@ -1281,7 +1385,7 @@ let sous_loot_livre_admin = HashMap::from([
                 }
             };
 
-            let poids_ajuste = if probabilite < 0.03 {
+            let poids_ajuste = if probabilite < 0.07 {
                 *poids * self.coeff_loot * (1.0 + 0.075 * echecs as f64)
             } else {
                 *poids * self.coeff_loot
@@ -1293,7 +1397,7 @@ let sous_loot_livre_admin = HashMap::from([
         let resultat: String = Self::tirer_pondere_slice(&poids_ajustes, rng).to_string();
 
         for (objet, poids) in table {
-            if poids / total >= 0.03 {
+            if poids / total >= 0.07 {
                 continue;
             }
 
@@ -1341,5 +1445,80 @@ let sous_loot_livre_admin = HashMap::from([
         let resultat = self.tirer_livre_cache(&mut cache, rng, is_admin);
         cache.sauvegarder(pool, account_id).await?;
         Ok(resultat)
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    const TIRAGES: usize = 20_000;
+
+    fn index(rarete: Rarete) -> usize {
+        Tresor::RARETES.iter().position(|r| *r == rarete).unwrap()
+    }
+
+    fn moyenne(niveau: u32) -> f64 {
+        let mut rng = rand::rng();
+
+        let somme: usize = (0..TIRAGES)
+            .map(|_| index(Tresor::rarete_garantie(niveau, &mut rng)))
+            .sum();
+
+        somme as f64 / TIRAGES as f64
+    }
+
+    fn part(niveau: u32, parmi: &[Rarete]) -> f64 {
+        let mut rng = rand::rng();
+
+        let n = (0..TIRAGES)
+            .filter(|_| parmi.contains(&Tresor::rarete_garantie(niveau, &mut rng)))
+            .count();
+
+        n as f64 / TIRAGES as f64
+    }
+
+    #[test]
+    fn rarity_goes_up_with_the_chest_level() {
+        let mut precedente = moyenne(1);
+
+        for niveau in 2..=14 {
+            let actuelle = moyenne(niveau);
+
+            assert!(
+                actuelle > precedente,
+                "niveau {niveau} : rareté moyenne {actuelle} <= {precedente}"
+            );
+
+            precedente = actuelle;
+        }
+    }
+
+    #[test]
+    fn low_levels_are_mostly_common_and_high_levels_mostly_mythic() {
+        assert!(part(1, &[Rarete::Commun, Rarete::PeuCommun]) > 0.8);
+        assert!(part(5, &[Rarete::PeuCommun, Rarete::Rare]) > 0.5);
+        assert!(part(14, &[Rarete::Legendaire, Rarete::Mythique]) > 0.8);
+    }
+
+    #[test]
+    fn every_rarity_stays_possible_at_a_mid_level() {
+        let mut rng = rand::rng();
+        let mut vues = [false; 7];
+
+        for _ in 0..200_000 {
+            vues[index(Tresor::rarete_garantie(7, &mut rng))] = true;
+        }
+
+        assert!(vues.iter().all(|&v| v));
+    }
+
+    #[test]
+    fn out_of_range_levels_do_not_panic() {
+        let mut rng = rand::rng();
+
+        for niveau in [0, 15, 100, u32::MAX] {
+            let _ = Tresor::rarete_garantie(niveau, &mut rng);
+        }
     }
 }
