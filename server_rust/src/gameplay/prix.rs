@@ -30,7 +30,7 @@ const FACTEUR_MIN: f64 = 0.01;
 
 /// Multiplicateur de prix de la rareté (à ajuster à ta convenance).
 pub fn multiplicateur_rarete(rarete: Rarete) -> f64 {
-    match self {
+    match {
             Rarete::Commun => 1.0,
             Rarete::PeuCommun => 1.1,
             Rarete::Rare => 1.25,
