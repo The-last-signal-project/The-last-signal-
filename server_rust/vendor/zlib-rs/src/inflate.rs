@@ -780,6 +780,7 @@ impl State<'_> {
                         }
 
                         bit_reader.drop_bits(here.bits);
+                        self.back += here.bits as usize;
 
                         if here.op & 64 != 0 {
                             restore!();
@@ -968,6 +969,7 @@ impl State<'_> {
 
                         if self.wbits == 0 {
                             self.wbits = len;
+                            self.window.set_size(1 << len);
                         }
 
                         if len as i32 > MAX_WBITS || len > self.wbits {
@@ -1399,7 +1401,7 @@ impl State<'_> {
                         if !cfg!(feature = "__internal-fuzz-disable-checksum") && self.wrap != 0 {
                             need_bits!(self, 32);
 
-                            self.total += self.writer.len();
+                            self.total = self.total.wrapping_add(self.writer.len());
 
                             if self.wrap & 4 != 0 {
                                 if self.gzip_flags != 0 {
@@ -1505,6 +1507,7 @@ impl State<'_> {
                         }
 
                         self.bit_reader.drop_bits(here.bits);
+                        self.back += here.bits as usize;
 
                         if here.op & 64 != 0 {
                             mode = Mode::Bad;
@@ -1801,7 +1804,7 @@ impl State<'_> {
                         let msg = "repeated call with bad state\0";
                         #[cfg(all(feature = "std", test))]
                         dbg!(msg);
-                        self.error_message = Some(msg);
+                        self.error_message.get_or_insert(msg);
 
                         break 'label ReturnCode::DataError;
                     }
@@ -2272,7 +2275,9 @@ pub fn init(stream: &mut z_stream, config: InflateConfig) -> ReturnCode {
     let buf = unsafe { allocation_start.as_ptr().add(align_offset) };
 
     let window_allocation = unsafe { buf.add(allocs.window_pos) };
-    let window = unsafe { Window::from_raw_parts(window_allocation, (1 << MAX_WBITS) + 64) };
+    let window = unsafe {
+        Window::from_padded_raw_parts(window_allocation, (1 << MAX_WBITS) + 64, 1 << MAX_WBITS)
+    };
     state.window = window;
 
     let state_allocation = unsafe { buf.add(allocs.state_pos).cast::<State>() };
@@ -2322,6 +2327,13 @@ pub fn reset_with_config(stream: &mut InflateStream, config: InflateConfig) -> R
 
     stream.state.wrap = wrap as u8;
     stream.state.wbits = window_bits as _;
+    stream.state.window.set_size(
+        1 << if window_bits == 0 {
+            MAX_WBITS
+        } else {
+            window_bits
+        },
+    );
 
     reset(stream)
 }
@@ -2403,7 +2415,7 @@ pub unsafe fn inflate(stream: &mut InflateStream, flush: InflateFlush) -> Return
     let in_read = state.bit_reader.as_ptr() as usize - stream.next_in as usize;
     let out_written = state.out_available - (state.writer.capacity() - state.writer.len());
 
-    stream.total_in += in_read as z_size;
+    stream.total_in = stream.total_in.wrapping_add(in_read as z_size);
     state.total = state.total.wrapping_add(out_written);
     stream.total_out = state.total as _;
 
@@ -2490,15 +2502,19 @@ pub fn sync(stream: &mut InflateStream) -> ReturnCode {
     }
 
     // search available input
-    // SAFETY: user guarantees that pointer and length are valid.
-    let slice = unsafe { core::slice::from_raw_parts(stream.next_in, stream.avail_in as usize) };
+    let slice = if stream.next_in.is_null() || stream.avail_in == 0 {
+        &[]
+    } else {
+        // SAFETY: user guarantees that pointer and length are valid.
+        unsafe { core::slice::from_raw_parts(stream.next_in, stream.avail_in as usize) }
+    };
 
     let len;
     (state.have, len) = syncsearch(state.have, slice);
     // SAFETY: syncsearch() returns an index that is in-bounds of the slice.
     stream.next_in = unsafe { stream.next_in.add(len) };
     stream.avail_in -= len as u32;
-    stream.total_in += len as z_size;
+    stream.total_in = stream.total_in.wrapping_add(len as z_size);
 
     /* return no joy or set up to restart inflate() on a new block */
     if state.have != 4 {
@@ -2730,5 +2746,43 @@ mod tests {
 
         let (_decompressed, err) = decompress_slice(&mut output, &input, config);
         assert_eq!(err, ReturnCode::DataError);
+    }
+
+    #[test]
+    fn check_total_wraps() {
+        const ORIGINAL: &str = "The quick brown fox jumped over the lazy dog";
+
+        const COMPRESSED: [u8; 52] = [
+            0x78, 0x9c, 0x0b, 0xc9, 0x48, 0x55, 0x28, 0x2c, 0xcd, 0x4c, 0xce, 0x56, 0x48, 0x2a,
+            0xca, 0x2f, 0xcf, 0x53, 0x48, 0xcb, 0xaf, 0x50, 0xc8, 0x2a, 0xcd, 0x2d, 0x48, 0x4d,
+            0x51, 0xc8, 0x2f, 0x4b, 0x2d, 0x52, 0x28, 0xc9, 0x48, 0x55, 0xc8, 0x49, 0xac, 0xaa,
+            0x54, 0x48, 0xc9, 0x4f, 0x07, 0x00, 0x6b, 0x93, 0x10, 0x30,
+        ];
+
+        let mut stream = z_stream::default();
+        let err = init(&mut stream, InflateConfig { window_bits: 15 });
+        assert_eq!(err, ReturnCode::Ok);
+
+        let stream = unsafe { InflateStream::from_stream_mut(&mut stream) }.unwrap();
+        let start = usize::MAX - 10;
+        stream.state.total = start;
+
+        let mut output = [0u8; 64];
+        stream.next_in = COMPRESSED.as_ptr() as *mut u8;
+        stream.avail_in = COMPRESSED.len() as _;
+        stream.next_out = output.as_mut_ptr();
+        stream.avail_out = output.len() as _;
+
+        let err = unsafe { inflate(stream, InflateFlush::NoFlush) };
+        assert_eq!(err, ReturnCode::StreamEnd);
+
+        assert_eq!(stream.avail_out as usize, output.len() - ORIGINAL.len());
+        assert_eq!(&output[..ORIGINAL.len()], ORIGINAL.as_bytes());
+        assert_eq!(
+            stream.total_out,
+            start.wrapping_add(ORIGINAL.len()) as crate::c_api::z_size
+        );
+
+        end(stream);
     }
 }

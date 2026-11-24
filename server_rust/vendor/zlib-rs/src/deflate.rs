@@ -584,11 +584,11 @@ pub fn prime(stream: &mut DeflateStream, mut bits: i32, value: i32) -> ReturnCod
         put = BitWriter::BIT_BUF_SIZE - state.bit_writer.bits_valid;
         let put = Ord::min(put as i32, bits);
 
+        let mask = (1u64 << put) - 1;
         if state.bit_writer.bits_valid == 0 {
-            state.bit_writer.bit_buffer = value64;
+            state.bit_writer.bit_buffer = value64 & mask;
         } else {
-            state.bit_writer.bit_buffer |=
-                (value64 & ((1 << put) - 1)) << state.bit_writer.bits_valid;
+            state.bit_writer.bit_buffer |= (value64 & mask) << state.bit_writer.bits_valid;
         }
 
         state.bit_writer.bits_valid += put as u8;
@@ -2819,7 +2819,7 @@ pub(crate) fn flush_pending(stream: &mut DeflateStream) {
     unsafe { core::ptr::copy_nonoverlapping(pending.as_ptr(), stream.next_out, len) };
 
     stream.next_out = stream.next_out.wrapping_add(len);
-    stream.total_out += len as crate::c_api::z_size;
+    stream.total_out = stream.total_out.wrapping_add(len as crate::c_api::z_size);
     stream.avail_out -= len as crate::c_api::uInt;
 
     state.bit_writer.pending.advance(len);
