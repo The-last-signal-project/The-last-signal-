@@ -30,15 +30,15 @@ const FACTEUR_MIN: f64 = 0.01;
 
 /// Multiplicateur de prix de la rareté (à ajuster à ta convenance).
 pub fn multiplicateur_rarete(rarete: Rarete) -> f64 {
-    match rarete {
-        Rarete::Commun => 1.0,
-        Rarete::PeuCommun => 1.25,
-        Rarete::Rare => 1.5,
-        Rarete::SuperRare => 2.0,
-        Rarete::Epique => 3.0,
-        Rarete::Legendaire => 5.0,
-        Rarete::Mythique => 8.0,
-    }
+    match self {
+            Rarete::Commun => 1.0,
+            Rarete::PeuCommun => 1.1,
+            Rarete::Rare => 1.25,
+            Rarete::SuperRare => 1.5,
+            Rarete::Epique => 1.75,
+            Rarete::Legendaire => 2.0,
+            Rarete::Mythique => 2.5,
+        }
 }
 
 /// Part de durabilité restante (1.0 = neuf). Sans durabilité connue : 1.0.
@@ -150,35 +150,34 @@ mod tests {
         assert_eq!(prix_estime(60, f), 60);
     }
 
-    #[test]
-    fn la_rarete_et_le_rang_multiplient_le_prix() {
-        // Rare (x1,5) et rang B (x3), neuf : x4,5.
-        let f = facteur_qualite("equipment", Some("Rare"), Some("B"), Some(300), Some(300));
-        assert!(proche(f, 4.5));
-        assert_eq!(prix_estime(100, f), 450);
+   #[test]
+fn la_rarete_et_le_rang_multiplient_le_prix() {
+    // Rare (x1,5) et rang B (x4), neuf : x6.
+    let f = facteur_qualite("equipment", Some("Rare"), Some("B"), Some(300), Some(300));
+    assert!(proche(f, 6.0));
+    assert_eq!(prix_estime(100, f), 600);
 
-        // Seul le rang compte quand la rareté est absente.
-        let f = facteur_qualite("armes", None, Some("S"), Some(600), Some(600));
-        assert!(proche(f, 6.0));
+    // Seul le rang compte quand la rareté est absente (S = x13).
+    let f = facteur_qualite("armes", None, Some("S"), Some(600), Some(600));
+    assert!(proche(f, 13.0));
 
-        // Un rang G divise le prix par deux.
-        let f = facteur_qualite("armes", Some("Commun"), Some("G"), Some(50), Some(50));
-        assert!(proche(f, 0.5));
-        assert_eq!(prix_estime(60, f), 30);
-    }
+    // Un rang G ramène le prix à 60 % (x0,6).
+    let f = facteur_qualite("armes", Some("Commun"), Some("G"), Some(50), Some(50));
+    assert!(proche(f, 0.6));
+    assert_eq!(prix_estime(60, f), 36);
+}
 
-    #[test]
-    fn la_perte_de_durabilite_baisse_le_prix() {
-        let neuf = facteur_qualite("armes", Some("Rare"), Some("B"), Some(300), Some(300));
-        let moitie = facteur_qualite("armes", Some("Rare"), Some("B"), Some(150), Some(300));
+#[test]
+fn la_perte_de_durabilite_baisse_le_prix() {
+    let neuf = facteur_qualite("armes", Some("Rare"), Some("B"), Some(300), Some(300));
+    let moitie = facteur_qualite("armes", Some("Rare"), Some("B"), Some(150), Some(300));
 
-        assert!(proche(moitie, neuf / 2.0));
-        assert_eq!(prix_estime(100, moitie), 225);
+    assert!(proche(moitie, neuf / 2.0));
+    assert_eq!(prix_estime(100, moitie), 300); // 225 -> 300 (6.0 / 2 = 3.0)
 
-        // Plus de durabilité que le maximum : plafonné à neuf.
-        let trop = facteur_qualite("armes", Some("Rare"), Some("B"), Some(999), Some(300));
-        assert!(proche(trop, neuf));
-    }
+    let trop = facteur_qualite("armes", Some("Rare"), Some("B"), Some(999), Some(300));
+    assert!(proche(trop, neuf));
+}
 
     #[test]
     fn un_exemplaire_casse_ne_vaut_jamais_zero() {
