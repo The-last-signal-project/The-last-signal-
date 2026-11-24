@@ -1194,8 +1194,8 @@ let sous_loot_livre_admin = HashMap::from([
     pub fn rarete_garantie(niveau: u32, rng: &mut impl Rng) -> Rarete {
         let dernier = (Self::RARETES.len() - 1) as f64;
 
-        let niveau = niveau.clamp(1, Self::NIVEAU_MAX);
-        let centre = f64::from(niveau - 1) / f64::from(Self::NIVEAU_MAX - 1) * dernier;
+        let niveau = niveau.clamp(1, NIVEAU_MAX);
+        let centre = f64::from(niveau - 1) / f64::from(NIVEAU_MAX - 1) * dernier;
 
         let poids: Vec<f64> = (0..Self::RARETES.len())
             .map(|i| {
