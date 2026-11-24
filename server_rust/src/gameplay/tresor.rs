@@ -993,7 +993,7 @@ let sous_loot_livre_admin = HashMap::from([
     ) -> Result<ResultatOuverture, sqlx::Error> {
         // Mise à jour du coefficient de loot avec valeur par défaut 1.0
         self.coeff_loot = coeff_loot.unwrap_or(1.0);
-
+        const NIVEAU_MAX: u32 = 15;
         let loot = self
             .loot_par_niveau
             .get(&niveau)
