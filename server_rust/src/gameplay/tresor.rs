@@ -708,6 +708,7 @@ impl Tresor {
         ("équi".to_string(), 10.0),
     ]),
 );
+        
         sous_loot.insert(
     "Artefact rare".to_string(),
     HashMap::from([
@@ -834,9 +835,23 @@ sous_loot.insert(
         ("armes à distance".to_string(), 20.0),
         ("armes à feux".to_string(), 20.0),
         ("armes magiques".to_string(), 20.0),
+    ]),
+);
+        sous_loot.insert(
+    "armes de contact".to_string(),
+    HashMap::from([
+        ("épée de bois".to_string(), 50.0),
+        ("épée de pierre".to_string(), 50.0),
         
-        
-        
+    ]),
+);
+        sous_loot.insert(
+    "armes de contact".to_string(),
+    HashMap::from([
+        ("potions de soin".to_string(), 25.0),
+        ("potion de mana".to_string(), 25.0),
+        ("poisons".to_string(), 25.0),
+        ("potions rares".to_string(), 25.0),
         
     ]),
 );
