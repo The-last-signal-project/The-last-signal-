@@ -41,6 +41,20 @@ impl Rarete {
         }
     }
 
+    /// Multiplicateur de stats lié à la rareté (à ajuster à ta convenance).
+    /// Il se combine avec celui du rank : stat = base x rank x rareté.
+    pub fn multiplicateur(self) -> f64 {
+        match self {
+            Rarete::Commun => 1.0,
+            Rarete::PeuCommun => 1.1,
+            Rarete::Rare => 1.25,
+            Rarete::SuperRare => 1.5,
+            Rarete::Epique => 1.75,
+            Rarete::Legendaire => 2.0,
+            Rarete::Mythique => 2.5,
+        }
+    }
+
     pub fn depuis_label(label: &str) -> Option<Self> {
         [
             Rarete::Commun,
@@ -154,6 +168,105 @@ impl Rank {
 
     Rank::G
 }
+}
+
+// ============================================================
+// STATS D'UNE ARME / D'UN ÉQUIPEMENT (rank + rareté)
+// ============================================================
+
+/// Stats de base d'une arme ou d'une armure, avant multiplicateurs.
+pub const STAT_BASE: f64 = 10.0;
+pub const DURABILITE_BASE: f64 = 100.0;
+
+/// Stats calculées à la création d'un exemplaire.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub struct StatsEquipement {
+    pub attaque: i64,
+    pub defense: i64,
+    pub durabilite: i64,
+}
+
+impl StatsEquipement {
+    /// Calcule les stats selon le rank ET la rareté :
+    ///
+    ///   stat       = 10  x mult(rank) x mult(rareté)   (attaque OU défense)
+    ///   durabilité = 100 x mult(rank) x mult(rareté)
+    ///
+    /// Un facteur absent compte pour x1. Sans rank ni rareté, on retrouve
+    /// les anciennes valeurs : 0 / 0 / 100.
+    pub fn calculer(
+        rarete: Option<Rarete>,
+        rank: Option<Rank>,
+        est_arme: bool,
+    ) -> Self {
+        if rarete.is_none() && rank.is_none() {
+            return Self {
+                attaque: 0,
+                defense: 0,
+                durabilite: DURABILITE_BASE as i64,
+            };
+        }
+
+        let m = rank.map_or(1.0, Rank::multiplicateur)
+            * rarete.map_or(1.0, Rarete::multiplicateur);
+
+        // Au moins 1 : la base de données impose durability_max > 0.
+        let stat = ((STAT_BASE * m).round() as i64).max(1);
+        let durabilite = ((DURABILITE_BASE * m).round() as i64).max(1);
+
+        Self {
+            attaque: if est_arme { stat } else { 0 },
+            defense: if est_arme { 0 } else { stat },
+            durabilite,
+        }
+    }
+}
+
+#[cfg(test)]
+mod tests_stats {
+    use super::*;
+
+    #[test]
+    fn sans_marque_on_garde_les_anciennes_valeurs() {
+        let s = StatsEquipement::calculer(None, None, true);
+        assert_eq!((s.attaque, s.defense, s.durabilite), (0, 0, 100));
+    }
+
+    #[test]
+    fn rank_et_rarete_se_multiplient() {
+        // Rank C (x2.0) + Légendaire (x2.0) => x4.0
+        let s = StatsEquipement::calculer(
+            Some(Rarete::Legendaire),
+            Some(Rank::C),
+            true,
+        );
+        assert_eq!((s.attaque, s.defense, s.durabilite), (40, 0, 400));
+    }
+
+    #[test]
+    fn une_armure_donne_de_la_defense() {
+        // Rank E (x1.0) + Rare (x1.25) => x1.25
+        let s = StatsEquipement::calculer(
+            Some(Rarete::Rare),
+            Some(Rank::E),
+            false,
+        );
+        assert_eq!((s.attaque, s.defense, s.durabilite), (0, 13, 125));
+    }
+
+    #[test]
+    fn la_rarete_change_les_stats_a_rank_egal() {
+        let commun = StatsEquipement::calculer(Some(Rarete::Commun), Some(Rank::B), true);
+        let mythique = StatsEquipement::calculer(Some(Rarete::Mythique), Some(Rank::B), true);
+        assert!(mythique.attaque > commun.attaque);
+        assert!(mythique.durabilite > commun.durabilite);
+    }
+
+    #[test]
+    fn jamais_de_durabilite_nulle() {
+        let s = StatsEquipement::calculer(Some(Rarete::Commun), Some(Rank::G), true);
+        assert!(s.durabilite >= 1 && s.attaque >= 1);
+    }
 }
 
 // Trait pour les noms personnalisés

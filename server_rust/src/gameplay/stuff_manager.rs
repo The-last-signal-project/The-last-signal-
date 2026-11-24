@@ -13,6 +13,8 @@ use crate::gameplay::objets::{
     Objet,
     Potion,
     Rank,
+    Rarete,
+    StatsEquipement,
     TypeObjet,
 };
 use crate::gameplay::tresor::{ArtefactTire, ResultatOuverture, Tresor};
@@ -1052,29 +1054,17 @@ impl Inventaire {
             } => {
                 let stack_key = format!("unique:{}", Uuid::new_v4());
 
-                // Stats selon le rank. Sans rank : 0 / 0 / 100 comme avant.
-                // Avec rank : 10 x multiplicateur (attaque pour une arme,
-                // défense pour une armure) et 100 x multiplicateur (durabilité).
-                let multiplicateur = marque
-                    .rang
-                    .as_deref()
-                    .and_then(Rank::depuis_label)
-                    .map(|r| r.multiplicateur());
-
-                let (attack, defense, durability): (i64, i64, i64) =
-                    match multiplicateur {
-                        Some(m) => {
-                            let stat = (10.0 * m).round() as i64;
-                            let est_arme = *equipment_type == "weapon";
-
-                            (
-                                if est_arme { stat } else { 0 },
-                                if est_arme { 0 } else { stat },
-                                (100.0 * m).round() as i64,
-                            )
-                        }
-                        None => (0, 0, 100),
-                    };
+                // Stats selon le rank ET la rareté :
+                // 10 x mult(rank) x mult(rareté) (attaque pour une arme,
+                // défense pour une armure), 100 x les mêmes multiplicateurs
+                // pour la durabilité. Sans rank ni rareté : 0 / 0 / 100.
+                let stats = StatsEquipement::calculer(
+                    marque.rarete.as_deref().and_then(Rarete::depuis_label),
+                    marque.rang.as_deref().and_then(Rank::depuis_label),
+                    *equipment_type == "weapon",
+                );
+                let (attack, defense, durability) =
+                    (stats.attaque, stats.defense, stats.durabilite);
 
                 let stuff_id: i64 = sqlx::query_scalar(
                     r#"
