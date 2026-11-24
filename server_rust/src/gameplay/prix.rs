@@ -30,7 +30,7 @@ const FACTEUR_MIN: f64 = 0.01;
 
 /// Multiplicateur de prix de la rareté (à ajuster à ta convenance).
 pub fn multiplicateur_rarete(rarete: Rarete) -> f64 {
-    match {
+    match rarete {
             Rarete::Commun => 1.0,
             Rarete::PeuCommun => 1.1,
             Rarete::Rare => 1.25,
@@ -149,35 +149,62 @@ mod tests {
         assert!(proche(f, 1.0));
         assert_eq!(prix_estime(60, f), 60);
     }
+    #[test]
+    fn la_rarete_et_le_rang_multiplient_le_prix() {
+        let rare = multiplicateur_rarete(Rarete::Rare);
 
-   #[test]
-fn la_rarete_et_le_rang_multiplient_le_prix() {
-    // Rare (x1,5) et rang B (x4), neuf : x6.
-    let f = facteur_qualite("equipment", Some("Rare"), Some("B"), Some(300), Some(300));
-    assert!(proche(f, 6.0));
-    assert_eq!(prix_estime(100, f), 600);
+        // Rare et rang B (x4), neuf : rare x 4.
+        let f = facteur_qualite("equipment", Some("Rare"), Some("B"), Some(300), Some(300));
+        assert!(proche(f, rare * 4.0));
+        assert_eq!(prix_estime(100, f), (100.0 * rare * 4.0).round() as i64);
 
-    // Seul le rang compte quand la rareté est absente (S = x13).
-    let f = facteur_qualite("armes", None, Some("S"), Some(600), Some(600));
-    assert!(proche(f, 13.0));
+        // Seul le rang compte quand la rareté est absente (S = x13).
+        let f = facteur_qualite("armes", None, Some("S"), Some(600), Some(600));
+        assert!(proche(f, 13.0));
 
-    // Un rang G ramène le prix à 60 % (x0,6).
-    let f = facteur_qualite("armes", Some("Commun"), Some("G"), Some(50), Some(50));
-    assert!(proche(f, 0.6));
-    assert_eq!(prix_estime(60, f), 36);
-}
+        // Un rang G ramène le prix à 60 % (x0,6).
+        let f = facteur_qualite("armes", Some("Commun"), Some("G"), Some(50), Some(50));
+        assert!(proche(f, 0.6));
+        assert_eq!(prix_estime(60, f), 36);
+    }
 
-#[test]
-fn la_perte_de_durabilite_baisse_le_prix() {
-    let neuf = facteur_qualite("armes", Some("Rare"), Some("B"), Some(300), Some(300));
-    let moitie = facteur_qualite("armes", Some("Rare"), Some("B"), Some(150), Some(300));
+    #[test]
+    fn la_perte_de_durabilite_baisse_le_prix() {
+        let rare = multiplicateur_rarete(Rarete::Rare);
 
-    assert!(proche(moitie, neuf / 2.0));
-    assert_eq!(prix_estime(100, moitie), 300); // 225 -> 300 (6.0 / 2 = 3.0)
+        let neuf = facteur_qualite("armes", Some("Rare"), Some("B"), Some(300), Some(300));
+        let moitie = facteur_qualite("armes", Some("Rare"), Some("B"), Some(150), Some(300));
 
-    let trop = facteur_qualite("armes", Some("Rare"), Some("B"), Some(999), Some(300));
-    assert!(proche(trop, neuf));
-}
+        assert!(proche(moitie, neuf / 2.0));
+        assert_eq!(prix_estime(100, moitie), (100.0 * rare * 4.0 / 2.0).round() as i64);
+
+        // Une durabilité supérieure au max est ramenée au max.
+        let trop = facteur_qualite("armes", Some("Rare"), Some("B"), Some(999), Some(300));
+        assert!(proche(trop, neuf));
+    }
+
+    #[test]
+    fn le_prix_initial_applique_deja_rarete_rang_et_durabilite() {
+        let rare = multiplicateur_rarete(Rarete::Rare);
+
+        // Aucune vente (prix_marche = 0) : on part du catalogue, soit 60.
+        // Épée Rare, rang C (x2), à 40 % de durabilité : 60 x rare x 2 x 0,4.
+        let prix = prix_exemplaire("armes", Some("Rare"), Some("C"), Some(80), Some(200), 60, 0);
+        assert_eq!(prix, (60.0 * rare * 2.0 * 0.4).round() as i64);
+
+        // Même épée neuve : 60 x rare x 2.
+        let neuf = prix_exemplaire("armes", Some("Rare"), Some("C"), Some(200), Some(200), 60, 0);
+        assert_eq!(neuf, (60.0 * rare * 2.0).round() as i64);
+
+        // Une fois le marché connu (référence 100), il remplace le catalogue.
+        let marche = prix_exemplaire("armes", Some("Rare"), Some("C"), Some(200), Some(200), 60, 100);
+        assert_eq!(marche, (100.0 * rare * 2.0).round() as i64);
+
+        // Objet de base : ni rareté ni rang ni durabilité.
+        assert_eq!(prix_exemplaire("mineral", None, None, None, None, 7, 0), 7);
+        assert_eq!(prix_exemplaire("mineral", None, None, None, None, 7, 9), 9);
+    }
+
 
     #[test]
     fn un_exemplaire_casse_ne_vaut_jamais_zero() {
@@ -209,26 +236,7 @@ fn la_perte_de_durabilite_baisse_le_prix() {
         assert!(proche(ratio_durabilite(Some(5), Some(0)), 1.0));
     }
 
-    #[test]
-    fn le_prix_initial_applique_deja_rarete_rang_et_durabilite() {
-        // Aucune vente (prix_marche = 0) : on part du catalogue, soit 60.
-        // Épée Rare (x1,5), rang C (x2), à 40 % de durabilité : 60 x 3 x 0,4 = 72.
-        let prix = prix_exemplaire("armes", Some("Rare"), Some("C"), Some(80), Some(200), 60, 0);
-        assert_eq!(prix, 72);
-
-        // Même épée neuve : 180.
-        let neuf = prix_exemplaire("armes", Some("Rare"), Some("C"), Some(200), Some(200), 60, 0);
-        assert_eq!(neuf, 180);
-
-        // Une fois le marché connu (référence 100), il remplace le catalogue.
-        let marche = prix_exemplaire("armes", Some("Rare"), Some("C"), Some(200), Some(200), 60, 100);
-        assert_eq!(marche, 300);
-
-        // Objet de base : ni rareté ni rang ni durabilité.
-        assert_eq!(prix_exemplaire("mineral", None, None, None, None, 7, 0), 7);
-        assert_eq!(prix_exemplaire("mineral", None, None, None, None, 7, 9), 9);
-    }
-
+   
     #[test]
     fn les_ventes_passees_sont_ramenees_au_prix_de_reference() {
         // Épée rang S (x6) neuve vendue 600 : référence 100.
