@@ -17,26 +17,37 @@
 | **Dernière mise à jour** | 15 juillet 2026 |
 
 ---
-
 # 📖 Table des matières
 
-1. Objectif
-2. Technologies utilisées
-3. Organisation du projet
-4. Structure des dossiers
-5. Conventions de nommage
-6. Style de code Python
-7. Style de code Rust
-8. Gestion des erreurs
-9. Documentation du code
-10. Gestion Git
-11. Workflow GitHub
-12. Pull Requests
-13. Tests
-14. Sécurité
-15. Optimisation
-16. Bonnes pratiques
-17. Checklist avant publication
+1. [Objectif](#1-objectif)
+2. [Technologies utilisées](#2-technologies-utilisées)
+3. [Organisation du projet](#3-organisation-du-projet)
+4. [Structure des dossiers](#4-structure-des-dossiers)
+5. [Conventions de nommage](#5-conventions-de-nommage)
+6. [Style de code Python](#6-style-python)
+7. [Style de code Rust](#7-style-rust)
+8. [Gestion des erreurs](#8-gestion-des-erreurs)
+9. [Documentation du code](#9-documentation-du-code)
+10. [Gestion Git](#10-gestion-git)
+11. [Workflow GitHub](#11-workflow-github)
+12. [Pull Requests](#12-pull-requests)
+13. [Tests](#13-tests)
+14. [Sécurité](#14-sécurité)
+15. [Optimisation](#15-optimisation)
+16. [Bonnes pratiques](#16-bonnes-pratiques)
+17. [Checklist avant publication](#17-checklist-avant-publication)
+18. [Contribution](#18-contribution)
+19. [Conditions](#conditions)
+20. [Débuter](#débuter)
+21. [Gestion des branches](#gestion-des-branches)
+22. [Messages de commit](#messages-de-commit)
+23. [Documentation](#documentation)
+24. [Tests](#tests-1)
+25. [Revue de code](#revue-de-code)
+26. [Code de conduite](#code-de-conduite)
+27. [Licence](#licence)
+28. [Documents liés](#documents-liés)
+
 
 ---
 
