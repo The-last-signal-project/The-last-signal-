@@ -1,6 +1,7 @@
 # 📚 The Last Signal Online
 <img width="1408" height="768" alt="Gemini_Generated_Image_tig9jktig9jktig9" src="https://github.com/user-attachments/assets/b8f7d28b-d2b1-4b1b-96b1-6382d06b9b5d" />
-## 🌐 **README languages**
+
+##  🌐 **README languages**
 
 🇫🇷 **[Français](../README.md)** — You are currently viewing the French version.<br>
 🇬🇧 **[English](../docs_ENG/README_ENG.md)**<br>
@@ -16,7 +17,7 @@ Cette documentation est organisée comme un **wiki** afin de faciliter la naviga
 
 ---
 
-# 🗂 Documentation
+## 🗂 Documentation
 
 ## 🎮 Conception du jeu (Game Design)
 
