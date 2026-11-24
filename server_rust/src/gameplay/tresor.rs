@@ -496,7 +496,7 @@ impl Tresor {
         if jet_de_des(20, 1) >= 4 {
             niveau_1.insert(
                 "pain".to_string(),
-                rng.random_range(3..=5),
+                rng.random_range(3..=8),
             );
         }
 
@@ -820,10 +820,7 @@ impl Tresor {
         ("armure".to_string(), 20.0),
         ("véhicules".to_string(), 20.0),
         ("batiments".to_string(), 20.0),
-        ("combinaisons".to_string(), 3.0),
-        
-        
-        
+        ("combinaisons".to_string(), 3.0),  
     ]),
 );
 sous_loot.insert(
@@ -834,6 +831,18 @@ sous_loot.insert(
         ("armes à distance".to_string(), 20.0),
         ("armes à feux".to_string(), 20.0),
         ("armes magiques".to_string(), 20.0),
+        
+        
+        
+        
+    ]),
+);
+        sous_loot.insert(
+    "armes de contact".to_string(),
+    HashMap::from([
+        ("épée de bois".to_string(), 50.0),
+        ("épé de pierre".to_string(), 50.0),
+        
         
         
         
@@ -854,6 +863,16 @@ sous_loot.insert(
         
     ]),
 ); 
+        sous_loot.insert(
+    "potion".to_string(),
+    HashMap::from([
+        ("potion de soin".to_string(), 25.0),
+        ("potions de mana".to_string(), 25.0),
+        ("poisons".to_string(), 25.0),
+        ("potions rares".to_string(), 25.0),
+          
+    ]),
+);
 
             
         let seuil_artefact_commun: HashMap<u32, u32> = HashMap::from([
