@@ -126,11 +126,11 @@ impl Rank {
             Rank::E => 1.0,
             Rank::D => 1.5,
             Rank::C => 2.0,
-            Rank::B => 3.0,
-            Rank::A => 4.0,
-            Rank::S => 10.0,
-            Rank::SS => 15.0,
-            Rank::SSS => 20.0,
+            Rank::B => 4.0,
+            Rank::A => 6.0,
+            Rank::S => 13.0,
+            Rank::SS => 17.0,
+            Rank::SSS => 25.0,
         }
     }
 
@@ -176,7 +176,7 @@ impl Rank {
 
 /// Stats de base d'une arme ou d'une armure, avant multiplicateurs.
 pub const STAT_BASE: f64 = 10.0;
-pub const DURABILITE_BASE: f64 = 100.0;
+pub const DURABILITE_BASE: f64 = 500.0;
 
 /// Stats calculées à la création d'un exemplaire.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -193,7 +193,7 @@ impl StatsEquipement {
     ///   durabilité = 100 x mult(rank) x mult(rareté)
     ///
     /// Un facteur absent compte pour x1. Sans rank ni rareté, on retrouve
-    /// les anciennes valeurs : 0 / 0 / 100.
+    /// les anciennes valeurs : 0 / 0 / 500.
     pub fn calculer(
         rarete: Option<Rarete>,
         rank: Option<Rank>,
@@ -229,12 +229,12 @@ mod tests_stats {
     #[test]
     fn sans_marque_on_garde_les_anciennes_valeurs() {
         let s = StatsEquipement::calculer(None, None, true);
-        assert_eq!((s.attaque, s.defense, s.durabilite), (0, 0, 100));
+        assert_eq!((s.attaque, s.defense, s.durabilite), (0, 0, 500));
     }
 
     #[test]
     fn rank_et_rarete_se_multiplient() {
-        // Rank C (x2.0) + Légendaire (x2.0) => x4.0
+        
         let s = StatsEquipement::calculer(
             Some(Rarete::Legendaire),
             Some(Rank::C),

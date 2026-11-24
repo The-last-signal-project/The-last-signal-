@@ -4,7 +4,8 @@ use std::collections::{HashMap, HashSet};
 use crate::gameplay::dice::jet_de_des;
 use log::error;
 use crate::gameplay::objets::{Rank, Rarete};
-
+/// Niveau de coffre le plus élevé (voir `loot_par_niveau`).
+const NIVEAU_MAX: u32 = 15;
 const PA: u32 = 1;
 const PO: u32 = PA * 10;
 #[allow(dead_code)]
@@ -468,6 +469,21 @@ impl Tresor {
                 militaire: 3,
             },
         );
+         loot_par_niveau.insert(
+            15,
+            Loot {
+                commun: 3,
+                peu_commun: 2,
+                rare: 2,
+                super_rare: 1,
+                epique: 0,
+                legendaire: 0,
+                mythique: 0,
+                admin: 3,
+                militaire: 3,
+            },
+        );
+
 
         // -------------------------------------------------
         // OBJETS GARANTIS
@@ -658,6 +674,15 @@ impl Tresor {
         niveau_14.insert("gemmes".to_string(), 1);
         
         objets_garantis.insert(14, niveau_14);
+let mut niveau_15 = HashMap::new();
+
+        niveau_15.insert(
+            "argent".to_string(),
+            jet_de_des(6, 3) * 100 * PO,
+        );
+        niveau_15.insert("gemmes".to_string(), 1);
+        
+        objets_garantis.insert(15, niveau_15);
 
         
 
@@ -885,6 +910,8 @@ sous_loot.insert(
     (12,10),
     (13,9),
     (14,8),
+    (15,7),
+
 ]);
         let seuil_artefact_peu_commun: HashMap<u32, u32> = HashMap::from([
     (6, 20),
@@ -896,6 +923,7 @@ sous_loot.insert(
     (12,13),
     (13,12),
     (14,11),
+    (15,10),
 
 
 ]);
@@ -905,10 +933,12 @@ sous_loot.insert(
     (12,17),
     (13,15),
     (14,15),
+    (15,14),
 
 ]);
 let seuil_artefact_super_rare: HashMap<u32, u32> = HashMap::from([
     (14, 20),
+    (15,19),
     
 
 ]);
@@ -1151,8 +1181,7 @@ let sous_loot_livre_admin = HashMap::from([
         Rarete::Mythique,
     ];
 
-    /// Niveau de coffre le plus élevé (voir `loot_par_niveau`).
-    const NIVEAU_MAX: u32 = 14;
+    
 
     /// Rareté tirée pour une arme ou un équipement garanti d'un coffre
     /// de ce niveau : plus le niveau monte, plus la rareté est élevée.
@@ -1497,7 +1526,7 @@ mod tests {
     fn rarity_goes_up_with_the_chest_level() {
         let mut precedente = moyenne(1);
 
-        for niveau in 2..=14 {
+        for niveau in 2..=15 {
             let actuelle = moyenne(niveau);
 
             assert!(
