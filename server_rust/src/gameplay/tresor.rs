@@ -5,7 +5,7 @@ use crate::gameplay::dice::jet_de_des;
 use log::error;
 use crate::gameplay::objets::{Rank, Rarete};
 /// Niveau de coffre le plus élevé (voir `loot_par_niveau`).
-const NIVEAU_MAX: u32 = 15;
+pub const NIVEAU_MAX: u32 = 15;
 const PA: u32 = 1;
 const PO: u32 = PA * 10;
 #[allow(dead_code)]
