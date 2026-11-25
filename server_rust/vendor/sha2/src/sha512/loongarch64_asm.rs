@@ -102,7 +102,7 @@ pub(super) fn compress(state: &mut [u64; 8], blocks: &[[u8; 128]]) {
 
             "42:",
 
-            // Do 64 rounds of hashing
+            // Do 80 rounds of hashing
             rounda!( 0, "$t0" , "$t1" , "$t2", "$t3", "$t4", "$t5", "$t6", "$t7"),
             rounda!( 1, "$t7", "$t0" , "$t1" , "$t2", "$t3", "$t4", "$t5", "$t6"),
             rounda!( 2, "$t6", "$t7", "$t0" , "$t1" , "$t2", "$t3", "$t4", "$t5"),
@@ -223,7 +223,7 @@ pub(super) fn compress(state: &mut [u64; 8], blocks: &[[u8; 128]]) {
             in("$a0") state,
             inout("$a1") blocks.as_ptr() => _,
             inout("$a2") blocks.len() => _,
-            in("$a3") crate::consts::K64.as_ptr(),
+            in("$a3") crate::consts::SHA512_RK.as_ptr(),
 
             // Clobbers
             out("$a4") _,
