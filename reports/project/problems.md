@@ -1,14 +1,14 @@
 # Documentation Problems
 
-Generated: 2026-11-25 02:40:04
+Generated: 2026-11-25 05:19:41
 
 ## Summary
 
 |Type|Count|
 |---|---:|
 |Errors|473|
-|Warnings|8269|
-|**Total**|**8747**|
+|Warnings|8265|
+|**Total**|**8743**|
 
 ---
 
@@ -21301,22 +21301,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## Warning
 
 - **Module :** markdown
-- **Message :** Ligne 48 > 120 caractères.
-
-## Warning
-
-- **Module :** markdown
-- **Message :** Ligne 49 > 120 caractères.
-
-## Warning
-
-- **Module :** markdown
-- **Message :** Ligne 56 > 120 caractères.
-
-## Warning
-
-- **Module :** markdown
-- **Message :** Ligne 57 > 120 caractères.
+- **Message :** Ligne 73 > 120 caractères.
 
 ## Warning
 
@@ -21326,22 +21311,17 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## Warning
 
 - **Module :** markdown
-- **Message :** Ligne 75 > 120 caractères.
+- **Message :** Ligne 78 > 120 caractères.
 
 ## Warning
 
 - **Module :** markdown
-- **Message :** Ligne 79 > 120 caractères.
+- **Message :** Ligne 84 > 120 caractères.
 
 ## Warning
 
 - **Module :** markdown
-- **Message :** Ligne 85 > 120 caractères.
-
-## Warning
-
-- **Module :** markdown
-- **Message :** Ligne 89 > 120 caractères.
+- **Message :** Ligne 88 > 120 caractères.
 
 ---
 
