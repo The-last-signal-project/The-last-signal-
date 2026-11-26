@@ -13,9 +13,10 @@
 edition = "2018"
 rust-version = "1.63"
 name = "allocator-api2"
-version = "0.2.21"
+version = "0.2.22"
 authors = ["Zakarum <zaq.dev@icloud.com>"]
 build = false
+autolib = false
 autobins = false
 autoexamples = false
 autotests = false
@@ -27,6 +28,13 @@ readme = "README.md"
 license = "MIT OR Apache-2.0"
 repository = "https://github.com/zakarumych/allocator-api2"
 
+[features]
+alloc = []
+default = ["std"]
+fresh-rust = []
+nightly = []
+std = ["alloc"]
+
 [lib]
 name = "allocator_api2"
 path = "src/lib.rs"
@@ -34,13 +42,6 @@ path = "src/lib.rs"
 [dependencies.serde]
 version = "1.0"
 optional = true
-
-[features]
-alloc = []
-default = ["std"]
-fresh-rust = []
-nightly = []
-std = ["alloc"]
 
 [lints.rust.unexpected_cfgs]
 level = "warn"
