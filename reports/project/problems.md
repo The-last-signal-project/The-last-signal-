@@ -1,14 +1,14 @@
 # Documentation Problems
 
-Generated: 2026-11-25 22:44:40
+Generated: 2026-11-26 04:27:18
 
 ## Summary
 
 |Type|Count|
 |---|---:|
 |Errors|473|
-|Warnings|8265|
-|**Total**|**8743**|
+|Warnings|8268|
+|**Total**|**8746**|
 
 ---
 
@@ -39386,22 +39386,12 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/sha2/CHANGELOG.md:22 titre sans ligne vide avant.
+- **Message :** server_rust/vendor/sha2/CHANGELOG.md:27 titre sans ligne vide avant.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/sha2/CHANGELOG.md:51 titre sans ligne vide avant.
-
-## Warning
-
-- **Module :** titles
-- **Message :** server_rust/vendor/sha2/CHANGELOG.md:57 titre sans ligne vide avant.
-
-## Warning
-
-- **Module :** titles
-- **Message :** server_rust/vendor/sha2/CHANGELOG.md:63 titre sans ligne vide avant.
+- **Message :** server_rust/vendor/sha2/CHANGELOG.md:40 titre sans ligne vide avant.
 
 ## Warning
 
@@ -39436,12 +39426,12 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/sha2/CHANGELOG.md:103 titre sans ligne vide avant.
+- **Message :** server_rust/vendor/sha2/CHANGELOG.md:105 titre sans ligne vide avant.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/sha2/CHANGELOG.md:110 titre sans ligne vide avant.
+- **Message :** server_rust/vendor/sha2/CHANGELOG.md:111 titre sans ligne vide avant.
 
 ## Warning
 
@@ -39451,12 +39441,12 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/sha2/CHANGELOG.md:123 titre sans ligne vide avant.
+- **Message :** server_rust/vendor/sha2/CHANGELOG.md:121 titre sans ligne vide avant.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/sha2/CHANGELOG.md:129 titre sans ligne vide avant.
+- **Message :** server_rust/vendor/sha2/CHANGELOG.md:128 titre sans ligne vide avant.
 
 ## Warning
 
@@ -39471,27 +39461,42 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/sha2/CHANGELOG.md:152 titre sans ligne vide avant.
+- **Message :** server_rust/vendor/sha2/CHANGELOG.md:147 titre sans ligne vide avant.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/sha2/CHANGELOG.md:158 titre sans ligne vide avant.
+- **Message :** server_rust/vendor/sha2/CHANGELOG.md:153 titre sans ligne vide avant.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/sha2/CHANGELOG.md:168 titre sans ligne vide avant.
+- **Message :** server_rust/vendor/sha2/CHANGELOG.md:159 titre sans ligne vide avant.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/sha2/CHANGELOG.md:174 titre sans ligne vide avant.
+- **Message :** server_rust/vendor/sha2/CHANGELOG.md:170 titre sans ligne vide avant.
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/sha2/CHANGELOG.md:188 titre sans ligne vide avant.
+- **Message :** server_rust/vendor/sha2/CHANGELOG.md:176 titre sans ligne vide avant.
+
+## Warning
+
+- **Module :** titles
+- **Message :** server_rust/vendor/sha2/CHANGELOG.md:186 titre sans ligne vide avant.
+
+## Warning
+
+- **Module :** titles
+- **Message :** server_rust/vendor/sha2/CHANGELOG.md:192 titre sans ligne vide avant.
+
+## Warning
+
+- **Module :** titles
+- **Message :** server_rust/vendor/sha2/CHANGELOG.md:206 titre sans ligne vide avant.
 
 ## Warning
 
@@ -39501,42 +39506,37 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/sha2/CHANGELOG.md:9 titre dupliqué (déjà présent dans server_rust/vendor/bumpalo/CHANGELOG.md:9).
+- **Message :** server_rust/vendor/sha2/CHANGELOG.md:9 titre dupliqué (déjà présent dans server_rust/vendor/bumpalo/CHANGELOG.md:21).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/sha2/CHANGELOG.md:14 titre dupliqué (déjà présent dans server_rust/vendor/bumpalo/CHANGELOG.md:21).
+- **Message :** server_rust/vendor/sha2/CHANGELOG.md:13 titre dupliqué (déjà présent dans server_rust/vendor/bumpalo/CHANGELOG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/sha2/CHANGELOG.md:22 titre dupliqué (déjà présent dans server_rust/vendor/bumpalo/CHANGELOG.md:9).
+- **Message :** server_rust/vendor/sha2/CHANGELOG.md:27 titre dupliqué (déjà présent dans server_rust/vendor/bumpalo/CHANGELOG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/sha2/CHANGELOG.md:31 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/sha2/CHANGELOG.md:32 titre dupliqué (déjà présent dans server_rust/vendor/bumpalo/CHANGELOG.md:21).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/sha2/CHANGELOG.md:35 titre dupliqué (déjà présent dans server_rust/vendor/bumpalo/CHANGELOG.md:17).
+- **Message :** server_rust/vendor/sha2/CHANGELOG.md:40 titre dupliqué (déjà présent dans server_rust/vendor/bumpalo/CHANGELOG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/sha2/CHANGELOG.md:51 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/sha2/CHANGELOG.md:49 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/sha2/CHANGELOG.md:57 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
-
-## Warning
-
-- **Module :** titles
-- **Message :** server_rust/vendor/sha2/CHANGELOG.md:63 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/sha2/CHANGELOG.md:53 titre dupliqué (déjà présent dans server_rust/vendor/bumpalo/CHANGELOG.md:17).
 
 ## Warning
 
@@ -39546,22 +39546,17 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/sha2/CHANGELOG.md:75 titre dupliqué (déjà présent dans server_rust/vendor/bumpalo/CHANGELOG.md:21).
+- **Message :** server_rust/vendor/sha2/CHANGELOG.md:75 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/sha2/CHANGELOG.md:80 titre dupliqué (déjà présent dans server_rust/vendor/sha1/CHANGELOG.md:42).
+- **Message :** server_rust/vendor/sha2/CHANGELOG.md:81 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/sha2/CHANGELOG.md:81 titre dupliqué (déjà présent dans server_rust/vendor/bumpalo/CHANGELOG.md:21).
-
-## Warning
-
-- **Module :** titles
-- **Message :** server_rust/vendor/sha2/CHANGELOG.md:87 titre dupliqué (déjà présent dans server_rust/vendor/bumpalo/CHANGELOG.md:9).
+- **Message :** server_rust/vendor/sha2/CHANGELOG.md:87 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
@@ -39571,22 +39566,22 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## Warning
 
 - **Module :** titles
+- **Message :** server_rust/vendor/sha2/CHANGELOG.md:98 titre dupliqué (déjà présent dans server_rust/vendor/sha1/CHANGELOG.md:42).
+
+## Warning
+
+- **Module :** titles
 - **Message :** server_rust/vendor/sha2/CHANGELOG.md:99 titre dupliqué (déjà présent dans server_rust/vendor/bumpalo/CHANGELOG.md:21).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/sha2/CHANGELOG.md:102 titre dupliqué (déjà présent dans server_rust/vendor/digest/CHANGELOG.md:147).
+- **Message :** server_rust/vendor/sha2/CHANGELOG.md:105 titre dupliqué (déjà présent dans server_rust/vendor/bumpalo/CHANGELOG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/sha2/CHANGELOG.md:103 titre dupliqué (déjà présent dans server_rust/vendor/bumpalo/CHANGELOG.md:9).
-
-## Warning
-
-- **Module :** titles
-- **Message :** server_rust/vendor/sha2/CHANGELOG.md:110 titre dupliqué (déjà présent dans server_rust/vendor/bumpalo/CHANGELOG.md:21).
+- **Message :** server_rust/vendor/sha2/CHANGELOG.md:111 titre dupliqué (déjà présent dans server_rust/vendor/bumpalo/CHANGELOG.md:21).
 
 ## Warning
 
@@ -39596,17 +39591,22 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/sha2/CHANGELOG.md:123 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/sha2/CHANGELOG.md:120 titre dupliqué (déjà présent dans server_rust/vendor/digest/CHANGELOG.md:147).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/sha2/CHANGELOG.md:129 titre dupliqué (déjà présent dans server_rust/vendor/bumpalo/CHANGELOG.md:9).
+- **Message :** server_rust/vendor/sha2/CHANGELOG.md:121 titre dupliqué (déjà présent dans server_rust/vendor/bumpalo/CHANGELOG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/sha2/CHANGELOG.md:135 titre dupliqué (déjà présent dans server_rust/vendor/bumpalo/CHANGELOG.md:9).
+- **Message :** server_rust/vendor/sha2/CHANGELOG.md:128 titre dupliqué (déjà présent dans server_rust/vendor/bumpalo/CHANGELOG.md:21).
+
+## Warning
+
+- **Module :** titles
+- **Message :** server_rust/vendor/sha2/CHANGELOG.md:135 titre dupliqué (déjà présent dans server_rust/vendor/bumpalo/CHANGELOG.md:21).
 
 ## Warning
 
@@ -39616,72 +39616,87 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/sha2/CHANGELOG.md:144 titre dupliqué (déjà présent dans server_rust/vendor/bumpalo/CHANGELOG.md:9).
+- **Message :** server_rust/vendor/sha2/CHANGELOG.md:147 titre dupliqué (déjà présent dans server_rust/vendor/bumpalo/CHANGELOG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/sha2/CHANGELOG.md:152 titre dupliqué (déjà présent dans server_rust/vendor/bumpalo/CHANGELOG.md:9).
+- **Message :** server_rust/vendor/sha2/CHANGELOG.md:153 titre dupliqué (déjà présent dans server_rust/vendor/bumpalo/CHANGELOG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/sha2/CHANGELOG.md:158 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/sha2/CHANGELOG.md:159 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/sha2/CHANGELOG.md:161 titre dupliqué (déjà présent dans server_rust/vendor/bumpalo/CHANGELOG.md:9).
+- **Message :** server_rust/vendor/sha2/CHANGELOG.md:162 titre dupliqué (déjà présent dans server_rust/vendor/bumpalo/CHANGELOG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/sha2/CHANGELOG.md:168 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/sha2/CHANGELOG.md:170 titre dupliqué (déjà présent dans server_rust/vendor/bumpalo/CHANGELOG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/sha2/CHANGELOG.md:173 titre dupliqué (déjà présent dans server_rust/vendor/digest/CHANGELOG.md:156).
+- **Message :** server_rust/vendor/sha2/CHANGELOG.md:176 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/sha2/CHANGELOG.md:174 titre dupliqué (déjà présent dans server_rust/vendor/bumpalo/CHANGELOG.md:9).
+- **Message :** server_rust/vendor/sha2/CHANGELOG.md:179 titre dupliqué (déjà présent dans server_rust/vendor/bumpalo/CHANGELOG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/sha2/CHANGELOG.md:188 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
+- **Message :** server_rust/vendor/sha2/CHANGELOG.md:186 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/sha2/CHANGELOG.md:191 titre dupliqué (déjà présent dans server_rust/vendor/bumpalo/CHANGELOG.md:9).
+- **Message :** server_rust/vendor/sha2/CHANGELOG.md:191 titre dupliqué (déjà présent dans server_rust/vendor/digest/CHANGELOG.md:156).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/sha2/CHANGELOG.md:201 titre dupliqué (déjà présent dans server_rust/vendor/md-5/CHANGELOG.md:95).
+- **Message :** server_rust/vendor/sha2/CHANGELOG.md:192 titre dupliqué (déjà présent dans server_rust/vendor/bumpalo/CHANGELOG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/sha2/CHANGELOG.md:205 titre dupliqué (déjà présent dans server_rust/vendor/digest/CHANGELOG.md:208).
+- **Message :** server_rust/vendor/sha2/CHANGELOG.md:206 titre dupliqué (déjà présent dans CHANGELOG_ENG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/sha2/CHANGELOG.md:213 titre dupliqué (déjà présent dans server_rust/vendor/digest/CHANGELOG.md:214).
+- **Message :** server_rust/vendor/sha2/CHANGELOG.md:209 titre dupliqué (déjà présent dans server_rust/vendor/bumpalo/CHANGELOG.md:9).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/sha2/CHANGELOG.md:219 titre dupliqué (déjà présent dans server_rust/vendor/digest/CHANGELOG.md:216).
+- **Message :** server_rust/vendor/sha2/CHANGELOG.md:219 titre dupliqué (déjà présent dans server_rust/vendor/md-5/CHANGELOG.md:95).
 
 ## Warning
 
 - **Module :** titles
-- **Message :** server_rust/vendor/sha2/CHANGELOG.md:221 titre dupliqué (déjà présent dans server_rust/vendor/digest/CHANGELOG.md:220).
+- **Message :** server_rust/vendor/sha2/CHANGELOG.md:223 titre dupliqué (déjà présent dans server_rust/vendor/digest/CHANGELOG.md:208).
+
+## Warning
+
+- **Module :** titles
+- **Message :** server_rust/vendor/sha2/CHANGELOG.md:231 titre dupliqué (déjà présent dans server_rust/vendor/digest/CHANGELOG.md:214).
+
+## Warning
+
+- **Module :** titles
+- **Message :** server_rust/vendor/sha2/CHANGELOG.md:237 titre dupliqué (déjà présent dans server_rust/vendor/digest/CHANGELOG.md:216).
+
+## Warning
+
+- **Module :** titles
+- **Message :** server_rust/vendor/sha2/CHANGELOG.md:239 titre dupliqué (déjà présent dans server_rust/vendor/digest/CHANGELOG.md:220).
 
 ---
 
