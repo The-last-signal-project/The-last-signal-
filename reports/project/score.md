@@ -1,6 +1,6 @@
 Documentation Quality Report
 
-**Date :** 2026-11-26 18:02:45
+**Date :** 2026-11-26 22:51:52
 
 # 64/100
 
@@ -10810,6 +10810,16 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Message :** Function 'decrypt_vault' sans documentation
 
 - **line :** 5
+
+- **suggestion :** Ajoutez /// avant cette function
+
+- **module :** rust
+
+## ⚠️ Warning
+- **Module :** rust
+- **Message :** Function 'extract_passwords' sans documentation
+
+- **line :** 27
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -25341,37 +25351,37 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** markdown
-- **Message :** Ligne 39 > 120 caractères.
+- **Message :** Ligne 44 > 120 caractères.
 
 - **module :** markdown
 
 ## ⚠️ Warning
 - **Module :** markdown
-- **Message :** Ligne 63 > 120 caractères.
-
-- **module :** markdown
-
-## ⚠️ Warning
-- **Module :** markdown
-- **Message :** Ligne 64 > 120 caractères.
-
-- **module :** markdown
-
-## ⚠️ Warning
-- **Module :** markdown
-- **Message :** Ligne 68 > 120 caractères.
-
-- **module :** markdown
-
-## ⚠️ Warning
-- **Module :** markdown
-- **Message :** Ligne 72 > 120 caractères.
+- **Message :** Ligne 73 > 120 caractères.
 
 - **module :** markdown
 
 ## ⚠️ Warning
 - **Module :** markdown
 - **Message :** Ligne 74 > 120 caractères.
+
+- **module :** markdown
+
+## ⚠️ Warning
+- **Module :** markdown
+- **Message :** Ligne 78 > 120 caractères.
+
+- **module :** markdown
+
+## ⚠️ Warning
+- **Module :** markdown
+- **Message :** Ligne 84 > 120 caractères.
+
+- **module :** markdown
+
+## ⚠️ Warning
+- **Module :** markdown
+- **Message :** Ligne 88 > 120 caractères.
 
 - **module :** markdown
 
