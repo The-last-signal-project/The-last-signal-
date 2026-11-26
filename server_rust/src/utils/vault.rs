@@ -1,7 +1,7 @@
 use fernet::Fernet;
 use serde_json::Value;
 use std::fs;
-
+use std::path::Path;
 pub fn decrypt_vault() -> Result<Value, Box<dyn std::error::Error>> {
     let key = match std::env::var("VAULT_KEY") {
         Ok(key) => key,
@@ -40,13 +40,5 @@ pub fn extract_passwords() -> Result<(String, String), Box<dyn std::error::Error
         .ok_or("Mot de passe user2 absent")?
         .to_string();
 
-    Ok((password1, password2))
-}
-else {
-        log::warn!(
-            "master.key introuvable ({}) et VAULT_KEY absente : \
-             les comptes spéciaux ne pourront pas êtres créés.",
-            master_key.display()
-        );
-    }
+    Ok((password1, password2))}
 }
