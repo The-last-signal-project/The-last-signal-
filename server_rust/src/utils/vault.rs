@@ -23,12 +23,16 @@ pub fn decrypt_vault() -> Result<Value, Box<dyn std::error::Error>> {
 
 
 /// Extrait les mots de passe du vault.
-pub fn extract_passwords() -> Result<(String, String), Box<dyn std::error::Error>> {
-    let master_key = Path::new(env!("CARGO_MANIFEST_DIR")).join("../security/master.key");
 
-    if master_key.exists() || std::env::var("VAULT_KEY").is_ok() {
-        let vault = decrypt_vault()?;
-    
+pub fn extract_passwords() -> Result<(String, String), Box<dyn std::error::Error>> {
+    let master_key = Path::new(env!("CARGO_MANIFEST_DIR"))
+        .join("../security/master.key");
+
+    if !master_key.exists() && std::env::var("VAULT_KEY").is_err() {
+        return Err("Clé du coffre introuvable".into());
+    }
+
+    let vault = decrypt_vault()?;
 
     let password1 = vault["user1_password"]
         .as_str()
@@ -40,5 +44,5 @@ pub fn extract_passwords() -> Result<(String, String), Box<dyn std::error::Error
         .ok_or("Mot de passe user2 absent")?
         .to_string();
 
-    Ok((password1, password2))}
+    Ok((password1, password2))
 }
