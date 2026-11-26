@@ -814,7 +814,7 @@ let mut niveau_15 = HashMap::new();
         sous_loot.insert(
     "Artefact mythique".to_string(),
     HashMap::from([
-        ("potion".to_string(), 2.0),
+        ("potions".to_string(), 2.0),
         ("équi".to_string(), 65.0),
         ("livre enchant".to_string(), 30.0),
     ]),
@@ -871,7 +871,7 @@ sous_loot.insert(
     ]),
 );
         sous_loot.insert(
-    "armes de contact".to_string(),
+    "potions".to_string(),
     HashMap::from([
         ("potions de soin".to_string(), 25.0),
         ("potion de mana".to_string(), 25.0),

@@ -4,7 +4,7 @@ use std::path::Path;
 
 use crate::auth::password::hash_password;
 use crate::utils::special_account_creator::create_account;
-use crate::utils::vault::decrypt_vault;
+use crate::utils::vault::{decrypt_vault,extract_passwords};
 
 /// Exécute toutes les migrations SQL non encore appliquées.
 pub async fn run(pool: &SqlitePool) -> Result<(), Box<dyn std::error::Error>> {
@@ -34,22 +34,15 @@ pub async fn run(pool: &SqlitePool) -> Result<(), Box<dyn std::error::Error>> {
     // disponible : fichier local `src/security/master.key`, ou variable
     // d'environnement `VAULT_KEY` (utilisée par la CI, où le fichier
     // n'existe pas).
-    let master_key = Path::new(env!("CARGO_MANIFEST_DIR")).join("../security/master.key");
+    
 
-    if master_key.exists() || std::env::var("VAULT_KEY").is_ok() {
-        let vault = decrypt_vault()?;
+       let (password1, password2) = extract_passwords()?;
 
-        let password1 = vault["user1_password"]
-            .as_str()
-            .ok_or("Mot de passe user1 absent")?;
-        let password1_hash = hash_password(password1)
-            .map_err(|e| sqlx::Error::Protocol(e))?;
+let password1_hash = hash_password(&password1)
+    .map_err(sqlx::Error::Protocol)?;
 
-        let password2 = vault["user2_password"]
-            .as_str()
-            .ok_or("Mot de passe user2 absent")?;
-        let password2_hash = hash_password(password2)
-            .map_err(|e| sqlx::Error::Protocol(e))?;
+let password2_hash = hash_password(&password2)
+    .map_err(sqlx::Error::Protocol)?;
 
         create_account(
             pool,
@@ -78,13 +71,7 @@ pub async fn run(pool: &SqlitePool) -> Result<(), Box<dyn std::error::Error>> {
         .await?;
 
         debug!("Comptes spéciaux créés.");
-    } else {
-        log::warn!(
-            "master.key introuvable ({}) et VAULT_KEY absente : \
-             comptes spéciaux non créés.",
-            master_key.display()
-        );
-    }
+    
 
     Ok(())
 }
