@@ -1,6 +1,6 @@
 Documentation Quality Report
 
-**Date :** 2026-11-27 17:08:22
+**Date :** 2026-11-27 19:10:19
 
 # 64/100
 
@@ -8127,7 +8127,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Mod 'tests' sans documentation
 
-- **line :** 1504
+- **line :** 1505
 
 - **suggestion :** Ajoutez /// avant cette mod
 
@@ -8137,7 +8137,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'index' sans documentation
 
-- **line :** 1509
+- **line :** 1510
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -8147,7 +8147,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'moyenne' sans documentation
 
-- **line :** 1513
+- **line :** 1514
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -8157,7 +8157,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'part' sans documentation
 
-- **line :** 1523
+- **line :** 1524
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -8167,7 +8167,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'rarity_goes_up_with_the_chest_level' sans documentation
 
-- **line :** 1534
+- **line :** 1535
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -8177,7 +8177,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'low_levels_are_mostly_common_and_high_levels_mostly_mythic' sans documentation
 
-- **line :** 1550
+- **line :** 1551
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -8187,7 +8187,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'every_rarity_stays_possible_at_a_mid_level' sans documentation
 
-- **line :** 1557
+- **line :** 1558
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -8197,7 +8197,7 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 - **Module :** rust
 - **Message :** Function 'out_of_range_levels_do_not_panic' sans documentation
 
-- **line :** 1569
+- **line :** 1570
 
 - **suggestion :** Ajoutez /// avant cette function
 
@@ -25351,37 +25351,37 @@ UnboundLocalError: cannot access local variable 'score' where it is not associat
 
 ## ⚠️ Warning
 - **Module :** markdown
-- **Message :** Ligne 44 > 120 caractères.
+- **Message :** Ligne 39 > 120 caractères.
 
 - **module :** markdown
 
 ## ⚠️ Warning
 - **Module :** markdown
-- **Message :** Ligne 73 > 120 caractères.
+- **Message :** Ligne 63 > 120 caractères.
+
+- **module :** markdown
+
+## ⚠️ Warning
+- **Module :** markdown
+- **Message :** Ligne 64 > 120 caractères.
+
+- **module :** markdown
+
+## ⚠️ Warning
+- **Module :** markdown
+- **Message :** Ligne 68 > 120 caractères.
+
+- **module :** markdown
+
+## ⚠️ Warning
+- **Module :** markdown
+- **Message :** Ligne 72 > 120 caractères.
 
 - **module :** markdown
 
 ## ⚠️ Warning
 - **Module :** markdown
 - **Message :** Ligne 74 > 120 caractères.
-
-- **module :** markdown
-
-## ⚠️ Warning
-- **Module :** markdown
-- **Message :** Ligne 78 > 120 caractères.
-
-- **module :** markdown
-
-## ⚠️ Warning
-- **Module :** markdown
-- **Message :** Ligne 84 > 120 caractères.
-
-- **module :** markdown
-
-## ⚠️ Warning
-- **Module :** markdown
-- **Message :** Ligne 88 > 120 caractères.
 
 - **module :** markdown
 
