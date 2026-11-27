@@ -1,7 +1,7 @@
 use serde::Serialize;
 use sqlx::{Row, SqlitePool};
 
-const STARTING_BALANCE: i64 = 100;
+const STARTING_BALANCE: i64 = 1000;
 const PLAYER_ROLE: &str = "joueur";
 
 /// Liste des 13 classes définies pour le jeu
