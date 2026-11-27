@@ -855,6 +855,7 @@ let mut niveau_15 = HashMap::new();
         ("véhicules".to_string(), 20.0),
         ("batiments".to_string(), 20.0),
         ("combinaisons".to_string(), 3.0),
+        ("améliorations".to_strig(),5.0),
         
         
         
