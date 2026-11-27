@@ -1196,37 +1196,37 @@
     {
         "file": "lychee/out.md",
         "severity": "warning",
-        "message": "Ligne 39 > 120 caractères.",
+        "message": "Ligne 44 > 120 caractères.",
         "module": "markdown"
     },
     {
         "file": "lychee/out.md",
         "severity": "warning",
-        "message": "Ligne 63 > 120 caractères.",
-        "module": "markdown"
-    },
-    {
-        "file": "lychee/out.md",
-        "severity": "warning",
-        "message": "Ligne 64 > 120 caractères.",
-        "module": "markdown"
-    },
-    {
-        "file": "lychee/out.md",
-        "severity": "warning",
-        "message": "Ligne 68 > 120 caractères.",
-        "module": "markdown"
-    },
-    {
-        "file": "lychee/out.md",
-        "severity": "warning",
-        "message": "Ligne 72 > 120 caractères.",
+        "message": "Ligne 73 > 120 caractères.",
         "module": "markdown"
     },
     {
         "file": "lychee/out.md",
         "severity": "warning",
         "message": "Ligne 74 > 120 caractères.",
+        "module": "markdown"
+    },
+    {
+        "file": "lychee/out.md",
+        "severity": "warning",
+        "message": "Ligne 78 > 120 caractères.",
+        "module": "markdown"
+    },
+    {
+        "file": "lychee/out.md",
+        "severity": "warning",
+        "message": "Ligne 84 > 120 caractères.",
+        "module": "markdown"
+    },
+    {
+        "file": "lychee/out.md",
+        "severity": "warning",
+        "message": "Ligne 88 > 120 caractères.",
         "module": "markdown"
     },
     {
@@ -53567,7 +53567,7 @@
     },
     {
         "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/tresor.rs",
-        "line": 1496,
+        "line": 1504,
         "severity": "warning",
         "message": "Mod 'tests' sans documentation",
         "suggestion": "Ajoutez /// avant cette mod",
@@ -53575,7 +53575,7 @@
     },
     {
         "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/tresor.rs",
-        "line": 1501,
+        "line": 1509,
         "severity": "warning",
         "message": "Function 'index' sans documentation",
         "suggestion": "Ajoutez /// avant cette function",
@@ -53583,7 +53583,7 @@
     },
     {
         "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/tresor.rs",
-        "line": 1505,
+        "line": 1513,
         "severity": "warning",
         "message": "Function 'moyenne' sans documentation",
         "suggestion": "Ajoutez /// avant cette function",
@@ -53591,7 +53591,7 @@
     },
     {
         "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/tresor.rs",
-        "line": 1515,
+        "line": 1523,
         "severity": "warning",
         "message": "Function 'part' sans documentation",
         "suggestion": "Ajoutez /// avant cette function",
@@ -53599,7 +53599,7 @@
     },
     {
         "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/tresor.rs",
-        "line": 1526,
+        "line": 1534,
         "severity": "warning",
         "message": "Function 'rarity_goes_up_with_the_chest_level' sans documentation",
         "suggestion": "Ajoutez /// avant cette function",
@@ -53607,7 +53607,7 @@
     },
     {
         "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/tresor.rs",
-        "line": 1542,
+        "line": 1550,
         "severity": "warning",
         "message": "Function 'low_levels_are_mostly_common_and_high_levels_mostly_mythic' sans documentation",
         "suggestion": "Ajoutez /// avant cette function",
@@ -53615,7 +53615,7 @@
     },
     {
         "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/tresor.rs",
-        "line": 1549,
+        "line": 1557,
         "severity": "warning",
         "message": "Function 'every_rarity_stays_possible_at_a_mid_level' sans documentation",
         "suggestion": "Ajoutez /// avant cette function",
@@ -53623,7 +53623,7 @@
     },
     {
         "file": "/home/runner/work/The-last-signal-/The-last-signal-/server_rust/src/gameplay/tresor.rs",
-        "line": 1561,
+        "line": 1569,
         "severity": "warning",
         "message": "Function 'out_of_range_levels_do_not_panic' sans documentation",
         "suggestion": "Ajoutez /// avant cette function",
