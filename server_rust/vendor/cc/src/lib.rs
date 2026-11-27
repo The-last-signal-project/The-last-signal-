@@ -70,6 +70,18 @@
 //! * `CFLAGS` - a series of space separated flags passed to compilers. Note that
 //!   individual flags cannot currently contain spaces, so doing
 //!   something like: `-L=foo\ bar` is not possible.
+//!   Flags in `CFLAGS`, `CPPFLAGS` or `CXXFLAGS` that change the ABI, such as
+//!   `-D_TIME_BITS=64` and `-D_FILE_OFFSET_BITS=64` on 32-bit glibc targets,
+//!   are passed as given. `cc` can't tell which ABI the Rust code expects, so
+//!   the Rust side has to be built to match. The `libc` crate, for example,
+//!   keeps a 32-bit `time_t` and `off_t` on those targets unless it is
+//!   configured for 64-bit ones.
+//! * `CPPFLAGS` - flags for the C preprocessor, such as `-D` and `-I`, split
+//!   like `CFLAGS`. They are passed for both C and C++, right before the flags
+//!   from `CFLAGS` or `CXXFLAGS`, so that those can override them, and they
+//!   reach assembly files and [`Build::get_compiler`] like `CFLAGS`. Unlike
+//!   `CFLAGS`, setting it doesn't turn off the default flags of
+//!   [`Build::warnings`].
 //! * `CC` - the actual C compiler used. Note that this supports passing a known
 //!   wrapper via `sccache cc`. This compiler must understand the `-c` flag. For
 //!   certain `TARGET`s, it also is assumed to know about other flags (most
@@ -176,9 +188,9 @@
 //! for any additional variables it may use.
 //!
 //! `CC`, `CXX`, `AR`, `RANLIB`, `NVCC`, `CC_MASM_ASM`, `CXXSTDLIB`,
-//! `CXXSTDLIB_STATIC` and the flags variables `CFLAGS`, `CXXFLAGS`, `ARFLAGS`
-//! and `RANLIBFLAGS` can also be supplied with certain prefixes and suffixes, in
-//! the following prioritized order:
+//! `CXXSTDLIB_STATIC` and the flags variables `CFLAGS`, `CPPFLAGS`, `CXXFLAGS`,
+//! `ARFLAGS` and `RANLIBFLAGS` can also be supplied with certain prefixes and
+//! suffixes, in the following prioritized order:
 //!
 //!   1. `<var>_<target>` - for example, `CC_x86_64-unknown-linux-gnu` or `CC_thumbv8m.main-none-eabi`
 //!   2. `<var>_<target_with_underscores>` - for example, `CC_x86_64_unknown_linux_gnu` or `CC_thumbv8m_main_none_eabi` (both dashes and periods are replaced)
@@ -289,6 +301,7 @@
 //! ```
 //!
 //! For C++ libraries, the `CXX` and `CXXFLAGS` environment variables are used instead of `CC` and `CFLAGS`.
+//! `CPPFLAGS` is used for both.
 //!
 //! The C++ standard library may be linked to the crate target. By default it's `libc++` for macOS, FreeBSD, and OpenBSD, `libc++_shared` for Android, nothing for MSVC, and `libstdc++` for anything else.
 //!
@@ -2866,7 +2879,9 @@ impl Build {
         // If warnings and/or extra_warnings haven't been explicitly set,
         // then we set them only if the environment doesn't already have
         // CFLAGS/CXXFLAGS, since those variables presumably already contain
-        // the desired set of warnings flags.
+        // the desired set of warnings flags. CPPFLAGS doesn't count: it holds
+        // preprocessor flags such as `-D` and `-I`, for C and C++ alike.
+        let cppflags = self.envflags("CPPFLAGS")?;
         let envflags = self.envflags(if self.cpp { "CXXFLAGS" } else { "CFLAGS" })?;
         match self.warnings {
             Some(true) => {
@@ -2930,7 +2945,9 @@ impl Build {
         }
 
         // Set flags from the environment (do this last, to allow these to override everything else).
-        if let Some(flags) = &envflags {
+        // CPPFLAGS comes first, so that CFLAGS/CXXFLAGS can override it.
+        for flags in [&cppflags, &envflags] {
+            let Some(flags) = flags else { continue };
             let (flags, linker_flags) = split_off_msvc_linker_flags(cmd.family, flags);
             ignored_flags.extend(linker_flags.iter().map(OsStr::new));
             for arg in flags {
@@ -4013,7 +4030,14 @@ impl Build {
                 for obj in objs {
                     match obj.strip_prefix(dir) {
                         Ok(relative) => cmd.arg(relative),
-                        Err(_) if obj.is_relative() => cmd.arg(current_dir.join(obj)),
+                        // A relative object that exists from the current
+                        // directory is passed by its absolute path. Any other
+                        // name is passed as given, so the archiver looks for it
+                        // in the folder it runs in and then along `LIB`, where it
+                        // finds system libraries such as `Ole32.lib`.
+                        Err(_) if obj.is_relative() && obj.exists() => {
+                            cmd.arg(current_dir.join(obj))
+                        }
                         Err(_) => cmd.arg(obj),
                     };
                 }
@@ -4890,20 +4914,28 @@ impl Build {
                     // here.
 
                     let compiler = self.get_base_compiler()?;
-                    if let Some(lib) = self.find_llvm_tool_next_to_clang_cl(&compiler, "llvm-lib") {
+
+                    let mut cmd = if let Some(lib) =
+                        self.find_llvm_tool_next_to_clang_cl(&compiler, "llvm-lib")
+                    {
                         name = lib;
                         self.cmd(&name)
                     } else {
                         name = PathBuf::from("lib.exe");
-                        let mut cmd = match self.find_msvc_tools_find(&target, "lib.exe") {
+                        match self.find_msvc_tools_find(&target, "lib.exe") {
                             Some(t) => t,
                             None => self.cmd("lib.exe"),
-                        };
-                        if target.full_arch == "arm64ec" {
-                            cmd.arg("/machine:arm64ec");
                         }
-                        cmd
+                    };
+
+                    // `lib.exe` and `llvm-lib` seem to infer `arm64` for `arm64ec` objects, so we
+                    // need to explicitly specify `/machine:arm64ec` instead of relying on inferred
+                    // machine type.
+                    if target.full_arch == "arm64ec" {
+                        cmd.arg("/machine:arm64ec");
                     }
+
+                    cmd
                 } else if target.os == "illumos" {
                     // The default 'ar' on illumos uses a non-standard flags,
                     // but the OS comes bundled with a GNU-compatible variant.
