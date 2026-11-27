@@ -13,7 +13,7 @@ VALUES
 ('sushi', 'consumable', 'sushi.png', 20),
 ('boulette de riz', 'consumable', 'boulette_de_riz.png', 8),
 ('sucrerie', 'consumable', 'sucrerie.png', 5),
-
+('amélioration pour épée','basic','amelioration_epee.png',10000)
 
 ('mouton', 'consumable', 'mouton.png', 8),
 ('cerf', 'consumable', 'cerf.png', 12),
